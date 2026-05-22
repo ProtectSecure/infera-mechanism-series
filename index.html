@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Infera · GA 26 — The Mechanism Series</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08080a;
+    --bg-soft: #111114;
+    --bg-card: #15151a;
+    --ink: #f0ebe0;
+    --ink-dim: #a8a298;
+    --ink-faint: #5a564e;
+    --rule: #28262a;
+    --gold: #c4a777;
+    --d: #d4774a;
+    --r: #7a8c6a;
+    --grid: rgba(196, 167, 119, 0.05);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif; font-weight: 300;
+    line-height: 1.5; overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  .grid-bg {
+    position: fixed; inset: 0;
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 64px 64px; pointer-events: none; z-index: 0; opacity: 0.5;
+  }
+
+  /* TAB NAV (shared across all pages) */
+  .tabnav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(8,8,10,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .tabnav-inner {
+    display: flex; align-items: center; padding: 12px 24px; gap: 20px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .tabnav-inner::-webkit-scrollbar { display: none; }
+  .brand {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); white-space: nowrap; text-decoration: none;
+    padding-right: 18px; border-right: 1px solid var(--rule);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .brand .dot {
+    width: 6px; height: 6px; background: var(--d); border-radius: 50%;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .tab-list { display: flex; gap: 2px; flex: 1; }
+  .tab {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint); padding: 6px 10px; border-radius: 2px;
+    text-decoration: none; white-space: nowrap;
+    transition: color 0.2s, background 0.2s;
+  }
+  .tab:hover { color: var(--ink-dim); background: rgba(255,255,255,0.04); }
+  .tab.active { color: var(--gold); background: rgba(196,167,119,0.12); }
+  .tab-num {
+    font-family: 'Fraunces', serif; font-style: italic;
+    margin-right: 5px; opacity: 0.6;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 140px 6vw 80px;
+    text-align: center; max-width: 1100px; margin: 0 auto;
+    position: relative; z-index: 2;
+  }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: clamp(48px, 8vw, 116px); line-height: 0.96;
+    letter-spacing: -0.035em; margin-bottom: 28px;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+  }
+  h1 em { font-style: italic; color: var(--gold); }
+  .lead {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(18px, 1.8vw, 22px); color: var(--ink-dim);
+    max-width: 720px; margin: 0 auto; line-height: 1.5;
+  }
+
+  /* STORIES GRID */
+  .stories {
+    padding: 60px 6vw 100px; max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2px; background: var(--rule); border: 1px solid var(--rule);
+    position: relative; z-index: 2;
+  }
+  .story-card {
+    background: var(--bg-card); padding: 32px 28px 28px;
+    display: flex; flex-direction: column; gap: 14px;
+    min-height: 340px; text-decoration: none; color: var(--ink);
+    transition: background 0.3s, transform 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .story-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--accent, var(--gold));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .story-card:hover { background: var(--bg-soft); }
+  .story-card:hover::before { transform: scaleX(1); }
+  .story-card .num {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.24em; color: var(--accent, var(--gold));
+  }
+  .story-card .mech {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.2em; color: var(--ink-faint);
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .story-card h2 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: clamp(24px, 2.2vw, 30px); line-height: 1.1;
+    color: var(--ink); letter-spacing: -0.015em;
+  }
+  .story-card p {
+    font-size: 14px; color: var(--ink-dim); line-height: 1.55;
+    margin-top: 4px;
+  }
+  .story-card .read {
+    margin-top: auto; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; color: var(--accent, var(--gold));
+    text-transform: uppercase; display: flex; align-items: center; gap: 8px;
+  }
+  .story-card .read::after { content: "→"; transition: transform 0.3s; }
+  .story-card:hover .read::after { transform: translateX(4px); }
+
+  /* Custom accents per story */
+  .story-card[data-id="trickle"]    { --accent: #d4774a; }
+  .story-card[data-id="vogtle"]     { --accent: #4d8ca8; }
+  .story-card[data-id="data"]       { --accent: #d44a8c; }
+  .story-card[data-id="eviction"]   { --accent: #b85a52; }
+  .story-card[data-id="hospital"]   { --accent: #5fa68a; }
+  .story-card[data-id="coast"]      { --accent: #4a9fa8; }
+  .story-card[data-id="settle"]     { --accent: #b58840; }
+  .story-card[data-id="ballot"]     { --accent: #c4a04a; }
+  .story-card[data-id="committee"]  { --accent: #98a456; }
+
+  footer {
+    padding: 60px 6vw 80px; border-top: 1px solid var(--rule);
+    background: var(--bg-soft);
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px; max-width: 1200px; margin: 0 auto;
+  }
+  footer h5 {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 14px;
+  }
+  footer p { font-size: 13px; color: var(--ink-dim); line-height: 1.7; }
+  footer .sig {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 18px; color: var(--ink); margin-top: 24px;
+  }
+
+  @media (max-width: 700px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+    .hero { padding: 110px 6vw 60px; }
+    .stories { padding: 40px 4vw 80px; grid-template-columns: 1fr; }
+    .tabnav-inner { padding: 10px 16px; gap: 12px; }
+    .brand { font-size: 10px; padding-right: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>INFERA · GA 26</a>
+    <div class="tab-list">
+      <a class="tab active" href="index.html"><span class="tab-num">i.</span>Index</a>
+      <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
+      <a class="tab" href="the-vogtle-bill.html"><span class="tab-num">02</span>Vogtle</a>
+      <a class="tab" href="the-data-center-tax.html"><span class="tab-num">03</span>Data Centers</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">04</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">05</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">06</span>Coast</a>
+      <a class="tab" href="the-settlement-shrinkage.html"><span class="tab-num">07</span>Settlement</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">08</span>Ballot</a>
+      <a class="tab" href="the-committee-trade.html"><span class="tab-num">09</span>Committee</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="kicker">The Mechanism Series · GA 2026</div>
+  <h1>Nine ways to read a state — <em>through what moves it</em>.</h1>
+  <p class="lead">Each piece traces one upstream mechanism — a dollar, a commute, a closure, a ballot, a flow — to the downstream consequence it shapes. The motion design isn't decoration. It is the argument.</p>
+</section>
+
+<section class="stories">
+
+  <a class="story-card" data-id="trickle" href="the-trickle.html">
+    <div class="num">01</div>
+    <div class="mech">Commuter economy</div>
+    <h2>The Trickle</h2>
+    <p>How a federal job in Fulton County became a primary vote in DeKalb — and why the political shift didn't start where the political result appeared.</p>
+    <div class="read">Read · ~6 min</div>
+  </a>
+
+  <a class="story-card" data-id="vogtle" href="the-vogtle-bill.html">
+    <div class="num">02</div>
+    <div class="mech">Ratepayer money</div>
+    <h2>The Vogtle Bill</h2>
+    <p>$35 billion in overruns. Every Georgia Power customer pays it. The dividend goes elsewhere. A traced flow from kitchen-table bill to corporate distribution.</p>
+    <div class="read">Read · ~7 min</div>
+  </a>
+
+  <a class="story-card" data-id="data" href="the-data-center-tax.html">
+    <div class="num">03</div>
+    <div class="mech">Grid socialization</div>
+    <h2>The Data Center Tax</h2>
+    <p>Georgia is the #2 data-center market in America. Most facilities receive tax abatements. The new generation that powers them is paid for by everyone.</p>
+    <div class="read">Read · ~6 min</div>
+  </a>
+
+  <a class="story-card" data-id="eviction" href="the-eviction-funnel.html">
+    <div class="num">04</div>
+    <div class="mech">Civic disappearance</div>
+    <h2>The Eviction Funnel</h2>
+    <p>A magistrate filing in November becomes a non-vote the next May. Six administrative steps converting housing instability into structural disenfranchisement.</p>
+    <div class="read">Read · ~7 min</div>
+  </a>
+
+  <a class="story-card" data-id="hospital" href="the-closed-hospital.html">
+    <div class="num">05</div>
+    <div class="mech">Care cascade</div>
+    <h2>The Closed Hospital</h2>
+    <p>A rural ER closes in March. By August, vital statistics in three counties have shifted. The closure-to-outcome lag is the part nobody has shown.</p>
+    <div class="read">Read · ~6 min</div>
+  </a>
+
+  <a class="story-card" data-id="coast" href="the-coast-is-moving.html">
+    <div class="num">06</div>
+    <div class="mech">Climate migration</div>
+    <h2>The Coast Is Moving North</h2>
+    <p>Florida's insurance crisis routes into Georgia's coast. A slow demographic migration reshaping six counties — visible in real estate, schools, and registration.</p>
+    <div class="read">Read · ~6 min</div>
+  </a>
+
+  <a class="story-card" data-id="settle" href="the-settlement-shrinkage.html">
+    <div class="num">07</div>
+    <div class="mech">Accountability shrinkage</div>
+    <h2>The Settlement Shrinkage</h2>
+    <p>$636 million in opioid settlement money arrived in Georgia. At each step of allocation, transparency degrades. The cash gets harder to trace.</p>
+    <div class="read">Read · ~6 min</div>
+  </a>
+
+  <a class="story-card" data-id="ballot" href="the-provisional-ballot.html">
+    <div class="num">08</div>
+    <div class="mech">Adjudication geometry</div>
+    <h2>The Provisional Ballot Maze</h2>
+    <p>The same ballot, cast for the same reason, can be counted in DeKalb and rejected in Whitfield. Map every fork in the adjudication road.</p>
+    <div class="read">Read · ~6 min</div>
+  </a>
+
+  <a class="story-card" data-id="committee" href="the-committee-trade.html">
+    <div class="num">09</div>
+    <div class="mech">Capture graph</div>
+    <h2>The Committee Trade</h2>
+    <p>Which Georgia legislators sit on the committees that regulate the industries that fund their campaigns. The pattern across the body is the picture.</p>
+    <div class="read">Read · ~7 min</div>
+  </a>
+
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>The series</h5>
+      <p>Nine motion-driven editorial pieces, each tracing one mechanism from public-record sources. Built on the Infera narrative-integrity framework: every claim tagged FACT, INFERENCE, or NOT YET KNOWABLE. Each piece marks its own blind spots rather than fill them.</p>
+      <div class="sig">— Infera Editorial</div>
+    </div>
+    <div>
+      <h5>Method</h5>
+      <p>Cross-cycle voter shift<br>Mechanism tracing<br>Common-ground detection<br>Source tier classification<br>Blind-spot audit</p>
+    </div>
+    <div>
+      <h5>Cadence</h5>
+      <p>Primary +2 · May 21<br>Post-cert analysis · Jun 9<br>Quarterly mechanism drops<br>Live election night · Nov 3</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

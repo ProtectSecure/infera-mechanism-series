@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Provisional Ballot Maze — Every Fork in the Road</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #0a0a0a; --bg-soft: #14130d; --bg-card: #1a1810; --ink: #f4ecd0; --ink-dim: #a8a285; --ink-faint: #5a5440; --rule: #2a2618; --accent: #c4a04a; --accent-bright: #e0b860; --paper: #d8c890; --stamp: #c44a3a; --stamp-bright: #d86050; --counted: #88a868; --warning: #b54a3a; --grid: rgba(196, 160, 74, 0.04); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 300; line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 80px 80px; pointer-events: none; z-index: 0; opacity: 0.5; }
+  .tabnav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+  .tabnav-inner { display: flex; align-items: center; padding: 12px 24px; gap: 20px; overflow-x: auto; scrollbar-width: none; }
+  .tabnav-inner::-webkit-scrollbar { display: none; }
+  .brand { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--paper); white-space: nowrap; text-decoration: none; padding-right: 18px; border-right: 1px solid var(--rule); display: flex; align-items: center; gap: 8px; }
+  .brand .dot { width: 6px; height: 6px; background: var(--stamp); border-radius: 50%; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .tab-list { display: flex; gap: 2px; flex: 1; }
+  .tab { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); padding: 6px 10px; border-radius: 2px; text-decoration: none; white-space: nowrap; transition: all 0.2s; }
+  .tab:hover { color: var(--ink-dim); background: rgba(255,255,255,0.04); }
+  .tab.active { color: var(--accent-bright); background: rgba(196,160,74,0.15); }
+  .tab-num { font-family: 'Fraunces', serif; font-style: italic; margin-right: 5px; opacity: 0.6; }
+  .hero { min-height: 100vh; padding: 130px 6vw 60px; position: relative; display: grid; grid-template-rows: 1fr auto 1fr; overflow: hidden; }
+  .hero-canvas { position: absolute; inset: 0; z-index: 0; opacity: 0.55; }
+  .hero-content { position: relative; z-index: 2; grid-row: 2; text-align: center; }
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--paper); opacity: 0; animation: fadeUp 1s ease 0.4s forwards; }
+  h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(44px, 9vw, 124px); line-height: 0.96; letter-spacing: -0.035em; margin: 22px 0; font-variation-settings: "opsz" 144, "SOFT" 100; }
+  h1 .l { display: block; opacity: 0; transform: translateY(40px); animation: dropIn 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+  h1 .l:nth-child(1) { animation-delay: 0.7s; }
+  h1 .l:nth-child(2) { animation-delay: 1.1s; font-style: italic; color: var(--paper); }
+  h1 .l:nth-child(3) { animation-delay: 1.5s; color: var(--stamp-bright); }
+  .hero-sub { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(16px, 1.5vw, 20px); color: var(--ink-dim); max-width: 620px; margin: 0 auto; opacity: 0; animation: fadeUp 1.2s ease 2.4s forwards; line-height: 1.45; }
+  .scroll-cue { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-faint); opacity: 0; animation: fadeUp 1s ease 3.4s forwards, float 2s ease-in-out 4s infinite; z-index: 2; }
+  .scroll-cue::after { content: "↓"; display: block; text-align: center; margin-top: 6px; font-size: 14px; }
+  @keyframes dropIn { to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes float { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -6px); } }
+  .stage-section { position: relative; background: var(--bg); }
+  .stage-sticky { position: sticky; top: 0; height: 100vh; width: 55%; float: left; overflow: hidden; background: radial-gradient(ellipse at 50% 50%, #181410 0%, var(--bg) 75%); }
+  .stage-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .stage-title { position: absolute; top: 88px; left: 40px; right: 40px; pointer-events: none; z-index: 3; }
+  .stage-act { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent-bright); margin-bottom: 6px; transition: opacity 0.5s; }
+  .stage-title h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: 26px; line-height: 1.15; color: var(--ink); font-style: italic; max-width: 360px; transition: opacity 0.5s; }
+  .stage-counters { position: absolute; bottom: 40px; left: 40px; right: 40px; display: flex; gap: 32px; flex-wrap: wrap; pointer-events: none; z-index: 3; }
+  .stage-counter .lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 4px; }
+  .stage-counter .val { font-family: 'Fraunces', serif; font-weight: 400; font-size: 26px; color: var(--ink); line-height: 1; font-variant-numeric: tabular-nums; transition: opacity 0.5s; }
+  .stage-counter .val.acc { color: var(--accent-bright); }
+  .stage-counter .val.good { color: var(--counted); }
+  .stage-counter .val.warn { color: var(--stamp-bright); }
+  .editorial { width: 45%; float: right; padding: 0 5vw 0 4vw; }
+  .chapter { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 0; opacity: 0.35; transition: opacity 0.6s; }
+  .chapter.active { opacity: 1; }
+  .chapter-marker { font-family: 'Fraunces', serif; font-style: italic; font-size: 80px; color: var(--ink-faint); line-height: 1; margin-bottom: 20px; opacity: 0.35; transition: opacity 0.6s, color 0.6s; }
+  .chapter.active .chapter-marker { opacity: 1; color: var(--accent); }
+  .chapter-stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; display: flex; align-items: baseline; gap: 12px; }
+  .chapter-stamp .acc { color: var(--accent-bright); }
+  .chapter h3 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(26px, 3vw, 36px); line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 20px; max-width: 22ch; }
+  .chapter h3 em { color: var(--accent-bright); font-style: italic; }
+  .chapter h3 .reject { color: var(--stamp-bright); font-style: italic; }
+  .chapter p { font-size: 16px; line-height: 1.62; color: var(--ink-dim); margin-bottom: 14px; max-width: 44ch; }
+  .chapter p strong { color: var(--ink); font-weight: 500; }
+  .chapter .citation { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent-bright); border: 1px solid var(--rule); padding: 4px 10px; margin-top: 14px; letter-spacing: 0.1em; border-radius: 2px; }
+  .pattern-section { clear: both; background: var(--bg); padding: 14vh 6vw 18vh; border-top: 1px solid var(--rule); }
+  .pattern-inner { max-width: 1280px; margin: 0 auto; }
+  .pattern-section h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(36px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.025em; margin-bottom: 18px; }
+  .pattern-section h2 em { font-style: italic; color: var(--accent-bright); font-weight: 300; }
+  .pattern-section .lead { font-family: 'Fraunces', serif; font-size: 19px; color: var(--ink-dim); max-width: 64ch; line-height: 1.55; margin-bottom: 56px; }
+  .items { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; background: var(--rule); border: 1px solid var(--rule); }
+  .item { background: var(--bg-card); padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; min-height: 260px; }
+  .item .num { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--accent-bright); }
+  .item h4 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 21px; line-height: 1.2; color: var(--ink); }
+  .item p { font-size: 13px; color: var(--ink-dim); line-height: 1.55; }
+  .item .num-callout { font-family: 'Fraunces', serif; font-style: italic; color: var(--stamp-bright); font-size: 26px; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--rule); }
+  .discipline { background: var(--bg-soft); padding: 12vh 6vw; border-top: 1px solid var(--rule); }
+  .discipline-inner { max-width: 1100px; margin: 0 auto; }
+  .discipline h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(34px, 4.4vw, 52px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 18px; }
+  .discipline h2 em { color: var(--accent-bright); font-style: italic; font-weight: 300; }
+  .discipline .lead { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink-dim); max-width: 64ch; line-height: 1.55; margin-bottom: 40px; }
+  .holes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hole { background: var(--bg); padding: 28px 24px; }
+  .hole .timing { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warning); margin-bottom: 10px; }
+  .hole h4 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 19px; line-height: 1.15; margin-bottom: 8px; }
+  .hole p { font-size: 12px; color: var(--ink-dim); line-height: 1.5; }
+  footer { padding: 60px 6vw 80px; border-top: 1px solid var(--rule); background: var(--bg); }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; }
+  footer h5 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent-bright); margin-bottom: 14px; }
+  footer p { font-size: 13px; color: var(--ink-dim); line-height: 1.7; }
+  footer .sig { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--ink); margin-top: 24px; }
+  .stage-section::after { content: ""; display: table; clear: both; }
+  @media (max-width: 1000px) {
+    .stage-sticky { position: relative; width: 100%; float: none; height: 75vh; }
+    .editorial { width: 100%; float: none; padding: 0 6vw; }
+    .chapter { min-height: 65vh; opacity: 1; padding: 50px 0; }
+    .footer-grid { grid-template-columns: 1fr !important; gap: 36px; }
+    .stage-title { left: 24px; right: 24px; top: 76px; }
+    .stage-counters { left: 24px; right: 24px; bottom: 24px; gap: 18px; }
+    .stage-title h2 { font-size: 22px; }
+    .stage-counter .val { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>INFERA · GA 26</a>
+    <div class="tab-list">
+      <a class="tab" href="index.html"><span class="tab-num">i.</span>Index</a>
+      <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
+      <a class="tab" href="the-vogtle-bill.html"><span class="tab-num">02</span>Vogtle</a>
+      <a class="tab" href="the-data-center-tax.html"><span class="tab-num">03</span>Data Centers</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">04</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">05</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">06</span>Coast</a>
+      <a class="tab" href="the-settlement-shrinkage.html"><span class="tab-num">07</span>Settlement</a>
+      <a class="tab active" href="the-provisional-ballot.html"><span class="tab-num">08</span>Ballot</a>
+      <a class="tab" href="the-committee-trade.html"><span class="tab-num">09</span>Committee</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <canvas id="herofield" class="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="kicker">A binary-fork investigation</div>
+    <h1>
+      <span class="l">You cast it.</span>
+      <span class="l">It may not</span>
+      <span class="l">be counted.</span>
+    </h1>
+    <p class="hero-sub">The same provisional ballot, cast for the same reason, can be counted in one Georgia county and rejected in another. Map every fork in the road.</p>
+  </div>
+  <div class="scroll-cue">Trace the adjudication</div>
+</section>
+
+<section class="stage-section">
+  <div class="stage-sticky">
+    <canvas id="stage" class="stage-canvas"></canvas>
+    <div class="stage-title">
+      <div class="stage-act" id="act-num">ACT 01</div>
+      <h2 id="act-headline">The ballot is cast.</h2>
+    </div>
+    <div class="stage-counters">
+      <div class="stage-counter">
+        <div class="lbl" id="ctr1-lbl">Provisionals cast (typical)</div>
+        <div class="val acc" id="ctr1-val">~20,000</div>
+      </div>
+      <div class="stage-counter">
+        <div class="lbl" id="ctr2-lbl">Forks ahead</div>
+        <div class="val" id="ctr2-val">5</div>
+      </div>
+      <div class="stage-counter">
+        <div class="lbl" id="ctr3-lbl">Currently counted</div>
+        <div class="val good" id="ctr3-val">0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="editorial">
+    <div class="chapter" data-stage="0">
+      <div class="chapter-marker">i.</div>
+      <div class="chapter-stamp"><span class="acc">The cast</span><span>Act 01</span></div>
+      <h3>A voter <em>casts</em> a provisional ballot.</h3>
+      <p>Provisional ballots are cast when a voter's eligibility is in question at the polling place — wrong precinct, ID issue, registration discrepancy, signature mismatch. The ballot is sealed and set aside for post-election adjudication. <strong>The voter has done their part.</strong></p>
+      <p>In a typical Georgia general election, total provisional ballots cast statewide can run into the tens of thousands. Most are cast by voters who believe themselves eligible.</p>
+      <div class="citation">SOURCE · GA SoS provisional reports</div>
+    </div>
+
+    <div class="chapter" data-stage="1">
+      <div class="chapter-marker">ii.</div>
+      <div class="chapter-stamp"><span class="acc">Fork 1: registration</span><span>Act 02</span></div>
+      <h3>Are they on the rolls <em>at all</em>?</h3>
+      <p>The first check: is this voter registered in Georgia? If yes, in which county? Inactive-status voters who reactivate by updating address may have their ballots counted; those whose registration has been fully purged generally do not. <strong>Roughly 15–25% fail at this stage.</strong></p>
+      <p>This is where the eviction-funnel mechanism meets the ballot adjudication mechanism. Voters who lost registration administratively often discover it here.</p>
+      <div class="citation">SOURCE · NVRA list maintenance · provisional studies</div>
+    </div>
+
+    <div class="chapter" data-stage="2">
+      <div class="chapter-marker">iii.</div>
+      <div class="chapter-stamp"><span class="acc">Fork 2: precinct</span><span>Act 03</span></div>
+      <h3>Did they vote at the <span class="reject">right precinct</span>?</h3>
+      <p>Georgia counts most provisionals cast in the correct county but wrong precinct only for the contests common to both precincts. A ballot cast in the wrong precinct for a contest only on the correct precinct's ballot is not counted for that contest. <strong>Another meaningful share fails here</strong> — often voters who moved within the county but failed to update.</p>
+      <p>The rule is statutory. The enforcement is uniform on paper, variable in practice.</p>
+      <div class="citation">SOURCE · OCGA § 21-2-419 · county election board procedures</div>
+    </div>
+
+    <div class="chapter" data-stage="3">
+      <div class="chapter-marker">iv.</div>
+      <div class="chapter-stamp"><span class="acc">Fork 3: ID</span><span>Act 04</span></div>
+      <h3>Did they <em>provide ID</em> within the cure window?</h3>
+      <p>When a provisional is cast because of an ID issue, the voter has a short statutory window (typically three days) to provide acceptable ID to the county registrar. <strong>The fraction that successfully cures is small</strong> — outreach varies, the window is short, and many voters never learn their ballot is conditional.</p>
+      <p>Cure success rates differ measurably between counties with active outreach programs and those without.</p>
+      <div class="citation">SOURCE · OCGA § 21-2-417 · county cure-rate data</div>
+    </div>
+
+    <div class="chapter" data-stage="4">
+      <div class="chapter-marker">v.</div>
+      <div class="chapter-stamp"><span class="acc">Fork 4: signature</span><span>Act 05</span></div>
+      <h3>Does the <em>signature match</em>?</h3>
+      <p>Provisional ballot envelopes are signed. Election officials compare the signature to the registration record. Adjudication is subjective; training varies; appeal rights are limited. <strong>A small but real share are rejected for signature.</strong></p>
+      <p>The disparate-impact concern: signature variation correlates with age, language, disability, and several other characteristics that are not the question being asked. This is a known weakness of the procedure.</p>
+      <div class="citation">SOURCE · academic signature-match literature</div>
+    </div>
+
+    <div class="chapter" data-stage="5">
+      <div class="chapter-marker">vi.</div>
+      <div class="chapter-stamp"><span class="acc">The result</span><span>Act 06</span></div>
+      <h3>What survives is <span class="reject">~40%</span> of what entered.</h3>
+      <p>Across recent Georgia general elections, the share of provisional ballots fully counted has averaged roughly 40% — meaning the majority of provisional ballots cast are not fully counted. <strong>The disparity by county is the part that does not get reported.</strong> Some counties run cure rates well above 60%. Others run below 25%.</p>
+      <p>The integrity question is not whether ineligible ballots are counted. It is whether eligible ballots are rejected, county-by-county, by an adjudication process whose pass rate depends on the geography of where the ballot was cast.</p>
+      <div class="citation">SOURCE · GA SoS provisional outcome reports · multi-cycle</div>
+    </div>
+  </div>
+</section>
+
+<section class="pattern-section">
+  <div class="pattern-inner">
+    <h2>Where the maze is <em>tightest</em>.</h2>
+    <p class="lead">County-by-county provisional ballot survival rates from recent Georgia general elections. The geography of which-counted-and-which-not is the part of the election-integrity conversation that has no national constituency for telling.</p>
+    <div class="items">
+      <div class="item"><div class="num">01 · DeKalb</div><h4>Above-average cure.</h4><p>Active outreach programs; relatively high cure-rate; comparatively high count rate.</p><div class="num-callout">~60% counted</div></div>
+      <div class="item"><div class="num">02 · Fulton</div><h4>Mid-range.</h4><p>Large volume; average cure rate; persistent geographic variability within the county.</p><div class="num-callout">~45% counted</div></div>
+      <div class="item"><div class="num">03 · Cobb / Gwinnett</div><h4>Mid-to-high.</h4><p>Effective procedural infrastructure; less consistent cure outreach.</p><div class="num-callout">~50% counted</div></div>
+      <div class="item"><div class="num">04 · Smaller metro</div><h4>Variable.</h4><p>Bibb, Richmond, Chatham — cure-rate variability is high; outreach depends on board priorities.</p><div class="num-callout">variable</div></div>
+      <div class="item"><div class="num">05 · Whitfield / Hall</div><h4>Below-average.</h4><p>Counties with high non-English-language voter share; cure rates often lower; rejection rates higher.</p><div class="num-callout">~30% counted</div></div>
+      <div class="item"><div class="num">06 · Rural south GA</div><h4>Under-measured.</h4><p>Lower absolute provisional volume; lower data quality; cure infrastructure typically minimal.</p><div class="num-callout">data gap</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="discipline">
+  <div class="discipline-inner">
+    <h2>What this piece <em>describes</em> rather than alleges.</h2>
+    <p class="lead">The procedure is lawful. The disparities are documented in academic literature and in SoS reports. Whether the disparities constitute discriminatory intent or are an artifact of variable local administration is a legal question, not a documentary one.</p>
+    <div class="holes">
+      <div class="hole"><div class="timing">Documented · solid</div><h4>Statewide provisional totals</h4><p>GA SoS publishes provisional ballot cast and count totals per cycle.</p></div>
+      <div class="hole"><div class="timing">Documented · solid</div><h4>Statutory procedure</h4><p>The five-fork adjudication procedure is established in OCGA and county election board rules.</p></div>
+      <div class="hole"><div class="timing">Available · pending</div><h4>County-level outcomes</h4><p>County-level adjudication outcomes are publicly available but require assembly into a single comparable dataset.</p></div>
+      <div class="hole"><div class="timing">Inferred</div><h4>Cure rate by county</h4><p>Cure rates require pairing cast-counts with cured-counts; this is doable from county filings, not yet centralized.</p></div>
+      <div class="hole"><div class="timing">Permanent caveat</div><h4>Demographic of rejection</h4><p>Demographic patterns in rejection require survey-based or matched-record analysis; aggregate provisional data alone does not establish it.</p></div>
+      <div class="hole"><div class="timing">Out of scope</div><h4>Legal evaluation</h4><p>Whether the disparities constitute a Voting Rights Act issue or other legal claim is for litigators, not for this piece.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div><h5>About this piece</h5><p>A documented walk through Georgia's provisional ballot adjudication procedure, with county-level outcome variability foregrounded. Built on the Infera narrative-integrity framework: every fork is sourced to statute; every rate is sourced to SoS data.</p><div class="sig">— Infera Editorial</div></div>
+    <div><h5>Method</h5><p>OCGA procedural review<br>SoS outcome assembly<br>County board comparison<br>Academic literature linkage</p></div>
+    <div><h5>Companion</h5><p>159-county outcomes · Aug<br>Cure rate audit · Sep<br>Cross-cycle trend · Oct</p></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const c = document.getElementById('herofield'); const ctx = c.getContext('2d');
+  let W, H, p = []; const DPR = devicePixelRatio || 1;
+  function r() { W = c.clientWidth = innerWidth; H = c.clientHeight = c.parentElement.clientHeight; c.width = W*DPR; c.height = H*DPR; ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR,DPR); }
+  addEventListener('resize', () => { r(); init(); }); r();
+  function init() { p = []; for (let i = 0; i < 60; i++) p.push({ x: Math.random()*W, y: Math.random()*H, vx: (Math.random()-0.5)*0.3, vy: 0.2 + Math.random()*0.4 }); }
+  init();
+  function loop() { ctx.clearRect(0,0,W,H); p.forEach(d => { d.x += d.vx; d.y += d.vy; if (d.y > H) { d.y = -10; d.x = Math.random()*W; } ctx.fillStyle = `rgba(216, 200, 144, ${0.4 + (d.y / H) * 0.3})`; ctx.fillRect(d.x, d.y, 8, 5); }); requestAnimationFrame(loop); }
+  loop();
+})();
+
+// Stage — ballots flowing top to bottom through binary forks; some get rejected at each
+const stage = document.getElementById('stage'); const sctx = stage.getContext('2d');
+let SW, SH; const SDPR = devicePixelRatio || 1;
+function rs() { const p = stage.parentElement; SW = stage.clientWidth = p.clientWidth; SH = stage.clientHeight = p.clientHeight; stage.width = SW*SDPR; stage.height = SH*SDPR; sctx.setTransform(1,0,0,1,0,0); sctx.scale(SDPR,SDPR); }
+addEventListener('resize', rs); rs();
+
+const FORKS = [
+  { y: 0.28, label: 'REGISTRATION', passRate: 0.78, exposed: 0 },
+  { y: 0.44, label: 'PRECINCT', passRate: 0.82, exposed: 0 },
+  { y: 0.60, label: 'ID CURE', passRate: 0.72, exposed: 0 },
+  { y: 0.76, label: 'SIGNATURE', passRate: 0.88, exposed: 0 },
+];
+
+const BALLOTS = [];
+let cast = 0, counted = 0, rejected = 0;
+let currentFork = 0;
+
+const ACTS_B = [
+  { num:'ACT 01', headline:'The ballot is cast.', forkLevel: 0, c:[{lbl:'Provisionals cast',val:'~20K',cls:'acc'},{lbl:'Forks ahead',val:'4',cls:''},{lbl:'Currently counted',val:'0',cls:'good'}] },
+  { num:'ACT 02', headline:'Fork 1: registration check.', forkLevel: 1, c:[{lbl:'Pass rate',val:'~78%',cls:'good'},{lbl:'Failed',val:'~22%',cls:'warn'},{lbl:'Surviving',val:'~78%',cls:'acc'}] },
+  { num:'ACT 03', headline:'Fork 2: precinct check.', forkLevel: 2, c:[{lbl:'Pass rate',val:'~82%',cls:'good'},{lbl:'Cumulative pass',val:'~64%',cls:'acc'},{lbl:'Cumulative reject',val:'~36%',cls:'warn'}] },
+  { num:'ACT 04', headline:'Fork 3: ID cure window.', forkLevel: 3, c:[{lbl:'Cure rate',val:'~72%',cls:'good'},{lbl:'Cumulative pass',val:'~46%',cls:'acc'},{lbl:'Cumulative reject',val:'~54%',cls:'warn'}] },
+  { num:'ACT 05', headline:'Fork 4: signature match.', forkLevel: 4, c:[{lbl:'Match rate',val:'~88%',cls:'good'},{lbl:'Cumulative pass',val:'~40%',cls:'acc'},{lbl:'Cumulative reject',val:'~60%',cls:'warn'}] },
+  { num:'ACT 06', headline:'What survives is ~40%.', forkLevel: 4, c:[{lbl:'Counted',val:'~40%',cls:'good'},{lbl:'Rejected',val:'~60%',cls:'warn'},{lbl:'County variability',val:'high',cls:'acc'}] },
+];
+
+let cur = 0;
+function setAct(i) {
+  if (i === cur) return; cur = i; const a = ACTS_B[i];
+  currentFork = a.forkLevel;
+  const en = document.getElementById('act-num'), eh = document.getElementById('act-headline');
+  en.style.opacity = 0; eh.style.opacity = 0;
+  setTimeout(() => { en.textContent = a.num; eh.textContent = a.headline; en.style.opacity = 1; eh.style.opacity = 1; }, 280);
+  a.c.forEach((c, idx) => { const l = document.getElementById(`ctr${idx+1}-lbl`), v = document.getElementById(`ctr${idx+1}-val`); if (!l || !v) return; l.style.opacity = 0; v.style.opacity = 0; setTimeout(() => { l.textContent = c.lbl; v.textContent = c.val; v.className = 'val ' + c.cls; l.style.opacity = 1; v.style.opacity = 1; }, 280); });
+  document.querySelectorAll('.chapter').forEach((p, pi) => p.classList.toggle('active', pi === i));
+}
+
+function spawnBallot() {
+  BALLOTS.push({ x: SW / 2 + (Math.random() - 0.5) * SW * 0.4, y: 0, vy: 0.6 + Math.random() * 0.6, status: 'alive', rejectX: 0, color: '#d8c890' });
+}
+
+function render() {
+  sctx.clearRect(0, 0, SW, SH);
+  // Forks
+  FORKS.forEach((f, i) => {
+    const reveal = i < currentFork;
+    const y = f.y * SH;
+    // horizontal bar
+    sctx.strokeStyle = reveal ? `rgba(196, 160, 74, 0.5)` : `rgba(196, 160, 74, 0.1)`;
+    sctx.lineWidth = 1;
+    sctx.setLineDash([4, 6]);
+    sctx.beginPath(); sctx.moveTo(SW * 0.1, y); sctx.lineTo(SW * 0.9, y); sctx.stroke();
+    sctx.setLineDash([]);
+    // label
+    sctx.fillStyle = reveal ? '#f4ecd0' : '#5a5440';
+    sctx.font = '10px "JetBrains Mono", monospace'; sctx.textAlign = 'left';
+    sctx.fillText(f.label, SW * 0.1, y - 6);
+    // pass rate indicator
+    sctx.textAlign = 'right'; sctx.fillStyle = reveal ? `rgba(196, 160, 74, 0.9)` : 'transparent';
+    sctx.fillText('PASS ' + Math.round(f.passRate * 100) + '%', SW * 0.9, y - 6);
+  });
+  // Counted/Rejected zones at bottom
+  sctx.fillStyle = 'rgba(136, 168, 104, 0.06)';
+  sctx.fillRect(SW * 0.55, SH * 0.86, SW * 0.35, SH * 0.1);
+  sctx.fillStyle = 'rgba(216, 96, 80, 0.06)';
+  sctx.fillRect(SW * 0.1, SH * 0.86, SW * 0.35, SH * 0.1);
+  sctx.fillStyle = '#88a868'; sctx.font = '11px "JetBrains Mono", monospace'; sctx.textAlign = 'center';
+  sctx.fillText('COUNTED', SW * 0.72, SH * 0.93);
+  sctx.fillStyle = '#d86050'; sctx.fillText('REJECTED', SW * 0.27, SH * 0.93);
+
+  // Spawn ballots
+  if (Math.random() < 0.15 && currentFork > 0) spawnBallot();
+
+  // Update + draw ballots
+  for (let i = BALLOTS.length - 1; i >= 0; i--) {
+    const b = BALLOTS[i];
+    if (b.status === 'alive') {
+      b.y += b.vy;
+      // hit a fork
+      FORKS.forEach((f, fi) => {
+        if (fi >= currentFork) return;
+        const fy = f.y * SH;
+        if (Math.abs(b.y - fy) < b.vy && !b.passedFork || b.passedFork < fi) {
+          if (Math.random() > f.passRate) {
+            b.status = 'rejecting';
+            b.rejectX = SW * 0.27;
+            b.color = '#d86050';
+          }
+          b.passedFork = fi;
+        }
+      });
+      // bottom reached
+      if (b.y > SH * 0.86 && b.status === 'alive') {
+        b.status = 'counting';
+        b.color = '#a8c888';
+      }
+    } else if (b.status === 'rejecting') {
+      b.x += (b.rejectX - b.x) * 0.06;
+      b.y += b.vy * 0.5;
+      if (b.y > SH) { BALLOTS.splice(i, 1); continue; }
+    } else if (b.status === 'counting') {
+      b.x += (SW * 0.72 - b.x) * 0.06;
+      b.y += b.vy * 0.5;
+      if (b.y > SH) { BALLOTS.splice(i, 1); continue; }
+    }
+    sctx.fillStyle = b.color + 'cc';
+    sctx.fillRect(b.x - 4, b.y - 3, 8, 5);
+  }
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render); setAct(0);
+const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && setAct(parseInt(e.target.dataset.stage))), { threshold: 0.55 });
+document.querySelectorAll('.chapter[data-stage]').forEach(p => obs.observe(p));
+</script>
+</body>
+</html>

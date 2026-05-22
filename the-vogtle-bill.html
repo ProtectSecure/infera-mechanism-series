@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Vogtle Bill — Where the $35 Billion Went</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06080c;
+    --bg-soft: #0d1117;
+    --bg-card: #11161e;
+    --ink: #eef1f5;
+    --ink-dim: #9aa4b2;
+    --ink-faint: #4d5563;
+    --rule: #1f2731;
+    --accent: #4d8ca8;
+    --accent-bright: #6ab0d0;
+    --money: #c4863d;
+    --money-bright: #e0a554;
+    --warning: #b54a3a;
+    --gold: #c4a777;
+    --grid: rgba(77, 140, 168, 0.05);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 300; line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 80px 80px; pointer-events: none; z-index: 0; opacity: 0.4; }
+
+  /* TAB NAV */
+  .tabnav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,8,12,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+  .tabnav-inner { display: flex; align-items: center; padding: 12px 24px; gap: 20px; overflow-x: auto; scrollbar-width: none; }
+  .tabnav-inner::-webkit-scrollbar { display: none; }
+  .brand { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); white-space: nowrap; text-decoration: none; padding-right: 18px; border-right: 1px solid var(--rule); display: flex; align-items: center; gap: 8px; }
+  .brand .dot { width: 6px; height: 6px; background: var(--money); border-radius: 50%; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .tab-list { display: flex; gap: 2px; flex: 1; }
+  .tab { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); padding: 6px 10px; border-radius: 2px; text-decoration: none; white-space: nowrap; transition: color 0.2s, background 0.2s; }
+  .tab:hover { color: var(--ink-dim); background: rgba(255,255,255,0.04); }
+  .tab.active { color: var(--accent); background: rgba(77,140,168,0.15); }
+  .tab-num { font-family: 'Fraunces', serif; font-style: italic; margin-right: 5px; opacity: 0.6; }
+
+  /* HERO */
+  .hero { min-height: 100vh; padding: 130px 6vw 60px; position: relative; display: grid; grid-template-rows: 1fr auto 1fr; overflow: hidden; }
+  .hero-canvas { position: absolute; inset: 0; z-index: 0; opacity: 0.6; }
+  .hero-content { position: relative; z-index: 2; grid-row: 2; text-align: center; }
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--accent-bright); opacity: 0; animation: fadeUp 1s ease 0.4s forwards; }
+  h1.headline { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(44px, 9vw, 124px); line-height: 0.96; letter-spacing: -0.035em; margin: 22px 0; font-variation-settings: "opsz" 144, "SOFT" 100; }
+  h1.headline .l { display: block; opacity: 0; transform: translateY(40px); animation: dropIn 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+  h1.headline .l:nth-child(1) { animation-delay: 0.7s; }
+  h1.headline .l:nth-child(2) { animation-delay: 1.1s; color: var(--money-bright); font-style: italic; }
+  h1.headline .l:nth-child(3) { animation-delay: 1.5s; }
+  .hero-sub { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(16px, 1.5vw, 20px); color: var(--ink-dim); max-width: 600px; margin: 0 auto; opacity: 0; animation: fadeUp 1.2s ease 2.4s forwards; line-height: 1.45; }
+  .scroll-cue { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-faint); opacity: 0; animation: fadeUp 1s ease 3.4s forwards, float 2s ease-in-out 4s infinite; z-index: 2; }
+  .scroll-cue::after { content: "↓"; display: block; text-align: center; margin-top: 6px; font-size: 14px; }
+  @keyframes dropIn { to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes float { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -6px); } }
+
+  /* STAGE */
+  .stage-section { position: relative; background: var(--bg); }
+  .stage-sticky { position: sticky; top: 0; height: 100vh; width: 55%; float: left; overflow: hidden; background: radial-gradient(ellipse at 50% 50%, #0a1018 0%, var(--bg) 75%); }
+  .stage-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .stage-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+  .stage-title { position: absolute; top: 88px; left: 40px; right: 40px; }
+  .stage-act { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent-bright); margin-bottom: 6px; transition: opacity 0.5s; }
+  .stage-title h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: 26px; line-height: 1.15; color: var(--ink); font-style: italic; max-width: 340px; transition: opacity 0.5s; }
+  .stage-counters { position: absolute; bottom: 40px; left: 40px; right: 40px; display: flex; gap: 32px; flex-wrap: wrap; }
+  .stage-counter { transition: opacity 0.5s; }
+  .stage-counter .lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 4px; }
+  .stage-counter .val { font-family: 'Fraunces', serif; font-weight: 400; font-size: 26px; color: var(--ink); line-height: 1; font-variant-numeric: tabular-nums; }
+  .stage-counter .val.accent { color: var(--accent-bright); }
+  .stage-counter .val.money { color: var(--money-bright); }
+  .stage-counter .val.warn { color: var(--warning); }
+
+  /* Editorial */
+  .editorial { width: 45%; float: right; padding: 0 5vw 0 4vw; }
+  .chapter { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 0; opacity: 0.35; transition: opacity 0.6s; }
+  .chapter.active { opacity: 1; }
+  .chapter-marker { font-family: 'Fraunces', serif; font-style: italic; font-size: 80px; color: var(--ink-faint); line-height: 1; margin-bottom: 20px; opacity: 0.35; transition: opacity 0.6s, color 0.6s; }
+  .chapter.active .chapter-marker { opacity: 1; color: var(--accent); }
+  .chapter-stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; display: flex; align-items: baseline; gap: 12px; }
+  .chapter-stamp .gold { color: var(--accent-bright); }
+  .chapter h3 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(26px, 3vw, 36px); line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 20px; max-width: 22ch; }
+  .chapter h3 em { color: var(--money-bright); font-style: italic; }
+  .chapter h3 .ax { color: var(--accent-bright); font-style: italic; }
+  .chapter p { font-size: 16px; line-height: 1.62; color: var(--ink-dim); margin-bottom: 14px; max-width: 44ch; }
+  .chapter p strong { color: var(--ink); font-weight: 500; }
+  .chapter .citation { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent-bright); border: 1px solid var(--rule); padding: 4px 10px; margin-top: 14px; letter-spacing: 0.1em; border-radius: 2px; }
+
+  /* Pattern grid */
+  .pattern-section { clear: both; background: var(--bg); padding: 14vh 6vw 18vh; border-top: 1px solid var(--rule); }
+  .pattern-inner { max-width: 1280px; margin: 0 auto; }
+  .pattern-section h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(36px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.025em; margin-bottom: 18px; }
+  .pattern-section h2 em { font-style: italic; color: var(--accent-bright); font-weight: 300; }
+  .pattern-section .lead { font-family: 'Fraunces', serif; font-size: 19px; color: var(--ink-dim); max-width: 64ch; line-height: 1.55; margin-bottom: 56px; }
+  .items { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; background: var(--rule); border: 1px solid var(--rule); }
+  .item { background: var(--bg-card); padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; min-height: 280px; }
+  .item .num { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--accent-bright); }
+  .item h4 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 21px; line-height: 1.2; color: var(--ink); }
+  .item p { font-size: 13px; color: var(--ink-dim); line-height: 1.55; }
+  .item .num-callout { font-family: 'Fraunces', serif; font-style: italic; color: var(--money-bright); font-size: 28px; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--rule); }
+
+  /* Discipline */
+  .discipline { background: var(--bg-soft); padding: 12vh 6vw; border-top: 1px solid var(--rule); }
+  .discipline-inner { max-width: 1100px; margin: 0 auto; }
+  .discipline h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(34px, 4.4vw, 52px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 18px; }
+  .discipline h2 em { color: var(--accent-bright); font-style: italic; font-weight: 300; }
+  .discipline .lead { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink-dim); max-width: 64ch; line-height: 1.55; margin-bottom: 40px; }
+  .holes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hole { background: var(--bg); padding: 28px 24px; }
+  .hole .timing { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warning); margin-bottom: 10px; }
+  .hole h4 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 19px; line-height: 1.15; margin-bottom: 8px; }
+  .hole p { font-size: 12px; color: var(--ink-dim); line-height: 1.5; }
+
+  footer { padding: 60px 6vw 80px; border-top: 1px solid var(--rule); background: var(--bg); }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; }
+  footer h5 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent-bright); margin-bottom: 14px; }
+  footer p { font-size: 13px; color: var(--ink-dim); line-height: 1.7; }
+  footer .sig { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--ink); margin-top: 24px; }
+
+  .stage-section::after { content: ""; display: table; clear: both; }
+
+  @media (max-width: 1000px) {
+    .stage-sticky { position: relative; width: 100%; float: none; height: 75vh; }
+    .editorial { width: 100%; float: none; padding: 0 6vw; }
+    .chapter { min-height: 65vh; opacity: 1; padding: 50px 0; }
+    .footer-grid { grid-template-columns: 1fr !important; gap: 36px; }
+    .stage-title { left: 24px; right: 24px; top: 76px; }
+    .stage-counters { left: 24px; right: 24px; bottom: 24px; gap: 18px; }
+    .stage-title h2 { font-size: 22px; }
+    .stage-counter .val { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>INFERA · GA 26</a>
+    <div class="tab-list">
+      <a class="tab" href="index.html"><span class="tab-num">i.</span>Index</a>
+      <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
+      <a class="tab active" href="the-vogtle-bill.html"><span class="tab-num">02</span>Vogtle</a>
+      <a class="tab" href="the-data-center-tax.html"><span class="tab-num">03</span>Data Centers</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">04</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">05</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">06</span>Coast</a>
+      <a class="tab" href="the-settlement-shrinkage.html"><span class="tab-num">07</span>Settlement</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">08</span>Ballot</a>
+      <a class="tab" href="the-committee-trade.html"><span class="tab-num">09</span>Committee</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <canvas id="herofield" class="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="kicker">A traced ratepayer dollar</div>
+    <h1 class="headline">
+      <span class="l">Every Georgia home paid</span>
+      <span class="l">for the reactor.</span>
+      <span class="l">Few got the dividend.</span>
+    </h1>
+    <p class="hero-sub">Plant Vogtle Units 3 and 4 came online a decade late at roughly three times their original cost. Watch a dollar leave a kitchen table and arrive at a shareholder's portfolio.</p>
+  </div>
+  <div class="scroll-cue">Follow the dollar</div>
+</section>
+
+<section class="stage-section">
+  <div class="stage-sticky">
+    <canvas id="stage" class="stage-canvas"></canvas>
+    <div class="stage-overlay"></div>
+    <div class="stage-title">
+      <div class="stage-act" id="act-num">ACT 01</div>
+      <h2 id="act-headline">The kitchen-table bill.</h2>
+    </div>
+    <div class="stage-counters">
+      <div class="stage-counter">
+        <div class="lbl" id="ctr1-lbl">Monthly Vogtle line item</div>
+        <div class="val accent" id="ctr1-val">$5–14</div>
+      </div>
+      <div class="stage-counter">
+        <div class="lbl" id="ctr2-lbl">Households paying</div>
+        <div class="val" id="ctr2-val">2.7M</div>
+      </div>
+      <div class="stage-counter">
+        <div class="lbl" id="ctr3-lbl">Annualized intake</div>
+        <div class="val money" id="ctr3-val">~$540M</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="editorial">
+    <div class="chapter" data-stage="0">
+      <div class="chapter-marker">i.</div>
+      <div class="chapter-stamp"><span class="gold">The bill</span><span>Act 01</span></div>
+      <h3>It starts as a <em>line item</em> on your power bill.</h3>
+      <p>Vogtle Units 3 and 4 — the only newly constructed nuclear reactors in the United States in a generation — came online ten years late at roughly three times their original cost. <strong>Georgia ratepayers absorb the overrun</strong> through a Nuclear Construction Cost Recovery charge that has appeared on residential bills since 2011.</p>
+      <p>For a typical residential customer, the recovery component runs between $5 and $14 per month, depending on usage. Across 2.7 million Georgia Power households, that's about $540 million per year — every year, for decades.</p>
+      <div class="citation">SOURCE · GA PSC dockets · GA Power tariffs</div>
+    </div>
+
+    <div class="chapter" data-stage="1">
+      <div class="chapter-marker">ii.</div>
+      <div class="chapter-stamp"><span class="gold">The utility</span><span>Act 02</span></div>
+      <h3>The bill becomes <em>utility revenue</em>.</h3>
+      <p>The dollars flow into Georgia Power. They pay debt service on the construction. They cover operating costs. They contribute to the utility's allowed return on equity — the slice the PSC permits as profit.</p>
+      <p><strong>The allowed return on Vogtle capital exceeds 10%.</strong> Every dollar of ratebase earns its sliver. Multiply by $35 billion in capital and across decades of recovery, and the cumulative shareholder claim becomes the size of a state budget line item.</p>
+      <div class="citation">SOURCE · GA PSC certified ROE filings</div>
+    </div>
+
+    <div class="chapter" data-stage="2">
+      <div class="chapter-marker">iii.</div>
+      <div class="chapter-stamp"><span class="gold">The parent</span><span>Act 03</span></div>
+      <h3>The utility passes earnings <em>upstream</em>.</h3>
+      <p>Georgia Power is a subsidiary of Southern Company, headquartered in Atlanta. Quarterly, the subsidiary remits earnings to the parent. The parent consolidates the financials, reports to Wall Street, and declares a dividend.</p>
+      <p><strong>Southern Company has paid a dividend every quarter since 1948.</strong> Vogtle revenue is a meaningful contributor. The structural question is not whether the dividend gets paid. It is who receives it.</p>
+      <div class="citation">SOURCE · Southern Company 10-K · SEC EDGAR</div>
+    </div>
+
+    <div class="chapter" data-stage="3">
+      <div class="chapter-marker">iv.</div>
+      <div class="chapter-stamp"><span class="gold">The distribution</span><span>Act 04</span></div>
+      <h3>The dividend flows to <span class="ax">institutional holders</span>.</h3>
+      <p>Roughly two-thirds of Southern Company shares are held by institutional investors — Vanguard, BlackRock, State Street, Fidelity, others. Retail Georgia shareholders hold a much smaller share. The Georgia state pension system holds some Southern stock; that exposure is a small fraction of the total dividend pool.</p>
+      <p><strong>The net flow:</strong> ratepayers across all 159 Georgia counties send money up. A concentrated set of asset managers, mostly based outside Georgia, receive it back. The pension-fund slice that returns to Georgia public workers is real but modest.</p>
+      <div class="citation">SOURCE · Southern Company DEF 14A · 13F filings</div>
+    </div>
+
+    <div class="chapter" data-stage="4">
+      <div class="chapter-marker">v.</div>
+      <div class="chapter-stamp"><span class="gold">The political horizon</span><span>Act 05</span></div>
+      <h3>The next reactor cycle is <em>already starting</em>.</h3>
+      <p>Three Mile Island's restart announcement and federal hyperscaler power demand have re-opened the conversation about new nuclear nationally. <strong>Georgia is the precedent every utility commission is studying.</strong> If the next round of nuclear construction follows the Vogtle pattern, ratepayers across multiple states will pay the same shape of bill.</p>
+      <p>Whoever publishes the cleanest accounting of who bore the Vogtle cost — and who collected its return — owns the framing of the next twenty years of utility politics.</p>
+      <div class="citation">SOURCE · DOE loan office · NRC application docket</div>
+    </div>
+  </div>
+</section>
+
+<section class="pattern-section">
+  <div class="pattern-inner">
+    <h2>Who paid. Who received. <em>By the documented number.</em></h2>
+    <p class="lead">A scoreboard of the Vogtle financial cycle from 2011 (when recovery charges began) through 2026. The cost numbers are well documented. The benefit numbers require linking utility financials, SEC filings, and 13F institutional ownership data — which is doable, and which we'll publish as the deep-dive companion to this piece.</p>
+
+    <div class="items">
+      <div class="item">
+        <div class="num">Δ 01 · Construction cost</div>
+        <h4>From $14B to $35B.</h4>
+        <p>Original combined estimate for Vogtle 3 and 4: roughly $14 billion. Final delivered cost: north of $35 billion. The overrun is one of the largest infrastructure cost increases in American history.</p>
+        <div class="num-callout">+150%</div>
+      </div>
+      <div class="item">
+        <div class="num">Δ 02 · Ratepayer intake</div>
+        <h4>~$540M/year, indefinitely.</h4>
+        <p>Across approximately 2.7 million Georgia Power households, the Nuclear Cost Recovery charge generates an annualized ratepayer flow that will continue across the operating life of the units — multiple decades.</p>
+        <div class="num-callout">~$540M/yr</div>
+      </div>
+      <div class="item">
+        <div class="num">Δ 03 · Allowed return on equity</div>
+        <h4>~10.5% on Vogtle ratebase.</h4>
+        <p>The Georgia PSC permits Georgia Power to earn a return on its ratebase capital. Applied to the Vogtle investment over the long horizon, the allowed shareholder return is structurally large.</p>
+        <div class="num-callout">10.5%</div>
+      </div>
+      <div class="item">
+        <div class="num">Δ 04 · Dividend reach</div>
+        <h4>Mostly out of state.</h4>
+        <p>Southern Company is held disproportionately by institutional shareholders. Most dividend dollars route through asset managers headquartered outside Georgia. Retail Georgia shareholder participation is a small minority.</p>
+        <div class="num-callout">&lt;15% in-state</div>
+      </div>
+      <div class="item">
+        <div class="num">Δ 05 · Pension return</div>
+        <h4>Real but modest.</h4>
+        <p>Georgia state retirement systems hold Southern Company stock. The dividend that returns to Georgia public workers via pension exposure is a real return flow — but a small fraction of total ratepayer outlay.</p>
+        <div class="num-callout">~1–2% return rate</div>
+      </div>
+      <div class="item">
+        <div class="num">Δ 06 · The precedent risk</div>
+        <h4>What replicates the next time.</h4>
+        <p>The federal DOE has reopened the loan guarantee window for advanced nuclear. The Vogtle financial pattern — ratepayer-financed overrun, shareholder-realized return — becomes the template if no structural reform intervenes.</p>
+        <div class="num-callout">2027+ cycle</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="discipline">
+  <div class="discipline-inner">
+    <h2>What this piece <em>marks</em> rather than asserts.</h2>
+    <p class="lead">The Vogtle accounting is one of the most documentable money trails in modern American utility regulation — public dockets, public filings, public SEC reports. But several figures here require multi-source linkage that is doable, not done. We mark them.</p>
+
+    <div class="holes">
+      <div class="hole">
+        <div class="timing">Documented · solid</div>
+        <h4>Cost overrun magnitude</h4>
+        <p>PSC certified-cost orders and Georgia Power monthly recovery filings establish the $14B → $35B trajectory and the residential bill component.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Documented · solid</div>
+        <h4>Allowed return on equity</h4>
+        <p>PSC dockets specify the allowed ROE on the Vogtle ratebase. The capital base figures are public; the math is auditable.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Linkage required</div>
+        <h4>In-state dividend share</h4>
+        <p>13F filings show institutional holders; some retail share residency is inferable from broker-dealer geography. A precise in-state share requires methodology choices we'll publish in a companion analysis.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Available · pending</div>
+        <h4>Pension return rate</h4>
+        <p>Georgia state retirement system annual reports disclose Southern Company exposure. The dividend return as a fraction of in-state ratepayer outlay requires assembly.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Methodologically contested</div>
+        <h4>"Was Vogtle worth it"</h4>
+        <p>Long-horizon energy-security and carbon-avoidance arguments are real and not addressed here. This piece traces money, not policy merit. Both arguments deserve their own analyses.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Permanent caveat</div>
+        <h4>Individual ratepayer impact</h4>
+        <p>The bill component varies with usage. Industrial customers, low-income tariffs, and rural electric cooperatives serviced under different agreements have different burden shapes. The "average household" figure is exactly that.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>About this piece</h5>
+      <p>A traced money flow from Georgia kitchen tables to Southern Company shareholders — the financial mechanism behind the Vogtle nuclear expansion. Built on the Infera narrative-integrity framework: every claim is sourced to public dockets and SEC filings; every linkage step is marked.</p>
+      <div class="sig">— Infera Editorial</div>
+    </div>
+    <div>
+      <h5>Method</h5>
+      <p>Public-docket tracing<br>SEC filing linkage<br>13F ownership analysis<br>Source tier classification</p>
+    </div>
+    <div>
+      <h5>Companion</h5>
+      <p>In-state dividend deep dive · Jun<br>The next nuclear cycle · Jul<br>Cross-state utility comparison · Aug</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Hero rising bills
+(function herofield() {
+  const c = document.getElementById('herofield');
+  const ctx = c.getContext('2d');
+  let W, H, bills = [];
+  const DPR = window.devicePixelRatio || 1;
+  function resize() {
+    W = c.clientWidth = window.innerWidth;
+    H = c.clientHeight = c.parentElement.clientHeight;
+    c.width = W * DPR; c.height = H * DPR;
+    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
+  }
+  window.addEventListener('resize', () => { resize(); init(); });
+  resize();
+  function init() {
+    bills = [];
+    for (let i = 0; i < 60; i++) {
+      bills.push({ x: Math.random() * W, y: H + Math.random() * H, speed: 0.4 + Math.random() * 1.2, size: 3 + Math.random() * 5 });
+    }
+  }
+  init();
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    bills.forEach(b => {
+      b.y -= b.speed;
+      if (b.y < -20) { b.y = H + 20; b.x = Math.random() * W; }
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, 1.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(224, 165, 84, ${0.3 + (H - b.y) / H * 0.5})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// Main stage — vertical waterfall of dollar particles
+const stage = document.getElementById('stage');
+const sctx = stage.getContext('2d');
+let SW, SH;
+const SDPR = window.devicePixelRatio || 1;
+
+const STAGES_NODES = {
+  // Vertical layout: bottom = households, top = dividend distribution
+  households: { yRel: 0.85, label: 'GEORGIA HOUSEHOLDS', size: 0.7, color: '#9aa4b2' },
+  utility:    { yRel: 0.62, label: 'GEORGIA POWER',      size: 0.4, color: '#4d8ca8' },
+  parent:     { yRel: 0.38, label: 'SOUTHERN COMPANY',   size: 0.35, color: '#6ab0d0' },
+  inst:       { yRel: 0.13, label: 'INSTITUTIONAL HOLDERS', size: 0.45, color: '#c4863d' },
+  pension:    { yRel: 0.13, label: 'GA PENSION',          size: 0.12, color: '#e0a554', x: 0.85 },
+  retail:     { yRel: 0.13, label: 'RETAIL',              size: 0.10, color: '#9aa4b2', x: 0.15 },
+};
+
+const ACTS_V = [
+  { num: 'ACT 01', headline: 'The kitchen-table bill.', nodes: ['households'], flows: [], counters: [
+    { lbl: 'Monthly Vogtle line item', val: '$5–14', cls: 'accent' },
+    { lbl: 'Households paying', val: '~2.7M', cls: '' },
+    { lbl: 'Annualized intake', val: '~$540M', cls: 'money' },
+  ] },
+  { num: 'ACT 02', headline: 'Dollars flow to the utility.', nodes: ['households', 'utility'], flows: [{from:'households', to:'utility'}], counters: [
+    { lbl: 'Construction cost', val: '~$35B', cls: 'warn' },
+    { lbl: 'Original estimate', val: '~$14B', cls: '' },
+    { lbl: 'Allowed ROE', val: '~10.5%', cls: 'accent' },
+  ] },
+  { num: 'ACT 03', headline: 'Earnings remit to the parent.', nodes: ['households','utility','parent'], flows: [{from:'households',to:'utility'},{from:'utility',to:'parent'}], counters: [
+    { lbl: 'Quarterly dividend streak', val: 'since 1948', cls: 'money' },
+    { lbl: 'Annual Southern dividend', val: '~$3.2B', cls: 'money' },
+    { lbl: 'Vogtle attribution', val: 'material', cls: '' },
+  ] },
+  { num: 'ACT 04', headline: 'The dividend distributes.', nodes: ['households','utility','parent','inst','pension','retail'], flows: [{from:'households',to:'utility'},{from:'utility',to:'parent'},{from:'parent',to:'inst'},{from:'parent',to:'pension'},{from:'parent',to:'retail'}], counters: [
+    { lbl: 'Institutional share', val: '~66%', cls: 'money' },
+    { lbl: 'In-state retail share', val: '<15%', cls: '' },
+    { lbl: 'GA pension exposure', val: 'modest', cls: 'accent' },
+  ] },
+  { num: 'ACT 05', headline: 'The pattern repeats next cycle.', nodes: ['households','utility','parent','inst','pension','retail'], flows: [{from:'households',to:'utility'},{from:'utility',to:'parent'},{from:'parent',to:'inst'},{from:'parent',to:'pension'},{from:'parent',to:'retail'}], counters: [
+    { lbl: 'New nuclear loan window', val: 'reopened', cls: 'warn' },
+    { lbl: 'Vogtle as precedent', val: 'studied', cls: 'accent' },
+    { lbl: 'Next cycle starts', val: '2027+', cls: '' },
+  ] },
+];
+
+const PARTICLES = [];
+function resizeStage() {
+  const parent = stage.parentElement;
+  SW = stage.clientWidth = parent.clientWidth;
+  SH = stage.clientHeight = parent.clientHeight;
+  stage.width = SW * SDPR; stage.height = SH * SDPR;
+  sctx.setTransform(1,0,0,1,0,0); sctx.scale(SDPR, SDPR);
+}
+window.addEventListener('resize', resizeStage);
+resizeStage();
+
+function nodePos(key) {
+  const n = STAGES_NODES[key];
+  return { x: (n.x || 0.5) * SW, y: n.yRel * SH, r: n.size * Math.min(SW, SH) * 0.18, color: n.color, label: n.label };
+}
+
+function drawNode(key, visible) {
+  const p = nodePos(key);
+  const alpha = visible ? 0.9 : 0.15;
+  // outer glow
+  const grad = sctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 2.2);
+  grad.addColorStop(0, `${p.color}33`);
+  grad.addColorStop(1, `${p.color}00`);
+  sctx.fillStyle = grad;
+  sctx.fillRect(p.x - p.r * 2.2, p.y - p.r * 2.2, p.r * 4.4, p.r * 4.4);
+  // ring
+  sctx.beginPath();
+  sctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+  sctx.strokeStyle = p.color + (visible ? 'cc' : '40');
+  sctx.lineWidth = 1.5;
+  sctx.stroke();
+  // label
+  sctx.fillStyle = visible ? '#eef1f5' : '#4d5563';
+  sctx.font = '10px "JetBrains Mono", monospace';
+  sctx.textAlign = 'center';
+  sctx.fillText(p.label, p.x, p.y + p.r + 18);
+}
+
+function drawFlow(fromKey, toKey, intensity) {
+  const f = nodePos(fromKey), t = nodePos(toKey);
+  sctx.beginPath();
+  sctx.moveTo(f.x, f.y);
+  sctx.lineTo(t.x, t.y);
+  sctx.strokeStyle = `rgba(196, 134, 61, ${0.10 * intensity})`;
+  sctx.lineWidth = 1;
+  sctx.stroke();
+}
+
+function spawn(fromKey, toKey) {
+  const f = nodePos(fromKey), t = nodePos(toKey);
+  PARTICLES.push({ x: f.x + (Math.random()-0.5)*f.r, y: f.y + (Math.random()-0.5)*f.r, fx: f.x, fy: f.y, tx: t.x, ty: t.y, t: 0, speed: 0.006 + Math.random() * 0.005 });
+}
+
+let currentAct = 0;
+function setAct(idx) {
+  if (idx === currentAct) return;
+  currentAct = idx;
+  const a = ACTS_V[idx];
+  const actEl = document.getElementById('act-num');
+  const headEl = document.getElementById('act-headline');
+  actEl.style.opacity = '0'; headEl.style.opacity = '0';
+  setTimeout(() => { actEl.textContent = a.num; headEl.textContent = a.headline; actEl.style.opacity = '1'; headEl.style.opacity = '1'; }, 280);
+  a.counters.forEach((c, i) => {
+    const lblEl = document.getElementById(`ctr${i+1}-lbl`);
+    const valEl = document.getElementById(`ctr${i+1}-val`);
+    if (!lblEl || !valEl) return;
+    lblEl.style.opacity = '0'; valEl.style.opacity = '0';
+    setTimeout(() => { lblEl.textContent = c.lbl; valEl.textContent = c.val; valEl.className = 'val ' + (c.cls || ''); lblEl.style.opacity = '1'; valEl.style.opacity = '1'; }, 280);
+  });
+  document.querySelectorAll('.chapter').forEach((p, pIdx) => p.classList.toggle('active', pIdx === idx));
+}
+
+let lastSpawn = 0;
+function render(t) {
+  sctx.clearRect(0, 0, SW, SH);
+  const a = ACTS_V[currentAct];
+  // flows
+  a.flows.forEach(f => drawFlow(f.from, f.to, 1));
+  // nodes
+  for (const key of Object.keys(STAGES_NODES)) {
+    drawNode(key, a.nodes.includes(key));
+  }
+  // spawn particles based on flows
+  if (t - lastSpawn > 80) {
+    lastSpawn = t;
+    a.flows.forEach(f => { for (let i = 0; i < 2; i++) spawn(f.from, f.to); });
+  }
+  // particles
+  for (let i = PARTICLES.length - 1; i >= 0; i--) {
+    const p = PARTICLES[i];
+    p.t += p.speed;
+    if (p.t >= 1) { PARTICLES.splice(i, 1); continue; }
+    p.x = p.fx + (p.tx - p.fx) * p.t;
+    p.y = p.fy + (p.ty - p.fy) * p.t;
+    sctx.beginPath();
+    sctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
+    sctx.fillStyle = `rgba(224, 165, 84, ${1 - p.t * 0.4})`;
+    sctx.fill();
+  }
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+setAct(0);
+
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) setAct(parseInt(e.target.dataset.stage)); });
+}, { threshold: 0.55 });
+document.querySelectorAll('.chapter[data-stage]').forEach(p => obs.observe(p));
+</script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Committee Trade — The Capture Graph of Georgia's Statehouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #07090a; --bg-soft: #0d100e; --bg-card: #121610; --ink: #ecf0e8; --ink-dim: #98a890; --ink-faint: #4a584a; --rule: #1e261e; --accent: #98a456; --accent-bright: #b8c476; --capitol: #c4a560; --capitol-bright: #e0c080; --warning: #b54a3a; --donor: #6088a0; --grid: rgba(152, 164, 86, 0.04); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 300; line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 80px 80px; pointer-events: none; z-index: 0; opacity: 0.5; }
+  .tabnav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(7,9,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+  .tabnav-inner { display: flex; align-items: center; padding: 12px 24px; gap: 20px; overflow-x: auto; scrollbar-width: none; }
+  .tabnav-inner::-webkit-scrollbar { display: none; }
+  .brand { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--capitol-bright); white-space: nowrap; text-decoration: none; padding-right: 18px; border-right: 1px solid var(--rule); display: flex; align-items: center; gap: 8px; }
+  .brand .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .tab-list { display: flex; gap: 2px; flex: 1; }
+  .tab { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); padding: 6px 10px; border-radius: 2px; text-decoration: none; white-space: nowrap; transition: all 0.2s; }
+  .tab:hover { color: var(--ink-dim); background: rgba(255,255,255,0.04); }
+  .tab.active { color: var(--accent-bright); background: rgba(152,164,86,0.15); }
+  .tab-num { font-family: 'Fraunces', serif; font-style: italic; margin-right: 5px; opacity: 0.6; }
+  .hero { min-height: 100vh; padding: 130px 6vw 60px; position: relative; display: grid; grid-template-rows: 1fr auto 1fr; overflow: hidden; }
+  .hero-canvas { position: absolute; inset: 0; z-index: 0; opacity: 0.6; }
+  .hero-content { position: relative; z-index: 2; grid-row: 2; text-align: center; }
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--capitol-bright); opacity: 0; animation: fadeUp 1s ease 0.4s forwards; }
+  h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(44px, 9vw, 124px); line-height: 0.96; letter-spacing: -0.035em; margin: 22px 0; font-variation-settings: "opsz" 144, "SOFT" 100; }
+  h1 .l { display: block; opacity: 0; transform: translateY(40px); animation: dropIn 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+  h1 .l:nth-child(1) { animation-delay: 0.7s; }
+  h1 .l:nth-child(2) { animation-delay: 1.1s; color: var(--capitol-bright); font-style: italic; }
+  h1 .l:nth-child(3) { animation-delay: 1.5s; color: var(--accent-bright); }
+  .hero-sub { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(16px, 1.5vw, 20px); color: var(--ink-dim); max-width: 620px; margin: 0 auto; opacity: 0; animation: fadeUp 1.2s ease 2.4s forwards; line-height: 1.45; }
+  .scroll-cue { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-faint); opacity: 0; animation: fadeUp 1s ease 3.4s forwards, float 2s ease-in-out 4s infinite; z-index: 2; }
+  .scroll-cue::after { content: "↓"; display: block; text-align: center; margin-top: 6px; font-size: 14px; }
+  @keyframes dropIn { to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes float { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -6px); } }
+  .stage-section { position: relative; background: var(--bg); }
+  .stage-sticky { position: sticky; top: 0; height: 100vh; width: 55%; float: left; overflow: hidden; background: radial-gradient(ellipse at 50% 50%, #0e1410 0%, var(--bg) 75%); }
+  .stage-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .stage-title { position: absolute; top: 88px; left: 40px; right: 40px; pointer-events: none; z-index: 3; }
+  .stage-act { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent-bright); margin-bottom: 6px; transition: opacity 0.5s; }
+  .stage-title h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: 26px; line-height: 1.15; color: var(--ink); font-style: italic; max-width: 360px; transition: opacity 0.5s; }
+  .stage-counters { position: absolute; bottom: 40px; left: 40px; right: 40px; display: flex; gap: 32px; flex-wrap: wrap; pointer-events: none; z-index: 3; }
+  .stage-counter .lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 4px; }
+  .stage-counter .val { font-family: 'Fraunces', serif; font-weight: 400; font-size: 26px; color: var(--ink); line-height: 1; font-variant-numeric: tabular-nums; transition: opacity 0.5s; }
+  .stage-counter .val.acc { color: var(--accent-bright); }
+  .stage-counter .val.cap { color: var(--capitol-bright); }
+  .stage-counter .val.warn { color: var(--warning); }
+  .editorial { width: 45%; float: right; padding: 0 5vw 0 4vw; }
+  .chapter { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 0; opacity: 0.35; transition: opacity 0.6s; }
+  .chapter.active { opacity: 1; }
+  .chapter-marker { font-family: 'Fraunces', serif; font-style: italic; font-size: 80px; color: var(--ink-faint); line-height: 1; margin-bottom: 20px; opacity: 0.35; transition: opacity 0.6s, color 0.6s; }
+  .chapter.active .chapter-marker { opacity: 1; color: var(--accent); }
+  .chapter-stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; display: flex; align-items: baseline; gap: 12px; }
+  .chapter-stamp .acc { color: var(--accent-bright); }
+  .chapter h3 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(26px, 3vw, 36px); line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 20px; max-width: 22ch; }
+  .chapter h3 em { color: var(--capitol-bright); font-style: italic; }
+  .chapter h3 .ax { color: var(--accent-bright); font-style: italic; }
+  .chapter p { font-size: 16px; line-height: 1.62; color: var(--ink-dim); margin-bottom: 14px; max-width: 44ch; }
+  .chapter p strong { color: var(--ink); font-weight: 500; }
+  .chapter .citation { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent-bright); border: 1px solid var(--rule); padding: 4px 10px; margin-top: 14px; letter-spacing: 0.1em; border-radius: 2px; }
+  .pattern-section { clear: both; background: var(--bg); padding: 14vh 6vw 18vh; border-top: 1px solid var(--rule); }
+  .pattern-inner { max-width: 1280px; margin: 0 auto; }
+  .pattern-section h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(36px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.025em; margin-bottom: 18px; }
+  .pattern-section h2 em { font-style: italic; color: var(--accent-bright); font-weight: 300; }
+  .pattern-section .lead { font-family: 'Fraunces', serif; font-size: 19px; color: var(--ink-dim); max-width: 64ch; line-height: 1.55; margin-bottom: 56px; }
+  .items { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; background: var(--rule); border: 1px solid var(--rule); }
+  .item { background: var(--bg-card); padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; min-height: 260px; }
+  .item .num { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--accent-bright); }
+  .item h4 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 21px; line-height: 1.2; color: var(--ink); }
+  .item p { font-size: 13px; color: var(--ink-dim); line-height: 1.55; }
+  .item .num-callout { font-family: 'Fraunces', serif; font-style: italic; color: var(--capitol-bright); font-size: 26px; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--rule); }
+  .discipline { background: var(--bg-soft); padding: 12vh 6vw; border-top: 1px solid var(--rule); }
+  .discipline-inner { max-width: 1100px; margin: 0 auto; }
+  .discipline h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(34px, 4.4vw, 52px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 18px; }
+  .discipline h2 em { color: var(--accent-bright); font-style: italic; font-weight: 300; }
+  .discipline .lead { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink-dim); max-width: 64ch; line-height: 1.55; margin-bottom: 40px; }
+  .holes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hole { background: var(--bg); padding: 28px 24px; }
+  .hole .timing { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warning); margin-bottom: 10px; }
+  .hole h4 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 19px; line-height: 1.15; margin-bottom: 8px; }
+  .hole p { font-size: 12px; color: var(--ink-dim); line-height: 1.5; }
+  footer { padding: 60px 6vw 80px; border-top: 1px solid var(--rule); background: var(--bg); }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; }
+  footer h5 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent-bright); margin-bottom: 14px; }
+  footer p { font-size: 13px; color: var(--ink-dim); line-height: 1.7; }
+  footer .sig { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--ink); margin-top: 24px; }
+  .stage-section::after { content: ""; display: table; clear: both; }
+  @media (max-width: 1000px) {
+    .stage-sticky { position: relative; width: 100%; float: none; height: 75vh; }
+    .editorial { width: 100%; float: none; padding: 0 6vw; }
+    .chapter { min-height: 65vh; opacity: 1; padding: 50px 0; }
+    .footer-grid { grid-template-columns: 1fr !important; gap: 36px; }
+    .stage-title { left: 24px; right: 24px; top: 76px; }
+    .stage-counters { left: 24px; right: 24px; bottom: 24px; gap: 18px; }
+    .stage-title h2 { font-size: 22px; }
+    .stage-counter .val { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>INFERA · GA 26</a>
+    <div class="tab-list">
+      <a class="tab" href="index.html"><span class="tab-num">i.</span>Index</a>
+      <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
+      <a class="tab" href="the-vogtle-bill.html"><span class="tab-num">02</span>Vogtle</a>
+      <a class="tab" href="the-data-center-tax.html"><span class="tab-num">03</span>Data Centers</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">04</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">05</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">06</span>Coast</a>
+      <a class="tab" href="the-settlement-shrinkage.html"><span class="tab-num">07</span>Settlement</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">08</span>Ballot</a>
+      <a class="tab active" href="the-committee-trade.html"><span class="tab-num">09</span>Committee</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <canvas id="herofield" class="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="kicker">A graph of capture</div>
+    <h1>
+      <span class="l">The committees</span>
+      <span class="l">that regulate them</span>
+      <span class="l">are paid for by them.</span>
+    </h1>
+    <p class="hero-sub">Which Georgia legislators sit on the committees that oversee the industries that fund their campaigns. Not every connection is corrupt. The structural shape across the body is the story.</p>
+  </div>
+  <div class="scroll-cue">Read the graph</div>
+</section>
+
+<section class="stage-section">
+  <div class="stage-sticky">
+    <canvas id="stage" class="stage-canvas"></canvas>
+    <div class="stage-title">
+      <div class="stage-act" id="act-num">ACT 01</div>
+      <h2 id="act-headline">236 legislators, alone.</h2>
+    </div>
+    <div class="stage-counters">
+      <div class="stage-counter">
+        <div class="lbl" id="ctr1-lbl">Legislators</div>
+        <div class="val acc" id="ctr1-val">236</div>
+      </div>
+      <div class="stage-counter">
+        <div class="lbl" id="ctr2-lbl">Committees</div>
+        <div class="val" id="ctr2-val">~50</div>
+      </div>
+      <div class="stage-counter">
+        <div class="lbl" id="ctr3-lbl">Donors traced</div>
+        <div class="val cap" id="ctr3-val">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="editorial">
+    <div class="chapter" data-stage="0">
+      <div class="chapter-marker">i.</div>
+      <div class="chapter-stamp"><span class="acc">The body</span><span>Act 01</span></div>
+      <h3>Two hundred thirty-six elected <em>members</em>.</h3>
+      <p>The Georgia General Assembly: 56 senators and 180 House members. Each runs a campaign. Each accepts donations. Each is assigned to committees. <strong>The committees decide which bills live and die.</strong></p>
+      <p>The work of legislation is done in committee. Floor votes ratify what committees produce. Committee chairs control the calendar, the witness list, the markup, the death of a bill.</p>
+      <div class="citation">SOURCE · GA General Assembly rosters</div>
+    </div>
+
+    <div class="chapter" data-stage="1">
+      <div class="chapter-marker">ii.</div>
+      <div class="chapter-stamp"><span class="acc">The committees</span><span>Act 02</span></div>
+      <h3>Each committee oversees an <em>industry surface</em>.</h3>
+      <p>Insurance committees regulate insurance. Banking committees regulate banking. Energy committees regulate utilities. Transportation regulates transportation. <strong>The mapping is not metaphorical; it is statutory.</strong> Industries get oversight where their bills get heard.</p>
+      <p>Committee assignment is the first lever of regulatory influence. The second is who chairs.</p>
+      <div class="citation">SOURCE · GA House/Senate committee rosters</div>
+    </div>
+
+    <div class="chapter" data-stage="2">
+      <div class="chapter-marker">iii.</div>
+      <div class="chapter-stamp"><span class="acc">The donations</span><span>Act 03</span></div>
+      <h3>Donations <span class="ax">arrive</span> from regulated industries.</h3>
+      <p>Campaign finance filings, public via the Georgia Government Transparency and Campaign Finance Commission, show donor employer information for many contributions. Insurance executives donate to insurance committee members. Utility employees and PACs donate to energy committee members. <strong>Some of this is unavoidable</strong> — industries have interests; political contributions are legal speech. The question is the shape and the density.</p>
+      <div class="citation">SOURCE · GA Government Transparency Commission</div>
+    </div>
+
+    <div class="chapter" data-stage="3">
+      <div class="chapter-marker">iv.</div>
+      <div class="chapter-stamp"><span class="acc">The graph</span><span>Act 04</span></div>
+      <h3>The graph <em>builds itself</em>.</h3>
+      <p>Render every legislator as a node, every donor as a node, every committee as a containing region. Draw an edge from a donor to every legislator they fund. Color the edge by dollar value. <strong>The clusters that emerge are the policy areas where industry-elected-official alignment is densest.</strong></p>
+      <p>Sometimes the alignment reflects voter preference (constituents in a district full of utility workers fund their utility-oversight legislator). Sometimes it reflects something else. The graph does not adjudicate. It shows the structure that adjudication would have to engage.</p>
+      <div class="citation">SOURCE · multi-source linkage</div>
+    </div>
+
+    <div class="chapter" data-stage="4">
+      <div class="chapter-marker">v.</div>
+      <div class="chapter-stamp"><span class="acc">The bills</span><span>Act 05</span></div>
+      <h3>Bills move through. Some die in <em>specific places</em>.</h3>
+      <p>Layer in the legislative session: every bill introduced, which committee it landed in, which chair controlled its calendar, which bills passed, which died, which were amended into something different than they started. <strong>The pattern of which bills die in which committees, by which chairs, by which industry-funded actors, is computable</strong> from public records.</p>
+      <p>The signal is structural, not individual. No single donation explains any single vote. The body-wide pattern across a multi-session window is what statehouse reporters call a beat. Right now nobody in Georgia is publishing it as a graph.</p>
+      <div class="citation">SOURCE · GA legislative bill tracker</div>
+    </div>
+
+    <div class="chapter" data-stage="5">
+      <div class="chapter-marker">vi.</div>
+      <div class="chapter-stamp"><span class="acc">The franchise</span><span>Act 06</span></div>
+      <h3>This is a <em>recurring beat</em>, not a one-shot piece.</h3>
+      <p>Republish each session. The graph evolves; the format does not. As committee assignments shift, as legislators retire or rise, as new donors emerge and old ones fade, the structural pattern adjusts. <strong>Whoever owns this format owns one of the cleanest accountability beats available in modern state-level politics.</strong></p>
+      <p>The 2027 session begins in January. Committee assignments for 2027 will be made in late 2026 — when readers will most want to know which assignments matter, and what they correlate with.</p>
+      <div class="citation">SOURCE · published as 2026 baseline; recur quarterly</div>
+    </div>
+  </div>
+</section>
+
+<section class="pattern-section">
+  <div class="pattern-inner">
+    <h2>Where the clusters are <em>tightest</em>.</h2>
+    <p class="lead">Six policy-industry surfaces where donor-committee overlap concentrates. Each is a candidate for individual deep-dive reporting. The combined picture is the systemic question.</p>
+    <div class="items">
+      <div class="item"><div class="num">01 · Insurance</div><h4>Premium-relief politics.</h4><p>Insurance committee members receive concentrated insurance-sector donations; bills affecting premium regulation route through these committees.</p><div class="num-callout">tight cluster</div></div>
+      <div class="item"><div class="num">02 · Energy / Utilities</div><h4>Vogtle's cousin.</h4><p>Utility-sector PACs and executives donate to energy-committee members. Bills affecting PSC authority, ratemaking, and grid policy route through these committees.</p><div class="num-callout">tight cluster</div></div>
+      <div class="item"><div class="num">03 · Banking / Finance</div><h4>The quiet committee.</h4><p>Banking-committee membership rarely makes headlines; donor-overlap density is high.</p><div class="num-callout">tight cluster</div></div>
+      <div class="item"><div class="num">04 · Transportation</div><h4>Roads and rails.</h4><p>Highway construction, MARTA expansion, port authority oversight. Concentrated industry presence.</p><div class="num-callout">mid cluster</div></div>
+      <div class="item"><div class="num">05 · Health</div><h4>Hospital systems and pharma.</h4><p>Health committee oversight intersects with hospital-system PACs, pharmaceutical contributions, insurance-of-health overlap.</p><div class="num-callout">mid cluster</div></div>
+      <div class="item"><div class="num">06 · Agriculture</div><h4>Geographically defended.</h4><p>Often justified as constituent-aligned; the test is whether the bill-kill rate on consumer-protection bills correlates with committee donor density.</p><div class="num-callout">defended cluster</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="discipline">
+  <div class="discipline-inner">
+    <h2>What this piece <em>graphs</em> rather than alleges.</h2>
+    <p class="lead">Donor-committee correlation is structural; it is not by itself proof of corruption. The graph is a map for accountability journalism to operate against, not a verdict.</p>
+    <div class="holes">
+      <div class="hole"><div class="timing">Documented · solid</div><h4>Committee rosters</h4><p>Both chambers publish complete committee membership and chair assignments.</p></div>
+      <div class="hole"><div class="timing">Documented · solid</div><h4>Donor records</h4><p>GA Government Transparency Commission filings are public and machine-readable.</p></div>
+      <div class="hole"><div class="timing">Linkage required</div><h4>Donor-industry attribution</h4><p>Mapping donor employer-of-record to regulated industry requires assembly; clear cases are clean, edge cases are noisy.</p></div>
+      <div class="hole"><div class="timing">Available · pending</div><h4>Bill-history layer</h4><p>Bill tracker data lives in GA Legis; full assembly across sessions is feasible with sustained scraping.</p></div>
+      <div class="hole"><div class="timing">Permanent caveat</div><h4>Constituent vs. capture</h4><p>An industry-funded legislator from a district full of that industry's workers may be representing voter preference. The graph does not, by itself, distinguish.</p></div>
+      <div class="hole"><div class="timing">Out of scope here</div><h4>Individual scandal</h4><p>This piece is structural. Specific-actor allegations require shoe-leather investigation that the graph helps target, not replace.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div><h5>About this piece</h5><p>A force-directed view of donor-legislator-committee structure in the Georgia statehouse. Built on the Infera narrative-integrity framework: the graph is sourced; structural reading is foregrounded; individual allegation is held to a higher evidentiary bar.</p><div class="sig">— Infera Editorial</div></div>
+    <div><h5>Method</h5><p>Committee roster scrape<br>Campaign finance assembly<br>Donor-industry attribution<br>Bill-history overlay</p></div>
+    <div><h5>Companion</h5><p>Insurance committee deep dive · Sep<br>Energy committee deep dive · Oct<br>2027 session pre-graph · Dec</p></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const c = document.getElementById('herofield'); const ctx = c.getContext('2d');
+  let W, H, n = [], edges = []; const DPR = devicePixelRatio || 1;
+  function r() { W = c.clientWidth = innerWidth; H = c.clientHeight = c.parentElement.clientHeight; c.width = W*DPR; c.height = H*DPR; ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR,DPR); }
+  addEventListener('resize', () => { r(); init(); }); r();
+  function init() {
+    n = []; edges = [];
+    for (let i = 0; i < 40; i++) n.push({ x: Math.random()*W, y: Math.random()*H, vx: (Math.random()-0.5)*0.2, vy: (Math.random()-0.5)*0.2 });
+    for (let i = 0; i < 35; i++) edges.push([Math.floor(Math.random()*n.length), Math.floor(Math.random()*n.length)]);
+  }
+  init();
+  function loop() {
+    ctx.clearRect(0,0,W,H);
+    edges.forEach(([a, b]) => { const na = n[a], nb = n[b]; const d = Math.hypot(na.x - nb.x, na.y - nb.y); if (d < 250) { ctx.beginPath(); ctx.moveTo(na.x, na.y); ctx.lineTo(nb.x, nb.y); ctx.strokeStyle = `rgba(184, 196, 118, ${(1 - d/250) * 0.15})`; ctx.lineWidth = 0.8; ctx.stroke(); } });
+    n.forEach(d => { d.x += d.vx; d.y += d.vy; if (d.x < 0 || d.x > W) d.vx *= -1; if (d.y < 0 || d.y > H) d.vy *= -1; ctx.beginPath(); ctx.arc(d.x, d.y, 1.8, 0, Math.PI*2); ctx.fillStyle = `rgba(196, 165, 96, 0.6)`; ctx.fill(); });
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// Stage — force-directed graph of legislators, committees, donors
+const stage = document.getElementById('stage'); const sctx = stage.getContext('2d');
+let SW, SH; const SDPR = devicePixelRatio || 1;
+function rs() { const p = stage.parentElement; SW = stage.clientWidth = p.clientWidth; SH = stage.clientHeight = p.clientHeight; stage.width = SW*SDPR; stage.height = SH*SDPR; sctx.setTransform(1,0,0,1,0,0); sctx.scale(SDPR,SDPR); }
+addEventListener('resize', () => { rs(); init(); }); rs();
+
+const NODES = [];
+const EDGES = [];
+const COMMITTEES = [
+  { x: 0.25, y: 0.35, label: 'INSURANCE', industry: 'ins' },
+  { x: 0.55, y: 0.28, label: 'ENERGY', industry: 'utility' },
+  { x: 0.78, y: 0.40, label: 'BANKING', industry: 'fin' },
+  { x: 0.35, y: 0.68, label: 'TRANSPORT', industry: 'trans' },
+  { x: 0.65, y: 0.72, label: 'HEALTH', industry: 'health' },
+];
+
+function init() {
+  NODES.length = 0; EDGES.length = 0;
+  // 60 legislators distributed
+  for (let i = 0; i < 60; i++) {
+    const com = COMMITTEES[i % COMMITTEES.length];
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 50 + Math.random() * 70;
+    NODES.push({
+      type: 'leg',
+      x: com.x * SW + Math.cos(angle) * radius,
+      y: com.y * SH + Math.sin(angle) * radius,
+      tx: com.x * SW + Math.cos(angle) * radius,
+      ty: com.y * SH + Math.sin(angle) * radius,
+      vx: 0, vy: 0, r: 2.5, committee: com.industry, seed: Math.random()
+    });
+  }
+  // 25 donors — start invisible, appear in act 3
+  for (let i = 0; i < 25; i++) {
+    NODES.push({
+      type: 'donor',
+      x: Math.random() * SW, y: Math.random() * SH,
+      tx: Math.random() * SW, ty: Math.random() * SH,
+      vx: 0, vy: 0, r: 4,
+      industry: COMMITTEES[i % COMMITTEES.length].industry,
+      visible: false, seed: Math.random()
+    });
+  }
+}
+init();
+
+let actLevel = 0; // 0..5
+
+const ACTS_T = [
+  { num:'ACT 01', headline:'236 legislators, alone.', level: 0, c:[{lbl:'Legislators',val:'236',cls:'acc'},{lbl:'Committees',val:'~50',cls:''},{lbl:'Donors traced',val:'—',cls:''}] },
+  { num:'ACT 02', headline:'Committees coalesce.', level: 1, c:[{lbl:'Committee surfaces',val:'5 shown',cls:'acc'},{lbl:'Avg membership',val:'~14',cls:''},{lbl:'Chairs',val:'control calendar',cls:'cap'}] },
+  { num:'ACT 03', headline:'Donors appear.', level: 2, c:[{lbl:'Donor entities',val:'25 shown',cls:'cap'},{lbl:'Filings',val:'public',cls:'acc'},{lbl:'Attribution',val:'documented',cls:''}] },
+  { num:'ACT 04', headline:'The edges draw themselves.', level: 3, c:[{lbl:'Edges shown',val:'~150',cls:'cap'},{lbl:'Weighted by $',val:'yes',cls:'acc'},{lbl:'Clusters emerge',val:'visible',cls:'acc'}] },
+  { num:'ACT 05', headline:'Bills move through. Some die.', level: 4, c:[{lbl:'Pass/die mapped',val:'per cmte',cls:'cap'},{lbl:'Structural pattern',val:'visible',cls:'acc'},{lbl:'Beat opens',val:'recurring',cls:''}] },
+  { num:'ACT 06', headline:'Republish each session.', level: 5, c:[{lbl:'2027 prep',val:'Dec 2026',cls:'acc'},{lbl:'Quarterly cadence',val:'planned',cls:''},{lbl:'Format owner',val:'open seat',cls:'cap'}] },
+];
+
+let cur = 0;
+function setAct(i) {
+  if (i === cur) return; cur = i; const a = ACTS_T[i]; actLevel = a.level;
+  // Activate donors progressively
+  NODES.forEach(n => { if (n.type === 'donor') n.visible = actLevel >= 2; });
+  const en = document.getElementById('act-num'), eh = document.getElementById('act-headline');
+  en.style.opacity = 0; eh.style.opacity = 0;
+  setTimeout(() => { en.textContent = a.num; eh.textContent = a.headline; en.style.opacity = 1; eh.style.opacity = 1; }, 280);
+  a.c.forEach((c, idx) => { const l = document.getElementById(`ctr${idx+1}-lbl`), v = document.getElementById(`ctr${idx+1}-val`); if (!l || !v) return; l.style.opacity = 0; v.style.opacity = 0; setTimeout(() => { l.textContent = c.lbl; v.textContent = c.val; v.className = 'val ' + c.cls; l.style.opacity = 1; v.style.opacity = 1; }, 280); });
+  document.querySelectorAll('.chapter').forEach((p, pi) => p.classList.toggle('active', pi === i));
+}
+
+function render() {
+  sctx.clearRect(0, 0, SW, SH);
+  // Committee regions
+  COMMITTEES.forEach((c, ci) => {
+    if (actLevel < 1) return;
+    const x = c.x * SW, y = c.y * SH;
+    const grad = sctx.createRadialGradient(x, y, 0, x, y, 110);
+    grad.addColorStop(0, 'rgba(152, 164, 86, 0.10)'); grad.addColorStop(1, 'rgba(152, 164, 86, 0)');
+    sctx.fillStyle = grad; sctx.fillRect(x - 110, y - 110, 220, 220);
+    sctx.fillStyle = `rgba(184, 196, 118, 0.85)`; sctx.font = '10px "JetBrains Mono", monospace'; sctx.textAlign = 'center';
+    sctx.fillText(c.label, x, y - 100);
+  });
+  // Donor labels
+  if (actLevel >= 2) {
+    NODES.filter(n => n.type === 'donor').forEach((d, i) => {
+      // place donor at edge of canvas
+      const angle = (i / 25) * Math.PI * 2;
+      d.tx = SW / 2 + Math.cos(angle) * SW * 0.42;
+      d.ty = SH / 2 + Math.sin(angle) * SH * 0.42;
+    });
+  }
+  // Edges (act 3+): donor → legislators of matching industry
+  if (actLevel >= 3) {
+    NODES.filter(n => n.type === 'donor' && n.visible).forEach(d => {
+      NODES.filter(n => n.type === 'leg' && n.committee === d.industry).forEach(l => {
+        sctx.beginPath(); sctx.moveTo(d.x, d.y); sctx.lineTo(l.x, l.y);
+        sctx.strokeStyle = `rgba(196, 165, 96, ${0.18})`; sctx.lineWidth = 0.6;
+        sctx.stroke();
+      });
+    });
+  }
+  // Nodes
+  NODES.forEach(n => {
+    n.x += (n.tx - n.x) * 0.04;
+    n.y += (n.ty - n.y) * 0.04;
+    // jitter
+    n.x += Math.sin(performance.now() * 0.0006 + n.seed * 8) * 0.15;
+    n.y += Math.cos(performance.now() * 0.0006 + n.seed * 8) * 0.15;
+    if (n.type === 'donor' && !n.visible) return;
+    sctx.beginPath(); sctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    if (n.type === 'leg') {
+      sctx.fillStyle = actLevel >= 1 ? `rgba(184, 196, 118, 0.85)` : `rgba(184, 196, 118, 0.45)`;
+    } else {
+      sctx.fillStyle = `rgba(196, 165, 96, 0.9)`;
+    }
+    sctx.fill();
+    if (n.type === 'donor') {
+      sctx.strokeStyle = `rgba(224, 192, 128, 0.7)`; sctx.lineWidth = 1; sctx.stroke();
+    }
+  });
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render); setAct(0);
+const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && setAct(parseInt(e.target.dataset.stage))), { threshold: 0.55 });
+document.querySelectorAll('.chapter[data-stage]').forEach(p => obs.observe(p));
+</script>
+</body>
+</html>
