@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mockup · The Lens Console (Hybrid 2 + 3)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050608; --bg-card: #0c0e12; --ink: #f4ecd8; --ink-dim: #a8a298; --ink-faint: #5a564e;
+    --rule: #1a1d24; --gold: #c4a777;
+    /* lens accents — these get applied dynamically via --lens-c */
+    --lens-c: #88c4c8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+  /* Top strip */
+  .top { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(5,6,8,0.95); padding: 12px 24px; border-bottom: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+  .top a { color: var(--lens-c); text-decoration: none; transition: color 0.5s; }
+  .top a:hover { color: var(--ink); }
+  .top .live { color: var(--lens-c); display: flex; align-items: center; gap: 8px; transition: color 0.5s; }
+  .top .live::before { content: ""; width: 8px; height: 8px; background: var(--lens-c); border-radius: 50%; animation: blink 1.4s infinite; transition: background 0.5s; }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  .stage { padding: 60px 0 0; }
+  .header { text-align: center; max-width: 920px; margin: 0 auto 28px; padding: 0 24px; }
+  .header .stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; color: var(--lens-c); text-transform: uppercase; margin-bottom: 12px; transition: color 0.5s; }
+  .header h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(30px, 4.4vw, 50px); line-height: 1.04; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .header h1 em { font-style: italic; color: var(--lens-c); transition: color 0.5s; }
+  .header p { font-family: 'Fraunces', serif; font-size: 15px; color: var(--ink-dim); line-height: 1.55; max-width: 64ch; margin: 0 auto; }
+
+  /* Shared fact bar — the same event, top of console */
+  .fact-bar {
+    max-width: 1500px; margin: 0 auto 0; padding: 18px 28px;
+    background: var(--bg-card); border: 1px solid var(--rule); border-bottom: none;
+    border-radius: 3px 3px 0 0;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 14px;
+  }
+  .fact-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--gold); text-transform: uppercase; }
+  .fact-text { font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; color: var(--ink); flex: 1; min-width: 240px; }
+  .fact-source { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--ink-faint); text-transform: uppercase; }
+
+  /* Lens selector strip — the four lenses */
+  .lens-strip {
+    max-width: 1500px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-bottom: none;
+  }
+  .lens-tab {
+    background: var(--bg-card); padding: 18px 22px; cursor: pointer;
+    border: none; text-align: left; color: var(--ink-dim);
+    transition: background 0.4s, color 0.3s;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .lens-tab::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--c); transform: scaleX(0); transform-origin: left; transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1); }
+  .lens-tab:hover { background: #11141a; color: var(--ink); }
+  .lens-tab.active { background: rgba(0,0,0,0.4); color: var(--c); }
+  .lens-tab.active::before { transform: scaleX(1); }
+  .lens-tab.active::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(165deg, var(--c-glow) 0%, transparent 70%); opacity: 0.5; }
+  .lens-tab[data-idx="0"] { --c: #88c4c8; --c-glow: rgba(136,196,200,0.10); }
+  .lens-tab[data-idx="1"] { --c: #c8a8e8; --c-glow: rgba(200,168,232,0.10); }
+  .lens-tab[data-idx="2"] { --c: #e8a878; --c-glow: rgba(232,168,120,0.10); }
+  .lens-tab[data-idx="3"] { --c: #a8c088; --c-glow: rgba(168,192,136,0.10); }
+  .lens-tab .lens-key { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; color: var(--c); text-transform: uppercase; opacity: 0.7; position: relative; z-index: 2; }
+  .lens-tab .lens-name { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 18px; color: inherit; line-height: 1.2; position: relative; z-index: 2; }
+
+  /* Main console */
+  .console {
+    max-width: 1500px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+    border-radius: 0 0 3px 3px; overflow: hidden;
+    min-height: 600px;
+  }
+
+  /* LEFT: the map */
+  .map-panel { background: radial-gradient(ellipse at 50% 50%, #0e1218 0%, var(--bg) 80%); position: relative; min-height: 600px; transition: background 0.6s; }
+  #mapCanvas { display: block; width: 100%; height: 100%; }
+  .map-overlay { position: absolute; inset: 0; pointer-events: none; }
+  .map-stamp { position: absolute; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; opacity: 0.75; }
+  .map-stamp.tl { top: 16px; left: 18px; }
+  .map-stamp.tr { top: 16px; right: 18px; color: var(--lens-c); transition: color 0.5s; }
+  .map-stamp.bl { bottom: 16px; left: 18px; }
+  .map-stamp.br { bottom: 16px; right: 18px; }
+  .map-stamp.br .ind { color: var(--lens-c); transition: color 0.5s; }
+
+  /* RIGHT: narrative panel */
+  .narr-panel {
+    background: var(--bg-card); padding: 30px 32px; position: relative;
+    display: flex; flex-direction: column; gap: 18px;
+    overflow: hidden;
+  }
+  .narr-panel::before { content: ""; position: absolute; inset: 0; background: linear-gradient(165deg, var(--lens-c-bg) 0%, transparent 65%); transition: background 0.6s; pointer-events: none; }
+  .narr-content { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 18px; opacity: 1; transition: opacity 0.4s; }
+  .narr-content.fading { opacity: 0; }
+  .narr-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--lens-c); text-transform: uppercase; transition: color 0.5s; }
+  .narr-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.15; color: var(--ink); letter-spacing: -0.015em; }
+  .narr-frame { font-family: 'Fraunces', serif; font-style: italic; font-size: 16px; color: var(--lens-c); line-height: 1.4; padding-bottom: 14px; border-bottom: 1px solid var(--rule); transition: color 0.5s; }
+  .narr-body { font-size: 14px; color: var(--ink-dim); line-height: 1.65; }
+  .narr-body strong { color: var(--ink); }
+
+  /* Causal chain — visually distinct per lens */
+  .causal {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--ink-faint); margin-top: 4px;
+  }
+  .causal .step { padding: 5px 10px; background: rgba(255,255,255,0.04); color: var(--lens-c); border-radius: 2px; letter-spacing: 0.12em; text-transform: uppercase; transition: all 0.4s; }
+  .causal .arrow { color: var(--ink-faint); }
+
+  .narr-test { padding: 14px 16px; background: rgba(255,255,255,0.03); border-left: 2px solid var(--lens-c); border-radius: 0 3px 3px 0; transition: border-color 0.5s; }
+  .narr-test-stamp { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.26em; color: var(--lens-c); text-transform: uppercase; margin-bottom: 6px; transition: color 0.5s; }
+  .narr-test-q { font-family: 'Fraunces', serif; font-style: italic; font-size: 14px; line-height: 1.45; color: var(--ink); }
+
+  /* Vocabulary chips — show the lens's distinct vocabulary */
+  .vocab { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .vocab .word { font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 4px 8px; background: rgba(255,255,255,0.04); color: var(--lens-c); border-radius: 2px; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.5s; }
+
+  /* Live readings ribbon — below console */
+  .ribbon {
+    max-width: 1500px; margin: 1px auto 0;
+    background: var(--bg-card); border: 1px solid var(--rule);
+    border-radius: 3px; padding: 16px 24px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    position: relative; overflow: hidden;
+  }
+  .reading {
+    padding: 0; transition: opacity 0.4s;
+  }
+  .reading.fading { opacity: 0; }
+  .reading-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; color: var(--ink-faint); text-transform: uppercase; margin-bottom: 6px; }
+  .reading-value { font-family: 'Fraunces', serif; font-weight: 400; font-size: 20px; color: var(--lens-c); line-height: 1.1; font-variant-numeric: tabular-nums; transition: color 0.5s; }
+  .reading-meta { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink-faint); margin-top: 4px; }
+
+  /* Rationale below */
+  .rationale { max-width: 1000px; margin: 60px auto 80px; padding: 32px 28px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; }
+  .rationale h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--lens-c); text-transform: uppercase; margin-bottom: 12px; transition: color 0.5s; }
+  .rationale p { font-size: 14px; color: var(--ink-dim); line-height: 1.6; margin-bottom: 10px; }
+  .rationale p strong { color: var(--ink); }
+
+  @media (max-width: 1000px) {
+    .console { grid-template-columns: 1fr; }
+    .map-panel { min-height: 380px; }
+    .lens-strip { grid-template-columns: 1fr 1fr; }
+    .ribbon { grid-template-columns: 1fr 1fr; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="index.html">← MOCKUPS</a>
+  <span>HYBRID · LENS CONSOLE · 02 + 03</span>
+  <span class="live">LIVE FRAME</span>
+</div>
+
+<section class="stage">
+  <div class="header">
+    <div class="stamp" id="headerStamp">A constellation of competing reads · lens console</div>
+    <h1>One fact. Pick the <em id="headerLens">economic</em> lens. Watch the room reconfigure.</h1>
+    <p>The fact above the console doesn't change. Everything else does — the map, the vocabulary, the causal chain, the color of the room itself. Click a lens. Press A/B/C/D.</p>
+  </div>
+
+  <div class="fact-bar">
+    <div class="fact-label">The shared fact</div>
+    <div class="fact-text">"In high-eviction Fulton precincts, voter registrations dropped at roughly 1.4× the rate of low-eviction precincts in the same county over 2022–2026."</div>
+    <div class="fact-source">SOURCE · GA SoS list maintenance · Fulton magistrate filings</div>
+  </div>
+
+  <!-- Lens selector -->
+  <div class="lens-strip">
+    <button class="lens-tab active" data-idx="0">
+      <span class="lens-key">A · Economic Lens</span>
+      <span class="lens-name">Material instability</span>
+    </button>
+    <button class="lens-tab" data-idx="1">
+      <span class="lens-key">B · Political Lens</span>
+      <span class="lens-name">Structural disenfranchisement</span>
+    </button>
+    <button class="lens-tab" data-idx="2">
+      <span class="lens-key">C · Media Lens</span>
+      <span class="lens-name">Invisible attrition</span>
+    </button>
+    <button class="lens-tab" data-idx="3">
+      <span class="lens-key">D · Cultural Lens</span>
+      <span class="lens-name">A vanishing civic ritual</span>
+    </button>
+  </div>
+
+  <!-- Main console -->
+  <div class="console">
+
+    <!-- Map -->
+    <div class="map-panel">
+      <canvas id="mapCanvas"></canvas>
+      <div class="map-overlay">
+        <div class="map-stamp tl">— Georgia · 40 counties shown —</div>
+        <div class="map-stamp tr" id="mapMetric">Material instability index</div>
+        <div class="map-stamp bl">Hover any county for its reading</div>
+        <div class="map-stamp br">Active lens · <span class="ind" id="lensInd">A</span></div>
+      </div>
+    </div>
+
+    <!-- Narrative -->
+    <div class="narr-panel">
+      <div class="narr-content" id="narr">
+        <div class="narr-tag" id="nTag">A · ECONOMIC LENS</div>
+        <div class="narr-title" id="nTitle">Material instability</div>
+        <div class="narr-frame" id="nFrame">"The system removes voters when their economic ground gives way."</div>
+        <div class="narr-body" id="nBody">The registration loss is downstream of the <strong>housing market</strong>. Rising rents, stagnant wages, and a tight inventory produce eviction filings, which displace households, which break the address-on-file pipeline that registration depends on. The civic harm is a knock-on effect of a market failure.</div>
+        <div class="causal" id="nCausal">
+          <span class="step">eviction filing</span><span class="arrow">→</span><span class="step">displacement</span><span class="arrow">→</span><span class="step">address-stale</span><span class="arrow">→</span><span class="step">purge</span>
+        </div>
+        <div class="vocab" id="nVocab">
+          <span class="word">household</span><span class="word">mortgage</span><span class="word">displacement</span><span class="word">cost burden</span><span class="word">market failure</span>
+        </div>
+        <div class="narr-test">
+          <div class="narr-test-stamp">— The distinguishing test —</div>
+          <div class="narr-test-q" id="nTest">Do magistrate eviction filings correlate with inactivation rates at the precinct level above the rate predicted by overall mobility?</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Live readings ribbon -->
+  <div class="ribbon">
+    <div class="reading" id="r1">
+      <div class="reading-label">Strongest signal</div>
+      <div class="reading-value" id="r1v">Fulton + DeKalb</div>
+      <div class="reading-meta">metro-core concentration</div>
+    </div>
+    <div class="reading" id="r2">
+      <div class="reading-label">Counties above threshold</div>
+      <div class="reading-value" id="r2v">14 / 40</div>
+      <div class="reading-meta">under this lens</div>
+    </div>
+    <div class="reading" id="r3">
+      <div class="reading-label">Vocabulary signature</div>
+      <div class="reading-value" id="r3v" style="font-size: 14px;">market · cost · burden</div>
+      <div class="reading-meta">economic register</div>
+    </div>
+    <div class="reading" id="r4">
+      <div class="reading-label">What this lens underplays</div>
+      <div class="reading-value" id="r4v" style="font-size: 14px;">statutory mechanism</div>
+      <div class="reading-meta">the procedural fix</div>
+    </div>
+  </div>
+
+  <div class="rationale">
+    <h4>Why this hybrid</h4>
+    <p>The Lens Console keeps Split-Reality's <strong>literacy point</strong> — that the same fact reads radically differently through different frameworks — and gives it the Board's <strong>broadcast affordances</strong>: geographic intelligence, live readings, switchable views, professional console feel.</p>
+    <p>The crucial move: clicking a lens doesn't just change the text. The map repaints, the vocabulary chips swap, the causal chain rearranges, the room itself tints with the lens's color. The reader experiences <strong>frameworks-as-environments</strong>, not framework-as-paragraph. They feel the difference, then they can read it.</p>
+    <p><strong>Hybrid strengths:</strong> retains the literacy lesson; adds geographic intelligence; keyboard-driven (A/B/C/D); fast lens-switching builds intuition; the 'what this lens underplays' callout makes asymmetry of perspectives explicit. <strong>What to watch:</strong> requires per-lens map data per story (real editorial work, not just JS) and disciplined writing so the four lenses are genuinely distinct.</p>
+  </div>
+
+</section>
+
+<script>
+// === LENS DATA ===
+const LENSES = [
+  { key: 'A', name: 'Economic Lens', accent: '#88c4c8', accentBg: 'rgba(136,196,200,0.06)',
+    title: 'Material instability',
+    tag: 'A · ECONOMIC LENS',
+    frame: '"The system removes voters when their economic ground gives way."',
+    body: 'The registration loss is downstream of the <strong>housing market</strong>. Rising rents, stagnant wages, and a tight inventory produce eviction filings, which displace households, which break the address-on-file pipeline that registration depends on. The civic harm is a knock-on effect of a market failure.',
+    causal: ['eviction filing', 'displacement', 'address-stale', 'purge'],
+    vocab: ['household', 'mortgage', 'displacement', 'cost burden', 'market failure'],
+    test: 'Do magistrate eviction filings correlate with inactivation rates at the precinct level above the rate predicted by overall mobility?',
+    metric: 'Material instability index',
+    strongest: 'Fulton + DeKalb',
+    strongestMeta: 'metro-core concentration',
+    threshold: '14 / 40',
+    vocabSig: 'market · cost · burden',
+    vocabMeta: 'economic register',
+    underplay: 'statutory mechanism',
+    underplayMeta: 'the procedural fix',
+    // Map intensity per county (high in economic-stress counties)
+    data: [95,82,60,72,90,55,35,30,60,28,50,55,35,32,30,38,32,30,65,22,35,25,30,45,70,65,75,45,80,50,55,42,48,22,20,18,16,22,28,30],
+  },
+  { key: 'B', name: 'Political Lens', accent: '#c8a8e8', accentBg: 'rgba(200,168,232,0.06)',
+    title: 'Structural disenfranchisement',
+    tag: 'B · POLITICAL LENS',
+    frame: '"The system, by design, removes the politically marginal."',
+    body: 'The same data read as a question of <strong>access to ballot</strong>. List-maintenance procedures are state-legislated; the disparate impact on lower-income and renter populations is a politically tractable choice. Reform options exist (same-day registration, automatic re-enrollment); the absence of reform is itself political.',
+    causal: ['statutory rule', 'disparate burden', 'non-vote', 'election outcome'],
+    vocab: ['access', 'reform', 'disparate impact', 'enfranchisement', 'statutory'],
+    test: 'Is the disparate-impact magnitude beyond what would be expected from neutral list-maintenance applied to differently-distributed populations?',
+    metric: 'Access-asymmetry index',
+    strongest: 'Fulton + Clayton',
+    strongestMeta: 'highest-renter metros',
+    threshold: '11 / 40',
+    vocabSig: 'access · reform · barrier',
+    vocabMeta: 'political register',
+    underplay: 'upstream economic causes',
+    underplayMeta: 'why eviction happens',
+    // Map intensity — concentrated in highest-renter / highest-disparate-impact counties
+    data: [88,90,55,68,95,52,28,25,58,25,48,52,30,28,28,35,30,28,75,20,30,22,28,55,80,75,85,55,90,60,52,38,42,20,18,15,12,18,24,28],
+  },
+  { key: 'C', name: 'Media Lens', accent: '#e8a878', accentBg: 'rgba(232,168,120,0.06)',
+    title: 'Invisible attrition',
+    tag: 'C · MEDIA LENS',
+    frame: '"The story does not break because nothing dramatic happens at any single moment."',
+    body: 'The registration loss is <strong>structurally untellable</strong> by event-driven media. There is no rally, no scandal, no soundbite — just six administrative steps each lawful and undramatic. Coverage privileges flashpoints; this story has none. The invisibility is itself a media-system property.',
+    causal: ['no flashpoint', 'no coverage', 'no salience', 'no reform pressure'],
+    vocab: ['salience', 'attention', 'slow story', 'flashpoint', 'narrative gap'],
+    test: 'Do counties with stronger local journalism infrastructure show measurably higher reform attempts despite identical underlying conditions?',
+    metric: 'Coverage-deficit index',
+    strongest: 'Dougherty + rural south',
+    strongestMeta: 'news-desert counties',
+    threshold: '22 / 40',
+    vocabSig: 'salience · attention · gap',
+    vocabMeta: 'media register',
+    underplay: 'the actual mechanism',
+    underplayMeta: 'what causes the loss',
+    // Inverted — high in news-desert counties, low in metros where coverage exists
+    data: [30,35,50,40,45,55,60,55,55,68,55,55,65,72,75,55,75,68,40,80,75,85,70,55,40,55,55,55,85,72,55,80,75,90,92,90,95,88,72,72],
+  },
+  { key: 'D', name: 'Cultural Lens', accent: '#a8c088', accentBg: 'rgba(168,192,136,0.06)',
+    title: 'A vanishing civic ritual',
+    tag: 'D · CULTURAL LENS',
+    frame: '"To be a voter is increasingly to do paperwork most people don\'t know exists."',
+    body: 'The same loss read as a question about <strong>civic culture</strong>. Voting once required physical presence; now it requires sustained administrative literacy. Households experiencing instability have less of that literacy. The civic identity \'voter\' is becoming a class-coded competence.',
+    causal: ['civic literacy', 'administrative survival', 'turnout', 'representation'],
+    vocab: ['civic identity', 'ritual', 'literacy', 'generational', 'norm'],
+    test: 'Does intergenerational voting habit predict registration persistence above what economic and demographic models predict?',
+    metric: 'Civic-literacy gradient',
+    strongest: 'Counties w/ low intergen turnout',
+    strongestMeta: 'broken-ritual signal',
+    threshold: '17 / 40',
+    vocabSig: 'ritual · literacy · identity',
+    vocabMeta: 'cultural register',
+    underplay: 'structural and political fixes',
+    underplayMeta: 'reform options',
+    // Mixed — moderately high in mobile/younger metros and lower-income areas
+    data: [70,68,52,62,72,55,38,32,60,30,55,55,42,40,35,50,48,42,60,28,42,30,35,50,72,65,62,52,75,62,55,48,52,40,38,42,40,42,42,40],
+  },
+];
+
+const COUNTIES = [
+  { name: 'Fulton', pop: 1100, x: 0.42, y: 0.40 },
+  { name: 'DeKalb', pop: 750, x: 0.46, y: 0.42 },
+  { name: 'Cobb', pop: 770, x: 0.40, y: 0.36 },
+  { name: 'Gwinnett', pop: 960, x: 0.50, y: 0.34 },
+  { name: 'Clayton', pop: 300, x: 0.44, y: 0.46 },
+  { name: 'Henry', pop: 250, x: 0.47, y: 0.50 },
+  { name: 'Cherokee', pop: 280, x: 0.40, y: 0.30 },
+  { name: 'Forsyth', pop: 280, x: 0.47, y: 0.27 },
+  { name: 'Douglas', pop: 150, x: 0.36, y: 0.40 },
+  { name: 'Fayette', pop: 125, x: 0.42, y: 0.50 },
+  { name: 'Newton', pop: 115, x: 0.53, y: 0.45 },
+  { name: 'Rockdale', pop: 95, x: 0.52, y: 0.42 },
+  { name: 'Walton', pop: 105, x: 0.55, y: 0.38 },
+  { name: 'Paulding', pop: 175, x: 0.36, y: 0.34 },
+  { name: 'Bartow', pop: 110, x: 0.36, y: 0.28 },
+  { name: 'Hall', pop: 215, x: 0.51, y: 0.24 },
+  { name: 'Carroll', pop: 125, x: 0.32, y: 0.40 },
+  { name: 'Coweta', pop: 155, x: 0.36, y: 0.46 },
+  { name: 'Chatham', pop: 300, x: 0.92, y: 0.74 },
+  { name: 'Bryan', pop: 50, x: 0.88, y: 0.70 },
+  { name: 'Glynn', pop: 85, x: 0.95, y: 0.85 },
+  { name: 'McIntosh', pop: 14, x: 0.94, y: 0.79 },
+  { name: 'Camden', pop: 55, x: 0.95, y: 0.94 },
+  { name: 'Liberty', pop: 65, x: 0.88, y: 0.78 },
+  { name: 'Richmond', pop: 200, x: 0.78, y: 0.45 },
+  { name: 'Muscogee', pop: 200, x: 0.20, y: 0.65 },
+  { name: 'Macon-Bibb', pop: 155, x: 0.55, y: 0.62 },
+  { name: 'Houston', pop: 165, x: 0.55, y: 0.68 },
+  { name: 'Dougherty', pop: 85, x: 0.30, y: 0.85 },
+  { name: 'Lowndes', pop: 120, x: 0.50, y: 0.95 },
+  { name: 'Clarke', pop: 130, x: 0.62, y: 0.30 },
+  { name: 'Whitfield', pop: 105, x: 0.32, y: 0.12 },
+  { name: 'Floyd', pop: 100, x: 0.28, y: 0.20 },
+  { name: 'Lumpkin', pop: 35, x: 0.50, y: 0.16 },
+  { name: 'White', pop: 30, x: 0.55, y: 0.14 },
+  { name: 'Rabun', pop: 17, x: 0.62, y: 0.10 },
+  { name: 'Towns', pop: 13, x: 0.58, y: 0.08 },
+  { name: 'Banks', pop: 20, x: 0.55, y: 0.20 },
+  { name: 'Jackson', pop: 80, x: 0.55, y: 0.22 },
+  { name: 'Effingham', pop: 70, x: 0.85, y: 0.66 },
+];
+
+// === MAP RENDER ===
+const canvas = document.getElementById('mapCanvas');
+const ctx = canvas.getContext('2d');
+let W = 0, H = 0;
+const DPR = window.devicePixelRatio || 1;
+function resize() {
+  const rect = canvas.parentElement.getBoundingClientRect();
+  W = canvas.clientWidth = rect.width; H = canvas.clientHeight = rect.height;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
+}
+window.addEventListener('resize', resize); setTimeout(resize, 50);
+
+let activeIdx = 0;
+let hoverCounty = null;
+
+function render() {
+  if (!W || W < 10) { requestAnimationFrame(render); return; }
+  ctx.clearRect(0, 0, W, H);
+  const lens = LENSES[activeIdx];
+  COUNTIES.forEach((c, i) => {
+    const x = 30 + c.x * (W - 60);
+    const y = 30 + c.y * (H - 60);
+    const r = 6 + Math.sqrt(c.pop) * 0.5;
+    const value = lens.data[i] || 30;
+    const alpha = 0.20 + (value / 100) * 0.70;
+    const halo = r * (1.4 + value / 200);
+    const g = ctx.createRadialGradient(x, y, 0, x, y, halo);
+    g.addColorStop(0, lens.accent + Math.round((value / 100) * 0.45 * 255).toString(16).padStart(2, '0'));
+    g.addColorStop(1, lens.accent + '00');
+    ctx.fillStyle = g; ctx.fillRect(x - halo, y - halo, halo * 2, halo * 2);
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = lens.accent + Math.round(alpha * 255).toString(16).padStart(2, '0');
+    ctx.fill();
+    ctx.strokeStyle = c === hoverCounty ? '#f4ecd8' : 'rgba(40,40,46,0.8)';
+    ctx.lineWidth = c === hoverCounty ? 2 : 1; ctx.stroke();
+    if (r > 12 || c === hoverCounty) {
+      ctx.fillStyle = c === hoverCounty ? '#f4ecd8' : 'rgba(168,162,152,0.7)';
+      ctx.font = '10px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(c.name, x, y + r + 12);
+      if (c === hoverCounty) {
+        ctx.fillStyle = lens.accent;
+        ctx.font = '9px "JetBrains Mono", monospace';
+        ctx.fillText(lens.data[i] + ' / 100', x, y + r + 24);
+      }
+    }
+  });
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  hoverCounty = null;
+  for (const c of COUNTIES) {
+    const x = 30 + c.x * (W - 60), y = 30 + c.y * (H - 60);
+    const r = 6 + Math.sqrt(c.pop) * 0.5;
+    if (Math.hypot(mx - x, my - y) <= r + 3) { hoverCounty = c; break; }
+  }
+});
+canvas.addEventListener('mouseleave', () => { hoverCounty = null; });
+
+// === LENS SWITCHING ===
+function setLens(idx) {
+  if (idx === activeIdx) return;
+  activeIdx = idx;
+  const lens = LENSES[idx];
+  // Set CSS variables for color cascade
+  document.documentElement.style.setProperty('--lens-c', lens.accent);
+  document.documentElement.style.setProperty('--lens-c-bg', lens.accentBg);
+  // Update tabs
+  document.querySelectorAll('.lens-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  // Update header
+  document.getElementById('headerLens').textContent = lens.name.replace(' Lens', '').toLowerCase();
+  // Crossfade narrative
+  const narr = document.getElementById('narr');
+  narr.classList.add('fading');
+  setTimeout(() => {
+    document.getElementById('nTag').textContent = lens.tag;
+    document.getElementById('nTitle').textContent = lens.title;
+    document.getElementById('nFrame').textContent = lens.frame;
+    document.getElementById('nBody').innerHTML = lens.body;
+    document.getElementById('nTest').textContent = lens.test;
+    document.getElementById('nCausal').innerHTML = lens.causal.map((s, i) => `<span class="step">${s}</span>${i < lens.causal.length - 1 ? '<span class="arrow">→</span>' : ''}`).join('');
+    document.getElementById('nVocab').innerHTML = lens.vocab.map(w => `<span class="word">${w}</span>`).join('');
+    document.getElementById('mapMetric').textContent = lens.metric;
+    document.getElementById('lensInd').textContent = lens.key;
+    narr.classList.remove('fading');
+  }, 280);
+  // Crossfade ribbon readings
+  document.querySelectorAll('.reading').forEach(r => r.classList.add('fading'));
+  setTimeout(() => {
+    document.getElementById('r1v').textContent = lens.strongest;
+    document.querySelector('#r1 .reading-meta').textContent = lens.strongestMeta;
+    document.getElementById('r2v').textContent = lens.threshold;
+    document.getElementById('r3v').textContent = lens.vocabSig;
+    document.querySelector('#r3 .reading-meta').textContent = lens.vocabMeta;
+    document.getElementById('r4v').textContent = lens.underplay;
+    document.querySelector('#r4 .reading-meta').textContent = lens.underplayMeta;
+    document.querySelectorAll('.reading').forEach(r => r.classList.remove('fading'));
+  }, 280);
+}
+document.querySelectorAll('.lens-tab').forEach((t, i) => t.addEventListener('click', () => setLens(i)));
+window.addEventListener('keydown', e => {
+  const k = 'abcd'.indexOf(e.key.toLowerCase());
+  if (k >= 0) setLens(k);
+});
+</script>
+
+</body>
+</html>
