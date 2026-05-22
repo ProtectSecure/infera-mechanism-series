@@ -121,6 +121,26 @@
   .citation-link:hover { border-color: var(--gold); background: rgba(196,167,119,0.08); color: var(--ink); }
   .citation-link::after { content: "↗"; font-size: 9px; opacity: 0.7; margin-left: 2px; }
   .citation-note { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink-faint); letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 8px; border: 1px dashed var(--rule); border-radius: 2px; }
+  /* Reader-mode toggle */
+  .reader-mode-toggle { position: fixed; top: 52px; right: 16px; z-index: 90; display: flex; gap: 2px; background: rgba(8,8,10,0.88); backdrop-filter: blur(8px); border: 1px solid var(--rule); border-radius: 3px; padding: 3px; }
+  .reader-mode-toggle button { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; padding: 6px 10px; background: transparent; color: var(--ink-faint); border: none; border-radius: 2px; cursor: pointer; transition: all 0.2s; }
+  .reader-mode-toggle button:hover { color: var(--ink-dim); }
+  .reader-mode-toggle button.active { color: var(--gold); background: rgba(196,167,119,0.14); }
+  /* Skim mode: hide secondary content */
+  body.mode-skim .chapter p:nth-of-type(n+2) { display: none; }
+  body.mode-skim .chapter .citations { display: none; }
+  body.mode-skim .competing-section .hypotheses { display: none; }
+  body.mode-skim .competing-section { padding-bottom: 6vh; }
+  body.mode-skim .competing-section .lead::after { content: ' · switch to READ for full hypotheses'; color: var(--ink-faint); font-style: italic; opacity: 0.7; }
+  body.mode-skim .discipline { display: none; }
+  body.mode-skim .pattern-section .items > .item:nth-child(n+4) { display: none; }
+  /* Analyst mode: amplify the framework */
+  body.mode-analyst .conf { font-weight: 500; transform: scale(1.05); }
+  body.mode-analyst .citations { background: rgba(196,167,119,0.04); padding: 14px; border-radius: 3px; }
+  body.mode-analyst .hypotheses { gap: 2px; }
+  body.mode-analyst .competing-section .hyp { background: var(--bg-soft); border: 1px solid rgba(168,144,200,0.18); }
+  @media (max-width: 700px) { .reader-mode-toggle { top: 48px; right: 10px; } .reader-mode-toggle button { font-size: 8px; padding: 5px 8px; } }
+
 
 
 
@@ -144,6 +164,8 @@
     <a class="brand" href="index.html"><span class="dot"></span>INFERA · GA 26</a>
     <div class="tab-list">
       <a class="tab" href="index.html"><span class="tab-num">i.</span>Index</a>
+      <a class="tab" href="map.html"><span class="tab-num">◎</span>Map</a>
+      <a class="tab" href="atlas.html"><span class="tab-num">◐</span>Atlas</a>
       <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
       <a class="tab" href="the-data-center-tax.html"><span class="tab-num">02</span>Data Centers</a>
       <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">03</span>Eviction</a>
@@ -153,6 +175,13 @@
     </div>
   </div>
 </nav>
+
+<div class="reader-mode-toggle">
+  <button data-mode="read" class="active">Read</button>
+  <button data-mode="skim">Skim</button>
+  <button data-mode="analyst">Analyst</button>
+</div>
+
 
 <section class="hero">
   <canvas id="herofield" class="hero-canvas"></canvas>
@@ -422,6 +451,21 @@ requestAnimationFrame(render); setAct(0);
 
 const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && setAct(parseInt(e.target.dataset.stage))), { threshold: 0.55 });
 document.querySelectorAll('.chapter[data-stage]').forEach(p => obs.observe(p));
+
+// Reader Mode toggle
+(function() {
+  const buttons = document.querySelectorAll('.reader-mode-toggle button');
+  const saved = (typeof localStorage !== 'undefined' && localStorage.getItem('infera-reader-mode')) || 'read';
+  function setMode(m) {
+    document.body.classList.remove('mode-read', 'mode-skim', 'mode-analyst');
+    document.body.classList.add('mode-' + m);
+    buttons.forEach(b => b.classList.toggle('active', b.dataset.mode === m));
+    try { localStorage.setItem('infera-reader-mode', m); } catch(e) {}
+  }
+  buttons.forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+  setMode(saved);
+})();
+
 </script>
 </body>
 </html>

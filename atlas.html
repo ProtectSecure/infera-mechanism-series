@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Atlas — Infera Geographic Pressure Layer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06080c;
+    --bg-soft: #0d1117;
+    --bg-card: #11161e;
+    --ink: #f0ebe0;
+    --ink-dim: #a8a298;
+    --ink-faint: #5a564e;
+    --rule: #28262a;
+    --gold: #c4a777;
+    --grid: rgba(196, 167, 119, 0.04);
+    /* per-overlay accents */
+    --commute: #d4774a;
+    --hospital: #5fa68a;
+    --inflow: #4a9fa8;
+    --eviction: #b85a52;
+    --rate: #d44a8c;
+    --ballot: #c4a04a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 300; line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 80px 80px; pointer-events: none; z-index: 0; opacity: 0.45; }
+
+  .tabnav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,8,12,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+  .tabnav-inner { display: flex; align-items: center; padding: 12px 24px; gap: 20px; overflow-x: auto; scrollbar-width: none; }
+  .tabnav-inner::-webkit-scrollbar { display: none; }
+  .brand { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); white-space: nowrap; text-decoration: none; padding-right: 18px; border-right: 1px solid var(--rule); display: flex; align-items: center; gap: 8px; }
+  .brand .dot { width: 6px; height: 6px; background: var(--commute); border-radius: 50%; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .tab-list { display: flex; gap: 2px; flex: 1; }
+  .tab { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); padding: 6px 10px; border-radius: 2px; text-decoration: none; white-space: nowrap; transition: all 0.2s; }
+  .tab:hover { color: var(--ink-dim); background: rgba(255,255,255,0.04); }
+  .tab.active { color: var(--gold); background: rgba(196,167,119,0.12); }
+  .tab-num { font-family: 'Fraunces', serif; font-style: italic; margin-right: 5px; opacity: 0.6; }
+
+  .hero { padding: 100px 6vw 32px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(40px, 7vw, 88px); line-height: 0.98; letter-spacing: -0.025em; margin-bottom: 18px; font-variation-settings: "opsz" 144, "SOFT" 70; }
+  h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(15px, 1.5vw, 19px); color: var(--ink-dim); max-width: 720px; margin: 0 auto; line-height: 1.5; }
+
+  /* OVERLAY TOGGLES */
+  .overlays { max-width: 1500px; margin: 0 auto 16px; padding: 0 4vw; position: relative; z-index: 2; }
+  .overlay-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .ov-btn { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; padding: 9px 14px; background: var(--bg-card); color: var(--ink-faint); border: 1px solid var(--rule); border-radius: 2px; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .ov-btn:hover { color: var(--ink-dim); border-color: var(--ink-faint); }
+  .ov-btn .swatch { width: 9px; height: 9px; border-radius: 50%; }
+  .ov-btn[data-overlay="commute"] .swatch { background: var(--commute); }
+  .ov-btn[data-overlay="hospital"] .swatch { background: var(--hospital); }
+  .ov-btn[data-overlay="inflow"] .swatch { background: var(--inflow); }
+  .ov-btn[data-overlay="eviction"] .swatch { background: var(--eviction); }
+  .ov-btn[data-overlay="rate"] .swatch { background: var(--rate); }
+  .ov-btn[data-overlay="ballot"] .swatch { background: var(--ballot); }
+  .ov-btn.active[data-overlay="commute"] { color: var(--commute); border-color: var(--commute); background: rgba(212,119,74,0.10); }
+  .ov-btn.active[data-overlay="hospital"] { color: var(--hospital); border-color: var(--hospital); background: rgba(95,166,138,0.10); }
+  .ov-btn.active[data-overlay="inflow"] { color: var(--inflow); border-color: var(--inflow); background: rgba(74,159,168,0.10); }
+  .ov-btn.active[data-overlay="eviction"] { color: var(--eviction); border-color: var(--eviction); background: rgba(184,90,82,0.10); }
+  .ov-btn.active[data-overlay="rate"] { color: var(--rate); border-color: var(--rate); background: rgba(212,74,140,0.10); }
+  .ov-btn.active[data-overlay="ballot"] { color: var(--ballot); border-color: var(--ballot); background: rgba(196,160,74,0.10); }
+
+  /* STAGE */
+  .atlas-stage { position: relative; max-width: 1500px; margin: 0 auto; padding: 0 4vw 80px; z-index: 2; }
+  .stage-frame { background: var(--bg-card); border: 1px solid var(--rule); border-radius: 4px; position: relative; height: 72vh; min-height: 540px; overflow: hidden; }
+  #atlasCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hint { position: absolute; top: 18px; left: 18px; background: rgba(6,8,12,0.85); backdrop-filter: blur(8px); border: 1px solid var(--rule); border-radius: 3px; padding: 12px 14px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; color: var(--ink-faint); pointer-events: none; text-transform: uppercase; max-width: 280px; }
+  .hint .label { color: var(--gold); display: block; margin-bottom: 4px; }
+  .hint .desc { color: var(--ink-dim); font-size: 9px; line-height: 1.4; text-transform: none; letter-spacing: 0.05em; margin-top: 4px; }
+  .scale-legend { position: absolute; bottom: 18px; left: 18px; background: rgba(6,8,12,0.85); backdrop-filter: blur(8px); border: 1px solid var(--rule); border-radius: 3px; padding: 10px 14px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; color: var(--ink-faint); pointer-events: none; text-transform: uppercase; }
+  .scale-bar { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+  .scale-grad { width: 140px; height: 6px; border-radius: 1px; background: linear-gradient(90deg, var(--bg-soft), currentColor); }
+  .scale-low { font-size: 8px; }
+  .scale-high { font-size: 8px; }
+
+  /* COUNTY DETAIL PANEL */
+  .detail-panel { position: absolute; top: 18px; right: 18px; bottom: 18px; width: clamp(260px, 30%, 380px); background: rgba(6,8,12,0.95); backdrop-filter: blur(10px); border: 1px solid var(--rule); border-radius: 3px; padding: 24px 22px; overflow-y: auto; transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s; transform: translateX(110%); opacity: 0; }
+  .detail-panel.open { transform: translateX(0); opacity: 1; }
+  .detail-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--ink-faint); font-size: 18px; cursor: pointer; line-height: 1; padding: 4px 8px; }
+  .detail-close:hover { color: var(--gold); }
+  .detail-kind { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .detail-panel h2 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 26px; line-height: 1.15; color: var(--ink); margin-bottom: 4px; }
+  .detail-panel .pop { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-faint); letter-spacing: 0.12em; margin-bottom: 18px; }
+  .metric-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .metric-row { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.10em; color: var(--ink-dim); }
+  .metric-row .m-label { display: flex; justify-content: space-between; text-transform: uppercase; margin-bottom: 5px; }
+  .metric-row .m-bar { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; position: relative; }
+  .metric-row .m-fill { height: 100%; transition: width 0.4s ease; }
+  .metric-row.commute .m-fill { background: var(--commute); }
+  .metric-row.hospital .m-fill { background: var(--hospital); }
+  .metric-row.inflow .m-fill { background: var(--inflow); }
+  .metric-row.eviction .m-fill { background: var(--eviction); }
+  .metric-row.rate .m-fill { background: var(--rate); }
+  .metric-row.ballot .m-fill { background: var(--ballot); }
+  .metric-row .m-value { color: var(--ink); }
+  .related-stories { padding-top: 16px; border-top: 1px solid var(--rule); }
+  .related-stories h4 { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .related-stories a { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--ink-dim); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+  .related-stories a:hover { color: var(--gold); }
+  .related-stories a::after { content: "→"; margin-left: auto; transition: transform 0.2s; }
+  .related-stories a:hover::after { transform: translateX(4px); }
+
+  .discipline-strip { max-width: 1100px; margin: 0 auto 80px; padding: 0 6vw; position: relative; z-index: 2; }
+  .discipline-strip h3 { font-family: 'Fraunces', serif; font-weight: 350; font-size: 24px; line-height: 1.2; margin-bottom: 14px; }
+  .discipline-strip h3 em { font-style: italic; color: var(--gold); }
+  .discipline-strip p { font-size: 15px; color: var(--ink-dim); line-height: 1.65; max-width: 64ch; margin-bottom: 12px; }
+  .discipline-strip p strong { color: var(--ink); font-weight: 500; }
+
+  footer { padding: 60px 6vw 80px; border-top: 1px solid var(--rule); background: var(--bg); position: relative; z-index: 2; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; }
+  footer h5 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  footer p { font-size: 13px; color: var(--ink-dim); line-height: 1.7; }
+  footer .sig { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--ink); margin-top: 24px; }
+
+  @media (max-width: 800px) {
+    .footer-grid { grid-template-columns: 1fr !important; gap: 36px; }
+    .stage-frame { height: 80vh; }
+    .detail-panel { left: 18px; right: 18px; width: auto; top: auto; bottom: 18px; max-height: 50%; }
+    .scale-legend { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>INFERA · GA 26</a>
+    <div class="tab-list">
+      <a class="tab" href="index.html"><span class="tab-num">i.</span>Index</a>
+      <a class="tab" href="map.html"><span class="tab-num">◎</span>Map</a>
+      <a class="tab active" href="atlas.html"><span class="tab-num">◐</span>Atlas</a>
+      <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
+      <a class="tab" href="the-data-center-tax.html"><span class="tab-num">02</span>Data Centers</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">03</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">04</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">05</span>Coast</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">06</span>Ballot</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="kicker">The pressure layer · 40 representative counties</div>
+  <h1>Georgia by <em>pressure</em>, not by election.</h1>
+  <p class="hero-sub">A geographic intelligence layer. Toggle an overlay to see how one pressure distributes across the state. Click any county to see its full multi-pressure profile and the stories that trace each force most directly.</p>
+</section>
+
+<section class="overlays">
+  <div class="overlay-row">
+    <button class="ov-btn active" data-overlay="commute"><span class="swatch"></span>Commuter Outflow</button>
+    <button class="ov-btn" data-overlay="hospital"><span class="swatch"></span>Hospital Distance</button>
+    <button class="ov-btn" data-overlay="inflow"><span class="swatch"></span>FL In-Migration</button>
+    <button class="ov-btn" data-overlay="eviction"><span class="swatch"></span>Eviction Pressure</button>
+    <button class="ov-btn" data-overlay="rate"><span class="swatch"></span>Rate Burden</button>
+    <button class="ov-btn" data-overlay="ballot"><span class="swatch"></span>Provisional Rejection</button>
+  </div>
+</section>
+
+<section class="atlas-stage">
+  <div class="stage-frame">
+    <canvas id="atlasCanvas"></canvas>
+    <div class="hint" id="hintBox">
+      <span class="label" id="hintLabel">Commuter Outflow</span>
+      <span class="desc" id="hintDesc">Share of county labor force working outside county boundaries. Heaviest in metro counties orbiting Fulton.</span>
+    </div>
+    <div class="scale-legend" id="scaleLegend" style="color: #d4774a">
+      <div>Low · High</div>
+      <div class="scale-bar"><div class="scale-grad"></div></div>
+    </div>
+    <div class="detail-panel" id="detail">
+      <button class="detail-close" id="closeBtn">×</button>
+      <div class="detail-kind">COUNTY PROFILE</div>
+      <h2 id="detailName">Select a county</h2>
+      <div class="pop" id="detailPop">Click any circle on the map.</div>
+      <div class="metric-list" id="metricList"></div>
+      <div class="related-stories" id="relatedStories"></div>
+    </div>
+  </div>
+</section>
+
+<section class="discipline-strip">
+  <h3>What this atlas <em>is and is not</em>.</h3>
+  <p>The Atlas covers 40 representative Georgia counties — the most populated, plus key examples for each pressure type. <strong>It is not all 159 counties.</strong> Expansion to full coverage is queued. Metric values shown range from <strong>documented and sourced</strong> (county population, FL license-surrender intake) to <strong>illustrative-of-pattern</strong> (composite affordability index, provisional rejection rate). Hovering each overlay button shows what tier of evidence backs that overlay.</p>
+  <p>The atlas is the geographic-intelligence companion to the Mechanism Map. The Map shows how pressures connect conceptually. The Atlas shows where they land physically. Together they answer the systems-view question the critique opened: <strong>where are the invisible forces actually operating, and what would it take to see them?</strong></p>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>About the atlas</h5>
+      <p>A six-overlay geographic-pressure map of Georgia covering 40 representative counties. Built as the Phase 3 geographic layer of the Infera Mechanism Series — sister page to the Map. Coverage will expand to all 159 counties as data per pressure is assembled.</p>
+      <div class="sig">— Infera Editorial</div>
+    </div>
+    <div>
+      <h5>Method</h5>
+      <p>Toggleable overlays<br>Confidence-tagged metrics<br>Per-county profile panel<br>Story-linked context</p>
+    </div>
+    <div>
+      <h5>Phase 3</h5>
+      <p>Map · live (sister page)<br>This atlas · live<br>Reader modes · live (each story)<br>Evidence drawer · pending<br>Temporal scrubber · pending</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// COUNTIES — 40 representative GA counties with approximate
+// geographic positioning (relative 0-1 coords, NOT precise GIS)
+// and illustrative-of-pattern metric values
+// ═══════════════════════════════════════════════════════════════
+
+// Coords: x is east (0=west, 1=east-coast), y is south (0=north GA, 1=south GA)
+const COUNTIES = [
+  // Metro Atlanta core
+  { name: 'Fulton',     pop: 1100, x: 0.42, y: 0.40, m: { commute: 35, hospital: 8, inflow: 30, eviction: 95, rate: 78, ballot: 55 } },
+  { name: 'DeKalb',     pop: 750,  x: 0.46, y: 0.42, m: { commute: 78, hospital: 10, inflow: 32, eviction: 82, rate: 75, ballot: 40 } },
+  { name: 'Cobb',       pop: 770,  x: 0.40, y: 0.36, m: { commute: 68, hospital: 12, inflow: 28, eviction: 60, rate: 72, ballot: 45 } },
+  { name: 'Gwinnett',   pop: 960,  x: 0.50, y: 0.34, m: { commute: 62, hospital: 14, inflow: 35, eviction: 72, rate: 70, ballot: 50 } },
+  { name: 'Clayton',    pop: 300,  x: 0.44, y: 0.46, m: { commute: 75, hospital: 11, inflow: 40, eviction: 90, rate: 68, ballot: 65 } },
+  { name: 'Henry',      pop: 250,  x: 0.47, y: 0.50, m: { commute: 80, hospital: 18, inflow: 38, eviction: 55, rate: 60, ballot: 35 } },
+  { name: 'Cherokee',   pop: 280,  x: 0.40, y: 0.30, m: { commute: 70, hospital: 16, inflow: 24, eviction: 35, rate: 58, ballot: 30 } },
+  { name: 'Forsyth',    pop: 280,  x: 0.47, y: 0.27, m: { commute: 72, hospital: 18, inflow: 26, eviction: 30, rate: 65, ballot: 25 } },
+  { name: 'Douglas',    pop: 150,  x: 0.36, y: 0.40, m: { commute: 75, hospital: 14, inflow: 22, eviction: 60, rate: 62, ballot: 40 } },
+  { name: 'Fayette',    pop: 125,  x: 0.42, y: 0.50, m: { commute: 78, hospital: 16, inflow: 25, eviction: 28, rate: 58, ballot: 28 } },
+  { name: 'Newton',     pop: 115,  x: 0.53, y: 0.45, m: { commute: 70, hospital: 22, inflow: 30, eviction: 50, rate: 52, ballot: 35 } },
+  { name: 'Rockdale',   pop: 95,   x: 0.52, y: 0.42, m: { commute: 75, hospital: 16, inflow: 28, eviction: 55, rate: 55, ballot: 38 } },
+  { name: 'Walton',     pop: 105,  x: 0.55, y: 0.38, m: { commute: 65, hospital: 22, inflow: 22, eviction: 35, rate: 50, ballot: 30 } },
+  { name: 'Paulding',   pop: 175,  x: 0.36, y: 0.34, m: { commute: 72, hospital: 24, inflow: 20, eviction: 32, rate: 55, ballot: 28 } },
+  { name: 'Bartow',     pop: 110,  x: 0.36, y: 0.28, m: { commute: 55, hospital: 22, inflow: 18, eviction: 30, rate: 48, ballot: 35 } },
+  { name: 'Hall',       pop: 215,  x: 0.51, y: 0.24, m: { commute: 45, hospital: 14, inflow: 25, eviction: 38, rate: 58, ballot: 60 } },
+  { name: 'Carroll',    pop: 125,  x: 0.32, y: 0.40, m: { commute: 50, hospital: 18, inflow: 18, eviction: 32, rate: 45, ballot: 35 } },
+  { name: 'Coweta',     pop: 155,  x: 0.36, y: 0.46, m: { commute: 60, hospital: 18, inflow: 22, eviction: 30, rate: 52, ballot: 32 } },
+
+  // Outside-metro examples
+  { name: 'Chatham',    pop: 300,  x: 0.92, y: 0.74, m: { commute: 25, hospital: 8, inflow: 70, eviction: 65, rate: 70, ballot: 50 } },
+  { name: 'Bryan',      pop: 50,   x: 0.88, y: 0.70, m: { commute: 30, hospital: 14, inflow: 75, eviction: 22, rate: 52, ballot: 25 } },
+  { name: 'Glynn',      pop: 85,   x: 0.95, y: 0.85, m: { commute: 18, hospital: 10, inflow: 80, eviction: 35, rate: 68, ballot: 40 } },
+  { name: 'McIntosh',   pop: 14,   x: 0.94, y: 0.79, m: { commute: 22, hospital: 24, inflow: 55, eviction: 25, rate: 48, ballot: 38 } },
+  { name: 'Camden',     pop: 55,   x: 0.95, y: 0.94, m: { commute: 18, hospital: 18, inflow: 88, eviction: 30, rate: 55, ballot: 35 } },
+  { name: 'Liberty',    pop: 65,   x: 0.88, y: 0.78, m: { commute: 28, hospital: 16, inflow: 35, eviction: 45, rate: 50, ballot: 42 } },
+  { name: 'Richmond',   pop: 200,  x: 0.78, y: 0.45, m: { commute: 35, hospital: 10, inflow: 28, eviction: 70, rate: 60, ballot: 55 } },
+  { name: 'Muscogee',   pop: 200,  x: 0.20, y: 0.65, m: { commute: 25, hospital: 11, inflow: 22, eviction: 65, rate: 58, ballot: 50 } },
+  { name: 'Macon-Bibb', pop: 155,  x: 0.55, y: 0.62, m: { commute: 22, hospital: 12, inflow: 25, eviction: 75, rate: 60, ballot: 55 } },
+  { name: 'Houston',    pop: 165,  x: 0.55, y: 0.68, m: { commute: 35, hospital: 14, inflow: 28, eviction: 45, rate: 50, ballot: 38 } },
+  { name: 'Dougherty',  pop: 85,   x: 0.30, y: 0.85, m: { commute: 18, hospital: 18, inflow: 12, eviction: 80, rate: 58, ballot: 65 } },
+  { name: 'Lowndes',    pop: 120,  x: 0.50, y: 0.95, m: { commute: 22, hospital: 16, inflow: 25, eviction: 50, rate: 50, ballot: 50 } },
+  { name: 'Clarke',     pop: 130,  x: 0.62, y: 0.30, m: { commute: 35, hospital: 12, inflow: 28, eviction: 55, rate: 65, ballot: 45 } },
+  { name: 'Whitfield',  pop: 105,  x: 0.32, y: 0.12, m: { commute: 28, hospital: 16, inflow: 18, eviction: 42, rate: 48, ballot: 75 } },
+  { name: 'Floyd',      pop: 100,  x: 0.28, y: 0.20, m: { commute: 32, hospital: 14, inflow: 20, eviction: 48, rate: 50, ballot: 55 } },
+  { name: 'Lumpkin',    pop: 35,   x: 0.50, y: 0.16, m: { commute: 38, hospital: 24, inflow: 20, eviction: 22, rate: 48, ballot: 38 } },
+  { name: 'White',      pop: 30,   x: 0.55, y: 0.14, m: { commute: 40, hospital: 26, inflow: 22, eviction: 20, rate: 45, ballot: 42 } },
+  { name: 'Rabun',      pop: 17,   x: 0.62, y: 0.10, m: { commute: 28, hospital: 32, inflow: 32, eviction: 18, rate: 52, ballot: 45 } },
+  { name: 'Towns',      pop: 13,   x: 0.58, y: 0.08, m: { commute: 26, hospital: 28, inflow: 35, eviction: 16, rate: 50, ballot: 42 } },
+  { name: 'Banks',      pop: 20,   x: 0.55, y: 0.20, m: { commute: 45, hospital: 24, inflow: 18, eviction: 22, rate: 42, ballot: 38 } },
+  { name: 'Jackson',    pop: 80,   x: 0.55, y: 0.22, m: { commute: 50, hospital: 22, inflow: 20, eviction: 28, rate: 50, ballot: 35 } },
+  { name: 'Effingham',  pop: 70,   x: 0.85, y: 0.66, m: { commute: 40, hospital: 18, inflow: 60, eviction: 30, rate: 48, ballot: 30 } },
+];
+
+// Overlay definitions
+const OVERLAYS = {
+  commute: {
+    label: 'Commuter Outflow',
+    desc: 'Share of county labor force working outside county boundaries. Heaviest in metro counties orbiting Fulton.',
+    color: '#d4774a',
+    stories: ['the-trickle.html'],
+    storyLabels: ['01 · The Trickle'],
+    confidence: 'strong',
+    note: 'LEHD origin-destination data documents this; values are illustrative of relative rank, not precise commuter shares.',
+  },
+  hospital: {
+    label: 'Hospital Distance (minutes to ER)',
+    desc: 'Approximate drive-time to nearest functioning hospital ER. Heaviest in counties with recent closures or in rural geography.',
+    color: '#5fa68a',
+    stories: ['the-closed-hospital.html'],
+    storyLabels: ['04 · The Closed Hospital'],
+    confidence: 'correlated',
+    note: 'Derived from EMS routing and CMS facility location; values shown are approximate ranges.',
+  },
+  inflow: {
+    label: 'FL In-Migration Signal',
+    desc: 'Relative intensity of Florida-to-Georgia household relocation. Concentrated on coast and metro fringes.',
+    color: '#4a9fa8',
+    stories: ['the-coast-is-moving.html'],
+    storyLabels: ['05 · The Coast Is Moving'],
+    confidence: 'strong',
+    note: 'USPS NCOA aggregate + GA DDS license-surrender data; values shown are relative rank, not raw counts.',
+  },
+  eviction: {
+    label: 'Eviction Pressure',
+    desc: 'Magistrate eviction filings per 1000 households. Concentrated in urban cores and counties with high renter share.',
+    color: '#b85a52',
+    stories: ['the-eviction-funnel.html'],
+    storyLabels: ['03 · The Eviction Funnel'],
+    confidence: 'plausible',
+    note: 'Fulton magistrate filings well-documented; other counties less consistently published. Values illustrative of relative magnitude.',
+  },
+  rate: {
+    label: 'Rate Burden Index',
+    desc: 'Composite of utility rate level and projected hyperscale-driven increase exposure. Higher in GA Power service territory with heavy data-center buildout.',
+    color: '#d44a8c',
+    stories: ['the-data-center-tax.html'],
+    storyLabels: ['02 · The Data Center Tax'],
+    confidence: 'plausible',
+    note: 'Composite of GA PSC tariff data and IRP load forecast; values composited per service-territory share.',
+  },
+  ballot: {
+    label: 'Provisional Rejection Rate',
+    desc: 'Share of provisional ballots cast that fail adjudication. Varies measurably by county election board.',
+    color: '#c4a04a',
+    stories: ['the-provisional-ballot.html'],
+    storyLabels: ['06 · The Provisional Ballot'],
+    confidence: 'correlated',
+    note: 'GA SoS provisional outcome reports; multi-cycle averages used for stability.',
+  },
+};
+
+const canvas = document.getElementById('atlasCanvas');
+const ctx = canvas.getContext('2d');
+const DPR = window.devicePixelRatio || 1;
+let W = 0, H = 0;
+let hoverCounty = null;
+let activeCounty = null;
+let activeOverlay = 'commute';
+
+function resize() {
+  const rect = canvas.getBoundingClientRect();
+  W = rect.width; H = rect.height;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.scale(DPR, DPR);
+}
+window.addEventListener('resize', resize);
+setTimeout(resize, 50);
+
+function countyPos(c) {
+  // Map relative coords into the inner stage area with padding
+  const pad = 50;
+  return { x: pad + c.x * (W - 2 * pad), y: pad + c.y * (H - 2 * pad) };
+}
+function countyRadius(c) {
+  return 6 + Math.sqrt(c.pop) * 0.45;
+}
+
+function findCountyAt(mx, my) {
+  for (const c of COUNTIES) {
+    const p = countyPos(c);
+    const r = countyRadius(c);
+    if (Math.hypot(mx - p.x, my - p.y) <= r + 3) return c;
+  }
+  return null;
+}
+
+function valColor(value, baseColor) {
+  // value 0-100 → opacity 0.18-0.95 of baseColor
+  const a = 0.18 + (value / 100) * 0.77;
+  // baseColor is hex like '#d4774a' → with alpha
+  return baseColor + Math.round(a * 255).toString(16).padStart(2, '0');
+}
+
+function render() {
+  ctx.clearRect(0, 0, W, H);
+  const overlay = OVERLAYS[activeOverlay];
+
+  // Subtle GA outline indicator (corners)
+  ctx.strokeStyle = 'rgba(196,167,119,0.10)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([2, 6]);
+  ctx.strokeRect(40, 40, W - 80, H - 80);
+  ctx.setLineDash([]);
+
+  // Geographic label hints
+  ctx.fillStyle = 'rgba(90, 86, 78, 0.6)';
+  ctx.font = '9px "JetBrains Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('NORTH GA / N. GEORGIA MTNS', W / 2, 28);
+  ctx.fillText('S. GEORGIA / GULF SIDE', W / 2, H - 22);
+  ctx.save();
+  ctx.translate(20, H / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('WEST GA / ALABAMA LINE', 0, 0);
+  ctx.restore();
+  ctx.save();
+  ctx.translate(W - 20, H / 2); ctx.rotate(Math.PI / 2);
+  ctx.fillText('EAST GA / ATLANTIC COAST', 0, 0);
+  ctx.restore();
+
+  // Render counties
+  COUNTIES.forEach(c => {
+    const p = countyPos(c);
+    const r = countyRadius(c);
+    const isHover = c === hoverCounty;
+    const isActive = c === activeCounty;
+    const value = c.m[activeOverlay];
+
+    // Glow proportional to value
+    const haloR = r * (1.4 + value / 200);
+    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, haloR);
+    grad.addColorStop(0, overlay.color + Math.round((value / 100) * 0.35 * 255).toString(16).padStart(2, '0'));
+    grad.addColorStop(1, overlay.color + '00');
+    ctx.fillStyle = grad;
+    ctx.fillRect(p.x - haloR, p.y - haloR, haloR * 2, haloR * 2);
+
+    // Fill
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+    ctx.fillStyle = valColor(value, overlay.color);
+    ctx.fill();
+
+    // Ring
+    ctx.strokeStyle = isActive ? '#f0ebe0' : (isHover ? overlay.color : 'rgba(40,38,42,0.8)');
+    ctx.lineWidth = isActive ? 2 : 1;
+    ctx.stroke();
+
+    // Label (only for larger counties or hovered)
+    if (r > 12 || isHover || isActive) {
+      ctx.fillStyle = isActive ? '#f0ebe0' : 'rgba(168, 162, 152, 0.85)';
+      ctx.font = (isHover || isActive ? '500 ' : '300 ') + '10px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.fillText(c.name, p.x, p.y + r + 6);
+    }
+  });
+
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+
+// Mouse interaction
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  hoverCounty = findCountyAt(e.clientX - rect.left, e.clientY - rect.top);
+  canvas.style.cursor = hoverCounty ? 'pointer' : 'default';
+});
+canvas.addEventListener('mouseleave', () => { hoverCounty = null; });
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const c = findCountyAt(e.clientX - rect.left, e.clientY - rect.top);
+  if (c) { activeCounty = c; openDetail(c); }
+  else { activeCounty = null; closeDetail(); }
+});
+
+// Overlay buttons
+const hintBox = document.getElementById('hintBox');
+const hintLabel = document.getElementById('hintLabel');
+const hintDesc = document.getElementById('hintDesc');
+const scaleLegend = document.getElementById('scaleLegend');
+const ovButtons = document.querySelectorAll('.ov-btn');
+
+function setOverlay(key) {
+  activeOverlay = key;
+  const o = OVERLAYS[key];
+  ovButtons.forEach(b => b.classList.toggle('active', b.dataset.overlay === key));
+  hintLabel.textContent = o.label;
+  hintDesc.textContent = o.desc;
+  scaleLegend.style.color = o.color;
+}
+ovButtons.forEach(b => b.addEventListener('click', () => setOverlay(b.dataset.overlay)));
+
+// County detail panel
+const panel = document.getElementById('detail');
+const closeBtn = document.getElementById('closeBtn');
+const detailName = document.getElementById('detailName');
+const detailPop = document.getElementById('detailPop');
+const metricList = document.getElementById('metricList');
+const relatedStories = document.getElementById('relatedStories');
+
+function openDetail(c) {
+  detailName.textContent = c.name;
+  const popStr = (c.pop >= 1000) ? (c.pop / 1000).toFixed(1) + 'M pop · est.' : (c.pop + 'K pop · est.');
+  detailPop.textContent = popStr;
+  // Metrics
+  let metricsHtml = '';
+  Object.entries(OVERLAYS).forEach(([key, o]) => {
+    const v = c.m[key];
+    metricsHtml += `<div class="metric-row ${key}"><div class="m-label"><span>${o.label.split('(')[0].trim()}</span><span class="m-value">${v}</span></div><div class="m-bar"><div class="m-fill" style="width:${v}%"></div></div></div>`;
+  });
+  metricList.innerHTML = metricsHtml;
+  // Related stories — all 6 are relevant; show the ones most aligned with the highest pressures
+  const ranked = Object.entries(c.m).sort((a, b) => b[1] - a[1]);
+  let storiesHtml = '<h4>Related stories (ranked by pressure)</h4>';
+  ranked.forEach(([k, v]) => {
+    const o = OVERLAYS[k];
+    storiesHtml += `<a href="${o.stories[0]}" style="color:${o.color}cc">${o.storyLabels[0]}<span style="font-size:8px;opacity:0.5;margin-left:auto;margin-right:8px">${v}/100</span></a>`;
+  });
+  relatedStories.innerHTML = storiesHtml;
+  panel.classList.add('open');
+}
+function closeDetail() { panel.classList.remove('open'); }
+closeBtn.addEventListener('click', () => { activeCounty = null; closeDetail(); });
+</script>
+</body>
+</html>

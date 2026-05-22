@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Map — Infera Mechanism Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06080c;
+    --bg-soft: #0d1117;
+    --bg-card: #11161e;
+    --ink: #f0ebe0;
+    --ink-dim: #a8a298;
+    --ink-faint: #5a564e;
+    --rule: #28262a;
+    --gold: #c4a777;
+    --grid: rgba(196, 167, 119, 0.04);
+    /* per-story accents */
+    --trickle: #d4774a;
+    --data: #d44a8c;
+    --eviction: #b85a52;
+    --hospital: #5fa68a;
+    --coast: #4a9fa8;
+    --ballot: #c4a04a;
+    /* node-type colors */
+    --pressure: #c4a777;
+    --consequence: #a890c8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif; font-weight: 300;
+    line-height: 1.5; overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 80px 80px; pointer-events: none; z-index: 0; opacity: 0.45; }
+
+  /* TAB NAV (same pattern, with Map active) */
+  .tabnav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,8,12,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+  .tabnav-inner { display: flex; align-items: center; padding: 12px 24px; gap: 20px; overflow-x: auto; scrollbar-width: none; }
+  .tabnav-inner::-webkit-scrollbar { display: none; }
+  .brand { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); white-space: nowrap; text-decoration: none; padding-right: 18px; border-right: 1px solid var(--rule); display: flex; align-items: center; gap: 8px; }
+  .brand .dot { width: 6px; height: 6px; background: var(--trickle); border-radius: 50%; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .tab-list { display: flex; gap: 2px; flex: 1; }
+  .tab { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); padding: 6px 10px; border-radius: 2px; text-decoration: none; white-space: nowrap; transition: all 0.2s; }
+  .tab:hover { color: var(--ink-dim); background: rgba(255,255,255,0.04); }
+  .tab.active { color: var(--gold); background: rgba(196,167,119,0.12); }
+  .tab-num { font-family: 'Fraunces', serif; font-style: italic; margin-right: 5px; opacity: 0.6; }
+
+  /* HERO */
+  .hero { padding: 100px 6vw 32px; max-width: 1500px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(40px, 7vw, 88px); line-height: 0.98; letter-spacing: -0.025em; margin-bottom: 18px; font-variation-settings: "opsz" 144, "SOFT" 70; }
+  h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(15px, 1.5vw, 19px); color: var(--ink-dim); max-width: 720px; margin: 0 auto; line-height: 1.5; }
+
+  /* THE STAGE */
+  .map-stage { position: relative; max-width: 1500px; margin: 0 auto; padding: 20px 4vw 80px; z-index: 2; }
+  .stage-frame { background: var(--bg-card); border: 1px solid var(--rule); border-radius: 4px; position: relative; height: 72vh; min-height: 540px; overflow: hidden; }
+  #netCanvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
+  #netCanvas:active { cursor: grabbing; }
+  .legend { position: absolute; top: 18px; left: 18px; background: rgba(6,8,12,0.85); backdrop-filter: blur(8px); border: 1px solid var(--rule); border-radius: 3px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; color: var(--ink-dim); pointer-events: none; max-width: 220px; }
+  .legend .l-title { color: var(--gold); margin-bottom: 8px; }
+  .legend .l-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; text-transform: uppercase; font-size: 9px; }
+  .legend .l-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .legend .l-dot.story { background: var(--trickle); }
+  .legend .l-dot.pressure { background: var(--gold); }
+  .legend .l-dot.consequence { background: var(--consequence); }
+
+  .hint { position: absolute; bottom: 18px; left: 18px; background: rgba(6,8,12,0.85); backdrop-filter: blur(8px); border: 1px solid var(--rule); border-radius: 3px; padding: 10px 14px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; color: var(--ink-faint); pointer-events: none; text-transform: uppercase; }
+  .hint .key { color: var(--gold); }
+
+  /* DETAIL PANEL */
+  .detail-panel { position: absolute; top: 18px; right: 18px; bottom: 18px; width: clamp(260px, 30%, 380px); background: rgba(6,8,12,0.95); backdrop-filter: blur(10px); border: 1px solid var(--rule); border-radius: 3px; padding: 24px 22px; overflow-y: auto; transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s; transform: translateX(110%); opacity: 0; }
+  .detail-panel.open { transform: translateX(0); opacity: 1; }
+  .detail-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--ink-faint); font-size: 18px; cursor: pointer; line-height: 1; padding: 4px 8px; }
+  .detail-close:hover { color: var(--gold); }
+  .detail-kind { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; margin-bottom: 8px; }
+  .detail-panel h2 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 24px; line-height: 1.15; color: var(--ink); margin-bottom: 16px; }
+  .detail-panel p { font-size: 13px; color: var(--ink-dim); line-height: 1.6; margin-bottom: 14px; }
+  .detail-panel .related-list { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--rule); }
+  .detail-panel .related-list h4 { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .detail-panel .related-list a { display: flex; align-items: center; gap: 8px; padding: 8px 0; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--ink-dim); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+  .detail-panel .related-list a:hover { color: var(--gold); }
+  .detail-panel .related-list a::after { content: "→"; margin-left: auto; transition: transform 0.2s; }
+  .detail-panel .related-list a:hover::after { transform: translateX(4px); }
+  .read-story { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 9px 14px; border: 1px solid var(--rule); border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; color: var(--gold); text-decoration: none; text-transform: uppercase; transition: all 0.2s; }
+  .read-story:hover { background: rgba(196,167,119,0.1); border-color: var(--gold); }
+  .read-story::after { content: "→"; transition: transform 0.2s; }
+  .read-story:hover::after { transform: translateX(3px); }
+
+  /* CONTEXT footer */
+  .context { max-width: 1100px; margin: 0 auto 80px; padding: 0 6vw; position: relative; z-index: 2; }
+  .context h3 { font-family: 'Fraunces', serif; font-weight: 350; font-size: 24px; line-height: 1.2; margin-bottom: 14px; }
+  .context h3 em { font-style: italic; color: var(--gold); }
+  .context p { font-size: 15px; color: var(--ink-dim); line-height: 1.65; max-width: 64ch; margin-bottom: 12px; }
+  .context p strong { color: var(--ink); font-weight: 500; }
+
+  footer { padding: 60px 6vw 80px; border-top: 1px solid var(--rule); background: var(--bg); position: relative; z-index: 2; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; }
+  footer h5 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  footer p { font-size: 13px; color: var(--ink-dim); line-height: 1.7; }
+  footer .sig { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--ink); margin-top: 24px; }
+
+  @media (max-width: 800px) {
+    .footer-grid { grid-template-columns: 1fr !important; gap: 36px; }
+    .stage-frame { height: 80vh; }
+    .detail-panel { left: 18px; right: 18px; width: auto; top: auto; bottom: 18px; max-height: 50%; }
+    .legend { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>INFERA · GA 26</a>
+    <div class="tab-list">
+      <a class="tab" href="index.html"><span class="tab-num">i.</span>Index</a>
+      <a class="tab active" href="map.html"><span class="tab-num">◎</span>Map</a>
+      <a class="tab" href="atlas.html"><span class="tab-num">◐</span>Atlas</a>
+      <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
+      <a class="tab" href="the-data-center-tax.html"><span class="tab-num">02</span>Data Centers</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">03</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">04</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">05</span>Coast</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">06</span>Ballot</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="kicker">The mechanism network · interactive</div>
+  <h1>What does Georgia <em>look like</em> as a pressure system?</h1>
+  <p class="hero-sub">Six stories, the upstream pressures that feed them, and the downstream consequences they produce — rendered as a single living network. Click any node to see what it touches.</p>
+</section>
+
+<section class="map-stage">
+  <div class="stage-frame">
+    <canvas id="netCanvas"></canvas>
+
+    <div class="legend">
+      <div class="l-title">Node types</div>
+      <div class="l-row"><span class="l-dot story"></span>Story (6)</div>
+      <div class="l-row"><span class="l-dot pressure"></span>Upstream pressure</div>
+      <div class="l-row"><span class="l-dot consequence"></span>Downstream consequence</div>
+    </div>
+
+    <div class="hint"><span class="key">Click</span> a node · <span class="key">drag</span> to pan · <span class="key">scroll</span> to zoom</div>
+
+    <div class="detail-panel" id="detail">
+      <button class="detail-close" id="closeBtn">×</button>
+      <div class="detail-kind" id="detailKind">NODE</div>
+      <h2 id="detailTitle">Select a node</h2>
+      <p id="detailBody">Click any node in the network to see its description, what it's connected to, and which story traces it most directly.</p>
+      <div class="related-list" id="related"></div>
+    </div>
+  </div>
+</section>
+
+<section class="context">
+  <h3>How to <em>read</em> the network.</h3>
+  <p>This is not a finished argument — it is a navigable hypothesis space. Stories sit in the middle, surrounded by the upstream pressures they trace and the downstream consequences they document. <strong>An edge between two nodes is a claim that one influences the other</strong> — claims we mark with the same confidence framework the stories use. Hovering or clicking any node reveals what it's connected to, with confidence levels per edge.</p>
+  <p>This is the version of Infera the critique asked for: <strong>a systems-intelligence interface, not a publication</strong>. The stories tell single threads of the same fabric. The Map shows the fabric. Most political coverage shows neither the threads nor the fabric — it shows the headline event and asks you to fill in the rest.</p>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>About the map</h5>
+      <p>An interactive node-network rendering of the relationships between upstream pressures, the six stories that trace them, and the downstream consequences they produce in Georgia. Built as the Phase 3 systems-view layer of the Infera Mechanism Series — a navigable hypothesis space, not a finished argument.</p>
+      <div class="sig">— Infera Editorial</div>
+    </div>
+    <div>
+      <h5>Method</h5>
+      <p>Force-directed graph<br>Confidence-tagged edges<br>Node taxonomy: pressure / story / consequence<br>Persistent across pan + zoom</p>
+    </div>
+    <div>
+      <h5>Phase 3</h5>
+      <p>This page · live<br>Atlas · live (sister page)<br>Reader modes · live (in each story)<br>Evidence drawer · pending<br>Temporal scrubber · pending</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// THE MECHANISM NETWORK
+// ═══════════════════════════════════════════════════════════════
+
+const STORIES = ['trickle', 'data', 'eviction', 'hospital', 'coast', 'ballot'];
+const ACCENT = {
+  trickle: '#d4774a',
+  data: '#d44a8c',
+  eviction: '#b85a52',
+  hospital: '#5fa68a',
+  coast: '#4a9fa8',
+  ballot: '#c4a04a',
+  pressure: '#c4a777',
+  consequence: '#a890c8',
+};
+
+// Node definitions: kind (story|pressure|consequence), label, description, story link (if any)
+const NODES = [
+  // STORIES (center cluster)
+  { id: 'trickle',  kind: 'story', label: 'The Trickle',          accent: 'trickle', x: 0.30, y: 0.40, story: 'the-trickle.html', desc: 'How a federal job in Fulton became a primary vote in DeKalb. Traces commuter-economy disruption into political consequence.' },
+  { id: 'data',     kind: 'story', label: 'The Data Center Tax',  accent: 'data',    x: 0.55, y: 0.25, story: 'the-data-center-tax.html', desc: 'Georgia is #2 in US data centers. The new generation built to serve hyperscalers is partly socialized across residential ratepayers.' },
+  { id: 'eviction', kind: 'story', label: 'The Eviction Funnel',  accent: 'eviction', x: 0.45, y: 0.55, story: 'the-eviction-funnel.html', desc: 'A six-step lawful pathway from eviction filing to lost voter registration. Disenfranchisement as administrative residue.' },
+  { id: 'hospital', kind: 'story', label: 'The Closed Hospital',  accent: 'hospital', x: 0.70, y: 0.50, story: 'the-closed-hospital.html', desc: 'A rural ER closes; ambulances reroute; receiving counties absorb overflow; vital statistics shift downstream.' },
+  { id: 'coast',    kind: 'story', label: 'The Coast Is Moving',  accent: 'coast',   x: 0.65, y: 0.72, story: 'the-coast-is-moving.html', desc: 'Florida insurance hardening routes households north; six GA coastal counties absorb the migration.' },
+  { id: 'ballot',   kind: 'story', label: 'The Provisional Ballot', accent: 'ballot', x: 0.25, y: 0.70, story: 'the-provisional-ballot.html', desc: 'Provisional ballots flow through five adjudication forks; the same ballot can be counted in one county and rejected in another.' },
+
+  // UPSTREAM PRESSURES
+  { id: 'fedjobs',     kind: 'pressure', label: 'Federal workforce reductions', x: 0.08, y: 0.18, desc: 'OPM-documented federal headcount reductions concentrated in Atlanta-area agencies (CDC, VA, federal courthouse complex). Hits DeKalb residents commuting to Fulton.' },
+  { id: 'utilrate',    kind: 'pressure', label: 'Utility rate base growth', x: 0.42, y: 0.10, desc: 'GA Power IRP forecasts +47% load growth by 2031, driven by hyperscale data-center customers. Construction cost socialized across rate base.' },
+  { id: 'housing',     kind: 'pressure', label: 'Housing affordability', x: 0.18, y: 0.85, desc: 'Rising rents and mortgage costs in metro Atlanta and coastal GA produce displacement, instability, and political salience.' },
+  { id: 'insurance',   kind: 'pressure', label: 'FL homeowner insurance crisis', x: 0.84, y: 0.84, desc: 'FL OIR-documented premium hardening and insurer exits price households out, routing migration into adjacent states.' },
+  { id: 'hospcap',     kind: 'pressure', label: 'Rural hospital fragility', x: 0.88, y: 0.40, desc: 'Sustained financial pressure on rural critical-access hospitals; CMS-documented closures across the past decade with another wave on watchlists.' },
+  { id: 'votereg',     kind: 'pressure', label: 'List maintenance procedure', x: 0.10, y: 0.55, desc: 'NVRA § 8 list maintenance: address-change → inactive status → purge after two missed federal cycles. Statutory, county-administered.' },
+  { id: 'tariffs',     kind: 'pressure', label: 'Tariffs / federal trade policy', x: 0.30, y: 0.05, desc: 'Trade policy shocks ripple through cost-of-living through grocery, gas, and consumer goods. Macroeconomic context affecting all stories.' },
+  { id: 'climate',     kind: 'pressure', label: 'Climate exposure', x: 0.92, y: 0.66, desc: 'Hurricane frequency, sea-level rise, and extreme weather pricing into insurance markets. Upstream of insurance pressure.' },
+
+  // DOWNSTREAM CONSEQUENCES
+  { id: 'turnout',     kind: 'consequence', label: 'Primary participation shift', x: 0.08, y: 0.32, desc: 'DeKalb D ballot share moved ~12 pts above 2022 baseline. The Trickle proposes one mechanism; the Ballot piece complicates the picture.' },
+  { id: 'taxbase',     kind: 'consequence', label: 'County tax-base compression', x: 0.30, y: 0.92, desc: 'When commuter income contracts or hospital systems collapse, county property and sales tax bases erode. Cross-cutting consequence.' },
+  { id: 'compshift',   kind: 'consequence', label: 'County composition shift', x: 0.92, y: 0.85, desc: 'New residents bring different registration patterns, different school-enrollment growth, and different political baselines.' },
+  { id: 'outcomes',    kind: 'consequence', label: 'Health outcomes shift', x: 0.93, y: 0.22, desc: 'Maternal mortality, OOH cardiac survival, ER wait times — outcomes that shift in catchments downstream of hospital closures.' },
+  { id: 'disenfran',   kind: 'consequence', label: 'Effective disenfranchisement', x: 0.06, y: 0.78, desc: 'Voters administratively removed from rolls or whose provisionals are rejected. Aggregate civic-standing loss.' },
+  { id: 'rateimpact',  kind: 'consequence', label: 'Residential rate hike', x: 0.62, y: 0.08, desc: 'The downstream price-tag of grid expansion. Lands on residential bills — a specific cost-of-living input feeding back into politics.' },
+];
+
+// Edges: source, target, confidence
+const EDGES = [
+  // Trickle network
+  { from: 'fedjobs', to: 'trickle', conf: 'strong' },
+  { from: 'housing', to: 'trickle', conf: 'plausible' },
+  { from: 'tariffs', to: 'trickle', conf: 'plausible' },
+  { from: 'trickle', to: 'turnout', conf: 'competing' },
+  { from: 'trickle', to: 'taxbase', conf: 'plausible' },
+
+  // Data network
+  { from: 'utilrate', to: 'data', conf: 'strong' },
+  { from: 'data', to: 'rateimpact', conf: 'plausible' },
+  { from: 'rateimpact', to: 'housing', conf: 'correlated' },
+  { from: 'data', to: 'taxbase', conf: 'competing' },
+
+  // Eviction network
+  { from: 'housing', to: 'eviction', conf: 'strong' },
+  { from: 'votereg', to: 'eviction', conf: 'strong' },
+  { from: 'eviction', to: 'disenfran', conf: 'plausible' },
+  { from: 'eviction', to: 'turnout', conf: 'competing' },
+
+  // Hospital network
+  { from: 'hospcap', to: 'hospital', conf: 'strong' },
+  { from: 'hospital', to: 'outcomes', conf: 'correlated' },
+  { from: 'hospital', to: 'taxbase', conf: 'plausible' },
+
+  // Coast network
+  { from: 'insurance', to: 'coast', conf: 'strong' },
+  { from: 'climate', to: 'insurance', conf: 'strong' },
+  { from: 'coast', to: 'compshift', conf: 'plausible' },
+  { from: 'coast', to: 'housing', conf: 'plausible' },
+
+  // Ballot network
+  { from: 'votereg', to: 'ballot', conf: 'strong' },
+  { from: 'ballot', to: 'disenfran', conf: 'plausible' },
+  { from: 'ballot', to: 'turnout', conf: 'competing' },
+
+  // Cross-mechanism connections (the systems story)
+  { from: 'fedjobs', to: 'taxbase', conf: 'plausible' },
+  { from: 'tariffs', to: 'housing', conf: 'correlated' },
+  { from: 'compshift', to: 'turnout', conf: 'plausible' },
+];
+
+const EDGE_COLOR = {
+  proven: '#88c088',
+  strong: '#a8c08a',
+  correlated: '#c4a560',
+  plausible: '#c89060',
+  speculative: '#c47060',
+  competing: '#a890c8',
+};
+
+const canvas = document.getElementById('netCanvas');
+const ctx = canvas.getContext('2d');
+const DPR = window.devicePixelRatio || 1;
+let W = 0, H = 0;
+let panX = 0, panY = 0, zoom = 1;
+let dragging = false, dragStart = null, draggedSinceDown = false;
+
+function resize() {
+  const rect = canvas.getBoundingClientRect();
+  W = rect.width; H = rect.height;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(DPR, DPR);
+}
+window.addEventListener('resize', resize);
+setTimeout(resize, 50);
+
+// Resolve node positions to canvas coords
+function np(n) {
+  return { x: n.x * W, y: n.y * H };
+}
+
+// Lookup
+const nodeById = Object.fromEntries(NODES.map(n => [n.id, n]));
+
+let hoverId = null;
+let activeId = null;
+
+function nodeColor(n) {
+  if (n.kind === 'story') return ACCENT[n.accent];
+  if (n.kind === 'pressure') return ACCENT.pressure;
+  return ACCENT.consequence;
+}
+function nodeRadius(n) {
+  if (n.kind === 'story') return 16;
+  if (n.kind === 'pressure') return 11;
+  return 11;
+}
+
+function isConnected(id1, id2) {
+  return EDGES.some(e => (e.from === id1 && e.to === id2) || (e.from === id2 && e.to === id1));
+}
+
+function getRelated(id) {
+  return EDGES.filter(e => e.from === id || e.to === id);
+}
+
+function transformPoint(x, y) {
+  return { x: x * zoom + panX, y: y * zoom + panY };
+}
+function inverseTransform(x, y) {
+  return { x: (x - panX) / zoom, y: (y - panY) / zoom };
+}
+
+function findNodeAt(mx, my) {
+  // mx, my are screen coords; convert to world
+  const w = inverseTransform(mx, my);
+  for (const n of NODES) {
+    const p = np(n);
+    const r = nodeRadius(n);
+    if (Math.hypot(w.x - p.x, w.y - p.y) <= r + 4) return n;
+  }
+  return null;
+}
+
+function render() {
+  ctx.clearRect(0, 0, W, H);
+  ctx.save();
+  ctx.translate(panX, panY);
+  ctx.scale(zoom, zoom);
+
+  // Edges
+  EDGES.forEach(e => {
+    const fromN = nodeById[e.from], toN = nodeById[e.to];
+    if (!fromN || !toN) return;
+    const fp = np(fromN), tp = np(toN);
+    let activeEdge = false;
+    if (activeId && (e.from === activeId || e.to === activeId)) activeEdge = true;
+    if (hoverId && !activeId && (e.from === hoverId || e.to === hoverId)) activeEdge = true;
+    const dim = activeId && !activeEdge;
+    const color = EDGE_COLOR[e.conf] || '#666';
+    const baseAlpha = activeEdge ? 0.85 : (dim ? 0.08 : 0.30);
+    ctx.strokeStyle = color + Math.round(baseAlpha * 255).toString(16).padStart(2, '0');
+    ctx.lineWidth = activeEdge ? 2 : 1;
+    // Curved line
+    const mx = (fp.x + tp.x) / 2 + (tp.y - fp.y) * 0.08;
+    const my = (fp.y + tp.y) / 2 - (tp.x - fp.x) * 0.08;
+    ctx.beginPath();
+    ctx.moveTo(fp.x, fp.y);
+    ctx.quadraticCurveTo(mx, my, tp.x, tp.y);
+    ctx.stroke();
+  });
+
+  // Nodes
+  NODES.forEach(n => {
+    const p = np(n);
+    const r = nodeRadius(n);
+    const isActive = n.id === activeId;
+    const isHover = n.id === hoverId;
+    const isRelated = activeId && isConnected(activeId, n.id);
+    const dim = activeId && !isActive && !isRelated;
+    const color = nodeColor(n);
+    const alpha = dim ? 0.25 : 1;
+
+    // Glow halo
+    const haloR = r * (isActive ? 3.4 : isHover ? 2.6 : 2.0);
+    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, haloR);
+    grad.addColorStop(0, color + '55');
+    grad.addColorStop(1, color + '00');
+    ctx.fillStyle = grad;
+    ctx.fillRect(p.x - haloR, p.y - haloR, haloR * 2, haloR * 2);
+
+    // Outer ring
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+    ctx.strokeStyle = color + Math.round(alpha * 255).toString(16).padStart(2, '0');
+    ctx.lineWidth = isActive ? 2.5 : 1.5;
+    ctx.stroke();
+
+    // Inner fill (story nodes solid; pressure/consequence ringed)
+    if (n.kind === 'story') {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r - 4, 0, Math.PI * 2);
+      ctx.fillStyle = color + Math.round(alpha * 255).toString(16).padStart(2, '0');
+      ctx.fill();
+    } else {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = color + Math.round(alpha * 255).toString(16).padStart(2, '0');
+      ctx.fill();
+    }
+
+    // Label
+    ctx.fillStyle = `rgba(240, 235, 224, ${alpha * 0.85})`;
+    ctx.font = (n.kind === 'story' ? '600 ' : '300 ') + '11px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    // Wrap long labels
+    const words = n.label.split(' ');
+    let line = '';
+    let yOff = r + 8;
+    words.forEach((w, i) => {
+      const test = line ? line + ' ' + w : w;
+      if (ctx.measureText(test).width > 130 && line) {
+        ctx.fillText(line, p.x, p.y + yOff);
+        yOff += 13;
+        line = w;
+      } else {
+        line = test;
+      }
+    });
+    if (line) ctx.fillText(line, p.x, p.y + yOff);
+  });
+
+  ctx.restore();
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+
+// Mouse interactions
+canvas.addEventListener('mousedown', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  dragging = true;
+  draggedSinceDown = false;
+  dragStart = { x: e.clientX - rect.left, y: e.clientY - rect.top, panX, panY };
+});
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  if (dragging) {
+    const dx = mx - dragStart.x, dy = my - dragStart.y;
+    if (Math.hypot(dx, dy) > 5) draggedSinceDown = true;
+    panX = dragStart.panX + dx;
+    panY = dragStart.panY + dy;
+  } else {
+    const found = findNodeAt(mx, my);
+    hoverId = found ? found.id : null;
+    canvas.style.cursor = found ? 'pointer' : 'grab';
+  }
+});
+canvas.addEventListener('mouseup', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  if (!draggedSinceDown) {
+    const found = findNodeAt(e.clientX - rect.left, e.clientY - rect.top);
+    if (found) {
+      activeId = found.id;
+      openDetail(found);
+    } else {
+      activeId = null;
+      closeDetail();
+    }
+  }
+  dragging = false;
+});
+canvas.addEventListener('mouseleave', () => { dragging = false; hoverId = null; });
+canvas.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const before = inverseTransform(mx, my);
+  zoom = Math.max(0.4, Math.min(3, zoom * (e.deltaY > 0 ? 0.92 : 1.08)));
+  const after = inverseTransform(mx, my);
+  panX += (after.x - before.x) * zoom;
+  panY += (after.y - before.y) * zoom;
+}, { passive: false });
+
+// Touch (basic)
+let touchStartPan = null;
+canvas.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 1) {
+    touchStartPan = { x: e.touches[0].clientX, y: e.touches[0].clientY, panX, panY };
+  }
+}, { passive: true });
+canvas.addEventListener('touchmove', (e) => {
+  if (touchStartPan && e.touches.length === 1) {
+    panX = touchStartPan.panX + (e.touches[0].clientX - touchStartPan.x);
+    panY = touchStartPan.panY + (e.touches[0].clientY - touchStartPan.y);
+  }
+}, { passive: true });
+canvas.addEventListener('touchend', (e) => {
+  if (e.changedTouches.length === 1 && touchStartPan && Math.hypot(e.changedTouches[0].clientX - touchStartPan.x, e.changedTouches[0].clientY - touchStartPan.y) < 8) {
+    const rect = canvas.getBoundingClientRect();
+    const found = findNodeAt(e.changedTouches[0].clientX - rect.left, e.changedTouches[0].clientY - rect.top);
+    if (found) { activeId = found.id; openDetail(found); }
+    else { activeId = null; closeDetail(); }
+  }
+  touchStartPan = null;
+});
+
+// Detail panel
+const panel = document.getElementById('detail');
+const closeBtn = document.getElementById('closeBtn');
+const detailKind = document.getElementById('detailKind');
+const detailTitle = document.getElementById('detailTitle');
+const detailBody = document.getElementById('detailBody');
+const related = document.getElementById('related');
+
+function openDetail(n) {
+  const kindColor = n.kind === 'story' ? ACCENT[n.accent] : (n.kind === 'pressure' ? ACCENT.pressure : ACCENT.consequence);
+  detailKind.textContent = n.kind === 'story' ? 'STORY' : (n.kind === 'pressure' ? 'UPSTREAM PRESSURE' : 'DOWNSTREAM CONSEQUENCE');
+  detailKind.style.color = kindColor;
+  detailTitle.textContent = n.label;
+  let bodyHtml = '<p>' + n.desc + '</p>';
+  if (n.story) {
+    bodyHtml += `<a class="read-story" href="${n.story}" style="color: ${kindColor}; border-color: ${kindColor}66">Read the story</a>`;
+  }
+  detailBody.innerHTML = bodyHtml;
+
+  // Related list
+  const rel = getRelated(n.id);
+  if (rel.length) {
+    let html = '<h4>Connected to (' + rel.length + ')</h4>';
+    rel.forEach(e => {
+      const otherId = e.from === n.id ? e.to : e.from;
+      const otherNode = nodeById[otherId];
+      if (!otherNode) return;
+      const direction = e.from === n.id ? '→' : '←';
+      const edgeColor = EDGE_COLOR[e.conf];
+      html += `<a href="javascript:void(0)" data-id="${otherId}" style="color:${edgeColor}cc">${direction} ${otherNode.label}<span style="font-size:8px;opacity:0.7;margin-left:6px">${e.conf}</span></a>`;
+    });
+    related.innerHTML = html;
+    related.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        const id = a.dataset.id;
+        const next = nodeById[id];
+        if (next) { activeId = id; openDetail(next); }
+      });
+    });
+  } else {
+    related.innerHTML = '';
+  }
+  panel.classList.add('open');
+}
+function closeDetail() {
+  panel.classList.remove('open');
+}
+closeBtn.addEventListener('click', () => { activeId = null; closeDetail(); });
+</script>
+</body>
+</html>
