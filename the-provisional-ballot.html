@@ -298,6 +298,36 @@
     .lc-ribbon { grid-template-columns: 1fr 1fr; gap: 14px; }
   }
 
+
+  /* === Dim-switch: bold reveals as you scroll past === */
+  strong {
+    color: var(--ink-dim);
+    text-shadow: 0 0 0 transparent;
+    transition: color 1.3s ease 0.08s, text-shadow 1.3s ease 0.08s;
+  }
+  strong.lit {
+    color: var(--ink);
+    text-shadow: 0 0 14px rgba(232, 200, 144, 0.22), 0 0 4px rgba(232, 200, 144, 0.32);
+  }
+  em.lit-em {
+    /* keep italic emphasis untouched; lit only applies if we explicitly opt in */
+  }
+  /* Reading-time badge */
+  .read-time {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.28em; color: var(--ink-faint);
+    text-transform: uppercase;
+    padding: 5px 10px; border: 1px solid var(--rule);
+    border-radius: 2px; margin-left: 14px; vertical-align: middle;
+    transition: color 0.6s, border-color 0.6s;
+  }
+  .read-time::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: currentColor; opacity: 0.55;
+  }
+  .read-time.lit { color: var(--gold, #c4a777); border-color: rgba(196,167,119,0.4); }
+
 </style>
 </head>
 <body>
@@ -367,7 +397,7 @@
       <div class="chapter-marker">i.</div>
       <div class="chapter-stamp"><span class="acc">The cast</span><span>Act 01</span></div>
       <h3>A voter <em>casts</em> a provisional ballot.</h3>
-      <p>Provisional ballots are cast when a voter's eligibility is in question at the polling place — wrong precinct, ID issue, registration discrepancy, signature mismatch. The ballot is sealed and set aside for post-election adjudication. <strong>The voter has done their part.</strong></p>
+      <p>Provisional ballots are cast when a voter's eligibility is in question at the polling place, wrong precinct, ID issue, registration discrepancy, signature mismatch. The ballot is sealed and set aside for post-election adjudication. <strong>The voter has done their part.</strong></p>
       <p>In a typical Georgia general election, total provisional ballots cast statewide can run into the tens of thousands. Most are cast by voters who believe themselves eligible.</p>
       <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://sos.ga.gov/elections-division-georgia-secretary-states-office" target="_blank" rel="noopener">GA SoS provisionals</a></div>
     </div>
@@ -412,7 +442,7 @@
       <div class="chapter-marker">vi.</div>
       <div class="chapter-stamp"><span class="acc">The result</span><span>Act 06</span></div>
       <h3>What survives is <span class="reject">~40%</span> of what entered. <span class="conf strong">Strong</span></h3>
-      <p>Across recent Georgia general elections, the share of provisional ballots fully counted has averaged roughly 40% — meaning the majority of provisional ballots cast are not fully counted. <strong>The disparity by county is the part that does not get reported.</strong> Some counties run cure rates well above 60%. Others run below 25%.</p>
+      <p>Across recent Georgia general elections, the share of provisional ballots fully counted has averaged roughly 40%, meaning the majority of provisional ballots cast are not fully counted. <strong>The disparity by county is the part that does not get reported.</strong> Some counties run cure rates well above 60%. Others run below 25%.</p>
       <p>The integrity question is not whether ineligible ballots are counted. It is whether eligible ballots are rejected, county-by-county, by an adjudication process whose pass rate depends on the geography of where the ballot was cast.</p>
       <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://sos.ga.gov/elections-division-georgia-secretary-states-office" target="_blank" rel="noopener">GA SoS provisional outcomes</a><span class="citation-note">multi-cycle</span></div>
     </div>
@@ -427,7 +457,7 @@
       <div class="item"><div class="num">01 · DeKalb</div><h4>Above-average cure.</h4><p>Active outreach programs; relatively high cure-rate; comparatively high count rate.</p><div class="num-callout">~60% counted</div></div>
       <div class="item"><div class="num">02 · Fulton</div><h4>Mid-range.</h4><p>Large volume; average cure rate; persistent geographic variability within the county.</p><div class="num-callout">~45% counted</div></div>
       <div class="item"><div class="num">03 · Cobb / Gwinnett</div><h4>Mid-to-high.</h4><p>Effective procedural infrastructure; less consistent cure outreach.</p><div class="num-callout">~50% counted</div></div>
-      <div class="item"><div class="num">04 · Smaller metro</div><h4>Variable.</h4><p>Bibb, Richmond, Chatham — cure-rate variability is high; outreach depends on board priorities.</p><div class="num-callout">variable</div></div>
+      <div class="item"><div class="num">04 · Smaller metro</div><h4>Variable.</h4><p>Bibb, Richmond, Chatham, cure-rate variability is high; outreach depends on board priorities.</p><div class="num-callout">variable</div></div>
       <div class="item"><div class="num">05 · Whitfield / Hall</div><h4>Below-average.</h4><p>Counties with high non-English-language voter share; cure rates often lower; rejection rates higher.</p><div class="num-callout">~30% counted</div></div>
       <div class="item"><div class="num">06 · Rural south GA</div><h4>Under-measured.</h4><p>Lower absolute provisional volume; lower data quality; cure infrastructure typically minimal.</p><div class="num-callout">data gap</div></div>
     </div>
@@ -1236,6 +1266,19 @@ window._LENS_DATA = {"lenses": [{"key": "A", "name": "Economic Lens", "tag": "A 
   }
   section.querySelectorAll('.lc-tab').forEach((t, i) => t.addEventListener('click', () => setLens(i)));
   addEventListener('keydown', e => { if (!section.matches(':hover')) return; const k = 'abcd'.indexOf(e.key.toLowerCase()); if (k >= 0) setLens(k); });
+})();
+
+
+// === Dim-switch: light up strong text as it enters view ===
+(function dimSwitch() {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('strong').forEach(el => el.classList.add('lit'));
+    return;
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('lit'); obs.unobserve(e.target); } });
+  }, { threshold: 0.55, rootMargin: '-10% 0px' });
+  document.querySelectorAll('strong, .read-time').forEach(el => obs.observe(el));
 })();
 
 </script>

@@ -738,6 +738,36 @@
     .lc-ribbon { grid-template-columns: 1fr 1fr; gap: 14px; }
   }
 
+
+  /* === Dim-switch: bold reveals as you scroll past === */
+  strong {
+    color: var(--ink-dim);
+    text-shadow: 0 0 0 transparent;
+    transition: color 1.3s ease 0.08s, text-shadow 1.3s ease 0.08s;
+  }
+  strong.lit {
+    color: var(--ink);
+    text-shadow: 0 0 14px rgba(232, 200, 144, 0.22), 0 0 4px rgba(232, 200, 144, 0.32);
+  }
+  em.lit-em {
+    /* keep italic emphasis untouched; lit only applies if we explicitly opt in */
+  }
+  /* Reading-time badge */
+  .read-time {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.28em; color: var(--ink-faint);
+    text-transform: uppercase;
+    padding: 5px 10px; border: 1px solid var(--rule);
+    border-radius: 2px; margin-left: 14px; vertical-align: middle;
+    transition: color 0.6s, border-color 0.6s;
+  }
+  .read-time::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: currentColor; opacity: 0.55;
+  }
+  .read-time.lit { color: var(--gold, #c4a777); border-color: rgba(196,167,119,0.4); }
+
 </style>
 </head>
 <body>
@@ -770,7 +800,7 @@
 <section class="hero">
   <canvas id="herofield" class="hero-canvas"></canvas>
   <div class="hero-content">
-    <div class="kicker">A county, traced · one mechanism among many</div>
+    <div class="kicker">A county, traced · one mechanism among many<span class="read-time">~6 min · with the lens console</span></div>
     <h1 class="headline">
       <span class="l">Part of the shift in DeKalb</span>
       <span class="l">may not have started</span>
@@ -820,8 +850,8 @@
       <div class="chapter-marker">i.</div>
       <div class="chapter-stamp"><span class="gold">DeKalb · Pop. 750,000</span><span>The setup</span></div>
       <h3>A residential county tied to a <em>working capital</em>. <span class="conf strong">Strong</span></h3>
-      <p>DeKalb is the donut around the Atlanta core — inside the perimeter on its western edge, suburban on its eastern. Its labor force is roughly 370,000. <strong>Its economy does not match its residency.</strong></p>
-      <p>It hosts national institutions — the CDC headquarters, Emory University, the Atlanta VA, the DeKalb-Peachtree Airport — but a meaningful share of its working-age population earns income across the line, in Fulton.</p>
+      <p>DeKalb is the donut around the Atlanta core, inside the perimeter on its western edge, suburban on its eastern. Its labor force is roughly 370,000. <strong>Its economy does not match its residency.</strong></p>
+      <p>It hosts national institutions, the CDC headquarters, Emory University, the Atlanta VA, the DeKalb-Peachtree Airport, but a meaningful share of its working-age population earns income across the line, in Fulton.</p>
       <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">ACS</a><a class="citation-link" href="https://dol.georgia.gov/" target="_blank" rel="noopener">GA Dept of Labor</a><span class="citation-note">2024</span></div>
     </div>
 
@@ -857,7 +887,7 @@
       <div class="chapter-stamp"><span class="gold">The cascade</span><span>Act 05</span></div>
       <h3>Cost of living stopped being abstract in <em>DeKalb specifically</em>.</h3>
       <p>The Emerson poll in January 2026 caught a Georgia electorate naming economy as its number-one issue. But the survey is a snapshot. <strong>In DeKalb, the anxiety had a specific architecture</strong>: my federal job in Atlanta is uncertain and my mortgage in Decatur is due.</p>
-      <p>The state's "affordability" frame, abstract at the level of polls, was concrete here — concrete enough to change what people did on May 19.</p>
+      <p>The state's "affordability" frame, abstract at the level of polls, was concrete here, concrete enough to change what people did on May 19.</p>
       <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://emersoncollegepolling.com/category/state-polls/georgia/" target="_blank" rel="noopener">Emerson Polling</a><span class="citation-note">Jan 2026</span></div>
     </div>
 
@@ -951,7 +981,7 @@
       <div class="county">
         <div class="county-mech">Mechanism · The non-shift</div>
         <div class="county-name">Dougherty<span class="pop">~85K</span></div>
-        <p><strong>Upstream:</strong> Rural southwest GA — limited commuter economy, limited federal exposure, persistent disinvestment.</p>
+        <p><strong>Upstream:</strong> Rural southwest GA, limited commuter economy, limited federal exposure, persistent disinvestment.</p>
         <p><strong>Downstream:</strong> The mechanism that moved DeKalb did not move here. Turnout below 10% in early voting. <strong>The counties most often discussed are the counties where the data was loudest.</strong> The quiet counties tell their own story.</p>
         <div class="delta">
           <div class="delta-cell then"><div class="y">2022 EV turnout</div><div class="v" style="font-size: 17px;">low</div></div>
@@ -1079,7 +1109,7 @@
       <div class="hole">
         <div class="timing">Permanent caveat</div>
         <h4>The other forty counties</h4>
-        <p>Five mechanisms are shown. Georgia has 159 counties. The pattern in each is its own story — knowable, but not yet narrated here.</p>
+        <p>Five mechanisms are shown. Georgia has 159 counties. The pattern in each is its own story, knowable, but not yet narrated here.</p>
       </div>
     </div>
   </div>
@@ -1089,7 +1119,7 @@
   <div class="footer-grid">
     <div>
       <h5>About this piece</h5>
-      <p>An attempt to render an economic mechanism as a motion design — to show, not state, that political consequences in one county often trace to economic disruptions in another. Designed against the instinct to read primary results as standalone events. Built on the Infera narrative-integrity framework — sources are tagged, inferences are marked, illustrative numbers are flagged.</p>
+      <p>An attempt to render an economic mechanism as a motion design, to show, not state, that political consequences in one county often trace to economic disruptions in another. Designed against the instinct to read primary results as standalone events. Built on the Infera narrative-integrity framework, sources are tagged, inferences are marked, illustrative numbers are flagged.</p>
       <div class="sig">— Infera Editorial</div>
     </div>
     <div>
@@ -2239,6 +2269,19 @@ window._LENS_DATA = {"lenses": [{"key": "A", "name": "Economic Lens", "tag": "A 
   }
   section.querySelectorAll('.lc-tab').forEach((t, i) => t.addEventListener('click', () => setLens(i)));
   addEventListener('keydown', e => { if (!section.matches(':hover')) return; const k = 'abcd'.indexOf(e.key.toLowerCase()); if (k >= 0) setLens(k); });
+})();
+
+
+// === Dim-switch: light up strong text as it enters view ===
+(function dimSwitch() {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('strong').forEach(el => el.classList.add('lit'));
+    return;
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('lit'); obs.unobserve(e.target); } });
+  }, { threshold: 0.55, rootMargin: '-10% 0px' });
+  document.querySelectorAll('strong, .read-time').forEach(el => obs.observe(el));
 })();
 
 </script>

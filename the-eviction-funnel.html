@@ -323,6 +323,36 @@
     .lc-ribbon { grid-template-columns: 1fr 1fr; gap: 14px; }
   }
 
+
+  /* === Dim-switch: bold reveals as you scroll past === */
+  strong {
+    color: var(--ink-dim);
+    text-shadow: 0 0 0 transparent;
+    transition: color 1.3s ease 0.08s, text-shadow 1.3s ease 0.08s;
+  }
+  strong.lit {
+    color: var(--ink);
+    text-shadow: 0 0 14px rgba(232, 200, 144, 0.22), 0 0 4px rgba(232, 200, 144, 0.32);
+  }
+  em.lit-em {
+    /* keep italic emphasis untouched; lit only applies if we explicitly opt in */
+  }
+  /* Reading-time badge */
+  .read-time {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.28em; color: var(--ink-faint);
+    text-transform: uppercase;
+    padding: 5px 10px; border: 1px solid var(--rule);
+    border-radius: 2px; margin-left: 14px; vertical-align: middle;
+    transition: color 0.6s, border-color 0.6s;
+  }
+  .read-time::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: currentColor; opacity: 0.55;
+  }
+  .read-time.lit { color: var(--gold, #c4a777); border-color: rgba(196,167,119,0.4); }
+
 </style>
 </head>
 <body>
@@ -353,7 +383,7 @@
 <section class="hero">
   <canvas id="herofield" class="hero-canvas"></canvas>
   <div class="hero-content">
-    <div class="kicker">A six-step pathway · one of several</div>
+    <div class="kicker">A six-step pathway · one of several<span class="read-time">~6 min · with the lens console</span></div>
     <h1>
       <span class="l">A filing in November</span>
       <span class="l">becomes a non-vote</span>
@@ -393,7 +423,7 @@
       <div class="chapter-marker">i.</div>
       <div class="chapter-stamp"><span class="acc">The baseline</span><span>Act 01</span></div>
       <h3>Start with one hundred thousand renting <em>households</em>.</h3>
-      <p>Pick any large Georgia metro. Roughly 40% of households rent. Most are registered to vote at their current address — the address on the lease, on the utility bill, on the driver's license. <strong>Civic standing is anchored to housing.</strong></p>
+      <p>Pick any large Georgia metro. Roughly 40% of households rent. Most are registered to vote at their current address, the address on the lease, on the utility bill, on the driver's license. <strong>Civic standing is anchored to housing.</strong></p>
       <p>Housing is the variable. Civic standing is the dependent.</p>
       <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://www.census.gov/topics/housing/data.html" target="_blank" rel="noopener">ACS housing tenure</a><span class="citation-note">2023</span></div>
     </div>
@@ -429,7 +459,7 @@
       <div class="chapter-marker">v.</div>
       <div class="chapter-stamp"><span class="acc">The election</span><span>Act 05</span></div>
       <h3>Election day arrives. The voter <em>shows up</em>. Or doesn't.</h3>
-      <p>If they show up at their old polling place, they are offered a provisional ballot — which may or may not be counted depending on the county and the timing of their move. If they go to the new polling place, they are not on the rolls. If they don't know either polling place is now wrong, they don't go at all.</p>
+      <p>If they show up at their old polling place, they are offered a provisional ballot, which may or may not be counted depending on the county and the timing of their move. If they go to the new polling place, they are not on the rolls. If they don't know either polling place is now wrong, they don't go at all.</p>
       <p>The pathway from "registered voter who recently moved" to "counted vote" is narrow. The structural failure rate is high.</p>
       <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://www.brennancenter.org/issues/ensure-every-american-can-vote" target="_blank" rel="noopener">Brennan Center · provisionals</a></div>
     </div>
@@ -455,7 +485,7 @@
       <div class="item"><div class="num">03 · Cobb / Gwinnett</div><h4>Suburban absorption.</h4><p>Receiving counties for outer-metro displacement. Registration lag often runs multiple years.</p><div class="num-callout">delayed re-reg</div></div>
       <div class="item"><div class="num">04 · Henry / Clayton</div><h4>The black-middle-class receiving zone.</h4><p>Significant inflow from Fulton/DeKalb. Registration update rates lower than the receiving population's voting age.</p><div class="num-callout">structural gap</div></div>
       <div class="item"><div class="num">05 · Macon-Bibb</div><h4>The mid-size pattern.</h4><p>Same funnel, smaller absolute numbers, similar rate. The mechanism doesn't require metro scale.</p><div class="num-callout">replicates</div></div>
-      <div class="item"><div class="num">06 · Rural south GA</div><h4>The under-measured zone.</h4><p>Lower filing volume but lower data quality — the funnel here is observed less because it's recorded less, not because it doesn't happen.</p><div class="num-callout">data gap</div></div>
+      <div class="item"><div class="num">06 · Rural south GA</div><h4>The under-measured zone.</h4><p>Lower filing volume but lower data quality, the funnel here is observed less because it's recorded less, not because it doesn't happen.</p><div class="num-callout">data gap</div></div>
     </div>
   </div>
 </section>
@@ -1236,6 +1266,19 @@ window._LENS_DATA = {"lenses": [{"key": "A", "name": "Economic Lens", "tag": "A 
   }
   section.querySelectorAll('.lc-tab').forEach((t, i) => t.addEventListener('click', () => setLens(i)));
   addEventListener('keydown', e => { if (!section.matches(':hover')) return; const k = 'abcd'.indexOf(e.key.toLowerCase()); if (k >= 0) setLens(k); });
+})();
+
+
+// === Dim-switch: light up strong text as it enters view ===
+(function dimSwitch() {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('strong').forEach(el => el.classList.add('lit'));
+    return;
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('lit'); obs.unobserve(e.target); } });
+  }, { threshold: 0.55, rootMargin: '-10% 0px' });
+  document.querySelectorAll('strong, .read-time').forEach(el => obs.observe(el));
 })();
 
 </script>

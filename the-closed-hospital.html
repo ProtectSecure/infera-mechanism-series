@@ -322,6 +322,36 @@
     .lc-ribbon { grid-template-columns: 1fr 1fr; gap: 14px; }
   }
 
+
+  /* === Dim-switch: bold reveals as you scroll past === */
+  strong {
+    color: var(--ink-dim);
+    text-shadow: 0 0 0 transparent;
+    transition: color 1.3s ease 0.08s, text-shadow 1.3s ease 0.08s;
+  }
+  strong.lit {
+    color: var(--ink);
+    text-shadow: 0 0 14px rgba(232, 200, 144, 0.22), 0 0 4px rgba(232, 200, 144, 0.32);
+  }
+  em.lit-em {
+    /* keep italic emphasis untouched; lit only applies if we explicitly opt in */
+  }
+  /* Reading-time badge */
+  .read-time {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.28em; color: var(--ink-faint);
+    text-transform: uppercase;
+    padding: 5px 10px; border: 1px solid var(--rule);
+    border-radius: 2px; margin-left: 14px; vertical-align: middle;
+    transition: color 0.6s, border-color 0.6s;
+  }
+  .read-time::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: currentColor; opacity: 0.55;
+  }
+  .read-time.lit { color: var(--gold, #c4a777); border-color: rgba(196,167,119,0.4); }
+
 </style>
 </head>
 <body>
@@ -352,7 +382,7 @@
 <section class="hero">
   <canvas id="herofield" class="hero-canvas"></canvas>
   <div class="hero-content">
-    <div class="kicker">A documented cascade · with confounders named</div>
+    <div class="kicker">A documented cascade · with confounders named<span class="read-time">~6 min · with the lens console</span></div>
     <h1>
       <span class="l">A rural ER closes</span>
       <span class="l">in March.</span>
@@ -401,8 +431,8 @@
       <div class="chapter-marker">ii.</div>
       <div class="chapter-stamp"><span class="acc">The closure</span><span>Act 02</span></div>
       <h3>The pin <em>extinguishes</em>. The pulse goes out.</h3>
-      <p>Closure is announced. Final patient discharge. Lights off. The catchment area — the geographic region the hospital had served — does not redraw on a public map. <strong>It redraws in real time, ambulance run by ambulance run.</strong></p>
-      <p>The nearest functioning facility is often 25–45 minutes farther by ground EMS. For time-critical care — stroke, heart attack, major trauma, complicated labor — those minutes are clinical.</p>
+      <p>Closure is announced. Final patient discharge. Lights off. The catchment area, the geographic region the hospital had served, does not redraw on a public map. <strong>It redraws in real time, ambulance run by ambulance run.</strong></p>
+      <p>The nearest functioning facility is often 25–45 minutes farther by ground EMS. For time-critical care, stroke, heart attack, major trauma, complicated labor, those minutes are clinical.</p>
       <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://www.cms.gov/Medicare/Provider-Enrollment-and-Certification/MedicareProviderSupEnroll" target="_blank" rel="noopener">CMS Form 855A</a><a class="citation-link" href="https://dph.georgia.gov/" target="_blank" rel="noopener">GA DPH</a></div>
     </div>
 
@@ -410,7 +440,7 @@
       <div class="chapter-marker">iii.</div>
       <div class="chapter-stamp"><span class="acc">The reroute</span><span>Act 03</span></div>
       <h3>Ambulances trace <span class="gx">new paths</span>. Neighboring ERs absorb.</h3>
-      <p>Run data — which Georgia DPH maintains — shows the rerouting in days. Ambulances that previously ran 8-mile transports now run 30-mile transports. Receiving hospitals across the county line — already at capacity in many rural regions — must absorb the overflow.</p>
+      <p>Run data, which Georgia DPH maintains, shows the rerouting in days. Ambulances that previously ran 8-mile transports now run 30-mile transports. Receiving hospitals across the county line, already at capacity in many rural regions, must absorb the overflow.</p>
       <p>Within weeks, <strong>median ER wait times in the receiving facilities lengthen measurably</strong>. The closure has not just removed care from one county; it has degraded care in two or three more.</p>
       <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://dph.georgia.gov/EMS" target="_blank" rel="noopener">GA DPH OEMS</a><a class="citation-link" href="https://www.medicare.gov/care-compare/" target="_blank" rel="noopener">CMS Care Compare</a></div>
     </div>
@@ -419,7 +449,7 @@
       <div class="chapter-marker">iv.</div>
       <div class="chapter-stamp"><span class="acc">The signature</span><span>Act 04</span></div>
       <h3>By six months, vital statistics <em>shift</em>. <span class="conf correlated">Correlated</span></h3>
-      <p>The clinical-research literature on rural hospital closures is consistent: in the 12 months following a closure, the catchment area shows measurable worsening in time-sensitive outcomes — particularly maternal mortality, infant mortality, and out-of-hospital cardiac arrest survival. <strong>The closure-to-outcome lag is generally 4 to 9 months.</strong></p>
+      <p>The clinical-research literature on rural hospital closures is consistent: in the 12 months following a closure, the catchment area shows measurable worsening in time-sensitive outcomes, particularly maternal mortality, infant mortality, and out-of-hospital cardiac arrest survival. <strong>The closure-to-outcome lag is generally 4 to 9 months.</strong></p>
       <p>Georgia's maternal mortality rate is among the worst in the United States. Rural closures compound a problem that was already national-headline material.</p>
       <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://www.nejm.org/doi/full/10.1056/NEJMsa1819029" target="_blank" rel="noopener">NEJM · rural closure outcomes</a><a class="citation-link" href="https://dph.georgia.gov/" target="_blank" rel="noopener">GA vital stats</a></div>
     </div>
@@ -444,7 +474,7 @@
       <div class="item"><div class="num">02 · Calhoun</div><h4>Closure: 2017.</h4><p>Patton hospital. Catchment merged with Randolph and Clay county receiving facilities.</p><div class="num-callout">~45 min</div></div>
       <div class="item"><div class="num">03 · Hancock</div><h4>Closure: 2019.</h4><p>Among the most rural in the state. Catchment reroute via Putnam and Washington county facilities.</p><div class="num-callout">~50 min</div></div>
       <div class="item"><div class="num">04 · Hutcheson Medical Center</div><h4>Closure: 2016.</h4><p>Walker County. Larger facility; bigger ripple. Chattanooga-area facilities absorbed cross-state.</p><div class="num-callout">cross-state</div></div>
-      <div class="item"><div class="num">05 · Wellstar Atlanta</div><h4>Closure: 2022.</h4><p>Urban example — Atlanta Medical Center. Catchment displaced into Grady, Piedmont, and Northside.</p><div class="num-callout">urban echo</div></div>
+      <div class="item"><div class="num">05 · Wellstar Atlanta</div><h4>Closure: 2022.</h4><p>Urban example, Atlanta Medical Center. Catchment displaced into Grady, Piedmont, and Northside.</p><div class="num-callout">urban echo</div></div>
       <div class="item"><div class="num">06 · The watchlist</div><h4>Multiple, 2026.</h4><p>Several Georgia rural facilities are publicly identified on closure watchlists. Each subsequent closure compounds the catchment strain.</p><div class="num-callout">pending</div></div>
     </div>
   </div>
@@ -1257,6 +1287,19 @@ window._LENS_DATA = {"lenses": [{"key": "A", "name": "Economic Lens", "tag": "A 
   }
   section.querySelectorAll('.lc-tab').forEach((t, i) => t.addEventListener('click', () => setLens(i)));
   addEventListener('keydown', e => { if (!section.matches(':hover')) return; const k = 'abcd'.indexOf(e.key.toLowerCase()); if (k >= 0) setLens(k); });
+})();
+
+
+// === Dim-switch: light up strong text as it enters view ===
+(function dimSwitch() {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('strong').forEach(el => el.classList.add('lit'));
+    return;
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('lit'); obs.unobserve(e.target); } });
+  }, { threshold: 0.55, rootMargin: '-10% 0px' });
+  document.querySelectorAll('strong, .read-time').forEach(el => obs.observe(el));
 })();
 
 </script>
