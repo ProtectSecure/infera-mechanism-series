@@ -471,7 +471,7 @@ document.querySelectorAll('.chapter[data-stage]').forEach(p => obs.observe(p));
     c.width = W * DPR; c.height = H * DPR;
     ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
   }
-  window.addEventListener('resize', resize); setTimeout(resize, 60);
+  window.addEventListener('resize', resize); resize(); requestAnimationFrame(resize);
 
   // Read hypotheses from the DOM (they were rendered server-side)
   const hyps = Array.from(document.querySelectorAll('.hyp-row')).map((row, i) => {
@@ -490,6 +490,7 @@ document.querySelectorAll('.chapter[data-stage]').forEach(p => obs.observe(p));
   let frame = 0;
 
   function loop() {
+    if (!W || !H || W < 10 || H < 10) { requestAnimationFrame(loop); return; }
     frame++;
     ctx.clearRect(0, 0, W, H);
     const cx = W / 2, cy = H / 2;
