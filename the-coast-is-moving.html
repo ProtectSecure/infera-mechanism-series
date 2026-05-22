@@ -231,6 +231,73 @@
     .theater-frame { inset: 32px 28px; }
   }
 
+
+  /* === LENS CONSOLE === */
+  .competing-section.lens-console-section { background: var(--bg); padding: 12vh 4vw 12vh; border-top: 1px solid var(--rule); position: relative; overflow: hidden; }
+  .lens-console-section::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 20%, rgba(168,144,200,0.04) 0%, transparent 60%); pointer-events: none; }
+  .lc-inner { max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
+  .lc-stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; color: var(--lens-c, #c4a777); text-transform: uppercase; margin-bottom: 16px; text-align: center; transition: color 0.5s; }
+  .lc-h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(30px, 4.2vw, 50px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; text-align: center; max-width: 30ch; margin-left: auto; margin-right: auto; }
+  .lc-h2 em { font-style: italic; color: var(--lens-c, #c4a777); transition: color 0.5s; }
+  .lc-lead { font-family: 'Fraunces', serif; font-size: 16px; color: var(--ink-dim); max-width: 60ch; line-height: 1.55; margin: 0 auto 36px; text-align: center; }
+  .lc-fact-bar { padding: 16px 24px; background: var(--bg-card); border: 1px solid var(--rule); border-bottom: none; border-radius: 3px 3px 0 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .lc-fact-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: #c4a777; text-transform: uppercase; }
+  .lc-fact-text { font-family: 'Fraunces', serif; font-style: italic; font-size: 16px; color: var(--ink); flex: 1; min-width: 240px; }
+  .lc-fact-source { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--ink-faint); text-transform: uppercase; }
+  .lc-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-bottom: none; }
+  .lc-tab { background: var(--bg-card); padding: 16px 18px; cursor: pointer; border: none; text-align: left; color: var(--ink-dim); transition: background 0.4s, color 0.3s; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 4px; }
+  .lc-tab::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--c); transform: scaleX(0); transform-origin: left; transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1); }
+  .lc-tab:hover { background: #11141a; color: var(--ink); }
+  .lc-tab.active { background: rgba(0,0,0,0.4); color: var(--c); }
+  .lc-tab.active::before { transform: scaleX(1); }
+  .lc-tab.active::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(165deg, var(--c-glow) 0%, transparent 70%); opacity: 0.5; }
+  .lc-tab[data-idx="0"] { --c: #88c4c8; --c-glow: rgba(136,196,200,0.10); }
+  .lc-tab[data-idx="1"] { --c: #c8a8e8; --c-glow: rgba(200,168,232,0.10); }
+  .lc-tab[data-idx="2"] { --c: #e8a878; --c-glow: rgba(232,168,120,0.10); }
+  .lc-tab[data-idx="3"] { --c: #a8c088; --c-glow: rgba(168,192,136,0.10); }
+  .lc-tab .tab-k { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--c); text-transform: uppercase; opacity: 0.7; }
+  .lc-tab .tab-n { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 16px; line-height: 1.2; }
+  .lc-console { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 0 0 3px 3px; overflow: hidden; min-height: 580px; }
+  .lc-viz-stack { position: relative; background: radial-gradient(ellipse at 50% 50%, #0a0d12 0%, var(--bg) 80%); min-height: 580px; overflow: hidden; }
+  .lc-viz-frame { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 0.5s; padding: 32px 28px 30px; display: flex; flex-direction: column; }
+  .lc-viz-frame.active { opacity: 1; pointer-events: auto; }
+  .lc-viz-header { margin-bottom: 12px; }
+  .lc-viz-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.26em; color: var(--lens-c); text-transform: uppercase; margin-bottom: 5px; transition: color 0.5s; }
+  .lc-viz-name { font-family: 'Fraunces', serif; font-weight: 400; font-size: 19px; color: var(--ink); line-height: 1.2; }
+  .lc-viz-canvas { flex: 1; position: relative; min-height: 320px; }
+  .lc-viz-canvas canvas, .lc-viz-canvas svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .lc-viz-caption { margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.16em; color: var(--ink-faint); text-transform: uppercase; line-height: 1.5; }
+  .lc-viz-caption .c-key { color: var(--lens-c); transition: color 0.5s; }
+  .lc-narr { background: var(--bg-card); padding: 28px 30px; position: relative; display: flex; flex-direction: column; gap: 16px; overflow: hidden; }
+  .lc-narr::before { content: ""; position: absolute; inset: 0; background: linear-gradient(165deg, var(--lens-c-bg) 0%, transparent 65%); transition: background 0.6s; pointer-events: none; }
+  .lc-narr-content { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 16px; opacity: 1; transition: opacity 0.4s; }
+  .lc-narr-content.fading { opacity: 0; }
+  .lc-narr-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--lens-c); text-transform: uppercase; transition: color 0.5s; }
+  .lc-narr-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.15; color: var(--ink); letter-spacing: -0.015em; }
+  .lc-narr-frame { font-family: 'Fraunces', serif; font-style: italic; font-size: 15px; color: var(--lens-c); line-height: 1.4; padding-bottom: 12px; border-bottom: 1px solid var(--rule); transition: color 0.5s; }
+  .lc-narr-body { font-size: 13px; color: var(--ink-dim); line-height: 1.65; }
+  .lc-narr-body strong { color: var(--ink); }
+  .lc-causal { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink-faint); margin-top: 2px; }
+  .lc-causal .step { padding: 4px 8px; background: rgba(255,255,255,0.04); color: var(--lens-c); border-radius: 2px; letter-spacing: 0.12em; text-transform: uppercase; transition: all 0.4s; }
+  .lc-causal .arrow { color: var(--ink-faint); }
+  .lc-narr-test { padding: 12px 14px; background: rgba(255,255,255,0.03); border-left: 2px solid var(--lens-c); border-radius: 0 3px 3px 0; transition: border-color 0.5s; }
+  .lc-narr-test-stamp { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.26em; color: var(--lens-c); text-transform: uppercase; margin-bottom: 5px; transition: color 0.5s; }
+  .lc-narr-test-q { font-family: 'Fraunces', serif; font-style: italic; font-size: 13px; line-height: 1.45; color: var(--ink); }
+  .lc-vocab { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+  .lc-vocab .word { font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 7px; background: rgba(255,255,255,0.04); color: var(--lens-c); border-radius: 2px; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.5s; }
+  .lc-ribbon { margin-top: 1px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; padding: 14px 22px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .lc-rd { transition: opacity 0.4s; }
+  .lc-rd.fading { opacity: 0; }
+  .lc-rd-lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; color: var(--ink-faint); text-transform: uppercase; margin-bottom: 6px; }
+  .lc-rd-val { font-family: 'Fraunces', serif; font-weight: 400; font-size: 16px; color: var(--lens-c); line-height: 1.15; transition: color 0.5s; }
+  .lc-rd-meta { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink-faint); margin-top: 4px; }
+  @media (max-width: 1000px) {
+    .lc-console { grid-template-columns: 1fr; }
+    .lc-viz-stack { min-height: 420px; }
+    .lc-tabs { grid-template-columns: 1fr 1fr; }
+    .lc-ribbon { grid-template-columns: 1fr 1fr; gap: 14px; }
+  }
+
 </style>
 </head>
 <body>
@@ -359,63 +426,81 @@
 </section>
 
 <!-- COMPETING EXPLANATIONS -->
-<section class="competing-section theater-section">
-  <div class="competing-inner">
-    <div class="comp-stamp">A theater of competing reads · click any letter</div>
-    <h2>What <em>else</em> could explain the coastal GA inflow?</h2>
-    <p class="lead">Insurance-driven climate migration is one frame. Three other frames produce similar inflow patterns without requiring climate or insurance as the upstream cause.</p>
-    <div class="theater">
-      <div class="theater-spine">
-        <button class="spine-btn active" data-idx="0"><span class="spine-letter">A</span><span class="spine-kind">PRIMARY</span></button>
-        <button class="spine-btn" data-idx="1"><span class="spine-letter">B</span><span class="spine-kind">ALT B</span></button>
-        <button class="spine-btn" data-idx="2"><span class="spine-letter">C</span><span class="spine-kind">ALT C</span></button>
-        <button class="spine-btn" data-idx="3"><span class="spine-letter">D</span><span class="spine-kind">ALT D</span></button>
-      </div>
-      <div class="theater-stage">
-        <div class="theater-canvas-wrap">
-          <canvas class="theater-canvas"></canvas>
-          <div class="theater-canvas-label"><span class="glyph">●</span>focused mechanism</div>
+<section class="competing-section lens-console-section" style="--lens-c: #88c4c8; --lens-c-bg: rgba(136,196,200,0.06);">
+  <div class="lc-inner">
+    <div class="lc-stamp">A constellation of competing reads · lens console</div>
+    <h2 class="lc-h2">One fact about <em>the FL-to-GA migration</em>. Four lenses. Four pictures.</h2>
+    <p class="lc-lead">Pick a lens. The room reconfigures. Same fact, different argument, different chart. Press A/B/C/D.</p>
+
+    <div class="lc-fact-bar">
+      <div class="lc-fact-label">The shared fact</div>
+      <div class="lc-fact-text">"Coastal Georgia counties received an estimated 22,000 households relocating from Florida between 2022 and 2026."</div>
+      <div class="lc-fact-source">SOURCE · USPS NCOA · GA DDS license-surrender data</div>
+    </div>
+
+    <div class="lc-tabs">
+      <button class="lc-tab active" data-idx="0"><span class="tab-k">A · ECONOMIC LENS</span><span class="tab-n">The FL insurance bill became unpayable</span></button>
+      <button class="lc-tab" data-idx="1"><span class="tab-k">B · POLITICAL LENS</span><span class="tab-n">Florida solved its insurance problem by exporting it</span></button>
+      <button class="lc-tab" data-idx="2"><span class="tab-k">C · MEDIA LENS</span><span class="tab-n">Climate migration is in the future tense. The migration is now.</span></button>
+      <button class="lc-tab" data-idx="3"><span class="tab-k">D · CULTURAL LENS</span><span class="tab-n">Coastal Georgia is absorbing a new neighborhood at a time</span></button>
+    </div>
+
+    <div class="lc-console">
+      <div class="lc-viz-stack">
+      <div class="lc-viz-frame active" data-idx="0">
+        <div class="lc-viz-header">
+          <div class="lc-viz-tag">A · Information design</div>
+          <div class="lc-viz-name">Income vs cost · the crossing point</div>
         </div>
-        <div class="theater-content">
-          <div class="theater-frame active" data-idx="0" style="--c: #c4a777">
-            <div class="frame-counter"><span class="num">A.</span>Hypothesis A of 4</div>
-            <div class="frame-tag">PRIMARY · THIS PIECE</div>
-            <div class="frame-title">Insurance-pressure migration</div>
-            <p class="frame-desc">Hardening FL homeowner insurance prices households out and routes them to lower-premium GA coastal counties.</p>
-            <div class="frame-test"><div class="frame-test-stamp">— The distinguishing test —</div><div class="frame-test-q">After controlling for tax differential and retirement-driven migration, does the FL-to-GA flow correlate specifically with insurer exit dates and rate-hike events?</div></div>
-          </div>
-          <div class="theater-frame" data-idx="1" style="--c: #c8a8e8">
-            <div class="frame-counter"><span class="num">B.</span>Hypothesis B of 4</div>
-            <div class="frame-tag">ALTERNATE · STRUCTURAL</div>
-            <div class="frame-title">Sun Belt migration broadly</div>
-            <p class="frame-desc">FL-to-GA flow is one slice of a much larger sustained Sun Belt migration that predates the insurance crisis. The crisis accelerates but does not originate the pattern.</p>
-            <div class="frame-test"><div class="frame-test-stamp">— The distinguishing test —</div><div class="frame-test-q">Has the slope of the FL-to-GA migration curve measurably changed since the FL insurance hardening events, or is the trend continuous from a prior baseline?</div></div>
-          </div>
-          <div class="theater-frame" data-idx="2" style="--c: #98a4f0">
-            <div class="frame-counter"><span class="num">C.</span>Hypothesis C of 4</div>
-            <div class="frame-tag">ALTERNATE · TAX-POLICY</div>
-            <div class="frame-title">Retirement-and-tax migration</div>
-            <p class="frame-desc">Retirees are moving for tax reasons (income, estate, property tax) — the climate or insurance frame is being attached to a financial decision they would have made regardless.</p>
-            <div class="frame-test"><div class="frame-test-stamp">— The distinguishing test —</div><div class="frame-test-q">Do FL-to-GA movers cite tax differentials more prominently than climate/insurance when surveyed at the point of relocation?</div></div>
-          </div>
-          <div class="theater-frame" data-idx="3" style="--c: #d098c4">
-            <div class="frame-counter"><span class="num">D.</span>Hypothesis D of 4</div>
-            <div class="frame-tag">ALTERNATE · JOBS-PULL</div>
-            <div class="frame-title">Industrial relocation inflow</div>
-            <p class="frame-desc">Hyundai's Bryan County metaplant alone has pulled tens of thousands of associated workers and supply-chain employment to the coast. That inflow swamps any pure-FL signal.</p>
-            <div class="frame-test"><div class="frame-test-stamp">— The distinguishing test —</div><div class="frame-test-q">If we isolate non-FL-origin movers, does the coastal GA inflow remain net positive at the same magnitude?</div></div>
+        <div class="lc-viz-canvas"><canvas></canvas></div>
+        <div class="lc-viz-caption"><span class="c-key">●</span> household balance · the crossing point IS the mechanism</div>
+      </div>
+      <div class="lc-viz-frame" data-idx="1">
+        <div class="lc-viz-header">
+          <div class="lc-viz-tag">B · Information design</div>
+          <div class="lc-viz-name">Attrition through the gates</div>
+        </div>
+        <div class="lc-viz-canvas"><canvas></canvas></div>
+        <div class="lc-viz-caption"><span class="c-key">●</span> attrition through gates · who survives and who doesn't</div>
+      </div>
+      <div class="lc-viz-frame" data-idx="2">
+        <div class="lc-viz-header">
+          <div class="lc-viz-tag">C · Information design</div>
+          <div class="lc-viz-name">Story salience over 24 months</div>
+        </div>
+        <div class="lc-viz-canvas"><canvas></canvas></div>
+        <div class="lc-viz-caption"><span class="c-key">●</span> 24-month story salience · the absence is the argument</div>
+      </div>
+      <div class="lc-viz-frame" data-idx="3">
+        <div class="lc-viz-header">
+          <div class="lc-viz-tag">D · Information design</div>
+          <div class="lc-viz-name">Persistence by birth cohort</div>
+        </div>
+        <div class="lc-viz-canvas"><svg viewBox="0 0 600 360" preserveAspectRatio="none"></svg></div>
+        <div class="lc-viz-caption"><span class="c-key">●</span> generational decay · each cohort steepens</div>
+      </div>
+      </div>
+      <div class="lc-narr">
+        <div class="lc-narr-content">
+          <div class="lc-narr-tag">A · ECONOMIC LENS</div>
+          <div class="lc-narr-title">The FL insurance bill became unpayable</div>
+          <div class="lc-narr-frame">"The GA mortgage was cheaper. The math was the migration."</div>
+          <div class="lc-narr-body">Florida homeowner insurance has tripled in some counties since 2020. Crossing the line into Georgia produces an annual savings equivalent to a year's principal payment. The migration is a <strong>balance-sheet decision</strong>, not a values decision.</div>
+          <div class="lc-causal"><span class="step">insurance hardening</span><span class="arrow">→</span><span class="step">monthly impossibility</span><span class="arrow">→</span><span class="step">cross-state move</span><span class="arrow">→</span><span class="step">GA arrival</span></div>
+          <div class="lc-vocab"><span class="word">insurance</span><span class="word">premium</span><span class="word">cost-of-living</span><span class="word">crossing</span><span class="word">arbitrage</span></div>
+          <div class="lc-narr-test">
+            <div class="lc-narr-test-stamp">— The distinguishing test —</div>
+            <div class="lc-narr-test-q">Does the FL→GA flow correlate with insurer-exit dates and rate-hike events more tightly than with climate-disaster years?</div>
           </div>
         </div>
       </div>
     </div>
-    <div class="theater-meta">
-      <div class="theater-dots">
-        <button class="theater-dot active" data-idx="0"></button>
-        <button class="theater-dot" data-idx="1"></button>
-        <button class="theater-dot" data-idx="2"></button>
-        <button class="theater-dot" data-idx="3"></button>
-      </div>
-      <button class="auto-toggle">Auto · play</button>
+
+    <div class="lc-ribbon">
+      <div class="lc-rd"><div class="lc-rd-lbl">What this lens makes visible</div><div class="lc-rd-val">cost crossing curve</div><div class="lc-rd-meta">FL vs GA annual cost</div></div>
+      <div class="lc-rd"><div class="lc-rd-lbl">Key shape in the data</div><div class="lc-rd-val">crossing point at 2023</div><div class="lc-rd-meta">when math flipped</div></div>
+      <div class="lc-rd"><div class="lc-rd-lbl">Vocabulary signature</div><div class="lc-rd-val">insurance · premium · arbitrage</div><div class="lc-rd-meta">economic register</div></div>
+      <div class="lc-rd"><div class="lc-rd-lbl">What this lens underplays</div><div class="lc-rd-val">climate causation</div><div class="lc-rd-meta">the upstream</div></div>
     </div>
   </div>
 </section>
@@ -811,6 +896,300 @@ document.querySelectorAll('.chapter[data-stage]').forEach(p => obs.observe(p));
   function startAuto() { if (autoTimer) return; if (autoBtn) { autoBtn.classList.add('on'); autoBtn.textContent = 'Auto · on'; } autoTimer = setInterval(() => setActive((activeIdx + 1) % frames.length), 6500); }
   function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } if (autoBtn) { autoBtn.classList.remove('on'); autoBtn.textContent = 'Auto · play'; } }
   if (autoBtn) autoBtn.addEventListener('click', () => { autoTimer ? stopAuto() : startAuto(); });
+})();
+
+
+window._LENS_DATA = {"lenses": [{"key": "A", "name": "Economic Lens", "tag": "A \u00b7 ECONOMIC LENS", "title": "The FL insurance bill became unpayable", "frame": "\"The GA mortgage was cheaper. The math was the migration.\"", "body": "Florida homeowner insurance has tripled in some counties since 2020. Crossing the line into Georgia produces an annual savings equivalent to a year's principal payment. The migration is a <strong>balance-sheet decision</strong>, not a values decision.", "causal": ["insurance hardening", "monthly impossibility", "cross-state move", "GA arrival"], "vocab": ["insurance", "premium", "cost-of-living", "crossing", "arbitrage"], "test": "Does the FL\u2192GA flow correlate with insurer-exit dates and rate-hike events more tightly than with climate-disaster years?", "r1": "cost crossing curve", "r1m": "FL vs GA annual cost", "r2": "crossing point at 2023", "r2m": "when math flipped", "r3": "insurance \u00b7 premium \u00b7 arbitrage", "r3m": "economic register", "r4": "climate causation", "r4m": "the upstream", "viz": "balance", "balance": {"incomeStart": 8000, "incomeEnd": 8000, "costStart": 5000, "costEnd": 14000, "months": 60, "events": [{"m": 24, "label": "INSURER EXIT", "color": "#c47060"}, {"m": 36, "label": "PREMIUM TRIPLES", "color": "#c89060"}, {"m": 48, "label": "GA RELOCATION", "color": "#88c4c8"}]}}, {"key": "B", "name": "Political Lens", "tag": "B \u00b7 POLITICAL LENS", "title": "Florida solved its insurance problem by exporting it", "frame": "\"The migration pressure is a Tallahassee decision rendered in Brunswick.\"", "body": "FL legislative choices about insurer regulation, climate-risk pooling, and insurer-of-last-resort policies have created the migration pressure. Georgia bears the demographic impact of <strong>decisions made in another state</strong>.", "causal": ["FL policy", "insurer market", "household pressure", "cross-state migration"], "vocab": ["policy choice", "export", "jurisdiction", "regulation", "absorption"], "test": "Do FL counties with most stringent insurer-of-last-resort exposure produce the highest outflow per capita?", "r1": "the affordability funnel", "r1m": "5 financial gates", "r2": "most attrition at premium hike", "r2m": "when capacity breaks", "r3": "policy \u00b7 export \u00b7 jurisdiction", "r3m": "political register", "r4": "climate physical reality", "r4m": "the underlying risk", "viz": "funnel", "funnel": {"gates": [{"name": "OWN A HOME", "pass": 0.62}, {"name": "AFFORD CURRENT PREMIUM", "pass": 0.75}, {"name": "AFFORD NEXT YEAR'S", "pass": 0.55}, {"name": "CAN ABSORB MOVE COST", "pass": 0.68}, {"name": "HAS GA OPTION", "pass": 0.85}], "inputLabel": "100K \u00b7 coastal FL households", "outLabel": "~13K \u00b7 migrate to GA", "rejectLabel": "~87K \u00b7 stay (or move elsewhere)"}}, {"key": "C", "name": "Media Lens", "tag": "C \u00b7 MEDIA LENS", "title": "Climate migration is in the future tense. The migration is now.", "frame": "\"Future-tense coverage produces present-tense invisibility.\"", "body": "Major media coverage of climate migration uses future-tense framing (\"will become,\" \"could displace\"). The migration is already happening. The <strong>framing gap is itself a media phenomenon</strong>.", "causal": ["future-tense framing", "present-tense reality", "coverage gap", "invisibility"], "vocab": ["framing", "tense", "present", "future", "narrative gap"], "test": "Have outlets that have reframed climate migration as present-tense shown measurably different policy-response rates?", "r1": "attention asymmetry", "r1m": "24-month coverage", "r2": "migration story is flat", "r2m": "hurricanes spike, migration doesn't", "r3": "framing \u00b7 tense \u00b7 gap", "r3m": "media register", "r4": "individual household math", "r4m": "why people actually move", "viz": "spike", "spike": {"tracks": [{"name": "FL HURRICANES", "color": "#c47060", "spikes": [3, 9, 15, 20]}, {"name": "FL INSURANCE CRISIS", "color": "#c8a8e8", "spikes": [7, 13, 19]}, {"name": "CLIMATE FUTURE STORIES", "color": "#88c4c8", "spikes": [4, 10, 16, 22]}, {"name": "ACTUAL CLIMATE MIGRATION", "color": "#e8a878", "spikes": [], "highlight": true}], "months": 24, "labels": ["JAN 24", "JUL 24", "JAN 25", "JUL 25", "MAY 26"]}}, {"key": "D", "name": "Cultural Lens", "tag": "D \u00b7 CULTURAL LENS", "title": "Coastal Georgia is absorbing a new neighborhood at a time", "frame": "\"Communities don't shift in a moment; they shift in arrivals.\"", "body": "School enrollments, real-estate norms, voting registrations, food preferences \u2014 the <strong>cultural absorption is slow and total</strong>. New cohorts arrive and join existing patterns, then begin to change them.", "causal": ["arrival pattern", "institutional contact", "norm shift", "cultural absorption"], "vocab": ["arrival", "absorption", "norm", "enrollment", "pattern"], "test": "Do receiving counties show measurable shifts in school-PTA composition, ballot-question preferences, and consumption patterns in the years following arrival waves?", "r1": "origin cohort persistence", "r1m": "4 origin-decade lines", "r2": "recent arrivals plateau higher", "r2m": "newer residents stay distinct longer", "r3": "arrival \u00b7 absorption \u00b7 pattern", "r3m": "cultural register", "r4": "household financial math", "r4m": "why they moved", "viz": "cohort", "cohort": {"cohorts": [{"name": "Pre-2010 GA residents", "color": "#e8c890", "rate": 5, "breaks": []}, {"name": "Arrived 2010-2018", "color": "#a8c088", "rate": 15, "breaks": []}, {"name": "Arrived 2019-2022", "color": "#88c4c8", "rate": 25, "breaks": []}, {"name": "Arrived 2023-2026", "color": "#c8a8e8", "rate": 38, "breaks": []}], "xLabel": "YEARS SINCE ARRIVAL", "yLabel": "% RETAINING ORIGIN-STATE VOTING PATTERN"}}]};
+
+// === LENS CONSOLE ENGINE ===
+(function lensConsole() {
+  const section = document.querySelector('.lens-console-section');
+  if (!section) return;
+  const data = window._LENS_DATA;
+  if (!data) return;
+  let activeIdx = 0;
+  const lenses = data.lenses;
+
+  // ---- Viz engines ----
+  function ensureCanvas(host) {
+    const c = host.querySelector('canvas');
+    const ctx = c.getContext('2d');
+    let W, H; const DPR = devicePixelRatio || 1;
+    function resize() {
+      const r = host.getBoundingClientRect();
+      W = c.clientWidth = r.width; H = c.clientHeight = r.height;
+      if (W < 10 || H < 10) return;
+      c.width = W * DPR; c.height = H * DPR;
+      ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
+    }
+    return { c, ctx, resize, get W() { return W; }, get H() { return H; } };
+  }
+
+  // BALANCE
+  function vizBalance(host, cfg) {
+    const env = ensureCanvas(host); env.resize();
+    addEventListener('resize', env.resize);
+    let progress = 0;
+    const { incomeStart, incomeEnd, costStart, costEnd, months, events } = cfg;
+    const maxVal = Math.max(incomeStart, incomeEnd, costStart, costEnd) * 1.15;
+    const minVal = Math.min(incomeStart, incomeEnd, costStart, costEnd) * 0.5;
+    function income(m) { return incomeStart + (incomeEnd - incomeStart) * (m / months); }
+    function cost(m) { return costStart + (costEnd - costStart) * (m / months); }
+    function loop() {
+      if (env.W < 10) { requestAnimationFrame(loop); return; }
+      progress = Math.min(1, progress + 0.005);
+      const { ctx, W, H } = env;
+      ctx.clearRect(0, 0, W, H);
+      const pad = { l: 50, r: 30, t: 24, b: 50 };
+      const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+      ctx.strokeStyle = 'rgba(168,162,152,0.18)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + ch); ctx.lineTo(pad.l + cw, pad.t + ch); ctx.stroke();
+      ctx.fillStyle = 'rgba(168,162,152,0.55)'; ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      const yV = (v) => pad.t + ch - ((v - minVal) / (maxVal - minVal)) * ch;
+      [maxVal * 0.9, maxVal * 0.5, maxVal * 0.15].forEach(v => {
+        ctx.fillText('$' + (v >= 1000 ? (v/1000).toFixed(1) + 'K' : Math.round(v)), pad.l - 6, yV(v));
+      });
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      for (let m = 0; m <= months; m += Math.max(1, Math.floor(months / 6))) ctx.fillText('M' + m, pad.l + (m / months) * cw, pad.t + ch + 6);
+      // INCOME line
+      ctx.strokeStyle = '#e8c890'; ctx.lineWidth = 2; ctx.beginPath();
+      const endM = months * progress;
+      for (let m = 0; m <= endM; m += 0.3) {
+        const x = pad.l + (m / months) * cw; const y = yV(income(m));
+        if (m === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      // COST line
+      ctx.strokeStyle = '#c47060'; ctx.lineWidth = 2; ctx.beginPath();
+      for (let m = 0; m <= endM; m += 0.3) {
+        const x = pad.l + (m / months) * cw; const y = yV(cost(m));
+        if (m === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      // Residual fill
+      ctx.beginPath();
+      for (let m = 0; m <= endM; m += 0.3) {
+        const x = pad.l + (m / months) * cw;
+        if (m === 0) ctx.moveTo(x, yV(income(m))); else ctx.lineTo(x, yV(income(m)));
+      }
+      for (let m = endM; m >= 0; m -= 0.3) {
+        const x = pad.l + (m / months) * cw; ctx.lineTo(x, yV(cost(m)));
+      }
+      ctx.closePath(); ctx.fillStyle = 'rgba(232,200,144,0.06)'; ctx.fill();
+      // Events
+      events.forEach((e, i) => {
+        if (progress * months >= e.m) {
+          const x = pad.l + (e.m / months) * cw;
+          ctx.fillStyle = e.color; ctx.beginPath(); ctx.arc(x, yV(cost(e.m)), 5, 0, Math.PI * 2); ctx.fill();
+          ctx.strokeStyle = e.color; ctx.lineWidth = 1; ctx.setLineDash([2, 3]);
+          ctx.beginPath(); ctx.moveTo(x, yV(cost(e.m))); ctx.lineTo(x, pad.t + ch + 24 + i * 12); ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.font = '9px "JetBrains Mono", monospace'; ctx.textAlign = 'left'; ctx.fillStyle = e.color;
+          ctx.fillText(e.label, x + 5, pad.t + ch + 22 + i * 12);
+        }
+      });
+      ctx.font = '9px "JetBrains Mono", monospace'; ctx.textAlign = 'right';
+      ctx.fillStyle = '#e8c890'; ctx.fillText('— INCOME', W - pad.r, pad.t + 6);
+      ctx.fillStyle = '#c47060'; ctx.fillText('— COST', W - pad.r, pad.t + 18);
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  // FUNNEL
+  function vizFunnel(host, cfg) {
+    const env = ensureCanvas(host); env.resize();
+    addEventListener('resize', env.resize);
+    const { gates, inputLabel, outLabel, rejectLabel } = cfg;
+    const particles = [];
+    function spawn() {
+      if (env.W < 10) return;
+      if (particles.length < 260) particles.push({ x: env.W * (0.35 + Math.random() * 0.30), y: 24, vy: 0.55 + Math.random() * 0.5, alive: true, rejectX: 0, gate: 0 });
+    }
+    setInterval(spawn, 35);
+    function loop() {
+      if (env.W < 10) { requestAnimationFrame(loop); return; }
+      const { ctx, W, H } = env;
+      ctx.clearRect(0, 0, W, H);
+      const topPad = 36, botPad = 60;
+      gates.forEach((g, i) => {
+        const y = topPad + ((i + 1) / (gates.length + 1)) * (H - topPad - botPad);
+        ctx.strokeStyle = 'rgba(200,168,232,0.18)'; ctx.lineWidth = 1; ctx.setLineDash([3, 4]);
+        ctx.beginPath(); ctx.moveTo(W * 0.08, y); ctx.lineTo(W * 0.92, y); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = 'rgba(200,168,232,0.7)'; ctx.font = '8.5px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(g.name, 6, y - 6);
+        ctx.textAlign = 'right'; ctx.fillStyle = 'rgba(200,168,232,0.5)';
+        ctx.fillText('PASS ' + Math.round(g.pass * 100) + '%', W - 6, y - 6);
+        g._y = y;
+      });
+      const countedY = H - botPad + 18;
+      ctx.fillStyle = 'rgba(168,192,136,0.07)'; ctx.fillRect(W * 0.5, countedY, W * 0.4, 42);
+      ctx.fillStyle = 'rgba(196,112,96,0.07)'; ctx.fillRect(W * 0.1, countedY, W * 0.4, 42);
+      ctx.fillStyle = '#a8c088'; ctx.font = '9px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(outLabel, W * 0.70, countedY + 21);
+      ctx.fillStyle = '#c47060'; ctx.fillText(rejectLabel, W * 0.30, countedY + 21);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i]; p.y += p.vy;
+        if (p.alive) {
+          for (let gi = p.gate; gi < gates.length; gi++) {
+            const gy = gates[gi]._y;
+            if (Math.abs(p.y - gy) < p.vy && p.gate <= gi) {
+              if (Math.random() > gates[gi].pass) { p.alive = false; p.rejectX = W * (0.10 + Math.random() * 0.30); }
+              p.gate = gi + 1; break;
+            }
+          }
+          if (p.y > countedY - 8 && p.alive) {
+            p.x += (W * 0.70 - p.x) * 0.06;
+            if (p.y > H) { particles.splice(i, 1); continue; }
+          }
+        } else {
+          p.x += (p.rejectX - p.x) * 0.05; p.y += p.vy * 0.5;
+          if (p.y > H) { particles.splice(i, 1); continue; }
+        }
+        ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = p.alive ? 'rgba(168,192,136,0.85)' : 'rgba(196,112,96,0.7)'; ctx.fill();
+      }
+      ctx.fillStyle = 'rgba(200,168,232,0.85)'; ctx.font = '9px "JetBrains Mono", monospace'; ctx.textAlign = 'center';
+      ctx.fillText(inputLabel, W * 0.5, 12);
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  // SPIKE
+  function vizSpike(host, cfg) {
+    const env = ensureCanvas(host); env.resize();
+    addEventListener('resize', env.resize);
+    const { tracks, months, labels } = cfg;
+    let progress = 0;
+    function loop() {
+      if (env.W < 10) { requestAnimationFrame(loop); return; }
+      progress = Math.min(1, progress + 0.004);
+      const { ctx, W, H } = env;
+      ctx.clearRect(0, 0, W, H);
+      const pad = { l: 140, r: 24, t: 18, b: 32 };
+      const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+      const trackH = ch / tracks.length;
+      ctx.fillStyle = 'rgba(168,162,152,0.55)'; ctx.font = '9px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      const xTicks = [0, Math.floor(months/4), Math.floor(months/2), Math.floor(3*months/4), months];
+      xTicks.forEach((m, i) => { ctx.fillText(labels[i] || ('M'+m), pad.l + (m / months) * cw, pad.t + ch + 6); });
+      tracks.forEach((t, ti) => {
+        const ty = pad.t + (ti + 0.5) * trackH;
+        ctx.strokeStyle = t.highlight ? 'rgba(232,168,120,0.30)' : 'rgba(168,162,152,0.10)'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(pad.l, ty); ctx.lineTo(pad.l + cw * progress, ty); ctx.stroke();
+        ctx.fillStyle = t.highlight ? t.color : 'rgba(168,162,152,0.75)';
+        ctx.font = (t.highlight ? '600 ' : '300 ') + '8.5px "JetBrains Mono", monospace'; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        ctx.fillText(t.name, pad.l - 8, ty);
+        (t.spikes || []).forEach(m => {
+          if (m / months > progress) return;
+          const x = pad.l + (m / months) * cw;
+          const spikeH = 12 + ((m * 13) % 20);
+          ctx.beginPath(); ctx.moveTo(x - 4, ty); ctx.lineTo(x, ty - spikeH); ctx.lineTo(x + 4, ty);
+          ctx.closePath(); ctx.fillStyle = t.color + 'cc'; ctx.fill();
+        });
+        if (t.highlight) {
+          ctx.fillStyle = t.color; ctx.font = 'italic 9.5px "Fraunces", serif'; ctx.textAlign = 'left';
+          ctx.fillText('flat · no spike events', pad.l + cw * 0.5, ty - 5);
+        }
+      });
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  // COHORT
+  function vizCohort(host, cfg) {
+    const svg = host.querySelector('svg');
+    svg.innerHTML = '';
+    const W = 600, H = 360; svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const pad = { l: 50, r: 130, t: 24, b: 40 };
+    const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+    const ns = 'http://www.w3.org/2000/svg';
+    function el(tag, attrs) { const e = document.createElementNS(ns, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+    svg.appendChild(el('line', { x1: pad.l, y1: pad.t + ch, x2: pad.l + cw, y2: pad.t + ch, stroke: 'rgba(168,162,152,0.25)' }));
+    svg.appendChild(el('line', { x1: pad.l, y1: pad.t, x2: pad.l, y2: pad.t + ch, stroke: 'rgba(168,162,152,0.25)' }));
+    [100, 80, 60, 40, 20].forEach((v, i) => {
+      const y = pad.t + (i / 4) * ch;
+      const t = el('text', { x: pad.l - 8, y: y + 3, fill: 'rgba(168,162,152,0.55)', 'font-family': 'JetBrains Mono, monospace', 'font-size': '9', 'text-anchor': 'end' });
+      t.textContent = v + '%'; svg.appendChild(t);
+      if (v < 100) svg.appendChild(el('line', { x1: pad.l, y1: y, x2: pad.l + cw, y2: y, stroke: 'rgba(168,162,152,0.06)' }));
+    });
+    [0, 10, 20, 30].forEach(yr => {
+      const x = pad.l + (yr / 30) * cw;
+      const t = el('text', { x, y: pad.t + ch + 16, fill: 'rgba(168,162,152,0.55)', 'font-family': 'JetBrains Mono, monospace', 'font-size': '9', 'text-anchor': 'middle' });
+      t.textContent = yr + 'yr'; svg.appendChild(t);
+    });
+    cfg.cohorts.forEach(c => {
+      let d = '';
+      for (let yr = 0; yr <= 30; yr += 0.5) {
+        let v = 100 - (yr / 30) * c.rate;
+        (c.breaks || []).forEach(b => { v -= Math.max(0, yr - b.yr) * (b.mag / 10); });
+        v = Math.max(0, v);
+        const x = pad.l + (yr / 30) * cw; const y = pad.t + ch - (v / 100) * ch;
+        d += (yr === 0 ? 'M' : 'L') + x + ' ' + y + ' ';
+      }
+      svg.appendChild(el('path', { d, fill: 'none', stroke: c.color, 'stroke-width': '2', opacity: '0.95' }));
+      let finalV = 100 - c.rate; (c.breaks || []).forEach(b => { finalV -= Math.max(0, 30 - b.yr) * (b.mag / 10); });
+      finalV = Math.max(0, finalV);
+      const finalY = pad.t + ch - (finalV / 100) * ch;
+      const lbl = el('text', { x: pad.l + cw + 8, y: finalY + 4, fill: c.color, 'font-family': 'JetBrains Mono, monospace', 'font-size': '9' });
+      lbl.textContent = c.name; svg.appendChild(lbl);
+      const lbl2 = el('text', { x: pad.l + cw + 8, y: finalY + 16, fill: 'rgba(168,162,152,0.6)', 'font-family': 'JetBrains Mono, monospace', 'font-size': '8' });
+      lbl2.textContent = Math.round(finalV) + '% @ 30yr'; svg.appendChild(lbl2);
+    });
+    const xt = el('text', { x: pad.l + cw / 2, y: pad.t + ch + 32, fill: 'rgba(168,162,152,0.7)', 'font-family': 'JetBrains Mono, monospace', 'font-size': '9', 'text-anchor': 'middle' });
+    xt.textContent = cfg.xLabel; svg.appendChild(xt);
+    const yt = el('text', { x: pad.l - 38, y: pad.t + ch / 2, fill: 'rgba(168,162,152,0.7)', 'font-family': 'JetBrains Mono, monospace', 'font-size': '9', 'text-anchor': 'middle', transform: `rotate(-90, ${pad.l - 38}, ${pad.t + ch / 2})` });
+    yt.textContent = cfg.yLabel; svg.appendChild(yt);
+  }
+
+  // Initialize all four viz engines
+  lenses.forEach((lens, i) => {
+    const frame = section.querySelectorAll('.lc-viz-frame')[i];
+    if (!frame) return;
+    const canvasWrap = frame.querySelector('.lc-viz-canvas');
+    if (lens.viz === 'balance') vizBalance(canvasWrap, lens.balance);
+    else if (lens.viz === 'funnel') vizFunnel(canvasWrap, lens.funnel);
+    else if (lens.viz === 'spike') vizSpike(canvasWrap, lens.spike);
+    else if (lens.viz === 'cohort') vizCohort(canvasWrap, lens.cohort);
+  });
+
+  // === LENS SWITCHING ===
+  const LENS_COLORS = ['#88c4c8', '#c8a8e8', '#e8a878', '#a8c088'];
+  const LENS_BGS = ['rgba(136,196,200,0.06)','rgba(200,168,232,0.06)','rgba(232,168,120,0.06)','rgba(168,192,136,0.06)'];
+
+  function setLens(idx) {
+    if (idx === activeIdx) return; activeIdx = idx;
+    const lens = lenses[idx];
+    section.style.setProperty('--lens-c', LENS_COLORS[idx]);
+    section.style.setProperty('--lens-c-bg', LENS_BGS[idx]);
+    section.querySelectorAll('.lc-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+    section.querySelectorAll('.lc-viz-frame').forEach((f, i) => f.classList.toggle('active', i === idx));
+    const narr = section.querySelector('.lc-narr-content');
+    narr.classList.add('fading');
+    setTimeout(() => {
+      section.querySelector('.lc-narr-tag').textContent = lens.tag;
+      section.querySelector('.lc-narr-title').textContent = lens.title;
+      section.querySelector('.lc-narr-frame').textContent = lens.frame;
+      section.querySelector('.lc-narr-body').innerHTML = lens.body;
+      section.querySelector('.lc-narr-test-q').textContent = lens.test;
+      section.querySelector('.lc-causal').innerHTML = lens.causal.map((s, i) => `<span class="step">${s}</span>${i < lens.causal.length - 1 ? '<span class="arrow">→</span>' : ''}`).join('');
+      section.querySelector('.lc-vocab').innerHTML = lens.vocab.map(w => `<span class="word">${w}</span>`).join('');
+      narr.classList.remove('fading');
+    }, 260);
+    section.querySelectorAll('.lc-rd').forEach(r => r.classList.add('fading'));
+    setTimeout(() => {
+      const rds = section.querySelectorAll('.lc-rd');
+      rds[0].querySelector('.lc-rd-val').textContent = lens.r1; rds[0].querySelector('.lc-rd-meta').textContent = lens.r1m;
+      rds[1].querySelector('.lc-rd-val').textContent = lens.r2; rds[1].querySelector('.lc-rd-meta').textContent = lens.r2m;
+      rds[2].querySelector('.lc-rd-val').textContent = lens.r3; rds[2].querySelector('.lc-rd-meta').textContent = lens.r3m;
+      rds[3].querySelector('.lc-rd-val').textContent = lens.r4; rds[3].querySelector('.lc-rd-meta').textContent = lens.r4m;
+      rds.forEach(r => r.classList.remove('fading'));
+    }, 260);
+  }
+  section.querySelectorAll('.lc-tab').forEach((t, i) => t.addEventListener('click', () => setLens(i)));
+  addEventListener('keydown', e => { if (!section.matches(':hover')) return; const k = 'abcd'.indexOf(e.key.toLowerCase()); if (k >= 0) setLens(k); });
 })();
 
 </script>
