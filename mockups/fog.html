@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mockup · Fog of Interpretation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06070a; --bg-card: #11141a; --ink: #f4ecd8; --ink-dim: #a8a298; --ink-faint: #5a564e;
+    --rule: #1f2228; --accent: #c8a8e8; --gold: #c4a777;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  .top { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,7,10,0.92); backdrop-filter: blur(12px); padding: 14px 28px; border-bottom: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; display: flex; justify-content: space-between; }
+  .top a { color: var(--accent); text-decoration: none; }
+  .top a:hover { color: var(--ink); }
+
+  .stage {
+    min-height: 100vh; padding: 100px 6vw 80px;
+    position: relative; overflow: hidden;
+  }
+
+  /* The "fog" - canvas behind everything that obscures */
+  #fogCanvas {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  }
+
+  .header { text-align: center; max-width: 800px; margin: 0 auto 80px; position: relative; z-index: 5; }
+  .header .stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; color: var(--accent); text-transform: uppercase; margin-bottom: 16px; }
+  .header h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(36px, 5vw, 60px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 18px; }
+  .header h1 em { font-style: italic; color: var(--accent); }
+  .header p { font-family: 'Fraunces', serif; font-size: 17px; color: var(--ink-dim); line-height: 1.55; max-width: 56ch; margin: 0 auto; }
+  .header .hint { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--ink-faint); margin-top: 24px; text-transform: uppercase; opacity: 0.7; }
+
+  /* Floating hypothesis panels — they DRIFT slowly and are blurred by default */
+  .fog-stage {
+    position: relative; max-width: 1100px; margin: 0 auto;
+    height: 720px;
+  }
+  .hyp-panel {
+    position: absolute;
+    width: 360px; padding: 28px 26px;
+    background: rgba(17, 20, 26, 0.55);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(200, 168, 232, 0.18);
+    border-radius: 4px;
+    color: var(--ink);
+    filter: blur(3.5px);
+    opacity: 0.55;
+    transition: filter 0.5s, opacity 0.5s, transform 0.7s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.5s, border-color 0.5s;
+    z-index: 3;
+    cursor: pointer;
+  }
+  .hyp-panel.focused {
+    filter: blur(0);
+    opacity: 1;
+    z-index: 6;
+    border-color: var(--accent);
+    box-shadow: 0 0 40px rgba(200, 168, 232, 0.18);
+  }
+  /* When user clicks a panel, the others recede further */
+  .hyp-stage.has-focus .hyp-panel:not(.focused) { opacity: 0.18; filter: blur(8px); }
+
+  .hyp-panel .tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
+  .hyp-panel .title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 22px; line-height: 1.2; color: var(--ink); margin-bottom: 10px; }
+  .hyp-panel p { font-size: 13px; color: var(--ink-dim); line-height: 1.55; margin-bottom: 12px; }
+  .hyp-panel .test {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 13px;
+    color: var(--accent); padding-top: 10px; border-top: 1px solid rgba(200,168,232,0.15);
+    line-height: 1.4;
+  }
+
+  /* The cursor lens — invisible but tracks mouse, used by JS to reveal */
+  .lens {
+    position: fixed; width: 280px; height: 280px;
+    border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle, rgba(200, 168, 232, 0.10) 0%, transparent 60%);
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    transition: opacity 0.3s;
+    opacity: 0;
+    mix-blend-mode: screen;
+  }
+  .lens.show { opacity: 1; }
+  .lens::before {
+    content: ""; position: absolute; inset: 50%; width: 4px; height: 4px;
+    background: var(--accent); border-radius: 50%; transform: translate(-50%, -50%);
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  /* The overlap markers — small dots that pulse where hypotheses agree */
+  .overlap-marker {
+    position: absolute; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 16px var(--gold);
+    z-index: 5; opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+  .hyp-stage.has-focus .overlap-marker { opacity: 0.7; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.4); opacity: 1; } }
+
+  /* Footer with rationale */
+  .rationale { max-width: 800px; margin: 80px auto 0; padding: 32px 28px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; position: relative; z-index: 5; }
+  .rationale h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+  .rationale p { font-size: 14px; color: var(--ink-dim); line-height: 1.6; margin-bottom: 10px; }
+  .rationale p strong { color: var(--ink); }
+
+  @media (max-width: 800px) {
+    .fog-stage { height: auto; padding: 0 16px; }
+    .hyp-panel { position: relative !important; left: auto !important; top: auto !important; width: 100%; margin-bottom: 16px; filter: none; opacity: 1; }
+    .lens { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="index.html">← MOCKUPS</a>
+  <span>DIRECTION 01 · FOG OF INTERPRETATION</span>
+  <span>Move cursor · click a panel to focus</span>
+</div>
+
+<canvas id="fogCanvas"></canvas>
+<div class="lens" id="lens"></div>
+
+<section class="stage">
+  <div class="header">
+    <div class="stamp">A constellation of competing reads · fog mode</div>
+    <h1>What else could explain <em>the registration gap?</em></h1>
+    <p>Multiple interpretations of the eviction-to-non-vote pipeline drift below. They're indistinct by default — like all real explanations in a real news environment. Move your cursor through them. Click one to bring it forward.</p>
+    <div class="hint">— move cursor to reveal · click panel to focus · click again to release —</div>
+  </div>
+
+  <div class="fog-stage hyp-stage" id="hypStage">
+    <div class="hyp-panel" data-idx="0" style="left: 10%; top: 50px;">
+      <div class="tag">A · PRIMARY · THIS PIECE</div>
+      <div class="title">Eviction-driven attrition</div>
+      <p>Housing instability triggers address change, mailer failure, inactive status, and ultimately purge — a structural pathway that removes voters.</p>
+      <div class="test">— Test: Do magistrate eviction filings correlate with inactivation rates at the precinct level above the rate predicted by overall mobility?</div>
+    </div>
+    <div class="hyp-panel" data-idx="1" style="right: 8%; top: 110px;">
+      <div class="tag">B · ALTERNATE · NULL</div>
+      <div class="title">Non-voters either way</div>
+      <p>Voters affected by eviction would not have voted with high probability regardless. The registration loss may not change electoral outcomes meaningfully.</p>
+      <div class="test">— Test: Among voters who lost registration via this pathway, what was their pre-eviction voting frequency in the prior two cycles?</div>
+    </div>
+    <div class="hyp-panel" data-idx="2" style="left: 18%; bottom: 80px;">
+      <div class="tag">C · ALTERNATE · PROCEDURAL</div>
+      <div class="title">Race-neutral by design</div>
+      <p>List maintenance is statutory, applied uniformly, and not designed to track any demographic variable. Any disparate impact is incidental.</p>
+      <div class="test">— Test: Do counties with substantially different demographic compositions produce identical inactivation rates after controlling for mobility?</div>
+    </div>
+    <div class="hyp-panel" data-idx="3" style="right: 14%; bottom: 30px;">
+      <div class="tag">D · ALTERNATE · REFORM-TRACTABLE</div>
+      <div class="title">Same-day registration would fix it</div>
+      <p>The pipeline exists because Georgia requires advance registration. States with same-day registration produce different and smaller attrition signatures.</p>
+      <div class="test">— Test: Have states with same-day registration shown measurable reduction in post-eviction non-voting?</div>
+    </div>
+    <!-- Overlap markers (where hypotheses' truths intersect) -->
+    <div class="overlap-marker" style="left: 42%; top: 200px;" title="A + C agree on the procedural pathway"></div>
+    <div class="overlap-marker" style="left: 50%; bottom: 180px;" title="B + D both presuppose the mechanism is real but disagree on impact"></div>
+  </div>
+
+  <div class="rationale">
+    <h4>Why this direction</h4>
+    <p>The Fog of Interpretation puts the reader in <strong>the same epistemic position as a working investigator</strong>: nothing is automatically clear, every reading has to be earned by attention. The cursor-as-lens metaphor makes interpretation an active labor rather than a passive consumption.</p>
+    <p><strong>Strengths:</strong> emotionally honest about uncertainty, novel interaction language, rewards careful readers, signals editorial humility.<br><strong>Weaknesses:</strong> requires explicit instruction, slow on mobile, can feel obscurantist if overdone.</p>
+  </div>
+</section>
+
+<script>
+// FOG CANVAS — soft particle haze behind everything
+(function fog() {
+  const c = document.getElementById('fogCanvas');
+  const ctx = c.getContext('2d');
+  let W, H;
+  function resize() { W = c.clientWidth = window.innerWidth; H = c.clientHeight = window.innerHeight; c.width = W * devicePixelRatio; c.height = H * devicePixelRatio; ctx.setTransform(1,0,0,1,0,0); ctx.scale(devicePixelRatio, devicePixelRatio); }
+  window.addEventListener('resize', resize); resize();
+  const fogP = [];
+  for (let i = 0; i < 80; i++) fogP.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.15, vy: (Math.random() - 0.5) * 0.15, r: 30 + Math.random() * 80, alpha: 0.02 + Math.random() * 0.04 });
+  let mx = -1000, my = -1000;
+  window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    fogP.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -100) p.x = W + 100; if (p.x > W + 100) p.x = -100;
+      if (p.y < -100) p.y = H + 100; if (p.y > H + 100) p.y = -100;
+      // Slight reveal near mouse
+      const d = Math.hypot(p.x - mx, p.y - my);
+      const a = p.alpha * (d < 200 ? 0.4 : 1);
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+      g.addColorStop(0, `rgba(200, 168, 232, ${a})`);
+      g.addColorStop(1, `rgba(200, 168, 232, 0)`);
+      ctx.fillStyle = g;
+      ctx.fillRect(p.x - p.r, p.y - p.r, p.r * 2, p.r * 2);
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// LENS — track cursor, reveal hypotheses within radius
+(function lens() {
+  const el = document.getElementById('lens');
+  const stage = document.getElementById('hypStage');
+  const panels = document.querySelectorAll('.hyp-panel');
+  let lensX = -1000, lensY = -1000;
+  let raf;
+  const update = () => {
+    el.style.left = lensX + 'px';
+    el.style.top = lensY + 'px';
+    // For each panel, if center is within radius, sharpen it
+    panels.forEach(p => {
+      if (p.classList.contains('focused')) return;
+      const rect = p.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const d = Math.hypot(cx - lensX, cy - lensY);
+      if (d < 220 && !stage.classList.contains('has-focus')) {
+        const sharpness = Math.max(0, 1 - d / 220);
+        p.style.filter = `blur(${3.5 * (1 - sharpness)}px)`;
+        p.style.opacity = (0.55 + sharpness * 0.45).toFixed(2);
+      } else if (!stage.classList.contains('has-focus')) {
+        p.style.filter = ''; p.style.opacity = '';
+      }
+    });
+  };
+  window.addEventListener('mousemove', (e) => {
+    lensX = e.clientX; lensY = e.clientY;
+    el.classList.add('show');
+    cancelAnimationFrame(raf); raf = requestAnimationFrame(update);
+  });
+  window.addEventListener('mouseout', (e) => {
+    if (!e.relatedTarget) el.classList.remove('show');
+  });
+
+  // Click to focus / unfocus
+  panels.forEach(p => {
+    p.addEventListener('click', () => {
+      if (p.classList.contains('focused')) {
+        p.classList.remove('focused');
+        stage.classList.remove('has-focus');
+        panels.forEach(pp => { pp.style.filter = ''; pp.style.opacity = ''; });
+      } else {
+        panels.forEach(pp => pp.classList.remove('focused'));
+        p.classList.add('focused');
+        stage.classList.add('has-focus');
+      }
+    });
+  });
+
+  // Subtle drift of panels
+  panels.forEach((p, i) => {
+    const driftX = (Math.random() - 0.5) * 12;
+    const driftY = (Math.random() - 0.5) * 8;
+    let t = i;
+    setInterval(() => {
+      t += 0.01;
+      p.style.transform = `translate(${Math.sin(t) * driftX}px, ${Math.cos(t * 0.7) * driftY}px)`;
+    }, 80);
+  });
+})();
+</script>
+
+</body>
+</html>

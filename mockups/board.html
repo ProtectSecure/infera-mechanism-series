@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mockup · County Intelligence Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06070a; --bg-card: #0e1118; --ink: #f4ecd8; --ink-dim: #a8a298; --ink-faint: #5a564e;
+    --rule: #1f2228; --accent: #e8a878; --gold: #c4a777;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  .top { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,7,10,0.95); padding: 12px 24px; border-bottom: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+  .top a { color: var(--accent); text-decoration: none; }
+  .top .live { color: var(--accent); display: flex; align-items: center; gap: 8px; }
+  .top .live::before { content: ""; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: blink 1.4s infinite; }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  .stage { padding: 60px 0 0; }
+  .header { text-align: center; max-width: 800px; margin: 0 auto 30px; padding: 0 24px; }
+  .header .stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+  .header h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(28px, 4vw, 44px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .header h1 em { font-style: italic; color: var(--accent); }
+  .header p { font-family: 'Fraunces', serif; font-size: 15px; color: var(--ink-dim); line-height: 1.55; max-width: 64ch; margin: 0 auto; }
+
+  /* The board */
+  .board {
+    max-width: 1500px; margin: 0 auto;
+    display: grid; grid-template-columns: 340px 1fr 280px;
+    gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+    min-height: 720px;
+  }
+
+  /* Left panel: lens toggles */
+  .left-panel { background: var(--bg-card); padding: 24px 20px; display: flex; flex-direction: column; gap: 18px; }
+  .panel-title { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.28em; color: var(--accent); text-transform: uppercase; margin-bottom: 4px; }
+  .lens-list { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+  .lens-btn { background: var(--bg); padding: 12px 14px; border: none; text-align: left; cursor: pointer; color: var(--ink-dim); font-family: 'Inter', sans-serif; font-size: 12px; transition: all 0.2s; display: flex; align-items: center; gap: 10px; }
+  .lens-btn:hover { background: rgba(232,168,120,0.06); color: var(--ink); }
+  .lens-btn.active { background: rgba(232,168,120,0.14); color: var(--accent); }
+  .lens-btn .lens-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .lens-btn .lens-name { font-weight: 500; flex: 1; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .lens-btn .lens-key { font-family: 'JetBrains Mono', monospace; font-size: 9px; opacity: 0.5; }
+
+  .reading-block { padding: 14px 16px; background: var(--bg); border: 1px solid var(--rule); border-radius: 2px; }
+  .reading-block .rb-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
+  .reading-block .rb-title { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 400; line-height: 1.2; color: var(--ink); margin-bottom: 8px; }
+  .reading-block .rb-body { font-size: 12px; color: var(--ink-dim); line-height: 1.55; }
+
+  /* Center: the map */
+  .center-stage { background: radial-gradient(ellipse at 50% 50%, #0e1218 0%, var(--bg) 80%); position: relative; }
+  #mapCanvas { display: block; width: 100%; height: 100%; }
+  .map-overlay { position: absolute; inset: 0; pointer-events: none; }
+  .map-label { position: absolute; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--ink-faint); text-transform: uppercase; opacity: 0.55; }
+  .map-label.tl { top: 16px; left: 18px; }
+  .map-label.tr { top: 16px; right: 18px; }
+  .map-label.bl { bottom: 16px; left: 18px; }
+  .map-label.br { bottom: 16px; right: 18px; color: var(--accent); }
+
+  /* Right panel: live readings */
+  .right-panel { background: var(--bg-card); padding: 24px 20px; display: flex; flex-direction: column; gap: 18px; overflow-y: auto; }
+  .stat-block { padding: 14px 16px; background: var(--bg); border: 1px solid var(--rule); border-radius: 2px; }
+  .stat-block .s-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; margin-bottom: 6px; }
+  .stat-block .s-value { font-family: 'Fraunces', serif; font-weight: 400; font-size: 24px; color: var(--accent); line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat-block .s-delta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-dim); margin-top: 6px; }
+  .top-counties { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+  .top-counties .tc-head { padding: 10px 14px; background: var(--bg-card); font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--accent); text-transform: uppercase; }
+  .top-counties .tc-row { background: var(--bg); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ink-dim); }
+  .top-counties .tc-row .name { color: var(--ink); }
+  .top-counties .tc-row .val { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  .rationale { max-width: 800px; margin: 60px auto 80px; padding: 32px 28px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; }
+  .rationale h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+  .rationale p { font-size: 14px; color: var(--ink-dim); line-height: 1.6; margin-bottom: 10px; }
+  .rationale p strong { color: var(--ink); }
+
+  @media (max-width: 1000px) {
+    .board { grid-template-columns: 1fr; }
+    .center-stage { min-height: 400px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="index.html">← MOCKUPS</a>
+  <span>DIRECTION 03 · COUNTY INTELLIGENCE BOARD</span>
+  <span class="live">LIVE BOARD</span>
+</div>
+
+<section class="stage">
+  <div class="header">
+    <div class="stamp">A constellation of competing reads · live-board mode</div>
+    <h1>Toggle the <em>lens</em>. Watch the map change.</h1>
+    <p>Pick an interpretation on the left and the map repaints: different counties light up under different theories of what's driving the registration gap. Right panel updates live with the active reading's strongest signals.</p>
+  </div>
+
+  <div class="board">
+
+    <!-- Left: lens toggles + active reading -->
+    <div class="left-panel">
+      <div class="panel-title">— pick a lens —</div>
+      <div class="lens-list" id="lensList">
+        <button class="lens-btn active" data-lens="0" style="color: #88c4c8"><span class="lens-dot"></span><span class="lens-name">Eviction-driven attrition</span><span class="lens-key">A</span></button>
+        <button class="lens-btn" data-lens="1" style="color: #c8a8e8"><span class="lens-dot"></span><span class="lens-name">Non-voters either way</span><span class="lens-key">B</span></button>
+        <button class="lens-btn" data-lens="2" style="color: #e8a878"><span class="lens-dot"></span><span class="lens-name">Race-neutral by design</span><span class="lens-key">C</span></button>
+        <button class="lens-btn" data-lens="3" style="color: #a8c088"><span class="lens-dot"></span><span class="lens-name">Same-day reg would fix it</span><span class="lens-key">D</span></button>
+      </div>
+
+      <div class="reading-block" id="reading">
+        <div class="rb-tag" id="readTag">A · PRIMARY · THIS PIECE</div>
+        <div class="rb-title" id="readTitle">Eviction-driven attrition</div>
+        <div class="rb-body" id="readBody">Counties with the highest magistrate eviction filings show the steepest registration loss in the months following a filing wave. The mechanism predicts loss concentrates where displacement is highest.</div>
+      </div>
+
+      <div class="panel-title">— the distinguishing test —</div>
+      <div class="reading-block" id="testBlock">
+        <div class="rb-tag">— FALSIFICATION CONDITION —</div>
+        <div class="rb-body" id="testBody" style="font-family: 'Fraunces', serif; font-style: italic; font-size: 14px; color: var(--ink);">Do magistrate eviction filings correlate with inactivation rates at the precinct level above the rate predicted by overall mobility?</div>
+      </div>
+    </div>
+
+    <!-- Center: map canvas -->
+    <div class="center-stage">
+      <canvas id="mapCanvas"></canvas>
+      <div class="map-overlay">
+        <div class="map-label tl">— Georgia · 40 counties shown —</div>
+        <div class="map-label tr" id="mapMetric">Eviction-attrition intensity</div>
+        <div class="map-label bl">Color: low → high intensity under active lens</div>
+        <div class="map-label br" id="mapColor">● lens A</div>
+      </div>
+    </div>
+
+    <!-- Right: live stat panel -->
+    <div class="right-panel">
+      <div class="panel-title">— Under the active lens —</div>
+      <div class="stat-block">
+        <div class="s-label">Counties exceeding threshold</div>
+        <div class="s-value" id="statCount">14</div>
+        <div class="s-delta" id="statDelta">of 40 representative</div>
+      </div>
+      <div class="stat-block">
+        <div class="s-label">Strongest signal</div>
+        <div class="s-value" id="statStrongest" style="font-size: 17px;">Fulton + DeKalb</div>
+        <div class="s-delta">metro core concentration</div>
+      </div>
+      <div class="top-counties">
+        <div class="tc-head">— top 5 by current lens —</div>
+        <div class="tc-row" id="tc0"><span class="name">Fulton</span><span class="val">95</span></div>
+        <div class="tc-row" id="tc1"><span class="name">DeKalb</span><span class="val">82</span></div>
+        <div class="tc-row" id="tc2"><span class="name">Clayton</span><span class="val">79</span></div>
+        <div class="tc-row" id="tc3"><span class="name">Macon-Bibb</span><span class="val">75</span></div>
+        <div class="tc-row" id="tc4"><span class="name">Gwinnett</span><span class="val">72</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="rationale">
+    <h4>Why this direction</h4>
+    <p>The Intelligence Board makes the explanatory choice <strong>operational</strong>. The reader becomes the producer at the desk, picking a lens and watching the map respond. It's the closest analog to live broadcast analysis — Kornacki at the board — applied to interpretive uncertainty rather than vote counts.</p>
+    <p><strong>Strengths:</strong> high-utility, professional feel; great for newsroom partnerships; visually dramatic; obvious commercial license potential.<br><strong>Weaknesses:</strong> requires actual per-county data per lens; demands editorial discipline so the lenses aren't just visual recoloring of the same metric.</p>
+  </div>
+</section>
+
+<script>
+// === MAP CANVAS === (stylized 40-county GA layout)
+const canvas = document.getElementById('mapCanvas');
+const ctx = canvas.getContext('2d');
+let W, H;
+const DPR = window.devicePixelRatio || 1;
+function resize() {
+  const rect = canvas.parentElement.getBoundingClientRect();
+  W = canvas.clientWidth = rect.width; H = canvas.clientHeight = rect.height;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
+}
+window.addEventListener('resize', resize); setTimeout(resize, 30);
+
+// 40 counties — rough GA geographic layout (relative coords 0-1)
+const COUNTIES = [
+  { name: 'Fulton', pop: 1100, x: 0.42, y: 0.40 },
+  { name: 'DeKalb', pop: 750, x: 0.46, y: 0.42 },
+  { name: 'Cobb', pop: 770, x: 0.40, y: 0.36 },
+  { name: 'Gwinnett', pop: 960, x: 0.50, y: 0.34 },
+  { name: 'Clayton', pop: 300, x: 0.44, y: 0.46 },
+  { name: 'Henry', pop: 250, x: 0.47, y: 0.50 },
+  { name: 'Cherokee', pop: 280, x: 0.40, y: 0.30 },
+  { name: 'Forsyth', pop: 280, x: 0.47, y: 0.27 },
+  { name: 'Douglas', pop: 150, x: 0.36, y: 0.40 },
+  { name: 'Fayette', pop: 125, x: 0.42, y: 0.50 },
+  { name: 'Newton', pop: 115, x: 0.53, y: 0.45 },
+  { name: 'Rockdale', pop: 95, x: 0.52, y: 0.42 },
+  { name: 'Walton', pop: 105, x: 0.55, y: 0.38 },
+  { name: 'Paulding', pop: 175, x: 0.36, y: 0.34 },
+  { name: 'Bartow', pop: 110, x: 0.36, y: 0.28 },
+  { name: 'Hall', pop: 215, x: 0.51, y: 0.24 },
+  { name: 'Carroll', pop: 125, x: 0.32, y: 0.40 },
+  { name: 'Coweta', pop: 155, x: 0.36, y: 0.46 },
+  { name: 'Chatham', pop: 300, x: 0.92, y: 0.74 },
+  { name: 'Bryan', pop: 50, x: 0.88, y: 0.70 },
+  { name: 'Glynn', pop: 85, x: 0.95, y: 0.85 },
+  { name: 'McIntosh', pop: 14, x: 0.94, y: 0.79 },
+  { name: 'Camden', pop: 55, x: 0.95, y: 0.94 },
+  { name: 'Liberty', pop: 65, x: 0.88, y: 0.78 },
+  { name: 'Richmond', pop: 200, x: 0.78, y: 0.45 },
+  { name: 'Muscogee', pop: 200, x: 0.20, y: 0.65 },
+  { name: 'Macon-Bibb', pop: 155, x: 0.55, y: 0.62 },
+  { name: 'Houston', pop: 165, x: 0.55, y: 0.68 },
+  { name: 'Dougherty', pop: 85, x: 0.30, y: 0.85 },
+  { name: 'Lowndes', pop: 120, x: 0.50, y: 0.95 },
+  { name: 'Clarke', pop: 130, x: 0.62, y: 0.30 },
+  { name: 'Whitfield', pop: 105, x: 0.32, y: 0.12 },
+  { name: 'Floyd', pop: 100, x: 0.28, y: 0.20 },
+  { name: 'Lumpkin', pop: 35, x: 0.50, y: 0.16 },
+  { name: 'White', pop: 30, x: 0.55, y: 0.14 },
+  { name: 'Rabun', pop: 17, x: 0.62, y: 0.10 },
+  { name: 'Towns', pop: 13, x: 0.58, y: 0.08 },
+  { name: 'Banks', pop: 20, x: 0.55, y: 0.20 },
+  { name: 'Jackson', pop: 80, x: 0.55, y: 0.22 },
+  { name: 'Effingham', pop: 70, x: 0.85, y: 0.66 },
+];
+
+// Per-lens intensity values (illustrative for the prototype)
+const LENS_DATA = [
+  // A: eviction-attrition — high in urban cores
+  [95,82,60,72,90,55,35,30,60,28,50,55,35,32,30,38,32,30,65,22,35,25,30,45,70,65,75,45,80,50,55,42,48,22,20,18,16,22,28,30],
+  // B: null hypothesis — flat, low everywhere (low signal under this lens)
+  [25,25,25,25,30,25,25,25,30,25,25,25,25,25,25,25,25,25,30,25,25,25,25,30,30,25,30,25,28,25,25,25,25,25,25,25,25,25,25,25],
+  // C: procedural / race-neutral — uniform mid (the procedure runs the same everywhere)
+  [55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],
+  // D: same-day reg fix — focused on counties where the gap would close most (high-mobility counties)
+  [88,75,55,68,82,52,30,28,55,25,45,52,32,30,28,35,30,28,60,20,32,22,28,42,65,60,70,42,78,48,52,40,45,20,18,16,14,20,26,28],
+];
+
+const LENS_COLORS = ['#88c4c8', '#c8a8e8', '#e8a878', '#a8c088'];
+const LENS_NAMES = [
+  { tag: 'A · PRIMARY · THIS PIECE', title: 'Eviction-driven attrition', body: 'Counties with the highest magistrate eviction filings show the steepest registration loss in the months following a filing wave. The mechanism predicts loss concentrates where displacement is highest.', test: 'Do magistrate eviction filings correlate with inactivation rates at the precinct level above the rate predicted by overall mobility?', metric: 'Eviction-attrition intensity' },
+  { tag: 'B · ALTERNATE · NULL', title: 'Non-voters either way', body: 'Under this lens, the registration gap reflects voters who would not have voted regardless. Signal is flat across counties because the pattern isn\'t county-specific — it\'s about which voters are most likely to disengage.', test: 'Among voters who lost registration via this pathway, what was their pre-eviction voting frequency in the prior two cycles?', metric: 'Voter-disengagement baseline' },
+  { tag: 'C · ALTERNATE · PROCEDURAL', title: 'Race-neutral by design', body: 'List maintenance is statutory and applied uniformly statewide. Under this lens, intensity is flat across counties because the procedure runs the same way everywhere. Any disparate impact is incidental.', test: 'Do counties with substantially different demographic compositions produce identical inactivation rates after controlling for mobility?', metric: 'Procedure uniformity' },
+  { tag: 'D · ALTERNATE · REFORM-TRACTABLE', title: 'Same-day registration would fix it', body: 'Counties where same-day registration would recover the largest share of lost voters — heavily concentrated in high-mobility metro counties.', test: 'Have states with same-day registration shown measurable reduction in post-eviction non-voting compared to peer states without it?', metric: 'Recovery potential under reform' },
+];
+
+let activeLens = 0;
+let hoverCounty = null;
+let mx = -1000, my = -1000;
+
+function render() {
+  ctx.clearRect(0, 0, W, H);
+  const color = LENS_COLORS[activeLens];
+  const data = LENS_DATA[activeLens];
+
+  COUNTIES.forEach((c, i) => {
+    const x = 30 + c.x * (W - 60);
+    const y = 30 + c.y * (H - 60);
+    const r = 6 + Math.sqrt(c.pop) * 0.5;
+    const value = data[i] || 30;
+    const alpha = 0.18 + (value / 100) * 0.72;
+    const halo = r * (1.4 + value / 200);
+
+    const g = ctx.createRadialGradient(x, y, 0, x, y, halo);
+    g.addColorStop(0, color + Math.round((value / 100) * 0.5 * 255).toString(16).padStart(2, '0'));
+    g.addColorStop(1, color + '00');
+    ctx.fillStyle = g; ctx.fillRect(x - halo, y - halo, halo * 2, halo * 2);
+
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = color + Math.round(alpha * 255).toString(16).padStart(2, '0');
+    ctx.fill();
+    ctx.strokeStyle = c === hoverCounty ? '#f4ecd8' : 'rgba(40,40,46,0.8)';
+    ctx.lineWidth = c === hoverCounty ? 2 : 1; ctx.stroke();
+
+    if (r > 12 || c === hoverCounty) {
+      ctx.fillStyle = 'rgba(168,162,152,0.85)';
+      ctx.font = '10px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(c.name, x, y + r + 12);
+    }
+  });
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  mx = e.clientX - rect.left; my = e.clientY - rect.top;
+  hoverCounty = null;
+  for (const c of COUNTIES) {
+    const x = 30 + c.x * (W - 60), y = 30 + c.y * (H - 60);
+    const r = 6 + Math.sqrt(c.pop) * 0.5;
+    if (Math.hypot(mx - x, my - y) <= r + 3) { hoverCounty = c; break; }
+  }
+});
+canvas.addEventListener('mouseleave', () => { hoverCounty = null; });
+
+// Lens switching
+document.querySelectorAll('.lens-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.lens-btn').forEach(bb => bb.classList.remove('active'));
+    b.classList.add('active');
+    const idx = parseInt(b.dataset.lens);
+    activeLens = idx;
+    const info = LENS_NAMES[idx];
+    document.getElementById('readTag').textContent = info.tag;
+    document.getElementById('readTitle').textContent = info.title;
+    document.getElementById('readBody').textContent = info.body;
+    document.getElementById('testBody').textContent = info.test;
+    document.getElementById('mapMetric').textContent = info.metric;
+    document.getElementById('mapColor').innerHTML = '<span style="color:' + LENS_COLORS[idx] + '">●</span> lens ' + 'ABCD'[idx];
+    // Update top counties
+    const ranked = COUNTIES.map((c, i) => ({c, v: LENS_DATA[idx][i]})).sort((a, b) => b.v - a.v).slice(0, 5);
+    ranked.forEach((r, i) => {
+      const row = document.getElementById('tc' + i);
+      row.querySelector('.name').textContent = r.c.name;
+      row.querySelector('.val').textContent = r.v;
+      row.querySelector('.val').style.color = LENS_COLORS[idx];
+    });
+    const aboveThresh = LENS_DATA[idx].filter(v => v > 60).length;
+    document.getElementById('statCount').textContent = aboveThresh;
+    document.getElementById('statCount').style.color = LENS_COLORS[idx];
+    document.getElementById('statStrongest').textContent = ranked[0].c.name + ' + ' + ranked[1].c.name;
+    document.getElementById('statStrongest').style.color = LENS_COLORS[idx];
+    document.querySelector('.s-value:first-of-type').style.color = LENS_COLORS[idx];
+  });
+});
+
+// Keyboard A/B/C/D
+window.addEventListener('keydown', (e) => {
+  const k = 'abcd'.indexOf(e.key.toLowerCase());
+  if (k >= 0) document.querySelectorAll('.lens-btn')[k].click();
+});
+</script>
+
+</body>
+</html>

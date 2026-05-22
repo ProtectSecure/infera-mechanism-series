@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mockup · The Machine Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050608; --bg-card: #0c0e12; --ink: #f4ecd8; --ink-dim: #a8a298; --ink-faint: #5a564e;
+    --rule: #1a1d24; --accent: #a8c088; --gold: #c4a777; --steel: #4a5260;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  .top { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(5,6,8,0.95); padding: 14px 28px; border-bottom: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; display: flex; justify-content: space-between; }
+  .top a { color: var(--accent); text-decoration: none; }
+  .top a:hover { color: var(--ink); }
+
+  .stage { padding: 60px 4vw 60px; min-height: 100vh; }
+  .header { text-align: center; max-width: 800px; margin: 0 auto 40px; }
+  .header .stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; }
+  .header h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(34px, 5vw, 56px); line-height: 1.04; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .header h1 em { font-style: italic; color: var(--accent); }
+  .header p { font-family: 'Fraunces', serif; font-size: 16px; color: var(--ink-dim); line-height: 1.55; max-width: 60ch; margin: 0 auto; }
+
+  /* The machine room layout */
+  .room {
+    max-width: 1400px; margin: 0 auto;
+    background: linear-gradient(180deg, #0a0c10 0%, #060709 100%);
+    border: 1px solid var(--rule); border-radius: 4px;
+    position: relative; overflow: hidden;
+  }
+
+  /* Stamped industrial label across the top */
+  .room-band {
+    background: rgba(168, 192, 136, 0.06);
+    border-bottom: 1px solid var(--rule);
+    padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.32em; color: var(--ink-faint); text-transform: uppercase;
+  }
+  .room-band .id { color: var(--accent); }
+
+  /* Machine controls + diagram */
+  .machine {
+    display: grid; grid-template-columns: 240px 1fr 280px;
+    gap: 1px; background: var(--rule);
+    min-height: 600px;
+  }
+
+  /* Left controls */
+  .controls { background: #0a0c10; padding: 22px 18px; display: flex; flex-direction: column; gap: 18px; }
+  .ctrl-title { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.28em; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
+  .ctrl-config { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+  .ctrl-btn {
+    background: #060709; padding: 14px 14px; border: none; text-align: left;
+    cursor: pointer; color: var(--ink-dim); transition: all 0.2s;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; display: flex; align-items: center; gap: 10px;
+    position: relative;
+  }
+  .ctrl-btn:hover { background: #0c1014; color: var(--ink); }
+  .ctrl-btn.active { background: rgba(168,192,136,0.12); color: var(--accent); }
+  .ctrl-btn .led { width: 8px; height: 8px; border-radius: 50%; background: #2a2d30; box-shadow: inset 0 0 4px rgba(0,0,0,0.6); transition: all 0.3s; }
+  .ctrl-btn.active .led { background: var(--accent); box-shadow: 0 0 10px var(--accent), inset 0 0 3px rgba(255,255,255,0.4); }
+  .ctrl-btn .lbl { flex: 1; line-height: 1.3; }
+  .ctrl-btn .letter { font-family: 'Fraunces', serif; font-style: italic; font-size: 13px; opacity: 0.5; }
+  .ctrl-btn.active .letter { opacity: 1; color: var(--accent); }
+
+  .config-name { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; padding: 12px 14px; background: #060709; border: 1px solid var(--rule); border-radius: 2px; }
+  .config-name .v { color: var(--accent); display: block; margin-top: 4px; font-size: 11px; font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; letter-spacing: 0; text-transform: none; }
+
+  /* Center: the diagram itself */
+  .diagram { background: radial-gradient(ellipse at 50% 50%, #0c1014 0%, #060709 80%); position: relative; min-height: 620px; }
+  #diagSvg { width: 100%; height: 100%; display: block; min-height: 600px; }
+  #partCanvas { position: absolute; inset: 0; pointer-events: none; }
+
+  /* Right: readings */
+  .readings { background: #0a0c10; padding: 22px 18px; display: flex; flex-direction: column; gap: 14px; }
+  .reading-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.28em; color: var(--accent); text-transform: uppercase; }
+  .gauge-block { padding: 14px 14px; background: #060709; border: 1px solid var(--rule); border-radius: 2px; }
+  .gauge-block .gb-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; margin-bottom: 8px; }
+  .gauge-block .gb-svg { display: block; margin: 0 auto; }
+  .gauge-block .gb-val { font-family: 'Fraunces', serif; font-weight: 400; font-size: 22px; color: var(--accent); text-align: center; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .gauge-block .gb-unit { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.2em; color: var(--ink-faint); text-align: center; text-transform: uppercase; }
+
+  .reading-body { padding: 14px 14px; background: #060709; border: 1px solid var(--rule); border-radius: 2px; }
+  .reading-body .rb-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 16px; color: var(--ink); margin-bottom: 8px; }
+  .reading-body p { font-size: 12px; color: var(--ink-dim); line-height: 1.55; }
+
+  /* Diagram structural styles */
+  .pipe { stroke: var(--steel); stroke-width: 3; fill: none; transition: stroke 0.5s, opacity 0.5s; }
+  .pipe.active { stroke: var(--accent); opacity: 1; }
+  .pipe.inactive { opacity: 0.18; }
+  .node-box { fill: #0e1218; stroke: var(--steel); stroke-width: 1.5; transition: stroke 0.4s, fill 0.4s; }
+  .node-box.active { stroke: var(--accent); fill: rgba(168,192,136,0.05); }
+  .node-box.inactive { opacity: 0.35; }
+  .node-text { fill: var(--ink-dim); font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; }
+  .node-box.active + .node-text { fill: var(--accent); }
+  .valve { fill: var(--steel); stroke: var(--ink-faint); stroke-width: 1; transition: all 0.4s; }
+  .valve.open { fill: var(--accent); }
+  .valve.closed { fill: #2a2d30; }
+  .gauge-needle { stroke: var(--accent); stroke-width: 2; transform-origin: center; transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .meter-tick { stroke: var(--ink-faint); }
+  .pulse-indicator { fill: var(--accent); }
+
+  .rationale { max-width: 800px; margin: 60px auto 80px; padding: 32px 28px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; }
+  .rationale h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+  .rationale p { font-size: 14px; color: var(--ink-dim); line-height: 1.6; margin-bottom: 10px; }
+  .rationale p strong { color: var(--ink); }
+
+  @media (max-width: 1000px) {
+    .machine { grid-template-columns: 1fr; }
+    .diagram { min-height: 400px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="index.html">← MOCKUPS</a>
+  <span>DIRECTION 04 · THE MACHINE ROOM</span>
+  <span>Same input · four valve configurations</span>
+</div>
+
+<section class="stage">
+  <div class="header">
+    <div class="stamp">A constellation of competing reads · machine-room mode</div>
+    <h1>Same input. Different <em>plumbing theory</em>.</h1>
+    <p>The eviction-filing pipe runs at the top. Below it, valves and chambers represent each interpretation's theory of how the pressure routes through the system. Toggle a configuration — watch the valves snap and the particles re-route.</p>
+  </div>
+
+  <div class="room">
+    <div class="room-band">
+      <span class="id">INFERA · CHAMBER E-04</span>
+      <span>EVICTION → VOTER-LOSS PIPELINE · 4 CONFIGURATIONS</span>
+      <span>Configuration A · ACTIVE</span>
+    </div>
+
+    <div class="machine">
+
+      <!-- Left controls -->
+      <div class="controls">
+        <div class="ctrl-title">— Plumbing configuration —</div>
+        <div class="ctrl-config" id="ctrlConfig">
+          <button class="ctrl-btn active" data-cfg="0"><span class="led"></span><span class="lbl">Eviction-driven attrition</span><span class="letter">A</span></button>
+          <button class="ctrl-btn" data-cfg="1"><span class="led"></span><span class="lbl">Non-voters either way</span><span class="letter">B</span></button>
+          <button class="ctrl-btn" data-cfg="2"><span class="led"></span><span class="lbl">Race-neutral by design</span><span class="letter">C</span></button>
+          <button class="ctrl-btn" data-cfg="3"><span class="led"></span><span class="lbl">Reform: same-day reg</span><span class="letter">D</span></button>
+        </div>
+        <div class="ctrl-title">— Active routing —</div>
+        <div class="config-name" id="configName">
+          ROUTING<span class="v" id="routeDesc">EVICTION → ADDRESS-STALE → INACTIVE → PURGE → NON-VOTE</span>
+        </div>
+      </div>
+
+      <!-- Center diagram -->
+      <div class="diagram">
+        <canvas id="partCanvas"></canvas>
+        <svg id="diagSvg" viewBox="0 0 700 600" preserveAspectRatio="xMidYMid meet">
+          <!-- Input pipe (top) -->
+          <text x="350" y="32" class="node-text" text-anchor="middle">INPUT · EVICTION FILINGS · per cycle</text>
+          <rect x="200" y="42" width="300" height="40" class="node-box active" id="inputBox" />
+          <text x="350" y="68" class="node-text" text-anchor="middle" font-size="11">[ FULTON Q1: ~14,800 ]</text>
+
+          <!-- Main pipe down -->
+          <path d="M 350 82 L 350 130" class="pipe active" id="mainPipe" />
+
+          <!-- Junction valve -->
+          <circle cx="350" cy="135" r="14" class="valve open" id="mainValve" />
+          <text x="350" y="139" class="node-text" text-anchor="middle" font-size="9" fill="#06070a" font-weight="500">V1</text>
+
+          <!-- 4 branches (only the active config's branch will be highlighted) -->
+          <!-- Branch A: eviction-attrition (left) -->
+          <path d="M 350 150 Q 200 200, 130 240 L 130 320" class="pipe" id="pipeA" />
+          <rect x="60" y="320" width="140" height="50" class="node-box" id="boxA" />
+          <text x="130" y="345" class="node-text" text-anchor="middle" font-size="9">ADDRESS-STALE</text>
+          <text x="130" y="358" class="node-text" text-anchor="middle" font-size="8" fill="#5a564e">→ INACTIVE</text>
+          <path d="M 130 370 L 130 440" class="pipe" id="pipeA2" />
+
+          <!-- Branch B: null hypothesis (center-left) -->
+          <path d="M 350 150 Q 290 200, 270 240 L 270 320" class="pipe" id="pipeB" />
+          <rect x="200" y="320" width="140" height="50" class="node-box" id="boxB" />
+          <text x="270" y="345" class="node-text" text-anchor="middle" font-size="9">NON-VOTER BASELINE</text>
+          <text x="270" y="358" class="node-text" text-anchor="middle" font-size="8" fill="#5a564e">→ NO CHANGE</text>
+          <path d="M 270 370 L 270 440" class="pipe" id="pipeB2" />
+
+          <!-- Branch C: procedural (center-right) -->
+          <path d="M 350 150 Q 410 200, 430 240 L 430 320" class="pipe" id="pipeC" />
+          <rect x="360" y="320" width="140" height="50" class="node-box" id="boxC" />
+          <text x="430" y="345" class="node-text" text-anchor="middle" font-size="9">STATUTORY FILTER</text>
+          <text x="430" y="358" class="node-text" text-anchor="middle" font-size="8" fill="#5a564e">→ UNIFORM</text>
+          <path d="M 430 370 L 430 440" class="pipe" id="pipeC2" />
+
+          <!-- Branch D: reform (right) -->
+          <path d="M 350 150 Q 500 200, 570 240 L 570 320" class="pipe" id="pipeD" />
+          <rect x="500" y="320" width="140" height="50" class="node-box" id="boxD" />
+          <text x="570" y="345" class="node-text" text-anchor="middle" font-size="9">SAME-DAY RECOVERY</text>
+          <text x="570" y="358" class="node-text" text-anchor="middle" font-size="8" fill="#5a564e">→ RE-ENROLL</text>
+          <path d="M 570 370 L 570 440" class="pipe" id="pipeD2" />
+
+          <!-- Output chamber -->
+          <rect x="100" y="440" width="500" height="60" class="node-box active" id="outputBox" />
+          <text x="350" y="465" class="node-text" text-anchor="middle">OUTPUT · VOTER-LOSS RATE · per cycle</text>
+          <text x="350" y="488" class="node-text" text-anchor="middle" font-size="13" fill="#a8c088" id="outputValue">[ +12% relative attrition · A-pathway ]</text>
+
+          <!-- Gauges row -->
+          <g transform="translate(0, 520)">
+            <text x="350" y="0" class="node-text" text-anchor="middle">— SYSTEM PRESSURE —</text>
+            <!-- Pressure ticks -->
+            <line x1="100" y1="40" x2="600" y2="40" class="pipe" style="opacity: 0.5; stroke-width: 1;" />
+            <line x1="100" y1="36" x2="100" y2="44" class="meter-tick" stroke-width="1" />
+            <line x1="225" y1="36" x2="225" y2="44" class="meter-tick" stroke-width="1" />
+            <line x1="350" y1="36" x2="350" y2="44" class="meter-tick" stroke-width="1" />
+            <line x1="475" y1="36" x2="475" y2="44" class="meter-tick" stroke-width="1" />
+            <line x1="600" y1="36" x2="600" y2="44" class="meter-tick" stroke-width="1" />
+            <text x="100" y="58" class="node-text" text-anchor="middle" font-size="7" fill="#5a564e">0</text>
+            <text x="350" y="58" class="node-text" text-anchor="middle" font-size="7" fill="#5a564e">50</text>
+            <text x="600" y="58" class="node-text" text-anchor="middle" font-size="7" fill="#5a564e">100</text>
+            <!-- Active pressure marker -->
+            <circle cx="100" cy="40" r="6" class="pulse-indicator" id="pressureMarker"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Right readings -->
+      <div class="readings">
+        <div class="reading-label">— Live gauges —</div>
+        <div class="gauge-block">
+          <div class="gb-label">Routing pressure</div>
+          <svg class="gb-svg" viewBox="0 0 100 60" width="120" height="72">
+            <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#1a1d24" stroke-width="2" />
+            <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#a8c088" stroke-width="2" stroke-dasharray="125" stroke-dashoffset="125" id="gaugeArc1" />
+            <line x1="50" y1="50" x2="50" y2="18" class="gauge-needle" id="gaugeNeedle1" />
+            <circle cx="50" cy="50" r="3" fill="#a8c088" />
+          </svg>
+          <div class="gb-val" id="gaugeVal1">76</div>
+          <div class="gb-unit">PSI · active path</div>
+        </div>
+        <div class="gauge-block">
+          <div class="gb-label">Outflow rate</div>
+          <svg class="gb-svg" viewBox="0 0 100 60" width="120" height="72">
+            <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#1a1d24" stroke-width="2" />
+            <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#a8c088" stroke-width="2" stroke-dasharray="125" stroke-dashoffset="125" id="gaugeArc2" />
+            <line x1="50" y1="50" x2="50" y2="18" class="gauge-needle" id="gaugeNeedle2" />
+            <circle cx="50" cy="50" r="3" fill="#a8c088" />
+          </svg>
+          <div class="gb-val" id="gaugeVal2">12.4</div>
+          <div class="gb-unit">% / cycle</div>
+        </div>
+        <div class="reading-body">
+          <div class="rb-title" id="readingTitle">Eviction-driven attrition</div>
+          <p id="readingBody">Under configuration A, the eviction flow routes through address-staleness and inactive status, producing a measurable +12% attrition. The mechanism is structural and predictable.</p>
+        </div>
+        <div class="reading-body" style="border-color: rgba(168,192,136,0.3);">
+          <div class="rb-title" style="color: var(--accent);">— Falsification valve —</div>
+          <p id="testBody" style="font-family: 'Fraunces', serif; font-style: italic;">Do magistrate eviction filings correlate with inactivation rates at the precinct level above the rate predicted by overall mobility?</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="rationale">
+    <h4>Why this direction</h4>
+    <p>The Machine Room treats every interpretation as <strong>literal infrastructure</strong>. Each hypothesis isn't an argument — it's a re-plumbing of the same chamber. Toggling a configuration physically reroutes particles through different valves and produces a different output. The metaphor is the argument.</p>
+    <p><strong>Strengths:</strong> on-brand with 'mechanism' as the series identity; aesthetically distinctive; rewards careful watching; gauges read as serious analysis.<br><strong>Weaknesses:</strong> visual literacy required (some users won't grok industrial diagrams); fewer typographic moments; can read as 'engineery' rather than editorial.</p>
+  </div>
+</section>
+
+<script>
+// Configurations: which branch is active, pressure level, outflow %, descriptions
+const CONFIGS = [
+  { branch: 'A', pressure: 76, outflow: 12.4, title: 'Eviction-driven attrition',
+    desc: 'Under configuration A, the eviction flow routes through address-staleness and inactive status, producing a measurable +12% attrition. The mechanism is structural and predictable.',
+    test: 'Do magistrate eviction filings correlate with inactivation rates at the precinct level above the rate predicted by overall mobility?',
+    route: 'EVICTION → ADDRESS-STALE → INACTIVE → PURGE → NON-VOTE',
+    output: '[ +12% relative attrition · A-pathway ]' },
+  { branch: 'B', pressure: 22, outflow: 1.1, title: 'Non-voters either way',
+    desc: 'Under configuration B, eviction is routed through a pre-existing non-voter baseline. The valve produces almost no net change because the affected households were unlikely to vote regardless.',
+    test: 'Among voters who lost registration via this pathway, what was their pre-eviction voting frequency in the prior two cycles?',
+    route: 'EVICTION → NON-VOTER BASELINE → NO NET CHANGE',
+    output: '[ +1% relative attrition · B-pathway ]' },
+  { branch: 'C', pressure: 50, outflow: 8.0, title: 'Race-neutral by design',
+    desc: 'Configuration C runs the eviction pressure through a statutory filter that is uniform across counties. Output is moderate and consistent — no disparate impact because the procedure runs the same everywhere.',
+    test: 'Do counties with substantially different demographic compositions produce identical inactivation rates after controlling for mobility?',
+    route: 'EVICTION → STATUTORY FILTER (UNIFORM) → BASELINE LOSS',
+    output: '[ +8% uniform attrition · C-pathway ]' },
+  { branch: 'D', pressure: 88, outflow: 3.2, title: 'Same-day registration would fix it',
+    desc: 'Configuration D adds a recovery valve. Most attrition is intercepted at the same-day re-enrollment chamber. The system\'s output drops sharply with this structural reform.',
+    test: 'Have states with same-day registration shown measurable reduction in post-eviction non-voting compared to peer states without it?',
+    route: 'EVICTION → ADDRESS-STALE → SAME-DAY RECOVERY → RE-ENROLL',
+    output: '[ +3% net attrition · D-pathway · reform-recovered ]' },
+];
+
+let activeIdx = 0;
+
+function setConfig(idx) {
+  activeIdx = idx;
+  const c = CONFIGS[idx];
+
+  // Update buttons
+  document.querySelectorAll('.ctrl-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+
+  // Update pipes + boxes
+  const letters = ['A', 'B', 'C', 'D'];
+  letters.forEach(L => {
+    const isActive = L === c.branch;
+    document.getElementById('pipe' + L).classList.toggle('active', isActive);
+    document.getElementById('pipe' + L).classList.toggle('inactive', !isActive);
+    document.getElementById('pipe' + L + '2').classList.toggle('active', isActive);
+    document.getElementById('pipe' + L + '2').classList.toggle('inactive', !isActive);
+    document.getElementById('box' + L).classList.toggle('active', isActive);
+    document.getElementById('box' + L).classList.toggle('inactive', !isActive);
+  });
+
+  // Update gauges
+  const needleAngle1 = -90 + (c.pressure / 100) * 180;
+  const needleAngle2 = -90 + Math.min(100, c.outflow * 5) / 100 * 180;
+  document.getElementById('gaugeNeedle1').style.transform = `rotate(${needleAngle1}deg)`;
+  document.getElementById('gaugeNeedle2').style.transform = `rotate(${needleAngle2}deg)`;
+  document.getElementById('gaugeArc1').style.strokeDashoffset = 125 - (c.pressure / 100) * 125;
+  document.getElementById('gaugeArc2').style.strokeDashoffset = 125 - Math.min(100, c.outflow * 5) / 100 * 125;
+  document.getElementById('gaugeVal1').textContent = c.pressure;
+  document.getElementById('gaugeVal2').textContent = c.outflow.toFixed(1);
+
+  // Update text panels
+  document.getElementById('readingTitle').textContent = c.title;
+  document.getElementById('readingBody').textContent = c.desc;
+  document.getElementById('testBody').textContent = c.test;
+  document.getElementById('routeDesc').textContent = c.route;
+  document.getElementById('outputValue').textContent = c.output;
+
+  // Pressure marker on linear scale
+  const m = document.getElementById('pressureMarker');
+  m.setAttribute('cx', 100 + (c.pressure / 100) * 500);
+}
+
+document.querySelectorAll('.ctrl-btn').forEach((b, i) => b.addEventListener('click', () => setConfig(i)));
+window.addEventListener('keydown', e => {
+  const k = 'abcd'.indexOf(e.key.toLowerCase());
+  if (k >= 0) setConfig(k);
+});
+
+// === PARTICLE CANVAS — flow particles down the active pipe ===
+const canvas = document.getElementById('partCanvas');
+const ctx = canvas.getContext('2d');
+let CW = 0, CH = 0;
+function resizeC() {
+  const rect = canvas.getBoundingClientRect();
+  CW = canvas.width = rect.width; CH = canvas.height = rect.height;
+}
+window.addEventListener('resize', resizeC); setTimeout(resizeC, 50);
+
+const particles = [];
+function spawn() {
+  if (CW < 10) return;
+  // spawn from the center top, flow down to the active branch's output
+  const branchX = { A: 0.185, B: 0.385, C: 0.615, D: 0.815 }[CONFIGS[activeIdx].branch];
+  particles.push({
+    t: 0,
+    speed: 0.005 + Math.random() * 0.003,
+    branchX,
+  });
+}
+
+setInterval(spawn, 180);
+
+function loop() {
+  if (CW < 10) { requestAnimationFrame(loop); return; }
+  ctx.clearRect(0, 0, CW, CH);
+  // SVG viewBox is 0-700 x 0-600 with preserveAspectRatio. Compute scale.
+  const aspect = 700 / 600;
+  const canvAspect = CW / CH;
+  let scale, offsetX, offsetY;
+  if (canvAspect > aspect) { scale = CH / 600; offsetX = (CW - 700 * scale) / 2; offsetY = 0; }
+  else { scale = CW / 700; offsetX = 0; offsetY = (CH - 600 * scale) / 2; }
+  const toCanvas = (sx, sy) => [offsetX + sx * scale, offsetY + sy * scale];
+
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.t += p.speed;
+    if (p.t >= 1) { particles.splice(i, 1); continue; }
+    // 3-step path: down to junction (t 0-0.2), branch out (t 0.2-0.55), down to output (t 0.55-1)
+    let sx, sy;
+    if (p.t < 0.2) {
+      const tt = p.t / 0.2;
+      sx = 350; sy = 82 + tt * (135 - 82);
+    } else if (p.t < 0.55) {
+      const tt = (p.t - 0.2) / 0.35;
+      // bezier from (350,150) toward branchX*700, 320
+      const tx = p.branchX * 700;
+      const ty = 320;
+      const cpx = (350 + tx) / 2 + (tx - 350) * 0.2;
+      const cpy = 200 + tt * 40;
+      const mt = 1 - tt;
+      sx = mt*mt*350 + 2*mt*tt*cpx + tt*tt*tx;
+      sy = mt*mt*150 + 2*mt*tt*cpy + tt*tt*ty;
+    } else {
+      const tt = (p.t - 0.55) / 0.45;
+      sx = p.branchX * 700;
+      sy = 370 + tt * (470 - 370);
+    }
+    const [cx, cy] = toCanvas(sx, sy);
+    ctx.beginPath();
+    ctx.arc(cx, cy, 2.2, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(168, 192, 136, ${0.85 - p.t * 0.3})`;
+    ctx.fill();
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// Initial setup
+setConfig(0);
+</script>
+
+</body>
+</html>

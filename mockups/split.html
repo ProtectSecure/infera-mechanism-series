@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mockup · Split-Reality Simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06070a; --bg-card: #11141a; --ink: #f4ecd8; --ink-dim: #a8a298; --ink-faint: #5a564e;
+    --rule: #1f2228; --accent: #88c4c8; --gold: #c4a777;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  .top { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,7,10,0.92); backdrop-filter: blur(12px); padding: 14px 28px; border-bottom: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; display: flex; justify-content: space-between; }
+  .top a { color: var(--accent); text-decoration: none; }
+  .top a:hover { color: var(--ink); }
+
+  .stage { padding: 80px 4vw 60px; min-height: 100vh; }
+  .header { text-align: center; max-width: 900px; margin: 0 auto 50px; }
+  .header .stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; color: var(--accent); text-transform: uppercase; margin-bottom: 16px; }
+  .header h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(36px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.02em; margin-bottom: 18px; }
+  .header h1 em { font-style: italic; color: var(--accent); }
+  .header p { font-family: 'Fraunces', serif; font-size: 17px; color: var(--ink-dim); line-height: 1.55; max-width: 64ch; margin: 0 auto; }
+
+  /* Shared fact bar — the same event, top of all panes */
+  .fact-bar {
+    max-width: 1300px; margin: 0 auto 1px; padding: 22px 32px;
+    background: var(--bg-card); border: 1px solid var(--rule);
+    border-radius: 3px 3px 0 0;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .fact-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--gold); text-transform: uppercase; }
+  .fact-text { font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; color: var(--ink); flex: 1; min-width: 240px; }
+  .fact-source { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--ink-faint); text-transform: uppercase; }
+
+  /* Four panes */
+  .panes {
+    max-width: 1300px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+    border-top: none; border-radius: 0 0 3px 3px; overflow: hidden;
+    min-height: 580px;
+    transition: grid-template-columns 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .panes.expanded-0 { grid-template-columns: 3fr 1fr 1fr 1fr; }
+  .panes.expanded-1 { grid-template-columns: 1fr 3fr 1fr 1fr; }
+  .panes.expanded-2 { grid-template-columns: 1fr 1fr 3fr 1fr; }
+  .panes.expanded-3 { grid-template-columns: 1fr 1fr 1fr 3fr; }
+
+  .pane {
+    padding: 28px 24px; cursor: pointer;
+    display: flex; flex-direction: column; gap: 14px;
+    transition: background 0.4s, padding 0.4s;
+    position: relative; overflow: hidden;
+  }
+  .pane[data-lens="economic"]     { background: linear-gradient(165deg, #0a141c 0%, #06070a 100%); --c: #88c4c8; }
+  .pane[data-lens="political"]    { background: linear-gradient(165deg, #14101a 0%, #06070a 100%); --c: #c8a8e8; }
+  .pane[data-lens="media"]        { background: linear-gradient(165deg, #1a1410 0%, #06070a 100%); --c: #e8a878; }
+  .pane[data-lens="cultural"]     { background: linear-gradient(165deg, #101a14 0%, #06070a 100%); --c: #a8c088; }
+
+  .lens-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.28em; color: var(--c); text-transform: uppercase;
+  }
+  .lens-name {
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(20px, 1.6vw, 26px);
+    line-height: 1.15; color: var(--ink);
+  }
+  .lens-frame {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 14px;
+    color: var(--c); line-height: 1.4; padding-bottom: 12px; border-bottom: 1px solid var(--rule);
+  }
+  .pane p { font-size: 13px; color: var(--ink-dim); line-height: 1.6; }
+  .pane p strong { color: var(--ink); font-weight: 500; }
+  .vocab { display: flex; flex-wrap: wrap; gap: 4px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--rule); }
+  .vocab .word { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; padding: 3px 7px; background: rgba(255,255,255,0.04); color: var(--c); border-radius: 2px; text-transform: uppercase; }
+  .causal {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--ink-faint); line-height: 1.6; margin-top: 6px;
+  }
+  .causal .step { color: var(--c); }
+  .causal .arrow { color: var(--ink-faint); margin: 0 4px; }
+
+  .pane.expanded { padding: 36px 32px; }
+  .pane.expanded .extra { opacity: 1; max-height: 200px; }
+  .pane:not(.expanded) .extra { opacity: 0; max-height: 0; overflow: hidden; }
+  .extra { transition: opacity 0.4s, max-height 0.4s; font-size: 13px; color: var(--ink-dim); line-height: 1.6; padding-top: 12px; }
+  .extra strong { color: var(--ink); }
+
+  .rationale { max-width: 800px; margin: 60px auto 0; padding: 32px 28px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; }
+  .rationale h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+  .rationale p { font-size: 14px; color: var(--ink-dim); line-height: 1.6; margin-bottom: 10px; }
+  .rationale p strong { color: var(--ink); }
+
+  @media (max-width: 900px) {
+    .panes { grid-template-columns: 1fr !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="index.html">← MOCKUPS</a>
+  <span>DIRECTION 02 · SPLIT-REALITY SIMULATION</span>
+  <span>Hover any pane to expand · same fact, four lenses</span>
+</div>
+
+<section class="stage">
+  <div class="header">
+    <div class="stamp">A constellation of competing reads · split-reality mode</div>
+    <h1>One fact. <em>Four different worlds</em>.</h1>
+    <p>The same number — the registration gap — read through four interpretive frameworks. Each pane uses different vocabulary, different causal chains, different emotional tone. Hover any pane to expand it.</p>
+  </div>
+
+  <div class="fact-bar">
+    <div class="fact-label">The shared fact</div>
+    <div class="fact-text">"In high-eviction Fulton precincts, voter registrations dropped at roughly 1.4× the rate of low-eviction precincts in the same county over 2022–2026."</div>
+    <div class="fact-source">SOURCE · GA SoS list maintenance · Fulton magistrate filings</div>
+  </div>
+
+  <div class="panes" id="panes">
+
+    <div class="pane" data-lens="economic" data-idx="0">
+      <div class="lens-tag">A · ECONOMIC LENS</div>
+      <div class="lens-name">Material instability</div>
+      <div class="lens-frame">"The system removes voters when their economic ground gives way."</div>
+      <p>The registration loss is downstream of the <strong>housing market</strong>. Rising rents, stagnant wages, and a tight inventory produce eviction filings, which displace households, which break the address-on-file pipeline that registration depends on. The civic harm is a knock-on effect of a market failure.</p>
+      <div class="causal"><span class="step">eviction filing</span><span class="arrow">→</span><span class="step">displacement</span><span class="arrow">→</span><span class="step">address-stale</span><span class="arrow">→</span><span class="step">purge</span></div>
+      <div class="extra"><strong>What this lens emphasizes:</strong> rent levels, wage trends, builder supply, county economic conditions. <strong>What it underplays:</strong> the specific statutory rules of the registration system.</div>
+      <div class="vocab">
+        <span class="word">household</span><span class="word">mortgage</span><span class="word">displacement</span><span class="word">cost burden</span><span class="word">market failure</span>
+      </div>
+    </div>
+
+    <div class="pane" data-lens="political" data-idx="1">
+      <div class="lens-tag">B · POLITICAL LENS</div>
+      <div class="lens-name">Structural disenfranchisement</div>
+      <div class="lens-frame">"The system, by design, removes the politically marginal."</div>
+      <p>The same data read as a question of <strong>access to ballot</strong>. List-maintenance procedures are state-legislated; the disparate impact on lower-income and renter populations is a politically tractable choice. Reform options exist (same-day registration, automatic re-enrollment); the absence of reform is itself political.</p>
+      <div class="causal"><span class="step">statutory rule</span><span class="arrow">→</span><span class="step">disparate burden</span><span class="arrow">→</span><span class="step">non-vote</span><span class="arrow">→</span><span class="step">election outcome</span></div>
+      <div class="extra"><strong>What this lens emphasizes:</strong> who benefits from the procedure as-is, what reform looks like, who blocks it. <strong>What it underplays:</strong> the upstream economic causes.</div>
+      <div class="vocab">
+        <span class="word">access</span><span class="word">reform</span><span class="word">disparate impact</span><span class="word">enfranchisement</span><span class="word">statutory</span>
+      </div>
+    </div>
+
+    <div class="pane" data-lens="media" data-idx="2">
+      <div class="lens-tag">C · MEDIA LENS</div>
+      <div class="lens-name">Invisible attrition</div>
+      <div class="lens-frame">"The story doesn't break because nothing dramatic happens at any single moment."</div>
+      <p>The registration loss is <strong>structurally untellable</strong> by event-driven media. There's no rally, no scandal, no soundbite — just six administrative steps each lawful and undramatic. Coverage privileges flashpoints; this story has none. The invisibility is itself a media-system property.</p>
+      <div class="causal"><span class="step">no flashpoint</span><span class="arrow">→</span><span class="step">no coverage</span><span class="arrow">→</span><span class="step">no salience</span><span class="arrow">→</span><span class="step">no reform pressure</span></div>
+      <div class="extra"><strong>What this lens emphasizes:</strong> news production constraints, attention economy, why slow stories die. <strong>What it underplays:</strong> the actual mechanism causing the loss.</div>
+      <div class="vocab">
+        <span class="word">salience</span><span class="word">attention</span><span class="word">slow story</span><span class="word">flashpoint</span><span class="word">narrative gap</span>
+      </div>
+    </div>
+
+    <div class="pane" data-lens="cultural" data-idx="3">
+      <div class="lens-tag">D · CULTURAL LENS</div>
+      <div class="lens-name">A vanishing civic ritual</div>
+      <div class="lens-frame">"To be a voter is increasingly to do paperwork most people don't know exists."</div>
+      <p>The same loss read as a question about <strong>civic culture</strong>. Voting once required physical presence; now it requires sustained administrative literacy. Households experiencing instability have less of that literacy. The civic identity 'voter' is becoming a class-coded competence.</p>
+      <div class="causal"><span class="step">civic literacy</span><span class="arrow">→</span><span class="step">administrative survival</span><span class="arrow">→</span><span class="step">turnout</span><span class="arrow">→</span><span class="step">representation</span></div>
+      <div class="extra"><strong>What this lens emphasizes:</strong> civic identity, education, household norms, generational shifts in voting habit. <strong>What it underplays:</strong> the structural and political fixes.</div>
+      <div class="vocab">
+        <span class="word">civic identity</span><span class="word">ritual</span><span class="word">literacy</span><span class="word">generational</span><span class="word">norm</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="rationale">
+    <h4>Why this direction</h4>
+    <p>Split-Reality makes the literacy point at a glance: <strong>frameworks shape conclusions</strong>. Watching four panes treat the same number with four vocabularies, four causal chains, and four moods produces an experience most people have never had — and one that is the missing core of media literacy.</p>
+    <p><strong>Strengths:</strong> the comparison is the argument; new and pedagogically powerful; mobile-friendly stacks well; great for sharing screenshots.<br><strong>Weaknesses:</strong> requires careful editorial writing to make the lenses genuinely distinct without parody; loses some emotional intensity per-pane.</p>
+  </div>
+</section>
+
+<script>
+const panes = document.querySelectorAll('.pane');
+const panesContainer = document.getElementById('panes');
+panes.forEach((p, i) => {
+  p.addEventListener('mouseenter', () => {
+    panesContainer.className = 'panes expanded-' + i;
+    panes.forEach((pp, j) => pp.classList.toggle('expanded', i === j));
+  });
+});
+panesContainer.addEventListener('mouseleave', () => {
+  panesContainer.className = 'panes';
+  panes.forEach(p => p.classList.remove('expanded'));
+});
+</script>
+
+</body>
+</html>
