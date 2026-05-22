@@ -91,6 +91,15 @@
   footer p { font-size: 13px; color: var(--ink-dim); line-height: 1.7; }
   footer .sig { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--ink); margin-top: 24px; }
   .stage-section::after { content: ""; display: table; clear: both; }
+  /* Clickable citation sources */
+  .citations { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; align-items: center; }
+  .citations .src-prefix { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; margin-right: 6px; }
+  .citation-link { display: inline-flex; align-items: center; gap: 5px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--gold); border: 1px solid var(--rule); padding: 4px 10px; letter-spacing: 0.1em; border-radius: 2px; text-decoration: none; transition: all 0.2s; text-transform: uppercase; cursor: pointer; }
+  .citation-link:hover { border-color: var(--gold); background: rgba(196,167,119,0.08); color: var(--ink); }
+  .citation-link::after { content: "↗"; font-size: 9px; opacity: 0.7; margin-left: 2px; }
+  .citation-note { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink-faint); letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 8px; border: 1px dashed var(--rule); border-radius: 2px; }
+
+
   @media (max-width: 1000px) {
     .stage-sticky { position: relative; width: 100%; float: none; height: 75vh; }
     .editorial { width: 100%; float: none; padding: 0 6vw; }
@@ -112,14 +121,11 @@
     <div class="tab-list">
       <a class="tab" href="index.html"><span class="tab-num">i.</span>Index</a>
       <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
-      <a class="tab" href="the-vogtle-bill.html"><span class="tab-num">02</span>Vogtle</a>
-      <a class="tab" href="the-data-center-tax.html"><span class="tab-num">03</span>Data Centers</a>
-      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">04</span>Eviction</a>
-      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">05</span>Hospital</a>
-      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">06</span>Coast</a>
-      <a class="tab" href="the-settlement-shrinkage.html"><span class="tab-num">07</span>Settlement</a>
-      <a class="tab active" href="the-provisional-ballot.html"><span class="tab-num">08</span>Ballot</a>
-      <a class="tab" href="the-committee-trade.html"><span class="tab-num">09</span>Committee</a>
+      <a class="tab" href="the-data-center-tax.html"><span class="tab-num">02</span>Data Centers</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">03</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">04</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">05</span>Coast</a>
+      <a class="tab active" href="the-provisional-ballot.html"><span class="tab-num">06</span>Ballot</a>
     </div>
   </div>
 </nav>
@@ -168,16 +174,16 @@
       <h3>A voter <em>casts</em> a provisional ballot.</h3>
       <p>Provisional ballots are cast when a voter's eligibility is in question at the polling place — wrong precinct, ID issue, registration discrepancy, signature mismatch. The ballot is sealed and set aside for post-election adjudication. <strong>The voter has done their part.</strong></p>
       <p>In a typical Georgia general election, total provisional ballots cast statewide can run into the tens of thousands. Most are cast by voters who believe themselves eligible.</p>
-      <div class="citation">SOURCE · GA SoS provisional reports</div>
+      <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://sos.ga.gov/elections-division-georgia-secretary-states-office" target="_blank" rel="noopener">GA SoS provisionals</a></div>
     </div>
 
     <div class="chapter" data-stage="1">
       <div class="chapter-marker">ii.</div>
       <div class="chapter-stamp"><span class="acc">Fork 1: registration</span><span>Act 02</span></div>
-      <h3>Are they on the rolls <em>at all</em>?</h3>
+      <h3>Are they on the rolls <em>at all</em>? <span class="conf strong">Strong</span></h3>
       <p>The first check: is this voter registered in Georgia? If yes, in which county? Inactive-status voters who reactivate by updating address may have their ballots counted; those whose registration has been fully purged generally do not. <strong>Roughly 15–25% fail at this stage.</strong></p>
       <p>This is where the eviction-funnel mechanism meets the ballot adjudication mechanism. Voters who lost registration administratively often discover it here.</p>
-      <div class="citation">SOURCE · NVRA list maintenance · provisional studies</div>
+      <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://www.eac.gov/voters/national-voter-registration-act" target="_blank" rel="noopener">NVRA list maintenance</a><a class="citation-link" href="https://www.brennancenter.org/issues/ensure-every-american-can-vote" target="_blank" rel="noopener">Brennan · provisionals</a></div>
     </div>
 
     <div class="chapter" data-stage="2">
@@ -186,7 +192,7 @@
       <h3>Did they vote at the <span class="reject">right precinct</span>?</h3>
       <p>Georgia counts most provisionals cast in the correct county but wrong precinct only for the contests common to both precincts. A ballot cast in the wrong precinct for a contest only on the correct precinct's ballot is not counted for that contest. <strong>Another meaningful share fails here</strong> — often voters who moved within the county but failed to update.</p>
       <p>The rule is statutory. The enforcement is uniform on paper, variable in practice.</p>
-      <div class="citation">SOURCE · OCGA § 21-2-419 · county election board procedures</div>
+      <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://law.justia.com/codes/georgia/title-21/chapter-2/article-11/section-21-2-419/" target="_blank" rel="noopener">OCGA § 21-2-419</a><a class="citation-link" href="https://sos.ga.gov/" target="_blank" rel="noopener">county election boards</a></div>
     </div>
 
     <div class="chapter" data-stage="3">
@@ -195,7 +201,7 @@
       <h3>Did they <em>provide ID</em> within the cure window?</h3>
       <p>When a provisional is cast because of an ID issue, the voter has a short statutory window (typically three days) to provide acceptable ID to the county registrar. <strong>The fraction that successfully cures is small</strong> — outreach varies, the window is short, and many voters never learn their ballot is conditional.</p>
       <p>Cure success rates differ measurably between counties with active outreach programs and those without.</p>
-      <div class="citation">SOURCE · OCGA § 21-2-417 · county cure-rate data</div>
+      <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://law.justia.com/codes/georgia/title-21/chapter-2/article-11/section-21-2-417/" target="_blank" rel="noopener">OCGA § 21-2-417</a><a class="citation-link" href="https://sos.ga.gov/" target="_blank" rel="noopener">county cure-rate data</a></div>
     </div>
 
     <div class="chapter" data-stage="4">
@@ -204,16 +210,16 @@
       <h3>Does the <em>signature match</em>?</h3>
       <p>Provisional ballot envelopes are signed. Election officials compare the signature to the registration record. Adjudication is subjective; training varies; appeal rights are limited. <strong>A small but real share are rejected for signature.</strong></p>
       <p>The disparate-impact concern: signature variation correlates with age, language, disability, and several other characteristics that are not the question being asked. This is a known weakness of the procedure.</p>
-      <div class="citation">SOURCE · academic signature-match literature</div>
+      <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://www.brennancenter.org/our-work/research-reports/signature-match-laws-disproportionately-impact-voters-already-marginalized" target="_blank" rel="noopener">Brennan · signature match</a></div>
     </div>
 
     <div class="chapter" data-stage="5">
       <div class="chapter-marker">vi.</div>
       <div class="chapter-stamp"><span class="acc">The result</span><span>Act 06</span></div>
-      <h3>What survives is <span class="reject">~40%</span> of what entered.</h3>
+      <h3>What survives is <span class="reject">~40%</span> of what entered. <span class="conf strong">Strong</span></h3>
       <p>Across recent Georgia general elections, the share of provisional ballots fully counted has averaged roughly 40% — meaning the majority of provisional ballots cast are not fully counted. <strong>The disparity by county is the part that does not get reported.</strong> Some counties run cure rates well above 60%. Others run below 25%.</p>
       <p>The integrity question is not whether ineligible ballots are counted. It is whether eligible ballots are rejected, county-by-county, by an adjudication process whose pass rate depends on the geography of where the ballot was cast.</p>
-      <div class="citation">SOURCE · GA SoS provisional outcome reports · multi-cycle</div>
+      <div class="citations"><span class="src-prefix">Source</span><a class="citation-link" href="https://sos.ga.gov/elections-division-georgia-secretary-states-office" target="_blank" rel="noopener">GA SoS provisional outcomes</a><span class="citation-note">multi-cycle</span></div>
     </div>
   </div>
 </section>
