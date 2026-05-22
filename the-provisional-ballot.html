@@ -116,6 +116,44 @@
   body.mode-analyst .citations { background: rgba(196,167,119,0.04); padding: 14px; border-radius: 3px; }
   body.mode-analyst .hypotheses { gap: 2px; }
   body.mode-analyst .competing-section .hyp { background: var(--bg-soft); border: 1px solid rgba(168,144,200,0.18); }
+  /* === Phase 4: Orbital Competing Explanations === */
+  .competing-section { background: var(--bg); padding: 14vh 6vw 12vh; border-top: 1px solid var(--rule); position: relative; overflow: hidden; }
+  .competing-section::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(168,144,200,0.05) 0%, transparent 65%); pointer-events: none; }
+  .competing-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+  .comp-stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: #a890c8; margin-bottom: 18px; text-align: center; }
+  .competing-section h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 18px; text-align: center; max-width: 28ch; margin-left: auto; margin-right: auto; }
+  .competing-section h2 em { color: #c8a8e8; font-style: italic; font-weight: 300; }
+  .competing-section .lead { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink-dim); max-width: 64ch; line-height: 1.55; margin: 0 auto 56px; text-align: center; }
+  /* The orbital stage */
+  .orbital-stage { position: relative; height: 540px; max-width: 880px; margin: 0 auto 80px; }
+  .orbital-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: pointer; }
+  .orbital-center-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Fraunces', serif; font-style: italic; font-size: clamp(15px, 1.6vw, 18px); color: var(--ink); text-align: center; max-width: 240px; line-height: 1.3; pointer-events: none; z-index: 2; }
+  .orbital-center-label .glyph { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: #c4a777; margin-bottom: 8px; font-style: normal; }
+  .orbital-tooltip { position: absolute; background: rgba(8,8,12,0.95); backdrop-filter: blur(10px); border: 1px solid rgba(168,144,200,0.4); border-radius: 3px; padding: 14px 16px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--ink); line-height: 1.5; max-width: 280px; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 5; }
+  .orbital-tooltip.show { opacity: 1; }
+  .orbital-tooltip .tt-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: #c8a8e8; text-transform: uppercase; margin-bottom: 6px; }
+  .orbital-tooltip .tt-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 15px; line-height: 1.2; color: var(--ink); margin-bottom: 6px; }
+  .orbital-hint { position: absolute; bottom: -32px; left: 0; right: 0; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; }
+  /* The readable hypothesis list below */
+  .hyp-list { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hyp-row { background: var(--bg-card); padding: 36px 36px; display: grid; grid-template-columns: 110px 1fr; gap: 32px; align-items: start; transition: background 0.3s; }
+  .hyp-row:hover { background: var(--bg-soft); }
+  .hyp-row .h-marker { display: flex; flex-direction: column; gap: 8px; }
+  .hyp-row .h-mark-num { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 38px; color: #c8a8e8; line-height: 1; }
+  .hyp-row .h-mark-kind { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: #a890c8; line-height: 1.4; }
+  .hyp-row .h-mark-kind .primary { color: var(--gold); }
+  .hyp-row .h-body { display: flex; flex-direction: column; gap: 14px; }
+  .hyp-row .h-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 24px; line-height: 1.25; color: var(--ink); letter-spacing: -0.01em; }
+  .hyp-row .h-body p { font-size: 15px; color: var(--ink-dim); line-height: 1.6; max-width: 60ch; }
+  .hyp-row .h-test { margin-top: 8px; padding: 14px 18px; background: rgba(168,144,200,0.04); border-left: 2px solid rgba(168,144,200,0.5); border-radius: 0 2px 2px 0; }
+  .hyp-row .h-test-stamp { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; color: #c8a8e8; text-transform: uppercase; margin-bottom: 6px; }
+  .hyp-row .h-test-q { font-family: 'Fraunces', serif; font-style: italic; font-size: 15px; line-height: 1.4; color: var(--ink); }
+  @media (max-width: 700px) {
+    .orbital-stage { height: 420px; }
+    .hyp-row { grid-template-columns: 1fr; gap: 16px; padding: 28px 24px; }
+    .hyp-row .h-marker { flex-direction: row; align-items: baseline; gap: 14px; }
+  }
+
   @media (max-width: 700px) { .reader-mode-toggle { top: 48px; right: 10px; } .reader-mode-toggle button { font-size: 8px; padding: 5px 8px; } }
 
 
@@ -143,11 +181,11 @@
       <a class="tab" href="map.html"><span class="tab-num">◎</span>Map</a>
       <a class="tab" href="atlas.html"><span class="tab-num">◐</span>Atlas</a>
       <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
-      <a class="tab" href="the-data-center-tax.html"><span class="tab-num">02</span>Data Centers</a>
-      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">03</span>Eviction</a>
-      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">04</span>Hospital</a>
-      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">05</span>Coast</a>
-      <a class="tab active" href="the-provisional-ballot.html"><span class="tab-num">06</span>Ballot</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">02</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">03</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">04</span>Coast</a>
+      <a class="tab active" href="the-provisional-ballot.html"><span class="tab-num">05</span>Ballot</a>
+      <a class="tab" href="thesis.html"><span class="tab-num">◉</span>Thesis</a>
     </div>
   </div>
 </nav>
@@ -271,13 +309,31 @@
 <!-- COMPETING EXPLANATIONS -->
 <section class="competing-section">
   <div class="competing-inner">
+    <div class="comp-stamp">A constellation of competing reads</div>
     <h2>What <em>else</em> could explain the rejection geometry?</h2>
     <p class="lead">Disparate-impact framing is one read of provisional ballot adjudication. Three other framings produce similar data without the same conclusion.</p>
-    <div class="hypotheses">
-      <div class="hyp"><div class="hyp-label">A · this piece</div><h3>Structural disparate impact</h3><p>County-level adjudication variability produces patterns that correlate with demographic and language geography, creating effective access asymmetry.</p><div class="test">DISTINGUISHING TEST<strong>After controlling for voter-error rates within each county, does cross-county disparity in count rate remain statistically significant?</strong></div></div>
-      <div class="hyp"><div class="hyp-label">B · statutory</div><h3>Lawful compliance, applied uniformly</h3><p>Each county applies the same statutory checks. Differential outcomes reflect differential voter behavior, not differential administration.</p><div class="test">DISTINGUISHING TEST<strong>Have audits of randomly selected counties shown procedurally different adjudication, or procedurally identical adjudication with different inputs?</strong></div></div>
-      <div class="hyp"><div class="hyp-label">C · fraud-prevention</div><h3>Designed friction is a feature</h3><p>Provisional adjudication exists to verify eligibility. The rejection rate reflects the mechanism working as designed.</p><div class="test">DISTINGUISHING TEST<strong>How many confirmed ineligibility cases would be enabled by relaxing the procedure, vs. how many additional eligible voters would be enfranchised?</strong></div></div>
-      <div class="hyp"><div class="hyp-label">D · voter-side</div><h3>Voter error dominates</h3><p>Most rejections trace to wrong-precinct voting and missing ID — voter-side errors. County-side variation is a smaller effect than the variance from voter behavior itself.</p><div class="test">DISTINGUISHING TEST<strong>What share of total rejection variance is attributable to county adjudication vs. voter-side input characteristics?</strong></div></div>
+    <div class="orbital-stage">
+      <canvas></canvas>
+      <div class="orbital-center-label"><span class="glyph">— the question —</span>What else could explain the rejection geometry?</div>
+      <div class="orbital-hint">Hover any orbit to see its hypothesis · Click to jump to the full text below</div>
+    </div>
+    <div class="hyp-list">
+      <div class="hyp-row">
+        <div class="h-marker"><div class="h-mark-num">A.</div><div class="h-mark-kind"><span class="primary">PRIMARY · THIS PIECE</span></div></div>
+        <div class="h-body"><div class="h-title">Structural disparate impact</div><p>County-level adjudication variability produces patterns that correlate with demographic and language geography, creating effective access asymmetry.</p><div class="h-test"><div class="h-test-stamp">— The distinguishing test —</div><div class="h-test-q">After controlling for voter-error rates within each county, does cross-county disparity in count rate remain statistically significant?</div></div></div>
+      </div>
+      <div class="hyp-row">
+        <div class="h-marker"><div class="h-mark-num">B.</div><div class="h-mark-kind">ALTERNATE · STATUTORY</div></div>
+        <div class="h-body"><div class="h-title">Lawful compliance, applied uniformly</div><p>Each county applies the same statutory checks. Differential outcomes reflect differential voter behavior, not differential administration.</p><div class="h-test"><div class="h-test-stamp">— The distinguishing test —</div><div class="h-test-q">Have audits of randomly selected counties shown procedurally different adjudication, or procedurally identical adjudication with different inputs?</div></div></div>
+      </div>
+      <div class="hyp-row">
+        <div class="h-marker"><div class="h-mark-num">C.</div><div class="h-mark-kind">ALTERNATE · FRAUD-PREVENTION</div></div>
+        <div class="h-body"><div class="h-title">Designed friction is a feature</div><p>Provisional adjudication exists to verify eligibility. The rejection rate reflects the mechanism working as designed.</p><div class="h-test"><div class="h-test-stamp">— The distinguishing test —</div><div class="h-test-q">How many confirmed ineligibility cases would be enabled by relaxing the procedure, vs. how many additional eligible voters would be enfranchised?</div></div></div>
+      </div>
+      <div class="hyp-row">
+        <div class="h-marker"><div class="h-mark-num">D.</div><div class="h-mark-kind">ALTERNATE · VOTER-SIDE</div></div>
+        <div class="h-body"><div class="h-title">Voter error dominates</div><p>Most rejections trace to wrong-precinct voting and missing ID — voter-side errors. County-side variation is a smaller effect than the variance from voter behavior itself.</p><div class="h-test"><div class="h-test-stamp">— The distinguishing test —</div><div class="h-test-q">What share of total rejection variance is attributable to county adjudication vs. voter-side input characteristics?</div></div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -443,6 +499,188 @@ document.querySelectorAll('.chapter[data-stage]').forEach(p => obs.observe(p));
   }
   buttons.forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
   setMode(saved);
+})();
+
+
+// === Orbital Competing Explanations ===
+(function orbital() {
+  const stage = document.querySelector('.orbital-stage');
+  if (!stage) return;
+  const c = stage.querySelector('canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  let W, H;
+  const DPR = window.devicePixelRatio || 1;
+  function resize() {
+    const rect = stage.getBoundingClientRect();
+    W = c.clientWidth = rect.width; H = c.clientHeight = rect.height;
+    c.width = W * DPR; c.height = H * DPR;
+    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
+  }
+  window.addEventListener('resize', resize); setTimeout(resize, 60);
+
+  // Read hypotheses from the DOM (they were rendered server-side)
+  const hyps = Array.from(document.querySelectorAll('.hyp-row')).map((row, i) => {
+    const num = row.querySelector('.h-mark-num').textContent.trim();
+    const kind = row.querySelector('.h-mark-kind').textContent.trim();
+    const title = row.querySelector('.h-title').textContent.trim();
+    return { idx: i, num, kind, title, isPrimary: kind.toLowerCase().includes('this piece') };
+  });
+  if (hyps.length === 0) return;
+
+  const tooltip = document.createElement('div');
+  tooltip.className = 'orbital-tooltip';
+  stage.appendChild(tooltip);
+
+  let hoverIdx = -1;
+  let frame = 0;
+
+  function loop() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+    const cx = W / 2, cy = H / 2;
+    const baseRadius = Math.min(W, H) * 0.32;
+
+    // Subtle starfield background
+    for (let i = 0; i < 80; i++) {
+      const seed = i * 73.13;
+      const sx = ((Math.sin(seed) * 0.5 + 0.5) * W);
+      const sy = ((Math.cos(seed * 1.7) * 0.5 + 0.5) * H);
+      const a = 0.15 + Math.sin(frame * 0.02 + seed) * 0.1;
+      ctx.fillStyle = `rgba(168, 144, 200, ${a * 0.4})`;
+      ctx.fillRect(sx, sy, 1, 1);
+    }
+
+    // Concentric orbital paths
+    hyps.forEach((h, i) => {
+      const r = baseRadius * (0.55 + i * 0.18);
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, r, r * 0.75, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(168, 144, 200, 0.10)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([2, 6]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    // Center node — the question gravity
+    const centerPulse = 0.7 + Math.sin(frame * 0.04) * 0.3;
+    const cgrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 80);
+    cgrad.addColorStop(0, 'rgba(196, 167, 119, 0.20)');
+    cgrad.addColorStop(1, 'rgba(196, 167, 119, 0)');
+    ctx.fillStyle = cgrad;
+    ctx.fillRect(cx - 80, cy - 80, 160, 160);
+    ctx.beginPath();
+    ctx.arc(cx, cy, 6 + centerPulse * 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#c4a777';
+    ctx.fill();
+
+    // Hypothesis nodes orbiting
+    hyps.forEach((h, i) => {
+      const r = baseRadius * (0.55 + i * 0.18);
+      const speed = 0.0025 / (i + 1);
+      const angle = i * (Math.PI * 2 / hyps.length) + frame * speed - Math.PI / 2;
+      const x = cx + Math.cos(angle) * r;
+      const y = cy + Math.sin(angle) * r * 0.75;
+      const isHover = i === hoverIdx;
+      const isPrimary = h.isPrimary;
+
+      // Connection line back to center
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(x, y);
+      ctx.strokeStyle = isHover
+        ? 'rgba(200, 168, 232, 0.55)'
+        : (isPrimary ? 'rgba(196, 167, 119, 0.30)' : 'rgba(168, 144, 200, 0.18)');
+      ctx.lineWidth = isHover ? 1.5 : 1;
+      ctx.stroke();
+
+      // Node glow
+      const nodeColor = isPrimary ? '#c4a777' : '#a890c8';
+      const haloR = isHover ? 32 : 22;
+      const ngrad = ctx.createRadialGradient(x, y, 0, x, y, haloR);
+      ngrad.addColorStop(0, nodeColor + '55');
+      ngrad.addColorStop(1, nodeColor + '00');
+      ctx.fillStyle = ngrad;
+      ctx.fillRect(x - haloR, y - haloR, haloR * 2, haloR * 2);
+
+      // Node ring
+      ctx.beginPath();
+      ctx.arc(x, y, isHover ? 11 : 8, 0, Math.PI * 2);
+      ctx.strokeStyle = nodeColor + (isHover ? 'ff' : 'cc');
+      ctx.lineWidth = isHover ? 2 : 1.5;
+      ctx.stroke();
+      if (isPrimary) {
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = nodeColor;
+        ctx.fill();
+      }
+
+      // Label (just the letter, e.g. "A")
+      ctx.font = '500 11px "JetBrains Mono", monospace';
+      ctx.fillStyle = isHover ? '#f0ebe0' : '#a8a298';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(h.num.replace('.', ''), x, y + (isHover ? -20 : -16));
+
+      // Store position for hit-testing
+      h._x = x; h._y = y;
+    });
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  // Mouse interactions
+  c.addEventListener('mousemove', (e) => {
+    const rect = c.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    let found = -1;
+    for (let i = 0; i < hyps.length; i++) {
+      const h = hyps[i];
+      if (h._x === undefined) continue;
+      if (Math.hypot(mx - h._x, my - h._y) <= 18) { found = i; break; }
+    }
+    hoverIdx = found;
+    c.style.cursor = found >= 0 ? 'pointer' : 'default';
+    if (found >= 0) {
+      const h = hyps[found];
+      tooltip.innerHTML = '<div class="tt-label">' + h.num + ' · ' + h.kind + '</div><div class="tt-title">' + h.title + '</div>';
+      tooltip.style.left = Math.min(W - 290, mx + 12) + 'px';
+      tooltip.style.top = Math.max(10, my - 60) + 'px';
+      tooltip.classList.add('show');
+    } else {
+      tooltip.classList.remove('show');
+    }
+  });
+  c.addEventListener('mouseleave', () => { hoverIdx = -1; tooltip.classList.remove('show'); });
+  c.addEventListener('click', (e) => {
+    const rect = c.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    for (let i = 0; i < hyps.length; i++) {
+      const h = hyps[i];
+      if (h._x === undefined) continue;
+      if (Math.hypot(mx - h._x, my - h._y) <= 18) {
+        const target = document.querySelectorAll('.hyp-row')[i];
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+    }
+  });
+})();
+
+
+// Mark this page as visited (for index visit-tracker easter egg)
+(function() {
+  try {
+    var visited = JSON.parse(localStorage.getItem('infera-visited') || '[]');
+    var here = location.pathname.split('/').pop() || 'index.html';
+    if (here !== 'index.html' && !visited.includes(here)) {
+      visited.push(here);
+      localStorage.setItem('infera-visited', JSON.stringify(visited));
+    }
+  } catch (e) {}
 })();
 
 </script>

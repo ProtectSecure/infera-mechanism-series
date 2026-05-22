@@ -139,11 +139,11 @@
       <a class="tab" href="map.html"><span class="tab-num">◎</span>Map</a>
       <a class="tab active" href="atlas.html"><span class="tab-num">◐</span>Atlas</a>
       <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
-      <a class="tab" href="the-data-center-tax.html"><span class="tab-num">02</span>Data Centers</a>
-      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">03</span>Eviction</a>
-      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">04</span>Hospital</a>
-      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">05</span>Coast</a>
-      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">06</span>Ballot</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">02</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">03</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">04</span>Coast</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">05</span>Ballot</a>
+      <a class="tab" href="thesis.html"><span class="tab-num">◉</span>Thesis</a>
     </div>
   </div>
 </nav>
@@ -160,7 +160,6 @@
     <button class="ov-btn" data-overlay="hospital"><span class="swatch"></span>Hospital Distance</button>
     <button class="ov-btn" data-overlay="inflow"><span class="swatch"></span>FL In-Migration</button>
     <button class="ov-btn" data-overlay="eviction"><span class="swatch"></span>Eviction Pressure</button>
-    <button class="ov-btn" data-overlay="rate"><span class="swatch"></span>Rate Burden</button>
     <button class="ov-btn" data-overlay="ballot"><span class="swatch"></span>Provisional Rejection</button>
   </div>
 </section>
@@ -496,6 +495,19 @@ function openDetail(c) {
 }
 function closeDetail() { panel.classList.remove('open'); }
 closeBtn.addEventListener('click', () => { activeCounty = null; closeDetail(); });
+
+// Mark this page as visited (for index visit-tracker easter egg)
+(function() {
+  try {
+    var visited = JSON.parse(localStorage.getItem('infera-visited') || '[]');
+    var here = location.pathname.split('/').pop() || 'index.html';
+    if (here !== 'index.html' && !visited.includes(here)) {
+      visited.push(here);
+      localStorage.setItem('infera-visited', JSON.stringify(visited));
+    }
+  } catch (e) {}
+})();
+
 </script>
 </body>
 </html>

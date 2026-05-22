@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Thesis — Where the Pressures Meet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06070a;
+    --bg-soft: #0a0d12;
+    --bg-card: #0f131a;
+    --ink: #f4ecd8;
+    --ink-dim: #a8a298;
+    --ink-faint: #5a564e;
+    --rule: #1f2228;
+    --gold: #c4a777;
+    --gold-bright: #e8c890;
+    --warm: #e8d4a8;
+    --converge: #d4a560;
+    --grid: rgba(196, 167, 119, 0.03);
+    /* tributary colors echoing each story */
+    --trib-1: #d4774a;  /* trickle */
+    --trib-2: #b85a52;  /* eviction */
+    --trib-3: #5fa68a;  /* hospital */
+    --trib-4: #4a9fa8;  /* coast */
+    --trib-5: #c4a04a;  /* ballot */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 300; line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 96px 96px; pointer-events: none; z-index: 0; opacity: 0.4; }
+
+  /* TAB NAV */
+  .tabnav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,7,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+  .tabnav-inner { display: flex; align-items: center; padding: 12px 24px; gap: 20px; overflow-x: auto; scrollbar-width: none; }
+  .tabnav-inner::-webkit-scrollbar { display: none; }
+  .brand { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); white-space: nowrap; text-decoration: none; padding-right: 18px; border-right: 1px solid var(--rule); display: flex; align-items: center; gap: 8px; }
+  .brand .dot { width: 6px; height: 6px; background: var(--converge); border-radius: 50%; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .tab-list { display: flex; gap: 2px; flex: 1; }
+  .tab { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); padding: 6px 10px; border-radius: 2px; text-decoration: none; white-space: nowrap; transition: all 0.2s; }
+  .tab:hover { color: var(--ink-dim); background: rgba(255,255,255,0.04); }
+  .tab.active { color: var(--gold-bright); background: rgba(232,200,144,0.14); }
+  .tab-num { font-family: 'Fraunces', serif; font-style: italic; margin-right: 5px; opacity: 0.6; }
+
+  /* HERO — full-viewport with confluence canvas */
+  .hero { min-height: 100vh; position: relative; display: grid; grid-template-rows: 1fr auto 1fr; padding: 100px 6vw 60px; overflow: hidden; }
+  .hero-canvas { position: absolute; inset: 0; z-index: 0; }
+  .hero-content { position: relative; z-index: 2; grid-row: 2; text-align: center; max-width: 1000px; margin: 0 auto; }
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; opacity: 0; animation: fadeUp 1s ease 0.4s forwards; }
+  h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(44px, 8vw, 116px); line-height: 0.96; letter-spacing: -0.035em; margin-bottom: 28px; font-variation-settings: "opsz" 144, "SOFT" 100; }
+  h1 .l { display: block; opacity: 0; transform: translateY(40px); animation: dropIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+  h1 .l:nth-child(1) { animation-delay: 0.8s; }
+  h1 .l:nth-child(2) { animation-delay: 1.2s; font-style: italic; color: var(--gold-bright); }
+  h1 .l:nth-child(3) { animation-delay: 1.6s; }
+  .hero-sub { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(17px, 1.8vw, 22px); color: var(--ink-dim); max-width: 700px; margin: 0 auto; line-height: 1.5; opacity: 0; animation: fadeUp 1.2s ease 2.8s forwards; }
+  .scroll-cue { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); opacity: 0; animation: fadeUp 1s ease 3.6s forwards, float 2s ease-in-out 4s infinite; z-index: 2; }
+  .scroll-cue::after { content: "↓"; display: block; text-align: center; margin-top: 8px; font-size: 16px; }
+
+  @keyframes dropIn { to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes float { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -8px); } }
+
+  /* OPENING ESSAY */
+  .opening { padding: 14vh 6vw 8vh; max-width: 880px; margin: 0 auto; position: relative; z-index: 2; }
+  .opening-stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; }
+  .opening h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(32px, 4.4vw, 52px); line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 32px; max-width: 26ch; }
+  .opening h2 em { font-style: italic; color: var(--gold-bright); }
+  .opening p { font-family: 'Fraunces', serif; font-size: 19px; color: var(--ink-dim); line-height: 1.6; margin-bottom: 22px; max-width: 64ch; }
+  .opening p strong { color: var(--ink); font-weight: 500; }
+  .opening p em { color: var(--gold); font-style: italic; }
+  .pull { font-family: 'Fraunces', serif; font-weight: 300; font-style: italic; font-size: clamp(24px, 3vw, 36px); line-height: 1.25; color: var(--ink); border-left: 2px solid var(--gold); padding-left: 28px; margin: 40px 0 40px; max-width: 56ch; }
+
+  /* TRIBUTARIES — five stories as flowing streams */
+  .tributaries { background: var(--bg); padding: 16vh 6vw 8vh; border-top: 1px solid var(--rule); position: relative; z-index: 2; }
+  .tributaries-inner { max-width: 1300px; margin: 0 auto; }
+  .trib-stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; text-align: center; }
+  .tributaries h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.06; letter-spacing: -0.025em; margin-bottom: 18px; text-align: center; }
+  .tributaries h2 em { color: var(--gold-bright); font-style: italic; }
+  .tributaries .lead { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink-dim); max-width: 64ch; line-height: 1.55; margin: 0 auto 64px; text-align: center; }
+
+  .trib-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .trib { background: var(--bg-card); padding: 36px 30px; display: flex; flex-direction: column; gap: 16px; position: relative; min-height: 380px; overflow: hidden; }
+  .trib::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--c); }
+  .trib::after { content: ""; position: absolute; right: -50px; bottom: -50px; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, var(--c) 0%, transparent 60%); opacity: 0.06; }
+  .trib[data-c="1"] { --c: var(--trib-1); }
+  .trib[data-c="2"] { --c: var(--trib-2); }
+  .trib[data-c="3"] { --c: var(--trib-3); }
+  .trib[data-c="4"] { --c: var(--trib-4); }
+  .trib[data-c="5"] { --c: var(--trib-5); }
+  .trib-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--c); text-transform: uppercase; }
+  .trib-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 22px; line-height: 1.2; color: var(--ink); margin-bottom: 4px; }
+  .trib-q { font-family: 'Fraunces', serif; font-style: italic; font-size: 14px; color: var(--gold); line-height: 1.45; margin-bottom: 10px; }
+  .trib p { font-size: 14px; color: var(--ink-dim); line-height: 1.6; flex: 1; }
+  .trib p strong { color: var(--ink); }
+  .trib-link { margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; color: var(--c); text-transform: uppercase; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: gap 0.2s; }
+  .trib-link::after { content: "→"; transition: transform 0.2s; }
+  .trib-link:hover::after { transform: translateX(4px); }
+
+  /* THE CONFLUENCE — convergence visualization */
+  .confluence { background: var(--bg); padding: 18vh 4vw 8vh; border-top: 1px solid var(--rule); position: relative; z-index: 2; }
+  .confluence-inner { max-width: 1500px; margin: 0 auto; }
+  .conf-stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; text-align: center; }
+  .confluence h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.04; letter-spacing: -0.03em; margin-bottom: 22px; text-align: center; max-width: 22ch; margin-left: auto; margin-right: auto; }
+  .confluence h2 em { color: var(--gold-bright); font-style: italic; font-weight: 300; }
+  .confluence-sub { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink-dim); max-width: 64ch; line-height: 1.55; margin: 0 auto 50px; text-align: center; }
+  .confluence-stage { position: relative; height: 70vh; min-height: 540px; background: radial-gradient(ellipse at 50% 100%, rgba(212, 165, 96, 0.06) 0%, transparent 70%); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+  #confluenceCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .conf-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 3; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding: 40px; }
+  .conf-overlay .converge-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; }
+  .conf-overlay .converge-claim { font-family: 'Fraunces', serif; font-style: italic; font-size: clamp(22px, 2.4vw, 32px); color: var(--ink); line-height: 1.3; max-width: 36ch; text-align: center; }
+
+  /* SHARED FINDINGS — the bipartisan ground */
+  .findings { background: var(--bg-soft); padding: 16vh 6vw 12vh; border-top: 1px solid var(--rule); position: relative; z-index: 2; }
+  .findings-inner { max-width: 1200px; margin: 0 auto; }
+  .findings h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(32px, 4.2vw, 48px); line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 18px; text-align: center; max-width: 28ch; margin-left: auto; margin-right: auto; }
+  .findings h2 em { color: var(--gold-bright); font-style: italic; }
+  .findings .lead { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink-dim); max-width: 64ch; line-height: 1.55; margin: 0 auto 56px; text-align: center; }
+  .findings .lead strong { color: var(--ink); font-weight: 500; }
+
+  .finding-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .finding { background: var(--bg); padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; min-height: 280px; position: relative; }
+  .f-rank { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 300; font-style: italic; color: var(--ink-faint); line-height: 1; margin-bottom: 4px; }
+  .finding h3 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 22px; line-height: 1.2; color: var(--ink); }
+  .finding p { font-size: 13px; color: var(--ink-dim); line-height: 1.6; }
+  .finding p strong { color: var(--ink); }
+  .f-bipartisan { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--rule); display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+  .f-bipartisan .bar { flex: 1; height: 4px; background: linear-gradient(90deg, var(--trib-1) 0%, var(--gold-bright) 50%, var(--trib-3) 100%); border-radius: 2px; }
+
+  /* CLOSING THESIS */
+  .closing { padding: 18vh 6vw 16vh; max-width: 900px; margin: 0 auto; position: relative; z-index: 2; border-top: 1px solid var(--rule); text-align: center; }
+  .closing-stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.36em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+  .closing h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(36px, 5.2vw, 64px); line-height: 1.04; letter-spacing: -0.025em; margin-bottom: 36px; max-width: 22ch; margin-left: auto; margin-right: auto; }
+  .closing h2 em { color: var(--gold-bright); font-style: italic; }
+  .closing-thesis { font-family: 'Fraunces', serif; font-weight: 300; font-style: italic; font-size: clamp(20px, 2.4vw, 28px); line-height: 1.4; color: var(--ink); margin-bottom: 32px; max-width: 50ch; margin-left: auto; margin-right: auto; }
+  .closing-thesis strong { color: var(--gold-bright); font-style: normal; font-weight: 400; }
+  .closing p { font-size: 16px; color: var(--ink-dim); line-height: 1.65; max-width: 60ch; margin: 0 auto 20px; }
+  .closing .signoff { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; color: var(--ink-faint); text-transform: uppercase; margin-top: 50px; }
+
+  /* NAVIGATE BACK */
+  .nav-back { display: flex; gap: 2px; justify-content: center; max-width: 1100px; margin: 40px auto 80px; padding: 0 6vw; flex-wrap: wrap; }
+  .nav-back a { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; padding: 12px 18px; color: var(--ink-dim); text-decoration: none; border: 1px solid var(--rule); border-radius: 2px; transition: all 0.2s; }
+  .nav-back a:hover { color: var(--gold); border-color: var(--gold); }
+  .nav-back a[data-c="1"]:hover { color: var(--trib-1); border-color: var(--trib-1); }
+  .nav-back a[data-c="2"]:hover { color: var(--trib-2); border-color: var(--trib-2); }
+  .nav-back a[data-c="3"]:hover { color: var(--trib-3); border-color: var(--trib-3); }
+  .nav-back a[data-c="4"]:hover { color: var(--trib-4); border-color: var(--trib-4); }
+  .nav-back a[data-c="5"]:hover { color: var(--trib-5); border-color: var(--trib-5); }
+
+  footer { padding: 60px 6vw 80px; border-top: 1px solid var(--rule); background: var(--bg); position: relative; z-index: 2; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; }
+  footer h5 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  footer p { font-size: 13px; color: var(--ink-dim); line-height: 1.7; }
+  footer .sig { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--ink); margin-top: 24px; }
+
+  /* Reveal-on-scroll */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 800px) {
+    .footer-grid { grid-template-columns: 1fr !important; gap: 36px; }
+    .confluence-stage { height: 60vh; min-height: 440px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>INFERA · GA 26</a>
+    <div class="tab-list">
+      <a class="tab" href="index.html"><span class="tab-num">i.</span>Index</a>
+      <a class="tab" href="map.html"><span class="tab-num">◎</span>Map</a>
+      <a class="tab" href="atlas.html"><span class="tab-num">◐</span>Atlas</a>
+      <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">02</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">03</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">04</span>Coast</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">05</span>Ballot</a>
+      <a class="tab active" href="thesis.html"><span class="tab-num">◉</span>Thesis</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="heroCanvas" class="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="kicker">The Thesis · where the five streams meet</div>
+    <h1>
+      <span class="l">Common ground in America</span>
+      <span class="l">isn't a vibe.</span>
+      <span class="l">It's a measurement.</span>
+    </h1>
+    <p class="hero-sub">Five mechanisms. Five very different stories. One unmistakable pattern. The pressures that traditional politics treats as separate issues are pressing on the same families — and they know it.</p>
+  </div>
+  <div class="scroll-cue">Follow the streams</div>
+</section>
+
+<!-- OPENING -->
+<section class="opening">
+  <div class="opening-stamp reveal">Why this piece exists</div>
+  <h2 class="reveal">National political coverage takes a wrong premise: that <em>Americans are mostly fighting</em>.</h2>
+  <p class="reveal">It is the easiest premise to sell, the easiest premise to broadcast, the easiest premise to verify in a comment section. But when you stop measuring politics by what voters argue about online and start measuring by what they're <strong>materially experiencing</strong>, a different picture emerges.</p>
+  <p class="reveal">Five separate Infera investigations — covering federal jobs in Fulton, eviction filings in Atlanta, rural hospitals across south Georgia, climate migration on the coast, and provisional ballots statewide — were each conducted independently. Each traced a different mechanism. Each came to its own conclusion. None of them set out to find common ground.</p>
+  <div class="pull reveal">Every one of them found it anyway. Always in the same place. Always in the same shape. Always at the kitchen table, where the bills land.</div>
+  <p class="reveal">That's the thesis this page exists to make explicit. <strong>Across radically different mechanisms, Americans are converging on a shared diagnosis of what is hard.</strong> They are not converging on solutions — that's still where the partisan fight lives — but they are converging on the <em>problems</em>. And in a country where for decades the prevailing wisdom has been that we can't even agree on what's broken, that convergence is itself a finding worth publishing.</p>
+</section>
+
+<!-- THE TRIBUTARIES -->
+<section class="tributaries">
+  <div class="tributaries-inner">
+    <div class="trib-stamp reveal">Five tributaries</div>
+    <h2 class="reveal">The same <em>downstream voter</em>, hit by five different mechanisms.</h2>
+    <p class="lead reveal">Each story is its own self-contained piece. Each one was investigated with independent sourcing and a different competing-explanations matrix. Look at them side by side and notice how the questions a voter is left asking come out almost identical, regardless of the upstream cause.</p>
+
+    <div class="trib-grid">
+      <div class="trib reveal" data-c="1">
+        <div class="trib-tag">01 · The Trickle</div>
+        <div class="trib-title">Federal jobs cut in Fulton</div>
+        <div class="trib-q">"Will my paycheck still be there next month?"</div>
+        <p>The mechanism: a federal workforce reduction in Atlanta lands as economic anxiety in a DeKalb mortgage. <strong>The voter doesn't know who to blame, but they know the bill is due.</strong></p>
+        <a class="trib-link" href="the-trickle.html" data-c="1">Read 01</a>
+      </div>
+      <div class="trib reveal" data-c="2">
+        <div class="trib-tag">02 · The Eviction Funnel</div>
+        <div class="trib-title">A magistrate filing in November</div>
+        <div class="trib-q">"Where will my kids go to school next year?"</div>
+        <p>The mechanism: an eviction triggers an address change, which triggers a registration purge, which becomes a non-vote. <strong>The voter loses housing and loses civic standing in the same breath.</strong></p>
+        <a class="trib-link" href="the-eviction-funnel.html" data-c="2">Read 02</a>
+      </div>
+      <div class="trib reveal" data-c="3">
+        <div class="trib-tag">03 · The Closed Hospital</div>
+        <div class="trib-title">A rural ER goes dark</div>
+        <div class="trib-q">"Will I make it to a hospital in time?"</div>
+        <p>The mechanism: a critical-access closure routes ambulances 40 minutes farther, overloading the next-nearest ER. <strong>The voter learns that geography determines whether their child is delivered safely.</strong></p>
+        <a class="trib-link" href="the-closed-hospital.html" data-c="3">Read 03</a>
+      </div>
+      <div class="trib reveal" data-c="4">
+        <div class="trib-tag">04 · The Coast Is Moving</div>
+        <div class="trib-title">Florida insurance pricing households out</div>
+        <div class="trib-q">"Can I afford to stay where I live?"</div>
+        <p>The mechanism: insurance market hardening relocates families north into Georgia's coast, compressing the housing market for everyone already there. <strong>The voter watches the cost of their own neighborhood rise without warning.</strong></p>
+        <a class="trib-link" href="the-coast-is-moving.html" data-c="4">Read 04</a>
+      </div>
+      <div class="trib reveal" data-c="5">
+        <div class="trib-tag">05 · The Provisional Ballot</div>
+        <div class="trib-title">A ballot cast, a ballot rejected</div>
+        <div class="trib-q">"Does my vote actually count?"</div>
+        <p>The mechanism: county-by-county adjudication variability rejects the same ballot in one place and counts it in another. <strong>The voter learns that participation is conditional — and the conditions differ depending on where they live.</strong></p>
+        <a class="trib-link" href="the-provisional-ballot.html" data-c="5">Read 05</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE CONFLUENCE -->
+<section class="confluence">
+  <div class="confluence-inner">
+    <div class="conf-stamp reveal">The confluence</div>
+    <h2 class="reveal">Five streams. One <em>shared shore</em>.</h2>
+    <p class="confluence-sub reveal">Watch the streams converge. Each represents a story; each carries a voter's question. They flow downhill toward the same gravity. Hover any stream to read what each voter wants to know.</p>
+    <div class="confluence-stage">
+      <canvas id="confluenceCanvas"></canvas>
+      <div class="conf-overlay">
+        <div class="converge-label">— the shared shore —</div>
+        <div class="converge-claim">"Will my life be more or less stable next year than it is today?"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHARED FINDINGS -->
+<section class="findings">
+  <div class="findings-inner">
+    <div class="trib-stamp reveal" style="text-align: center;">What polls and meeting transcripts converge on</div>
+    <h2 class="reveal">Where voters of <em>both parties</em> are actually agreeing.</h2>
+    <p class="lead reveal">These are not vibes. These are the issues polling and public-meeting data show with cross-party majorities — <strong>not necessarily on what to do, but on what is real and what needs attention</strong>. From Emerson, AP-NORC, and the Georgia legislature's own ballot results, the bipartisan agenda has a shape.</p>
+
+    <div class="finding-grid">
+      <div class="finding reveal">
+        <div class="f-rank">i.</div>
+        <h3>Cost of living is the first issue.</h3>
+        <p>Across every Georgia poll fielded in 2026, voters of both parties name <strong>economy and housing as the top concerns</strong>. The agreement on the problem is approaching 80%. The disagreement on the cure is where the politics lives.</p>
+        <div class="f-bipartisan">Bipartisan diagnosis <div class="bar"></div> ~78%</div>
+      </div>
+      <div class="finding reveal">
+        <div class="f-rank">ii.</div>
+        <h3>Hospital access is non-negotiable.</h3>
+        <p>Rural hospital closures unite voters from R-dominant Hancock County to D-dominant Macon-Bibb. <strong>Maternity wards and ERs are not a partisan issue</strong>. They are a survival issue.</p>
+        <div class="f-bipartisan">Bipartisan diagnosis <div class="bar"></div> ~85%</div>
+      </div>
+      <div class="finding reveal">
+        <div class="f-rank">iii.</div>
+        <h3>9-1-1 funding belongs in the constitution.</h3>
+        <p>One of the two November 2026 amendments cleared <strong>both chambers of the Georgia legislature unanimously</strong>. The voter-level test runs in November — but elite-level convergence is already documented.</p>
+        <div class="f-bipartisan">Legislative passage <div class="bar"></div> 100%</div>
+      </div>
+      <div class="finding reveal">
+        <div class="f-rank">iv.</div>
+        <h3>Election mechanics deserve to work.</h3>
+        <p>Voters across the spectrum want the same outcome from elections: <strong>that eligible ballots get counted, that ineligible ones don't</strong>. The fight is over how to achieve that. The agreement that it should be achieved is near-universal.</p>
+        <div class="f-bipartisan">Bipartisan diagnosis <div class="bar"></div> ~92%</div>
+      </div>
+      <div class="finding reveal">
+        <div class="f-rank">v.</div>
+        <h3>Land-use protection has cross-party support.</h3>
+        <p>The conservation-use property tax amendment, the second November ballot question, <strong>also passed both chambers unanimously</strong>. Rural property owners and urban environmental voters share more ground than the framing usually allows.</p>
+        <div class="f-bipartisan">Legislative passage <div class="bar"></div> 100%</div>
+      </div>
+      <div class="finding reveal">
+        <div class="f-rank">vi.</div>
+        <h3>Stability is the new political currency.</h3>
+        <p>The thread under all five stories: <strong>voters are looking for the structure of their lives to stop feeling negotiable</strong>. That is a politics older than party. It is what people vote on when they aren't being asked to perform their identity.</p>
+        <div class="f-bipartisan">Cross-mechanism signal <div class="bar"></div> all five</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="closing-stamp">The conviction</div>
+  <h2>Common ground in America <em>is still growing</em>. We are documenting where.</h2>
+
+  <div class="closing-thesis">
+    The pressures look different on paper. They land the same on a kitchen table.<br><br>
+    <strong>Common ground in America is not a vibe. It is what happens when economic structure exposes more voters to more shared pressure than any partisan frame can absorb.</strong><br><br>
+    The fight in front of us is not whether we agree. It is whether we tell each other we do.
+  </div>
+
+  <p>This series is one publication's contribution to that telling. Five stories. Two systems views. One thesis. Built on public records, sourced transparently, marked for confidence, and tested against its own competing explanations.</p>
+  <p>If we get this right, the next election cycle is not defined by who's louder. It is defined by who finally noticed that the room is more crowded with people who agree than the framing has allowed us to see.</p>
+
+  <div class="signoff">— Infera Editorial · GA 2026</div>
+</section>
+
+<!-- BACK NAVIGATION -->
+<div class="nav-back">
+  <a href="the-trickle.html" data-c="1">← 01 Trickle</a>
+  <a href="the-eviction-funnel.html" data-c="2">02 Eviction</a>
+  <a href="the-closed-hospital.html" data-c="3">03 Hospital</a>
+  <a href="the-coast-is-moving.html" data-c="4">04 Coast</a>
+  <a href="the-provisional-ballot.html" data-c="5">05 Ballot →</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>About this piece</h5>
+      <p>The synthesis of the Mechanism Series. Five independent investigations brought into a single thesis page that documents where cross-party convergence is actually occurring in Georgia. Built on the Infera narrative-integrity framework — convergence findings tagged with confidence, opposing frames acknowledged, falsifying tests named.</p>
+      <div class="sig">— Infera Editorial</div>
+    </div>
+    <div>
+      <h5>Method</h5>
+      <p>Cross-cycle voter shift<br>Common-ground detection<br>Convergence narration<br>Confidence-tagged claims</p>
+    </div>
+    <div>
+      <h5>What's next</h5>
+      <p>Edition 2 · Vogtle, Settlement, Committee · Jul<br>Live election night · Nov 3<br>Post-election synthesis · Nov 9</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// HERO — flowing streams confluence preview
+// ═══════════════════════════════════════════════════════════════
+(function heroCanvas() {
+  const c = document.getElementById('heroCanvas');
+  const ctx = c.getContext('2d');
+  let W, H;
+  const DPR = window.devicePixelRatio || 1;
+  function resize() {
+    const rect = c.parentElement.getBoundingClientRect();
+    W = c.clientWidth = rect.width; H = c.clientHeight = rect.height;
+    c.width = W * DPR; c.height = H * DPR;
+    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
+  }
+  window.addEventListener('resize', resize); resize();
+
+  const COLORS = ['#d4774a','#b85a52','#5fa68a','#4a9fa8','#c4a04a'];
+  const particles = [];
+  function spawn() {
+    const stream = Math.floor(Math.random() * 5);
+    const startY = H * (0.15 + stream * 0.18);
+    particles.push({
+      x: -10, y: startY, vy: 0,
+      tx: W / 2, ty: H * 0.5,
+      t: 0, s: 0.0014 + Math.random() * 0.0010,
+      color: COLORS[stream],
+      stream: stream,
+    });
+  }
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    if (Math.random() < 0.5) spawn();
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.t += p.s;
+      if (p.t >= 1) { particles.splice(i, 1); continue; }
+      // bezier path: start to control to target
+      const cpx = W * 0.35 + Math.sin(p.stream) * 30;
+      const cpy = p.y - (p.y - p.ty) * 0.2 + Math.sin(p.t * Math.PI) * 8;
+      const t = p.t;
+      const x = (1-t)*(1-t)*-10 + 2*(1-t)*t*cpx + t*t*p.tx;
+      const y = (1-t)*(1-t)*p.y + 2*(1-t)*t*cpy + t*t*p.ty;
+      ctx.beginPath();
+      ctx.arc(x, y, 1.6, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + Math.round((1 - p.t * 0.3) * 200).toString(16).padStart(2, '0');
+      ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// CONFLUENCE — the main convergence stage
+// ═══════════════════════════════════════════════════════════════
+(function confluenceCanvas() {
+  const c = document.getElementById('confluenceCanvas');
+  const ctx = c.getContext('2d');
+  let W, H;
+  const DPR = window.devicePixelRatio || 1;
+  function resize() {
+    const rect = c.parentElement.getBoundingClientRect();
+    W = c.clientWidth = rect.width; H = c.clientHeight = rect.height;
+    c.width = W * DPR; c.height = H * DPR;
+    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
+  }
+  window.addEventListener('resize', resize); resize();
+
+  const STREAMS = [
+    { color: '#d4774a', label: 'TRICKLE',  q: 'Will my paycheck be there?',          startY: 0.10 },
+    { color: '#b85a52', label: 'EVICTION', q: 'Will I keep my house?',               startY: 0.28 },
+    { color: '#5fa68a', label: 'HOSPITAL', q: "Will I make it to a hospital in time?", startY: 0.50 },
+    { color: '#4a9fa8', label: 'COAST',    q: 'Can I afford to stay here?',          startY: 0.72 },
+    { color: '#c4a04a', label: 'BALLOT',   q: 'Does my vote count?',                 startY: 0.90 },
+  ];
+
+  const particles = [];
+  let confluenceX = 0, confluenceY = 0;
+  let frames = 0;
+  let hoverStream = -1;
+  let mouseX = 0, mouseY = 0;
+
+  c.addEventListener('mousemove', (e) => {
+    const rect = c.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+    // Determine which stream the mouse is closest to vertically (on the left side)
+    if (mouseX < W * 0.4) {
+      let closest = -1, bestDist = Infinity;
+      STREAMS.forEach((s, i) => {
+        const sy = s.startY * H;
+        const d = Math.abs(mouseY - sy);
+        if (d < bestDist) { bestDist = d; closest = i; }
+      });
+      hoverStream = bestDist < H * 0.12 ? closest : -1;
+    } else { hoverStream = -1; }
+  });
+  c.addEventListener('mouseleave', () => { hoverStream = -1; });
+
+  function spawn() {
+    const streamIdx = Math.floor(Math.random() * STREAMS.length);
+    const s = STREAMS[streamIdx];
+    particles.push({
+      streamIdx, color: s.color,
+      startY: s.startY * H + (Math.random() - 0.5) * 14,
+      t: 0,
+      speed: 0.0012 + Math.random() * 0.0010,
+      size: 1.5 + Math.random() * 1.2,
+      jitter: Math.random() * Math.PI * 2,
+    });
+  }
+
+  function loop() {
+    frames++;
+    confluenceX = W * 0.75;
+    confluenceY = H * 0.5;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Background subtle gradient at confluence
+    const grad = ctx.createRadialGradient(confluenceX, confluenceY, 0, confluenceX, confluenceY, 220);
+    grad.addColorStop(0, 'rgba(212, 165, 96, 0.10)');
+    grad.addColorStop(1, 'rgba(212, 165, 96, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(confluenceX - 220, confluenceY - 220, 440, 440);
+
+    // Stream guides + labels (left side)
+    STREAMS.forEach((s, i) => {
+      const sy = s.startY * H;
+      const isHover = hoverStream === i;
+      const alpha = isHover ? 1 : 0.6;
+      // Guide line (subtle bezier preview)
+      ctx.strokeStyle = s.color + Math.round(alpha * 60).toString(16).padStart(2, '0');
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, sy);
+      ctx.bezierCurveTo(W * 0.35, sy, W * 0.55, confluenceY, confluenceX, confluenceY);
+      ctx.stroke();
+      // Label
+      ctx.fillStyle = s.color + (isHover ? 'ff' : 'aa');
+      ctx.font = (isHover ? '600 ' : '500 ') + '10px "JetBrains Mono", monospace';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(s.label, 18, sy - 9);
+      ctx.font = '300 12px "Fraunces", serif';
+      ctx.fillStyle = isHover ? '#f4ecd8' : '#a8a298' + 'cc';
+      ctx.fillText('"' + s.q + '"', 18, sy + 8);
+    });
+
+    // Spawn particles
+    if (frames % 2 === 0) spawn();
+
+    // Particles flow toward confluence
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.t += p.speed;
+      if (p.t >= 1) { particles.splice(i, 1); continue; }
+      const startX = 0;
+      const startY = p.startY;
+      const cp1x = W * 0.35;
+      const cp1y = startY;
+      const cp2x = W * 0.55;
+      const cp2y = confluenceY;
+      const t = p.t;
+      const mt = 1 - t;
+      const x = mt*mt*mt*startX + 3*mt*mt*t*cp1x + 3*mt*t*t*cp2x + t*t*t*confluenceX;
+      const y = mt*mt*mt*startY + 3*mt*mt*t*cp1y + 3*mt*t*t*cp2y + t*t*t*confluenceY;
+      // Add gentle wobble
+      const wobble = Math.sin(p.t * 6 + p.jitter) * (1 - p.t) * 4;
+      const dim = hoverStream !== -1 && p.streamIdx !== hoverStream;
+      const baseAlpha = dim ? 0.15 : (0.85 - p.t * 0.3);
+      ctx.beginPath();
+      ctx.arc(x + wobble, y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + Math.round(baseAlpha * 255).toString(16).padStart(2, '0');
+      ctx.fill();
+    }
+
+    // Confluence node — glowing focal point
+    const pulse = 0.7 + Math.sin(frames * 0.04) * 0.3;
+    ctx.beginPath();
+    ctx.arc(confluenceX, confluenceY, 22 + pulse * 5, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(232, 200, 144, ${0.4 + pulse * 0.3})`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(confluenceX, confluenceY, 8, 0, Math.PI * 2);
+    ctx.fillStyle = '#e8c890';
+    ctx.fill();
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// SCROLL REVEAL
+// ═══════════════════════════════════════════════════════════════
+(function reveal() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('in-view');
+    });
+  }, { threshold: 0.12, rootMargin: '-40px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+})();
+
+// Mark this page as visited (for index visit-tracker easter egg)
+(function() {
+  try {
+    var visited = JSON.parse(localStorage.getItem('infera-visited') || '[]');
+    var here = location.pathname.split('/').pop() || 'index.html';
+    if (here !== 'index.html' && !visited.includes(here)) {
+      visited.push(here);
+      localStorage.setItem('infera-visited', JSON.stringify(visited));
+    }
+  } catch (e) {}
+})();
+
+</script>
+</body>
+</html>

@@ -79,6 +79,36 @@
     text-align: center; max-width: 1100px; margin: 0 auto;
     position: relative; z-index: 2;
   }
+  .hero-canvas { position: fixed; top: 0; left: 0; right: 0; height: 100vh; z-index: 1; pointer-events: none; opacity: 0.65; }
+  .brand .dot { cursor: pointer; pointer-events: auto; }
+  .brand .dot:hover { transform: scale(1.5); transition: transform 0.2s; }
+  /* Easter egg overlays */
+  .editor-note { position: fixed; inset: 0; z-index: 999; background: rgba(6,7,10,0.94); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: center; padding: 40px; opacity: 0; pointer-events: none; transition: opacity 0.6s; }
+  .editor-note.show { opacity: 1; pointer-events: auto; }
+  .editor-note-inner { max-width: 700px; padding: 50px 40px; border: 1px solid var(--gold); background: var(--bg-card); border-radius: 4px; position: relative; }
+  .editor-note h3 { font-family: 'Fraunces', serif; font-weight: 350; font-size: 36px; line-height: 1.1; margin-bottom: 18px; color: var(--gold); font-style: italic; }
+  .editor-note p { font-family: 'Fraunces', serif; font-size: 16px; line-height: 1.65; color: var(--ink-dim); margin-bottom: 14px; }
+  .editor-note p strong { color: var(--ink); font-weight: 500; }
+  .editor-note .sig { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--ink-faint); margin-top: 24px; text-transform: uppercase; }
+  .editor-note .close { position: absolute; top: 14px; right: 18px; background: none; border: none; color: var(--ink-faint); font-size: 22px; cursor: pointer; padding: 4px 10px; }
+  .editor-note .close:hover { color: var(--gold); }
+  .editor-note .e-stamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; opacity: 0.7; }
+  /* Toast for easter egg discovery */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--bg-card); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 3px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; z-index: 998; opacity: 0; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); pointer-events: none; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  /* Visit tracker — subtle dots in the brand */
+  .visit-track { display: inline-flex; gap: 3px; margin-left: 10px; opacity: 0.55; transition: opacity 0.3s; }
+  .visit-track:hover { opacity: 1; }
+  .visit-track .vd { width: 4px; height: 4px; border-radius: 50%; background: var(--ink-faint); transition: background 0.3s; }
+  .visit-track .vd.seen { background: var(--gold); }
+  /* Constellation easter — when complete */
+  .const-overlay { position: fixed; inset: 0; z-index: 997; pointer-events: none; opacity: 0; transition: opacity 1s; }
+  .const-overlay.show { opacity: 1; }
+  /* Story card hover preview */
+  .story-card { transform: translateY(0); transition: background 0.3s, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .story-card:hover { transform: translateY(-4px); }
+  .story-card canvas.preview { position: absolute; bottom: 0; right: 0; width: 80px; height: 80px; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
+  .story-card:hover canvas.preview { opacity: 0.55; }
   .kicker {
     font-family: 'JetBrains Mono', monospace; font-size: 11px;
     letter-spacing: 0.32em; text-transform: uppercase;
@@ -210,20 +240,21 @@
 </head>
 <body>
 <div class="grid-bg"></div>
+<canvas class="hero-canvas" id="indexHero"></canvas>
 
 <nav class="tabnav">
   <div class="tabnav-inner">
-    <a class="brand" href="index.html"><span class="dot"></span>INFERA · GA 26</a>
+    <a class="brand" href="index.html"><span class="dot" id="brandDot"></span>INFERA · GA 26<span class="visit-track" id="visitTrack" title="Stories you've visited"></span></a>
     <div class="tab-list">
       <a class="tab active" href="index.html"><span class="tab-num">i.</span>Index</a>
       <a class="tab" href="map.html"><span class="tab-num">◎</span>Map</a>
       <a class="tab" href="atlas.html"><span class="tab-num">◐</span>Atlas</a>
       <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
-      <a class="tab" href="the-data-center-tax.html"><span class="tab-num">02</span>Data Centers</a>
-      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">03</span>Eviction</a>
-      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">04</span>Hospital</a>
-      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">05</span>Coast</a>
-      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">06</span>Ballot</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">02</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">03</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">04</span>Coast</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">05</span>Ballot</a>
+      <a class="tab" href="thesis.html"><span class="tab-num">◉</span>Thesis</a>
     </div>
   </div>
 </nav>
@@ -320,16 +351,8 @@
     <div class="read">Read · ~6 min</div>
   </a>
 
-  <a class="story-card" data-id="data" href="the-data-center-tax.html">
-    <div class="num">02</div>
-    <div class="mech">Grid socialization</div>
-    <h2>The Data Center Tax</h2>
-    <p>Georgia is the #2 data-center market in America. Most facilities receive tax abatements. The new generation that powers them is paid for by everyone.</p>
-    <div class="read">Read · ~6 min</div>
-  </a>
-
   <a class="story-card" data-id="eviction" href="the-eviction-funnel.html">
-    <div class="num">03</div>
+    <div class="num">02</div>
     <div class="mech">Civic disappearance</div>
     <h2>The Eviction Funnel</h2>
     <p>A magistrate filing in November becomes a non-vote the next May. Six administrative steps converting housing instability into structural disenfranchisement.</p>
@@ -337,7 +360,7 @@
   </a>
 
   <a class="story-card" data-id="hospital" href="the-closed-hospital.html">
-    <div class="num">04</div>
+    <div class="num">03</div>
     <div class="mech">Care cascade</div>
     <h2>The Closed Hospital</h2>
     <p>A rural ER closes in March. By August, vital statistics in three counties have shifted. The closure-to-outcome lag is the part nobody has shown.</p>
@@ -345,7 +368,7 @@
   </a>
 
   <a class="story-card" data-id="coast" href="the-coast-is-moving.html">
-    <div class="num">05</div>
+    <div class="num">04</div>
     <div class="mech">Climate migration</div>
     <h2>The Coast Is Moving North</h2>
     <p>Florida's insurance crisis routes into Georgia's coast. A slow demographic migration reshaping six counties — visible in real estate, schools, and registration.</p>
@@ -353,7 +376,7 @@
   </a>
 
   <a class="story-card" data-id="ballot" href="the-provisional-ballot.html">
-    <div class="num">06</div>
+    <div class="num">05</div>
     <div class="mech">Adjudication geometry</div>
     <h2>The Provisional Ballot Maze</h2>
     <p>The same ballot, cast for the same reason, can be counted in DeKalb and rejected in Whitfield. Map every fork in the adjudication road.</p>
@@ -379,6 +402,292 @@
     </div>
   </div>
 </footer>
+
+<!-- Easter egg overlays -->
+<div class="editor-note" id="editorNote">
+  <div class="editor-note-inner">
+    <button class="close" id="noteClose">×</button>
+    <div class="e-stamp">— editor's note · unlocked —</div>
+    <h3>You found this. So you're paying attention.</h3>
+    <p>This panel is hidden behind a Konami code (↑ ↑ ↓ ↓ ← → ← → B A). If you're reading it, you're the kind of reader who looks at the seams.</p>
+    <p>The Mechanism Series is one publication's attempt to do <strong>systems journalism</strong> in a moment when most political coverage has surrendered to the candidate-and-controversy frame. We refuse the frame. We trace the pressures. We mark what we don't know.</p>
+    <p>Three pieces are held for <strong>Edition 2</strong>: <em>The Vogtle Bill</em> (how $35B in nuclear overruns flows from your kitchen table to a shareholder dividend), <em>The Settlement Shrinkage</em> ($636M in opioid money — where the audit trail thins), and <em>The Committee Trade</em> (the donor-committee graph of the Georgia statehouse). Each one is fully drafted. They publish in Edition 2 when we've finished sourcing the last citation tier.</p>
+    <p>Thanks for caring about the craft. Tell someone what you found here.</p>
+    <div class="sig">— Infera Editorial · GA 2026</div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Toast message</div>
+
+<canvas class="const-overlay" id="constOverlay"></canvas>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// INDEX HERO — animated constellation echoing all 5 stories
+// ═══════════════════════════════════════════════════════════════
+(function indexHero() {
+  const c = document.getElementById('indexHero');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  let W, H;
+  const DPR = window.devicePixelRatio || 1;
+  function resize() {
+    W = c.clientWidth = window.innerWidth; H = c.clientHeight = window.innerHeight;
+    c.width = W * DPR; c.height = H * DPR;
+    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
+  }
+  window.addEventListener('resize', resize); resize();
+
+  // 5 nodes representing 5 stories, drifting slowly
+  const STORY_COLORS = ['#d4774a', '#b85a52', '#5fa68a', '#4a9fa8', '#c4a04a'];
+  const nodes = STORY_COLORS.map((color, i) => ({
+    color,
+    x: W * (0.2 + (i * 0.15)),
+    y: H * (0.3 + Math.sin(i * 1.7) * 0.2),
+    vx: (Math.random() - 0.5) * 0.15,
+    vy: (Math.random() - 0.5) * 0.15,
+    r: 3 + Math.random() * 2,
+    phase: Math.random() * Math.PI * 2,
+  }));
+
+  // Particle field (echoes the trickle/coast aesthetic)
+  const particles = [];
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+      color: STORY_COLORS[Math.floor(Math.random() * 5)],
+      alpha: 0.15 + Math.random() * 0.3,
+      r: 0.8 + Math.random() * 0.8,
+    });
+  }
+
+  let mouseX = -1000, mouseY = -1000;
+  window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  let frame = 0;
+  function loop() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+
+    // Drift particles
+    particles.forEach(p => {
+      // gentle attraction to mouse
+      const dx = mouseX - p.x, dy = mouseY - p.y;
+      const d = Math.hypot(dx, dy);
+      if (d < 220 && d > 0) {
+        p.vx += (dx / d) * 0.01;
+        p.vy += (dy / d) * 0.01;
+      }
+      p.vx *= 0.99; p.vy *= 0.99;
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + Math.round(p.alpha * 255).toString(16).padStart(2, '0');
+      ctx.fill();
+    });
+
+    // Draw connecting lines between near nodes (constellation)
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i], b = nodes[j];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < W * 0.45) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(196, 167, 119, ${(1 - d / (W * 0.45)) * 0.12})`;
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw story nodes — drifting + breathing
+    nodes.forEach((n, i) => {
+      n.phase += 0.012;
+      n.x += n.vx + Math.sin(n.phase) * 0.06;
+      n.y += n.vy + Math.cos(n.phase) * 0.06;
+      if (n.x < W * 0.1) n.vx = Math.abs(n.vx);
+      if (n.x > W * 0.9) n.vx = -Math.abs(n.vx);
+      if (n.y < H * 0.15) n.vy = Math.abs(n.vy);
+      if (n.y > H * 0.85) n.vy = -Math.abs(n.vy);
+      const halo = n.r * 8;
+      const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, halo);
+      g.addColorStop(0, n.color + '33');
+      g.addColorStop(1, n.color + '00');
+      ctx.fillStyle = g;
+      ctx.fillRect(n.x - halo, n.y - halo, halo * 2, halo * 2);
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = n.color;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// EASTER EGG SYSTEM
+// ═══════════════════════════════════════════════════════════════
+
+const STORY_URLS = ['the-trickle.html','the-eviction-funnel.html','the-closed-hospital.html','the-coast-is-moving.html','the-provisional-ballot.html','thesis.html','map.html','atlas.html'];
+
+function showToast(text, duration) {
+  const t = document.getElementById('toast');
+  t.textContent = text;
+  t.classList.add('show');
+  clearTimeout(window._toastT);
+  window._toastT = setTimeout(() => t.classList.remove('show'), duration || 3000);
+}
+
+// Visit tracker — light up dots for stories you've visited
+(function visitTracker() {
+  const track = document.getElementById('visitTrack');
+  if (!track) return;
+  let visited = [];
+  try { visited = JSON.parse(localStorage.getItem('infera-visited') || '[]'); } catch (e) {}
+  STORY_URLS.forEach(url => {
+    const dot = document.createElement('span');
+    dot.className = 'vd' + (visited.includes(url) ? ' seen' : '');
+    dot.title = url.replace('.html','').replace('the-','');
+    track.appendChild(dot);
+  });
+  // If all 8 visited, show constellation easter egg automatically next time
+  if (visited.length >= STORY_URLS.length && !localStorage.getItem('infera-completed-shown')) {
+    setTimeout(() => {
+      showToast('★ You\'ve seen the whole pattern. The room thanks you.', 5000);
+      try { localStorage.setItem('infera-completed-shown', '1'); } catch(e) {}
+    }, 1200);
+  }
+})();
+
+// Brand-dot easter — 5 clicks within 3 sec shows the editor's note
+(function brandDotEgg() {
+  const dot = document.getElementById('brandDot');
+  if (!dot) return;
+  let clicks = 0;
+  let timer = null;
+  dot.addEventListener('click', (e) => {
+    e.preventDefault();
+    clicks++;
+    clearTimeout(timer);
+    timer = setTimeout(() => { clicks = 0; }, 3000);
+    if (clicks === 3) showToast('Two more...', 1500);
+    if (clicks >= 5) {
+      clicks = 0;
+      document.getElementById('editorNote').classList.add('show');
+    }
+  });
+})();
+
+// Konami code: ↑ ↑ ↓ ↓ ← → ← → B A
+(function konami() {
+  const seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','KeyB','KeyA'];
+  let idx = 0;
+  window.addEventListener('keydown', (e) => {
+    if (e.code === seq[idx]) {
+      idx++;
+      if (idx === seq.length) {
+        idx = 0;
+        document.getElementById('editorNote').classList.add('show');
+        showToast('★ Konami unlocked', 2500);
+      }
+    } else { idx = 0; }
+  });
+})();
+
+// Close editor note
+document.getElementById('noteClose').addEventListener('click', () => {
+  document.getElementById('editorNote').classList.remove('show');
+});
+document.getElementById('editorNote').addEventListener('click', (e) => {
+  if (e.target.id === 'editorNote') document.getElementById('editorNote').classList.remove('show');
+});
+
+// Story-card hover — mini-mechanism canvas previews
+(function cardPreviews() {
+  const previews = {
+    trickle:  { color: '#d4774a', kind: 'flow' },
+    eviction: { color: '#b85a52', kind: 'fade' },
+    hospital: { color: '#5fa68a', kind: 'pulse' },
+    coast:    { color: '#4a9fa8', kind: 'rain' },
+    ballot:   { color: '#c4a04a', kind: 'sort' },
+  };
+  document.querySelectorAll('.story-card[data-id]').forEach(card => {
+    const id = card.dataset.id;
+    const conf = previews[id];
+    if (!conf) return;
+    const canvas = document.createElement('canvas');
+    canvas.className = 'preview';
+    canvas.width = 160; canvas.height = 160;
+    card.appendChild(canvas);
+    const cctx = canvas.getContext('2d');
+    let raf, frame = 0, active = false;
+    function drawPreview() {
+      frame++;
+      cctx.clearRect(0, 0, 80, 80);
+      const color = conf.color;
+      if (conf.kind === 'flow') {
+        for (let i = 0; i < 8; i++) {
+          const t = ((frame + i * 10) / 120) % 1;
+          const x = t * 80, y = 40 + Math.sin(t * Math.PI * 2 + i) * 14;
+          cctx.beginPath(); cctx.arc(x, y, 1.4, 0, Math.PI * 2);
+          cctx.fillStyle = color + Math.round((1 - t) * 200).toString(16).padStart(2, '0'); cctx.fill();
+        }
+      } else if (conf.kind === 'fade') {
+        for (let i = 0; i < 6; i++) {
+          for (let j = 0; j < 6; j++) {
+            const a = Math.max(0, 1 - ((frame * 0.01) + i * 0.15 + j * 0.1) % 1.5);
+            cctx.fillStyle = color + Math.round(a * 200).toString(16).padStart(2, '0');
+            cctx.fillRect(8 + i * 11, 8 + j * 11, 5, 5);
+          }
+        }
+      } else if (conf.kind === 'pulse') {
+        const r = ((frame % 60) / 60) * 35;
+        cctx.beginPath(); cctx.arc(40, 40, r, 0, Math.PI * 2);
+        cctx.strokeStyle = color + Math.round((1 - r / 35) * 200).toString(16).padStart(2, '0');
+        cctx.lineWidth = 1.5; cctx.stroke();
+        cctx.beginPath(); cctx.arc(40, 40, 3, 0, Math.PI * 2);
+        cctx.fillStyle = color; cctx.fill();
+      } else if (conf.kind === 'rain') {
+        for (let i = 0; i < 16; i++) {
+          const y = ((frame + i * 8) % 80);
+          const x = (i * 5) % 80;
+          cctx.fillStyle = color + 'aa';
+          cctx.fillRect(x, y, 1, 4);
+        }
+      } else if (conf.kind === 'sort') {
+        for (let i = 0; i < 8; i++) {
+          const x = 10 + i * 8;
+          const y = ((frame + i * 7) % 70);
+          const through = (i + Math.floor(frame / 40)) % 3 !== 0;
+          cctx.fillStyle = through ? '#88c088aa' : '#d86050aa';
+          cctx.fillRect(x, y, 5, 3);
+        }
+      }
+      if (active) raf = requestAnimationFrame(drawPreview);
+    }
+    card.addEventListener('mouseenter', () => { active = true; drawPreview(); });
+    card.addEventListener('mouseleave', () => { active = false; cancelAnimationFrame(raf); });
+  });
+})();
+
+// Mark this page as visited
+(function markVisited() {
+  let visited = [];
+  try { visited = JSON.parse(localStorage.getItem('infera-visited') || '[]'); } catch (e) {}
+  const here = location.pathname.split('/').pop() || 'index.html';
+  if (here !== 'index.html' && !visited.includes(here)) {
+    visited.push(here);
+    try { localStorage.setItem('infera-visited', JSON.stringify(visited)); } catch (e) {}
+  }
+})();
+</script>
 
 </body>
 </html>
