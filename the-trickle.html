@@ -546,6 +546,30 @@
 
   .stage-section::after { content: ""; display: table; clear: both; }
 
+  /* Confidence badge — inline epistemic marker */
+  .conf { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; border: 1px solid; vertical-align: middle; margin-left: 6px; white-space: nowrap; }
+  .conf::before { content: ""; width: 5px; height: 5px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .conf.proven { color: #88c088; border-color: #2a4a2a; } .conf.proven::before { background: #88c088; }
+  .conf.strong { color: #a8c08a; border-color: #2a3a20; } .conf.strong::before { background: transparent; box-shadow: inset 0 0 0 1.5px #a8c08a; }
+  .conf.correlated { color: #c4a560; border-color: #3a3220; } .conf.correlated::before { background: #c4a560; }
+  .conf.plausible { color: #c89060; border-color: #3a2a20; } .conf.plausible::before { background: transparent; box-shadow: inset 0 0 0 1.5px #c89060; }
+  .conf.speculative { color: #c47060; border-color: #3a2520; } .conf.speculative::before { background: transparent; box-shadow: inset 0 0 0 1.5px #c47060; opacity: 0.7; }
+  .conf.competing { color: #a890c8; border-color: #2a2540; } .conf.competing::before { background: linear-gradient(90deg, #c89060 50%, #a890c8 50%); }
+
+  /* Competing-explanations section */
+  .competing-section { background: var(--bg); padding: 12vh 6vw; border-top: 1px solid var(--rule); }
+  .competing-inner { max-width: 1200px; margin: 0 auto; }
+  .competing-section h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 18px; }
+  .competing-section h2 em { color: #a890c8; font-style: italic; font-weight: 300; }
+  .competing-section .lead { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink-dim); max-width: 64ch; line-height: 1.55; margin-bottom: 48px; }
+  .hypotheses { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .hyp { background: var(--bg-card); padding: 28px 24px; display: flex; flex-direction: column; gap: 12px; min-height: 240px; }
+  .hyp-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: #a890c8; }
+  .hyp h3 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 20px; line-height: 1.2; color: var(--ink); margin: 0; }
+  .hyp p { font-size: 13px; color: var(--ink-dim); line-height: 1.55; }
+  .hyp .test { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+  .hyp .test strong { color: var(--ink); font-weight: 400; font-family: 'Fraunces', serif; font-size: 13px; letter-spacing: 0; text-transform: none; display: block; margin-top: 4px; font-style: italic; line-height: 1.4; }
+
   /* Mobile */
   @media (max-width: 1000px) {
     .stage-sticky { position: relative; width: 100%; float: none; height: 80vh; }
@@ -583,13 +607,13 @@
 <section class="hero">
   <canvas id="herofield" class="hero-canvas"></canvas>
   <div class="hero-content">
-    <div class="kicker">A county, traced</div>
+    <div class="kicker">A county, traced · one mechanism among many</div>
     <h1 class="headline">
-      <span class="l">The shift in DeKalb</span>
-      <span class="l">didn't start</span>
+      <span class="l">Part of the shift in DeKalb</span>
+      <span class="l">may not have started</span>
       <span class="l">in DeKalb.</span>
     </h1>
-    <p class="hero-sub">It started forty thousand commutes away, in a federal building in Fulton County. Trace the trickle. The graphic shows the mechanism in motion.</p>
+    <p class="hero-sub">One plausible mechanism traces forty thousand commutes away — to a federal building in Fulton County. This piece walks that mechanism. It is not the only force at work. We name what else could explain the same data, and what would falsify our trace.</p>
   </div>
   <div class="scroll-cue">Trace the mechanism</div>
 </section>
@@ -632,9 +656,9 @@
     <div class="chapter" data-stage="0">
       <div class="chapter-marker">i.</div>
       <div class="chapter-stamp"><span class="gold">DeKalb · Pop. 750,000</span><span>The setup</span></div>
-      <h3>A residential county tied to a <em>working capital</em>.</h3>
+      <h3>A residential county tied to a <em>working capital</em>. <span class="conf strong">Strong</span></h3>
       <p>DeKalb is the donut around the Atlanta core — inside the perimeter on its western edge, suburban on its eastern. Its labor force is roughly 370,000. <strong>Its economy does not match its residency.</strong></p>
-      <p>It hosts national institutions — the CDC headquarters, Emory University, the Atlanta VA, the DeKalb-Peachtree Airport — but a large share of its working-age population earns its income across the line, in Fulton.</p>
+      <p>It hosts national institutions — the CDC headquarters, Emory University, the Atlanta VA, the DeKalb-Peachtree Airport — but a meaningful share of its working-age population earns income across the line, in Fulton.</p>
       <div class="citation">SOURCE · ACS / GA Dept of Labor · 2024</div>
     </div>
 
@@ -650,10 +674,10 @@
     <div class="chapter" data-stage="2">
       <div class="chapter-marker">iii.</div>
       <div class="chapter-stamp"><span class="gold">The return flow</span><span>Act 03</span></div>
-      <h3>Every commute returns as <em>tax revenue</em>.</h3>
-      <p>The paychecks earned in Fulton don't stay there. They return to DeKalb mortgages, DeKalb groceries, DeKalb property tax. <strong>An estimated 24 cents of every commuter dollar earned outside the county becomes DeKalb local revenue</strong> — funding the school system, the road repair budget, the library, the sanitation department.</p>
-      <p>The dependency is invisible while it works. It becomes visible the moment it breaks.</p>
-      <div class="citation">SOURCE · DeKalb Co. budget filings · FY24 (illustrative)</div>
+      <h3>Commutes return as <em>tax revenue</em>. <span class="conf plausible">Plausible</span></h3>
+      <p>Paychecks earned in Fulton don't stay there. They return to DeKalb mortgages, DeKalb groceries, DeKalb property tax. <strong>By rough order of magnitude, around a quarter of every commuter dollar earned outside the county becomes DeKalb local revenue</strong> — funding the school system, road repair, the library, sanitation. The precise figure varies; the dependency itself is real.</p>
+      <p>The dependency is invisible while it works. It becomes visible when it breaks.</p>
+      <div class="citation">SOURCE · DeKalb Co. budget filings · FY24 (figure illustrative, magnitude documented)</div>
     </div>
 
     <div class="chapter" data-stage="3">
@@ -677,10 +701,10 @@
     <div class="chapter" data-stage="5">
       <div class="chapter-marker">vi.</div>
       <div class="chapter-stamp"><span class="gold">The vote</span><span>Act 06 · May 19</span></div>
-      <h3>Their commute didn't change. Their job did. <span class="d">Their vote followed.</span></h3>
-      <p>DeKalb's Democratic primary participation in 2026 ran roughly twelve points above its 2022 baseline. <strong>Reading the result as "voters changed their minds" misses the mechanism entirely.</strong></p>
-      <p>They did not change their minds. The economic structure that produced their prior indifference did. The political consequence is a downstream effect of an upstream economic event — and the upstream event happened outside the county that registered the political result.</p>
-      <div class="citation">SOURCE · GA SoS · 2026 primary unofficial</div>
+      <h3>Their commute didn't change. Their job did. <span class="d">Their vote — among many pressures — followed.</span> <span class="conf competing">Competing</span></h3>
+      <p>DeKalb's Democratic primary participation in 2026 ran roughly twelve points above its 2022 baseline. <strong>Reading the result purely as "voters changed their minds" misses one mechanism. Reading it purely as economic disruption misses several others.</strong></p>
+      <p>The economic structure that shaped prior indifference shifted. So did the candidate field, the national mood, and the media environment. The piece you just read traces one upstream input that traditional coverage tends to underweight. It is part of the picture, not the whole picture. The section below names the alternatives a fair editor would raise.</p>
+      <div class="citation">SOURCE · GA SoS · 2026 primary unofficial · shift estimate from early-ballot pull</div>
     </div>
 
   </div>
@@ -773,6 +797,58 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- COMPETING EXPLANATIONS -->
+<section class="competing-section">
+  <div class="competing-inner">
+    <h2>What <em>else</em> could explain DeKalb's 2026 shift?</h2>
+    <p class="lead">The commuter-economy mechanism is one plausible input. A fair editor would raise at least five other forces that could explain the same data. We name them here, with the test that would distinguish each from our trace.</p>
+
+    <div class="hypotheses">
+      <div class="hyp">
+        <div class="hyp-label">Hypothesis A · this piece</div>
+        <h3>Commuter-economy disruption</h3>
+        <p>Federal workforce reductions in Fulton hit DeKalb residents working across the line, eroding household income and prior political indifference.</p>
+        <div class="test">DISTINGUISHING TEST<strong>Did the shift concentrate in DeKalb precincts with the highest Fulton-commuter share?</strong></div>
+      </div>
+
+      <div class="hyp">
+        <div class="hyp-label">Hypothesis B · candidate-pull</div>
+        <h3>Bottoms candidacy</h3>
+        <p>A former Atlanta mayor and Black woman with statewide name recognition runs for governor, energizing the Democratic base in metro counties more than any economic mechanism could.</p>
+        <div class="test">DISTINGUISHING TEST<strong>Did DeKalb over-perform statewide Bottoms support, or track it?</strong></div>
+      </div>
+
+      <div class="hyp">
+        <div class="hyp-label">Hypothesis C · national mood</div>
+        <h3>Trump second-term fatigue</h3>
+        <p>A national rather than local effect. Dissatisfaction with the federal administration produces a uniform across-the-board D primary surge that DeKalb shares with most other metro counties.</p>
+        <div class="test">DISTINGUISHING TEST<strong>Is DeKalb's shift distinguishable from the metro-average shift, or proportional to it?</strong></div>
+      </div>
+
+      <div class="hyp">
+        <div class="hyp-label">Hypothesis D · demographic drift</div>
+        <h3>Generational replacement</h3>
+        <p>Younger voters with different baseline politics replacing older voters who moved or died. A slow, structural demographic shift that would have happened regardless of any specific economic event.</p>
+        <div class="test">DISTINGUISHING TEST<strong>Does the 2026 swing track the same age-cohort delta visible in 2024 and 2022?</strong></div>
+      </div>
+
+      <div class="hyp">
+        <div class="hyp-label">Hypothesis E · housing turnover</div>
+        <h3>In-migration from inner Atlanta</h3>
+        <p>Gentrification displaces Atlanta-core residents into DeKalb. New DeKalb residents bring different political baselines than the residents they replaced.</p>
+        <div class="test">DISTINGUISHING TEST<strong>Did the shift correlate with precinct-level housing turnover rates between 2022 and 2026?</strong></div>
+      </div>
+
+      <div class="hyp">
+        <div class="hyp-label">Hypothesis F · base mobilization</div>
+        <h3>Field-organizing program</h3>
+        <p>A more effective Democratic field operation in DeKalb produced higher turnout — independent of any economic pressure or candidate effect.</p>
+        <div class="test">DISTINGUISHING TEST<strong>Did precincts with documented campaign canvass activity over-perform vs. uncovered precincts?</strong></div>
+      </div>
     </div>
   </div>
 </section>
