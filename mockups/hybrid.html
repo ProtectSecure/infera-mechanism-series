@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mockup · The Lens Console (Hybrid 2 + 3)</title>
+<title>Mockup · The Lens Console (Hybrid 2 + 3) · v2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
@@ -11,13 +11,12 @@
   :root {
     --bg: #050608; --bg-card: #0c0e12; --ink: #f4ecd8; --ink-dim: #a8a298; --ink-faint: #5a564e;
     --rule: #1a1d24; --gold: #c4a777;
-    /* lens accents — these get applied dynamically via --lens-c */
     --lens-c: #88c4c8;
+    --lens-c-bg: rgba(136,196,200,0.06);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-  /* Top strip */
   .top { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(5,6,8,0.95); padding: 12px 24px; border-bottom: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
   .top a { color: var(--lens-c); text-decoration: none; transition: color 0.5s; }
   .top a:hover { color: var(--ink); }
@@ -28,13 +27,12 @@
   .stage { padding: 60px 0 0; }
   .header { text-align: center; max-width: 920px; margin: 0 auto 28px; padding: 0 24px; }
   .header .stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; color: var(--lens-c); text-transform: uppercase; margin-bottom: 12px; transition: color 0.5s; }
-  .header h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(30px, 4.4vw, 50px); line-height: 1.04; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .header h1 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(28px, 4vw, 46px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
   .header h1 em { font-style: italic; color: var(--lens-c); transition: color 0.5s; }
   .header p { font-family: 'Fraunces', serif; font-size: 15px; color: var(--ink-dim); line-height: 1.55; max-width: 64ch; margin: 0 auto; }
 
-  /* Shared fact bar — the same event, top of console */
   .fact-bar {
-    max-width: 1500px; margin: 0 auto 0; padding: 18px 28px;
+    max-width: 1500px; margin: 0 auto; padding: 18px 28px;
     background: var(--bg-card); border: 1px solid var(--rule); border-bottom: none;
     border-radius: 3px 3px 0 0;
     display: flex; justify-content: space-between; align-items: center;
@@ -44,7 +42,6 @@
   .fact-text { font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; color: var(--ink); flex: 1; min-width: 240px; }
   .fact-source { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--ink-faint); text-transform: uppercase; }
 
-  /* Lens selector strip — the four lenses */
   .lens-strip {
     max-width: 1500px; margin: 0 auto;
     display: grid; grid-template-columns: repeat(4, 1fr);
@@ -69,25 +66,51 @@
   .lens-tab .lens-key { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; color: var(--c); text-transform: uppercase; opacity: 0.7; position: relative; z-index: 2; }
   .lens-tab .lens-name { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 18px; color: inherit; line-height: 1.2; position: relative; z-index: 2; }
 
-  /* Main console */
   .console {
     max-width: 1500px; margin: 0 auto;
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 1px; background: var(--rule); border: 1px solid var(--rule);
     border-radius: 0 0 3px 3px; overflow: hidden;
-    min-height: 600px;
+    min-height: 620px;
   }
 
-  /* LEFT: the map */
-  .map-panel { background: radial-gradient(ellipse at 50% 50%, #0e1218 0%, var(--bg) 80%); position: relative; min-height: 600px; transition: background 0.6s; }
-  #mapCanvas { display: block; width: 100%; height: 100%; }
-  .map-overlay { position: absolute; inset: 0; pointer-events: none; }
-  .map-stamp { position: absolute; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; opacity: 0.75; }
-  .map-stamp.tl { top: 16px; left: 18px; }
-  .map-stamp.tr { top: 16px; right: 18px; color: var(--lens-c); transition: color 0.5s; }
-  .map-stamp.bl { bottom: 16px; left: 18px; }
-  .map-stamp.br { bottom: 16px; right: 18px; }
-  .map-stamp.br .ind { color: var(--lens-c); transition: color 0.5s; }
+  /* === VIZ STACK — four distinct illustrations, one per lens === */
+  .viz-stack {
+    position: relative; background: radial-gradient(ellipse at 50% 50%, #0a0d12 0%, var(--bg) 80%);
+    min-height: 620px; overflow: hidden;
+  }
+  .viz-frame {
+    position: absolute; inset: 0;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.5s ease;
+    padding: 38px 32px 40px;
+    display: flex; flex-direction: column;
+  }
+  .viz-frame.active { opacity: 1; pointer-events: auto; }
+  .viz-header {
+    margin-bottom: 14px;
+  }
+  .viz-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.26em;
+    color: var(--lens-c); text-transform: uppercase; margin-bottom: 6px; transition: color 0.5s;
+  }
+  .viz-name {
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: 22px;
+    color: var(--ink); line-height: 1.2;
+  }
+  .viz-canvas-wrap {
+    flex: 1; position: relative;
+    min-height: 360px;
+  }
+  .viz-canvas-wrap canvas, .viz-canvas-wrap svg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+  }
+  .viz-caption {
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em;
+    color: var(--ink-faint); text-transform: uppercase; line-height: 1.5;
+  }
+  .viz-caption .c-key { color: var(--lens-c); transition: color 0.5s; }
 
   /* RIGHT: narrative panel */
   .narr-panel {
@@ -104,12 +127,7 @@
   .narr-body { font-size: 14px; color: var(--ink-dim); line-height: 1.65; }
   .narr-body strong { color: var(--ink); }
 
-  /* Causal chain — visually distinct per lens */
-  .causal {
-    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    color: var(--ink-faint); margin-top: 4px;
-  }
+  .causal { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-faint); margin-top: 4px; }
   .causal .step { padding: 5px 10px; background: rgba(255,255,255,0.04); color: var(--lens-c); border-radius: 2px; letter-spacing: 0.12em; text-transform: uppercase; transition: all 0.4s; }
   .causal .arrow { color: var(--ink-faint); }
 
@@ -117,11 +135,9 @@
   .narr-test-stamp { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.26em; color: var(--lens-c); text-transform: uppercase; margin-bottom: 6px; transition: color 0.5s; }
   .narr-test-q { font-family: 'Fraunces', serif; font-style: italic; font-size: 14px; line-height: 1.45; color: var(--ink); }
 
-  /* Vocabulary chips — show the lens's distinct vocabulary */
   .vocab { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
   .vocab .word { font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 4px 8px; background: rgba(255,255,255,0.04); color: var(--lens-c); border-radius: 2px; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.5s; }
 
-  /* Live readings ribbon — below console */
   .ribbon {
     max-width: 1500px; margin: 1px auto 0;
     background: var(--bg-card); border: 1px solid var(--rule);
@@ -130,15 +146,12 @@
     gap: 24px;
     position: relative; overflow: hidden;
   }
-  .reading {
-    padding: 0; transition: opacity 0.4s;
-  }
+  .reading { padding: 0; transition: opacity 0.4s; }
   .reading.fading { opacity: 0; }
   .reading-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; color: var(--ink-faint); text-transform: uppercase; margin-bottom: 6px; }
-  .reading-value { font-family: 'Fraunces', serif; font-weight: 400; font-size: 20px; color: var(--lens-c); line-height: 1.1; font-variant-numeric: tabular-nums; transition: color 0.5s; }
+  .reading-value { font-family: 'Fraunces', serif; font-weight: 400; font-size: 20px; color: var(--lens-c); line-height: 1.1; transition: color 0.5s; }
   .reading-meta { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink-faint); margin-top: 4px; }
 
-  /* Rationale below */
   .rationale { max-width: 1000px; margin: 60px auto 80px; padding: 32px 28px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; }
   .rationale h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--lens-c); text-transform: uppercase; margin-bottom: 12px; transition: color 0.5s; }
   .rationale p { font-size: 14px; color: var(--ink-dim); line-height: 1.6; margin-bottom: 10px; }
@@ -146,7 +159,7 @@
 
   @media (max-width: 1000px) {
     .console { grid-template-columns: 1fr; }
-    .map-panel { min-height: 380px; }
+    .viz-stack { min-height: 460px; }
     .lens-strip { grid-template-columns: 1fr 1fr; }
     .ribbon { grid-template-columns: 1fr 1fr; gap: 16px; }
   }
@@ -156,15 +169,15 @@
 
 <div class="top">
   <a href="index.html">← MOCKUPS</a>
-  <span>HYBRID · LENS CONSOLE · 02 + 03</span>
+  <span>HYBRID · LENS CONSOLE · 02 + 03 · v2 (per-lens illustrations)</span>
   <span class="live">LIVE FRAME</span>
 </div>
 
 <section class="stage">
   <div class="header">
-    <div class="stamp" id="headerStamp">A constellation of competing reads · lens console</div>
-    <h1>One fact. Pick the <em id="headerLens">economic</em> lens. Watch the room reconfigure.</h1>
-    <p>The fact above the console doesn't change. Everything else does — the map, the vocabulary, the causal chain, the color of the room itself. Click a lens. Press A/B/C/D.</p>
+    <div class="stamp">A constellation of competing reads · lens console v2</div>
+    <h1>One fact. Pick a <em id="headerLens">economic</em> lens. Each lens has its <em>own</em> picture of the world.</h1>
+    <p>The map is gone. Each lens now generates its own visualization — an information design specific to that lens's argument. Click a lens. Press A/B/C/D. The illustration changes type, not just color.</p>
   </div>
 
   <div class="fact-bar">
@@ -173,7 +186,6 @@
     <div class="fact-source">SOURCE · GA SoS list maintenance · Fulton magistrate filings</div>
   </div>
 
-  <!-- Lens selector -->
   <div class="lens-strip">
     <button class="lens-tab active" data-idx="0">
       <span class="lens-key">A · Economic Lens</span>
@@ -193,21 +205,54 @@
     </button>
   </div>
 
-  <!-- Main console -->
   <div class="console">
 
-    <!-- Map -->
-    <div class="map-panel">
-      <canvas id="mapCanvas"></canvas>
-      <div class="map-overlay">
-        <div class="map-stamp tl">— Georgia · 40 counties shown —</div>
-        <div class="map-stamp tr" id="mapMetric">Material instability index</div>
-        <div class="map-stamp bl">Hover any county for its reading</div>
-        <div class="map-stamp br">Active lens · <span class="ind" id="lensInd">A</span></div>
+    <!-- LEFT: viz stack, one frame per lens -->
+    <div class="viz-stack">
+
+      <!-- A: ECONOMIC — Balance Tip -->
+      <div class="viz-frame active" data-lens="0">
+        <div class="viz-header">
+          <div class="viz-tag">A · Information design · 12-month household balance</div>
+          <div class="viz-name">When income and cost cross, eviction follows</div>
+        </div>
+        <div class="viz-canvas-wrap"><canvas id="vizEcon"></canvas></div>
+        <div class="viz-caption"><span class="c-key">●</span> income (steady) vs <span class="c-key">●</span> total monthly cost (rising). At month 8 the residual goes negative. Eviction marker drops in at month 9. Registration loss follows at month 12.</div>
       </div>
+
+      <!-- B: POLITICAL — Statutory Funnel -->
+      <div class="viz-frame" data-lens="1">
+        <div class="viz-header">
+          <div class="viz-tag">B · Information design · The statutory funnel</div>
+          <div class="viz-name">100K voters in. ~40K out. Six lawful gates.</div>
+        </div>
+        <div class="viz-canvas-wrap"><canvas id="vizPol"></canvas></div>
+        <div class="viz-caption"><span class="c-key">●</span> voters cascade through six statutory gates · each gate is required by law · each is statutorily neutral · each disproportionately sheds renters, recent movers, and the working poor.</div>
+      </div>
+
+      <!-- C: MEDIA — Attention Asymmetry -->
+      <div class="viz-frame" data-lens="2">
+        <div class="viz-header">
+          <div class="viz-tag">C · Information design · Story salience · 24 months</div>
+          <div class="viz-name">The eviction-pipeline story is the only one without a single spike</div>
+        </div>
+        <div class="viz-canvas-wrap"><canvas id="vizMedia"></canvas></div>
+        <div class="viz-caption"><span class="c-key">●</span> other stories spike with discrete events · the eviction pipeline runs flat · the absence of dramatic moments is itself a property of the news system, not of the story's importance.</div>
+      </div>
+
+      <!-- D: CULTURAL — Generational Persistence -->
+      <div class="viz-frame" data-lens="3">
+        <div class="viz-header">
+          <div class="viz-tag">D · Information design · Voter persistence by birth cohort</div>
+          <div class="viz-name">Each generation loses registration faster than the last</div>
+        </div>
+        <div class="viz-canvas-wrap"><svg id="vizCult" viewBox="0 0 600 360" preserveAspectRatio="none"></svg></div>
+        <div class="viz-caption"><span class="c-key">●</span> persistence curves by birth-decade cohort · older cohorts hold registration through decades of life disruption · younger cohorts break easily and don't recover · civic literacy is decaying with the housing market.</div>
+      </div>
+
     </div>
 
-    <!-- Narrative -->
+    <!-- RIGHT: narrative panel -->
     <div class="narr-panel">
       <div class="narr-content" id="narr">
         <div class="narr-tag" id="nTag">A · ECONOMIC LENS</div>
@@ -229,17 +274,16 @@
 
   </div>
 
-  <!-- Live readings ribbon -->
   <div class="ribbon">
     <div class="reading" id="r1">
-      <div class="reading-label">Strongest signal</div>
-      <div class="reading-value" id="r1v">Fulton + DeKalb</div>
-      <div class="reading-meta">metro-core concentration</div>
+      <div class="reading-label">What this lens makes visible</div>
+      <div class="reading-value" id="r1v" style="font-size: 14px;">household balance sheet</div>
+      <div class="reading-meta">income vs cost curve</div>
     </div>
     <div class="reading" id="r2">
-      <div class="reading-label">Counties above threshold</div>
-      <div class="reading-value" id="r2v">14 / 40</div>
-      <div class="reading-meta">under this lens</div>
+      <div class="reading-label">Key shape in the data</div>
+      <div class="reading-value" id="r2v" style="font-size: 14px;">crossing point at month 8</div>
+      <div class="reading-meta">eviction probability inflects</div>
     </div>
     <div class="reading" id="r3">
       <div class="reading-label">Vocabulary signature</div>
@@ -254,214 +298,414 @@
   </div>
 
   <div class="rationale">
-    <h4>Why this hybrid</h4>
-    <p>The Lens Console keeps Split-Reality's <strong>literacy point</strong> — that the same fact reads radically differently through different frameworks — and gives it the Board's <strong>broadcast affordances</strong>: geographic intelligence, live readings, switchable views, professional console feel.</p>
-    <p>The crucial move: clicking a lens doesn't just change the text. The map repaints, the vocabulary chips swap, the causal chain rearranges, the room itself tints with the lens's color. The reader experiences <strong>frameworks-as-environments</strong>, not framework-as-paragraph. They feel the difference, then they can read it.</p>
-    <p><strong>Hybrid strengths:</strong> retains the literacy lesson; adds geographic intelligence; keyboard-driven (A/B/C/D); fast lens-switching builds intuition; the 'what this lens underplays' callout makes asymmetry of perspectives explicit. <strong>What to watch:</strong> requires per-lens map data per story (real editorial work, not just JS) and disciplined writing so the four lenses are genuinely distinct.</p>
+    <h4>What changed in v2</h4>
+    <p>The map was decoration. Replaced. Each lens now generates a <strong>different visualization type</strong>, not a recolored version of the same chart. The Economic lens shows a household balance sheet over time. The Political lens shows a six-gate statutory funnel. The Media lens shows 24-month story salience with the eviction pipeline conspicuously flat. The Cultural lens shows generational voter-persistence cohort curves.</p>
+    <p>Each visualization <strong>is the lens's argument</strong>. The Economic balance-sheet argues that the mechanism is a financial crossing-point. The Political funnel argues it's a statutorily designed attrition. The Media salience chart argues it's a story the news system can't tell. The Cultural cohort chart argues it's intergenerational decay. Same fact, four genuinely different information designs.</p>
+    <p>This is the intelligent information design move: the visualization for each interpretation is in <em>that interpretation's native language</em>, not a generic widget recolored four times.</p>
   </div>
 
 </section>
 
 <script>
-// === LENS DATA ===
+// ═══════════════════════════════════════════════════════════════
+// LENS DATA + NARRATIVE
+// ═══════════════════════════════════════════════════════════════
 const LENSES = [
   { key: 'A', name: 'Economic Lens', accent: '#88c4c8', accentBg: 'rgba(136,196,200,0.06)',
-    title: 'Material instability',
-    tag: 'A · ECONOMIC LENS',
+    title: 'Material instability', tag: 'A · ECONOMIC LENS',
     frame: '"The system removes voters when their economic ground gives way."',
     body: 'The registration loss is downstream of the <strong>housing market</strong>. Rising rents, stagnant wages, and a tight inventory produce eviction filings, which displace households, which break the address-on-file pipeline that registration depends on. The civic harm is a knock-on effect of a market failure.',
     causal: ['eviction filing', 'displacement', 'address-stale', 'purge'],
     vocab: ['household', 'mortgage', 'displacement', 'cost burden', 'market failure'],
     test: 'Do magistrate eviction filings correlate with inactivation rates at the precinct level above the rate predicted by overall mobility?',
-    metric: 'Material instability index',
-    strongest: 'Fulton + DeKalb',
-    strongestMeta: 'metro-core concentration',
-    threshold: '14 / 40',
-    vocabSig: 'market · cost · burden',
-    vocabMeta: 'economic register',
-    underplay: 'statutory mechanism',
-    underplayMeta: 'the procedural fix',
-    // Map intensity per county (high in economic-stress counties)
-    data: [95,82,60,72,90,55,35,30,60,28,50,55,35,32,30,38,32,30,65,22,35,25,30,45,70,65,75,45,80,50,55,42,48,22,20,18,16,22,28,30],
+    r1: 'household balance sheet', r1m: 'income vs cost curve',
+    r2: 'crossing point at month 8', r2m: 'eviction probability inflects',
+    r3: 'market · cost · burden', r3m: 'economic register',
+    r4: 'statutory mechanism', r4m: 'the procedural fix',
   },
   { key: 'B', name: 'Political Lens', accent: '#c8a8e8', accentBg: 'rgba(200,168,232,0.06)',
-    title: 'Structural disenfranchisement',
-    tag: 'B · POLITICAL LENS',
+    title: 'Structural disenfranchisement', tag: 'B · POLITICAL LENS',
     frame: '"The system, by design, removes the politically marginal."',
     body: 'The same data read as a question of <strong>access to ballot</strong>. List-maintenance procedures are state-legislated; the disparate impact on lower-income and renter populations is a politically tractable choice. Reform options exist (same-day registration, automatic re-enrollment); the absence of reform is itself political.',
     causal: ['statutory rule', 'disparate burden', 'non-vote', 'election outcome'],
     vocab: ['access', 'reform', 'disparate impact', 'enfranchisement', 'statutory'],
     test: 'Is the disparate-impact magnitude beyond what would be expected from neutral list-maintenance applied to differently-distributed populations?',
-    metric: 'Access-asymmetry index',
-    strongest: 'Fulton + Clayton',
-    strongestMeta: 'highest-renter metros',
-    threshold: '11 / 40',
-    vocabSig: 'access · reform · barrier',
-    vocabMeta: 'political register',
-    underplay: 'upstream economic causes',
-    underplayMeta: 'why eviction happens',
-    // Map intensity — concentrated in highest-renter / highest-disparate-impact counties
-    data: [88,90,55,68,95,52,28,25,58,25,48,52,30,28,28,35,30,28,75,20,30,22,28,55,80,75,85,55,90,60,52,38,42,20,18,15,12,18,24,28],
+    r1: 'the statutory funnel', r1m: '6 gates · 100K → ~40K',
+    r2: 'attrition concentrates at ID + cure', r2m: 'two narrowest gates',
+    r3: 'access · reform · barrier', r3m: 'political register',
+    r4: 'upstream economic causes', r4m: 'why eviction happens',
   },
   { key: 'C', name: 'Media Lens', accent: '#e8a878', accentBg: 'rgba(232,168,120,0.06)',
-    title: 'Invisible attrition',
-    tag: 'C · MEDIA LENS',
+    title: 'Invisible attrition', tag: 'C · MEDIA LENS',
     frame: '"The story does not break because nothing dramatic happens at any single moment."',
     body: 'The registration loss is <strong>structurally untellable</strong> by event-driven media. There is no rally, no scandal, no soundbite — just six administrative steps each lawful and undramatic. Coverage privileges flashpoints; this story has none. The invisibility is itself a media-system property.',
     causal: ['no flashpoint', 'no coverage', 'no salience', 'no reform pressure'],
     vocab: ['salience', 'attention', 'slow story', 'flashpoint', 'narrative gap'],
     test: 'Do counties with stronger local journalism infrastructure show measurably higher reform attempts despite identical underlying conditions?',
-    metric: 'Coverage-deficit index',
-    strongest: 'Dougherty + rural south',
-    strongestMeta: 'news-desert counties',
-    threshold: '22 / 40',
-    vocabSig: 'salience · attention · gap',
-    vocabMeta: 'media register',
-    underplay: 'the actual mechanism',
-    underplayMeta: 'what causes the loss',
-    // Inverted — high in news-desert counties, low in metros where coverage exists
-    data: [30,35,50,40,45,55,60,55,55,68,55,55,65,72,75,55,75,68,40,80,75,85,70,55,40,55,55,55,85,72,55,80,75,90,92,90,95,88,72,72],
+    r1: 'story salience chart', r1m: '24-month attention',
+    r2: 'eviction line is flat', r2m: 'no spike events',
+    r3: 'salience · attention · gap', r3m: 'media register',
+    r4: 'the actual mechanism', r4m: 'what causes the loss',
   },
   { key: 'D', name: 'Cultural Lens', accent: '#a8c088', accentBg: 'rgba(168,192,136,0.06)',
-    title: 'A vanishing civic ritual',
-    tag: 'D · CULTURAL LENS',
+    title: 'A vanishing civic ritual', tag: 'D · CULTURAL LENS',
     frame: '"To be a voter is increasingly to do paperwork most people don\'t know exists."',
     body: 'The same loss read as a question about <strong>civic culture</strong>. Voting once required physical presence; now it requires sustained administrative literacy. Households experiencing instability have less of that literacy. The civic identity \'voter\' is becoming a class-coded competence.',
     causal: ['civic literacy', 'administrative survival', 'turnout', 'representation'],
     vocab: ['civic identity', 'ritual', 'literacy', 'generational', 'norm'],
     test: 'Does intergenerational voting habit predict registration persistence above what economic and demographic models predict?',
-    metric: 'Civic-literacy gradient',
-    strongest: 'Counties w/ low intergen turnout',
-    strongestMeta: 'broken-ritual signal',
-    threshold: '17 / 40',
-    vocabSig: 'ritual · literacy · identity',
-    vocabMeta: 'cultural register',
-    underplay: 'structural and political fixes',
-    underplayMeta: 'reform options',
-    // Mixed — moderately high in mobile/younger metros and lower-income areas
-    data: [70,68,52,62,72,55,38,32,60,30,55,55,42,40,35,50,48,42,60,28,42,30,35,50,72,65,62,52,75,62,55,48,52,40,38,42,40,42,42,40],
+    r1: 'cohort persistence curves', r1m: '4 birth-decade lines',
+    r2: 'younger cohorts steepen', r2m: 'civic literacy decays',
+    r3: 'ritual · literacy · identity', r3m: 'cultural register',
+    r4: 'structural and political fixes', r4m: 'reform options',
   },
 ];
 
-const COUNTIES = [
-  { name: 'Fulton', pop: 1100, x: 0.42, y: 0.40 },
-  { name: 'DeKalb', pop: 750, x: 0.46, y: 0.42 },
-  { name: 'Cobb', pop: 770, x: 0.40, y: 0.36 },
-  { name: 'Gwinnett', pop: 960, x: 0.50, y: 0.34 },
-  { name: 'Clayton', pop: 300, x: 0.44, y: 0.46 },
-  { name: 'Henry', pop: 250, x: 0.47, y: 0.50 },
-  { name: 'Cherokee', pop: 280, x: 0.40, y: 0.30 },
-  { name: 'Forsyth', pop: 280, x: 0.47, y: 0.27 },
-  { name: 'Douglas', pop: 150, x: 0.36, y: 0.40 },
-  { name: 'Fayette', pop: 125, x: 0.42, y: 0.50 },
-  { name: 'Newton', pop: 115, x: 0.53, y: 0.45 },
-  { name: 'Rockdale', pop: 95, x: 0.52, y: 0.42 },
-  { name: 'Walton', pop: 105, x: 0.55, y: 0.38 },
-  { name: 'Paulding', pop: 175, x: 0.36, y: 0.34 },
-  { name: 'Bartow', pop: 110, x: 0.36, y: 0.28 },
-  { name: 'Hall', pop: 215, x: 0.51, y: 0.24 },
-  { name: 'Carroll', pop: 125, x: 0.32, y: 0.40 },
-  { name: 'Coweta', pop: 155, x: 0.36, y: 0.46 },
-  { name: 'Chatham', pop: 300, x: 0.92, y: 0.74 },
-  { name: 'Bryan', pop: 50, x: 0.88, y: 0.70 },
-  { name: 'Glynn', pop: 85, x: 0.95, y: 0.85 },
-  { name: 'McIntosh', pop: 14, x: 0.94, y: 0.79 },
-  { name: 'Camden', pop: 55, x: 0.95, y: 0.94 },
-  { name: 'Liberty', pop: 65, x: 0.88, y: 0.78 },
-  { name: 'Richmond', pop: 200, x: 0.78, y: 0.45 },
-  { name: 'Muscogee', pop: 200, x: 0.20, y: 0.65 },
-  { name: 'Macon-Bibb', pop: 155, x: 0.55, y: 0.62 },
-  { name: 'Houston', pop: 165, x: 0.55, y: 0.68 },
-  { name: 'Dougherty', pop: 85, x: 0.30, y: 0.85 },
-  { name: 'Lowndes', pop: 120, x: 0.50, y: 0.95 },
-  { name: 'Clarke', pop: 130, x: 0.62, y: 0.30 },
-  { name: 'Whitfield', pop: 105, x: 0.32, y: 0.12 },
-  { name: 'Floyd', pop: 100, x: 0.28, y: 0.20 },
-  { name: 'Lumpkin', pop: 35, x: 0.50, y: 0.16 },
-  { name: 'White', pop: 30, x: 0.55, y: 0.14 },
-  { name: 'Rabun', pop: 17, x: 0.62, y: 0.10 },
-  { name: 'Towns', pop: 13, x: 0.58, y: 0.08 },
-  { name: 'Banks', pop: 20, x: 0.55, y: 0.20 },
-  { name: 'Jackson', pop: 80, x: 0.55, y: 0.22 },
-  { name: 'Effingham', pop: 70, x: 0.85, y: 0.66 },
-];
-
-// === MAP RENDER ===
-const canvas = document.getElementById('mapCanvas');
-const ctx = canvas.getContext('2d');
-let W = 0, H = 0;
-const DPR = window.devicePixelRatio || 1;
-function resize() {
-  const rect = canvas.parentElement.getBoundingClientRect();
-  W = canvas.clientWidth = rect.width; H = canvas.clientHeight = rect.height;
-  canvas.width = W * DPR; canvas.height = H * DPR;
-  ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
-}
-window.addEventListener('resize', resize); setTimeout(resize, 50);
-
-let activeIdx = 0;
-let hoverCounty = null;
-
-function render() {
-  if (!W || W < 10) { requestAnimationFrame(render); return; }
-  ctx.clearRect(0, 0, W, H);
-  const lens = LENSES[activeIdx];
-  COUNTIES.forEach((c, i) => {
-    const x = 30 + c.x * (W - 60);
-    const y = 30 + c.y * (H - 60);
-    const r = 6 + Math.sqrt(c.pop) * 0.5;
-    const value = lens.data[i] || 30;
-    const alpha = 0.20 + (value / 100) * 0.70;
-    const halo = r * (1.4 + value / 200);
-    const g = ctx.createRadialGradient(x, y, 0, x, y, halo);
-    g.addColorStop(0, lens.accent + Math.round((value / 100) * 0.45 * 255).toString(16).padStart(2, '0'));
-    g.addColorStop(1, lens.accent + '00');
-    ctx.fillStyle = g; ctx.fillRect(x - halo, y - halo, halo * 2, halo * 2);
-    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle = lens.accent + Math.round(alpha * 255).toString(16).padStart(2, '0');
-    ctx.fill();
-    ctx.strokeStyle = c === hoverCounty ? '#f4ecd8' : 'rgba(40,40,46,0.8)';
-    ctx.lineWidth = c === hoverCounty ? 2 : 1; ctx.stroke();
-    if (r > 12 || c === hoverCounty) {
-      ctx.fillStyle = c === hoverCounty ? '#f4ecd8' : 'rgba(168,162,152,0.7)';
-      ctx.font = '10px "JetBrains Mono", monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText(c.name, x, y + r + 12);
-      if (c === hoverCounty) {
-        ctx.fillStyle = lens.accent;
-        ctx.font = '9px "JetBrains Mono", monospace';
-        ctx.fillText(lens.data[i] + ' / 100', x, y + r + 24);
-      }
-    }
-  });
-  requestAnimationFrame(render);
-}
-requestAnimationFrame(render);
-
-canvas.addEventListener('mousemove', (e) => {
-  const rect = canvas.getBoundingClientRect();
-  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
-  hoverCounty = null;
-  for (const c of COUNTIES) {
-    const x = 30 + c.x * (W - 60), y = 30 + c.y * (H - 60);
-    const r = 6 + Math.sqrt(c.pop) * 0.5;
-    if (Math.hypot(mx - x, my - y) <= r + 3) { hoverCounty = c; break; }
+// ═══════════════════════════════════════════════════════════════
+// VIZ 1: ECONOMIC — Balance Tip (canvas)
+// ═══════════════════════════════════════════════════════════════
+function vizEconomic() {
+  const c = document.getElementById('vizEcon'); const ctx = c.getContext('2d');
+  let W, H; const DPR = devicePixelRatio || 1;
+  function resize() {
+    const r = c.parentElement.getBoundingClientRect();
+    W = c.clientWidth = r.width; H = c.clientHeight = r.height;
+    c.width = W * DPR; c.height = H * DPR;
+    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
   }
-});
-canvas.addEventListener('mouseleave', () => { hoverCounty = null; });
+  addEventListener('resize', resize); setTimeout(resize, 30);
+  let progress = 0; // 0..1 reveals over time
+  const months = 12;
+  const income = 3500; // flat
+  const costStart = 2400, costEnd = 4200; // rises
+  function cost(m) { return costStart + (costEnd - costStart) * (m / months); }
+  function loop() {
+    if (!W || W < 10) { requestAnimationFrame(loop); return; }
+    progress = Math.min(1, progress + 0.004);
+    ctx.clearRect(0, 0, W, H);
+    const pad = { l: 50, r: 30, t: 30, b: 50 };
+    const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+    // axes
+    ctx.strokeStyle = 'rgba(168,162,152,0.18)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + ch); ctx.lineTo(pad.l + cw, pad.t + ch); ctx.stroke();
+    // axis labels
+    ctx.fillStyle = 'rgba(168,162,152,0.55)'; ctx.font = '9px "JetBrains Mono", monospace';
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    ctx.fillText('$5K', pad.l - 6, pad.t + ch * 0.1);
+    ctx.fillText('$3K', pad.l - 6, pad.t + ch * 0.5);
+    ctx.fillText('$1K', pad.l - 6, pad.t + ch * 0.9);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    for (let m = 0; m <= months; m += 2) ctx.fillText('M' + m, pad.l + (m / months) * cw, pad.t + ch + 6);
+    // value->y mapping ($0-5K → bottom-top)
+    const yV = (v) => pad.t + ch - (v / 5000) * ch;
+    // INCOME line (flat)
+    ctx.strokeStyle = '#e8c890'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    const endX = pad.l + cw * progress;
+    ctx.moveTo(pad.l, yV(income));
+    ctx.lineTo(endX, yV(income));
+    ctx.stroke();
+    // COST curve
+    ctx.strokeStyle = '#c47060'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let m = 0; m <= months * progress; m += 0.2) {
+      const x = pad.l + (m / months) * cw;
+      const y = yV(cost(m));
+      if (m === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    // RESIDUAL fill (income - cost), green when positive, red when negative
+    ctx.beginPath();
+    for (let m = 0; m <= months * progress; m += 0.2) {
+      const x = pad.l + (m / months) * cw;
+      const yI = yV(income);
+      if (m === 0) ctx.moveTo(x, yI); else ctx.lineTo(x, yI);
+    }
+    for (let m = months * progress; m >= 0; m -= 0.2) {
+      const x = pad.l + (m / months) * cw;
+      const y = yV(cost(m));
+      ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(232,200,144,0.08)';
+    ctx.fill();
+    // Crossing point — at month 8 (income=3500, cost=3500)
+    const crossM = months * ((income - costStart) / (costEnd - costStart));
+    const crossX = pad.l + (crossM / months) * cw;
+    if (progress * months > crossM) {
+      ctx.strokeStyle = '#e8c890'; ctx.lineWidth = 1; ctx.setLineDash([3, 4]);
+      ctx.beginPath(); ctx.moveTo(crossX, pad.t); ctx.lineTo(crossX, pad.t + ch); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#e8c890';
+      ctx.beginPath(); ctx.arc(crossX, yV(income), 5, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = 'rgba(232,200,144,0.85)'; ctx.font = '10px "JetBrains Mono", monospace'; ctx.textAlign = 'left';
+      ctx.fillText('CROSSING · M8', crossX + 8, pad.t + 12);
+      ctx.fillStyle = 'rgba(168,162,152,0.55)'; ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.fillText('residual $0', crossX + 8, pad.t + 26);
+    }
+    // Event markers M9, M11, M12
+    const events = [
+      {m: 9, label: 'EVICTION FILING', color: '#c47060'},
+      {m: 11, label: 'ADDRESS CHANGE', color: '#c89060'},
+      {m: 12, label: 'REGISTRATION LOST', color: '#88c4c8'},
+    ];
+    events.forEach(e => {
+      if (progress * months >= e.m) {
+        const x = pad.l + (e.m / months) * cw;
+        ctx.fillStyle = e.color;
+        ctx.beginPath(); ctx.arc(x, yV(cost(e.m)), 5, 0, Math.PI*2); ctx.fill();
+        ctx.strokeStyle = e.color; ctx.lineWidth = 1; ctx.setLineDash([2,3]);
+        ctx.beginPath(); ctx.moveTo(x, yV(cost(e.m))); ctx.lineTo(x, pad.t + ch + 30 + (e.m - 9) * 14); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font = '9px "JetBrains Mono", monospace'; ctx.textAlign = 'left';
+        ctx.fillStyle = e.color;
+        ctx.fillText(e.label, x + 6, pad.t + ch + 28 + (e.m - 9) * 14);
+      }
+    });
+    // Legend top-right
+    ctx.font = '9px "JetBrains Mono", monospace'; ctx.textAlign = 'right';
+    ctx.fillStyle = '#e8c890'; ctx.fillText('— INCOME', W - pad.r, pad.t + 8);
+    ctx.fillStyle = '#c47060'; ctx.fillText('— TOTAL COST', W - pad.r, pad.t + 22);
+    requestAnimationFrame(loop);
+  }
+  loop();
+  return { reset: () => { progress = 0; } };
+}
 
-// === LENS SWITCHING ===
+// ═══════════════════════════════════════════════════════════════
+// VIZ 2: POLITICAL — Statutory Funnel (canvas, particles)
+// ═══════════════════════════════════════════════════════════════
+function vizPolitical() {
+  const c = document.getElementById('vizPol'); const ctx = c.getContext('2d');
+  let W, H; const DPR = devicePixelRatio || 1;
+  function resize() {
+    const r = c.parentElement.getBoundingClientRect();
+    W = c.clientWidth = r.width; H = c.clientHeight = r.height;
+    c.width = W * DPR; c.height = H * DPR;
+    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
+  }
+  addEventListener('resize', resize); setTimeout(resize, 30);
+  const GATES = [
+    {name: 'REGISTRATION CHECK', y: 0.18, passRate: 0.78},
+    {name: 'ADDRESS VERIFICATION', y: 0.30, passRate: 0.85},
+    {name: 'ID COMPLIANCE',        y: 0.42, passRate: 0.72},
+    {name: 'PRECINCT MATCH',       y: 0.54, passRate: 0.82},
+    {name: 'SIGNATURE MATCH',      y: 0.66, passRate: 0.88},
+    {name: 'CURE WINDOW',          y: 0.78, passRate: 0.78},
+  ];
+  const particles = [];
+  function spawn() {
+    if (W < 10) return;
+    if (particles.length < 280) particles.push({ x: W * (0.35 + Math.random() * 0.30), y: 30, vy: 0.6 + Math.random() * 0.6, alive: true, rejectX: 0, gate: 0 });
+  }
+  setInterval(spawn, 30);
+  function loop() {
+    if (!W || W < 10) { requestAnimationFrame(loop); return; }
+    ctx.clearRect(0, 0, W, H);
+    // Funnel outline
+    ctx.strokeStyle = 'rgba(200,168,232,0.18)'; ctx.lineWidth = 1;
+    GATES.forEach((g, i) => {
+      const y = g.y * H;
+      ctx.beginPath(); ctx.setLineDash([3, 4]);
+      ctx.moveTo(W * 0.1, y); ctx.lineTo(W * 0.9, y); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(200,168,232,0.7)'; ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText(g.name, 8, y - 6);
+      ctx.textAlign = 'right'; ctx.fillStyle = 'rgba(200,168,232,0.5)';
+      ctx.fillText('PASS ' + Math.round(g.passRate * 100) + '%', W - 8, y - 6);
+    });
+    // Counted / rejected zones at bottom
+    const countedY = 0.92 * H;
+    ctx.fillStyle = 'rgba(168,192,136,0.06)';
+    ctx.fillRect(W * 0.5, countedY, W * 0.4, H * 0.07);
+    ctx.fillStyle = 'rgba(196,112,96,0.06)';
+    ctx.fillRect(W * 0.1, countedY, W * 0.4, H * 0.07);
+    ctx.fillStyle = '#a8c088'; ctx.font = '10px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('COUNTED · ~40K', W * 0.70, countedY + H * 0.035);
+    ctx.fillStyle = '#c47060'; ctx.fillText('REJECTED · ~60K', W * 0.30, countedY + H * 0.035);
+    // Particles flow
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i]; p.y += p.vy;
+      if (p.alive) {
+        for (let gi = p.gate; gi < GATES.length; gi++) {
+          const gy = GATES[gi].y * H;
+          if (Math.abs(p.y - gy) < p.vy && p.gate <= gi) {
+            if (Math.random() > GATES[gi].passRate) {
+              p.alive = false; p.rejectX = W * (0.10 + Math.random() * 0.30);
+            }
+            p.gate = gi + 1;
+            break;
+          }
+        }
+        if (p.y > countedY && p.alive) {
+          // success
+          p.x += (W * 0.70 - p.x) * 0.06;
+          if (p.y > H) { particles.splice(i, 1); continue; }
+        }
+      } else {
+        // drifting to reject zone
+        p.x += (p.rejectX - p.x) * 0.05;
+        p.y += p.vy * 0.5;
+        if (p.y > H) { particles.splice(i, 1); continue; }
+      }
+      ctx.beginPath(); ctx.arc(p.x, p.y, 1.6, 0, Math.PI*2);
+      ctx.fillStyle = p.alive ? 'rgba(168,192,136,0.85)' : 'rgba(196,112,96,0.7)';
+      ctx.fill();
+    }
+    // INPUT label
+    ctx.fillStyle = 'rgba(200,168,232,0.85)'; ctx.font = '10px "JetBrains Mono", monospace'; ctx.textAlign = 'center';
+    ctx.fillText('INPUT · 100,000 voters', W * 0.5, 14);
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// VIZ 3: MEDIA — Attention Asymmetry (canvas)
+// ═══════════════════════════════════════════════════════════════
+function vizMedia() {
+  const c = document.getElementById('vizMedia'); const ctx = c.getContext('2d');
+  let W, H; const DPR = devicePixelRatio || 1;
+  function resize() {
+    const r = c.parentElement.getBoundingClientRect();
+    W = c.clientWidth = r.width; H = c.clientHeight = r.height;
+    c.width = W * DPR; c.height = H * DPR;
+    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
+  }
+  addEventListener('resize', resize); setTimeout(resize, 30);
+  const TRACKS = [
+    { name: 'TRUMP INDICTMENTS', color: '#c47060', spikes: [2, 6, 11, 15, 18] },
+    { name: 'PRIMARY ELECTIONS',  color: '#e8c890', spikes: [5, 12, 17, 21] },
+    { name: 'HURRICANES',         color: '#88c4c8', spikes: [8, 9, 19, 20] },
+    { name: 'TARIFFS / ECONOMY',  color: '#c8a8e8', spikes: [3, 10, 14, 22] },
+    { name: 'EVICTION PIPELINE',  color: '#e8a878', spikes: [], highlight: true },
+  ];
+  let progress = 0;
+  function loop() {
+    if (!W || W < 10) { requestAnimationFrame(loop); return; }
+    progress = Math.min(1, progress + 0.003);
+    ctx.clearRect(0, 0, W, H);
+    const pad = { l: 130, r: 30, t: 24, b: 36 };
+    const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+    const trackH = ch / TRACKS.length;
+    // X axis label
+    ctx.fillStyle = 'rgba(168,162,152,0.55)'; ctx.font = '9px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    [0, 6, 12, 18, 24].forEach(m => {
+      const x = pad.l + (m / 24) * cw;
+      ctx.fillText(['JAN 24','JUL 24','JAN 25','JUL 25','MAY 26'][[0,6,12,18,24].indexOf(m)], x, pad.t + ch + 6);
+    });
+    // Tracks
+    TRACKS.forEach((t, ti) => {
+      const ty = pad.t + (ti + 0.5) * trackH;
+      // Track baseline
+      ctx.strokeStyle = t.highlight ? 'rgba(232,168,120,0.30)' : 'rgba(168,162,152,0.10)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.l, ty); ctx.lineTo(pad.l + cw * progress, ty); ctx.stroke();
+      // Label
+      ctx.fillStyle = t.highlight ? t.color : 'rgba(168,162,152,0.75)';
+      ctx.font = (t.highlight ? '600 ' : '300 ') + '9px "JetBrains Mono", monospace'; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillText(t.name, pad.l - 8, ty);
+      // Spikes
+      t.spikes.forEach(m => {
+        if (m / 24 > progress) return;
+        const x = pad.l + (m / 24) * cw;
+        const spikeH = 14 + Math.random() * 18;
+        ctx.beginPath();
+        ctx.moveTo(x - 5, ty);
+        ctx.lineTo(x, ty - spikeH);
+        ctx.lineTo(x + 5, ty);
+        ctx.closePath();
+        ctx.fillStyle = t.color + 'cc'; ctx.fill();
+      });
+      if (t.highlight) {
+        // Annotation
+        ctx.fillStyle = t.color; ctx.font = 'italic 10px "Fraunces", serif'; ctx.textAlign = 'left';
+        ctx.fillText('flat · no spike events', pad.l + cw * 0.5, ty - 6);
+      }
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// VIZ 4: CULTURAL — Generational Persistence (SVG)
+// ═══════════════════════════════════════════════════════════════
+function vizCultural() {
+  const svg = document.getElementById('vizCult');
+  svg.innerHTML = '';
+  const W = 600, H = 360;
+  const pad = { l: 50, r: 100, t: 30, b: 40 };
+  const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+  const ns = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  // Axes
+  svg.appendChild(el('line', { x1: pad.l, y1: pad.t + ch, x2: pad.l + cw, y2: pad.t + ch, stroke: 'rgba(168,162,152,0.25)' }));
+  svg.appendChild(el('line', { x1: pad.l, y1: pad.t, x2: pad.l, y2: pad.t + ch, stroke: 'rgba(168,162,152,0.25)' }));
+  // Y labels (% persistence)
+  [100, 80, 60, 40, 20].forEach((v, i) => {
+    const y = pad.t + (i / 4) * ch;
+    const t = el('text', { x: pad.l - 8, y: y + 3, fill: 'rgba(168,162,152,0.55)', 'font-family': 'JetBrains Mono, monospace', 'font-size': '9', 'text-anchor': 'end' });
+    t.textContent = v + '%'; svg.appendChild(t);
+    if (v < 100) svg.appendChild(el('line', { x1: pad.l, y1: y, x2: pad.l + cw, y2: y, stroke: 'rgba(168,162,152,0.06)' }));
+  });
+  // X labels (years since first registration)
+  [0, 10, 20, 30].forEach(yr => {
+    const x = pad.l + (yr / 30) * cw;
+    const t = el('text', { x, y: pad.t + ch + 16, fill: 'rgba(168,162,152,0.55)', 'font-family': 'JetBrains Mono, monospace', 'font-size': '9', 'text-anchor': 'middle' });
+    t.textContent = yr + 'yr'; svg.appendChild(t);
+  });
+  // Cohort lines (each born-decade) — y is % persistence at year x
+  // older cohorts persist longer; younger steepen
+  const COHORTS = [
+    { name: 'Born 1940s', color: '#e8c890', curve: (yr) => 100 - (yr / 30) * 12 },
+    { name: 'Born 1960s', color: '#a8c088', curve: (yr) => 100 - (yr / 30) * 22 - Math.max(0, (yr - 20)) * 0.4 },
+    { name: 'Born 1980s', color: '#88c4c8', curve: (yr) => 100 - (yr / 30) * 38 - Math.max(0, (yr - 12)) * 0.8 },
+    { name: 'Born 2000s', color: '#c8a8e8', curve: (yr) => 100 - (yr / 30) * 55 - Math.max(0, (yr - 6)) * 1.2 },
+  ];
+  COHORTS.forEach((c, ci) => {
+    let d = '';
+    for (let yr = 0; yr <= 30; yr += 0.5) {
+      const v = Math.max(0, c.curve(yr));
+      const x = pad.l + (yr / 30) * cw;
+      const y = pad.t + ch - (v / 100) * ch;
+      d += (yr === 0 ? 'M' : 'L') + x + ' ' + y + ' ';
+    }
+    svg.appendChild(el('path', { d, fill: 'none', stroke: c.color, 'stroke-width': '2', opacity: '0.95' }));
+    // End-point label
+    const finalY = pad.t + ch - (c.curve(30) / 100) * ch;
+    const lbl = el('text', { x: pad.l + cw + 8, y: finalY + 4, fill: c.color, 'font-family': 'JetBrains Mono, monospace', 'font-size': '9' });
+    lbl.textContent = c.name;
+    svg.appendChild(lbl);
+    const lbl2 = el('text', { x: pad.l + cw + 8, y: finalY + 18, fill: 'rgba(168,162,152,0.6)', 'font-family': 'JetBrains Mono, monospace', 'font-size': '8' });
+    lbl2.textContent = Math.round(c.curve(30)) + '% @ 30yr';
+    svg.appendChild(lbl2);
+  });
+  // Title labels
+  const xt = el('text', { x: pad.l + cw / 2, y: pad.t + ch + 32, fill: 'rgba(168,162,152,0.7)', 'font-family': 'JetBrains Mono, monospace', 'font-size': '9', 'text-anchor': 'middle' });
+  xt.textContent = 'YEARS SINCE FIRST REGISTRATION'; svg.appendChild(xt);
+  const yt = el('text', { x: pad.l - 38, y: pad.t + ch / 2, fill: 'rgba(168,162,152,0.7)', 'font-family': 'JetBrains Mono, monospace', 'font-size': '9', 'text-anchor': 'middle', transform: `rotate(-90, ${pad.l - 38}, ${pad.t + ch / 2})` });
+  yt.textContent = '% STILL REGISTERED'; svg.appendChild(yt);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LENS SWITCHING
+// ═══════════════════════════════════════════════════════════════
+let activeIdx = 0;
 function setLens(idx) {
   if (idx === activeIdx) return;
   activeIdx = idx;
   const lens = LENSES[idx];
-  // Set CSS variables for color cascade
   document.documentElement.style.setProperty('--lens-c', lens.accent);
   document.documentElement.style.setProperty('--lens-c-bg', lens.accentBg);
-  // Update tabs
   document.querySelectorAll('.lens-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
-  // Update header
   document.getElementById('headerLens').textContent = lens.name.replace(' Lens', '').toLowerCase();
+  // Swap viz frame
+  document.querySelectorAll('.viz-frame').forEach((f, i) => f.classList.toggle('active', i === idx));
   // Crossfade narrative
   const narr = document.getElementById('narr');
   narr.classList.add('fading');
@@ -473,28 +717,30 @@ function setLens(idx) {
     document.getElementById('nTest').textContent = lens.test;
     document.getElementById('nCausal').innerHTML = lens.causal.map((s, i) => `<span class="step">${s}</span>${i < lens.causal.length - 1 ? '<span class="arrow">→</span>' : ''}`).join('');
     document.getElementById('nVocab').innerHTML = lens.vocab.map(w => `<span class="word">${w}</span>`).join('');
-    document.getElementById('mapMetric').textContent = lens.metric;
-    document.getElementById('lensInd').textContent = lens.key;
     narr.classList.remove('fading');
   }, 280);
-  // Crossfade ribbon readings
+  // Ribbon
   document.querySelectorAll('.reading').forEach(r => r.classList.add('fading'));
   setTimeout(() => {
-    document.getElementById('r1v').textContent = lens.strongest;
-    document.querySelector('#r1 .reading-meta').textContent = lens.strongestMeta;
-    document.getElementById('r2v').textContent = lens.threshold;
-    document.getElementById('r3v').textContent = lens.vocabSig;
-    document.querySelector('#r3 .reading-meta').textContent = lens.vocabMeta;
-    document.getElementById('r4v').textContent = lens.underplay;
-    document.querySelector('#r4 .reading-meta').textContent = lens.underplayMeta;
+    document.getElementById('r1v').textContent = lens.r1;
+    document.querySelector('#r1 .reading-meta').textContent = lens.r1m;
+    document.getElementById('r2v').textContent = lens.r2;
+    document.querySelector('#r2 .reading-meta').textContent = lens.r2m;
+    document.getElementById('r3v').textContent = lens.r3;
+    document.querySelector('#r3 .reading-meta').textContent = lens.r3m;
+    document.getElementById('r4v').textContent = lens.r4;
+    document.querySelector('#r4 .reading-meta').textContent = lens.r4m;
     document.querySelectorAll('.reading').forEach(r => r.classList.remove('fading'));
   }, 280);
 }
 document.querySelectorAll('.lens-tab').forEach((t, i) => t.addEventListener('click', () => setLens(i)));
-window.addEventListener('keydown', e => {
-  const k = 'abcd'.indexOf(e.key.toLowerCase());
-  if (k >= 0) setLens(k);
-});
+addEventListener('keydown', e => { const k = 'abcd'.indexOf(e.key.toLowerCase()); if (k >= 0) setLens(k); });
+
+// Start all four viz engines (each runs even if hidden, costs little; alternative is start-on-show)
+vizEconomic();
+vizPolitical();
+vizMedia();
+vizCultural();
 </script>
 
 </body>
