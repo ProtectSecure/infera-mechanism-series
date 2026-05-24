@@ -426,7 +426,6 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
       <a class="tab" href="the-closed-hospital.html"><span class="tab-num">03</span>Hospital</a>
       <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">04</span>Coast</a>
       <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">05</span>Ballot</a>
-      <a class="tab" href="the-runoff-tells.html"><span class="tab-num">06</span>Runoff</a>
       <a class="tab active" href="personhood-inc.html"><span class="tab-num">08</span>Personhood</a>
       <a class="tab" href="thesis.html"><span class="tab-num">◉</span>Thesis</a>
     </div>
@@ -912,8 +911,8 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
 <section class="finale">
   <h2>You can <em>opt out</em><br/>of being inventory.</h2>
   <p class="closer">Not all of it. Not all at once. But more than the system makes you believe is possible. The shield above is real — every notch is something you can do this week.</p>
-  <a class="cta" href="#s9">RECEIVE THE PROTECTION GUIDE</a>
-  <div class="reassurance">12-page PDF · concrete steps · no mailing list · delivered once</div>
+  <a class="cta" href="the-guide-12-ways-to-stop-being-inventory.pdf" download="The-Guide-12-Ways-to-Stop-Being-Inventory.pdf" target="_blank" rel="noopener">RECEIVE THE PROTECTION GUIDE</a>
+  <div class="reassurance">PDF · concrete steps · no mailing list · download begins on click</div>
 </section>
 
 </main>
@@ -1414,6 +1413,9 @@ const MF_DETAILS = {
   you2:{label:'YOU · DOWNSTREAM',title:'You · the closing payer',body:'The loop closes here. The same person who gave the upstream data for free now <b>pays the utility surcharge</b>, <b>the tax share</b>, <b>the AI subscription</b>, and <b>the markup</b>.',stats:[{v:'$127',l:'cost to you / mo'},{v:'$382',l:'value you generate / mo'}],who:'You — net extraction of roughly $254 / month, on no bill.'}
 };
 
+// Edge geometry shared between SVG + particle canvas
+let MF_GEOM = [];
+
 function renderMoneyStage(){
   const stage = document.getElementById('mfStage');
   const nodeHtml = Object.entries(MF_NODES).map(([k,n])=>{
@@ -1426,6 +1428,7 @@ function renderMoneyStage(){
     <marker id="aW" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#fbf7eb"/></marker>
   </defs>`;
   let svgPaths = '';
+  MF_GEOM = [];
   MF_EDGES.forEach((e,i)=>{
     const a = MF_NODES[e.from], b = MF_NODES[e.to];
     const ax = a.x*10, ay = a.y*10, bx = b.x*10, by = b.y*10;
@@ -1437,6 +1440,8 @@ function renderMoneyStage(){
     else if(e.kind==='free'){ color='#fbf7eb'; marker='aW'; dash='4 6'; opacity=.5; }
     else { color=persona.color; marker='aP'; dash='0'; opacity=.7; }
     svgPaths += `<path d="M ${ax} ${ay} Q ${cx} ${cy} ${bx} ${by}" stroke="${color}" stroke-width="2" fill="none" stroke-dasharray="${dash}" opacity="${opacity}" marker-end="url(#${marker})"/>`;
+    // store in viewBox units (0..1000) for particle canvas
+    MF_GEOM.push({ ax, ay, bx, by, cx, cy, kind: e.kind, color });
   });
   const svg = `<svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">${svgDefs}${svgPaths}</svg>`;
   const lblHtml = MF_EDGES.map((e,i)=>{
@@ -1447,7 +1452,9 @@ function renderMoneyStage(){
     const cls = e.kind === 'cost' ? 'cost' : '';
     return `<div class="mf-arrow-lbl ${cls}" style="left:${px}%;top:${py}%;transform:translate(-50%,-50%)">${e.label}</div>`;
   }).join('');
-  stage.innerHTML = svg + lblHtml + nodeHtml;
+  // particle canvas overlay (sits between SVG and node buttons; non-interactive)
+  const canvasHtml = '<canvas class="mf-particles" id="mfParticles" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2"></canvas>';
+  stage.innerHTML = svg + canvasHtml + lblHtml + nodeHtml;
   stage.querySelectorAll('.mf-node').forEach(el=>{
     el.addEventListener('click', ()=>{
       stage.querySelectorAll('.mf-node').forEach(x=>x.classList.remove('act'));
@@ -1455,6 +1462,79 @@ function renderMoneyStage(){
       showMfDetail(el.dataset.id);
     });
   });
+  startCascadeMotion();
+}
+
+// ============================================================ CASCADE PARTICLE MOTION
+let MF_RAF = null;
+let MF_PARTICLES = [];
+
+function startCascadeMotion(){
+  if(MF_RAF) cancelAnimationFrame(MF_RAF);
+  const canvas = document.getElementById('mfParticles');
+  if(!canvas || MF_GEOM.length === 0) return;
+  const ctx = canvas.getContext('2d');
+
+  let W = 0, H = 0;
+  function fit(){
+    const rect = canvas.getBoundingClientRect();
+    if(rect.width < 10 || rect.height < 10) return;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    W = rect.width; H = rect.height;
+  }
+  const ro = new ResizeObserver(fit);
+  ro.observe(canvas);
+  requestAnimationFrame(fit);
+
+  // 3-5 particles per edge with staggered phase
+  MF_PARTICLES = [];
+  MF_GEOM.forEach((g, i)=>{
+    const count = g.kind === 'free' ? 3 : g.kind === 'cost' ? 5 : 4;
+    for(let k = 0; k < count; k++){
+      MF_PARTICLES.push({
+        edge: i,
+        t: k / count + Math.random() * 0.04,
+        speed: g.kind === 'free' ? 0.0030 : g.kind === 'cost' ? 0.0055 : 0.0042,
+        size: g.kind === 'free' ? 1.5 : 2.4,
+      });
+    }
+  });
+
+  function tick(){
+    if(W < 10){ MF_RAF = requestAnimationFrame(tick); return; }
+    ctx.clearRect(0, 0, W, H);
+
+    MF_PARTICLES.forEach(p=>{
+      const g = MF_GEOM[p.edge];
+      if(!g) return;
+      p.t += p.speed;
+      if(p.t > 1) p.t -= 1;
+
+      // quadratic bezier interpolation in viewBox-space (0..1000), then scale to canvas
+      const inv = 1 - p.t;
+      const vx = inv*inv*g.ax + 2*inv*p.t*g.cx + p.t*p.t*g.bx;
+      const vy = inv*inv*g.ay + 2*inv*p.t*g.cy + p.t*p.t*g.by;
+      const x = (vx / 1000) * W;
+      const y = (vy / 1000) * H;
+
+      const alpha = 0.55 + Math.sin(p.t * Math.PI) * 0.35;
+      ctx.beginPath();
+      ctx.arc(x, y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = g.color;
+      ctx.globalAlpha = alpha;
+      ctx.shadowColor = g.color;
+      ctx.shadowBlur = g.kind === 'cost' ? 10 : 7;
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+
+    MF_RAF = requestAnimationFrame(tick);
+  }
+  MF_RAF = requestAnimationFrame(tick);
 }
 function showMfDetail(id){
   const d = MF_DETAILS[id]; if(!d) return;
