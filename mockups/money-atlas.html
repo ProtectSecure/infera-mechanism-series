@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Money Atlas · Georgia 2026 — three streams, 159 counties</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06070b;
+    --bg-soft: #0d0e12;
+    --bg-card: #11131a;
+    --bg-card-2: #16181f;
+    --ink: #f0e8d8;
+    --ink-dim: #98927e;
+    --ink-faint: #5a5648;
+    --ink-mute: #3a3833;
+    --rule: #1f1d23;
+    --rule-2: #2a2830;
+    --gold: #c4a777;
+    --s1: #d99645;   /* stream 1 — vogtle / utility */
+    --s2: #5a9bb8;   /* stream 2 — data centers / infrastructure */
+    --s3: #7ab895;   /* stream 3 — opioid settlement / healing */
+    --s1-glow: rgba(217,150,69,0.18);
+    --s2-glow: rgba(90,155,184,0.18);
+    --s3-glow: rgba(122,184,149,0.18);
+    --burden: #b85a52;
+    --inflow: #7ab895;
+    --outflow: #b85a52;
+    --grid: rgba(196, 167, 119, 0.03);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif; font-weight: 300;
+    line-height: 1.55; overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+  }
+
+  /* ─────────── TICKER BAR (sticky, financial-terminal top) ─────────── */
+  .ticker {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(6,7,11,0.96); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+    height: 38px;
+    display: flex; align-items: stretch;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .ticker-brand {
+    padding: 0 20px; display: flex; align-items: center; gap: 10px;
+    border-right: 1px solid var(--rule);
+    font-size: 10px; letter-spacing: 0.28em;
+    color: var(--gold); text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .ticker-brand .live-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--burden);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.8); } }
+  .ticker-strip {
+    flex: 1; overflow: hidden; position: relative;
+    display: flex; align-items: center;
+  }
+  .ticker-track {
+    display: flex; gap: 38px; padding-left: 20px;
+    animation: tick 80s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker-item {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 10.5px; letter-spacing: 0.16em; color: var(--ink-dim);
+    text-transform: uppercase;
+  }
+  .ticker-item .tk { color: var(--ink-faint); }
+  .ticker-item .tv { color: var(--ink); }
+  .ticker-item.s1 .tv { color: var(--s1); }
+  .ticker-item.s2 .tv { color: var(--s2); }
+  .ticker-item.s3 .tv { color: var(--s3); }
+  .ticker-item .delta-up   { color: var(--inflow); }
+  .ticker-item .delta-down { color: var(--outflow); }
+  .ticker-nav {
+    border-left: 1px solid var(--rule);
+    display: flex; align-items: stretch;
+  }
+  .ticker-nav a {
+    padding: 0 12px; display: flex; align-items: center;
+    font-size: 9.5px; letter-spacing: 0.22em;
+    color: var(--ink-faint); text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s, background 0.2s;
+    border-left: 1px solid var(--rule);
+  }
+  .ticker-nav a:first-child { border-left: none; }
+  .ticker-nav a:hover { color: var(--ink-dim); background: rgba(255,255,255,0.03); }
+  .ticker-nav a.active { color: var(--gold); background: rgba(196,167,119,0.08); }
+
+  /* ─────────── PAGE PADDING TOP ─────────── */
+  .page { padding-top: 38px; position: relative; z-index: 1; }
+
+  /* ─────────── HERO MASTHEAD ─────────── */
+  .masthead {
+    padding: 70px 4vw 60px;
+    border-bottom: 1px solid var(--rule);
+    background:
+      radial-gradient(ellipse at 90% 10%, rgba(217,150,69,0.04) 0%, transparent 55%),
+      radial-gradient(ellipse at 10% 90%, rgba(122,184,149,0.04) 0%, transparent 55%);
+    position: relative;
+  }
+  .mast-inner { max-width: 1500px; margin: 0 auto; }
+  .mast-rule {
+    display: flex; gap: 16px; align-items: center; margin-bottom: 32px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.32em; color: var(--gold); text-transform: uppercase;
+  }
+  .mast-rule .vol { color: var(--gold); }
+  .mast-rule .sep { width: 28px; height: 1px; background: var(--gold); opacity: 0.55; }
+  .mast-rule .iss { color: var(--ink-faint); }
+  .mast-grid {
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 60px;
+    align-items: end;
+  }
+  .mast-title {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: clamp(56px, 8.4vw, 138px); line-height: 0.92;
+    letter-spacing: -0.045em;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+    color: var(--ink);
+  }
+  .mast-title em { font-style: italic; font-weight: 400; color: var(--s1); }
+  .mast-dek {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: 20px; line-height: 1.5;
+    color: var(--ink-dim);
+    border-left: 2px solid var(--gold);
+    padding-left: 22px;
+  }
+  .mast-dek strong { color: var(--ink); font-weight: 500; transition: color 1.3s ease, text-shadow 1.3s ease; }
+  .mast-byline {
+    margin-top: 26px; padding-top: 18px;
+    border-top: 1px dashed var(--rule);
+    display: flex; flex-wrap: wrap; gap: 18px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase;
+  }
+  .mast-byline .b-by { color: var(--gold); }
+  @media (max-width: 1000px) {
+    .mast-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* ─────────── THREE STREAMS DASHBOARD ─────────── */
+  .streams {
+    padding: 8vh 4vw 8vh;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--rule);
+  }
+  .streams-inner { max-width: 1500px; margin: 0 auto; }
+  .streams-stamp {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.32em; color: var(--gold); text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .streams-h2 {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: clamp(28px, 3.6vw, 42px); line-height: 1.06;
+    letter-spacing: -0.022em; margin-bottom: 18px; max-width: 32ch;
+  }
+  .streams-h2 em { font-style: italic; }
+  .streams-h2 em.s1 { color: var(--s1); }
+  .streams-h2 em.s2 { color: var(--s2); }
+  .streams-h2 em.s3 { color: var(--s3); }
+  .streams-lead {
+    font-family: 'Fraunces', serif; font-size: 15.5px;
+    line-height: 1.55; color: var(--ink-dim);
+    max-width: 70ch; margin-bottom: 36px;
+  }
+  .streams-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--rule); border: 1px solid var(--rule);
+    border-radius: 3px; overflow: hidden;
+  }
+  .stream-card {
+    background: var(--bg-card); padding: 22px 24px;
+    position: relative;
+    display: flex; flex-direction: column; gap: 14px;
+    transition: background 0.4s;
+  }
+  .stream-card:hover { background: var(--bg-card-2); }
+  .stream-card::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+    background: var(--sc); opacity: 0.85;
+  }
+  .stream-card[data-s="1"] { --sc: var(--s1); --sc-glow: var(--s1-glow); }
+  .stream-card[data-s="2"] { --sc: var(--s2); --sc-glow: var(--s2-glow); }
+  .stream-card[data-s="3"] { --sc: var(--s3); --sc-glow: var(--s3-glow); }
+  .sc-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding-bottom: 12px; border-bottom: 1px solid var(--rule);
+  }
+  .sc-no {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.28em; color: var(--sc); text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .sc-name {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 22px; line-height: 1.1; color: var(--ink);
+  }
+  .sc-name em { font-style: italic; color: var(--sc); }
+  .sc-flow {
+    font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
+    letter-spacing: 0.18em; color: var(--ink-faint); text-transform: uppercase;
+    padding: 4px 8px; border: 1px solid var(--rule); border-radius: 2px;
+  }
+  .sc-flow.out { color: var(--outflow); border-color: rgba(184,90,82,0.4); }
+  .sc-flow.in  { color: var(--inflow);  border-color: rgba(122,184,149,0.4); }
+  .sc-big {
+    font-family: 'Fraunces', serif; font-weight: 400; font-style: italic;
+    font-size: 38px; color: var(--ink); line-height: 1;
+    letter-spacing: -0.025em;
+  }
+  .sc-big .u {
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 11px; color: var(--ink-faint); letter-spacing: 0.22em;
+    text-transform: uppercase; margin-left: 6px;
+  }
+  .sc-sub {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.2em; color: var(--ink-dim); text-transform: uppercase;
+  }
+  .sc-horizon {
+    position: relative; height: 56px;
+    background: rgba(255,255,255,0.018);
+    border-radius: 2px;
+  }
+  .sc-horizon canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .sc-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    padding-top: 12px; border-top: 1px solid var(--rule);
+  }
+  .sc-stat .k {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px;
+    letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .sc-stat .v {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 14px;
+    color: var(--ink); line-height: 1.1;
+  }
+  @media (max-width: 900px) { .streams-grid { grid-template-columns: 1fr; } }
+
+  /* ─────────── THE LEDGER · 159-county small multiples ─────────── */
+  .ledger {
+    padding: 10vh 4vw 12vh;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+  .ledger-inner { max-width: 1500px; margin: 0 auto; }
+  .ledger-head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 30px; flex-wrap: wrap; gap: 22px;
+  }
+  .ledger-h2 {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: clamp(30px, 4vw, 50px); line-height: 1.04;
+    letter-spacing: -0.025em; margin-bottom: 12px; max-width: 22ch;
+  }
+  .ledger-h2 em { font-style: italic; color: var(--gold); }
+  .ledger-dek {
+    font-family: 'Fraunces', serif; font-size: 15px;
+    line-height: 1.6; color: var(--ink-dim);
+    max-width: 56ch;
+  }
+  .ledger-controls {
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  }
+  .lc-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint); padding: 7px 12px;
+    background: var(--bg-card); border: 1px solid var(--rule);
+    border-radius: 2px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lc-btn:hover { color: var(--ink); border-color: var(--ink-faint); }
+  .lc-btn.on { color: var(--gold); border-color: var(--gold); background: rgba(196,167,119,0.08); }
+  .lc-btn[data-s="1"].on { color: var(--s1); border-color: var(--s1); background: var(--s1-glow); }
+  .lc-btn[data-s="2"].on { color: var(--s2); border-color: var(--s2); background: var(--s2-glow); }
+  .lc-btn[data-s="3"].on { color: var(--s3); border-color: var(--s3); background: var(--s3-glow); }
+  .ledger-key {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex; gap: 18px; flex-wrap: wrap;
+  }
+  .ledger-key .lk { display: inline-flex; align-items: center; gap: 6px; }
+  .ledger-key .lk::before { content: ""; width: 10px; height: 4px; background: var(--lkc); border-radius: 1px; }
+  .ledger-key .lk[data-s="1"] { --lkc: var(--s1); color: var(--s1); }
+  .ledger-key .lk[data-s="2"] { --lkc: var(--s2); color: var(--s2); }
+  .ledger-key .lk[data-s="3"] { --lkc: var(--s3); color: var(--s3); }
+  .ledger-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 2px; overflow: hidden;
+  }
+  .county-tile {
+    background: var(--bg-card);
+    padding: 9px 10px 11px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.25s;
+    display: flex; flex-direction: column; gap: 5px;
+    min-height: 78px;
+  }
+  .county-tile:hover { background: var(--bg-card-2); }
+  .county-tile.hi { background: rgba(196,167,119,0.05); }
+  .ct-name {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.10em; color: var(--ink); text-transform: uppercase;
+    line-height: 1.1;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .ct-pop {
+    font-family: 'JetBrains Mono', monospace; font-size: 7.5px;
+    color: var(--ink-faint); letter-spacing: 0.06em;
+  }
+  .ct-bars { display: flex; flex-direction: column; gap: 2px; margin-top: 2px; }
+  .ct-bar { position: relative; height: 6px; background: rgba(255,255,255,0.025); border-radius: 1px; }
+  .ct-bar .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 1px; opacity: 0.85; }
+  .ct-bar[data-s="1"] .fill { background: var(--s1); }
+  .ct-bar[data-s="2"] .fill { background: var(--s2); }
+  .ct-bar[data-s="3"] .fill { background: var(--s3); }
+  .ct-meta {
+    margin-top: auto;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 7.5px;
+    color: var(--ink-faint); letter-spacing: 0.06em;
+  }
+  .ct-flag {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ink-mute);
+  }
+  .ct-flag.host-vogtle { background: var(--s1); box-shadow: 0 0 6px var(--s1); }
+  .ct-flag.host-dc     { background: var(--s2); box-shadow: 0 0 6px var(--s2); }
+  .ct-flag.opioid-hi   { background: var(--s3); box-shadow: 0 0 6px var(--s3); }
+  .ct-triple-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 7.5px;
+    color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase;
+  }
+
+  /* ─────────── PASSPORT (county detail panel) ─────────── */
+  .passport {
+    position: fixed; right: 24px; bottom: 24px; z-index: 50;
+    width: min(380px, 90vw);
+    background: var(--bg-card-2);
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    padding: 18px 20px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+    transform: translateY(120%); opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1), opacity 0.3s;
+    pointer-events: none;
+  }
+  .passport.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  .pp-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .pp-name { font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; color: var(--ink); }
+  .pp-close { background: none; border: none; color: var(--ink-faint); cursor: pointer; font-size: 18px; padding: 0 4px; }
+  .pp-close:hover { color: var(--gold); }
+  .pp-meta { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; margin-bottom: 10px; }
+  .pp-row { display: grid; grid-template-columns: 84px 1fr 64px; gap: 10px; padding: 7px 0; border-top: 1px solid var(--rule); align-items: center; }
+  .pp-row .pl { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; }
+  .pp-row[data-s="1"] .pl { color: var(--s1); }
+  .pp-row[data-s="2"] .pl { color: var(--s2); }
+  .pp-row[data-s="3"] .pl { color: var(--s3); }
+  .pp-row .pbar { position: relative; height: 6px; background: rgba(255,255,255,0.04); border-radius: 1px; }
+  .pp-row .pbar .pf { position: absolute; inset: 0; border-radius: 1px; }
+  .pp-row[data-s="1"] .pbar .pf { background: var(--s1); }
+  .pp-row[data-s="2"] .pbar .pf { background: var(--s2); }
+  .pp-row[data-s="3"] .pbar .pf { background: var(--s3); }
+  .pp-row .pv { font-family: 'Fraunces', serif; font-style: italic; font-size: 13px; text-align: right; color: var(--ink); }
+  .pp-foot { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--rule); font-family: 'Fraunces', serif; font-style: italic; font-size: 13px; color: var(--ink-dim); line-height: 1.5; }
+
+  /* ─────────── STREAM DEEP-DIVE ─────────── */
+  .stream-dd {
+    padding: 12vh 4vw 12vh; border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .stream-dd[data-s="1"] { background: linear-gradient(180deg, var(--bg) 0%, rgba(217,150,69,0.025) 100%); }
+  .stream-dd[data-s="2"] { background: linear-gradient(180deg, var(--bg) 0%, rgba(90,155,184,0.025) 100%); }
+  .stream-dd[data-s="3"] { background: linear-gradient(180deg, var(--bg) 0%, rgba(122,184,149,0.025) 100%); }
+  .dd-inner { max-width: 1500px; margin: 0 auto; }
+  .dd-rule {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .dd-rule::before, .dd-rule::after {
+    content: ""; display: inline-block; height: 1px; background: var(--ddc);
+  }
+  .dd-rule::before { width: 30px; }
+  .dd-rule::after { flex: 1; opacity: 0.35; }
+  .stream-dd[data-s="1"] { --ddc: var(--s1); }
+  .stream-dd[data-s="2"] { --ddc: var(--s2); }
+  .stream-dd[data-s="3"] { --ddc: var(--s3); }
+  .dd-rule .rk { color: var(--ddc); }
+  .dd-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 50px; align-items: start;
+  }
+  .dd-h2 {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: clamp(36px, 5vw, 64px); line-height: 0.98;
+    letter-spacing: -0.03em; margin-bottom: 20px;
+    font-variation-settings: "opsz" 144;
+  }
+  .dd-h2 em { font-style: italic; color: var(--ddc); }
+  .dd-body { font-family: 'Fraunces', serif; font-size: 16px; line-height: 1.65; color: var(--ink-dim); }
+  .dd-body p { margin-bottom: 14px; }
+  .dd-body p:first-of-type::first-letter {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    float: left; font-size: 64px; line-height: 0.85; margin-right: 8px;
+    margin-top: 6px; color: var(--ddc);
+  }
+  .dd-body strong { color: var(--ink); }
+  .dd-body em { font-style: italic; color: var(--ddc); }
+  .dd-marg {
+    margin-top: 20px;
+    padding: 14px 16px; background: var(--bg-card);
+    border-left: 2px solid var(--ddc); border-radius: 0 3px 3px 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.16em; color: var(--ink-dim); line-height: 1.7;
+    text-transform: uppercase;
+  }
+  .dd-marg .mk { color: var(--ddc); }
+  .dd-figure {
+    background: var(--bg-card); border: 1px solid var(--rule);
+    border-radius: 3px; padding: 22px 24px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .dd-fig-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 10px; border-bottom: 1px solid var(--rule);
+  }
+  .dd-fig-no {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.28em; color: var(--ink-faint); text-transform: uppercase;
+  }
+  .dd-fig-title {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 16px;
+    color: var(--ink);
+  }
+  .dd-fig-canvas {
+    position: relative; height: 280px;
+  }
+  .dd-fig-canvas canvas, .dd-fig-canvas svg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+  }
+  .dd-fig-note {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.18em; color: var(--ink-faint); text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .dd-top5 {
+    margin-top: 16px;
+    display: grid; grid-template-columns: 1fr; gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule); border-radius: 2px; overflow: hidden;
+  }
+  .dd-t5-row {
+    display: grid; grid-template-columns: 24px 1fr 1.4fr 76px;
+    gap: 12px; align-items: center;
+    padding: 8px 12px; background: var(--bg-card);
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  }
+  .dd-t5-row .rank { color: var(--ddc); letter-spacing: 0.14em; }
+  .dd-t5-row .nm   { color: var(--ink); letter-spacing: 0.08em; }
+  .dd-t5-row .bar  { position: relative; height: 6px; background: rgba(255,255,255,0.04); border-radius: 1px; }
+  .dd-t5-row .bar .f { position: absolute; inset: 0; background: var(--ddc); border-radius: 1px; opacity: 0.85; }
+  .dd-t5-row .val { font-family: 'Fraunces', serif; font-style: italic; font-size: 12px; color: var(--ddc); text-align: right; }
+  @media (max-width: 900px) {
+    .dd-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* ─────────── CORRELATION MATRIX ─────────── */
+  .corr {
+    padding: 12vh 4vw 12vh;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--rule);
+  }
+  .corr-inner { max-width: 1500px; margin: 0 auto; }
+  .corr-head { margin-bottom: 32px; }
+  .corr-stamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; }
+  .corr-h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(30px, 4vw, 48px); line-height: 1.04; letter-spacing: -0.025em; margin-bottom: 16px; max-width: 26ch; }
+  .corr-h2 em { font-style: italic; color: var(--gold); }
+  .corr-lead { font-family: 'Fraunces', serif; font-size: 15px; line-height: 1.6; color: var(--ink-dim); max-width: 66ch; }
+  .corr-grid {
+    display: grid; grid-template-columns: 100px repeat(3, 1fr); gap: 1px;
+    background: var(--rule); border: 1px solid var(--rule);
+    border-radius: 3px; overflow: hidden;
+    margin-top: 22px;
+  }
+  .corr-cell {
+    background: var(--bg-card); padding: 14px;
+    min-height: 200px;
+    position: relative;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .corr-h {
+    background: var(--bg-soft);
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-faint);
+    padding: 10px;
+  }
+  .corr-h.s1 { color: var(--s1); }
+  .corr-h.s2 { color: var(--s2); }
+  .corr-h.s3 { color: var(--s3); }
+  .corr-cell .cc-r {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 13px; color: var(--ink); margin-bottom: 4px;
+    display: flex; justify-content: space-between;
+  }
+  .corr-cell .cc-r .rval {
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 13px; letter-spacing: 0.1em;
+  }
+  .corr-cell .cc-canvas { position: relative; flex: 1; min-height: 130px; }
+  .corr-cell .cc-canvas canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .corr-cell .cc-note {
+    font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
+    letter-spacing: 0.16em; color: var(--ink-faint); text-transform: uppercase;
+    line-height: 1.5;
+  }
+
+  /* ─────────── FLOW MAP ─────────── */
+  .flowmap {
+    padding: 12vh 4vw 12vh;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+  .flowmap-inner { max-width: 1500px; margin: 0 auto; }
+  .flowmap-head { margin-bottom: 26px; }
+  .fm-stamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; }
+  .fm-h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(30px, 4vw, 48px); line-height: 1.04; letter-spacing: -0.025em; margin-bottom: 16px; max-width: 26ch; }
+  .fm-h2 em { font-style: italic; color: var(--gold); }
+  .fm-lead { font-family: 'Fraunces', serif; font-size: 15px; line-height: 1.6; color: var(--ink-dim); max-width: 66ch; }
+  .fm-stage {
+    margin-top: 24px;
+    background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px;
+    position: relative;
+    height: 600px;
+    overflow: hidden;
+  }
+  .fm-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .fm-controls {
+    position: absolute; top: 14px; right: 14px; z-index: 5;
+    display: flex; gap: 6px; flex-direction: column;
+  }
+  .fm-toggle {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint); padding: 6px 10px;
+    background: rgba(17,19,26,0.85); border: 1px solid var(--rule);
+    border-radius: 2px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .fm-toggle.on[data-s="1"] { color: var(--s1); border-color: var(--s1); }
+  .fm-toggle.on[data-s="2"] { color: var(--s2); border-color: var(--s2); }
+  .fm-toggle.on[data-s="3"] { color: var(--s3); border-color: var(--s3); }
+  .fm-legend {
+    position: absolute; bottom: 14px; left: 14px; z-index: 5;
+    background: rgba(17,19,26,0.85); border: 1px solid var(--rule);
+    border-radius: 2px; padding: 10px 12px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.18em; color: var(--ink-faint); text-transform: uppercase;
+    line-height: 1.7;
+  }
+  .fm-legend .lg-row { display: flex; align-items: center; gap: 8px; }
+  .fm-legend .lg-row .ld { width: 18px; height: 2px; background: var(--lgc); }
+  .fm-legend .lg-row[data-s="1"] { --lgc: var(--s1); color: var(--s1); }
+  .fm-legend .lg-row[data-s="2"] { --lgc: var(--s2); color: var(--s2); }
+  .fm-legend .lg-row[data-s="3"] { --lgc: var(--s3); color: var(--s3); }
+
+  /* ─────────── HIDDEN SYSTEMS PANEL ─────────── */
+  .hidden {
+    padding: 12vh 4vw 12vh;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--rule);
+  }
+  .hidden-inner { max-width: 1500px; margin: 0 auto; }
+  .hidden-head { margin-bottom: 36px; max-width: 720px; }
+  .hidden-stamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; }
+  .hidden-h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(30px, 4vw, 50px); line-height: 1.02; letter-spacing: -0.025em; margin-bottom: 18px; }
+  .hidden-h2 em { font-style: italic; color: var(--gold); }
+  .hidden-lead { font-family: 'Fraunces', serif; font-size: 16px; line-height: 1.6; color: var(--ink-dim); }
+  .vign-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 22px;
+  }
+  .vign {
+    padding: 22px 24px;
+    background: var(--bg-card); border: 1px solid var(--rule);
+    border-radius: 3px;
+    position: relative;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .vign::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--vc, var(--gold));
+  }
+  .vign[data-s="1"] { --vc: var(--s1); }
+  .vign[data-s="2"] { --vc: var(--s2); }
+  .vign[data-s="3"] { --vc: var(--s3); }
+  .vign[data-s="x"] { --vc: var(--gold); }
+  .vign-stamp { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.28em; color: var(--vc); text-transform: uppercase; }
+  .vign-h { font-family: 'Fraunces', serif; font-weight: 400; font-size: 22px; line-height: 1.15; color: var(--ink); letter-spacing: -0.01em; }
+  .vign-h em { font-style: italic; color: var(--vc); }
+  .vign-body { font-family: 'Fraunces', serif; font-size: 14px; line-height: 1.6; color: var(--ink-dim); }
+  .vign-body strong { color: var(--ink); }
+  .vign-foot {
+    margin-top: auto;
+    padding-top: 12px; border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.2em; color: var(--ink-faint); text-transform: uppercase;
+  }
+  .vign-foot .vk { color: var(--vc); }
+
+  /* ─────────── METHODOLOGY ─────────── */
+  .method {
+    padding: 10vh 4vw 8vh;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+  .method-inner { max-width: 1180px; margin: 0 auto; }
+  .method h3 { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; color: var(--gold); text-transform: uppercase; margin-bottom: 18px; }
+  .method h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(28px, 3.6vw, 44px); line-height: 1.05; letter-spacing: -0.022em; margin-bottom: 18px; max-width: 26ch; }
+  .method h2 em { font-style: italic; color: var(--gold); }
+  .method .lead { font-family: 'Fraunces', serif; font-size: 15.5px; line-height: 1.6; color: var(--ink-dim); max-width: 64ch; margin-bottom: 36px; }
+  .method-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .mc { padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; }
+  .mc .mt { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .mc h4 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 16px; line-height: 1.18; color: var(--ink); margin-bottom: 6px; }
+  .mc p { font-family: 'Fraunces', serif; font-size: 13px; line-height: 1.55; color: var(--ink-dim); }
+
+  /* ─────────── SOURCES ─────────── */
+  .sources { padding: 8vh 4vw 8vh; background: var(--bg-soft); border-bottom: 1px solid var(--rule); }
+  .sources-inner { max-width: 1180px; margin: 0 auto; }
+  .sources h3 { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; color: var(--gold); text-transform: uppercase; margin-bottom: 18px; }
+  .src-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+  .src { padding: 14px 16px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; display: flex; flex-direction: column; gap: 6px; }
+  .src .tier { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; color: var(--gold); text-transform: uppercase; }
+  .src a { font-family: 'Fraunces', serif; font-size: 14px; color: var(--ink); text-decoration: none; line-height: 1.35; border-bottom: 1px solid transparent; transition: color 0.3s, border-color 0.3s; }
+  .src a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+  .src .desc { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.16em; color: var(--ink-faint); text-transform: uppercase; }
+
+  /* ─────────── COLOPHON FOOTER ─────────── */
+  footer { padding: 8vh 4vw 4vh; background: var(--bg); }
+  .colophon { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; }
+  .colophon h5 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+  .colophon p { font-family: 'Fraunces', serif; font-size: 13.5px; line-height: 1.6; color: var(--ink-dim); }
+  .colophon .sig { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--ink-faint); margin-top: 18px; text-transform: uppercase; }
+  @media (max-width: 800px) { .colophon { grid-template-columns: 1fr; gap: 26px; } }
+
+  /* dim-switch */
+  strong { color: var(--ink-dim); text-shadow: 0 0 0 transparent; transition: color 1.3s ease 0.08s, text-shadow 1.3s ease 0.08s; }
+  strong.lit { color: var(--ink); text-shadow: 0 0 14px rgba(217,150,69,0.22), 0 0 4px rgba(217,150,69,0.32); }
+
+</style>
+</head>
+<body>
+
+<!-- ─────────── TICKER ─────────── -->
+<div class="ticker">
+  <a class="ticker-brand" href="../index.html">
+    <span class="live-dot"></span>INFERA · MONEY ATLAS · GA 26
+  </a>
+  <div class="ticker-strip">
+    <div class="ticker-track">
+      <span class="ticker-item s1"><span class="tk">VOGTLE BASE</span><span class="tv">$36.8B</span><span class="delta-up">+23.7% res rate</span></span>
+      <span class="ticker-item s2"><span class="tk">DC LOAD FCST</span><span class="tv">+8,200 MW</span><span class="delta-up">+2.2GW vs '23 IRP</span></span>
+      <span class="ticker-item s3"><span class="tk">OPIOID ABATE</span><span class="tv">$638M</span><span class="delta-down">18-yr disbursement</span></span>
+      <span class="ticker-item"><span class="tk">PSC DONOR TIE</span><span class="tv">87% / 61%</span></span>
+      <span class="ticker-item"><span class="tk">COUNTIES TRACKED</span><span class="tv">159 / 159</span></span>
+      <span class="ticker-item s3"><span class="tk">KROGER ADD'L</span><span class="tv">$55M</span></span>
+      <span class="ticker-item s3"><span class="tk">DBHDD NOV '24</span><span class="tv">$70.3M · 128 orgs</span></span>
+      <span class="ticker-item"><span class="tk">METHOD</span><span class="tv">CONFIDENCE-TAGGED · TIER-RANKED</span></span>
+      <!-- duplicate so the loop is seamless -->
+      <span class="ticker-item s1"><span class="tk">VOGTLE BASE</span><span class="tv">$36.8B</span><span class="delta-up">+23.7% res rate</span></span>
+      <span class="ticker-item s2"><span class="tk">DC LOAD FCST</span><span class="tv">+8,200 MW</span><span class="delta-up">+2.2GW vs '23 IRP</span></span>
+      <span class="ticker-item s3"><span class="tk">OPIOID ABATE</span><span class="tv">$638M</span><span class="delta-down">18-yr disbursement</span></span>
+      <span class="ticker-item"><span class="tk">PSC DONOR TIE</span><span class="tv">87% / 61%</span></span>
+      <span class="ticker-item"><span class="tk">COUNTIES TRACKED</span><span class="tv">159 / 159</span></span>
+      <span class="ticker-item s3"><span class="tk">KROGER ADD'L</span><span class="tv">$55M</span></span>
+    </div>
+  </div>
+  <div class="ticker-nav">
+    <a href="../index.html">INDEX</a>
+    <a href="#streams">STREAMS</a>
+    <a href="#ledger">LEDGER</a>
+    <a href="#vogtle">VOGTLE</a>
+    <a href="#dc">DATA</a>
+    <a href="#opioid">OPIOID</a>
+    <a href="#flows">FLOWS</a>
+    <a href="#method">METHOD</a>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ─────────── MASTHEAD ─────────── -->
+<section class="masthead">
+  <div class="mast-inner">
+    <div class="mast-rule">
+      <span class="vol">VOL. 01</span><span class="sep"></span><span class="iss">ISSUE 07 · MONEY ATLAS</span><span class="sep"></span><span class="iss">PRIMARY +3 · MAY 22, 2026</span>
+    </div>
+    <div class="mast-grid">
+      <h1 class="mast-title">Money <em>Atlas</em>.</h1>
+      <div>
+        <p class="mast-dek">Three streams of money &mdash; <strong>utility, data, opioid</strong> &mdash; arriving in the same 159 Georgia counties at the same time. The bill, the buildout, and the settlement check. Read each stream alone, then read them stacked. The hidden systems live in the overlap.</p>
+        <div class="mast-byline">
+          <span><span class="b-by">By</span> Infera Editorial</span>
+          <span>READ · ~12 MIN</span>
+          <span>159 / 159 COUNTIES</span>
+          <span>TIER-TAGGED SOURCES</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── STREAMS DASHBOARD ─────────── -->
+<section class="streams" id="streams">
+  <div class="streams-inner">
+    <div class="streams-stamp">The three streams · synoptic</div>
+    <h2 class="streams-h2">One Georgia, three <em class="s1">outflows</em> and <em class="s3">inflows</em>, moving at once.</h2>
+    <p class="streams-lead">Each stream has its own clock, its own beneficiaries, its own filings, its own opposition. Drawn side by side they reveal something none of them reveal alone: the same household sits inside all three currents, and the political question is which current is loudest in their own kitchen.</p>
+
+    <div class="streams-grid">
+      <div class="stream-card" data-s="1">
+        <div class="sc-head">
+          <div>
+            <div class="sc-no">Stream 01</div>
+            <div class="sc-name">Vogtle <em>· utility recovery</em></div>
+          </div>
+          <div class="sc-flow out">$ OUT · household → utility</div>
+        </div>
+        <div class="sc-big">$36.8B<span class="u">built</span></div>
+        <div class="sc-sub">23.7% residential rate lift · ~$420 / hh / yr</div>
+        <div class="sc-horizon"><canvas id="hor-1"></canvas></div>
+        <div class="sc-stats">
+          <div class="sc-stat"><div class="k">Rate base</div><div class="v">~$11B added</div></div>
+          <div class="sc-stat"><div class="k">Cost recovered</div><div class="v">$7.6B · '23 order</div></div>
+          <div class="sc-stat"><div class="k">Confidence</div><div class="v">T1 · proven</div></div>
+        </div>
+      </div>
+
+      <div class="stream-card" data-s="2">
+        <div class="sc-head">
+          <div>
+            <div class="sc-no">Stream 02</div>
+            <div class="sc-name">Data centers <em>· load curve</em></div>
+          </div>
+          <div class="sc-flow out">$ OUT · ratepayer → buildout</div>
+        </div>
+        <div class="sc-big">+8.2 GW<span class="u">by 2030</span></div>
+        <div class="sc-sub">+2.2 GW vs '23 IRP · ~3× by 2034</div>
+        <div class="sc-horizon"><canvas id="hor-2"></canvas></div>
+        <div class="sc-stats">
+          <div class="sc-stat"><div class="k">Coal kept on</div><div class="v">multiple</div></div>
+          <div class="sc-stat"><div class="k">New gas</div><div class="v">added</div></div>
+          <div class="sc-stat"><div class="k">Confidence</div><div class="v">T2 · contested</div></div>
+        </div>
+      </div>
+
+      <div class="stream-card" data-s="3">
+        <div class="sc-head">
+          <div>
+            <div class="sc-no">Stream 03</div>
+            <div class="sc-name">Opioid settlement <em>· abatement</em></div>
+          </div>
+          <div class="sc-flow in">$ IN · settlement → county</div>
+        </div>
+        <div class="sc-big">$638M<span class="u">to GA</span></div>
+        <div class="sc-sub">75% state / 25% local · use-restricted</div>
+        <div class="sc-horizon"><canvas id="hor-3"></canvas></div>
+        <div class="sc-stats">
+          <div class="sc-stat"><div class="k">Local share</div><div class="v">~$159M</div></div>
+          <div class="sc-stat"><div class="k">Nov '24 awards</div><div class="v">$70.3M · 128 orgs</div></div>
+          <div class="sc-stat"><div class="k">Confidence</div><div class="v">T1 · proven</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── LEDGER · 159-county small multiples ─────────── -->
+<section class="ledger" id="ledger">
+  <div class="ledger-inner">
+    <div class="ledger-head">
+      <div>
+        <h2 class="ledger-h2">The <em>Ledger</em>. One hundred and fifty-nine counties, three bars apiece.</h2>
+        <p class="ledger-dek">Each tile is a county. Each bar inside is one of the three streams, normalized to the county-modal range. The flag dot signals special status: <strong>host of Vogtle</strong>, <strong>host of a hyperscale data-center cluster</strong>, <strong>top-quintile opioid-mortality county</strong>. The triple-tag in gold marks counties touched by all three streams at once.</p>
+      </div>
+      <div class="ledger-controls">
+        <button class="lc-btn on" data-mode="all">All streams</button>
+        <button class="lc-btn" data-s="1" data-mode="1">Stream 01 only</button>
+        <button class="lc-btn" data-s="2" data-mode="2">Stream 02 only</button>
+        <button class="lc-btn" data-s="3" data-mode="3">Stream 03 only</button>
+        <button class="lc-btn" data-mode="triple">Triple-hit only</button>
+      </div>
+    </div>
+    <div class="ledger-key">
+      <span class="lk" data-s="1">Stream 01 · utility</span>
+      <span class="lk" data-s="2">Stream 02 · data</span>
+      <span class="lk" data-s="3">Stream 03 · opioid</span>
+      <span style="color: var(--gold);">★ triple-hit</span>
+    </div>
+    <div class="ledger-grid" id="ledger-grid"></div>
+  </div>
+</section>
+
+<!-- ─────────── PASSPORT (county detail) ─────────── -->
+<div class="passport" id="passport">
+  <div class="pp-head">
+    <div>
+      <div class="pp-name" id="pp-name">—</div>
+      <div class="pp-meta" id="pp-meta">—</div>
+    </div>
+    <button class="pp-close" id="pp-close">×</button>
+  </div>
+  <div class="pp-row" data-s="1"><div class="pl">Stream 01</div><div class="pbar"><div class="pf" id="pp-f1"></div></div><div class="pv" id="pp-v1">—</div></div>
+  <div class="pp-row" data-s="2"><div class="pl">Stream 02</div><div class="pbar"><div class="pf" id="pp-f2"></div></div><div class="pv" id="pp-v2">—</div></div>
+  <div class="pp-row" data-s="3"><div class="pl">Stream 03</div><div class="pbar"><div class="pf" id="pp-f3"></div></div><div class="pv" id="pp-v3">—</div></div>
+  <div class="pp-foot" id="pp-foot">—</div>
+</div>
+
+<!-- ─────────── STREAM 01 · VOGTLE ─────────── -->
+<section class="stream-dd" data-s="1" id="vogtle">
+  <div class="dd-inner">
+    <div class="dd-rule"><span class="rk">Stream 01</span> · Vogtle · utility cost recovery</div>
+    <div class="dd-grid">
+      <div>
+        <h2 class="dd-h2">A nuclear plant gets built once. Its <em>balance sheet</em> gets paid every month, forever.</h2>
+        <div class="dd-body">
+          <p>The cost overran by a factor of two and a half. Original budget fourteen billion; final cost <strong>thirty-six point eight billion</strong>. The state's Public Service Commission moved the largest tranche &mdash; <strong>$7.6 billion in December 2023</strong> &mdash; from shareholder books onto ratepayer bills. A residential rate sheet that read one way before the units came online reads twenty-three percent heavier after.</p>
+          <p>The cost is now <em>distributed in arithmetic</em>. Roughly four hundred and twenty dollars a year, per residential ratepayer, on average, for the life of the recovery period. The arithmetic does not move when the headline does. It does not care which party holds the runoff. It is in the kitchen drawer, in the envelope, in the late notice. <strong>The bill is the politics</strong>.</p>
+          <p>Burke County hosts the reactors. Burke does not pay more for hosting them. Burke counts as <em>one of one hundred and fifty-nine</em> in the rate base. The geometry of who built it, who lives next to it, and who pays for it does not align.</p>
+        </div>
+        <div class="dd-marg">
+          <div class="mk">Marginalia · Tufte rule</div>
+          <span>"the average residential ratepayer subsidy is not paid once. it recurs."</span>
+        </div>
+      </div>
+      <div>
+        <div class="dd-figure">
+          <div class="dd-fig-head">
+            <div>
+              <div class="dd-fig-no">Figure 1.1 · cost overrun curve</div>
+              <div class="dd-fig-title">From $14B estimate to $36.8B build</div>
+            </div>
+          </div>
+          <div class="dd-fig-canvas"><canvas id="fig-vogtle"></canvas></div>
+          <div class="dd-fig-note">2009–2024 · annual reported project total · SRC: GA Power filings · AJC · GA Recorder</div>
+        </div>
+        <div class="dd-top5">
+          <div class="dd-t5-row"><span class="rank">01</span><span class="nm">Fulton</span><span class="bar"><span class="f" style="width:94%"></span></span><span class="val">~$172M / yr</span></div>
+          <div class="dd-t5-row"><span class="rank">02</span><span class="nm">Gwinnett</span><span class="bar"><span class="f" style="width:88%"></span></span><span class="val">~$148M / yr</span></div>
+          <div class="dd-t5-row"><span class="rank">03</span><span class="nm">Cobb</span><span class="bar"><span class="f" style="width:78%"></span></span><span class="val">~$128M / yr</span></div>
+          <div class="dd-t5-row"><span class="rank">04</span><span class="nm">DeKalb</span><span class="bar"><span class="f" style="width:72%"></span></span><span class="val">~$118M / yr</span></div>
+          <div class="dd-t5-row"><span class="rank">05</span><span class="nm">Henry</span><span class="bar"><span class="f" style="width:48%"></span></span><span class="val">~$80M / yr</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── STREAM 02 · DATA CENTERS ─────────── -->
+<section class="stream-dd" data-s="2" id="dc">
+  <div class="dd-inner">
+    <div class="dd-rule"><span class="rk">Stream 02</span> · Data centers · load forecast</div>
+    <div class="dd-grid">
+      <div>
+        <h2 class="dd-h2">A handful of <em>buildings</em> redraw the demand curve for an entire state.</h2>
+        <div class="dd-body">
+          <p>Georgia Power's 2024 Integrated Resource Plan projected <strong>eight thousand two hundred megawatts of new load</strong> by winter 2030/31, an increase of more than two thousand two hundred megawatts over what the same plan had forecast just a year earlier. The single largest driver is hyperscale data centers, concentrated in a narrow ring of metro and exurban counties.</p>
+          <p>The IRP filing kept coal-fired units online beyond their planned retirement to serve the new load. Multiple intervenor experts at PSC hearings testified that <em>the magnitude is uncertain</em> at the level claimed. The regulatory commitments built on the forecast are not uncertain. They have been approved.</p>
+          <p>Who pays for the new gigawatts is being decided in rate-design proceedings now. The current default is socialization across the residential class. <strong>Coweta hosts. Fulton pays. Burke continues to host the reactor that already gets paid for.</strong> The accounting is statewide; the development is intensely local.</p>
+        </div>
+        <div class="dd-marg">
+          <div class="mk">Marginalia · Tufte rule</div>
+          <span>"the IRP is a forecast. the rate case is a commitment. only one of them is binding."</span>
+        </div>
+      </div>
+      <div>
+        <div class="dd-figure">
+          <div class="dd-fig-head">
+            <div>
+              <div class="dd-fig-no">Figure 2.1 · IRP load forecast revision</div>
+              <div class="dd-fig-title">2023 IRP vs 2024 IRP, same horizon</div>
+            </div>
+          </div>
+          <div class="dd-fig-canvas"><canvas id="fig-dc"></canvas></div>
+          <div class="dd-fig-note">winter peak · MW · SRC: GA Power 2024 IRP · Utility Dive · SACE intervenor filings</div>
+        </div>
+        <div class="dd-top5">
+          <div class="dd-t5-row"><span class="rank">01</span><span class="nm">Coweta</span><span class="bar"><span class="f" style="width:96%"></span></span><span class="val">~2,100 MW</span></div>
+          <div class="dd-t5-row"><span class="rank">02</span><span class="nm">Douglas</span><span class="bar"><span class="f" style="width:78%"></span></span><span class="val">~1,640 MW</span></div>
+          <div class="dd-t5-row"><span class="rank">03</span><span class="nm">Henry</span><span class="bar"><span class="f" style="width:62%"></span></span><span class="val">~1,300 MW</span></div>
+          <div class="dd-t5-row"><span class="rank">04</span><span class="nm">Fulton</span><span class="bar"><span class="f" style="width:55%"></span></span><span class="val">~1,150 MW</span></div>
+          <div class="dd-t5-row"><span class="rank">05</span><span class="nm">Bartow</span><span class="bar"><span class="f" style="width:40%"></span></span><span class="val">~840 MW</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── STREAM 03 · OPIOID SETTLEMENT ─────────── -->
+<section class="stream-dd" data-s="3" id="opioid">
+  <div class="dd-inner">
+    <div class="dd-rule"><span class="rk">Stream 03</span> · Opioid settlement · abatement inflow</div>
+    <div class="dd-grid">
+      <div>
+        <h2 class="dd-h2">Six hundred and thirty-eight million dollars, paid in <em>installments</em>, for harm already done.</h2>
+        <div class="dd-body">
+          <p>Georgia and its local governments stand to receive roughly <strong>$638 million</strong> under the national distributors and Janssen settlements, with the National Distributor share disbursed across eighteen years and the Janssen share across nine. The Kroger settlement adds another <strong>$55 million</strong>. In November 2024 the Department of Behavioral Health and Developmental Disabilities awarded <strong>$70.3 million to 128 organizations</strong>, averaging roughly two hundred thousand dollars each, against more than $250 million in requested funding.</p>
+          <p>The split is seventy-five state, twenty-five local. The local share is concentrated &mdash; <em>Atlanta and the largest counties absorb the bulk</em> &mdash; while a long tail of small counties receives modest direct allocations. The use is restricted: funds must be spent on opioid abatement, not transferred to general operating budgets. The restriction is the entire moral architecture of the settlement.</p>
+          <p>The geography of receipt is correlated, but not identical, to the geography of harm. <strong>The check arrives where the case was filed; the harm is where the prescription was written</strong>. The atlas is built to show both.</p>
+        </div>
+        <div class="dd-marg">
+          <div class="mk">Marginalia · Tufte rule</div>
+          <span>"abatement is a verb. budgets are a noun. the audit lives in the gap."</span>
+        </div>
+      </div>
+      <div>
+        <div class="dd-figure">
+          <div class="dd-fig-head">
+            <div>
+              <div class="dd-fig-no">Figure 3.1 · disbursement schedule</div>
+              <div class="dd-fig-title">$638M total · 18-yr / 9-yr split</div>
+            </div>
+          </div>
+          <div class="dd-fig-canvas"><canvas id="fig-op"></canvas></div>
+          <div class="dd-fig-note">scheduled disbursement · ga opioid trust · SRC: GA AG · DBHDD · gaopioidtrust.org</div>
+        </div>
+        <div class="dd-top5">
+          <div class="dd-t5-row"><span class="rank">01</span><span class="nm">Fulton</span><span class="bar"><span class="f" style="width:100%"></span></span><span class="val">~$24M · cum.</span></div>
+          <div class="dd-t5-row"><span class="rank">02</span><span class="nm">DeKalb</span><span class="bar"><span class="f" style="width:72%"></span></span><span class="val">~$17M · cum.</span></div>
+          <div class="dd-t5-row"><span class="rank">03</span><span class="nm">Gwinnett</span><span class="bar"><span class="f" style="width:64%"></span></span><span class="val">~$15M · cum.</span></div>
+          <div class="dd-t5-row"><span class="rank">04</span><span class="nm">Cobb</span><span class="bar"><span class="f" style="width:54%"></span></span><span class="val">~$13M · cum.</span></div>
+          <div class="dd-t5-row"><span class="rank">05</span><span class="nm">Whitfield</span><span class="bar"><span class="f" style="width:34%"></span></span><span class="val">~$8M · cum.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── CROSS-STREAM CORRELATION MATRIX ─────────── -->
+<section class="corr">
+  <div class="corr-inner">
+    <div class="corr-head">
+      <div class="corr-stamp">Cross-stream correlation · three squared</div>
+      <h2 class="corr-h2">Do the streams move <em>together</em>, or do they move <em>past</em> each other?</h2>
+      <p class="corr-lead">Each off-diagonal cell is a county-level scatter of two streams. Pearson r reported in the corner. Look for cells where the cloud is tight (causal candidate), where it is wide (independent), and where outliers sit (the counties whose story does not fit any aggregate).</p>
+    </div>
+    <div class="corr-grid">
+      <!-- header row -->
+      <div class="corr-h"></div>
+      <div class="corr-h s1">Stream 01 · Vogtle</div>
+      <div class="corr-h s2">Stream 02 · Data</div>
+      <div class="corr-h s3">Stream 03 · Opioid</div>
+
+      <!-- row 1 -->
+      <div class="corr-h s1">Stream 01</div>
+      <div class="corr-cell"><div class="cc-r">distribution<span class="rval">σ</span></div><div class="cc-canvas"><canvas id="cc-11"></canvas></div><div class="cc-note">univariate · skewed toward metro</div></div>
+      <div class="corr-cell"><div class="cc-r">Vogtle × Data<span class="rval">r ≈ 0.62</span></div><div class="cc-canvas"><canvas id="cc-12"></canvas></div><div class="cc-note">co-concentrated in metro · same households absorb both</div></div>
+      <div class="corr-cell"><div class="cc-r">Vogtle × Opioid<span class="rval">r ≈ 0.41</span></div><div class="cc-canvas"><canvas id="cc-13"></canvas></div><div class="cc-note">population-driven · weakens after pop control</div></div>
+
+      <!-- row 2 -->
+      <div class="corr-h s2">Stream 02</div>
+      <div class="corr-cell"><div class="cc-r">Data × Vogtle<span class="rval">r ≈ 0.62</span></div><div class="cc-canvas"><canvas id="cc-21"></canvas></div><div class="cc-note">mirror of (1,2)</div></div>
+      <div class="corr-cell"><div class="cc-r">distribution<span class="rval">σ</span></div><div class="cc-canvas"><canvas id="cc-22"></canvas></div><div class="cc-note">univariate · sharply concentrated in 6 counties</div></div>
+      <div class="corr-cell"><div class="cc-r">Data × Opioid<span class="rval">r ≈ -0.18</span></div><div class="cc-canvas"><canvas id="cc-23"></canvas></div><div class="cc-note">slight inverse · DC counties not opioid-top</div></div>
+
+      <!-- row 3 -->
+      <div class="corr-h s3">Stream 03</div>
+      <div class="corr-cell"><div class="cc-r">Opioid × Vogtle<span class="rval">r ≈ 0.41</span></div><div class="cc-canvas"><canvas id="cc-31"></canvas></div><div class="cc-note">mirror of (1,3)</div></div>
+      <div class="corr-cell"><div class="cc-r">Opioid × Data<span class="rval">r ≈ -0.18</span></div><div class="cc-canvas"><canvas id="cc-32"></canvas></div><div class="cc-note">mirror of (2,3)</div></div>
+      <div class="corr-cell"><div class="cc-r">distribution<span class="rval">σ</span></div><div class="cc-canvas"><canvas id="cc-33"></canvas></div><div class="cc-note">univariate · long Appalachian tail</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── FLOW MAP ─────────── -->
+<section class="flowmap" id="flows">
+  <div class="flowmap-inner">
+    <div class="flowmap-head">
+      <div class="fm-stamp">Inter-county flows · the atlas</div>
+      <h2 class="fm-h2">Every dollar has a <em>direction</em>. Most have a county on each end.</h2>
+      <p class="fm-lead">Three streams overlaid on a simplified Georgia outline. Utility recovery flows <em>from</em> every county <em>toward</em> Georgia Power's metro-Atlanta receivers. Data-center buildout flows are <em>incoming</em> capital to host counties, with downstream socialized load. Opioid settlement flows are <em>arriving</em> at counties, scaled by allocation. Toggle streams; watch the geometry change.</p>
+    </div>
+    <div class="fm-stage">
+      <canvas id="flow-canvas"></canvas>
+      <div class="fm-controls">
+        <button class="fm-toggle on" data-s="1">01 · Utility</button>
+        <button class="fm-toggle on" data-s="2">02 · Data</button>
+        <button class="fm-toggle on" data-s="3">03 · Opioid</button>
+      </div>
+      <div class="fm-legend">
+        <div class="lg-row" data-s="1"><span class="ld"></span>outflow · utility recovery → utility</div>
+        <div class="lg-row" data-s="2"><span class="ld"></span>capex · datacenter buildout → host counties</div>
+        <div class="lg-row" data-s="3"><span class="ld"></span>inflow · settlement → county trust</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── HIDDEN SYSTEMS ─────────── -->
+<section class="hidden">
+  <div class="hidden-inner">
+    <div class="hidden-head">
+      <div class="hidden-stamp">Hidden systems · cross-stream</div>
+      <h2 class="hidden-h2">What only becomes visible when you <em>read all three together</em>.</h2>
+      <p class="hidden-lead">Each stream alone is reported. The geometry of overlap is not. Five short vignettes &mdash; each a small system that exists between counties, not within them.</p>
+    </div>
+
+    <div class="vign-grid">
+
+      <div class="vign" data-s="x">
+        <div class="vign-stamp">Vignette 01 · the triple-hit county</div>
+        <div class="vign-h">A county is <em>hosting</em>, <em>paying</em>, and <em>receiving</em> simultaneously.</div>
+        <div class="vign-body">A handful of counties &mdash; Fulton above all &mdash; pay the largest absolute share of Vogtle recovery, host a meaningful slice of the data-center buildout, and absorb the largest direct opioid abatement allocation. The political experience inside that county is <strong>three contradictory financial signals at once</strong>, each with its own constituency, each with its own evening news segment, each requiring its own theory of grievance.</div>
+        <div class="vign-foot"><span>Triple-hit · n=11</span><span class="vk">TIER · STRONG</span></div>
+      </div>
+
+      <div class="vign" data-s="1">
+        <div class="vign-stamp">Vignette 02 · the host that doesn't get paid</div>
+        <div class="vign-h">Burke <em>hosts the reactor</em>. The rest of the state pays for it.</div>
+        <div class="vign-body">Burke County lives next to Plant Vogtle. Burke's share of the recovery is <em>indistinguishable from any other small ratepayer county</em>. The geography of construction, the geography of risk, and the geography of revenue are three different maps. Tax-base hosting agreements have value; they do not net out the rate impact across one hundred and fifty-nine counties. <strong>Hosting a reactor is not, financially, the same as benefiting from one</strong>.</div>
+        <div class="vign-foot"><span>Single county · Burke</span><span class="vk">TIER · PROVEN</span></div>
+      </div>
+
+      <div class="vign" data-s="2">
+        <div class="vign-stamp">Vignette 03 · socialized infrastructure</div>
+        <div class="vign-h">The data center is in <em>Coweta</em>. The transmission rebuild is in <em>everyone's bill</em>.</div>
+        <div class="vign-body">Hyperscale data-center development concentrates in roughly six counties. The transmission and generation buildout required to serve them is being socialized across the residential rate class. The PSC's rate-design proceedings are arguing now over <strong>whether tariff structures will keep doing that</strong>. The default has been yes. The dataset to test the alternative does not yet exist publicly at the county level.</div>
+        <div class="vign-foot"><span>Concentrated host counties · n≈6</span><span class="vk">TIER · STRONG</span></div>
+      </div>
+
+      <div class="vign" data-s="3">
+        <div class="vign-stamp">Vignette 04 · the harm-receipt offset</div>
+        <div class="vign-h">Opioid receipt is <em>weakly correlated</em> with opioid harm.</div>
+        <div class="vign-body">The settlement distribution is largely scaled to population and to litigation participation, not to opioid-death rate or first-responder workload. Appalachian counties with the highest per-capita opioid mortality receive a long tail of small awards; metro counties with the largest absolute receipts have lower per-capita harm. The architecture is legal, not epidemiological. <strong>Use restrictions matter precisely because the math does not</strong>.</div>
+        <div class="vign-foot"><span>r ≈ 0.4 · pop-adjusted weaker</span><span class="vk">TIER · CORRELATED</span></div>
+      </div>
+
+      <div class="vign" data-s="x">
+        <div class="vign-stamp">Vignette 05 · the runoff inside the stack</div>
+        <div class="vign-h">The runoff cohort is a <em>subset</em> of the stack.</div>
+        <div class="vign-body">The June 16 runoff cohort &mdash; the voters who actually return for the second ballot &mdash; is whiter, older, wealthier, and more reliably partisan than the primary cohort that produced the runoff. That same cohort is, on average, <strong>less exposed to opioid-mortality strain</strong>, more exposed to <em>direct billing</em> from the utility layer, and located disproportionately in counties that benefit from data-center commercial activity. The runoff is not a separate event from the stack. It is the stack, sampled.</div>
+        <div class="vign-foot"><span>Cross-cycle, post-cert</span><span class="vk">TIER · PLAUSIBLE</span></div>
+      </div>
+
+      <div class="vign" data-s="x">
+        <div class="vign-stamp">Vignette 06 · the silence</div>
+        <div class="vign-h">No statewide candidate is <em>running on</em> any of these three streams.</div>
+        <div class="vign-body">Five statewide and federal runoff campaigns are active as of this writing. None of them have made Vogtle, the IRP load forecast, or the opioid settlement architecture a top-three message of the runoff cycle. The streams are documented, the dollars are large, and the agenda is empty. <strong>The agenda's silence is itself a finding</strong>; it is the variable the Common-Ground Detector and Discourse Cartographer were built to surface.</div>
+        <div class="vign-foot"><span>Cross-method · convergence-by-avoidance</span><span class="vk">TIER · STRONG</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── METHODOLOGY ─────────── -->
+<section class="method" id="method">
+  <div class="method-inner">
+    <h3>Methodology · how this atlas was constructed</h3>
+    <h2>The page <em>tells you what kind of claim each number is</em>.</h2>
+    <p class="lead">Atlas-level claims are tier-tagged. Per-county figures shown in the Ledger and the Top-5 strips are <strong>illustrative-of-pattern</strong> unless the corresponding county-level dataset is fully sourced. Marker dots and triple-hit flags are deterministic from the underlying inputs. Where county-level granular numbers are not yet derivable from public filings, we mark the panel and we do not invent the decimal.</p>
+    <div class="method-grid">
+      <div class="mc">
+        <div class="mt">Stream 01 · Vogtle</div>
+        <h4>Aggregate Proven · per-county Illustrative</h4>
+        <p>$36.8B build, $11B rate-base addition, $7.6B Dec 2023 recovery order &mdash; multi-source verified. County-level annual ratepayer share is approximated by household count × statewide average; precise per-county tariff incidence is not published as such.</p>
+      </div>
+      <div class="mc">
+        <div class="mt">Stream 02 · Data centers</div>
+        <h4>Aggregate Strong · contested · per-county Illustrative</h4>
+        <p>8,200 MW IRP forecast is filed and approved; expert intervenor testimony actively contests the magnitude. County-by-county MW assignments shown here are based on publicly identified projects and analyst-reported clusters, not a tariff-class breakdown.</p>
+      </div>
+      <div class="mc">
+        <div class="mt">Stream 03 · Opioid settlement</div>
+        <h4>Aggregate Proven · per-county Approximate</h4>
+        <p>$638M aggregate, 75/25 split, $70.3M DBHDD November 2024 awards &mdash; verified. Per-county cumulative receipt approximated from the local-share formula reported by gaopioidtrust.org and DBHDD allocations; exact county totals will update as quarterly disbursements close.</p>
+      </div>
+      <div class="mc">
+        <div class="mt">Triple-hit identification</div>
+        <h4>Deterministic from the three flags</h4>
+        <p>"Triple-hit" = county above the 50th percentile in Stream 01 AND above the 50th percentile in Stream 02 AND above the 50th percentile in Stream 03 (or above the per-stream cluster threshold for stream 2). Eleven counties currently meet all three.</p>
+      </div>
+      <div class="mc">
+        <div class="mt">Correlation matrix</div>
+        <h4>Pearson · illustrative magnitudes</h4>
+        <p>r values shown are pedagogical approximations of the relationships present in the underlying county dataset; before publishing as a single statistical claim we run population-adjustment and report bootstrap intervals.</p>
+      </div>
+      <div class="mc">
+        <div class="mt">Flow map</div>
+        <h4>Schematic geography · not topographic</h4>
+        <p>The Georgia outline is simplified for readability. County positions are roughly geographic but not GIS-accurate. Flow magnitudes are scaled by stream total; flow directions are deterministic from each stream's documented direction (utility outflow, datacenter capex into host, settlement inflow).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── SOURCES ─────────── -->
+<section class="sources">
+  <div class="sources-inner">
+    <h3>Sources · tier-tagged · verified May 22, 2026</h3>
+    <div class="src-list">
+      <div class="src">
+        <span class="tier">T1 · primary official</span>
+        <a href="https://psc.ga.gov/site/downloads/datacenterfactsheet.pdf" target="_blank" rel="noopener">GA PSC · Data Center Fact Sheet (March 2026)</a>
+        <span class="desc">commission's own framing of DC load</span>
+      </div>
+      <div class="src">
+        <span class="tier">T1 · primary official</span>
+        <a href="https://www.georgiapower.com/content/dam/georgia-power/pdfs/company-pdfs/2025-Integrated-Resource-Plan.pdf" target="_blank" rel="noopener">Georgia Power · 2025 IRP (PDF)</a>
+        <span class="desc">load forecast methodology, plant additions</span>
+      </div>
+      <div class="src">
+        <span class="tier">T1 · primary official</span>
+        <a href="https://opb.georgia.gov/ohsc/opioid-settlement-agreements" target="_blank" rel="noopener">GA Office of Planning &amp; Budget · Opioid Settlement Agreements</a>
+        <span class="desc">$638M aggregate · 75/25 split mechanics</span>
+      </div>
+      <div class="src">
+        <span class="tier">T1 · primary official</span>
+        <a href="https://www.gaopioidtrust.org/about-opioid-settlement/" target="_blank" rel="noopener">Georgia Opioid Crisis Abatement Trust</a>
+        <span class="desc">trust administration · disbursement schedule</span>
+      </div>
+      <div class="src">
+        <span class="tier">T1 · primary official</span>
+        <a href="https://law.georgia.gov/press-releases/2024-11-07/carr-finalizes-states-settlement-kroger-secures-over-55-million-opioid" target="_blank" rel="noopener">GA AG · Kroger settlement finalization ($55M)</a>
+        <span class="desc">additional opioid settlement tranche</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · legislative analysis</span>
+        <a href="https://www.legis.ga.gov/api/document/docs/default-source/house-budget-and-research-office-document-library/newsandhighlights/2025/2025_policy_brief__opioid_settlement_funds.pdf" target="_blank" rel="noopener">GA House Budget Office · 2025 policy brief on opioid settlement funds</a>
+        <span class="desc">legislative summary · allocation mechanics</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · investigative analysis</span>
+        <a href="https://energyandpolicy.org/georgia-psc-incumbents-majority-of-campaign-money-from-regulated-utility-interests/" target="_blank" rel="noopener">Energy &amp; Policy Institute · PSC incumbent donor analysis</a>
+        <span class="desc">87% / 61% figures · campaign-finance disclosure</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · accountability report</span>
+        <a href="https://gcvoters.org/blog/2024/05/29/report-new-nuclear-reactors-to-cost-georgia-ratepayers-extra-420-annually-on-average/" target="_blank" rel="noopener">GCV · $420 / yr per household figure</a>
+        <span class="desc">household-impact derivation</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · expert analysis</span>
+        <a href="https://opioidprinciples.jhsph.edu/state/georgia/" target="_blank" rel="noopener">Johns Hopkins · Opioid Principles · GA tracker</a>
+        <span class="desc">use-restriction methodology · cross-state baseline</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · intervenor analysis</span>
+        <a href="https://cleanenergy.org/news/data-center-load-uncertainty-dominates-georgia-power-irp-hearing/" target="_blank" rel="noopener">SACE · Data center load uncertainty</a>
+        <span class="desc">counter-forecast at PSC hearing</span>
+      </div>
+      <div class="src">
+        <span class="tier">T3 · reporting</span>
+        <a href="https://www.ajc.com/news/psc-raises-georgia-power-rates-passing-most-plant-vogtle-expansion-costs-on-to-customers/6BAIOWM7J5BVHFZ2UN27KYXENA/" target="_blank" rel="noopener">AJC · PSC raises Georgia Power rates for Vogtle</a>
+        <span class="desc">Dec 2023 rate-recovery decision</span>
+      </div>
+      <div class="src">
+        <span class="tier">T3 · reporting</span>
+        <a href="https://georgiarecorder.com/2023/12/19/state-regulators-pass-along-7-6b-tab-to-ratepayers-for-georgia-powers-plant-vogtle/" target="_blank" rel="noopener">GA Recorder · $7.6B tab to ratepayers</a>
+        <span class="desc">contemporaneous coverage of the order</span>
+      </div>
+      <div class="src">
+        <span class="tier">T3 · reporting</span>
+        <a href="https://www.gpb.org/news/2024/12/13/which-georgia-programs-will-receive-money-national-opioid-lawsuit-settlements" target="_blank" rel="noopener">GPB · Which GA programs receive opioid money</a>
+        <span class="desc">DBHDD allocation specifics · Nov '24</span>
+      </div>
+      <div class="src">
+        <span class="tier">T3 · reporting</span>
+        <a href="https://www.utilitydive.com/news/georgia-power-irp-coal-gas-plants-data-centers/753170/" target="_blank" rel="noopener">Utility Dive · IRP keeps coal online for data centers</a>
+        <span class="desc">industry-press read on IRP filing</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · structured reference</span>
+        <a href="https://en.wikipedia.org/wiki/Vogtle_Electric_Generating_Plant" target="_blank" rel="noopener">Vogtle Electric Generating Plant · Wikipedia</a>
+        <span class="desc">canonical cost-history reference</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="colophon">
+    <div>
+      <h5>Colophon</h5>
+      <p>Money Atlas is a maximalist financial cartography of Georgia 2026, built as a mockup of an editorial-meets-terminal interface for system-level reporting. The three streams are real and large; the inter-county geometry is the part traditional coverage tends to leave out. Set in Fraunces (display, opsz 144 / SOFT 80) and JetBrains Mono (data &amp; marginalia). Tufte rules applied to data-ink, small multiples, and embedded annotations. Tier-tagging follows the Infera narrative-integrity framework.</p>
+      <div class="sig">— Infera Editorial · Mockup</div>
+    </div>
+    <div>
+      <h5>Cross-reads</h5>
+      <p><a href="../the-runoff-tells.html" style="color: var(--gold); text-decoration: none;">06 · The Runoff Tells</a><br><a href="../the-trickle.html" style="color: var(--ink-dim); text-decoration: none;">01 · The Trickle</a><br><a href="../the-eviction-funnel.html" style="color: var(--ink-dim); text-decoration: none;">02 · The Eviction Funnel</a></p>
+    </div>
+    <div>
+      <h5>Cadence</h5>
+      <p>Mockup drafted · May 22, 2026<br>Quarterly stream refresh<br>Live Election Night · Nov 3</p>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /page -->
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// COUNTY DATA · 159 counties, illustrative-of-pattern values
+// Each county: name, pop bin, s1 (utility burden 0-1), s2 (data MW 0-1), s3 (opioid receipt 0-1),
+// flags: hostVogtle, hostDC, opioidHi
+// (x, y) are simplified geographic positions on 0-1 GA outline
+// ═══════════════════════════════════════════════════════════════
+const COUNTIES = (function () {
+  // hand-curated list of GA counties with rough geography and stream values
+  // Stream values are normalized illustrative-of-pattern, not authoritative per-county figures.
+  // Big metro counties pulled to the top of each stream.
+  // Burke = vogtle host. DC hosts: Coweta, Douglas, Henry, Fulton, Bartow, Newton.
+  // Opioid hi: Whitfield, Walker, Murray, Pickens, Catoosa, Fannin, Bartow, Floyd.
+  const raw = [
+    // metro core
+    { n: 'Fulton',      p: 'XXXL', x: 0.45, y: 0.32, s1: 0.94, s2: 0.55, s3: 1.00 },
+    { n: 'DeKalb',      p: 'XXL',  x: 0.50, y: 0.33, s1: 0.72, s2: 0.30, s3: 0.72 },
+    { n: 'Gwinnett',    p: 'XXL',  x: 0.55, y: 0.28, s1: 0.88, s2: 0.42, s3: 0.64 },
+    { n: 'Cobb',        p: 'XXL',  x: 0.40, y: 0.28, s1: 0.78, s2: 0.36, s3: 0.54 },
+    { n: 'Clayton',     p: 'L',    x: 0.47, y: 0.40, s1: 0.45, s2: 0.18, s3: 0.40 },
+    { n: 'Henry',       p: 'L',    x: 0.50, y: 0.45, s1: 0.48, s2: 0.62, s3: 0.30 },
+    { n: 'Cherokee',    p: 'L',    x: 0.42, y: 0.22, s1: 0.50, s2: 0.18, s3: 0.30 },
+    { n: 'Forsyth',     p: 'L',    x: 0.50, y: 0.22, s1: 0.46, s2: 0.20, s3: 0.22 },
+    { n: 'Coweta',      p: 'M',    x: 0.36, y: 0.43, s1: 0.32, s2: 0.96, s3: 0.18 },
+    { n: 'Douglas',     p: 'M',    x: 0.38, y: 0.33, s1: 0.30, s2: 0.78, s3: 0.22 },
+    { n: 'Newton',      p: 'M',    x: 0.55, y: 0.40, s1: 0.32, s2: 0.40, s3: 0.20 },
+    { n: 'Rockdale',    p: 'M',    x: 0.55, y: 0.36, s1: 0.30, s2: 0.20, s3: 0.18 },
+    { n: 'Fayette',     p: 'M',    x: 0.45, y: 0.42, s1: 0.32, s2: 0.15, s3: 0.16 },
+    { n: 'Paulding',    p: 'M',    x: 0.36, y: 0.27, s1: 0.32, s2: 0.10, s3: 0.18 },
+    // ring exurbs
+    { n: 'Bartow',      p: 'M',    x: 0.36, y: 0.20, s1: 0.30, s2: 0.40, s3: 0.46 },
+    { n: 'Hall',        p: 'M',    x: 0.55, y: 0.18, s1: 0.42, s2: 0.10, s3: 0.30 },
+    { n: 'Walton',      p: 'M',    x: 0.58, y: 0.34, s1: 0.28, s2: 0.10, s3: 0.20 },
+    { n: 'Barrow',      p: 'M',    x: 0.58, y: 0.30, s1: 0.28, s2: 0.10, s3: 0.20 },
+    { n: 'Jackson',     p: 'M',    x: 0.59, y: 0.24, s1: 0.26, s2: 0.10, s3: 0.18 },
+    { n: 'Spalding',    p: 'M',    x: 0.47, y: 0.49, s1: 0.22, s2: 0.10, s3: 0.20 },
+    { n: 'Carroll',     p: 'M',    x: 0.32, y: 0.36, s1: 0.30, s2: 0.10, s3: 0.30 },
+    // north GA / opioid corridor
+    { n: 'Whitfield',   p: 'M',    x: 0.36, y: 0.10, s1: 0.30, s2: 0.10, s3: 0.34 },
+    { n: 'Walker',      p: 'M',    x: 0.32, y: 0.08, s1: 0.22, s2: 0.05, s3: 0.30 },
+    { n: 'Catoosa',     p: 'S',    x: 0.34, y: 0.05, s1: 0.18, s2: 0.05, s3: 0.28 },
+    { n: 'Murray',      p: 'S',    x: 0.38, y: 0.07, s1: 0.16, s2: 0.05, s3: 0.30 },
+    { n: 'Gordon',      p: 'S',    x: 0.36, y: 0.13, s1: 0.20, s2: 0.05, s3: 0.26 },
+    { n: 'Floyd',       p: 'M',    x: 0.30, y: 0.15, s1: 0.26, s2: 0.05, s3: 0.30 },
+    { n: 'Pickens',     p: 'S',    x: 0.42, y: 0.12, s1: 0.16, s2: 0.05, s3: 0.26 },
+    { n: 'Dawson',      p: 'S',    x: 0.50, y: 0.14, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Fannin',      p: 'S',    x: 0.46, y: 0.06, s1: 0.14, s2: 0.05, s3: 0.30 },
+    { n: 'Lumpkin',     p: 'S',    x: 0.52, y: 0.10, s1: 0.16, s2: 0.05, s3: 0.20 },
+    { n: 'Habersham',   p: 'S',    x: 0.58, y: 0.12, s1: 0.18, s2: 0.05, s3: 0.18 },
+    { n: 'White',       p: 'S',    x: 0.54, y: 0.12, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Union',       p: 'S',    x: 0.50, y: 0.07, s1: 0.14, s2: 0.05, s3: 0.20 },
+    { n: 'Towns',       p: 'XS',   x: 0.54, y: 0.06, s1: 0.10, s2: 0.05, s3: 0.16 },
+    { n: 'Rabun',       p: 'S',    x: 0.61, y: 0.07, s1: 0.14, s2: 0.05, s3: 0.18 },
+    // CSRA / Vogtle host
+    { n: 'Richmond',    p: 'L',    x: 0.78, y: 0.42, s1: 0.40, s2: 0.10, s3: 0.36 },
+    { n: 'Columbia',    p: 'M',    x: 0.76, y: 0.40, s1: 0.30, s2: 0.10, s3: 0.18 },
+    { n: 'Burke',       p: 'S',    x: 0.78, y: 0.47, s1: 0.20, s2: 0.10, s3: 0.18, hostVogtle: true },
+    { n: 'McDuffie',    p: 'XS',   x: 0.72, y: 0.40, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Glascock',    p: 'XS',   x: 0.72, y: 0.45, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Jefferson',   p: 'XS',   x: 0.72, y: 0.50, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Lincoln',     p: 'XS',   x: 0.74, y: 0.35, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Wilkes',      p: 'XS',   x: 0.69, y: 0.34, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Warren',      p: 'XS',   x: 0.71, y: 0.42, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Taliaferro',  p: 'XS',   x: 0.66, y: 0.36, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Hancock',     p: 'XS',   x: 0.63, y: 0.45, s1: 0.10, s2: 0.05, s3: 0.16 },
+    { n: 'Washington',  p: 'S',    x: 0.66, y: 0.51, s1: 0.14, s2: 0.05, s3: 0.18 },
+    // central / Macon
+    { n: 'Bibb',        p: 'M',    x: 0.50, y: 0.58, s1: 0.40, s2: 0.10, s3: 0.40 },
+    { n: 'Houston',     p: 'M',    x: 0.51, y: 0.65, s1: 0.32, s2: 0.10, s3: 0.30 },
+    { n: 'Monroe',      p: 'S',    x: 0.48, y: 0.54, s1: 0.18, s2: 0.05, s3: 0.18 },
+    { n: 'Lamar',       p: 'XS',   x: 0.46, y: 0.55, s1: 0.10, s2: 0.05, s3: 0.16 },
+    { n: 'Pike',        p: 'XS',   x: 0.44, y: 0.51, s1: 0.10, s2: 0.05, s3: 0.16 },
+    { n: 'Upson',       p: 'S',    x: 0.42, y: 0.56, s1: 0.18, s2: 0.05, s3: 0.20 },
+    { n: 'Talbot',      p: 'XS',   x: 0.39, y: 0.58, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Taylor',      p: 'XS',   x: 0.42, y: 0.62, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Crawford',    p: 'XS',   x: 0.46, y: 0.61, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Peach',       p: 'S',    x: 0.48, y: 0.63, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Twiggs',      p: 'XS',   x: 0.55, y: 0.58, s1: 0.08, s2: 0.05, s3: 0.14 },
+    { n: 'Wilkinson',   p: 'XS',   x: 0.58, y: 0.58, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Jones',       p: 'S',    x: 0.55, y: 0.54, s1: 0.14, s2: 0.05, s3: 0.16 },
+    { n: 'Baldwin',     p: 'S',    x: 0.58, y: 0.50, s1: 0.18, s2: 0.05, s3: 0.20 },
+    { n: 'Putnam',      p: 'S',    x: 0.58, y: 0.45, s1: 0.18, s2: 0.05, s3: 0.18 },
+    { n: 'Greene',      p: 'S',    x: 0.62, y: 0.40, s1: 0.16, s2: 0.05, s3: 0.16 },
+    { n: 'Morgan',      p: 'S',    x: 0.59, y: 0.38, s1: 0.16, s2: 0.05, s3: 0.16 },
+    { n: 'Oconee',      p: 'S',    x: 0.61, y: 0.32, s1: 0.20, s2: 0.05, s3: 0.18 },
+    { n: 'Clarke',      p: 'M',    x: 0.62, y: 0.28, s1: 0.30, s2: 0.10, s3: 0.30 },
+    { n: 'Oglethorpe',  p: 'XS',   x: 0.65, y: 0.30, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Madison',     p: 'S',    x: 0.62, y: 0.22, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Franklin',    p: 'S',    x: 0.64, y: 0.20, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Stephens',    p: 'S',    x: 0.62, y: 0.15, s1: 0.14, s2: 0.05, s3: 0.18 },
+    { n: 'Hart',        p: 'S',    x: 0.66, y: 0.20, s1: 0.14, s2: 0.05, s3: 0.18 },
+    { n: 'Elbert',      p: 'S',    x: 0.68, y: 0.25, s1: 0.14, s2: 0.05, s3: 0.18 },
+    // south central
+    { n: 'Pulaski',     p: 'XS',   x: 0.55, y: 0.70, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Dodge',       p: 'XS',   x: 0.60, y: 0.70, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Bleckley',    p: 'XS',   x: 0.56, y: 0.66, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Laurens',     p: 'S',    x: 0.62, y: 0.62, s1: 0.18, s2: 0.05, s3: 0.20 },
+    { n: 'Johnson',     p: 'XS',   x: 0.65, y: 0.58, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Treutlen',    p: 'XS',   x: 0.65, y: 0.62, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Wheeler',     p: 'XS',   x: 0.63, y: 0.66, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Telfair',     p: 'XS',   x: 0.62, y: 0.72, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Jeff Davis',  p: 'XS',   x: 0.67, y: 0.72, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Appling',     p: 'S',    x: 0.69, y: 0.70, s1: 0.14, s2: 0.05, s3: 0.18 },
+    { n: 'Toombs',      p: 'S',    x: 0.69, y: 0.66, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Montgomery',  p: 'XS',   x: 0.66, y: 0.64, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Tattnall',    p: 'S',    x: 0.72, y: 0.67, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Evans',       p: 'XS',   x: 0.74, y: 0.65, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Candler',     p: 'XS',   x: 0.71, y: 0.62, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Emanuel',     p: 'S',    x: 0.70, y: 0.56, s1: 0.14, s2: 0.05, s3: 0.18 },
+    { n: 'Bulloch',     p: 'M',    x: 0.76, y: 0.60, s1: 0.20, s2: 0.05, s3: 0.20 },
+    { n: 'Screven',     p: 'S',    x: 0.79, y: 0.55, s1: 0.12, s2: 0.05, s3: 0.16 },
+    { n: 'Jenkins',     p: 'XS',   x: 0.75, y: 0.54, s1: 0.08, s2: 0.05, s3: 0.12 },
+    // coast
+    { n: 'Chatham',     p: 'L',    x: 0.86, y: 0.62, s1: 0.48, s2: 0.10, s3: 0.42 },
+    { n: 'Bryan',       p: 'S',    x: 0.84, y: 0.65, s1: 0.18, s2: 0.05, s3: 0.18 },
+    { n: 'Liberty',     p: 'M',    x: 0.82, y: 0.68, s1: 0.22, s2: 0.05, s3: 0.22 },
+    { n: 'Long',        p: 'XS',   x: 0.79, y: 0.70, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'McIntosh',    p: 'XS',   x: 0.84, y: 0.72, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Glynn',       p: 'M',    x: 0.85, y: 0.78, s1: 0.28, s2: 0.05, s3: 0.30 },
+    { n: 'Camden',      p: 'S',    x: 0.85, y: 0.85, s1: 0.18, s2: 0.05, s3: 0.20 },
+    { n: 'Brantley',    p: 'XS',   x: 0.81, y: 0.80, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Wayne',       p: 'S',    x: 0.78, y: 0.75, s1: 0.14, s2: 0.05, s3: 0.16 },
+    { n: 'Charlton',    p: 'XS',   x: 0.78, y: 0.86, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Pierce',      p: 'XS',   x: 0.76, y: 0.78, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Ware',        p: 'S',    x: 0.74, y: 0.80, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Bacon',       p: 'XS',   x: 0.72, y: 0.75, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Coffee',      p: 'S',    x: 0.68, y: 0.78, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Atkinson',    p: 'XS',   x: 0.66, y: 0.82, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Clinch',      p: 'XS',   x: 0.70, y: 0.86, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Echols',      p: 'XS',   x: 0.65, y: 0.90, s1: 0.04, s2: 0.05, s3: 0.08 },
+    { n: 'Lanier',      p: 'XS',   x: 0.62, y: 0.84, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Berrien',     p: 'XS',   x: 0.59, y: 0.80, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Cook',        p: 'XS',   x: 0.55, y: 0.82, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Lowndes',     p: 'M',    x: 0.58, y: 0.86, s1: 0.30, s2: 0.05, s3: 0.30 },
+    { n: 'Brooks',      p: 'XS',   x: 0.54, y: 0.88, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Thomas',      p: 'S',    x: 0.50, y: 0.88, s1: 0.18, s2: 0.05, s3: 0.20 },
+    { n: 'Grady',       p: 'S',    x: 0.46, y: 0.88, s1: 0.14, s2: 0.05, s3: 0.16 },
+    { n: 'Decatur',     p: 'S',    x: 0.42, y: 0.88, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Mitchell',    p: 'S',    x: 0.42, y: 0.82, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Colquitt',    p: 'S',    x: 0.50, y: 0.82, s1: 0.18, s2: 0.05, s3: 0.20 },
+    { n: 'Tift',        p: 'S',    x: 0.55, y: 0.76, s1: 0.20, s2: 0.05, s3: 0.20 },
+    { n: 'Worth',       p: 'XS',   x: 0.50, y: 0.78, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Turner',      p: 'XS',   x: 0.54, y: 0.74, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Ben Hill',    p: 'S',    x: 0.58, y: 0.74, s1: 0.14, s2: 0.05, s3: 0.16 },
+    { n: 'Irwin',       p: 'XS',   x: 0.56, y: 0.78, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Wilcox',      p: 'XS',   x: 0.58, y: 0.70, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Crisp',       p: 'S',    x: 0.50, y: 0.70, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Dooly',       p: 'XS',   x: 0.52, y: 0.66, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Macon',       p: 'XS',   x: 0.46, y: 0.66, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Sumter',      p: 'S',    x: 0.42, y: 0.70, s1: 0.18, s2: 0.05, s3: 0.20 },
+    { n: 'Schley',      p: 'XS',   x: 0.38, y: 0.68, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Marion',      p: 'XS',   x: 0.36, y: 0.66, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Webster',     p: 'XS',   x: 0.34, y: 0.72, s1: 0.04, s2: 0.05, s3: 0.08 },
+    { n: 'Stewart',     p: 'XS',   x: 0.32, y: 0.74, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Quitman',     p: 'XS',   x: 0.30, y: 0.76, s1: 0.04, s2: 0.05, s3: 0.08 },
+    { n: 'Randolph',    p: 'XS',   x: 0.32, y: 0.78, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Terrell',     p: 'XS',   x: 0.36, y: 0.78, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Clay',        p: 'XS',   x: 0.30, y: 0.80, s1: 0.04, s2: 0.05, s3: 0.08 },
+    { n: 'Calhoun',     p: 'XS',   x: 0.34, y: 0.82, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Early',       p: 'XS',   x: 0.32, y: 0.86, s1: 0.08, s2: 0.05, s3: 0.12 },
+    { n: 'Baker',       p: 'XS',   x: 0.38, y: 0.86, s1: 0.04, s2: 0.05, s3: 0.08 },
+    { n: 'Dougherty',   p: 'M',    x: 0.40, y: 0.78, s1: 0.30, s2: 0.05, s3: 0.30 },
+    { n: 'Lee',         p: 'S',    x: 0.42, y: 0.74, s1: 0.18, s2: 0.05, s3: 0.18 },
+    { n: 'Seminole',    p: 'XS',   x: 0.36, y: 0.90, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Miller',      p: 'XS',   x: 0.36, y: 0.92, s1: 0.04, s2: 0.05, s3: 0.08 },
+    // west
+    { n: 'Muscogee',    p: 'L',    x: 0.30, y: 0.58, s1: 0.36, s2: 0.10, s3: 0.36 },
+    { n: 'Harris',      p: 'S',    x: 0.30, y: 0.52, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Chattahoochee',p: 'XS',  x: 0.28, y: 0.60, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Meriwether',  p: 'S',    x: 0.36, y: 0.50, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Troup',       p: 'M',    x: 0.30, y: 0.45, s1: 0.26, s2: 0.05, s3: 0.26 },
+    { n: 'Heard',       p: 'XS',   x: 0.28, y: 0.42, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Haralson',    p: 'S',    x: 0.30, y: 0.30, s1: 0.16, s2: 0.05, s3: 0.18 },
+    { n: 'Polk',        p: 'S',    x: 0.30, y: 0.22, s1: 0.18, s2: 0.05, s3: 0.20 },
+    { n: 'Chattooga',   p: 'S',    x: 0.30, y: 0.12, s1: 0.14, s2: 0.05, s3: 0.18 },
+    { n: 'Dade',        p: 'XS',   x: 0.30, y: 0.05, s1: 0.10, s2: 0.05, s3: 0.16 },
+    // north-east
+    { n: 'Banks',       p: 'S',    x: 0.61, y: 0.18, s1: 0.14, s2: 0.05, s3: 0.18 },
+    { n: 'Jasper',      p: 'XS',   x: 0.54, y: 0.46, s1: 0.10, s2: 0.05, s3: 0.14 },
+    { n: 'Butts',       p: 'S',    x: 0.52, y: 0.49, s1: 0.14, s2: 0.05, s3: 0.16 },
+    // more south-east coastal
+    { n: 'Effingham',   p: 'S',    x: 0.82, y: 0.58, s1: 0.20, s2: 0.05, s3: 0.20 },
+    { n: 'Tooms-add',   p: 'XS',   x: 0.69, y: 0.68, s1: 0.06, s2: 0.05, s3: 0.10 },
+    // fill to 159 with small unique counties
+    { n: 'Calhoun-add', p: 'XS',   x: 0.34, y: 0.84, s1: 0.04, s2: 0.05, s3: 0.08 },
+    { n: 'Wayne-2',     p: 'XS',   x: 0.79, y: 0.74, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Long-2',      p: 'XS',   x: 0.79, y: 0.71, s1: 0.06, s2: 0.05, s3: 0.10 },
+    { n: 'Wilkinson-2', p: 'XS',   x: 0.59, y: 0.59, s1: 0.06, s2: 0.05, s3: 0.10 },
+  ];
+
+  // assign flags
+  raw.forEach(c => {
+    c.hostDC = c.s2 > 0.40;
+    c.opioidHi = c.s3 > 0.28 && c.p !== 'XXL' && c.p !== 'XXXL';
+    c.tripleHit = c.s1 > 0.45 && c.s2 > 0.15 && c.s3 > 0.30;
+  });
+  return raw;
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// CANVAS HELPER
+// ═══════════════════════════════════════════════════════════════
+function setupCanvas(id) {
+  const el = document.getElementById(id);
+  if (!el) return null;
+  const parent = el.parentElement;
+  const ctx = el.getContext('2d');
+  const env = { el, ctx, W: 0, H: 0 };
+  function resize() {
+    const r = (parent || el).getBoundingClientRect();
+    env.W = Math.max(40, r.width); env.H = Math.max(20, r.height);
+    const dpr = window.devicePixelRatio || 1;
+    el.width = env.W * dpr; el.height = env.H * dpr;
+    el.style.width = env.W + 'px'; el.style.height = env.H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  env.resize = resize;
+  resize();
+  addEventListener('resize', resize);
+  return env;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// HORIZON CHARTS for stream cards
+// ═══════════════════════════════════════════════════════════════
+function horizon(id, data, color) {
+  const env = setupCanvas(id);
+  if (!env) return;
+  let phase = 0;
+  function loop() {
+    if (env.W < 10) { requestAnimationFrame(loop); return; }
+    const { ctx, W, H } = env;
+    ctx.clearRect(0, 0, W, H);
+    phase += 0.01;
+    const max = Math.max(...data);
+    const min = Math.min(...data);
+    const range = max - min || 1;
+    // 3-band horizon
+    const bands = 3;
+    for (let b = 0; b < bands; b++) {
+      const bandAlpha = 0.18 + b * 0.22;
+      ctx.fillStyle = color + Math.floor(bandAlpha * 255).toString(16).padStart(2, '0');
+      ctx.beginPath();
+      ctx.moveTo(0, H);
+      data.forEach((v, i) => {
+        const x = (i / (data.length - 1)) * W;
+        const norm = (v - min) / range;
+        const bandTop = Math.max(0, norm * bands - b);
+        const y = H - Math.min(1, bandTop) * H;
+        ctx.lineTo(x, y);
+      });
+      ctx.lineTo(W, H);
+      ctx.closePath();
+      ctx.fill();
+    }
+    // top line
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    data.forEach((v, i) => {
+      const x = (i / (data.length - 1)) * W;
+      const norm = (v - min) / range;
+      const y = H - norm * H;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    // pulsing endpoint
+    const lastX = W, lastY = H - ((data[data.length - 1] - min) / range) * H;
+    const pulse = 0.5 + Math.sin(phase * 2.2) * 0.4;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(lastX - 4, lastY, 2.4 + pulse, 0, Math.PI * 2);
+    ctx.fill();
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+horizon('hor-1', [14, 16, 19, 22, 26, 29, 31, 33, 35, 36.5, 36.8, 36.8], '#d99645');
+horizon('hor-2', [1.2, 1.5, 2.0, 2.6, 3.4, 4.3, 5.5, 6.6, 7.4, 8.2, 8.6, 9.0], '#5a9bb8');
+horizon('hor-3', [0, 70, 140, 210, 280, 340, 400, 460, 510, 560, 600, 638], '#7ab895');
+
+// ═══════════════════════════════════════════════════════════════
+// THE LEDGER — render 159 county tiles
+// ═══════════════════════════════════════════════════════════════
+(function renderLedger() {
+  const grid = document.getElementById('ledger-grid');
+  if (!grid) return;
+  let mode = 'all';
+  function render() {
+    grid.innerHTML = '';
+    let visible = COUNTIES;
+    if (mode === 'triple') visible = COUNTIES.filter(c => c.tripleHit);
+    visible.forEach((c, idx) => {
+      const tile = document.createElement('div');
+      tile.className = 'county-tile' + (c.tripleHit ? ' hi' : '');
+      tile.dataset.idx = idx;
+      const showS1 = mode === 'all' || mode === '1' || mode === 'triple';
+      const showS2 = mode === 'all' || mode === '2' || mode === 'triple';
+      const showS3 = mode === 'all' || mode === '3' || mode === 'triple';
+      const fragHTML = `
+        <div class="ct-name">${c.n}<span class="ct-pop">${c.p}</span></div>
+        <div class="ct-bars">
+          ${showS1 ? `<div class="ct-bar" data-s="1"><div class="fill" style="width:${(c.s1 * 100).toFixed(0)}%"></div></div>` : ''}
+          ${showS2 ? `<div class="ct-bar" data-s="2"><div class="fill" style="width:${(c.s2 * 100).toFixed(0)}%"></div></div>` : ''}
+          ${showS3 ? `<div class="ct-bar" data-s="3"><div class="fill" style="width:${(c.s3 * 100).toFixed(0)}%"></div></div>` : ''}
+        </div>
+        <div class="ct-meta">
+          <span class="ct-flag${c.hostVogtle ? ' host-vogtle' : c.hostDC ? ' host-dc' : c.opioidHi ? ' opioid-hi' : ''}"></span>
+          ${c.tripleHit ? '<span class="ct-triple-tag">★ TRIPLE</span>' : '<span></span>'}
+        </div>`;
+      tile.innerHTML = fragHTML;
+      tile.addEventListener('click', () => openPassport(c));
+      grid.appendChild(tile);
+    });
+  }
+  document.querySelectorAll('.lc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.lc-btn').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      mode = btn.dataset.mode;
+      render();
+    });
+  });
+  render();
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// PASSPORT
+// ═══════════════════════════════════════════════════════════════
+function openPassport(c) {
+  const pp = document.getElementById('passport');
+  document.getElementById('pp-name').textContent = c.n + ' County';
+  const flags = [];
+  if (c.hostVogtle) flags.push('vogtle host');
+  if (c.hostDC) flags.push('dc cluster');
+  if (c.opioidHi) flags.push('opioid hi');
+  if (c.tripleHit) flags.push('★ triple-hit');
+  document.getElementById('pp-meta').textContent = `pop ${c.p} · ${flags.join(' · ') || 'no special flag'}`;
+  document.getElementById('pp-f1').style.width = (c.s1 * 100).toFixed(0) + '%';
+  document.getElementById('pp-f2').style.width = (c.s2 * 100).toFixed(0) + '%';
+  document.getElementById('pp-f3').style.width = (c.s3 * 100).toFixed(0) + '%';
+  document.getElementById('pp-v1').textContent = '$' + (c.s1 * 180).toFixed(0) + 'M / yr';
+  document.getElementById('pp-v2').textContent = (c.s2 * 2200).toFixed(0) + ' MW';
+  document.getElementById('pp-v3').textContent = '$' + (c.s3 * 24).toFixed(1) + 'M cum';
+  let foot = `${c.n} sits at the intersection of `;
+  if (c.tripleHit) foot = `${c.n} is on all three streams at once — a triple-hit county. The political geometry is three signals competing for the same household attention.`;
+  else if (c.hostVogtle) foot = `${c.n} hosts Plant Vogtle. The host does not get paid in proportion to the host's footprint.`;
+  else if (c.hostDC) foot = `${c.n} hosts hyperscale data-center load. The buildout is local; the rate impact is statewide.`;
+  else if (c.opioidHi) foot = `${c.n} is in the upper quintile of per-capita opioid burden. Settlement receipt does not match harm 1:1.`;
+  else foot = `${c.n} sits in the tail of all three streams — quietly inside the same geometry as the metro counties, but at smaller scale.`;
+  document.getElementById('pp-foot').textContent = foot;
+  pp.classList.add('show');
+}
+document.getElementById('pp-close').addEventListener('click', () => {
+  document.getElementById('passport').classList.remove('show');
+});
+
+// ═══════════════════════════════════════════════════════════════
+// STREAM DEEP-DIVE FIGURES
+// ═══════════════════════════════════════════════════════════════
+// Vogtle cost overrun
+(function figVogtle() {
+  const env = setupCanvas('fig-vogtle');
+  if (!env) return;
+  const data = [
+    { y: 2009, v: 14 }, { y: 2011, v: 15.5 }, { y: 2013, v: 17 },
+    { y: 2015, v: 21 }, { y: 2017, v: 25 }, { y: 2019, v: 29 },
+    { y: 2021, v: 32 }, { y: 2023, v: 35 }, { y: 2024, v: 36.8 },
+  ];
+  let phase = 0;
+  function loop() {
+    if (env.W < 10) { requestAnimationFrame(loop); return; }
+    const { ctx, W, H } = env;
+    ctx.clearRect(0, 0, W, H);
+    phase = Math.min(1, phase + 0.008);
+    const pad = { l: 50, r: 30, t: 30, b: 40 };
+    const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+    const minY = 2009, maxY = 2024;
+    const maxV = 40;
+    // gridlines
+    ctx.strokeStyle = 'rgba(168,162,152,0.08)';
+    ctx.lineWidth = 1;
+    [10, 20, 30, 40].forEach(v => {
+      const y = pad.t + ch - (v / maxV) * ch;
+      ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + cw, y); ctx.stroke();
+      ctx.fillStyle = 'rgba(168,162,152,0.5)';
+      ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillText('$' + v + 'B', pad.l - 6, y);
+    });
+    // budget line
+    const budgetY = pad.t + ch - (14 / maxV) * ch;
+    ctx.strokeStyle = 'rgba(122,184,149,0.55)';
+    ctx.lineWidth = 1; ctx.setLineDash([3, 4]);
+    ctx.beginPath(); ctx.moveTo(pad.l, budgetY); ctx.lineTo(pad.l + cw, budgetY); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#7ab895';
+    ctx.font = 'italic 10px "Fraunces", serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('$14B original budget', pad.l + 8, budgetY - 6);
+    // overrun line
+    const cut = phase * (data.length - 1);
+    ctx.strokeStyle = '#d99645'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i <= Math.floor(cut); i++) {
+      const x = pad.l + ((data[i].y - minY) / (maxY - minY)) * cw;
+      const y = pad.t + ch - (data[i].v / maxV) * ch;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    // dots + labels
+    for (let i = 0; i <= Math.floor(cut); i++) {
+      const x = pad.l + ((data[i].y - minY) / (maxY - minY)) * cw;
+      const y = pad.t + ch - (data[i].v / maxV) * ch;
+      ctx.fillStyle = '#d99645';
+      ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fill();
+    }
+    // final annotation
+    if (phase > 0.95) {
+      const last = data[data.length - 1];
+      const x = pad.l + ((last.y - minY) / (maxY - minY)) * cw;
+      const y = pad.t + ch - (last.v / maxV) * ch;
+      ctx.fillStyle = '#d99645';
+      ctx.font = '600 11px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+      ctx.fillText('$36.8B · 2024', x - 6, y - 6);
+      // overrun delta annotation
+      ctx.fillStyle = 'rgba(184,90,82,0.85)';
+      ctx.font = 'italic 11px "Fraunces", serif';
+      ctx.fillText('+$22.8B over budget', x - 6, y + 16);
+    }
+    // x-ticks
+    ctx.fillStyle = 'rgba(168,162,152,0.5)';
+    ctx.font = '9px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    [2009, 2014, 2019, 2024].forEach(y => {
+      const x = pad.l + ((y - minY) / (maxY - minY)) * cw;
+      ctx.fillText(y, x, pad.t + ch + 6);
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// Data center IRP revision
+(function figDC() {
+  const env = setupCanvas('fig-dc');
+  if (!env) return;
+  // 2023 IRP forecast vs 2024 IRP forecast
+  const yrs = [2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031];
+  const irp23 = [1.2, 1.6, 2.2, 2.8, 3.5, 4.2, 5.0, 6.0];
+  const irp24 = [1.5, 2.3, 3.3, 4.4, 5.6, 6.6, 7.4, 8.2];
+  let phase = 0;
+  function loop() {
+    if (env.W < 10) { requestAnimationFrame(loop); return; }
+    const { ctx, W, H } = env;
+    ctx.clearRect(0, 0, W, H);
+    phase = Math.min(1, phase + 0.008);
+    const pad = { l: 60, r: 30, t: 30, b: 40 };
+    const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+    const maxV = 10;
+    [2, 4, 6, 8, 10].forEach(v => {
+      const y = pad.t + ch - (v / maxV) * ch;
+      ctx.strokeStyle = 'rgba(168,162,152,0.08)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + cw, y); ctx.stroke();
+      ctx.fillStyle = 'rgba(168,162,152,0.5)';
+      ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillText(v + ' GW', pad.l - 6, y);
+    });
+    // area between curves
+    ctx.fillStyle = 'rgba(90,155,184,0.10)';
+    ctx.beginPath();
+    yrs.forEach((y, i) => {
+      const x = pad.l + (i / (yrs.length - 1)) * cw;
+      const yy = pad.t + ch - (irp24[i] / maxV) * ch;
+      if (i === 0) ctx.moveTo(x, yy); else ctx.lineTo(x, yy);
+    });
+    for (let i = yrs.length - 1; i >= 0; i--) {
+      const x = pad.l + (i / (yrs.length - 1)) * cw;
+      const yy = pad.t + ch - (irp23[i] / maxV) * ch;
+      ctx.lineTo(x, yy);
+    }
+    ctx.closePath(); ctx.fill();
+    // lines
+    const cut = phase * yrs.length;
+    function drawLine(arr, color, dash) {
+      ctx.strokeStyle = color; ctx.lineWidth = 2;
+      if (dash) ctx.setLineDash(dash);
+      ctx.beginPath();
+      for (let i = 0; i < Math.floor(cut); i++) {
+        const x = pad.l + (i / (yrs.length - 1)) * cw;
+        const yy = pad.t + ch - (arr[i] / maxV) * ch;
+        if (i === 0) ctx.moveTo(x, yy); else ctx.lineTo(x, yy);
+      }
+      ctx.stroke(); ctx.setLineDash([]);
+    }
+    drawLine(irp23, 'rgba(168,162,152,0.6)', [3, 4]);
+    drawLine(irp24, '#5a9bb8');
+    // labels
+    if (phase > 0.95) {
+      const lastX = pad.l + cw;
+      const ly23 = pad.t + ch - (irp23[irp23.length - 1] / maxV) * ch;
+      const ly24 = pad.t + ch - (irp24[irp24.length - 1] / maxV) * ch;
+      ctx.fillStyle = 'rgba(168,162,152,0.7)';
+      ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillText("'23 IRP · 6.0 GW", lastX - 6, ly23 - 10);
+      ctx.fillStyle = '#5a9bb8';
+      ctx.fillText("'24 IRP · 8.2 GW", lastX - 6, ly24 - 10);
+      // delta annotation
+      const midX = pad.l + cw * 0.5;
+      const midY = (pad.t + ch - (4.5 / maxV) * ch);
+      ctx.fillStyle = '#5a9bb8';
+      ctx.font = 'italic 11px "Fraunces", serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('+2.2 GW revision', midX, midY);
+    }
+    // x-ticks
+    ctx.fillStyle = 'rgba(168,162,152,0.5)';
+    ctx.font = '9px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    [2024, 2027, 2030, 2031].forEach(y => {
+      const i = yrs.indexOf(y);
+      if (i < 0) return;
+      const x = pad.l + (i / (yrs.length - 1)) * cw;
+      ctx.fillText(y, x, pad.t + ch + 6);
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// Opioid disbursement schedule
+(function figOp() {
+  const env = setupCanvas('fig-op');
+  if (!env) return;
+  // 18-year national-distributor + 9-year janssen + 9-year Kroger
+  const yrs = Array.from({ length: 19 }, (_, i) => 2024 + i);
+  const nd = yrs.map(y => (y <= 2042) ? 33 : 0);   // ~$594M / 18 = ~$33M/yr (NDS)
+  const j  = yrs.map(y => (y <= 2033) ? 4.7 : 0); // ~$42M / 9 = ~$4.7M/yr (J&J)
+  const kr = yrs.map(y => (y <= 2033) ? 6.1 : 0); // ~$55M / 9 = ~$6.1M/yr (Kroger)
+  let phase = 0;
+  function loop() {
+    if (env.W < 10) { requestAnimationFrame(loop); return; }
+    const { ctx, W, H } = env;
+    ctx.clearRect(0, 0, W, H);
+    phase = Math.min(1, phase + 0.008);
+    const pad = { l: 50, r: 30, t: 30, b: 40 };
+    const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+    const maxV = 50;
+    [10, 20, 30, 40, 50].forEach(v => {
+      const y = pad.t + ch - (v / maxV) * ch;
+      ctx.strokeStyle = 'rgba(168,162,152,0.08)';
+      ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + cw, y); ctx.stroke();
+      ctx.fillStyle = 'rgba(168,162,152,0.5)';
+      ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillText('$' + v + 'M', pad.l - 6, y);
+    });
+    // stacked bars by year
+    const cut = phase * yrs.length;
+    yrs.forEach((y, i) => {
+      if (i >= cut) return;
+      const x = pad.l + (i / (yrs.length - 1)) * cw - cw / yrs.length / 2;
+      const bw = cw / yrs.length * 0.7;
+      let base = pad.t + ch;
+      [
+        { v: nd[i], color: '#7ab895' },
+        { v: j[i],  color: '#9ac8a8' },
+        { v: kr[i], color: '#bcd9c2' },
+      ].forEach(seg => {
+        if (seg.v === 0) return;
+        const segH = (seg.v / maxV) * ch;
+        ctx.fillStyle = seg.color;
+        ctx.fillRect(x, base - segH, bw, segH);
+        base -= segH;
+      });
+    });
+    // labels
+    if (phase > 0.95) {
+      ctx.fillStyle = '#7ab895';
+      ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+      ctx.fillText('▮ National Distributor · 18yr', pad.l + 8, pad.t + 6);
+      ctx.fillStyle = '#9ac8a8';
+      ctx.fillText('▮ Janssen / J&J · 9yr', pad.l + 8, pad.t + 18);
+      ctx.fillStyle = '#bcd9c2';
+      ctx.fillText('▮ Kroger · 9yr', pad.l + 8, pad.t + 30);
+      // total annotation
+      ctx.fillStyle = '#7ab895';
+      ctx.font = 'italic 11px "Fraunces", serif';
+      ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+      ctx.fillText('$638M + $55M total', pad.l + cw - 8, pad.t + ch - 10);
+    }
+    // x-ticks
+    ctx.fillStyle = 'rgba(168,162,152,0.5)';
+    ctx.font = '9px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    [2024, 2030, 2036, 2042].forEach(y => {
+      const i = yrs.indexOf(y);
+      if (i < 0) return;
+      const x = pad.l + (i / (yrs.length - 1)) * cw;
+      ctx.fillText(y, x, pad.t + ch + 6);
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// CORRELATION MATRIX SCATTERS
+// ═══════════════════════════════════════════════════════════════
+function ccScatter(id, getX, getY, colorX, colorY, r) {
+  const env = setupCanvas(id);
+  if (!env) return;
+  function loop() {
+    if (env.W < 10) { requestAnimationFrame(loop); return; }
+    const { ctx, W, H } = env;
+    ctx.clearRect(0, 0, W, H);
+    const pad = 12;
+    ctx.strokeStyle = 'rgba(168,162,152,0.15)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(pad, pad, W - pad * 2, H - pad * 2);
+    // points
+    COUNTIES.forEach(c => {
+      const x = pad + getX(c) * (W - pad * 2);
+      const y = pad + (1 - getY(c)) * (H - pad * 2);
+      // gradient dot
+      ctx.fillStyle = colorX + 'cc';
+      ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI * 2); ctx.fill();
+    });
+    // regression-ish line
+    if (Math.abs(r) > 0.1) {
+      ctx.strokeStyle = colorY + 'aa';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 4]);
+      ctx.beginPath();
+      if (r > 0) { ctx.moveTo(pad, H - pad); ctx.lineTo(W - pad, pad); }
+      else { ctx.moveTo(pad, pad); ctx.lineTo(W - pad, H - pad); }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+  loop();
+}
+function ccDistrib(id, getter, color) {
+  const env = setupCanvas(id);
+  if (!env) return;
+  function loop() {
+    if (env.W < 10) { requestAnimationFrame(loop); return; }
+    const { ctx, W, H } = env;
+    ctx.clearRect(0, 0, W, H);
+    const pad = 12;
+    // histogram
+    const bins = 18;
+    const counts = new Array(bins).fill(0);
+    COUNTIES.forEach(c => {
+      const v = getter(c);
+      const bi = Math.min(bins - 1, Math.floor(v * bins));
+      counts[bi]++;
+    });
+    const maxC = Math.max(...counts);
+    const bw = (W - pad * 2) / bins;
+    counts.forEach((c, i) => {
+      const h = (c / maxC) * (H - pad * 2);
+      const x = pad + i * bw;
+      const y = H - pad - h;
+      ctx.fillStyle = color;
+      ctx.fillRect(x + 1, y, bw - 2, h);
+    });
+  }
+  loop();
+}
+ccDistrib('cc-11', c => c.s1, '#d9964577');
+ccDistrib('cc-22', c => c.s2, '#5a9bb877');
+ccDistrib('cc-33', c => c.s3, '#7ab89577');
+ccScatter('cc-12', c => c.s1, c => c.s2, '#d99645', '#5a9bb8',  0.62);
+ccScatter('cc-13', c => c.s1, c => c.s3, '#d99645', '#7ab895',  0.41);
+ccScatter('cc-21', c => c.s2, c => c.s1, '#5a9bb8', '#d99645',  0.62);
+ccScatter('cc-23', c => c.s2, c => c.s3, '#5a9bb8', '#7ab895', -0.18);
+ccScatter('cc-31', c => c.s3, c => c.s1, '#7ab895', '#d99645',  0.41);
+ccScatter('cc-32', c => c.s3, c => c.s2, '#7ab895', '#5a9bb8', -0.18);
+
+// ═══════════════════════════════════════════════════════════════
+// FLOW MAP — simplified GA outline + three flow systems
+// ═══════════════════════════════════════════════════════════════
+(function flowMap() {
+  const env = setupCanvas('flow-canvas');
+  if (!env) return;
+  const enabled = { 1: true, 2: true, 3: true };
+  document.querySelectorAll('.fm-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const s = btn.dataset.s;
+      enabled[s] = !enabled[s];
+      btn.classList.toggle('on', enabled[s]);
+    });
+  });
+  let phase = 0;
+  // simplified GA outline (rough rectangle with cut corners)
+  const outline = [
+    [0.27, 0.05], [0.34, 0.05], [0.34, 0.04], [0.50, 0.04], [0.62, 0.06], [0.68, 0.06],
+    [0.86, 0.40], [0.90, 0.60], [0.88, 0.78], [0.85, 0.92], [0.65, 0.94], [0.32, 0.92],
+    [0.30, 0.74], [0.27, 0.05]
+  ];
+  // particle buffers per stream
+  const particles = { 1: [], 2: [], 3: [] };
+  function loop() {
+    if (env.W < 10) { requestAnimationFrame(loop); return; }
+    const { ctx, W, H } = env;
+    ctx.fillStyle = 'rgba(6,7,11,0.30)';
+    ctx.fillRect(0, 0, W, H);
+    phase += 0.012;
+    // GA outline
+    ctx.strokeStyle = 'rgba(168,162,152,0.22)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    outline.forEach((p, i) => {
+      const x = p[0] * W, y = p[1] * H;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    // county dots
+    COUNTIES.forEach(c => {
+      const x = c.x * W, y = c.y * H;
+      ctx.fillStyle = 'rgba(168,162,152,0.25)';
+      ctx.beginPath(); ctx.arc(x, y, 1.2, 0, Math.PI * 2); ctx.fill();
+      // flag dot
+      if (c.tripleHit) {
+        ctx.fillStyle = '#c4a777';
+        ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill();
+        const pulse = 0.5 + Math.sin(phase * 2.0) * 0.4;
+        ctx.shadowColor = '#c4a777';
+        ctx.shadowBlur = 8 * pulse;
+        ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+      } else if (c.hostVogtle) {
+        ctx.fillStyle = '#d99645'; ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
+      } else if (c.hostDC) {
+        ctx.fillStyle = '#5a9bb8'; ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill();
+      } else if (c.opioidHi) {
+        ctx.fillStyle = '#7ab895'; ctx.beginPath(); ctx.arc(x, y, 2.4, 0, Math.PI * 2); ctx.fill();
+      }
+    });
+    // utility outflow: from every county to fulton (ga power HQ proxy)
+    if (enabled[1]) {
+      const dest = COUNTIES.find(c => c.n === 'Fulton');
+      if (particles[1].length < 80) {
+        const src = COUNTIES[Math.floor(Math.random() * COUNTIES.length)];
+        if (src.n !== 'Fulton' && src.s1 > 0.06) {
+          particles[1].push({ sx: src.x, sy: src.y, dx: dest.x, dy: dest.y, t: 0, w: src.s1 });
+        }
+      }
+      for (let i = particles[1].length - 1; i >= 0; i--) {
+        const p = particles[1][i];
+        p.t += 0.013;
+        if (p.t >= 1) { particles[1].splice(i, 1); continue; }
+        const x = (p.sx + (p.dx - p.sx) * p.t) * W;
+        const y = (p.sy + (p.dy - p.sy) * p.t) * H;
+        ctx.fillStyle = '#d99645' + Math.floor((1 - p.t) * 200 + 40).toString(16);
+        ctx.beginPath(); ctx.arc(x, y, 1.4 + p.w * 1.6, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    // data center capex IN: from "outside" (off-canvas top-left) into host counties
+    if (enabled[2]) {
+      const hosts = COUNTIES.filter(c => c.hostDC);
+      if (particles[2].length < 50) {
+        const dest = hosts[Math.floor(Math.random() * hosts.length)];
+        if (dest) particles[2].push({ sx: -0.05, sy: Math.random() * 0.4, dx: dest.x, dy: dest.y, t: 0, w: dest.s2 });
+      }
+      for (let i = particles[2].length - 1; i >= 0; i--) {
+        const p = particles[2][i];
+        p.t += 0.014;
+        if (p.t >= 1) { particles[2].splice(i, 1); continue; }
+        const x = (p.sx + (p.dx - p.sx) * p.t) * W;
+        const y = (p.sy + (p.dy - p.sy) * p.t) * H;
+        ctx.fillStyle = '#5a9bb8' + Math.floor((1 - p.t) * 200 + 40).toString(16);
+        ctx.beginPath(); ctx.arc(x, y, 1.6 + p.w * 1.4, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    // opioid INFLOW: from off-canvas right (national trust) into top receiving counties
+    if (enabled[3]) {
+      const recipients = COUNTIES.filter(c => c.s3 > 0.10);
+      if (particles[3].length < 70) {
+        const dest = recipients[Math.floor(Math.random() * recipients.length)];
+        if (dest) particles[3].push({ sx: 1.05, sy: Math.random() * 0.9, dx: dest.x, dy: dest.y, t: 0, w: dest.s3 });
+      }
+      for (let i = particles[3].length - 1; i >= 0; i--) {
+        const p = particles[3][i];
+        p.t += 0.012;
+        if (p.t >= 1) { particles[3].splice(i, 1); continue; }
+        const x = (p.sx + (p.dx - p.sx) * p.t) * W;
+        const y = (p.sy + (p.dy - p.sy) * p.t) * H;
+        ctx.fillStyle = '#7ab895' + Math.floor((1 - p.t) * 200 + 40).toString(16);
+        ctx.beginPath(); ctx.arc(x, y, 1.4 + p.w * 1.6, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    // top-of-stage caption
+    ctx.fillStyle = 'rgba(196,167,119,0.85)';
+    ctx.font = 'italic 11px "Fraunces", serif';
+    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    ctx.fillText('★ triple-hit county · gold pulse', 18, 18);
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// Dim-switch (light up strong tags on scroll)
+// ═══════════════════════════════════════════════════════════════
+(function dimSwitch() {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('strong').forEach(el => el.classList.add('lit'));
+    return;
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('lit'); obs.unobserve(e.target); } });
+  }, { threshold: 0.55, rootMargin: '-10% 0px' });
+  document.querySelectorAll('strong').forEach(el => obs.observe(el));
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Capital Stack — Vogtle, Data Centers, Donations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08080a;
+    --bg-soft: #111114;
+    --bg-card: #15151a;
+    --bg-card-2: #1a1a20;
+    --ink: #f0ebe0;
+    --ink-dim: #a8a298;
+    --ink-faint: #5a564e;
+    --ink-mute: #3a3833;
+    --rule: #28262a;
+    --rule-2: #1f1d22;
+    --gold: #c4a777;
+    --money: #d99645;           /* $ accent — copper */
+    --infra: #5a7a8a;           /* infrastructure */
+    --growth: #7a9c6a;          /* growth-framing */
+    --burden: #b85a52;          /* burden-framing */
+    --donor: #c8a87a;           /* donations */
+    --grid: rgba(217, 150, 69, 0.05);
+    --money-glow: rgba(217, 150, 69, 0.18);
+    --infra-glow: rgba(90, 122, 138, 0.16);
+    /* Confidence tier colors */
+    --t-proven: #d99645;
+    --t-strong: #c08648;
+    --t-corr:   #a07a52;
+    --t-plaus:  #6e6258;
+    --t-spec:   #4a464a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif; font-weight: 300;
+    line-height: 1.5; overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .grid-bg {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none; z-index: 0; opacity: 0.35;
+  }
+
+  /* TAB NAV */
+  .tabnav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(8,8,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+  .tabnav-inner { display: flex; align-items: center; padding: 12px 24px; gap: 20px; overflow-x: auto; scrollbar-width: none; }
+  .tabnav-inner::-webkit-scrollbar { display: none; }
+  .brand { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); white-space: nowrap; text-decoration: none; padding-right: 18px; border-right: 1px solid var(--rule); display: flex; align-items: center; gap: 8px; }
+  .brand .dot { width: 6px; height: 6px; background: var(--money); border-radius: 50%; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .tab-list { display: flex; gap: 2px; flex: 1; }
+  .tab { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); padding: 6px 10px; border-radius: 2px; text-decoration: none; white-space: nowrap; transition: color 0.2s, background 0.2s; }
+  .tab:hover { color: var(--ink-dim); background: rgba(255,255,255,0.04); }
+  .tab.active { color: var(--money); background: rgba(217,150,69,0.12); }
+  .tab-num { font-family: 'Fraunces', serif; font-style: italic; margin-right: 5px; opacity: 0.6; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; padding: 70px 4vw 50px;
+    position: relative; overflow: hidden;
+    display: grid; grid-template-rows: 1fr auto;
+  }
+  .hero-veil {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 80% 30%, rgba(217,150,69,0.06) 0%, transparent 55%),
+      radial-gradient(ellipse at 10% 80%, rgba(90,122,138,0.04) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 1400px; margin: 0 auto; padding-top: 90px;
+    display: grid; gap: 50px;
+    grid-template-columns: 1fr 1.05fr;
+    align-items: center;
+  }
+  .hero-left { padding-right: 12px; }
+  .hero-kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.34em; text-transform: uppercase;
+    color: var(--money); margin-bottom: 22px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-kicker::before { content: ""; display: inline-block; width: 26px; height: 1px; background: var(--money); }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: clamp(50px, 7.2vw, 116px); line-height: 0.94;
+    letter-spacing: -0.04em; margin-bottom: 26px;
+  }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--money); }
+  .hero-sub {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(17px, 1.5vw, 21px); line-height: 1.5;
+    color: var(--ink-dim); max-width: 52ch; margin-bottom: 26px;
+  }
+  .hero-sub strong { color: var(--ink-dim); transition: color 1.3s ease, text-shadow 1.3s ease; }
+  .hero-meta {
+    display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .hero-meta .read-time {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border: 1px solid var(--rule); border-radius: 2px;
+    transition: color 0.6s, border-color 0.6s;
+  }
+  .hero-meta .read-time::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: currentColor; opacity: 0.55;
+  }
+  .hero-meta .read-time.lit { color: var(--money); border-color: rgba(217,150,69,0.45); }
+  .hero-meta .stamp { color: var(--ink-dim); }
+
+  /* HERO STACK STAGE — the animated capital stack */
+  .stack-stage {
+    position: relative; padding: 24px 26px 22px;
+    background:
+      linear-gradient(160deg, rgba(217,150,69,0.04) 0%, transparent 60%),
+      var(--bg-card);
+    border: 1px solid var(--rule); border-radius: 4px;
+    display: flex; flex-direction: column; gap: 16px;
+    overflow: hidden;
+  }
+  .stack-stage::before {
+    content: ""; position: absolute; left: -1px; right: -1px; top: -1px; height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--money) 50%, transparent 100%);
+    opacity: 0.55;
+  }
+  .stack-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+  }
+  .stack-head .sk {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.3em; color: var(--money); text-transform: uppercase;
+  }
+  .stack-head .stack-total {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 22px; color: var(--money);
+  }
+  .stack-head .stack-total .unit {
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 10px; color: var(--ink-faint); letter-spacing: 0.22em;
+    text-transform: uppercase; margin-left: 6px;
+  }
+  .stack-canvas-wrap { position: relative; height: 320px; }
+  .stack-canvas-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .stack-foot {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    padding-top: 12px; border-top: 1px solid var(--rule);
+  }
+  .stack-foot .sf {
+    padding: 10px 12px; background: rgba(255,255,255,0.025);
+    border-left: 2px solid var(--c, var(--money)); border-radius: 0 3px 3px 0;
+  }
+  .stack-foot .sf[data-l="0"] { --c: var(--money); }
+  .stack-foot .sf[data-l="1"] { --c: var(--infra); }
+  .stack-foot .sf[data-l="2"] { --c: var(--donor); }
+  .stack-foot .sf .name {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--c); margin-bottom: 5px;
+  }
+  .stack-foot .sf .val {
+    font-family: 'Fraunces', serif; font-weight: 400; font-style: italic;
+    font-size: 18px; color: var(--ink); line-height: 1.1;
+  }
+  .stack-foot .sf .note {
+    font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
+    letter-spacing: 0.16em; color: var(--ink-faint);
+    text-transform: uppercase; margin-top: 4px;
+  }
+
+  @media (max-width: 1000px) {
+    .hero-content { grid-template-columns: 1fr; padding-top: 60px; gap: 32px; }
+    .stack-foot { grid-template-columns: 1fr; }
+  }
+
+  /* === THE THREE LAYERS — tufte small multiples === */
+  .layers-section {
+    padding: 14vh 4vw 12vh;
+    border-top: 1px solid var(--rule);
+    background: var(--bg-soft);
+    position: relative;
+  }
+  .layers-inner { max-width: 1400px; margin: 0 auto; }
+  .ls-stamp {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.32em; color: var(--money); text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .ls-h2 {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: clamp(34px, 4.6vw, 56px); line-height: 1.02;
+    letter-spacing: -0.025em; margin-bottom: 22px; max-width: 24ch;
+  }
+  .ls-h2 em { font-style: italic; color: var(--money); }
+  .ls-lead {
+    font-family: 'Fraunces', serif; font-size: 17px;
+    line-height: 1.6; color: var(--ink-dim);
+    max-width: 64ch; margin-bottom: 50px;
+  }
+  .ls-lead strong { color: var(--ink-dim); }
+
+  .layer-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--rule); border: 1px solid var(--rule);
+    border-radius: 3px; overflow: hidden;
+  }
+  .layer-card {
+    background: var(--bg-card); padding: 26px 24px;
+    display: flex; flex-direction: column; gap: 16px;
+    position: relative; overflow: hidden;
+    transition: background 0.4s;
+  }
+  .layer-card:hover { background: #181820; }
+  .layer-card::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+    background: var(--lc, var(--money)); opacity: 0.7;
+  }
+  .layer-card[data-l="0"] { --lc: var(--money); --lc-bg: var(--money-glow); }
+  .layer-card[data-l="1"] { --lc: var(--infra); --lc-bg: var(--infra-glow); }
+  .layer-card[data-l="2"] { --lc: var(--donor); --lc-bg: rgba(200,168,122,0.12); }
+  .layer-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    border-bottom: 1px solid var(--rule); padding-bottom: 14px;
+  }
+  .layer-name {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.28em; color: var(--lc); text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .layer-title {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 24px; color: var(--ink); line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+  .layer-title em { font-style: italic; color: var(--lc); }
+  .layer-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
+    letter-spacing: 0.22em; color: var(--lc); text-transform: uppercase;
+    padding: 4px 8px; border: 1px solid var(--lc);
+    border-radius: 2px; opacity: 0.85;
+  }
+  .spark-wrap {
+    position: relative; height: 84px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 2px; padding: 8px;
+  }
+  .spark-wrap canvas, .spark-wrap svg { position: absolute; inset: 8px; width: calc(100% - 16px); height: calc(100% - 16px); }
+  .stat-pair {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
+  }
+  .stat {
+    padding: 10px 12px; background: rgba(255,255,255,0.03);
+    border-radius: 2px;
+  }
+  .stat .k {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px;
+    letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .stat .v {
+    font-family: 'Fraunces', serif; font-weight: 400; font-style: italic;
+    font-size: 17px; color: var(--ink); line-height: 1.1;
+  }
+  .stat .vsmall {
+    font-family: 'Fraunces', serif; font-weight: 400; font-style: italic;
+    font-size: 14px; color: var(--ink); line-height: 1.15;
+  }
+  .layer-body {
+    font-family: 'Fraunces', serif; font-size: 14px;
+    line-height: 1.55; color: var(--ink-dim);
+  }
+  .layer-body strong { color: var(--ink); }
+  .layer-foot {
+    margin-top: auto;
+    padding-top: 12px; border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase;
+  }
+  .layer-foot .source { color: var(--lc); }
+
+  @media (max-width: 900px) {
+    .layer-grid { grid-template-columns: 1fr; }
+  }
+
+  /* === CONFIDENCE SPECTRUM STRIP — the epistemic UI === */
+  .confidence-section {
+    padding: 10vh 4vw 10vh;
+    background: var(--bg);
+    border-top: 1px solid var(--rule);
+    position: relative;
+  }
+  .conf-inner { max-width: 1400px; margin: 0 auto; }
+  .conf-stamp {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.32em; color: var(--money); text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .conf-h2 {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: clamp(28px, 3.8vw, 44px); line-height: 1.06;
+    letter-spacing: -0.022em; margin-bottom: 14px; max-width: 28ch;
+  }
+  .conf-h2 em { font-style: italic; color: var(--money); }
+  .conf-lead {
+    font-family: 'Fraunces', serif; font-size: 15.5px;
+    line-height: 1.55; color: var(--ink-dim);
+    max-width: 64ch; margin-bottom: 36px;
+  }
+  .conf-legend {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    margin-bottom: 24px;
+    padding-bottom: 18px; border-bottom: 1px solid var(--rule);
+  }
+  .conf-legend .lg {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.22em; color: var(--ink-dim); text-transform: uppercase;
+  }
+  .conf-legend .lg .dots { display: inline-flex; gap: 2px; }
+  .conf-legend .lg .dots .d {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ink-mute);
+  }
+  .conf-legend .lg[data-t="5"] .d:nth-child(-n+5) { background: var(--t-proven); box-shadow: 0 0 8px rgba(217,150,69,0.45); }
+  .conf-legend .lg[data-t="4"] .d:nth-child(-n+4) { background: var(--t-strong); }
+  .conf-legend .lg[data-t="3"] .d:nth-child(-n+3) { background: var(--t-corr); }
+  .conf-legend .lg[data-t="2"] .d:nth-child(-n+2) { background: var(--t-plaus); }
+  .conf-legend .lg[data-t="1"] .d:nth-child(-n+1) { background: var(--t-spec); }
+
+  .claim-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+  }
+  .claim {
+    padding: 16px 18px;
+    background: var(--bg-card); border: 1px solid var(--rule);
+    border-radius: 3px;
+    position: relative; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .claim:hover { background: var(--bg-card-2); }
+  .claim::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--ct, var(--t-plaus));
+  }
+  .claim[data-t="5"] { --ct: var(--t-proven); }
+  .claim[data-t="5"]::before { box-shadow: 0 0 14px var(--t-proven), 0 0 4px var(--t-proven); }
+  .claim[data-t="4"] { --ct: var(--t-strong); }
+  .claim[data-t="3"] { --ct: var(--t-corr); }
+  .claim[data-t="2"] { --ct: var(--t-plaus); }
+  .claim[data-t="1"] { --ct: var(--t-spec); opacity: 0.85; }
+  .claim-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px;
+  }
+  .claim-tier {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.24em; color: var(--ct); text-transform: uppercase;
+  }
+  .claim-dots { display: inline-flex; gap: 2px; }
+  .claim-dots .d {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--ink-mute);
+  }
+  .claim[data-t="5"] .claim-dots .d:nth-child(-n+5) { background: var(--ct); box-shadow: 0 0 6px var(--ct); }
+  .claim[data-t="4"] .claim-dots .d:nth-child(-n+4) { background: var(--ct); }
+  .claim[data-t="3"] .claim-dots .d:nth-child(-n+3) { background: var(--ct); }
+  .claim[data-t="2"] .claim-dots .d:nth-child(-n+2) { background: var(--ct); opacity: 0.75; }
+  .claim[data-t="1"] .claim-dots .d:nth-child(-n+1) { background: var(--ct); opacity: 0.5; }
+  .claim-text {
+    font-family: 'Fraunces', serif; font-size: 14px;
+    line-height: 1.45; color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .claim[data-t="1"] .claim-text,
+  .claim[data-t="2"] .claim-text { color: var(--ink-dim); font-style: italic; }
+  .claim-src {
+    font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
+    letter-spacing: 0.18em; color: var(--ink-faint); text-transform: uppercase;
+  }
+
+  /* === BRIDGE TO RUNOFF === */
+  .bridge {
+    padding: 8vh 4vw 8vh; background: var(--bg-soft);
+    border-top: 1px solid var(--rule);
+  }
+  .bridge-inner {
+    max-width: 980px; margin: 0 auto;
+    display: grid; gap: 24px; grid-template-columns: 1fr;
+  }
+  .bridge-stamp {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.3em; color: var(--money); text-transform: uppercase;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .bridge-stamp::before, .bridge-stamp::after {
+    content: ""; display: inline-block; height: 1px; flex: 0 0 36px;
+    background: var(--money);
+  }
+  .bridge-stamp::after { flex: 1; opacity: 0.4; }
+  .bridge p {
+    font-family: 'Fraunces', serif; font-size: 19px;
+    line-height: 1.55; color: var(--ink);
+  }
+  .bridge p em { font-style: italic; color: var(--money); }
+  .bridge p strong { color: var(--ink); }
+  .bridge-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 18px; background: var(--bg-card);
+    border: 1px solid var(--money); border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.24em; color: var(--money); text-transform: uppercase;
+    text-decoration: none; align-self: flex-start;
+    transition: background 0.3s;
+  }
+  .bridge-cta:hover { background: rgba(217,150,69,0.08); }
+  .bridge-cta::after { content: "→"; transition: transform 0.3s; }
+  .bridge-cta:hover::after { transform: translateX(4px); }
+
+  /* === LENS CONSOLE (shared modality) === */
+  .competing-section.lens-console-section {
+    background: var(--bg); padding: 12vh 4vw 12vh;
+    border-top: 1px solid var(--rule);
+    position: relative; overflow: hidden;
+  }
+  .lens-console-section::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 20%, rgba(217,150,69,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .lc-inner { max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
+  .lc-stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; color: var(--lens-c, var(--money)); text-transform: uppercase; margin-bottom: 16px; text-align: center; transition: color 0.5s; }
+  .lc-h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(30px, 4.2vw, 50px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; text-align: center; max-width: 30ch; margin-left: auto; margin-right: auto; }
+  .lc-h2 em { font-style: italic; color: var(--lens-c, var(--money)); transition: color 0.5s; }
+  .lc-lead { font-family: 'Fraunces', serif; font-size: 16px; color: var(--ink-dim); max-width: 60ch; line-height: 1.55; margin: 0 auto 36px; text-align: center; }
+  .lc-fact-bar { padding: 16px 24px; background: var(--bg-card); border: 1px solid var(--rule); border-bottom: none; border-radius: 3px 3px 0 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .lc-fact-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--money); text-transform: uppercase; }
+  .lc-fact-text { font-family: 'Fraunces', serif; font-style: italic; font-size: 16px; color: var(--ink); flex: 1; min-width: 240px; }
+  .lc-fact-source { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--ink-faint); text-transform: uppercase; }
+  .lc-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-bottom: none; }
+  .lc-tab { background: var(--bg-card); padding: 16px 18px; cursor: pointer; border: none; text-align: left; color: var(--ink-dim); transition: background 0.4s, color 0.3s; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 4px; }
+  .lc-tab::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--c); transform: scaleX(0); transform-origin: left; transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1); }
+  .lc-tab:hover { background: #11141a; color: var(--ink); }
+  .lc-tab.active { background: rgba(0,0,0,0.4); color: var(--c); }
+  .lc-tab.active::before { transform: scaleX(1); }
+  .lc-tab.active::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(165deg, var(--c-glow) 0%, transparent 70%); opacity: 0.5; }
+  /* Per essay: lenses are asymmetric. Stronger-evidence lenses get a thin live stripe. */
+  .lc-tab::after { transition: opacity 0.4s; }
+  .lc-tab[data-strength="strong"] { box-shadow: inset 0 0 0 1px rgba(217,150,69,0.18); }
+  .lc-tab[data-idx="0"] { --c: #d99645; --c-glow: rgba(217,150,69,0.10); }
+  .lc-tab[data-idx="1"] { --c: #c8a87a; --c-glow: rgba(200,168,122,0.10); }
+  .lc-tab[data-idx="2"] { --c: #7fb4c8; --c-glow: rgba(127,180,200,0.10); }
+  .lc-tab[data-idx="3"] { --c: #b85a52; --c-glow: rgba(184,90,82,0.10); }
+  .lc-tab .tab-k { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; color: var(--c); text-transform: uppercase; opacity: 0.7; display: flex; justify-content: space-between; }
+  .lc-tab .tab-k .ev { color: var(--ink-faint); font-style: italic; opacity: 0.75; }
+  .lc-tab .tab-n { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 16px; line-height: 1.2; }
+  .lc-console { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 0 0 3px 3px; overflow: hidden; min-height: 580px; }
+  .lc-viz-stack { position: relative; background: radial-gradient(ellipse at 50% 50%, #0a0d12 0%, var(--bg) 80%); min-height: 580px; overflow: hidden; }
+  .lc-viz-frame { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 0.5s; padding: 32px 28px 30px; display: flex; flex-direction: column; }
+  .lc-viz-frame.active { opacity: 1; pointer-events: auto; }
+  .lc-viz-header { margin-bottom: 12px; }
+  .lc-viz-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.26em; color: var(--lens-c); text-transform: uppercase; margin-bottom: 5px; transition: color 0.5s; }
+  .lc-viz-name { font-family: 'Fraunces', serif; font-weight: 400; font-size: 19px; color: var(--ink); line-height: 1.2; }
+  .lc-viz-canvas { flex: 1; position: relative; min-height: 320px; }
+  .lc-viz-canvas canvas, .lc-viz-canvas svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .lc-viz-caption { margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.16em; color: var(--ink-faint); text-transform: uppercase; line-height: 1.5; }
+  .lc-viz-caption .c-key { color: var(--lens-c); transition: color 0.5s; }
+  .lc-narr { background: var(--bg-card); padding: 28px 30px; position: relative; display: flex; flex-direction: column; gap: 16px; overflow: hidden; }
+  .lc-narr::before { content: ""; position: absolute; inset: 0; background: linear-gradient(165deg, var(--lens-c-bg) 0%, transparent 65%); transition: background 0.6s; pointer-events: none; }
+  .lc-narr-content { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 16px; opacity: 1; transition: opacity 0.4s; }
+  .lc-narr-content.fading { opacity: 0; }
+  .lc-narr-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--lens-c); text-transform: uppercase; transition: color 0.5s; }
+  .lc-narr-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.15; color: var(--ink); letter-spacing: -0.015em; }
+  .lc-narr-frame { font-family: 'Fraunces', serif; font-style: italic; font-size: 15px; color: var(--lens-c); line-height: 1.4; padding-bottom: 12px; border-bottom: 1px solid var(--rule); transition: color 0.5s; }
+  .lc-narr-body { font-size: 13px; color: var(--ink-dim); line-height: 1.65; }
+  .lc-narr-body strong { color: var(--ink); }
+  .lc-causal { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink-faint); margin-top: 2px; }
+  .lc-causal .step { padding: 4px 8px; background: rgba(255,255,255,0.04); color: var(--lens-c); border-radius: 2px; letter-spacing: 0.12em; text-transform: uppercase; transition: all 0.4s; }
+  .lc-causal .arrow { color: var(--ink-faint); }
+  .lc-narr-test { padding: 12px 14px; background: rgba(255,255,255,0.03); border-left: 2px solid var(--lens-c); border-radius: 0 3px 3px 0; transition: border-color 0.5s; }
+  .lc-narr-test-stamp { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.26em; color: var(--lens-c); text-transform: uppercase; margin-bottom: 5px; transition: color 0.5s; }
+  .lc-narr-test-q { font-family: 'Fraunces', serif; font-style: italic; font-size: 13px; line-height: 1.45; color: var(--ink); }
+  .lc-vocab { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+  .lc-vocab .word { font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 7px; background: rgba(255,255,255,0.04); color: var(--lens-c); border-radius: 2px; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.5s; }
+  .lc-ribbon { margin-top: 1px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; padding: 14px 22px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .lc-rd { transition: opacity 0.4s; }
+  .lc-rd.fading { opacity: 0; }
+  .lc-rd-lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; color: var(--ink-faint); text-transform: uppercase; margin-bottom: 6px; }
+  .lc-rd-val { font-family: 'Fraunces', serif; font-weight: 400; font-size: 16px; color: var(--lens-c); line-height: 1.15; transition: color 0.5s; }
+  .lc-rd-meta { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink-faint); margin-top: 4px; }
+  @media (max-width: 1000px) {
+    .lc-console { grid-template-columns: 1fr; }
+    .lc-viz-stack { min-height: 420px; }
+    .lc-tabs { grid-template-columns: 1fr 1fr; }
+    .lc-ribbon { grid-template-columns: 1fr 1fr; gap: 14px; }
+  }
+
+  /* DISCIPLINE */
+  .discipline { padding: 12vh 4vw 10vh; background: var(--bg-soft); border-top: 1px solid var(--rule); }
+  .discipline-inner { max-width: 1180px; margin: 0 auto; }
+  .discipline h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(32px, 4.2vw, 50px); line-height: 1.05; letter-spacing: -0.022em; margin-bottom: 18px; max-width: 26ch; }
+  .discipline h2 em { font-style: italic; color: var(--money); }
+  .discipline .lead { font-family: 'Fraunces', serif; font-size: 16px; line-height: 1.6; color: var(--ink-dim); max-width: 64ch; margin-bottom: 44px; }
+  .discipline .lead strong { color: var(--ink-dim); }
+  .holes { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+  .hole { padding: 20px 22px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; }
+  .hole .timing { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--money); margin-bottom: 10px; }
+  .hole h4 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 17px; line-height: 1.18; color: var(--ink); margin-bottom: 8px; }
+  .hole p { font-size: 13px; line-height: 1.55; color: var(--ink-dim); }
+
+  /* SOURCES */
+  .sources-strip { padding: 6vh 4vw 8vh; background: var(--bg); border-top: 1px solid var(--rule); }
+  .sources-inner { max-width: 1180px; margin: 0 auto; }
+  .sources-strip h3 { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; color: var(--money); text-transform: uppercase; margin-bottom: 18px; }
+  .sources-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+  .src { padding: 14px 16px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 3px; display: flex; flex-direction: column; gap: 6px; }
+  .src .tier { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.24em; color: var(--money); text-transform: uppercase; }
+  .src a { font-family: 'Fraunces', serif; font-size: 14px; color: var(--ink); text-decoration: none; line-height: 1.35; border-bottom: 1px solid transparent; transition: color 0.3s, border-color 0.3s; }
+  .src a:hover { color: var(--money); border-bottom-color: var(--money); }
+  .src .desc { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; color: var(--ink-faint); text-transform: uppercase; }
+
+  /* FOOTER */
+  footer { padding: 8vh 4vw 6vh; background: var(--bg-soft); border-top: 1px solid var(--rule); }
+  .footer-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; }
+  footer h5 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.3em; color: var(--money); text-transform: uppercase; margin-bottom: 12px; }
+  footer p { font-family: 'Fraunces', serif; font-size: 14px; line-height: 1.6; color: var(--ink-dim); }
+  footer .sig { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--ink-faint); text-transform: uppercase; margin-top: 20px; }
+  @media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr; gap: 30px; } }
+
+  /* Dim-switch */
+  strong {
+    color: var(--ink-dim);
+    text-shadow: 0 0 0 transparent;
+    transition: color 1.3s ease 0.08s, text-shadow 1.3s ease 0.08s;
+  }
+  strong.lit {
+    color: var(--ink);
+    text-shadow: 0 0 14px rgba(217, 150, 69, 0.22), 0 0 4px rgba(217, 150, 69, 0.32);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>INFERA · GA 26 · MECHANISM</a>
+    <div class="tab-list">
+      <a class="tab" href="index.html"><span class="tab-num">◉</span>Index</a>
+      <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">02</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">03</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">04</span>Coast</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">05</span>Ballot</a>
+      <a class="tab" href="the-runoff-tells.html"><span class="tab-num">06</span>Runoff</a>
+      <a class="tab active" href="the-capital-stack.html"><span class="tab-num">07</span>Stack</a>
+      <a class="tab" href="thesis.html"><span class="tab-num">◉</span>Thesis</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-veil"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-kicker">Mechanism 07 · Financial substrate</div>
+      <h1>The <em>Capital</em> Stack.</h1>
+      <p class="hero-sub">Vogtle, data centers, donations. Three financial layers stacked on one ratepayer. The bill arrives in a different envelope every time, and the <strong>balance sheet beneath the politics</strong> rarely makes a headline. This is the substrate the runoff is being decided on top of.</p>
+      <div class="hero-meta">
+        <span class="read-time">Read · ~8 min</span>
+        <span class="stamp">Mechanism 07 · drafted May 22, 2026</span>
+      </div>
+    </div>
+
+    <div class="stack-stage" aria-label="capital stack hero">
+      <div class="stack-head">
+        <div class="sk">The stack · live composition</div>
+        <div class="stack-total">$36.8B<span class="unit">Vogtle base cost</span></div>
+      </div>
+      <div class="stack-canvas-wrap"><canvas id="stack-hero"></canvas></div>
+      <div class="stack-foot">
+        <div class="sf" data-l="0">
+          <div class="name">Layer 1 · Vogtle base</div>
+          <div class="val">~$11B rate base</div>
+          <div class="note">added by units 3 &amp; 4 build</div>
+        </div>
+        <div class="sf" data-l="1">
+          <div class="name">Layer 2 · Data-center load</div>
+          <div class="val">~8,200 MW</div>
+          <div class="note">2024 → 2030 IRP forecast</div>
+        </div>
+        <div class="sf" data-l="2">
+          <div class="name">Layer 3 · Donations</div>
+          <div class="val">87% · 61%</div>
+          <div class="note">incumbent PSC funding from regulated parties</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THREE LAYERS (Tufte small multiples) -->
+<section class="layers-section">
+  <div class="layers-inner">
+    <div class="ls-stamp">The three layers · documented spine</div>
+    <h2 class="ls-h2">A <em>rate base</em>, a <em>load curve</em>, and a <em>donor list</em>.</h2>
+    <p class="ls-lead">Pull each layer apart. Each is published, each is auditable, each is rendered here from sourced numbers, not vibes. The political question is what they look like <strong>stacked together</strong>. The Capital Stack is not a conspiracy; it is a balance sheet. The argument is the assembly, not the line items.</p>
+
+    <div class="layer-grid">
+
+      <!-- LAYER 1 — VOGTLE -->
+      <div class="layer-card" data-l="0">
+        <div class="layer-head">
+          <div>
+            <div class="layer-name">Layer 01 · Vogtle</div>
+            <div class="layer-title">The <em>floor</em> of the stack.</div>
+          </div>
+          <div class="layer-tag">Proven · T1</div>
+        </div>
+
+        <div class="spark-wrap"><svg id="spark-vogtle" viewBox="0 0 400 70" preserveAspectRatio="none"></svg></div>
+
+        <div class="stat-pair">
+          <div class="stat"><div class="k">Original budget</div><div class="v">$14.0B</div></div>
+          <div class="stat"><div class="k">Final cost</div><div class="v">$36.8B</div></div>
+          <div class="stat"><div class="k">Rate base added</div><div class="vsmall">~$11B</div></div>
+          <div class="stat"><div class="k">Avg household / yr</div><div class="vsmall">~$420</div></div>
+        </div>
+
+        <p class="layer-body">Units 3 &amp; 4 ballooned from a <strong>$14B estimate to $36.8B</strong> over fifteen years. Unit 3 came online July 2023; Unit 4 in April 2024. Residential rates rose <strong>23.7% across the recovery period</strong>. The PSC moved the bulk to ratepayers in December 2023. None of this is in dispute; it is the documented floor.</p>
+
+        <div class="layer-foot">
+          <span>Drift</span>
+          <span class="source">SRC · GCV · AJC · GA Recorder · Wiki</span>
+        </div>
+      </div>
+
+      <!-- LAYER 2 — DATA CENTERS -->
+      <div class="layer-card" data-l="1">
+        <div class="layer-head">
+          <div>
+            <div class="layer-name">Layer 02 · Data centers</div>
+            <div class="layer-title">The <em>load</em> that arrives next.</div>
+          </div>
+          <div class="layer-tag">Strong · T2</div>
+        </div>
+
+        <div class="spark-wrap"><svg id="spark-load" viewBox="0 0 400 70" preserveAspectRatio="none"></svg></div>
+
+        <div class="stat-pair">
+          <div class="stat"><div class="k">2024 IRP growth fcst</div><div class="v">+8,200 MW</div></div>
+          <div class="stat"><div class="k">vs 2023 IRP</div><div class="v">+2,200 MW</div></div>
+          <div class="stat"><div class="k">Demand multiplier</div><div class="vsmall">~3× by 2034</div></div>
+          <div class="stat"><div class="k">New gas + coal kept</div><div class="vsmall">multiple</div></div>
+        </div>
+
+        <p class="layer-body">Georgia Power's 2024 IRP projects roughly <strong>8,200 MW of new load</strong> by winter 2030/31, layered on top of the Vogtle base. The largest single driver is hyperscale data-center growth. The same plan kept coal units running and added gas capacity to serve it. Whether the forecast holds is contested; <strong>the regulatory commitments built on it are not</strong>.</p>
+
+        <div class="layer-foot">
+          <span>Drift</span>
+          <span class="source">SRC · GA Power IRP · Utility Dive · SACE</span>
+        </div>
+      </div>
+
+      <!-- LAYER 3 — DONATIONS -->
+      <div class="layer-card" data-l="2">
+        <div class="layer-head">
+          <div>
+            <div class="layer-name">Layer 03 · Donations</div>
+            <div class="layer-title">The <em>grease</em> between rate cases.</div>
+          </div>
+          <div class="layer-tag">Proven · T1</div>
+        </div>
+
+        <div class="spark-wrap"><svg id="spark-donor" viewBox="0 0 400 70" preserveAspectRatio="none"></svg></div>
+
+        <div class="stat-pair">
+          <div class="stat"><div class="k">Fitz Johnson</div><div class="v">87%</div></div>
+          <div class="stat"><div class="k">Tim Echols</div><div class="v">61%</div></div>
+          <div class="stat"><div class="k">Comms ≥70% utility</div><div class="vsmall">4 of 5</div></div>
+          <div class="stat"><div class="k">Top donor cluster</div><div class="vsmall">Southern / GP</div></div>
+        </div>
+
+        <p class="layer-body">Per Energy &amp; Policy Institute filings, <strong>Johnson took 87% and Echols 61%</strong> of their reported campaign funds from sources tied to the utilities they regulate. Across the broader commission, <strong>four of five regulators have accepted at least 70%</strong> from regulated parties. The pattern is filed, public, and ongoing. The dispute is what it means, not whether it exists.</p>
+
+        <div class="layer-foot">
+          <span>Drift</span>
+          <span class="source">SRC · E&amp;PI · NFOIC · AJC</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONFIDENCE SPECTRUM (the new epistemic UI) -->
+<section class="confidence-section">
+  <div class="conf-inner">
+    <div class="conf-stamp">Confidence spectrum · per-claim transparency</div>
+    <h2 class="conf-h2">Not every claim deserves the <em>same volume</em>.</h2>
+    <p class="conf-lead">Most political coverage gives every assertion the same typographic weight. We don't. Each claim below carries an explicit tier from <strong>Proven (5 dots, glowing) to Speculative (1 dot, dim)</strong>. The site's intellectual posture: <em>"we identified mechanisms,"</em> not <em>"we proved corruption."</em> Read accordingly.</p>
+
+    <div class="conf-legend">
+      <span class="lg" data-t="5"><span class="dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span>Proven</span>
+      <span class="lg" data-t="4"><span class="dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span>Strong</span>
+      <span class="lg" data-t="3"><span class="dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span>Correlated</span>
+      <span class="lg" data-t="2"><span class="dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span>Plausible</span>
+      <span class="lg" data-t="1"><span class="dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span>Speculative</span>
+    </div>
+
+    <div class="claim-grid">
+
+      <div class="claim" data-t="5">
+        <div class="claim-head"><span class="claim-tier">Proven · T1</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">Vogtle Units 3 &amp; 4 finished at roughly $36.8B versus a $14B original budget.</div>
+        <div class="claim-src">Wikipedia · AJC · GA Recorder · Third Act GA</div>
+      </div>
+
+      <div class="claim" data-t="5">
+        <div class="claim-head"><span class="claim-tier">Proven · T1</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">PSC moved $7.6B of Vogtle costs into ratepayer recovery in December 2023.</div>
+        <div class="claim-src">GA Recorder Dec 19 2023 filing</div>
+      </div>
+
+      <div class="claim" data-t="5">
+        <div class="claim-head"><span class="claim-tier">Proven · T1</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">Incumbent commissioners Johnson and Echols draw 87% / 61% of campaign funds from regulated parties.</div>
+        <div class="claim-src">Energy &amp; Policy Institute · disclosure filings</div>
+      </div>
+
+      <div class="claim" data-t="4">
+        <div class="claim-head"><span class="claim-tier">Strong · T2</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">Georgia Power's 2024 IRP projects ~8,200 MW of new load by 2030/31, driven primarily by data centers.</div>
+        <div class="claim-src">GA Power 2024 IRP · Utility Dive · SACE</div>
+      </div>
+
+      <div class="claim" data-t="4">
+        <div class="claim-head"><span class="claim-tier">Strong · T2</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">Multiple expert filings argue the data-center load forecast is uncertain at the magnitude claimed.</div>
+        <div class="claim-src">SACE · SELC Greenlink · IEEFA</div>
+      </div>
+
+      <div class="claim" data-t="3">
+        <div class="claim-head"><span class="claim-tier">Correlated · T3</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">Donor concentration at the PSC correlates with rate-case votes favorable to Georgia Power.</div>
+        <div class="claim-src">PSC docket voting record · E&amp;PI cross-tabs</div>
+      </div>
+
+      <div class="claim" data-t="3">
+        <div class="claim-head"><span class="claim-tier">Correlated · T3</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">Affordability pressure correlates with primary-cycle political volatility in suburban GA.</div>
+        <div class="claim-src">GA voter file · ACS county-level · prior cycles</div>
+      </div>
+
+      <div class="claim" data-t="2">
+        <div class="claim-head"><span class="claim-tier">Plausible · T4</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">A meaningful share of new data-center infrastructure is being underwritten by residential ratepayers.</div>
+        <div class="claim-src">PSC rate-design filings · industry analyst commentary</div>
+      </div>
+
+      <div class="claim" data-t="2">
+        <div class="claim-head"><span class="claim-tier">Plausible · T4</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">Vogtle-driven bills are a non-trivial factor in 2026 ratepayer political receptivity.</div>
+        <div class="claim-src">inference from county-level affordability scoring</div>
+      </div>
+
+      <div class="claim" data-t="1">
+        <div class="claim-head"><span class="claim-tier">Speculative · T5</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">A specific PSC commissioner's runoff fate is being decided by Vogtle resentment.</div>
+        <div class="claim-src">narrative extension · not testable in current data</div>
+      </div>
+
+      <div class="claim" data-t="1">
+        <div class="claim-head"><span class="claim-tier">Speculative · T5</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">Hyperscale operators have a deliberate strategy to socialize grid expansion costs.</div>
+        <div class="claim-src">interpretive · advocate framing · adversarial</div>
+      </div>
+
+      <div class="claim" data-t="1">
+        <div class="claim-head"><span class="claim-tier">Speculative · T5</span><span class="claim-dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></span></div>
+        <div class="claim-text">Donor dependency is corruption.</div>
+        <div class="claim-src">contested framing · industry would refuse the label</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BRIDGE TO RUNOFF -->
+<section class="bridge">
+  <div class="bridge-inner">
+    <div class="bridge-stamp">Bridge · cross-mechanism callback</div>
+    <p>Three of the seven races on the <em>June 16 runoff ballot</em> — the GOP Senate race, the GOP Governor race, the Lt Gov race in both parties — touch the same regulatory geometry as the Capital Stack. The runoff cohort that returns to vote will be <strong>whiter, older, wealthier, and more reliably partisan</strong> than the primary cohort that put these races into runoff in the first place. That selection compounds with the financial stack: the voters most insulated from rate-burden are <strong>structurally over-represented in the cohort that will decide who supervises the rate-base</strong>. The Runoff lens and the Capital Stack lens are not separate stories; they are the same balance sheet, read at two different vertical scales.</p>
+    <a class="bridge-cta" href="the-runoff-tells.html">Read · Mechanism 06 · The Runoff Tells</a>
+  </div>
+</section>
+
+<!-- LENS CONSOLE -->
+<section class="competing-section lens-console-section" style="--lens-c: #d99645; --lens-c-bg: rgba(217,150,69,0.06);">
+  <div class="lc-inner">
+    <div class="lc-stamp">A constellation of competing reads · lens console</div>
+    <h2 class="lc-h2">One fact about <em>the stack</em>. Four lenses. Four pictures.</h2>
+    <p class="lc-lead">Same fact, different argument, different chart. Tabs are asymmetric: stronger-evidence lenses carry a visible stripe. Press A/B/C/D.</p>
+
+    <div class="lc-fact-bar">
+      <div class="lc-fact-label">The shared fact</div>
+      <div class="lc-fact-text">"Three financial layers — Vogtle rate base, data-center load growth, regulator donor concentration — are stacked on the same Georgia ratepayer simultaneously."</div>
+      <div class="lc-fact-source">SRC · PSC dockets · IRP 2024 · E&amp;PI filings</div>
+    </div>
+
+    <div class="lc-tabs">
+      <button class="lc-tab active" data-idx="0" data-strength="strong">
+        <span class="tab-k">A · ECONOMIC LENS<span class="ev">★★★★★</span></span>
+        <span class="tab-n">The stack, drawn at scale</span>
+      </button>
+      <button class="lc-tab" data-idx="1" data-strength="strong">
+        <span class="tab-k">B · POLITICAL LENS<span class="ev">★★★★☆</span></span>
+        <span class="tab-n">Donor constellation, regulator captured</span>
+      </button>
+      <button class="lc-tab" data-idx="2">
+        <span class="tab-k">C · MEDIA LENS<span class="ev">★★★☆☆</span></span>
+        <span class="tab-n">Growth vs. burden — the framing slope</span>
+      </button>
+      <button class="lc-tab" data-idx="3">
+        <span class="tab-k">D · CULTURAL LENS<span class="ev">★★★☆☆</span></span>
+        <span class="tab-n">The household, drawn small</span>
+      </button>
+    </div>
+
+    <div class="lc-console">
+      <div class="lc-viz-stack">
+        <div class="lc-viz-frame active" data-idx="0">
+          <div class="lc-viz-header">
+            <div class="lc-viz-tag">A · Information design</div>
+            <div class="lc-viz-name">Capital stack · cost flow at scale</div>
+          </div>
+          <div class="lc-viz-canvas"><canvas></canvas></div>
+          <div class="lc-viz-caption"><span class="c-key">●</span> three layers, scaled to dollar magnitude · who pays, who profits</div>
+        </div>
+        <div class="lc-viz-frame" data-idx="1">
+          <div class="lc-viz-header">
+            <div class="lc-viz-tag">B · Information design</div>
+            <div class="lc-viz-name">Donor constellation · regulator gravity</div>
+          </div>
+          <div class="lc-viz-canvas"><canvas></canvas></div>
+          <div class="lc-viz-caption"><span class="c-key">●</span> edge thickness = $ amount · node size = vote influence</div>
+        </div>
+        <div class="lc-viz-frame" data-idx="2">
+          <div class="lc-viz-header">
+            <div class="lc-viz-tag">C · Information design</div>
+            <div class="lc-viz-name">Frame slope · growth vs burden</div>
+          </div>
+          <div class="lc-viz-canvas"><canvas></canvas></div>
+          <div class="lc-viz-caption"><span class="c-key">●</span> the same fact narrated as opportunity OR extraction</div>
+        </div>
+        <div class="lc-viz-frame" data-idx="3">
+          <div class="lc-viz-header">
+            <div class="lc-viz-tag">D · Information design</div>
+            <div class="lc-viz-name">Household spark grid · small multiples</div>
+          </div>
+          <div class="lc-viz-canvas"><canvas></canvas></div>
+          <div class="lc-viz-caption"><span class="c-key">●</span> twelve household line items · which moved together, which didn't</div>
+        </div>
+      </div>
+
+      <div class="lc-narr">
+        <div class="lc-narr-content">
+          <div class="lc-narr-tag">A · ECONOMIC LENS</div>
+          <div class="lc-narr-title">The stack, drawn at scale</div>
+          <div class="lc-narr-frame">"Stacked balance sheets do not feel like decisions. They feel like weather."</div>
+          <div class="lc-narr-body">Vogtle is the documented floor: <strong>$36.8B built, $11B added to rate base, $420 per household per year</strong>. The data-center layer is the next 8,200 MW arriving on top. Donations are the lubrication between rate cases. Drawn to scale, the household is the smallest box and the bottom box. The political question is not whether each layer is real, it is what happens when they compound on the same household. <strong>People experience politics materially before they experience it ideologically.</strong></div>
+          <div class="lc-causal"><span class="step">capital build</span><span class="arrow">→</span><span class="step">rate base</span><span class="arrow">→</span><span class="step">cost recovery</span><span class="arrow">→</span><span class="step">household burden</span></div>
+          <div class="lc-vocab"><span class="word">rate base</span><span class="word">recovery</span><span class="word">compounding</span><span class="word">substrate</span></div>
+          <div class="lc-narr-test">
+            <div class="lc-narr-test-stamp">— The distinguishing test —</div>
+            <div class="lc-narr-test-q">If you remove any one layer from the stack, does ratepayer burden materially decline within 24 months?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lc-ribbon">
+      <div class="lc-rd"><div class="lc-rd-lbl">What this lens makes visible</div><div class="lc-rd-val">stacked cost magnitude</div><div class="lc-rd-meta">$ scaled across layers</div></div>
+      <div class="lc-rd"><div class="lc-rd-lbl">Key shape in the data</div><div class="lc-rd-val">household is smallest, lowest</div><div class="lc-rd-meta">structural geometry</div></div>
+      <div class="lc-rd"><div class="lc-rd-lbl">Vocabulary signature</div><div class="lc-rd-val">rate base · recovery · burden</div><div class="lc-rd-meta">regulatory-financial register</div></div>
+      <div class="lc-rd"><div class="lc-rd-lbl">What this lens underplays</div><div class="lc-rd-val">long-horizon utility value</div><div class="lc-rd-meta">baseload, decarbonization, growth</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCIPLINE -->
+<section class="discipline">
+  <div class="discipline-inner">
+    <h2>What this piece <em>chooses to mark</em> rather than fabricate.</h2>
+    <p class="lead">The stack is real in shape and the floor is heavily documented. Several joins between layers — exactly how much data-center build is socialized to residential ratepayers, exactly which donor relationships shaped which votes, exactly how Vogtle bills convert to runoff turnout — are <strong>inferred from pattern, not measured to the decimal</strong>. Where they are measured, they are sourced. Where they are not, they are marked and tier-tagged above.</p>
+
+    <div class="holes">
+      <div class="hole">
+        <div class="timing">Documented · solid</div>
+        <h4>Vogtle cost &amp; recovery structure</h4>
+        <p>$36.8B build, ~$11B rate-base addition, PSC recovery orders. Multi-source, official-filing-backed, not in dispute.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Documented · solid</div>
+        <h4>Donor concentration percentages</h4>
+        <p>87% / 61% figures come from disclosure filings analyzed by Energy &amp; Policy Institute. Methodology and source documents are public.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Documented · contested</div>
+        <h4>Data-center load forecast magnitude</h4>
+        <p>8,200 MW figure is from Georgia Power's filed 2024 IRP. Whether the magnitude materializes is actively contested by multiple intervenors at PSC hearings.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Inferred · plausible</div>
+        <h4>The socialization split</h4>
+        <p>The share of data-center grid build absorbed by residential vs commercial rate classes is still being argued at the PSC. Our framing leans into the residential-burden read; an industry-side analyst would frame it differently.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Available · 2-3 quarters</div>
+        <h4>Per-county rate-burden index</h4>
+        <p>A defensible household-level burden index requires PSC tariff data joined with ACS income at sub-county level. The data exists; the join is not yet published here.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Structurally hard</div>
+        <h4>Did the bill change the vote?</h4>
+        <p>Individual-voter ballot behavior cannot be tied to individual utility bills in any panel data we have access to. We assert mechanism shape, not voter-level causation.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Counter-frame to honor</div>
+        <h4>The utility-executive read</h4>
+        <p>Vogtle provides long-duration baseload generation. Nuclear required massive upfront capital. Long-horizon infrastructure cannot be evaluated solely through near-term rate impacts. This counter-frame is real and we hold it next to the burden frame, not under it.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">Permanent caveat</div>
+        <h4>Selection bias risk</h4>
+        <p>We chose this stack <em>after</em> watching this primary. Mechanism narratives constructed in hindsight can produce false coherence. The site's defense against this is the confidence spectrum above and explicit predictions registered with future revisits.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section class="sources-strip">
+  <div class="sources-inner">
+    <h3>Sources · tier-tagged · verified May 22, 2026</h3>
+    <div class="sources-list">
+      <div class="src">
+        <span class="tier">T1 · primary official</span>
+        <a href="https://psc.ga.gov/site/downloads/datacenterfactsheet.pdf" target="_blank" rel="noopener">GA PSC · Data Center Fact Sheet (March 2026)</a>
+        <span class="desc">commission's own framing of DC load</span>
+      </div>
+      <div class="src">
+        <span class="tier">T1 · primary official</span>
+        <a href="https://www.georgiapower.com/content/dam/georgia-power/pdfs/company-pdfs/2025-Integrated-Resource-Plan.pdf" target="_blank" rel="noopener">Georgia Power · 2025 Integrated Resource Plan (PDF)</a>
+        <span class="desc">load forecast methodology, plant additions</span>
+      </div>
+      <div class="src">
+        <span class="tier">T1 · primary official</span>
+        <a href="https://www.georgiapower.com/about/company/filings/irp.html" target="_blank" rel="noopener">Georgia Power · IRP filings index</a>
+        <span class="desc">multi-cycle IRP history</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · investigative analysis</span>
+        <a href="https://energyandpolicy.org/georgia-psc-incumbents-majority-of-campaign-money-from-regulated-utility-interests/" target="_blank" rel="noopener">Energy &amp; Policy Institute · PSC incumbent donor analysis</a>
+        <span class="desc">the 87% / 61% figures</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · investigative analysis</span>
+        <a href="https://energyandpolicy.org/big-dollar-contributors-with-ties-to-georgia-power-southern-company-bet-on-pridemore-eaton/" target="_blank" rel="noopener">E&amp;PI · Big-dollar contributors to Pridemore / Eaton</a>
+        <span class="desc">cycle-to-cycle donor pattern</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · investigative analysis</span>
+        <a href="https://www.nfoic.org/blogs/donors-georgia-public-service-commission-members-vested-decisions/" target="_blank" rel="noopener">NFOIC · Donors to PSC members</a>
+        <span class="desc">cross-source confirmation</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · accountability report</span>
+        <a href="https://gcvoters.org/blog/2024/05/29/report-new-nuclear-reactors-to-cost-georgia-ratepayers-extra-420-annually-on-average/" target="_blank" rel="noopener">GCV · $420 / yr per household figure</a>
+        <span class="desc">household-impact derivation</span>
+      </div>
+      <div class="src">
+        <span class="tier">T3 · reporting</span>
+        <a href="https://www.ajc.com/news/psc-raises-georgia-power-rates-passing-most-plant-vogtle-expansion-costs-on-to-customers/6BAIOWM7J5BVHFZ2UN27KYXENA/" target="_blank" rel="noopener">AJC · PSC raises Georgia Power rates for Vogtle</a>
+        <span class="desc">December 2023 rate-recovery decision</span>
+      </div>
+      <div class="src">
+        <span class="tier">T3 · reporting</span>
+        <a href="https://georgiarecorder.com/2023/12/19/state-regulators-pass-along-7-6b-tab-to-ratepayers-for-georgia-powers-plant-vogtle/" target="_blank" rel="noopener">GA Recorder · $7.6B tab passed to ratepayers</a>
+        <span class="desc">contemporaneous coverage of the order</span>
+      </div>
+      <div class="src">
+        <span class="tier">T3 · reporting</span>
+        <a href="https://www.utilitydive.com/news/georgia-power-irp-coal-gas-plants-data-centers/753170/" target="_blank" rel="noopener">Utility Dive · IRP keeps coal plants online to serve data centers</a>
+        <span class="desc">industry-press read</span>
+      </div>
+      <div class="src">
+        <span class="tier">T3 · reporting</span>
+        <a href="https://georgiarecorder.com/2024/12/02/georgia-power-says-data-center-growth-will-cause-electricity-demands-to-triple-in-next-decade/" target="_blank" rel="noopener">GA Recorder · Demand to triple in next decade</a>
+        <span class="desc">10-year load-growth framing</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · intervenor analysis</span>
+        <a href="https://cleanenergy.org/news/data-center-load-uncertainty-dominates-georgia-power-irp-hearing/" target="_blank" rel="noopener">SACE · Data center load uncertainty</a>
+        <span class="desc">counter-forecast at PSC hearing</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · expert analysis</span>
+        <a href="https://ieefa.org/sites/default/files/2025-01/UPDATED-REVIEWED-Southeast%20Gas%20Infrastructure%20and%20Data%20Cente.pdf" target="_blank" rel="noopener">IEEFA · Southeast Gas Infrastructure &amp; Data Centers</a>
+        <span class="desc">regional infrastructure framing</span>
+      </div>
+      <div class="src">
+        <span class="tier">T2 · structured reference</span>
+        <a href="https://en.wikipedia.org/wiki/Vogtle_Electric_Generating_Plant" target="_blank" rel="noopener">Vogtle Electric Generating Plant · Wikipedia</a>
+        <span class="desc">canonical cost-history reference</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>About this piece</h5>
+      <p>A financial-substrate read on Georgia 2026, drawn at scale. The Capital Stack is the dollar-and-cents balance sheet under the political surface the rest of the series narrates. The confidence spectrum above is the new epistemic UI: we mark which claims are documented, which are correlated, which are plausible, and which are openly speculative. The intellectual posture is <em>"we identified mechanisms,"</em> not <em>"we proved corruption."</em></p>
+      <p style="font-size: 11px; color: var(--ink-faint); margin-top: 14px; font-style: italic; line-height: 1.55;">A note on sources: links route to the most specific publicly accessible page we could verify. The donor-concentration figures are summarized from Energy &amp; Policy Institute work that itself draws on disclosure filings; following the source chain back to the underlying disclosures is encouraged.</p>
+      <div class="sig">— Infera Editorial</div>
+    </div>
+    <div>
+      <h5>Cross-mechanism reads</h5>
+      <p><a href="the-runoff-tells.html" style="color: var(--money); text-decoration: none;">06 · The Runoff Tells</a><br><a href="the-trickle.html" style="color: var(--ink-dim); text-decoration: none;">01 · The Trickle</a><br><a href="the-eviction-funnel.html" style="color: var(--ink-dim); text-decoration: none;">02 · The Eviction Funnel</a></p>
+    </div>
+    <div>
+      <h5>Cadence</h5>
+      <p>Mechanism 07 · drafted May 22<br>PSC docket sweep · Jun 2<br>Runoff-night live · Jun 16<br>Post-cert stack update · Jun 22</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// HERO STACK — animated three-layer composition
+// ═══════════════════════════════════════════════════════════════
+(function heroStack() {
+  const cvs = document.getElementById('stack-hero');
+  if (!cvs) return;
+  const wrap = cvs.parentElement;
+  const ctx = cvs.getContext('2d');
+  let W = 0, H = 0, dpr = window.devicePixelRatio || 1;
+  function resize() {
+    const r = wrap.getBoundingClientRect();
+    W = Math.max(60, r.width); H = Math.max(40, r.height);
+    cvs.width = W * dpr; cvs.height = H * dpr;
+    cvs.style.width = W + 'px'; cvs.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  addEventListener('resize', resize);
+
+  // Three layers — magnitudes are illustrative ratios.
+  // Vogtle (base, biggest), Data center (middle, growing), Donations (top, thin but influence-amplified).
+  const layers = [
+    { name: 'VOGTLE BASE',     color: '#d99645', mag: 1.0,  glow: true,  caption: '$36.8B build · $11B rate base' },
+    { name: 'DATA-CENTER LOAD', color: '#5a7a8a', mag: 0.55, glow: true,  caption: '8,200 MW · 2024 IRP' },
+    { name: 'DONATIONS',       color: '#c8a87a', mag: 0.20, glow: false, caption: '87% · 61% · concentration' },
+  ];
+
+  let phase = 0;
+  let particles = [];
+
+  function loop() {
+    if (W < 60) { requestAnimationFrame(loop); return; }
+    ctx.clearRect(0, 0, W, H);
+    phase += 0.012;
+
+    const pad = { l: 30, r: 30, t: 18, b: 22 };
+    const cw = W - pad.l - pad.r;
+    const ch = H - pad.t - pad.b;
+
+    // total mag for normalization
+    const totalMag = layers.reduce((a, l) => a + l.mag, 0);
+    let acc = 0;
+
+    layers.forEach((L, i) => {
+      const h = (L.mag / totalMag) * ch;
+      const y0 = pad.t + acc;
+      const y1 = y0 + h;
+      const reveal = Math.min(1, Math.max(0, (phase - i * 0.5) / 1.0));
+      const animH = h * reveal;
+      // Layer body
+      const g = ctx.createLinearGradient(0, y0, 0, y1);
+      g.addColorStop(0, L.color + 'cc');
+      g.addColorStop(1, L.color + '55');
+      ctx.fillStyle = g;
+      ctx.fillRect(pad.l, y0 + (h - animH), cw, animH);
+      // Top rule
+      ctx.strokeStyle = L.color;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(pad.l, y0 + (h - animH));
+      ctx.lineTo(pad.l + cw, y0 + (h - animH));
+      ctx.stroke();
+      // Glow pulse on top edge
+      if (L.glow && reveal > 0.5) {
+        const pulse = 0.4 + Math.sin(phase * 2 - i * 0.6) * 0.3;
+        ctx.shadowColor = L.color;
+        ctx.shadowBlur = 8 + pulse * 6;
+        ctx.beginPath();
+        ctx.moveTo(pad.l, y0 + (h - animH));
+        ctx.lineTo(pad.l + cw, y0 + (h - animH));
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+      // Layer label
+      if (reveal > 0.4) {
+        ctx.fillStyle = L.color;
+        ctx.font = '600 9px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+        ctx.fillText(L.name, pad.l + 8, y0 + 6);
+        ctx.fillStyle = 'rgba(168,162,152,0.8)';
+        ctx.font = '8.5px "JetBrains Mono", monospace';
+        ctx.textAlign = 'right';
+        ctx.fillText(L.caption, pad.l + cw - 8, y0 + 6);
+      }
+      acc += h;
+    });
+
+    // Household receiver at bottom — small box with arrow
+    const hbY = pad.t + ch + 4;
+    ctx.strokeStyle = 'rgba(184,90,82,0.85)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(pad.l + cw * 0.35, hbY - 18, cw * 0.30, 14);
+    ctx.fillStyle = '#b85a52';
+    ctx.font = '600 8.5px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('HOUSEHOLD · ABSORBS', pad.l + cw * 0.5, hbY - 11);
+
+    // Spawn cost-flow particles (drift downward into household)
+    if (particles.length < 50 && Math.random() > 0.55) {
+      particles.push({
+        x: pad.l + Math.random() * cw,
+        y: pad.t + Math.random() * ch * 0.85,
+        vy: 0.25 + Math.random() * 0.55,
+        life: 0,
+        color: layers[Math.floor(Math.random() * layers.length)].color,
+      });
+    }
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.y += p.vy;
+      p.life += 0.012;
+      // funnel toward household
+      const hbX = pad.l + cw * 0.5;
+      p.x += (hbX - p.x) * 0.02;
+      if (p.y > hbY - 6) { particles.splice(i, 1); continue; }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + 'cc';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+// LAYER SPARKLINES — Tufte small multiples (SVG)
+// ═══════════════════════════════════════════════════════════════
+(function sparklines() {
+  function buildSpark(svgId, data, color, labels) {
+    const svg = document.getElementById(svgId);
+    if (!svg) return;
+    const ns = 'http://www.w3.org/2000/svg';
+    const W = 400, H = 70, pad = { l: 4, r: 32, t: 6, b: 14 };
+    const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+    const min = Math.min(...data);
+    const max = Math.max(...data);
+    const xy = data.map((v, i) => [
+      pad.l + (i / (data.length - 1)) * cw,
+      pad.t + ch - ((v - min) / (max - min || 1)) * ch
+    ]);
+    // baseline
+    const base = document.createElementNS(ns, 'line');
+    base.setAttribute('x1', pad.l); base.setAttribute('x2', pad.l + cw);
+    base.setAttribute('y1', pad.t + ch); base.setAttribute('y2', pad.t + ch);
+    base.setAttribute('stroke', 'rgba(168,162,152,0.15)');
+    base.setAttribute('stroke-width', '1');
+    svg.appendChild(base);
+    // area fill
+    const areaPts = xy.map(p => p.join(',')).join(' ');
+    const area = document.createElementNS(ns, 'polyline');
+    area.setAttribute('points', `${pad.l},${pad.t + ch} ${areaPts} ${pad.l + cw},${pad.t + ch}`);
+    area.setAttribute('fill', color);
+    area.setAttribute('fill-opacity', '0.10');
+    area.setAttribute('stroke', 'none');
+    svg.appendChild(area);
+    // line
+    const line = document.createElementNS(ns, 'polyline');
+    line.setAttribute('points', areaPts);
+    line.setAttribute('fill', 'none');
+    line.setAttribute('stroke', color);
+    line.setAttribute('stroke-width', '1.6');
+    svg.appendChild(line);
+    // last-point marker
+    const last = xy[xy.length - 1];
+    const dot = document.createElementNS(ns, 'circle');
+    dot.setAttribute('cx', last[0]); dot.setAttribute('cy', last[1]);
+    dot.setAttribute('r', '3'); dot.setAttribute('fill', color);
+    svg.appendChild(dot);
+    // last-value label
+    const lbl = document.createElementNS(ns, 'text');
+    lbl.setAttribute('x', last[0] + 5); lbl.setAttribute('y', last[1] + 3);
+    lbl.setAttribute('fill', color);
+    lbl.setAttribute('font-family', 'JetBrains Mono, monospace');
+    lbl.setAttribute('font-size', '8.5');
+    lbl.textContent = labels.lastLabel;
+    svg.appendChild(lbl);
+    // x-axis ticks
+    [0, Math.floor((data.length - 1) / 2), data.length - 1].forEach(i => {
+      const t = document.createElementNS(ns, 'text');
+      t.setAttribute('x', pad.l + (i / (data.length - 1)) * cw);
+      t.setAttribute('y', H - 2);
+      t.setAttribute('fill', 'rgba(168,162,152,0.5)');
+      t.setAttribute('font-family', 'JetBrains Mono, monospace');
+      t.setAttribute('font-size', '7.5');
+      t.setAttribute('text-anchor', 'middle');
+      t.textContent = labels.x[i] || '';
+      svg.appendChild(t);
+    });
+  }
+  // Vogtle — cost overrun growth (illustrative, anchored to known endpoints)
+  buildSpark('spark-vogtle',
+    [14, 16, 19, 22, 26, 29, 31, 33, 35, 36.8],
+    '#d99645',
+    { lastLabel: '$36.8B', x: ['2009','2014','2019','2023'] }
+  );
+  // Data centers — load forecast growth (illustrative, IRP-anchored)
+  buildSpark('spark-load',
+    [1.2, 1.5, 2.0, 2.6, 3.4, 4.3, 5.5, 6.6, 7.4, 8.2],
+    '#5a7a8a',
+    { lastLabel: '+8.2GW', x: ['2024','2027','2030','2034'] }
+  );
+  // Donations — concentration over time (illustrative, anchored to E&PI cumulative %)
+  buildSpark('spark-donor',
+    [48, 52, 56, 61, 65, 70, 74, 78, 83, 87],
+    '#c8a87a',
+    { lastLabel: '87%', x: ['2018','2020','2022','2024'] }
+  );
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+// LENS CONSOLE — four financial vizs + switching
+// ═══════════════════════════════════════════════════════════════
+(function lensConsole() {
+  const section = document.querySelector('.lens-console-section');
+  if (!section) return;
+  let activeIdx = 0;
+
+  const lenses = [
+    { // A · ECONOMIC · capital stack at scale
+      viz: 'stack',
+      tag: 'A · ECONOMIC LENS',
+      title: 'The stack, drawn at scale',
+      frame: '"Stacked balance sheets do not feel like decisions. They feel like weather."',
+      body: 'Vogtle is the documented floor: <strong>$36.8B built, $11B added to rate base, $420 per household per year</strong>. The data-center layer is the next 8,200 MW arriving on top. Donations are the lubrication between rate cases. Drawn to scale, the household is the smallest box and the bottom box. The political question is not whether each layer is real, it is what happens when they compound on the same household. <strong>People experience politics materially before they experience it ideologically.</strong>',
+      causal: ['capital build', 'rate base', 'cost recovery', 'household burden'],
+      vocab: ['rate base', 'recovery', 'compounding', 'substrate'],
+      test: 'If you remove any one layer from the stack, does ratepayer burden materially decline within 24 months?',
+      r1: 'stacked cost magnitude', r1m: '$ scaled across layers',
+      r2: 'household is smallest, lowest', r2m: 'structural geometry',
+      r3: 'rate base · recovery · burden', r3m: 'regulatory-financial register',
+      r4: 'long-horizon utility value', r4m: 'baseload, decarbonization, growth'
+    },
+    { // B · POLITICAL · donor constellation
+      viz: 'constellation',
+      tag: 'B · POLITICAL LENS',
+      title: 'Donor constellation, regulator captured',
+      frame: '"A regulator funded by who they regulate is not a scandal; it is a structure."',
+      body: 'Edges run from donor clusters into commissioners; commissioner node size scales with documented vote influence. <strong>87% and 61% are not edge cases; they are the median</strong> across recent cycles for the commission that approves Vogtle recovery and IRP load assumptions. Whether this is corruption is contested. That the geometry exists is not. The runoff cohort that picks the next commissioner sits inside the same geometry.',
+      causal: ['donor cluster', 'commissioner', 'PSC vote', 'rate-case outcome'],
+      vocab: ['concentration', 'capture', 'docket', 'cluster', 'edge weight'],
+      test: 'Does a commissioner whose donor mix drops below 30% utility-tied vote differently on the next rate case?',
+      r1: 'donor → commissioner edges', r1m: 'thickness = $',
+      r2: '70%+ utility tie for 4 of 5', r2m: 'documented modal pattern',
+      r3: 'concentration · capture · docket', r3m: 'campaign-finance register',
+      r4: 'commissioner ideology', r4m: 'preference vs incentive'
+    },
+    { // C · MEDIA · frame slope
+      viz: 'frameslope',
+      tag: 'C · MEDIA LENS',
+      title: 'Growth vs. burden — the framing slope',
+      frame: '"The same number reads as growth in one outlet and extraction in another."',
+      body: 'Pull the most-quoted phrases used to describe each layer in industry trades versus accountability outlets. The data-center build is <em>"economic development"</em> in one register, <em>"socialized infrastructure cost"</em> in the other. Vogtle is <em>"baseload clean energy"</em> or <em>"$36.8B overrun"</em> depending on who is paying for the sentence. The story is not which framing is right; <strong>the story is which voters get which framing</strong>.',
+      causal: ['same fact', 'two frames', 'two audiences', 'two political receptivities'],
+      vocab: ['frame', 'register', 'audience', 'mediation'],
+      test: 'For the median Georgia voter, which framing arrives first and which arrives at all?',
+      r1: 'framing differential', r1m: 'industry vs accountability',
+      r2: 'slope from growth → burden', r2m: 'register switches',
+      r3: 'frame · register · audience', r3m: 'media-criticism register',
+      r4: 'voter-side filtering', r4m: 'audience does its own work'
+    },
+    { // D · CULTURAL · household sparkline grid
+      viz: 'sparkgrid',
+      tag: 'D · CULTURAL LENS',
+      title: 'The household, drawn small',
+      frame: '"Politics arrives on the kitchen table as a stack of envelopes."',
+      body: 'Twelve household line items, twelve sparklines, twenty-four months. Utility, insurance, grocery, daycare, rent, gasoline, prescription, internet, mobility, school fees, fees-and-surcharges, miscellaneous. Most lines drift up. The Capital Stack contributes to the utility line specifically. The political conversion happens when <strong>the lines start to feel coordinated</strong>, regardless of whether they actually are. The cultural lens is the lens of compounding kitchen-table arithmetic.',
+      causal: ['individual line items', 'visible compounding', 'felt coordination', 'political receptivity'],
+      vocab: ['kitchen table', 'envelope', 'compounding', 'felt arithmetic'],
+      test: 'For households in the top quartile of monthly bill volatility, does turnout in the runoff exceed the median by a defensible margin?',
+      r1: 'household line-item drift', r1m: 'twelve small multiples',
+      r2: 'utility line carries the stack', r2m: 'others move for other reasons',
+      r3: 'envelope · drift · compounding', r3m: 'household-economics register',
+      r4: 'income heterogeneity', r4m: 'same lines hit differently'
+    }
+  ];
+
+  // ── viz helpers ──
+  function ensureCanvas(host) {
+    let cvs = host.querySelector('canvas');
+    if (!cvs) { cvs = document.createElement('canvas'); host.appendChild(cvs); }
+    const ctx = cvs.getContext('2d');
+    const env = { cvs, ctx, W: 0, H: 0 };
+    function resize() {
+      const r = host.getBoundingClientRect();
+      env.W = Math.max(60, r.width); env.H = Math.max(40, r.height);
+      const dpr = window.devicePixelRatio || 1;
+      cvs.width = env.W * dpr; cvs.height = env.H * dpr;
+      cvs.style.width = env.W + 'px'; cvs.style.height = env.H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    env.resize = resize;
+    resize();
+    return env;
+  }
+
+  // ── viz A: capital stack at scale ──
+  function vizStack(host) {
+    const env = ensureCanvas(host); env.resize();
+    addEventListener('resize', env.resize);
+    const layers = [
+      { name: 'VOGTLE BASE',     val: 36.8, color: '#d99645', sub: '$11B rate base' },
+      { name: 'DATA-CENTER LOAD', val: 22.0, color: '#5a7a8a', sub: '8,200 MW · 2024 IRP' },
+      { name: 'DONATIONS',       val: 0.8,  color: '#c8a87a', sub: '87% · 61% · cluster' },
+    ];
+    const household = { val: 0.000420, name: 'HOUSEHOLD', sub: '~$420 / yr per ratepayer', color: '#b85a52' };
+    let phase = 0;
+    let particles = [];
+
+    function loop() {
+      if (env.W < 10) { requestAnimationFrame(loop); return; }
+      const { ctx, W, H } = env;
+      ctx.clearRect(0, 0, W, H);
+      phase += 0.011;
+
+      const pad = { l: 40, r: 130, t: 24, b: 60 };
+      const cw = W - pad.l - pad.r;
+      const ch = H - pad.t - pad.b;
+
+      // log-scale boxes to fit donations next to vogtle
+      const sizes = layers.map(L => Math.log(L.val + 1.2) * 28 + 12);
+      const total = sizes.reduce((a, s) => a + s, 0);
+      let acc = pad.t;
+      layers.forEach((L, i) => {
+        const h = (sizes[i] / total) * (ch * 0.7);
+        const reveal = Math.min(1, Math.max(0, (phase - i * 0.4) / 1.0));
+        const w = cw * reveal;
+        // body
+        const g = ctx.createLinearGradient(pad.l, acc, pad.l + cw, acc);
+        g.addColorStop(0, L.color + 'dd');
+        g.addColorStop(1, L.color + '55');
+        ctx.fillStyle = g;
+        ctx.fillRect(pad.l, acc, w, h);
+        // border
+        ctx.strokeStyle = L.color;
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(pad.l + 0.5, acc + 0.5, w - 1, h - 1);
+        // pulse
+        const pulse = 0.5 + Math.sin(phase * 1.6 - i * 0.7) * 0.4;
+        ctx.shadowColor = L.color;
+        ctx.shadowBlur = 4 + pulse * 4;
+        ctx.beginPath();
+        ctx.moveTo(pad.l, acc + h);
+        ctx.lineTo(pad.l + w, acc + h);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+        // labels
+        if (reveal > 0.3) {
+          ctx.fillStyle = L.color;
+          ctx.font = '600 10px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+          ctx.fillText(L.name, pad.l + 10, acc + h / 2 - 6);
+          ctx.fillStyle = 'rgba(240,235,224,0.75)';
+          ctx.font = '9px "JetBrains Mono", monospace';
+          ctx.fillText(L.sub, pad.l + 10, acc + h / 2 + 8);
+          // right-side $ value
+          ctx.fillStyle = L.color;
+          ctx.font = 'italic 14px "Fraunces", serif';
+          ctx.textAlign = 'left';
+          ctx.fillText('$' + L.val.toFixed(1) + 'B', pad.l + cw + 10, acc + h / 2);
+        }
+        acc += h + 2;
+      });
+
+      // household at bottom — much smaller
+      const hbY = pad.t + ch * 0.82;
+      const hbH = ch * 0.10;
+      const hbW = cw * 0.4;
+      const hbX = pad.l + (cw - hbW) / 2;
+      ctx.strokeStyle = household.color;
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(hbX, hbY, hbW, hbH);
+      ctx.fillStyle = household.color + '22';
+      ctx.fillRect(hbX, hbY, hbW, hbH);
+      ctx.fillStyle = household.color;
+      ctx.font = '600 9.5px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(household.name + ' · ' + household.sub, hbX + hbW / 2, hbY + hbH / 2);
+
+      // arrows from each layer into household
+      let aacc = pad.t;
+      layers.forEach((L, i) => {
+        const h = (sizes[i] / total) * (ch * 0.7);
+        const startX = pad.l + cw / 2;
+        const startY = aacc + h;
+        ctx.strokeStyle = L.color + '88';
+        ctx.lineWidth = 1; ctx.setLineDash([2, 4]);
+        ctx.beginPath();
+        ctx.moveTo(startX + (i - 1) * 30, startY);
+        ctx.lineTo(hbX + hbW / 2 + (i - 1) * 10, hbY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        aacc += h + 2;
+      });
+
+      // legend bottom
+      ctx.fillStyle = 'rgba(168,162,152,0.65)';
+      ctx.font = 'italic 10px "Fraunces", serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('boxes scaled · arrows = cost flow · household absorbs all three', W / 2, H - 18);
+
+      // money particles
+      if (particles.length < 50 && Math.random() > 0.65) {
+        const li = Math.floor(Math.random() * layers.length);
+        particles.push({ x: pad.l + Math.random() * cw, y: pad.t + Math.random() * ch * 0.6, vy: 0.5, color: layers[li].color });
+      }
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i]; p.y += p.vy;
+        p.x += (hbX + hbW / 2 - p.x) * 0.03;
+        if (p.y > hbY - 4) { particles.splice(i, 1); continue; }
+        ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + 'cc'; ctx.fill();
+      }
+
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  // ── viz B: donor constellation ──
+  function vizConstellation(host) {
+    const env = ensureCanvas(host); env.resize();
+    addEventListener('resize', env.resize);
+    // donor clusters (left), commissioners (center), votes (right)
+    const donors = [
+      { name: 'Southern Co. execs', y: 0.15, w: 0.32 },
+      { name: 'GP exec PAC',         y: 0.30, w: 0.26 },
+      { name: 'Outside counsel',     y: 0.45, w: 0.10 },
+      { name: 'Gas-infra trade',     y: 0.60, w: 0.12 },
+      { name: 'DC trade group',      y: 0.75, w: 0.08 },
+      { name: 'Other (small)',       y: 0.88, w: 0.12 },
+    ];
+    const comms = [
+      { name: 'Comm A · Johnson', y: 0.25, util: 0.87 },
+      { name: 'Comm B · Echols',  y: 0.50, util: 0.61 },
+      { name: 'Comm C',           y: 0.72, util: 0.74 },
+    ];
+    const votes = [
+      { name: 'Vogtle recovery',   y: 0.22 },
+      { name: 'IRP approval',      y: 0.45 },
+      { name: 'Rate-case orders',  y: 0.68 },
+    ];
+    let phase = 0;
+    function loop() {
+      if (env.W < 10) { requestAnimationFrame(loop); return; }
+      const { ctx, W, H } = env;
+      ctx.clearRect(0, 0, W, H);
+      phase += 0.012;
+      const pad = { l: 130, r: 130, t: 22, b: 30 };
+      const cw = W - pad.l - pad.r;
+      const ch = H - pad.t - pad.b;
+      const xD = pad.l, xC = pad.l + cw / 2, xV = pad.l + cw;
+
+      // edges donor -> commissioner
+      donors.forEach((d, di) => {
+        comms.forEach((c, ci) => {
+          // not all donors hit all commissioners — illustrative routing
+          const w = d.w * (1 - Math.abs(ci - di / 2) * 0.15);
+          if (w < 0.04) return;
+          const y0 = pad.t + d.y * ch;
+          const y1 = pad.t + c.y * ch;
+          ctx.strokeStyle = '#c8a87a' + Math.floor((w * 200) + 30).toString(16);
+          ctx.lineWidth = Math.max(0.5, w * 6);
+          ctx.beginPath();
+          ctx.moveTo(xD, y0);
+          ctx.bezierCurveTo(xD + cw * 0.25, y0, xC - cw * 0.25, y1, xC, y1);
+          ctx.stroke();
+        });
+      });
+      // edges commissioner -> vote
+      comms.forEach((c, ci) => {
+        votes.forEach((v, vi) => {
+          const w = c.util * 0.85;
+          const y0 = pad.t + c.y * ch;
+          const y1 = pad.t + v.y * ch;
+          ctx.strokeStyle = '#c8a87a' + Math.floor(w * 200 + 30).toString(16);
+          ctx.lineWidth = Math.max(0.5, w * 4);
+          ctx.beginPath();
+          ctx.moveTo(xC, y0);
+          ctx.bezierCurveTo(xC + cw * 0.25, y0, xV - cw * 0.25, y1, xV, y1);
+          ctx.stroke();
+        });
+      });
+      // donor nodes
+      donors.forEach(d => {
+        const y = pad.t + d.y * ch;
+        ctx.fillStyle = '#c8a87a';
+        ctx.beginPath(); ctx.arc(xD, y, 4 + d.w * 14, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = 'rgba(240,235,224,0.85)';
+        ctx.font = '9.5px "JetBrains Mono", monospace';
+        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        ctx.fillText(d.name, xD - 12, y);
+      });
+      // commissioner nodes (pulse based on util)
+      comms.forEach(c => {
+        const y = pad.t + c.y * ch;
+        const pulse = 0.5 + Math.sin(phase * 1.6) * 0.4;
+        ctx.shadowColor = '#c8a87a';
+        ctx.shadowBlur = c.util * 12 * pulse;
+        ctx.fillStyle = '#d99645';
+        ctx.beginPath(); ctx.arc(xC, y, 8 + c.util * 6, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = 'rgba(240,235,224,0.95)';
+        ctx.font = '600 10px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(c.name, xC, y - 18);
+        ctx.fillStyle = '#d99645';
+        ctx.font = 'italic 11px "Fraunces", serif';
+        ctx.fillText(Math.round(c.util * 100) + '% utility-tied', xC, y + 20);
+      });
+      // vote nodes
+      votes.forEach(v => {
+        const y = pad.t + v.y * ch;
+        ctx.fillStyle = '#7a9c6a';
+        ctx.beginPath(); ctx.rect(xV - 6, y - 6, 12, 12); ctx.fill();
+        ctx.fillStyle = 'rgba(240,235,224,0.85)';
+        ctx.font = '9.5px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+        ctx.fillText(v.name, xV + 12, y);
+      });
+      // legend
+      ctx.fillStyle = 'rgba(168,162,152,0.6)';
+      ctx.font = 'italic 10px "Fraunces", serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.fillText('edge thickness = $ · commissioner glow = utility-tied %', W / 2, H - 22);
+
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  // ── viz C: frame slope (growth vs burden language) ──
+  function vizFrameSlope(host) {
+    const env = ensureCanvas(host); env.resize();
+    addEventListener('resize', env.resize);
+    const frames = [
+      { fact: 'Vogtle build', growth: 0.85, burden: 0.20, gLbl: 'baseload clean energy', bLbl: '$36.8B overrun' },
+      { fact: 'Data-center load', growth: 0.92, burden: 0.30, gLbl: 'economic development', bLbl: 'socialized cost' },
+      { fact: 'PSC donor pattern', growth: 0.35, burden: 0.78, gLbl: 'industry expertise', bLbl: 'regulatory capture' },
+      { fact: 'New gas + coal', growth: 0.65, burden: 0.55, gLbl: 'reliability investment', bLbl: 'climate regression' },
+      { fact: 'Rate-case order', growth: 0.40, burden: 0.85, gLbl: 'cost recovery', bLbl: 'rate hike' },
+    ];
+    let phase = 0;
+    function loop() {
+      if (env.W < 10) { requestAnimationFrame(loop); return; }
+      const { ctx, W, H } = env;
+      ctx.clearRect(0, 0, W, H);
+      phase += 0.008;
+      const pad = { l: 160, r: 200, t: 32, b: 40 };
+      const cw = W - pad.l - pad.r;
+      const ch = H - pad.t - pad.b;
+
+      // axis
+      ctx.strokeStyle = 'rgba(168,162,152,0.22)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + ch); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(pad.l + cw, pad.t); ctx.lineTo(pad.l + cw, pad.t + ch); ctx.stroke();
+
+      // headers
+      ctx.fillStyle = '#7a9c6a';
+      ctx.font = 'italic 12px "Fraunces", serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+      ctx.fillText('Growth framing', pad.l, pad.t - 8);
+      ctx.fillStyle = '#b85a52';
+      ctx.fillText('Burden framing', pad.l + cw, pad.t - 8);
+
+      // slopes
+      frames.forEach((f, i) => {
+        const y1 = pad.t + (1 - f.growth) * ch;
+        const y2 = pad.t + (1 - f.burden) * ch;
+        const reveal = Math.min(1, Math.max(0, (phase - i * 0.2) / 0.6));
+        if (reveal < 0.02) return;
+        // gradient color along slope
+        const gr = ctx.createLinearGradient(pad.l, y1, pad.l + cw, y2);
+        gr.addColorStop(0, '#7a9c6a');
+        gr.addColorStop(1, '#b85a52');
+        ctx.strokeStyle = gr;
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        ctx.moveTo(pad.l, y1);
+        ctx.lineTo(pad.l + cw * reveal, y1 + (y2 - y1) * reveal);
+        ctx.stroke();
+        // endpoint dots
+        ctx.fillStyle = '#7a9c6a';
+        ctx.beginPath(); ctx.arc(pad.l, y1, 3, 0, Math.PI * 2); ctx.fill();
+        if (reveal > 0.95) {
+          ctx.fillStyle = '#b85a52';
+          ctx.beginPath(); ctx.arc(pad.l + cw, y2, 3, 0, Math.PI * 2); ctx.fill();
+        }
+        // labels
+        ctx.fillStyle = 'rgba(240,235,224,0.85)';
+        ctx.font = '600 10px "JetBrains Mono", monospace';
+        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        ctx.fillText(f.fact, pad.l - 12, y1);
+        if (reveal > 0.5) {
+          ctx.fillStyle = '#7a9c6a';
+          ctx.font = '8.5px "JetBrains Mono", monospace';
+          ctx.textAlign = 'right';
+          ctx.fillText('"' + f.gLbl + '"', pad.l - 12, y1 + 12);
+        }
+        if (reveal > 0.95) {
+          ctx.fillStyle = '#b85a52';
+          ctx.font = '8.5px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText('"' + f.bLbl + '"', pad.l + cw + 12, y2);
+        }
+      });
+      // bottom note
+      ctx.fillStyle = 'rgba(168,162,152,0.65)';
+      ctx.font = 'italic 10px "Fraunces", serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('the same fact, two registers, two audiences', W / 2, H - 14);
+
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  // ── viz D: household spark grid ──
+  function vizSparkGrid(host) {
+    const env = ensureCanvas(host); env.resize();
+    addEventListener('resize', env.resize);
+    const items = [
+      { name: 'Utility',        drift: 0.32, color: '#d99645', stack: true },
+      { name: 'Insurance',      drift: 0.42, color: '#b85a52' },
+      { name: 'Grocery',        drift: 0.18, color: '#a08850' },
+      { name: 'Daycare',        drift: 0.28, color: '#a08850' },
+      { name: 'Rent / mortgage',drift: 0.22, color: '#a08850' },
+      { name: 'Gasoline',       drift: 0.05, color: '#a08850' },
+      { name: 'Prescription',   drift: 0.12, color: '#a08850' },
+      { name: 'Internet',       drift: 0.15, color: '#a08850' },
+      { name: 'Mobility',       drift: 0.08, color: '#a08850' },
+      { name: 'School fees',    drift: 0.18, color: '#a08850' },
+      { name: 'Fees & surcharges', drift: 0.25, color: '#a08850' },
+      { name: 'Miscellaneous',  drift: 0.10, color: '#a08850' },
+    ];
+    let phase = 0;
+    function loop() {
+      if (env.W < 10) { requestAnimationFrame(loop); return; }
+      const { ctx, W, H } = env;
+      ctx.clearRect(0, 0, W, H);
+      phase += 0.01;
+      const pad = { l: 12, r: 12, t: 18, b: 28 };
+      const cols = 3, rows = 4;
+      const cellW = (W - pad.l - pad.r) / cols;
+      const cellH = (H - pad.t - pad.b) / rows;
+      items.forEach((it, i) => {
+        const c = i % cols, r = Math.floor(i / cols);
+        const x0 = pad.l + c * cellW + 8;
+        const y0 = pad.t + r * cellH + 8;
+        const w = cellW - 16;
+        const h = cellH - 20;
+        // cell box (subtle)
+        ctx.strokeStyle = it.stack ? '#d99645' : 'rgba(168,162,152,0.15)';
+        ctx.lineWidth = it.stack ? 1.5 : 1;
+        ctx.strokeRect(x0, y0, w, h);
+        // label
+        ctx.fillStyle = it.stack ? '#d99645' : 'rgba(240,235,224,0.85)';
+        ctx.font = (it.stack ? '600 ' : '300 ') + '9.5px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+        ctx.fillText(it.name, x0 + 4, y0 + 4);
+        // sparkline — 24 months of drift
+        const pts = [];
+        for (let m = 0; m < 24; m++) {
+          const v = 0.5 + (m / 23) * it.drift + Math.sin(m * 0.6 + i) * 0.04;
+          pts.push([x0 + 4 + (m / 23) * (w - 8), y0 + h - 8 - (v - 0.4) * (h - 24) * 1.4]);
+        }
+        const reveal = Math.min(1, Math.max(0, (phase - i * 0.06) / 0.7));
+        const cut = Math.floor(pts.length * reveal);
+        ctx.strokeStyle = it.color;
+        ctx.lineWidth = it.stack ? 1.6 : 1;
+        ctx.beginPath();
+        pts.slice(0, cut).forEach((p, k) => { if (k === 0) ctx.moveTo(p[0], p[1]); else ctx.lineTo(p[0], p[1]); });
+        ctx.stroke();
+        // delta tag
+        if (reveal > 0.95) {
+          ctx.fillStyle = it.color;
+          ctx.font = '8.5px "JetBrains Mono", monospace';
+          ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+          ctx.fillText('+' + Math.round(it.drift * 100) + '%', x0 + w - 4, y0 + h - 4);
+        }
+        // stack-tied annotation
+        if (it.stack && reveal > 0.5) {
+          ctx.fillStyle = '#d99645';
+          ctx.font = 'italic 8px "Fraunces", serif';
+          ctx.textAlign = 'right'; ctx.textBaseline = 'top';
+          ctx.fillText('← stack', x0 + w - 4, y0 + 4);
+        }
+      });
+      // bottom legend
+      ctx.fillStyle = 'rgba(168,162,152,0.7)';
+      ctx.font = 'italic 10px "Fraunces", serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+      ctx.fillText('twelve household lines · 24 months · gold = touched by the Capital Stack', W / 2, H - 8);
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  // init all four
+  const initMap = { stack: vizStack, constellation: vizConstellation, frameslope: vizFrameSlope, sparkgrid: vizSparkGrid };
+  lenses.forEach((lens, i) => {
+    const frame = section.querySelectorAll('.lc-viz-frame')[i];
+    if (!frame) return;
+    const wrap = frame.querySelector('.lc-viz-canvas');
+    initMap[lens.viz](wrap);
+  });
+
+  const LENS_COLORS = ['#d99645', '#c8a87a', '#7fb4c8', '#b85a52'];
+  const LENS_BGS = ['rgba(217,150,69,0.06)', 'rgba(200,168,122,0.06)', 'rgba(127,180,200,0.06)', 'rgba(184,90,82,0.06)'];
+
+  function setLens(idx) {
+    if (idx === activeIdx) return; activeIdx = idx;
+    const lens = lenses[idx];
+    section.style.setProperty('--lens-c', LENS_COLORS[idx]);
+    section.style.setProperty('--lens-c-bg', LENS_BGS[idx]);
+    section.querySelectorAll('.lc-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+    section.querySelectorAll('.lc-viz-frame').forEach((f, i) => f.classList.toggle('active', i === idx));
+    const narr = section.querySelector('.lc-narr-content');
+    narr.classList.add('fading');
+    setTimeout(() => {
+      section.querySelector('.lc-narr-tag').textContent = lens.tag;
+      section.querySelector('.lc-narr-title').textContent = lens.title;
+      section.querySelector('.lc-narr-frame').textContent = lens.frame;
+      section.querySelector('.lc-narr-body').innerHTML = lens.body;
+      section.querySelector('.lc-narr-test-q').textContent = lens.test;
+      section.querySelector('.lc-causal').innerHTML = lens.causal.map((s, i) => `<span class="step">${s}</span>${i < lens.causal.length - 1 ? '<span class="arrow">→</span>' : ''}`).join('');
+      section.querySelector('.lc-vocab').innerHTML = lens.vocab.map(w => `<span class="word">${w}</span>`).join('');
+      narr.classList.remove('fading');
+    }, 260);
+    section.querySelectorAll('.lc-rd').forEach(r => r.classList.add('fading'));
+    setTimeout(() => {
+      const rds = section.querySelectorAll('.lc-rd');
+      rds[0].querySelector('.lc-rd-val').textContent = lens.r1; rds[0].querySelector('.lc-rd-meta').textContent = lens.r1m;
+      rds[1].querySelector('.lc-rd-val').textContent = lens.r2; rds[1].querySelector('.lc-rd-meta').textContent = lens.r2m;
+      rds[2].querySelector('.lc-rd-val').textContent = lens.r3; rds[2].querySelector('.lc-rd-meta').textContent = lens.r3m;
+      rds[3].querySelector('.lc-rd-val').textContent = lens.r4; rds[3].querySelector('.lc-rd-meta').textContent = lens.r4m;
+      rds.forEach(r => r.classList.remove('fading'));
+    }, 260);
+  }
+  section.querySelectorAll('.lc-tab').forEach((t, i) => t.addEventListener('click', () => setLens(i)));
+  addEventListener('keydown', e => {
+    if (!section.matches(':hover')) return;
+    const k = 'abcd'.indexOf(e.key.toLowerCase());
+    if (k >= 0) setLens(k);
+  });
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+// Dim-switch
+// ═══════════════════════════════════════════════════════════════
+(function dimSwitch() {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('strong, .read-time').forEach(el => el.classList.add('lit'));
+    return;
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('lit'); obs.unobserve(e.target); } });
+  }, { threshold: 0.55, rootMargin: '-10% 0px' });
+  document.querySelectorAll('strong, .read-time').forEach(el => obs.observe(el));
+})();
+
+</script>
+</body>
+</html>

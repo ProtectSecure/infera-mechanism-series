@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>THE CLASS ENGINE — what your photos buy you (and don't)</title>
+<meta name="description" content="A live experiment in how the images you post quietly sort you into a class — and how that class decides the internet you see, the prices you pay, and the choices you're offered.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f1ede1;
+  --bg-deep:#0a0a0a;
+  --bg-mid:#1a1a1f;
+  --ink:#0a0a0a;
+  --ink-soft:#3a3a3f;
+  --paper:#fbf7eb;
+  --rule:#d8d2bf;
+  --lime:#c8ff1e;
+  --pink:#ff1a6b;
+  --cobalt:#1e3cff;
+  --yellow:#ffd500;
+  --tomato:#ff3a2e;
+  --cream:#fbf7eb;
+  --display:'Archivo Black','Helvetica Neue',sans-serif;
+  --sans:'Space Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --italic:'Instrument Serif',Georgia,serif;
+
+  --persona-color: var(--lime);   /* updated by JS as persona changes */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-size:15px;line-height:1.5}
+::selection{background:var(--persona-color);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer}
+
+/* =========================================================== NOISE TEXTURE */
+.noise::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .22 0'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='.6'/></svg>");
+  mix-blend-mode:multiply;opacity:.4;
+}
+
+/* =========================================================== SERIES TAB NAV (matches the rest of the series) */
+.seriesnav{position:sticky;top:0;z-index:90;background:rgba(8,8,10,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #28262a}
+.seriesnav-inner{display:flex;align-items:center;padding:10px 24px;gap:18px;overflow-x:auto;scrollbar-width:none;font-family:var(--mono)}
+.seriesnav-inner::-webkit-scrollbar{display:none}
+.seriesnav .brand{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#c4a777;white-space:nowrap;text-decoration:none;padding-right:18px;border-right:1px solid #28262a;display:flex;align-items:center;gap:8px}
+.seriesnav .brand .d{width:6px;height:6px;background:var(--lime);border-radius:50%}
+.seriesnav .tabs{display:flex;gap:2px;flex:1}
+.seriesnav .tab{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#5a564e;padding:6px 10px;border-radius:2px;text-decoration:none;white-space:nowrap;transition:color .2s,background .2s}
+.seriesnav .tab:hover{color:#a8a298;background:rgba(255,255,255,.04)}
+.seriesnav .tab.active{color:var(--lime);background:rgba(200,255,30,.10)}
+.seriesnav .tab-num{font-family:var(--italic);font-style:italic;margin-right:5px;opacity:.6}
+
+/* =========================================================== STICKY HUD */
+.hud{position:sticky;top:36px;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:14px 26px;background:var(--ink);color:var(--cream);border-bottom:3px solid var(--persona-color);transition:border-color .4s}
+.hud .mk{font-family:var(--display);font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.hud .mk .dot{width:11px;height:11px;background:var(--persona-color);border-radius:50%;box-shadow:0 0 0 3px var(--ink),0 0 0 4px var(--cream);transition:background .4s}
+.hud .progress{flex:1;max-width:520px;margin:0 24px;display:flex;gap:5px}
+.hud .progress .seg{flex:1;height:3px;background:rgba(251,247,235,.18);transition:background .3s,transform .3s}
+.hud .progress .seg.on{background:var(--persona-color);transform:scaleY(1.6)}
+.hud .progress .seg.done{background:rgba(251,247,235,.55)}
+.hud .you{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(251,247,235,.65);display:flex;align-items:center;gap:10px}
+.hud .you b{color:var(--persona-color);font-family:var(--display);font-size:13px;letter-spacing:-.01em;text-transform:uppercase;transition:color .4s}
+
+/* =========================================================== GUIDE PROMPTS (floating, sectional) */
+.guide{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:75;display:flex;align-items:center;gap:14px;max-width:680px;padding:14px 22px;background:var(--ink);color:var(--cream);box-shadow:8px 8px 0 var(--persona-color);transition:opacity .5s,transform .5s,box-shadow .4s;pointer-events:none}
+.guide.hide{opacity:0;transform:translate(-50%,12px)}
+.guide .arr{font-family:var(--display);font-size:24px;color:var(--persona-color);animation:bob 1.6s ease-in-out infinite;transition:color .4s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.guide .txt{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;line-height:1.5;flex:1}
+.guide .txt b{font-family:var(--display);color:var(--persona-color);font-size:13px;letter-spacing:-.01em;text-transform:uppercase;transition:color .4s}
+.guide .step{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:rgba(251,247,235,.55);text-transform:uppercase;padding-left:14px;border-left:1px solid rgba(251,247,235,.25)}
+
+/* =========================================================== HERO */
+.hero{position:relative;padding:120px 28px 80px;border-bottom:3px solid var(--ink);overflow:hidden}
+.hero-grid{position:relative;z-index:2}
+.hero .meta{display:flex;justify-content:space-between;align-items:flex-start;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+.hero .meta .badge{background:var(--ink);color:var(--bg);padding:5px 10px}
+.hero .meta .badge.lime{background:var(--lime);color:var(--ink)}
+.hero .meta .live{display:inline-flex;align-items:center;gap:8px}
+.hero .meta .live::before{content:"";width:8px;height:8px;background:var(--tomato);border-radius:50%;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:var(--display);font-size:clamp(60px,12vw,180px);line-height:.82;letter-spacing:-.05em;margin:14px 0}
+.hero h1 .l1{color:var(--ink)}
+.hero h1 .l2{color:var(--pink);font-family:var(--italic);font-style:italic;font-weight:400;font-size:1.05em;margin-left:.15em}
+.hero h1 .l3{color:var(--cobalt)}
+.hero h1 .l3 .who{font-family:var(--mono);font-size:.2em;letter-spacing:.4em;color:var(--ink);background:var(--lime);padding:.04em .2em;vertical-align:.4em}
+.hero-foot{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:32px;margin-top:48px;padding-top:24px;border-top:1px solid var(--ink)}
+.hero-foot .dek{font-family:var(--italic);font-style:italic;font-size:clamp(20px,2.4vw,30px);line-height:1.2;color:var(--ink)}
+.hero-foot .dek b{font-style:normal;background:var(--lime);padding:1px 8px;font-family:var(--sans);font-weight:700}
+.hero-foot .m{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);line-height:1.9}
+.hero-foot .m strong{display:block;color:var(--ink);font-size:13px;letter-spacing:.04em;text-transform:none;font-family:var(--display);font-weight:400;margin-top:2px}
+.hero .scroll-cue{margin-top:48px;display:inline-flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);padding:14px 18px;background:var(--ink);color:var(--cream)}
+.hero .scroll-cue::after{content:"↓";font-size:14px;color:var(--lime);animation:bob 2s infinite}
+.hero-art{position:absolute;top:0;right:0;width:48%;height:100%;z-index:1;pointer-events:none;opacity:.85}
+.hero-art canvas{width:100%;height:100%;display:block}
+
+/* =========================================================== SECTION SHELL */
+section.stage{padding:120px 28px;border-bottom:3px solid var(--ink);position:relative;background:var(--bg)}
+section.stage.dark{background:var(--bg-deep);color:var(--cream)}
+section.stage.cream{background:var(--cream)}
+section.stage.lime{background:var(--lime)}
+section.stage.pink{background:var(--pink);color:var(--cream)}
+section.stage.cobalt{background:var(--cobalt);color:var(--cream)}
+section.stage.yellow{background:var(--yellow)}
+
+.head{display:grid;grid-template-columns:120px 1fr;gap:32px;align-items:end;margin-bottom:48px}
+.head .num{font-family:var(--display);font-size:84px;line-height:.85;letter-spacing:-.05em}
+.head .num .lbl{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.22em;font-weight:400;margin-bottom:8px;opacity:.6}
+.head h2{font-family:var(--display);font-size:clamp(38px,5.5vw,82px);line-height:.92;letter-spacing:-.035em}
+.head h2 em{font-family:var(--italic);font-style:italic;font-weight:400;letter-spacing:-.02em}
+.head h2 .pink{color:var(--pink)}
+.head h2 .cobalt{color:var(--cobalt)}
+.head h2 .tomato{color:var(--tomato)}
+.head h2 .lime-bg{background:var(--lime);padding:0 .12em;color:var(--ink)}
+.head h2 .ink-bg{background:var(--ink);padding:0 .12em;color:var(--cream)}
+.head .dek{grid-column:2;font-family:var(--italic);font-style:italic;font-size:18px;line-height:1.4;margin-top:14px;max-width:780px;opacity:.85}
+
+/* =========================================================== STAGE 1 — PIPELINE (kept from §02) */
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:3px solid var(--ink);background:var(--ink)}
+.pipe .step{padding:28px 22px;background:var(--bg);position:relative;border-right:3px solid var(--ink);min-height:340px}
+.pipe .step:last-child{border-right:none}
+.pipe .step .stage{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--pink);font-weight:700}
+.pipe .step .num{font-family:var(--display);font-size:88px;line-height:.85;letter-spacing:-.04em;margin:4px 0 14px}
+.pipe .step h3{font-family:var(--display);font-size:22px;line-height:1.05;letter-spacing:-.02em;margin-bottom:10px}
+.pipe .step h3 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.pipe .step p{font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--ink-soft);margin-bottom:14px}
+.pipe .step .demo{font-family:var(--mono);font-size:10.5px;line-height:1.65;background:var(--ink);color:var(--bg);padding:12px;border:none}
+.pipe .step .demo .row{display:flex;justify-content:space-between;border-bottom:1px dashed #2a2a2f;padding:4px 0}
+.pipe .step .demo .row:last-child{border:none}
+.pipe .step .demo .row span:first-child{opacity:.6}
+.pipe .step .demo .row span:last-child{color:var(--lime);font-weight:700}
+.pipe .step .demo .row .infer{color:var(--pink)!important}
+
+/* =========================================================== STAGE 2 — ARCHETYPES PICKER */
+.arch-prompt{font-family:var(--display);font-size:clamp(24px,3vw,42px);letter-spacing:-.025em;line-height:1.05;margin-bottom:24px;display:flex;align-items:center;gap:18px;color:var(--ink)}
+.arch-prompt .arrow{font-size:1em;animation:bob 1.5s infinite;color:var(--pink)}
+.arch-prompt .post{display:none;color:var(--persona-color);transition:color .4s}
+.arch-prompt.locked .pre{display:flex;align-items:center;gap:18px}
+.arch-prompt.locked .post{display:none}
+body[data-picked="true"] .arch-prompt .pre{display:none}
+body[data-picked="true"] .arch-prompt .post{display:flex;align-items:center;gap:18px}
+
+.arch{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-top:3px solid var(--ink);border-left:3px solid var(--ink)}
+.arch .card{border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:24px 18px;background:var(--bg);position:relative;min-height:380px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:transform .25s,box-shadow .25s}
+.arch .card:hover{transform:translate3d(-3px,-3px,0);box-shadow:6px 6px 0 var(--ink);z-index:2}
+.arch .card.picked{transform:translate3d(-4px,-4px,0);box-shadow:8px 8px 0 var(--ink);z-index:3}
+.arch .card.dimmed{opacity:.4}
+.arch .card:nth-child(1){background:var(--lime)}
+.arch .card:nth-child(2){background:var(--pink);color:var(--cream)}
+.arch .card:nth-child(3){background:var(--cobalt);color:var(--cream)}
+.arch .card:nth-child(4){background:var(--yellow)}
+.arch .card:nth-child(5){background:var(--tomato);color:var(--cream)}
+.arch .card:nth-child(6){background:var(--ink);color:var(--cream)}
+.arch .card .ix{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;opacity:.7}
+.arch .card .name{font-family:var(--display);font-size:28px;line-height:.95;letter-spacing:-.025em;margin-top:8px}
+.arch .card .name em{font-family:var(--italic);font-style:italic;font-weight:400}
+.arch .card .sig{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;margin-top:14px;opacity:.75;line-height:1.5}
+.arch .card .quote{font-family:var(--italic);font-style:italic;font-size:14.5px;line-height:1.35;margin-top:12px;opacity:.95}
+.arch .card .tier{font-family:var(--display);font-size:11px;letter-spacing:.04em;padding:6px 10px;background:rgba(0,0,0,.18);display:inline-block;align-self:flex-start;margin-top:8px;text-transform:uppercase}
+.arch .card:nth-child(6) .tier{background:rgba(251,247,235,.18)}
+.arch .card .pick{margin-top:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:8px 12px;background:var(--ink);color:var(--cream);border:none;cursor:pointer;align-self:flex-start;transition:background .15s,transform .15s}
+.arch .card .pick:hover{transform:translateY(-1px)}
+.arch .card:nth-child(6) .pick{background:var(--cream);color:var(--ink)}
+.arch .card.picked .pick{background:var(--persona-color);color:var(--ink)}
+
+/* =========================================================== STAGE 3 — PROFILE BUILDER (kept) */
+.builder{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:start}
+.picker .lead{font-family:var(--italic);font-style:italic;font-size:20px;line-height:1.35;margin-bottom:18px;max-width:520px;color:var(--ink)}
+.picker .group{margin-bottom:22px}
+.picker .group .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;display:flex;justify-content:space-between}
+.picker .group .lbl span{color:var(--pink)}
+.picker .opts{display:flex;gap:8px;flex-wrap:wrap}
+.picker .opt{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:9px 13px;border:2px solid var(--ink);background:var(--bg);cursor:pointer;transition:.15s;font-weight:500;color:var(--ink)}
+.picker .opt:hover{background:var(--ink);color:var(--bg)}
+.picker .opt.on{background:var(--persona-color);color:var(--ink);border-color:var(--ink);transform:translate3d(-1px,-1px,0);box-shadow:3px 3px 0 var(--ink)}
+.profile-out{background:var(--ink);color:var(--bg);padding:28px;border:3px solid var(--ink);font-family:var(--mono);font-size:11.5px;line-height:1.7;min-height:520px;display:flex;flex-direction:column;position:relative}
+.profile-out .label{font-size:10px;letter-spacing:.22em;color:var(--persona-color);margin-bottom:6px;transition:color .4s}
+.profile-out h4{font-family:var(--display);font-size:30px;line-height:.95;letter-spacing:-.025em;margin-bottom:16px;color:var(--bg)}
+.profile-out .block{margin-bottom:18px;padding-bottom:14px;border-bottom:1px dashed #2a2a2f}
+.profile-out .block:last-of-type{border:none;margin-bottom:0}
+.profile-out .block .h{color:var(--pink);font-size:9.5px;letter-spacing:.22em;margin-bottom:6px;text-transform:uppercase}
+.profile-out .block .v{color:var(--bg);line-height:1.6}
+.profile-out .block .v span.tag{display:inline-block;padding:2px 8px;background:var(--cobalt);color:var(--bg);margin:2px 4px 2px 0;font-size:10px;letter-spacing:.06em}
+.profile-out .block .v span.tag.l{background:var(--lime);color:var(--ink)}
+.profile-out .block .v span.tag.p{background:var(--pink)}
+.profile-out .block .v span.tag.y{background:var(--yellow);color:var(--ink)}
+.profile-out .auction{margin-top:auto;background:var(--persona-color);color:var(--ink);padding:14px;display:flex;justify-content:space-between;align-items:center;transition:background .4s}
+.profile-out .auction .a-lbl{font-size:10px;letter-spacing:.18em}
+.profile-out .auction .a-val{font-family:var(--display);font-size:28px;letter-spacing:-.02em}
+
+/* =========================================================== STAGE 4 — CONVERGENCE (kept) */
+.conv{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.src-card{background:var(--cream);border:2.5px solid var(--ink);padding:18px 16px;position:relative;min-height:200px;display:flex;flex-direction:column;justify-content:space-between;transition:.25s}
+.src-card.on{background:#fff;transform:translate3d(-3px,-3px,0);box-shadow:5px 5px 0 var(--persona-color);border-color:var(--ink)}
+.src-card.off{opacity:.35;filter:saturate(.3)}
+.src-card .ic{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--persona-color);margin-bottom:10px;transition:color .4s}
+.src-card .ic svg{width:20px;height:20px;color:var(--persona-color);transition:color .4s}
+.src-card .nm{font-family:var(--display);font-size:15px;line-height:1.05;letter-spacing:-.015em;margin-bottom:2px}
+.src-card .nm em{font-family:var(--italic);font-style:italic;font-weight:400}
+.src-card .ct{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px}
+.src-card .adds{font-family:var(--mono);font-size:9.5px;line-height:1.5;color:var(--ink-soft)}
+.src-card .adds b{display:block;color:var(--cobalt);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:9px;margin-bottom:2px}
+.composite-rev{margin-top:32px;background:var(--ink);color:var(--cream);padding:32px;border:3px solid var(--ink);position:relative;overflow:hidden}
+.composite-rev::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(200,255,30,.16) 0%,transparent 60%);pointer-events:none}
+.composite-rev .cr-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--persona-color);text-transform:uppercase;margin-bottom:8px;transition:color .4s}
+.composite-rev h3{font-family:var(--display);font-size:clamp(24px,3.5vw,40px);line-height:.95;letter-spacing:-.03em;margin-bottom:18px}
+.composite-rev .cr-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:18px}
+.composite-rev .cr-stat{padding:14px 0;border-top:2px solid var(--persona-color);transition:border-color .4s}
+.composite-rev .cr-stat .v{font-family:var(--display);font-size:32px;letter-spacing:-.03em;line-height:.9;color:var(--persona-color);transition:color .4s}
+.composite-rev .cr-stat .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,235,.6);margin-top:6px}
+
+/* =========================================================== STAGE 5 — COMPOSITE EXERCISE (kept) */
+.ce{display:grid;grid-template-columns:1fr;gap:20px}
+.ce-banner{padding:18px 22px;background:var(--ink);color:var(--cream);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.ce-banner b{font-family:var(--display);color:var(--persona-color);font-size:14px;letter-spacing:-.01em;transition:color .4s}
+.ce-ctrls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:var(--ink);padding:14px;border:none;border-top:1px dashed rgba(251,247,235,.2)}
+.ce-ctrls button{font-family:var(--display);font-size:12px;letter-spacing:.04em;padding:11px 16px;background:var(--persona-color);color:var(--ink);border:none;cursor:pointer;text-transform:uppercase;transition:.15s}
+.ce-ctrls button:hover{background:var(--pink);color:var(--cream)}
+.ce-ctrls button.alt{background:transparent;color:var(--cream);border:1px solid rgba(251,247,235,.4)}
+.ce-ctrls .lbl{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream)}
+.ce-meter-wrap{background:var(--ink);padding:18px}
+.ce-meter-wrap .m-lbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);margin-bottom:10px}
+.ce-meter-wrap .m-lbl b{color:var(--persona-color);font-family:var(--display);font-size:18px;letter-spacing:-.02em;transition:color .4s}
+.ce-meter{height:24px;background:var(--bg-mid);position:relative;overflow:hidden;border:1px solid rgba(251,247,235,.2)}
+.ce-meter .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--persona-color),var(--pink));transition:width .6s cubic-bezier(.3,.7,.4,1),background .4s}
+.ce-meter .ticks{position:absolute;inset:0;display:flex;pointer-events:none}
+.ce-meter .ticks span{flex:1;border-right:1px dashed rgba(251,247,235,.18)}
+.ce-meter .ticks span:last-child{border:none}
+.ce-timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.ce-year{padding:22px 18px;background:var(--bg-mid);color:var(--cream);border-right:1px solid var(--ink);position:relative;min-height:240px;opacity:.32;transition:.4s}
+.ce-year:last-child{border-right:none}
+.ce-year.act{opacity:1;background:var(--ink)}
+.ce-year .y{font-family:var(--display);font-size:46px;letter-spacing:-.04em;line-height:.85;color:var(--persona-color);transition:color .4s}
+.ce-year .y .u{font-family:var(--mono);font-size:10px;letter-spacing:.18em;display:block;margin-top:4px;color:var(--cream);font-weight:400;opacity:.5;text-transform:uppercase}
+.ce-year h5{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--pink);margin:14px 0 6px;text-transform:uppercase;font-weight:700}
+.ce-year .src-list span{display:inline-block;padding:2px 6px;background:rgba(200,255,30,.14);color:var(--persona-color);margin:2px 4px 2px 0;border:1px solid rgba(200,255,30,.4);font-family:var(--mono);font-size:10px;transition:color .4s,border-color .4s}
+.ce-year .attrs{font-family:var(--italic);font-style:italic;font-size:13px;line-height:1.4;color:var(--cream);margin-bottom:8px;opacity:.9}
+.ce-year .pred{font-family:var(--mono);font-size:10px;line-height:1.5;background:var(--persona-color);color:var(--ink);padding:7px 10px;font-weight:500;letter-spacing:.02em;transition:background .4s}
+
+/* =========================================================== STAGE 6 — PERCEPTION LOOP (kept §09) */
+.perception{display:grid;grid-template-columns:.8fr 1.2fr;gap:0;border:3px solid var(--ink);background:var(--cream)}
+.p-ctrl{padding:24px;background:var(--ink);color:var(--cream);border-right:3px solid var(--ink)}
+.p-ctrl h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--persona-color);margin:0 0 10px;font-weight:700;transition:color .4s}
+.p-ctrl h4:not(:first-child){margin-top:22px}
+.p-ctrl .lead{font-family:var(--italic);font-style:italic;font-size:14.5px;color:rgba(251,247,235,.85);line-height:1.4;margin-bottom:18px}
+.p-slide input[type=range]{width:100%;accent-color:var(--pink);height:3px}
+.p-slide .lbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(251,247,235,.55);margin-top:4px}
+.p-slide .lbl b{color:var(--pink);font-family:var(--display);font-size:11px;letter-spacing:.04em}
+.p-stat{margin-top:20px;padding:14px;background:var(--bg-mid);border-left:3px solid var(--pink);font-family:var(--italic);font-style:italic;font-size:13.5px;line-height:1.4}
+.p-stat b{font-style:normal;font-family:var(--display);font-size:18px;color:var(--persona-color);display:block;margin-bottom:4px;letter-spacing:-.02em;transition:color .4s}
+.p-feed{padding:0;background:var(--cream);max-height:680px;overflow-y:auto;scrollbar-width:thin}
+.p-feed::-webkit-scrollbar{width:6px}
+.p-feed::-webkit-scrollbar-thumb{background:var(--ink)}
+.p-feed .p-feed-head{padding:14px 22px;background:var(--ink);color:var(--cream);font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;border-bottom:3px solid var(--persona-color);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5;transition:border-color .4s}
+.p-post{padding:22px 24px;border-bottom:1.5px solid var(--rule);background:var(--cream);animation:postIn .35s ease}
+@keyframes postIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.p-post .p-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+.p-post .p-meta .tag{padding:2px 7px;background:var(--ink);color:var(--cream);font-weight:700}
+.p-post .p-meta .tag.ad{background:var(--pink);color:var(--cream)}
+.p-post h5{font-family:var(--display);font-size:17px;line-height:1.15;letter-spacing:-.02em;margin-bottom:8px}
+.p-post .body{font-family:var(--sans);font-size:13.5px;line-height:1.5;color:var(--ink-soft);margin-bottom:8px}
+.p-post .visual{height:72px;margin:10px 0;background:linear-gradient(135deg,var(--c1,var(--lime)),var(--c2,var(--pink)))}
+.p-post .cta{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--cobalt);font-weight:700}
+.p-post.ad .cta{color:var(--pink)}
+.p-post.ad{background:rgba(255,26,107,.04);border-left:3px solid var(--pink)}
+
+/* =========================================================== STAGE 7 — MONEY FLOW (kept §10) */
+.mf-wrap{background:var(--ink);color:var(--cream);padding:24px;border:3px solid var(--persona-color);transition:border-color .4s}
+.mf-ctrls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px;padding-bottom:16px;border-bottom:1px dashed rgba(251,247,235,.2)}
+.mf-ctrls select{font-family:var(--display);font-size:12px;padding:8px 14px;background:var(--bg-mid);color:var(--cream);border:1.5px solid var(--persona-color);cursor:pointer;text-transform:uppercase;transition:border-color .4s}
+.mf-ctrls .ctrl{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,235,.55)}
+.mf-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start}
+.mf-stage{background:#06080c;border:1px solid rgba(251,247,235,.1);position:relative;aspect-ratio:1.05/1;overflow:hidden}
+.mf-stage svg{width:100%;height:100%;display:block}
+.mf-stage .mf-node{position:absolute;transform:translate(-50%,-50%);font-family:var(--display);font-size:11px;background:var(--bg-mid);color:var(--cream);padding:9px 12px;border:1.5px solid var(--cream);cursor:pointer;text-align:center;min-width:120px;transition:.2s;z-index:5}
+.mf-stage .mf-node:hover{background:var(--persona-color);color:var(--ink);border-color:var(--ink);transform:translate(-50%,-50%) scale(1.05)}
+.mf-stage .mf-node.act{background:var(--persona-color);color:var(--ink);border-color:var(--ink);box-shadow:0 0 0 3px rgba(200,255,30,.3)}
+.mf-stage .mf-node .sub{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;margin-top:3px;opacity:.7;font-weight:400}
+.mf-stage .mf-node.you{background:var(--pink);color:var(--cream);border-color:var(--cream);min-width:90px}
+.mf-stage .mf-arrow-lbl{position:absolute;font-family:var(--mono);font-size:9px;color:var(--persona-color);background:rgba(0,0,0,.7);padding:2px 6px;pointer-events:none;z-index:4;text-transform:uppercase;font-weight:700;transition:color .4s}
+.mf-stage .mf-arrow-lbl.cost{color:var(--pink)}
+.mf-detail{background:var(--bg-mid);padding:22px;border:1px solid rgba(251,247,235,.15);min-height:480px;display:flex;flex-direction:column}
+.mf-detail .d-label{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--persona-color);margin-bottom:8px;transition:color .4s}
+.mf-detail h4{font-family:var(--display);font-size:24px;line-height:.96;letter-spacing:-.025em;margin-bottom:14px}
+.mf-detail .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0;padding:14px 0;border-top:1px solid rgba(251,247,235,.15);border-bottom:1px solid rgba(251,247,235,.15)}
+.mf-detail .stat .v{font-family:var(--display);font-size:22px;color:var(--persona-color);letter-spacing:-.02em;line-height:1;transition:color .4s}
+.mf-detail .stat .v.pink{color:var(--pink)}
+.mf-detail .stat .l{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,235,.6);margin-top:5px}
+.mf-detail .body{font-family:var(--sans);font-size:13px;line-height:1.55;color:rgba(251,247,235,.78);margin-bottom:14px}
+.mf-detail .body b{color:var(--persona-color);font-weight:600;transition:color .4s}
+.mf-detail .who-pays{margin-top:auto;padding:12px 14px;background:var(--ink);border:1px solid var(--pink);font-family:var(--italic);font-style:italic;font-size:12.5px;line-height:1.4}
+.mf-detail .who-pays b{font-style:normal;font-family:var(--display);color:var(--pink)}
+.mf-receipt{margin-top:24px;display:grid;grid-template-columns:1.05fr 1fr;gap:0;border:2px solid var(--persona-color);background:var(--cream);transition:border-color .4s}
+.mf-rec-left{padding:0;border-right:2px dashed var(--ink)}
+.mf-rec-left pre{font-family:var(--mono);font-size:10.5px;line-height:1.65;color:var(--ink);white-space:pre;padding:24px 26px;margin:0;overflow-x:auto}
+.mf-rec-right{padding:24px;background:var(--ink);color:var(--cream);display:flex;flex-direction:column;gap:14px}
+.mf-rec-right h4{font-family:var(--display);font-size:22px;line-height:1;letter-spacing:-.025em;margin-bottom:6px}
+.mf-rec-right h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--pink)}
+.bars{display:grid;grid-template-columns:1fr;gap:10px;margin:6px 0}
+.bar{position:relative;height:28px;background:var(--bg-mid);overflow:hidden;border:1px solid rgba(251,247,235,.2)}
+.bar .f{position:absolute;left:0;top:0;bottom:0;transition:width .5s cubic-bezier(.3,.7,.4,1)}
+.bar .f.pay{background:repeating-linear-gradient(45deg,var(--pink) 0 8px,#d91458 8px 16px)}
+.bar .f.gen{background:repeating-linear-gradient(45deg,var(--persona-color) 0 8px,rgba(0,0,0,.2) 8px 16px);transition:background .4s,width .5s}
+.bar .lbl{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:10px;color:var(--ink);font-weight:700;z-index:2;text-transform:uppercase;letter-spacing:.1em}
+.bar .val{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--display);font-size:14px;color:var(--ink);z-index:2;letter-spacing:-.02em}
+.net{margin-top:auto;padding:18px;background:var(--pink);color:var(--cream);text-align:center}
+.net .l{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:5px}
+.net .big{font-family:var(--display);font-size:42px;line-height:.85;letter-spacing:-.04em}
+.net .big .u{font-family:var(--mono);font-size:10px;letter-spacing:.14em;display:block;margin-top:5px;font-weight:400}
+
+/* =========================================================== STAGE 8 — CLASS SYSTEM REVEAL (NEW) */
+.class-intro{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:32px}
+.class-intro .pull{font-family:var(--italic);font-style:italic;font-size:clamp(22px,2.5vw,32px);line-height:1.25;color:var(--ink);max-width:30ch}
+.class-intro .pull b{font-style:normal;background:var(--lime);padding:1px 8px;font-family:var(--sans);font-weight:700}
+.class-intro .note{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);line-height:1.7}
+.class-intro .note b{color:var(--ink);font-family:var(--display);font-size:14px;letter-spacing:-.005em;display:block;text-transform:none;margin-top:4px}
+
+.class-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.class-cell{border:3px solid var(--ink);background:var(--cream);padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:520px;position:relative;cursor:default;transition:transform .2s}
+.class-cell:hover{transform:translateY(-3px)}
+.class-cell.is-you{box-shadow:8px 8px 0 var(--persona-color);transform:translate3d(-3px,-3px,0);transition:box-shadow .4s,transform .4s}
+.class-cell .top-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.class-cell .ix{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+.class-cell .tier{font-family:var(--display);font-size:11px;letter-spacing:.04em;padding:6px 10px;text-transform:uppercase;color:var(--ink)}
+.class-cell.t1 .tier{background:var(--yellow)}
+.class-cell.t2 .tier{background:var(--lime)}
+.class-cell.t3 .tier{background:var(--pink);color:var(--cream)}
+.class-cell.t4 .tier{background:var(--cobalt);color:var(--cream)}
+.class-cell .name{font-family:var(--display);font-size:26px;line-height:.96;letter-spacing:-.025em;margin-bottom:6px}
+.class-cell .name em{font-family:var(--italic);font-style:italic;font-weight:400}
+.class-cell .desc{font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--ink-soft);margin-bottom:14px}
+.class-cell .mini-feed{display:flex;flex-direction:column;gap:6px;margin:14px 0;padding:14px;background:var(--ink);color:var(--cream)}
+.class-cell .mini-feed .mp{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:rgba(255,255,255,.05);border-left:2px solid var(--persona-color-fixed,var(--lime));font-family:var(--mono);font-size:9.5px;letter-spacing:.06em}
+.class-cell.t1 .mini-feed .mp{border-left-color:var(--yellow)}
+.class-cell.t2 .mini-feed .mp{border-left-color:var(--lime)}
+.class-cell.t3 .mini-feed .mp{border-left-color:var(--pink)}
+.class-cell.t4 .mini-feed .mp{border-left-color:var(--cobalt)}
+.class-cell .mini-feed .mp .lbl{font-weight:500;color:rgba(251,247,235,.85);text-transform:none;letter-spacing:0}
+.class-cell .mini-feed .mp .tg{padding:2px 6px;background:rgba(255,255,255,.12);text-transform:uppercase;letter-spacing:.1em;font-size:8.5px}
+.class-cell .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:14px;border-top:1px dashed var(--rule)}
+.class-cell .st{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.class-cell .st .v{display:block;font-family:var(--display);font-size:18px;color:var(--ink);letter-spacing:-.015em;margin-top:2px}
+.class-cell.t1 .st .v{color:var(--ink)}
+.class-cell .you-tag{position:absolute;top:-14px;right:14px;background:var(--persona-color);color:var(--ink);padding:5px 12px;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;font-weight:700;text-transform:uppercase;display:none;transition:background .4s}
+.class-cell.is-you .you-tag{display:block}
+
+/* =========================================================== STAGE 9 — SHIELD INTERACTIVE (NEW) */
+.shield{display:grid;grid-template-columns:.9fr 1.1fr;gap:36px;align-items:start}
+.shield-ctrl{padding:32px;background:var(--ink);color:var(--cream)}
+.shield-ctrl h3{font-family:var(--display);font-size:26px;line-height:1;letter-spacing:-.025em;margin-bottom:14px}
+.shield-ctrl h3 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.shield-ctrl p{font-family:var(--italic);font-style:italic;font-size:14.5px;line-height:1.4;color:rgba(251,247,235,.78);margin-bottom:22px}
+.shield-ctrl .slider-lbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,235,.55);margin-bottom:10px}
+.shield-ctrl .slider-lbl b{color:var(--lime);font-family:var(--display);font-size:14px;letter-spacing:-.01em}
+.shield-ctrl input[type=range]{width:100%;accent-color:var(--lime);height:6px}
+.shield-ctrl .stages{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:14px;border:1px solid rgba(251,247,235,.18)}
+.shield-ctrl .stages span{padding:8px 4px;font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-align:center;color:rgba(251,247,235,.5);text-transform:uppercase;border-right:1px solid rgba(251,247,235,.18);transition:.3s}
+.shield-ctrl .stages span:last-child{border:none}
+.shield-ctrl .stages span.on{background:var(--lime);color:var(--ink);font-weight:700}
+.shield-ctrl .desc-block{margin-top:24px;padding:18px;background:var(--bg-mid);border-left:3px solid var(--lime);font-family:var(--italic);font-style:italic;font-size:14px;line-height:1.45;min-height:120px;color:var(--cream)}
+.shield-ctrl .desc-block b{font-style:normal;font-family:var(--display);color:var(--lime);display:block;font-size:16px;margin-bottom:6px;letter-spacing:-.015em}
+.shield-viz{padding:32px;background:var(--cream);border:3px solid var(--ink);position:relative;min-height:540px}
+.shield-viz .rings-wrap{display:flex;justify-content:center;align-items:center;height:280px;position:relative}
+.shield-viz svg{width:100%;height:100%;max-width:280px;display:block}
+.shield-viz .ring{transition:opacity .4s,r .4s,stroke .4s}
+.shield-viz .person{font-family:var(--display);font-size:14px;fill:var(--ink);letter-spacing:-.01em}
+.shield-stats{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.shield-stat{padding:14px;background:var(--ink);color:var(--cream)}
+.shield-stat .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(251,247,235,.55);margin-bottom:6px}
+.shield-stat .v{font-family:var(--display);font-size:26px;letter-spacing:-.03em;line-height:1;color:var(--lime);transition:color .4s}
+.shield-stat .v.bad{color:var(--pink)}
+.shield-stat .v.good{color:var(--lime)}
+.shield-stat .delta{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:rgba(251,247,235,.7);margin-top:4px}
+
+/* =========================================================== FINALE / CTA */
+.finale{padding:140px 28px;background:var(--ink);color:var(--cream);text-align:center;border-bottom:none}
+.finale h2{font-family:var(--display);font-size:clamp(48px,7vw,108px);line-height:.88;letter-spacing:-.045em;margin-bottom:32px}
+.finale h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.finale .closer{font-family:var(--italic);font-style:italic;font-size:clamp(18px,1.8vw,24px);line-height:1.4;color:rgba(251,247,235,.78);max-width:42ch;margin:0 auto 48px}
+.finale .cta{display:inline-block;font-family:var(--display);font-size:clamp(20px,2.2vw,26px);padding:24px 44px;background:var(--lime);color:var(--ink);letter-spacing:-.01em;transition:transform .25s,box-shadow .25s}
+.finale .cta:hover{transform:translateY(-3px);box-shadow:0 14px 32px -8px rgba(200,255,30,.4)}
+.finale .reassurance{margin-top:24px;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(251,247,235,.5)}
+
+/* =========================================================== FOOTER */
+footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3px solid var(--lime);display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+
+/* =========================================================== REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:none}
+
+/* =========================================================== RESPONSIVE */
+@media (max-width:1100px){
+  .pipe,.mf-grid,.mf-receipt{grid-template-columns:1fr}
+  .arch{grid-template-columns:repeat(2,1fr)}
+  .conv{grid-template-columns:repeat(2,1fr)}
+  .builder,.perception,.shield,.class-intro{grid-template-columns:1fr;gap:24px}
+  .class-grid{grid-template-columns:1fr}
+  .ce-timeline{grid-template-columns:1fr}
+  .ce-year{border-right:none;border-bottom:1px solid var(--ink);min-height:auto}
+  .head{grid-template-columns:1fr;gap:18px}
+  .composite-rev .cr-stats{grid-template-columns:repeat(2,1fr)}
+  .hero-foot{grid-template-columns:1fr;gap:24px}
+  .hero-art{display:none}
+  .guide{max-width:calc(100% - 32px);left:16px;right:16px;transform:none}
+  .guide.hide{transform:translateY(12px)}
+}
+</style>
+</head>
+<body data-persona="curator" data-picked="false">
+
+<!-- =========================================================== SERIES TAB NAV -->
+<nav class="seriesnav">
+  <div class="seriesnav-inner">
+    <a class="brand" href="index.html"><span class="d"></span>INFERA · MECHANISM SERIES</a>
+    <div class="tabs">
+      <a class="tab" href="index.html"><span class="tab-num">i.</span>Index</a>
+      <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">02</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">03</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">04</span>Coast</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">05</span>Ballot</a>
+      <a class="tab" href="the-runoff-tells.html"><span class="tab-num">06</span>Runoff</a>
+      <a class="tab active" href="personhood-inc.html"><span class="tab-num">08</span>Personhood</a>
+      <a class="tab" href="thesis.html"><span class="tab-num">◉</span>Thesis</a>
+    </div>
+  </div>
+</nav>
+
+<!-- =========================================================== STICKY HUD (interactive experience) -->
+<header class="hud">
+  <a class="mk" href="index.html" style="color:inherit;text-decoration:none"><span class="dot"></span>THE CLASS ENGINE</a>
+  <div class="progress" aria-hidden="true">
+    <span class="seg on" data-s="1"></span>
+    <span class="seg" data-s="2"></span>
+    <span class="seg" data-s="3"></span>
+    <span class="seg" data-s="4"></span>
+    <span class="seg" data-s="5"></span>
+    <span class="seg" data-s="6"></span>
+    <span class="seg" data-s="7"></span>
+    <span class="seg" data-s="8"></span>
+    <span class="seg" data-s="9"></span>
+  </div>
+  <div class="you">YOU·ARE <b id="hudPersona">UNPICKED</b></div>
+</header>
+
+<!-- =========================================================== GUIDE PROMPT (floating) -->
+<div class="guide hide" id="guide" aria-live="polite">
+  <div class="arr" id="guideArr">↑</div>
+  <div class="txt" id="guideTxt"><b>Begin the experiment.</b> Scroll into Stage 01.</div>
+  <div class="step" id="guideStep">00 / 09</div>
+</div>
+
+<!-- =========================================================== HERO -->
+<header class="hero noise" data-stage="0">
+  <div class="hero-art"><canvas id="heroCanvas"></canvas></div>
+  <div class="hero-grid">
+    <div class="meta">
+      <div style="display:flex;gap:14px;align-items:center">
+        <span class="badge">EXPERIMENT</span>
+        <span class="badge lime">ISSUE 08-B</span>
+        <span>FIELD STUDY · MAY 2026</span>
+      </div>
+      <div class="live">LIVE INTERACTIVE</div>
+    </div>
+    <h1>
+      <span class="l1">WHAT YOU POST</span>
+      <span class="l2">becomes</span>
+      <span class="l3">WHO YOU ARE <span class="who">TO THEM</span></span>
+    </h1>
+    <div class="hero-foot">
+      <div class="dek">
+        A live experiment in how the images you share quietly sort you into a class — <b>and how that class decides the internet you see, the prices you pay, and the choices you're offered.</b>
+      </div>
+      <div class="m">Stages<strong>9 interactive</strong>Time<strong>≈14 minutes</strong>Action<strong>Pick a persona to begin</strong></div>
+      <div class="m">Personas<strong>6 paths</strong>Variables<strong>30+ toggle points</strong>Outcomes<strong>4 visible classes</strong></div>
+    </div>
+    <a class="scroll-cue" href="#s1">BEGIN THE EXPERIMENT</a>
+  </div>
+</header>
+
+<main>
+
+<!-- =========================================================== STAGE 1 — PIPELINE -->
+<section class="stage" id="s1" data-stage="1">
+  <div class="head">
+    <div class="num">01<span class="lbl">PIPELINE</span></div>
+    <div>
+      <h2>From <em class="cobalt">pixel</em><br/>to <em class="pink">auction</em><br/>in four moves.</h2>
+    </div>
+  </div>
+  <div class="pipe">
+    <div class="step">
+      <div class="stage">CAPTURE</div>
+      <div class="num">01</div>
+      <h3>What was <em>uploaded.</em></h3>
+      <p>Pixel data, EXIF, time, device, format.</p>
+      <div class="demo">
+        <div class="row"><span>resolution</span><span>3024 × 4032</span></div>
+        <div class="row"><span>device</span><span>iPhone</span></div>
+        <div class="row"><span>geo</span><span>masked</span></div>
+        <div class="row"><span>upload v</span><span>4.2 s</span></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="stage">DETECT</div>
+      <div class="num">02</div>
+      <h3>What is <em>visible.</em></h3>
+      <p>Objects, faces, brands, environment.</p>
+      <div class="demo">
+        <div class="row"><span>scene</span><span>indoor/staged</span></div>
+        <div class="row"><span>faces</span><span>3</span></div>
+        <div class="row"><span>logos</span><span>0.72</span></div>
+        <div class="row"><span>lighting</span><span>warm/soft</span></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="stage">INFER</div>
+      <div class="num">03</div>
+      <h3>What it <em>suggests.</em></h3>
+      <p>Inferred socioeconomic, life-stage, intent.</p>
+      <div class="demo">
+        <div class="row"><span>aspiration</span><span class="infer">high</span></div>
+        <div class="row"><span>stability</span><span class="infer">0.83</span></div>
+        <div class="row"><span>openness</span><span class="infer">high</span></div>
+        <div class="row"><span>premium intent</span><span class="infer">0.79</span></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="stage">AUCTION</div>
+      <div class="num">04</div>
+      <h3>What it <em>costs.</em></h3>
+      <p>Lookalike cluster · pricing · auction.</p>
+      <div class="demo">
+        <div class="row"><span>cluster size</span><span>9.6M</span></div>
+        <div class="row"><span>coherence</span><span>0.91</span></div>
+        <div class="row"><span>floor</span><span>$3.40 CPM</span></div>
+        <div class="row"><span>winning bid</span><span>$5.82</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== STAGE 2 — ARCHETYPES PICKER -->
+<section class="stage cream" id="s2" data-stage="2">
+  <div class="head">
+    <div class="num">02<span class="lbl">DECISION</span></div>
+    <div>
+      <h2>Pick the <em>persona</em><br/>you most resemble.<br/><span class="lime-bg">Everything below personalizes.</span></h2>
+    </div>
+  </div>
+
+  <div class="arch-prompt" id="archPrompt">
+    <div class="pre"><span class="arrow">↓</span> <span>Tap one card to begin. The rest of the page will rebuild around your choice.</span></div>
+    <div class="post"><span class="arrow">↓</span> <span>You're <b id="picked-name">[persona]</b>. Scroll — every stage below now shows your data trail, your feed, your bill.</span></div>
+  </div>
+
+  <div class="arch" id="archGrid">
+    <div class="card" data-persona="curator">
+      <div>
+        <div class="ix">A · CLUSTER</div>
+        <div class="name">The <em>Curator</em></div>
+        <div class="sig">edits · arranges · re-frames<br/>likely high openness · pattern eye</div>
+        <div class="quote">"If I shape what I keep, I shape what I am."</div>
+      </div>
+      <div>
+        <div class="tier">CLASS 02 · ASPIRATIONAL</div>
+        <button class="pick" data-persona="curator">PICK CURATOR →</button>
+      </div>
+    </div>
+    <div class="card" data-persona="caretaker">
+      <div>
+        <div class="ix">B · CLUSTER</div>
+        <div class="name">The <em>Caretaker</em></div>
+        <div class="sig">tends · protects · plans ahead<br/>likely family-stable · long horizon</div>
+        <div class="quote">"Most of what I do is for people not in the room."</div>
+      </div>
+      <div>
+        <div class="tier">CLASS 01 · PREMIUM</div>
+        <button class="pick" data-persona="caretaker">PICK CARETAKER →</button>
+      </div>
+    </div>
+    <div class="card" data-persona="drifter">
+      <div>
+        <div class="ix">C · CLUSTER</div>
+        <div class="name">The <em>Drifter</em></div>
+        <div class="sig">searches · moves · re-tries<br/>likely volatile graph · low coherence</div>
+        <div class="quote">"I don't know what I am yet, but I'm looking."</div>
+      </div>
+      <div>
+        <div class="tier">CLASS 04 · VOLATILE</div>
+        <button class="pick" data-persona="drifter">PICK DRIFTER →</button>
+      </div>
+    </div>
+    <div class="card" data-persona="believer">
+      <div>
+        <div class="ix">D · CLUSTER</div>
+        <div class="name">The <em>Believer</em></div>
+        <div class="sig">commits · returns · defends<br/>likely high-trust · brand loyal</div>
+        <div class="quote">"Once I'm in, I'm in. I bring others."</div>
+      </div>
+      <div>
+        <div class="tier">CLASS 01 · PREMIUM</div>
+        <button class="pick" data-persona="believer">PICK BELIEVER →</button>
+      </div>
+    </div>
+    <div class="card" data-persona="hustler">
+      <div>
+        <div class="ix">E · CLUSTER</div>
+        <div class="name">The <em>Hustler</em></div>
+        <div class="sig">builds · sells · self-promotes<br/>likely creator-economy · multi-platform</div>
+        <div class="quote">"Every post is also an ad. I know. So is theirs."</div>
+      </div>
+      <div>
+        <div class="tier">CLASS 02 · ASPIRATIONAL</div>
+        <button class="pick" data-persona="hustler">PICK HUSTLER →</button>
+      </div>
+    </div>
+    <div class="card" data-persona="apprentice">
+      <div>
+        <div class="ix">F · CLUSTER</div>
+        <div class="name">The <em>Apprentice</em></div>
+        <div class="sig">learns · copies · adopts<br/>likely young · high-receptive · low-defense</div>
+        <div class="quote">"If everyone here does it, maybe I should too."</div>
+      </div>
+      <div>
+        <div class="tier">CLASS 03 · EXTRACTABLE</div>
+        <button class="pick" data-persona="apprentice">PICK APPRENTICE →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== STAGE 3 — PROFILE BUILDER -->
+<section class="stage lime" id="s3" data-stage="3">
+  <div class="head">
+    <div class="num">03<span class="lbl">SIGNALS</span></div>
+    <div>
+      <h2>Watch a <em>person</em><br/>collapse into a <em>price.</em></h2>
+    </div>
+  </div>
+  <div class="builder">
+    <div class="picker">
+      <div class="lead">Your persona's default signals are pre-selected. Toggle to see how the profile shifts — every change updates the composite on the right.</div>
+      <div class="group">
+        <div class="lbl">ENVIRONMENT <span id="cEnv">0 selected</span></div>
+        <div class="opts" data-group="env">
+          <button class="opt" data-w="env" data-val="home">home</button>
+          <button class="opt" data-w="env" data-val="workplace">workplace</button>
+          <button class="opt" data-w="env" data-val="street">street</button>
+          <button class="opt" data-w="env" data-val="venue">event venue</button>
+          <button class="opt" data-w="env" data-val="travel">travel</button>
+          <button class="opt" data-w="env" data-val="institutional">institutional</button>
+        </div>
+      </div>
+      <div class="group">
+        <div class="lbl">WHO APPEARS <span id="cWho">0 selected</span></div>
+        <div class="opts" data-group="who">
+          <button class="opt" data-w="who" data-val="solo">solo</button>
+          <button class="opt" data-w="who" data-val="partner">partner</button>
+          <button class="opt" data-w="who" data-val="kids">kids</button>
+          <button class="opt" data-w="who" data-val="elders">elders</button>
+          <button class="opt" data-w="who" data-val="peers">peers</button>
+          <button class="opt" data-w="who" data-val="strangers">strangers</button>
+        </div>
+      </div>
+      <div class="group">
+        <div class="lbl">OBJECTS <span id="cObj">0 selected</span></div>
+        <div class="opts" data-group="obj">
+          <button class="opt" data-w="obj" data-val="books">books</button>
+          <button class="opt" data-w="obj" data-val="tech">tech/screens</button>
+          <button class="opt" data-w="obj" data-val="instruments">instruments</button>
+          <button class="opt" data-w="obj" data-val="vehicles">vehicles</button>
+          <button class="opt" data-w="obj" data-val="food">food/drink</button>
+          <button class="opt" data-w="obj" data-val="art">art/craft</button>
+        </div>
+      </div>
+      <div class="group">
+        <div class="lbl">MOOD <span id="cMood">0 selected</span></div>
+        <div class="opts" data-group="mood">
+          <button class="opt" data-w="mood" data-val="warm">warm</button>
+          <button class="opt" data-w="mood" data-val="cool">cool</button>
+          <button class="opt" data-w="mood" data-val="bright">bright</button>
+          <button class="opt" data-w="mood" data-val="moody">moody</button>
+          <button class="opt" data-w="mood" data-val="staged">staged</button>
+          <button class="opt" data-w="mood" data-val="candid">candid</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-out" id="profileOut">
+      <div class="label">PROFILE · LIVE</div>
+      <h4 id="archName">—</h4>
+      <div class="block"><div class="h">SIGNALS</div><div class="v" id="sigOut">—</div></div>
+      <div class="block"><div class="h">INFERRED</div><div class="v" id="infOut">—</div></div>
+      <div class="block"><div class="h">BUYERS</div><div class="v" id="buyOut">—</div></div>
+      <div class="block"><div class="h">CLUSTER</div><div class="v" id="cluOut">—</div></div>
+      <div class="auction"><div class="a-lbl">EST. AD VALUE (CPM)</div><div class="a-val" id="cpmOut">$0.00</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== STAGE 4 — CONVERGENCE -->
+<section class="stage" id="s4" data-stage="4">
+  <div class="head">
+    <div class="num">04<span class="lbl">CONVERGENCE</span></div>
+    <div>
+      <h2>Twelve sources. One <em>you.</em><br/><span class="lime-bg">Your persona</span> lights its own.</h2>
+    </div>
+  </div>
+  <div class="conv" id="convGrid"></div>
+
+  <div class="composite-rev noise">
+    <div class="cr-lbl">→ ALL ACTIVE SOURCES FLOW HERE</div>
+    <h3>THE COMPOSITE · <span id="compName">CURATOR</span></h3>
+    <div class="cr-stats">
+      <div class="cr-stat"><div class="v" id="cAttr">312</div><div class="l">attributes</div></div>
+      <div class="cr-stat"><div class="v" id="cPred">14</div><div class="l">predictive scores</div></div>
+      <div class="cr-stat"><div class="v" id="cTraj">4</div><div class="l">trajectory vectors</div></div>
+      <div class="cr-stat"><div class="v" id="cBuy">23</div><div class="l">buyer-ready segments</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== STAGE 5 — COMPOSITE EXERCISE -->
+<section class="stage cream" id="s5" data-stage="5">
+  <div class="head">
+    <div class="num">05<span class="lbl">JOURNEY</span></div>
+    <div>
+      <h2>Five years.<br/>The file <em>thickens.</em></h2>
+    </div>
+  </div>
+  <div class="ce">
+    <div class="ce-banner">JOURNEY · <b id="ceArchLabel">CURATOR</b> · WATCH THE FILE COMPOUND</div>
+    <div class="ce-ctrls">
+      <button id="cePlay">▶ PLAY 5 YEARS</button>
+      <button class="alt" id="ceStep">→ STEP +1 YEAR</button>
+      <button class="alt" id="ceReset">↺ RESET</button>
+    </div>
+    <div class="ce-meter-wrap">
+      <div class="m-lbl"><span>COMPOSITE PROFILE DEPTH</span><b id="cePct">0%</b></div>
+      <div class="ce-meter"><div class="fill" id="ceFill"></div><div class="ticks"><span></span><span></span><span></span><span></span><span></span></div></div>
+    </div>
+    <div class="ce-timeline" id="ceTimeline"></div>
+  </div>
+</section>
+
+<!-- =========================================================== STAGE 6 — PERCEPTION LOOP -->
+<section class="stage" id="s6" data-stage="6">
+  <div class="head">
+    <div class="num">06<span class="lbl">FEED</span></div>
+    <div>
+      <h2>The <em>world</em> you<br/>are actually <em>shown.</em></h2>
+    </div>
+  </div>
+  <div class="perception">
+    <div class="p-ctrl">
+      <h4>FEED FOR · <span id="pCurrentName">CURATOR</span></h4>
+      <div class="lead">This is the feed your persona's cluster is most likely served. Toggle polish and activity to see how the algorithm responds.</div>
+      <h4>POLISH</h4>
+      <div class="p-slide">
+        <input type="range" id="pPolish" min="0" max="4" value="3" />
+        <div class="lbl"><span>raw</span><b id="pPolishVal">sharp</b><span>polished</span></div>
+      </div>
+      <h4>ACTIVITY</h4>
+      <div class="p-slide">
+        <input type="range" id="pActivity" min="0" max="4" value="3" />
+        <div class="lbl"><span>quiet</span><b id="pActivityVal">heavy</b><span>always-on</span></div>
+      </div>
+      <div class="p-stat">
+        <b>LIVE SURVEILLANCE</b>
+        <span id="pSessionLog">47</span> micro-behaviors logged this session · <span id="pSessionAds">3</span> ads served · cluster confidence rising.
+      </div>
+    </div>
+    <div class="p-feed" id="pFeed"></div>
+  </div>
+</section>
+
+<!-- =========================================================== STAGE 7 — MONEY FLOW -->
+<section class="stage dark" id="s7" data-stage="7">
+  <div class="head">
+    <div class="num" style="color:var(--persona-color)">07<span class="lbl" style="color:rgba(241,237,225,.5)">CASCADE</span></div>
+    <div>
+      <h2 style="color:var(--cream)">Follow the <em>money.</em><br/>Notice how it<br/>comes back to <span class="pink">you.</span></h2>
+    </div>
+  </div>
+  <div class="mf-wrap">
+    <div class="mf-ctrls">
+      <div class="ctrl">STATE
+        <select id="mfState">
+          <option value="GA">Georgia</option><option value="VA">Virginia</option><option value="OR">Oregon</option><option value="IA">Iowa</option>
+        </select>
+      </div>
+      <div class="ctrl" style="margin-left:auto;color:rgba(251,247,235,.5);font-style:italic;text-transform:none;letter-spacing:0">← Click any node to see what flows through it</div>
+    </div>
+    <div class="mf-grid">
+      <div class="mf-stage" id="mfStage"></div>
+      <div class="mf-detail" id="mfDetail"></div>
+    </div>
+    <div class="mf-receipt">
+      <div class="mf-rec-left"><pre id="mfRecPre"></pre></div>
+      <div class="mf-rec-right">
+        <h4>What <em><span id="mfPersonaTag">CURATOR</span></em><br/>actually pays.</h4>
+        <div class="bars">
+          <div class="bar"><div class="f pay" id="payBar"></div><div class="lbl">YOU PAID</div><div class="val" id="payVal">$0</div></div>
+          <div class="bar"><div class="f gen" id="genBar"></div><div class="lbl">YOU GENERATED</div><div class="val" id="genVal">$0</div></div>
+        </div>
+        <div class="net">
+          <div class="l">NET EXTRACTION · MONTHLY</div>
+          <div class="big"><span id="netVal">$0</span><span class="u">extracted from you</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== STAGE 8 — CLASS SYSTEM REVEAL -->
+<section class="stage cream" id="s8" data-stage="8">
+  <div class="head">
+    <div class="num">08<span class="lbl">CLASS</span></div>
+    <div>
+      <h2>You are not on the<br/><span class="ink-bg">same internet</span> as them.</h2>
+    </div>
+  </div>
+
+  <div class="class-intro">
+    <div class="pull">Six personas. <b>Four classes.</b> Different prices, different content, different lifestyle options offered — all decided by signals you didn't know you were giving.</div>
+    <div class="note">
+      Your class<b id="classTier">CLASS 02 · ASPIRATIONAL</b>
+      Calculated from<b id="classBasis">Curator pattern</b>
+    </div>
+  </div>
+
+  <div class="class-grid" id="classGrid"></div>
+</section>
+
+<!-- =========================================================== STAGE 9 — SHIELD INTERACTIVE -->
+<section class="stage" id="s9" data-stage="9">
+  <div class="head">
+    <div class="num">09<span class="lbl">SHIELD</span></div>
+    <div>
+      <h2>What you <em>get back</em><br/>when you stop<br/><span class="lime-bg">giving it away.</span></h2>
+    </div>
+  </div>
+
+  <div class="shield">
+    <div class="shield-ctrl">
+      <h3>Identity <em>protection</em> level</h3>
+      <p>Slide to increase how much of your digital identity you protect. Watch your monthly extraction, ad load, manipulation index, and choice freedom move in real time.</p>
+      <div class="slider-lbl"><span>SHIELD</span><b id="shieldVal">25%</b><span>FULL FOG</span></div>
+      <input type="range" id="shieldSlider" min="0" max="100" value="25" />
+      <div class="stages">
+        <span class="on" data-r="0">EXPOSED</span>
+        <span data-r="25">CASUAL</span>
+        <span data-r="50">CAREFUL</span>
+        <span data-r="75">PRIVATE</span>
+        <span data-r="100">FOG</span>
+      </div>
+      <div class="desc-block" id="shieldDesc">
+        <b>EXPOSED · the default</b>
+        Most users live here. Every signal you give becomes inventory. Your profile is sold continuously to advertisers, lenders, insurers, and political operations. Net extraction is highest.
+      </div>
+    </div>
+
+    <div class="shield-viz">
+      <div class="rings-wrap">
+        <svg viewBox="0 0 320 320" aria-hidden="true">
+          <g id="shieldRings">
+            <circle cx="160" cy="160" r="140" fill="none" stroke="var(--pink)" stroke-width="1" opacity=".25" class="ring r-out"/>
+            <circle cx="160" cy="160" r="115" fill="none" stroke="var(--pink)" stroke-width="1.5" opacity=".5" class="ring r-mid-out"/>
+            <circle cx="160" cy="160" r="90" fill="none" stroke="var(--pink)" stroke-width="2" opacity=".75" class="ring r-mid"/>
+            <circle cx="160" cy="160" r="65" fill="none" stroke="var(--pink)" stroke-width="2.5" opacity=".85" class="ring r-mid-in"/>
+            <circle cx="160" cy="160" r="40" fill="var(--pink)" opacity=".25" class="ring r-in"/>
+          </g>
+          <circle cx="160" cy="160" r="18" fill="var(--ink)"/>
+          <text x="160" y="166" text-anchor="middle" class="person">YOU</text>
+        </svg>
+      </div>
+      <div class="shield-stats">
+        <div class="shield-stat">
+          <div class="lbl">MONTHLY EXTRACTION</div>
+          <div class="v bad" id="shExt">$254</div>
+          <div class="delta" id="shExtD">baseline</div>
+        </div>
+        <div class="shield-stat">
+          <div class="lbl">ADS SERVED / DAY</div>
+          <div class="v bad" id="shAds">147</div>
+          <div class="delta" id="shAdsD">baseline</div>
+        </div>
+        <div class="shield-stat">
+          <div class="lbl">MANIPULATION INDEX</div>
+          <div class="v bad" id="shMan">0.82</div>
+          <div class="delta" id="shManD">baseline</div>
+        </div>
+        <div class="shield-stat">
+          <div class="lbl">REAL CHOICES / WEEK</div>
+          <div class="v good" id="shCh">3</div>
+          <div class="delta" id="shChD">baseline</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== FINALE -->
+<section class="finale">
+  <h2>You can <em>opt out</em><br/>of being inventory.</h2>
+  <p class="closer">Not all of it. Not all at once. But more than the system makes you believe is possible. The shield above is real — every notch is something you can do this week.</p>
+  <a class="cta" href="#s9">RECEIVE THE PROTECTION GUIDE</a>
+  <div class="reassurance">12-page PDF · concrete steps · no mailing list · delivered once</div>
+</section>
+
+</main>
+
+<footer>
+  <div>INFERA · MECHANISM SERIES · ISSUE 08-B · CLASS ENGINE</div>
+  <div>FIELD STUDY · 23 MAY 2026 · MOCKUP</div>
+  <div>SET IN ARCHIVO BLACK · SPACE GROTESK · JETBRAINS MONO · INSTRUMENT SERIF</div>
+</footer>
+
+<script>
+// ============================================================ GLOBAL STATE
+const STATE = {
+  persona: 'curator',
+  picked: false,
+  imageChoices: { env:new Set(), who:new Set(), obj:new Set(), mood:new Set() },
+  shieldLevel: 25
+};
+
+const PERSONAS = {
+  curator:    { name:'CURATOR',    color:'#c8ff1e', tier:2, tierName:'CLASS 02 · ASPIRATIONAL', basis:'Curator pattern', cpmBase:4.10, defaultPicks:{env:['home','venue'],who:['solo','peers'],obj:['books','art'],mood:['warm','staged']} },
+  caretaker:  { name:'CARETAKER',  color:'#ff1a6b', tier:1, tierName:'CLASS 01 · PREMIUM',      basis:'Caretaker pattern',cpmBase:5.20, defaultPicks:{env:['home','institutional'],who:['kids','partner','elders'],obj:['vehicles','food'],mood:['warm','candid']} },
+  drifter:    { name:'DRIFTER',    color:'#1e3cff', tier:4, tierName:'CLASS 04 · VOLATILE',     basis:'Drifter pattern',  cpmBase:2.10, defaultPicks:{env:['street','travel'],who:['solo','strangers'],obj:['tech'],mood:['moody','candid']} },
+  believer:   { name:'BELIEVER',   color:'#ffd500', tier:1, tierName:'CLASS 01 · PREMIUM',      basis:'Believer pattern', cpmBase:6.40, defaultPicks:{env:['home','venue','institutional'],who:['partner','peers'],obj:['books','food'],mood:['warm','staged']} },
+  hustler:    { name:'HUSTLER',    color:'#ff3a2e', tier:2, tierName:'CLASS 02 · ASPIRATIONAL', basis:'Hustler pattern',  cpmBase:3.80, defaultPicks:{env:['workplace','venue'],who:['solo','peers'],obj:['tech','instruments'],mood:['bright','staged']} },
+  apprentice: { name:'APPRENTICE', color:'#0a0a0a', tier:3, tierName:'CLASS 03 · EXTRACTABLE',  basis:'Apprentice pattern',cpmBase:2.90, defaultPicks:{env:['home','street'],who:['solo','peers'],obj:['tech','food'],mood:['bright','candid']} }
+};
+
+function setPersona(id) {
+  STATE.persona = id;
+  STATE.picked = true;
+  const p = PERSONAS[id];
+  document.documentElement.style.setProperty('--persona-color', p.color);
+  document.body.dataset.persona = id;
+  document.body.dataset.picked = 'true';
+  document.getElementById('hudPersona').textContent = p.name;
+  document.getElementById('picked-name').textContent = p.name;
+  document.getElementById('classTier').textContent = p.tierName;
+  document.getElementById('classBasis').textContent = p.basis;
+  document.getElementById('compName').textContent = p.name;
+  document.getElementById('mfPersonaTag').textContent = p.name;
+  document.getElementById('ceArchLabel').textContent = p.name;
+  document.getElementById('pCurrentName').textContent = p.name;
+
+  // archetype cards visual
+  document.querySelectorAll('#archGrid .card').forEach(c => {
+    c.classList.toggle('picked', c.dataset.persona === id);
+    c.classList.toggle('dimmed', STATE.picked && c.dataset.persona !== id);
+  });
+
+  // pre-fill profile builder with persona defaults
+  for (const k of ['env','who','obj','mood']) {
+    STATE.imageChoices[k].clear();
+    p.defaultPicks[k].forEach(v => STATE.imageChoices[k].add(v));
+  }
+  document.querySelectorAll('.opt').forEach(b => {
+    const w = b.dataset.w, v = b.dataset.val;
+    b.classList.toggle('on', STATE.imageChoices[w].has(v));
+  });
+  recalcProfile();
+  recalcConvergence();
+  renderComposite();
+  renderPerception();
+  renderMoneyReceipt();
+  renderClassGrid();
+}
+
+// ============================================================ REVEAL OBSERVER
+const reveal = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');reveal.unobserve(e.target)}}),{threshold:.08,rootMargin:'-5% 0px -5% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>reveal.observe(el));
+
+// ============================================================ STAGE PROGRESS
+const segs = document.querySelectorAll('.hud .progress .seg');
+const stageObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const n = +e.target.dataset.stage;
+      if(n>0){
+        segs.forEach((s,i)=>{ s.classList.toggle('on', i===n-1); s.classList.toggle('done', i<n-1); });
+        showGuide(n);
+      }
+    }
+  });
+},{threshold:.35});
+document.querySelectorAll('[data-stage]').forEach(s=>stageObs.observe(s));
+
+// ============================================================ GUIDE PROMPTS
+const guide = document.getElementById('guide');
+const guideTxt = document.getElementById('guideTxt');
+const guideArr = document.getElementById('guideArr');
+const guideStep = document.getElementById('guideStep');
+
+const GUIDES = {
+  1: { txt: "<b>Stage 01.</b> Watch how a single upload becomes a behavioral forecast in four moves.", step:"01 / 09", arr:"↑" },
+  2: { txt: "<b>YOUR MOVE.</b> Pick a persona below. The rest of the page personalizes around it.", step:"02 / 09", arr:"↓" },
+  3: { txt: "<b>YOUR DEFAULTS.</b> Toggle signals to see how the profile shifts. The CPM updates live.", step:"03 / 09", arr:"→" },
+  4: { txt: "<b>12 SOURCES.</b> The sources active for your persona light up — the rest stay dim.", step:"04 / 09", arr:"↑" },
+  5: { txt: "<b>PLAY THE 5-YEAR JOURNEY.</b> Watch your composite thicken with every year that passes.", step:"05 / 09", arr:"↓" },
+  6: { txt: "<b>YOUR FEED.</b> This is the world your cluster is shown. Slide the dials.", step:"06 / 09", arr:"→" },
+  7: { txt: "<b>FOLLOW THE MONEY.</b> Tap any node. Switch state. See what comes back to you.", step:"07 / 09", arr:"↓" },
+  8: { txt: "<b>THE CLASS SYSTEM.</b> Six personas → four classes → six different internets.", step:"08 / 09", arr:"↓" },
+  9: { txt: "<b>SHIELD UP.</b> Slide protection level. Watch what you get back.", step:"09 / 09", arr:"←" }
+};
+
+function showGuide(n){
+  const g = GUIDES[n];
+  if(!g) return;
+  guideTxt.innerHTML = g.txt;
+  guideStep.textContent = g.step;
+  guideArr.textContent = g.arr;
+  guide.classList.remove('hide');
+  clearTimeout(guide._t);
+  guide._t = setTimeout(()=>guide.classList.add('hide'), 7000);
+}
+
+// auto-hide on scroll velocity
+let lastScroll = 0;
+window.addEventListener('scroll', ()=>{
+  const v = Math.abs(window.scrollY - lastScroll);
+  lastScroll = window.scrollY;
+  if(v > 60) guide.classList.add('hide');
+}, { passive:true });
+
+// ============================================================ HERO CANVAS
+(function(){
+  const c = document.getElementById('heroCanvas'); if(!c) return;
+  const ctx = c.getContext('2d');
+  function r(){ const rect = c.getBoundingClientRect(); c.width = rect.width*devicePixelRatio; c.height = rect.height*devicePixelRatio; ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0); }
+  r(); window.addEventListener('resize',r);
+  const palette = ['#c8ff1e','#ff1a6b','#1e3cff','#ffd500','#ff3a2e'];
+  const shapes = [];
+  for(let i=0;i<22;i++) shapes.push({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.0002,vy:(Math.random()-.5)*.0002,size:8+Math.random()*60,kind:Math.floor(Math.random()*3),color:palette[Math.floor(Math.random()*palette.length)],alpha:.12+Math.random()*.18,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.002});
+  function tick(){
+    const w = c.width/devicePixelRatio, h = c.height/devicePixelRatio;
+    ctx.clearRect(0,0,w,h);
+    shapes.forEach(s=>{
+      s.x += s.vx; s.y += s.vy; s.rot += s.vr;
+      if(s.x<-.1)s.x=1.1; if(s.x>1.1)s.x=-.1; if(s.y<-.1)s.y=1.1; if(s.y>1.1)s.y=-.1;
+      ctx.save(); ctx.translate(s.x*w, s.y*h); ctx.rotate(s.rot); ctx.globalAlpha = s.alpha; ctx.fillStyle = s.color;
+      if(s.kind===0) ctx.fillRect(-s.size/2,-s.size/2,s.size,s.size);
+      else if(s.kind===1){ ctx.beginPath(); ctx.arc(0,0,s.size/2,0,Math.PI*2); ctx.fill(); }
+      else { ctx.beginPath(); ctx.moveTo(0,-s.size/2); ctx.lineTo(s.size/2,s.size/2); ctx.lineTo(-s.size/2,s.size/2); ctx.closePath(); ctx.fill(); }
+      ctx.restore();
+    });
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+// ============================================================ ARCHETYPE PICKER
+document.querySelectorAll('#archGrid .pick, #archGrid .card').forEach(el=>{
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    const card = el.closest('.card');
+    const id = card.dataset.persona;
+    setPersona(id);
+    // smooth scroll into next stage
+    document.getElementById('s3').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+});
+
+// ============================================================ PROFILE BUILDER
+const dimMap = {
+  env:{home:{stability:2,family:2},workplace:{stability:1,intent:2},street:{openness:2,network:1},venue:{network:2,creator:1},travel:{openness:2,intent:2},institutional:{stability:2,intent:1}},
+  who:{solo:{openness:1,creator:1},partner:{stability:2,family:1},kids:{family:3,stability:2},elders:{family:2,stability:1},peers:{network:2,creator:1},strangers:{openness:2,network:1}},
+  obj:{books:{openness:2,stability:1},tech:{creator:2,intent:1},instruments:{creator:2,openness:1},vehicles:{intent:2,stability:1},food:{network:1,family:1},art:{creator:2,openness:1}},
+  mood:{warm:{family:2,stability:1},cool:{openness:1,creator:1},bright:{network:1,creator:1},moody:{openness:1,creator:1},staged:{creator:2,intent:1},candid:{openness:1,network:1}}
+};
+const ARCHMAP = [
+  {dim:'openness',  name:'Curator',    buyers:['streaming','consumer brands','publishing']},
+  {dim:'family',    name:'Caretaker',  buyers:['financial institutions','consumer brands','insurance']},
+  {dim:'stability', name:'Believer',   buyers:['luxury','financial institutions','political ops']},
+  {dim:'creator',   name:'Hustler',    buyers:['adtech','SaaS','creator economy']},
+  {dim:'intent',    name:'Apprentice', buyers:['streaming','tech','political ops','consumer brands']},
+  {dim:'network',   name:'Connector',  buyers:['adtech','consumer brands','political ops']}
+];
+
+function recalcProfile(){
+  const counters = {env:document.getElementById('cEnv'),who:document.getElementById('cWho'),obj:document.getElementById('cObj'),mood:document.getElementById('cMood')};
+  for(const k in counters) counters[k].textContent = STATE.imageChoices[k].size + ' selected';
+
+  const total = ['env','who','obj','mood'].reduce((s,k)=>s+STATE.imageChoices[k].size, 0);
+  const out = {arch:document.getElementById('archName'),sig:document.getElementById('sigOut'),inf:document.getElementById('infOut'),buy:document.getElementById('buyOut'),clu:document.getElementById('cluOut'),cpm:document.getElementById('cpmOut')};
+  if(total === 0){
+    out.arch.textContent = '—'; out.sig.innerHTML='—'; out.inf.innerHTML='—'; out.buy.innerHTML='—'; out.clu.innerHTML='—'; out.cpm.textContent='$0.00';
+    return;
+  }
+  const dim = {stability:0,openness:0,intent:0,network:0,family:0,creator:0};
+  for(const k of ['env','who','obj','mood']) for(const v of STATE.imageChoices[k]){ const m = dimMap[k][v]; if(m) for(const d in m) dim[d] += m[d]; }
+  const sorted = Object.entries(dim).sort((a,b)=>b[1]-a[1]);
+  const topDim = sorted[0][1] > 0 ? sorted[0][0] : 'openness';
+  const arch = ARCHMAP.find(a=>a.dim===topDim) || ARCHMAP[0];
+
+  const sigTags = [];
+  STATE.imageChoices.env.forEach(v=>sigTags.push(`<span class="tag">env·${v}</span>`));
+  STATE.imageChoices.who.forEach(v=>sigTags.push(`<span class="tag p">who·${v}</span>`));
+  STATE.imageChoices.obj.forEach(v=>sigTags.push(`<span class="tag y">obj·${v}</span>`));
+  STATE.imageChoices.mood.forEach(v=>sigTags.push(`<span class="tag l">mood·${v}</span>`));
+  out.sig.innerHTML = sigTags.join('');
+
+  const infTags = [];
+  if(dim.stability>=3) infTags.push(`<span class="tag l">stability HIGH</span>`);
+  if(dim.openness>=3) infTags.push(`<span class="tag l">openness HIGH</span>`);
+  if(dim.intent>=3) infTags.push(`<span class="tag y">premium-intent HIGH</span>`);
+  if(dim.family>=3) infTags.push(`<span class="tag p">family-anchor HIGH</span>`);
+  if(dim.network>=3) infTags.push(`<span class="tag l">network-density HIGH</span>`);
+  if(dim.creator>=3) infTags.push(`<span class="tag y">creator-econ HIGH</span>`);
+  if(infTags.length===0) infTags.push(`<span style="opacity:.5;font-style:italic">cluster cold</span>`);
+  out.inf.innerHTML = infTags.join('');
+
+  out.arch.textContent = 'THE ' + arch.name.toUpperCase();
+  out.buy.innerHTML = arch.buyers.map(b=>`<span class="tag">${b}</span>`).join('');
+  const richness = Math.min(total/12, 1);
+  out.clu.innerHTML = `<span class="tag l">${arch.name.toUpperCase()}-MATCH</span> · coh ${(0.4+richness*.55).toFixed(2)}`;
+  const persona = PERSONAS[STATE.persona];
+  out.cpm.textContent = '$' + (persona.cpmBase * (0.55 + richness*.7)).toFixed(2);
+}
+
+document.querySelectorAll('.opt').forEach(b=>{
+  b.addEventListener('click', () => {
+    const w = b.dataset.w, v = b.dataset.val;
+    if(STATE.imageChoices[w].has(v)){ STATE.imageChoices[w].delete(v); b.classList.remove('on'); }
+    else { STATE.imageChoices[w].add(v); b.classList.add('on'); }
+    recalcProfile();
+  });
+});
+
+// ============================================================ CONVERGENCE
+const SOURCES = [
+  {id:'ig',  nm:'Instagram / TikTok', ct:'visual feed',      adds:'visual taste · aspiration · mood-time'},
+  {id:'li',  nm:'LinkedIn',           ct:'professional graph',adds:'income trajectory · network density'},
+  {id:'sp',  nm:'Spotify / music',    ct:'taste & mood',      adds:'emotional regulation · openness'},
+  {id:'nf',  nm:'Netflix / streaming',ct:'attention depth',   adds:'binge propensity · cohabitation'},
+  {id:'isp', nm:'Cable / ISP',        ct:'consumption hours', adds:'media diet · sleep window'},
+  {id:'mp',  nm:'Google Maps',        ct:'movement',          adds:'commute · social rituals'},
+  {id:'bk',  nm:'Banking / Plaid',    ct:'cash flow',         adds:'credit posture · life-stage'},
+  {id:'sh',  nm:'Smart home',         ct:'presence & habits', adds:'routine stability · daily rhythm'},
+  {id:'we',  nm:'Wearables',          ct:'biometric stream',  adds:'health · burnout · insurance input'},
+  {id:'pr',  nm:'Public records',     ct:'life-event log',    adds:'household formation · stability'},
+  {id:'dmv', nm:'DMV / voter rolls',  ct:'gov identity',      adds:'political affinity · address'},
+  {id:'br',  nm:'Data brokers',       ct:'aggregation',       adds:'cross-platform · life triggers'}
+];
+const SRC_BY_PERSONA = {
+  curator:    ['ig','sp','nf','li','mp','br'],
+  caretaker:  ['li','bk','sh','mp','pr','br','dmv','we'],
+  drifter:    ['ig','sp','nf','isp','br'],
+  believer:   ['li','bk','nf','sp','pr','dmv','br'],
+  hustler:    ['ig','li','sp','bk','mp','sh','we','br'],
+  apprentice: ['ig','sp','nf','bk','mp','br']
+};
+
+function recalcConvergence(){
+  const grid = document.getElementById('convGrid');
+  const active = SRC_BY_PERSONA[STATE.persona] || [];
+  grid.innerHTML = SOURCES.map(s=>{
+    const on = active.includes(s.id);
+    return `<div class="src-card ${on?'on':'off'}">
+      <div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="4"/></svg></div>
+        <div class="nm">${s.nm}</div>
+        <div class="ct">${s.ct}</div>
+      </div>
+      <div class="adds"><b>ADDS</b>${s.adds}</div>
+    </div>`;
+  }).join('');
+
+  // composite numbers scale with active count
+  const n = active.length;
+  document.getElementById('cAttr').textContent = (n * 26).toString();
+  document.getElementById('cPred').textContent = (Math.min(n,14)).toString();
+  document.getElementById('cTraj').textContent = (Math.min(Math.ceil(n/3),6)).toString();
+  document.getElementById('cBuy').textContent = (n * 2 - 1).toString();
+}
+
+// ============================================================ COMPOSITE EXERCISE
+const JOURNEYS = {
+  curator: { years:[
+    {n:1,sources:['Instagram','Spotify'],depth:14,attrs:'visual taste, mood-time correlation',pred:'subscription propensity: 71%'},
+    {n:2,sources:['Netflix','LinkedIn'],depth:31,attrs:'long-form attention, professional identity',pred:'premium SaaS adoption: 64%'},
+    {n:3,sources:['Banking','Maps'],depth:52,attrs:'discretionary spend, place affinity',pred:'experience-economy spend: 78%'},
+    {n:4,sources:['Smart home','Wearable'],depth:71,attrs:'sleep, household, biometric baseline',pred:'wellness sub: 81%'},
+    {n:5,sources:['Public records','Broker'],depth:89,attrs:'life events · cross-platform locked',pred:'aesthetic purchase in 14mo: 73%'}
+  ]},
+  caretaker: { years:[
+    {n:1,sources:['Banking','LinkedIn'],depth:18,attrs:'household provider, high stability',pred:'long-tail product adoption: 74%'},
+    {n:2,sources:['Insurance','Smart home'],depth:36,attrs:'family stability, predictability',pred:'mortgage refi in 18mo: 62%'},
+    {n:3,sources:['Maps','Vehicle telem'],depth:55,attrs:'commute, vehicle cycle',pred:'EV in 24mo: 58%'},
+    {n:4,sources:['Health insurer','Edu(kids)'],depth:73,attrs:'education spend, health continuity',pred:'529 ramp: 84%'},
+    {n:5,sources:['Public records','Broker'],depth:92,attrs:'life transitions, retirement horizon',pred:'wealth-mgmt handoff: 88%'}
+  ]},
+  drifter: { years:[
+    {n:1,sources:['IG','TikTok'],depth:11,attrs:'high churn, identity searching',pred:'cluster pending'},
+    {n:2,sources:['Streaming hop','App graveyard'],depth:24,attrs:'low retention, broad exposure',pred:'high-emotional ad lift: 71%'},
+    {n:3,sources:['Banking (low sig)','Maps (irregular)'],depth:38,attrs:'volatile income, geographic spread',pred:'gambling/crypto exposure: 54%'},
+    {n:4,sources:['Stabilization content','Profile re-anchor'],depth:56,attrs:'system intervention applied',pred:'forced cluster fit imminent'},
+    {n:5,sources:['Broker','Cross-platform'],depth:71,attrs:'cluster imposed despite drift',pred:'low CPM volatile inventory'}
+  ]},
+  believer: { years:[
+    {n:1,sources:['Brand subs','LinkedIn'],depth:19,attrs:'loyalty signals, identity-brand merge',pred:'sub stack growth: 82%'},
+    {n:2,sources:['Streaming','Reading apps'],depth:35,attrs:'deep engagement, opinion formation',pred:'brand premium lifetime: 88%'},
+    {n:3,sources:['Banking','Recurring'],depth:53,attrs:'sub stack deep, low churn',pred:'5+ yr sub renewal: 91%'},
+    {n:4,sources:['Maps','Community'],depth:71,attrs:'geographic anchor, community',pred:'civic consistency: 87%'},
+    {n:5,sources:['Public records','Donations'],depth:89,attrs:'long-term commitment locked',pred:'highest LTV confirmed'}
+  ]},
+  hustler: { years:[
+    {n:1,sources:['TikTok','IG','LinkedIn','SaaS'],depth:26,attrs:'creator footprint, multi-platform',pred:'tool purchase: 79%'},
+    {n:2,sources:['Stripe','Banking','Productivity'],depth:47,attrs:'income volatility, business+personal',pred:'business banking: 68%'},
+    {n:3,sources:['Streaming','News','Podcast'],depth:64,attrs:'constant learning, trend tracking',pred:'paid edu: 74%'},
+    {n:4,sources:['Smart home','Wearable'],depth:78,attrs:'HRV declining, sleep degraded',pred:'wellness/therapy entry: 71%'},
+    {n:5,sources:['Public records','Broker'],depth:91,attrs:'pivot probability rising',pred:'category exit in 18mo: 64%'}
+  ]},
+  apprentice: { years:[
+    {n:1,sources:['TikTok'],depth:21,attrs:'high absorption, low defense',pred:'algo identity adoption: 84%'},
+    {n:2,sources:['Snapchat','Spotify','IG'],depth:39,attrs:'social-media-shaped identity',pred:'aesthetic lock-in age 17: 71%'},
+    {n:3,sources:['Banking','Maps (early)'],depth:58,attrs:'consumer behavior emerging',pred:'first brand loyalty: 66%'},
+    {n:4,sources:['LinkedIn (1st job)','Streaming'],depth:76,attrs:'professional identity ready-made',pred:'pre-validated career: 78%'},
+    {n:5,sources:['Broker first agg','Cross-platform'],depth:93,attrs:'composite at adulthood',pred:'adult ≈ teen prediction'}
+  ]}
+};
+
+function renderComposite(){
+  const tl = document.getElementById('ceTimeline');
+  const j = JOURNEYS[STATE.persona];
+  tl.innerHTML = j.years.map(y=>`
+    <div class="ce-year" data-y="${y.n}">
+      <div class="y">${y.n}<span class="u">YEAR</span></div>
+      <h5>SOURCES ONLINE</h5>
+      <div class="src-list">${y.sources.map(s=>`<span>${s}</span>`).join('')}</div>
+      <h5>INFERRED</h5>
+      <div class="attrs">${y.attrs}</div>
+      <h5>PREDICTION</h5>
+      <div class="pred">${y.pred}</div>
+    </div>`).join('');
+  document.getElementById('ceFill').style.width = '0%';
+  document.getElementById('cePct').textContent = '0%';
+  ceActive = 0;
+}
+
+let ceActive = 0; let cePlaying = false; let cePT = null;
+function ceReveal(year){
+  const j = JOURNEYS[STATE.persona];
+  if(year < 1 || year > j.years.length) return;
+  ceActive = year;
+  const els = document.querySelectorAll('#ceTimeline .ce-year');
+  els.forEach((el,i)=> el.classList.toggle('act', i < year));
+  const y = j.years[year-1];
+  document.getElementById('ceFill').style.width = y.depth + '%';
+  document.getElementById('cePct').textContent = y.depth + '%';
+}
+function cePlay(){
+  if(cePlaying) return;
+  cePlaying = true;
+  document.getElementById('cePlay').textContent = '⏸ PAUSE';
+  let step = 1;
+  function next(){
+    if(!cePlaying) return;
+    ceReveal(step++);
+    if(step <= JOURNEYS[STATE.persona].years.length) cePT = setTimeout(next, 1400);
+    else { cePlaying = false; document.getElementById('cePlay').textContent = '▶ PLAY 5 YEARS'; }
+  }
+  next();
+}
+document.getElementById('cePlay').addEventListener('click', ()=>{
+  if(cePlaying){ cePlaying = false; clearTimeout(cePT); document.getElementById('cePlay').textContent = '▶ PLAY 5 YEARS'; }
+  else cePlay();
+});
+document.getElementById('ceStep').addEventListener('click', ()=>{
+  cePlaying = false; clearTimeout(cePT); document.getElementById('cePlay').textContent = '▶ PLAY 5 YEARS';
+  if(ceActive < JOURNEYS[STATE.persona].years.length) ceReveal(ceActive + 1);
+});
+document.getElementById('ceReset').addEventListener('click', ()=>{ cePlaying = false; clearTimeout(cePT); document.getElementById('cePlay').textContent = '▶ PLAY 5 YEARS'; renderComposite(); });
+
+// ============================================================ PERCEPTION FEED
+const FEEDS = {
+  curator: { posts:[
+    {tag:'editorial',cta:'read the issue →',h:'The new rules of intentional minimalism',b:'A year-long experiment in subtractive design.',c1:'#c8ff1e',c2:'#fbf7eb'},
+    {tag:'ad · DTC home',ad:true,cta:'shop →',h:'The one chair we redesigned 47 times.',b:'Hand-finished oak. Made by 4 people in Maine.',c1:'#fbf7eb',c2:'#d8cfb9'},
+    {tag:'aesthetic',cta:'save →',h:'12 interiors that prove restraint can be warm.',b:'A scrolling essay on late-2020s domestic taste.',c1:'#e1a23a',c2:'#fbf7eb'},
+    {tag:'ad · travel',ad:true,cta:'reserve →',h:'A boutique hotel for people who hate hotels.',b:'13 rooms. Wood sauna. No signal.',c1:'#7b5ea7',c2:'#c8ff1e'},
+    {tag:'culture',cta:'subscribe →',h:'Why "tasteful" people own the same 6 objects.',b:'A taxonomy of the algorithmic interior.',c1:'#1aa6c4',c2:'#fbf7eb'},
+    {tag:'ad · publishing',ad:true,cta:'try free →',h:'A newsletter for people who curate other lives.',b:'Long form. No clickbait. $12/mo.',c1:'#fbf7eb',c2:'#ff1a6b'}
+  ]},
+  caretaker: { posts:[
+    {tag:'parenting',cta:'read →',h:'The money talk to have before age 12.',b:'Three principles, no jargon.',c1:'#ffd500',c2:'#fbf7eb'},
+    {tag:'ad · insurance',ad:true,cta:'quote →',h:'Term life from the no-call company.',b:'30-yr. 11-min app. No exam under $500K.',c1:'#1e3cff',c2:'#fbf7eb'},
+    {tag:'health',cta:'open →',h:'What good sleep actually costs.',b:'A read on mattresses, supplements, premiums.',c1:'#3f8c66',c2:'#fbf7eb'},
+    {tag:'ad · 529',ad:true,cta:'open in 7 min →',h:'College in 14 years. Time is your advantage.',b:'Tax-advantaged. $25/mo min.',c1:'#e1a23a',c2:'#fbf7eb'},
+    {tag:'home',cta:'continue →',h:'The case for the boring SUV.',b:'Why every parent in your cluster buys the same.',c1:'#fbf7eb',c2:'#d8cfb9'},
+    {tag:'ad · grocery',ad:true,cta:'1st box 50% →',h:'Pre-portioned dinners for four.',b:'Family-tested. Allergen-aware. Pause anytime.',c1:'#ff3a2e',c2:'#fbf7eb'}
+  ]},
+  drifter: { posts:[
+    {tag:'wellness',cta:'try quiz →',h:"12 signs you're in a 'becoming' phase.",b:'80,000 people took this last week.',c1:'#ff1a6b',c2:'#7b5ea7'},
+    {tag:'ad · self-help',ad:true,cta:'start free →',h:'Build the version of yourself you keep almost being.',b:'Daily prompts. 7-min. $9.99/mo.',c1:'#7b5ea7',c2:'#c8ff1e'},
+    {tag:'lifestyle',cta:'open →',h:'I left my city, my job, and my haircut.',b:"A first-person essay on what survived.",c1:'#1aa6c4',c2:'#fbf7eb'},
+    {tag:'ad · crypto',ad:true,cta:'claim $20 →',h:"Don't miss the next cycle. Start with $10.",b:'Commission-free. New users get $20 bonus.',c1:'#ffd500',c2:'#ff1a6b'},
+    {tag:'identity',cta:'read on →',h:'The decade of the soft pivot.',b:'Why your 20s, 30s, 40s are all reinvention.',c1:'#ff3a2e',c2:'#fbf7eb'},
+    {tag:'ad · DTC mood',ad:true,cta:'shop →',h:'The mood-supplement everyone says you should try.',b:'L-theanine + mag. $32/mo.',c1:'#c8ff1e',c2:'#7b5ea7'}
+  ]},
+  believer: { posts:[
+    {tag:'brand story',cta:'watch film →',h:'How a 78-year-old company built the next 78.',b:'A short documentary on craft and legacy.',c1:'#1e3cff',c2:'#fbf7eb'},
+    {tag:'ad · luxury watch',ad:true,cta:'see collection →',h:'For the way you mark time.',b:'Hand-made in Switzerland. Lifetime service.',c1:'#0a0a0a',c2:'#e1a23a'},
+    {tag:'community',cta:'join →',h:"The local chapter you didn't know waited for you.",b:'National membership at neighborhood scale.',c1:'#3f8c66',c2:'#fbf7eb'},
+    {tag:'ad · private bank',ad:true,cta:'speak →',h:'A bank that calls you back.',b:'For households over $1M. By referral.',c1:'#fbf7eb',c2:'#1e3cff'},
+    {tag:'civic',cta:'subscribe →',h:'The case for institutional patience.',b:'A counterargument. Long form. Quarterly.',c1:'#ffd500',c2:'#fbf7eb'},
+    {tag:'ad · automotive',ad:true,cta:'configure →',h:'The car that holds value longest in your zip.',b:'Now leasing from $649/mo.',c1:'#ff3a2e',c2:'#0a0a0a'}
+  ]},
+  hustler: { posts:[
+    {tag:'creator econ',cta:'unlock →',h:'How a 4-person studio hit $1M in 14 months.',b:'The exact stack and cadence. Free read.',c1:'#c8ff1e',c2:'#0a0a0a'},
+    {tag:'ad · SaaS',ad:true,cta:'14-day free →',h:'The AI ops platform that pays for itself by Tuesday.',b:'18K indie operators. $29/mo solo.',c1:'#1aa6c4',c2:'#c8ff1e'},
+    {tag:'business',cta:'read →',h:'The new playbook: fewer customers, higher ACV.',b:'Where solo operators are compounding.',c1:'#ff1a6b',c2:'#fbf7eb'},
+    {tag:'ad · course',ad:true,cta:'enroll →',h:'Build your first $10K/mo offer in 8 weeks.',b:'Live Q&A. Lifetime access. $1,200.',c1:'#ffd500',c2:'#ff3a2e'},
+    {tag:'tools',cta:'try beta →',h:'The 6 AI tools the top 1% of creators use.',b:'Curated stack. One signup.',c1:'#7b5ea7',c2:'#c8ff1e'},
+    {tag:'ad · health',ad:true,cta:'get started →',h:"High performers don't skip sleep. They schedule it.",b:'Wearable + coaching. $40/mo.',c1:'#3f8c66',c2:'#ffd500'}
+  ]},
+  apprentice: { posts:[
+    {tag:'trending',cta:'try the trend →',h:'Everyone is doing this in their morning right now.',b:'The 47-second routine the algorithm chose.',c1:'#ff1a6b',c2:'#ffd500'},
+    {tag:'ad · fast fashion',ad:true,cta:'shop the look →',h:'The whole fit for under $80.',b:'Trending now. Ships in 2 days. Pay in 4.',c1:'#c8ff1e',c2:'#ff1a6b'},
+    {tag:'social',cta:'open →',h:'15 things to say at a party so people remember you.',b:'Read by 4M people.',c1:'#ffd500',c2:'#ff3a2e'},
+    {tag:'ad · BNPL',ad:true,cta:'split it →',h:'Buy now. Pay over 4 weeks. No interest.',b:'100K+ stores. Soft credit check.',c1:'#1e3cff',c2:'#c8ff1e'},
+    {tag:'identity',cta:'find your type →',h:'The personality quiz that scared 2.4M people.',b:'12 questions. 8 types. One result.',c1:'#7b5ea7',c2:'#fbf7eb'},
+    {tag:'ad · streaming',ad:true,cta:'start watching →',h:'The series your cluster watched 4 nights running.',b:'New season. 8 eps. Free with ads.',c1:'#0a0a0a',c2:'#c8ff1e'}
+  ]}
+};
+
+function renderPerception(){
+  const polish = parseInt(document.getElementById('pPolish').value);
+  const activity = parseInt(document.getElementById('pActivity').value);
+  const f = FEEDS[STATE.persona];
+  const adKeep = Math.max(1, Math.round(activity * 0.6));
+  let adsKept = 0;
+  let posts = f.posts.filter(p => { if(p.ad){ if(adsKept<adKeep){ adsKept++; return true; } return false; } return true; });
+  const polishLabels=['raw','soft','clean','sharp','polished'];
+  const activityLabels=['quiet','low','steady','heavy','always-on'];
+  document.getElementById('pPolishVal').textContent = polishLabels[polish];
+  document.getElementById('pActivityVal').textContent = activityLabels[activity];
+  document.getElementById('pSessionLog').textContent = (12 + activity*11 + polish*4);
+  document.getElementById('pSessionAds').textContent = adsKept;
+  const feed = document.getElementById('pFeed');
+  let html = `<div class="p-feed-head"><span>YOUR PERSONALIZED FEED</span><span>${PERSONAS[STATE.persona].name} · MAY 2026</span></div>`;
+  html += posts.map(p=>{
+    const showVisual = polish >= 2;
+    const truncated = polish < 2 ? p.b.split('.').slice(0,1).join('.') + '.' : p.b;
+    return `<div class="p-post ${p.ad?'ad':''}" style="--c1:${p.c1};--c2:${p.c2}">
+      <div class="p-meta"><span class="tag ${p.ad?'ad':''}">${p.tag}</span><span>0x4E7C · MAY 2026</span></div>
+      <h5>${p.h}</h5>
+      <div class="body">${truncated}</div>
+      ${showVisual ? '<div class="visual"></div>' : ''}
+      <div class="cta">${p.cta}</div>
+    </div>`;
+  }).join('');
+  feed.innerHTML = html;
+}
+document.getElementById('pPolish').addEventListener('input', renderPerception);
+document.getElementById('pActivity').addEventListener('input', renderPerception);
+
+// ============================================================ MONEY FLOW
+const MF_NODES = {
+  you1:{x:50,y:7,label:'YOU',sub:'data · attention',cls:'you'},
+  platform:{x:18,y:28,label:'PLATFORM',sub:'IG · TikTok'},
+  broker:{x:50,y:30,label:'DATA BROKER',sub:'Acxiom · Experian'},
+  buyer:{x:82,y:28,label:'AD BUYERS',sub:'brands · banks'},
+  dc:{x:50,y:55,label:'DATA CENTERS',sub:'storage · compute'},
+  grid:{x:14,y:78,label:'POWER GRID',sub:'utility load'},
+  tax:{x:50,y:80,label:'TAX SUBSIDIES',sub:'state · local'},
+  ai:{x:86,y:78,label:'AI HOSTING',sub:'OpenAI · Anthropic'},
+  you2:{x:50,y:96,label:'YOU',sub:'utility · taxes · subs',cls:'you'}
+};
+const MF_EDGES = [
+  {from:'you1',to:'platform',kind:'free',label:'FREE LABOR'},
+  {from:'you1',to:'broker',kind:'free',label:'FREE LABOR'},
+  {from:'platform',to:'broker',kind:'rev',label:'$ DATA RENT'},
+  {from:'broker',to:'buyer',kind:'rev',label:'$ AUDIENCE'},
+  {from:'buyer',to:'dc',kind:'rev',label:'$ STORAGE'},
+  {from:'platform',to:'dc',kind:'rev',label:'$ HOSTING'},
+  {from:'dc',to:'grid',kind:'cost',label:'LOAD'},
+  {from:'tax',to:'dc',kind:'rev',label:'$ INCENTIVES'},
+  {from:'dc',to:'ai',kind:'rev',label:'$ COMPUTE'},
+  {from:'ai',to:'you2',kind:'cost',label:'$ MEMBERSHIP'},
+  {from:'grid',to:'you2',kind:'cost',label:'$ UTILITY BILL'},
+  {from:'you2',to:'tax',kind:'cost',label:'$ TAXES'}
+];
+const MF_STATES = {
+  GA:{name:'GEORGIA',utilityHit:8.50,taxShare:12.20,bigNumber:'$1.2B',bigNote:'in tax incentives for Microsoft, Google, and Meta data centers (2020–2024)'},
+  VA:{name:'VIRGINIA',utilityHit:21.40,taxShare:18.60,bigNumber:'$929M',bigNote:'in annual data-center sales-tax exemptions (Loudoun + Prince William)'},
+  OR:{name:'OREGON',utilityHit:6.20,taxShare:9.30,bigNumber:'$225M',bigNote:'in property-tax abatements to a single data-center site over 15 years'},
+  IA:{name:'IOWA',utilityHit:7.10,taxShare:11.50,bigNumber:'$700M',bigNote:'in sales-tax exemptions to Meta/Microsoft/Google data centers (2008–2024)'}
+};
+
+const MF_DETAILS = {
+  you1:{label:'YOU · UPSTREAM',title:'You · the data source',body:'Every login, scroll, like, search, and idle moment is captured as <b>free labor</b>. You provide the raw material the entire system processes.',stats:[{v:'2,847',l:'data points / day'},{v:'$0',l:'paid to you',pink:true}],who:'You — in time, attention, and identity handed over for free.'},
+  platform:{label:'PLATFORM',title:'The platform layer',body:'Meta, TikTok, LinkedIn, YouTube. Each collects your data <b>for free</b>, then rents access to advertisers or hands packaged audiences to brokers.',stats:[{v:'$135B',l:'Meta ad revenue · 2024'},{v:'$67B',l:'TikTok est. · 2024'}],who:'You — by generating the inventory. Advertisers — by renting it.'},
+  broker:{label:'BROKER',title:'The aggregation tier',body:'Acxiom, Experian, Oracle, LiveRamp. They <b>buy data from platforms</b>, fuse with banking + records + location, then resell scored audience access at scale.',stats:[{v:'$280B',l:'global broker mkt'},{v:'~700',l:'fields per profile'}],who:'Advertisers and banks pay brokers. You have no opt-out.'},
+  buyer:{label:'AD BUYERS',title:'The demand side',body:'Brands, banks, political ops, streaming. They pay per impression, per click. <b>The cost is built into the price</b> of every product they sell.',stats:[{v:'$300B+',l:'US digital ad · 2024'},{v:'~14%',l:'consumer price markup'}],who:'You — every time you buy something whose price includes the ad cost.'},
+  dc:{label:'DATA CENTERS',title:'The physical substrate',body:'Every byte, every query runs through a physical facility. Hyperscalers are building <b>faster than the grid can handle.</b>',stats:[{v:'~4.4%',l:'of US power · 2023'},{v:'~12%',l:'projected by 2028'}],who:'You — for grid upgrades passed through utilities and tax incentives.'},
+  grid:{label:'POWER GRID',title:'The shared infrastructure',body:'When a data center moves in, your local grid absorbs the load. Utilities request rate increases. <b>Residential customers absorb a meaningful share.</b>',stats:[{v:'+$8–22',l:'avg residential / mo'},{v:'~500K gal',l:'water / day / hyperscale'}],who:'You — visible on every utility bill in hosting counties.'},
+  tax:{label:'TAX SUBSIDIES',title:'The public underwriting',body:'State and local governments compete with <b>sales-tax exemptions, property abatements, and direct grants</b>. The jobs created per site are typically dozens.',stats:[{v:'$1.2B',l:'GA DC incentives (4yr)'},{v:'~40',l:'permanent jobs / DC'}],who:'You — through forgone public services those taxes would have funded.'},
+  ai:{label:'AI HOSTING',title:'The membership layer',body:"AI companies don't own most data centers — they <b>rent compute</b> and sell access to consumers as <b>monthly subscriptions.</b>",stats:[{v:'$20–200',l:'AI subs / mo'},{v:'~$0',l:'paid to data sources',pink:true}],who:'You — for the model, the storage, the electricity, and the training data.'},
+  you2:{label:'YOU · DOWNSTREAM',title:'You · the closing payer',body:'The loop closes here. The same person who gave the upstream data for free now <b>pays the utility surcharge</b>, <b>the tax share</b>, <b>the AI subscription</b>, and <b>the markup</b>.',stats:[{v:'$127',l:'cost to you / mo'},{v:'$382',l:'value you generate / mo'}],who:'You — net extraction of roughly $254 / month, on no bill.'}
+};
+
+function renderMoneyStage(){
+  const stage = document.getElementById('mfStage');
+  const nodeHtml = Object.entries(MF_NODES).map(([k,n])=>{
+    return `<div class="mf-node ${n.cls||''}" data-id="${k}" style="left:${n.x}%;top:${n.y}%">${n.label}<span class="sub">${n.sub}</span></div>`;
+  }).join('');
+  const persona = PERSONAS[STATE.persona];
+  let svgDefs = `<defs>
+    <marker id="aP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="${persona.color}"/></marker>
+    <marker id="aPink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ff1a6b"/></marker>
+    <marker id="aW" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#fbf7eb"/></marker>
+  </defs>`;
+  let svgPaths = '';
+  MF_EDGES.forEach((e,i)=>{
+    const a = MF_NODES[e.from], b = MF_NODES[e.to];
+    const ax = a.x*10, ay = a.y*10, bx = b.x*10, by = b.y*10;
+    const mx = (ax+bx)/2, my = (ay+by)/2;
+    const offset = (i % 3 - 1) * 40;
+    const cx = mx + offset, cy = my + offset * 0.5;
+    let color, marker, dash, opacity;
+    if(e.kind==='cost'){ color='#ff1a6b'; marker='aPink'; dash='0'; opacity=.7; }
+    else if(e.kind==='free'){ color='#fbf7eb'; marker='aW'; dash='4 6'; opacity=.5; }
+    else { color=persona.color; marker='aP'; dash='0'; opacity=.7; }
+    svgPaths += `<path d="M ${ax} ${ay} Q ${cx} ${cy} ${bx} ${by}" stroke="${color}" stroke-width="2" fill="none" stroke-dasharray="${dash}" opacity="${opacity}" marker-end="url(#${marker})"/>`;
+  });
+  const svg = `<svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">${svgDefs}${svgPaths}</svg>`;
+  const lblHtml = MF_EDGES.map((e,i)=>{
+    const a = MF_NODES[e.from], b = MF_NODES[e.to];
+    const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+    const offset = (i % 3 - 1) * 4;
+    const px = mx + offset, py = my + offset * 0.5;
+    const cls = e.kind === 'cost' ? 'cost' : '';
+    return `<div class="mf-arrow-lbl ${cls}" style="left:${px}%;top:${py}%;transform:translate(-50%,-50%)">${e.label}</div>`;
+  }).join('');
+  stage.innerHTML = svg + lblHtml + nodeHtml;
+  stage.querySelectorAll('.mf-node').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      stage.querySelectorAll('.mf-node').forEach(x=>x.classList.remove('act'));
+      el.classList.add('act');
+      showMfDetail(el.dataset.id);
+    });
+  });
+}
+function showMfDetail(id){
+  const d = MF_DETAILS[id]; if(!d) return;
+  document.getElementById('mfDetail').innerHTML = `
+    <div class="d-label">${d.label}</div>
+    <h4>${d.title}</h4>
+    <div class="stat-row">
+      ${d.stats.map(s=>`<div class="stat"><div class="v ${s.pink?'pink':''}">${s.v}</div><div class="l">${s.l}</div></div>`).join('')}
+    </div>
+    <div class="body">${d.body}</div>
+    <div class="who-pays"><b>WHO PAYS · </b>${d.who}</div>`;
+}
+function renderMoneyReceipt(){
+  const st = MF_STATES[document.getElementById('mfState').value];
+  const persona = PERSONAS[STATE.persona];
+  // tier-based multipliers
+  const tierMult = {1:1.55, 2:1.0, 3:0.65, 4:0.45};
+  const payMult = tierMult[persona.tier];
+  const genMult = tierMult[persona.tier];
+  const subs = 47.99 + 20, isp = 24.30, adMarkup = 14.80;
+  const youPaid = (subs + isp + st.utilityHit + st.taxShare + adMarkup) * payMult;
+  const youGen = (284.50 + 47.20 + 12.40 + 38.10) * genMult;
+  const net = youGen - youPaid;
+  document.getElementById('mfRecPre').innerHTML = `<span style="font-family:var(--display);font-size:14px">CLASS ENGINE · ${persona.name}</span>
+============================================
+   MONTHLY EXTRACTION RECEIPT
+   STATE:   ${st.name}
+   TIER:    ${persona.tierName}
+   PERIOD:  MAY 2026
+============================================
+
+YOU PAID:
+--------------------------------------------
+Streaming + AI subs            $ ${(subs*payMult).toFixed(2)}
+ISP (DC transit)               $ ${(isp*payMult).toFixed(2)}
+Utility share · DC load        $  ${(st.utilityHit*payMult).toFixed(2)}
+Tax-subsidy share              $ ${(st.taxShare*payMult).toFixed(2)}
+Hidden ad markup               $ ${(adMarkup*payMult).toFixed(2)}
+--------------------------------------------
+SUBTOTAL                       $${youPaid.toFixed(2).padStart(7)}
+
+YOU GENERATED:
+--------------------------------------------
+Ad inventory                   $${(284.50*genMult).toFixed(2).padStart(7)}
+Broker resale                  $ ${(47.20*genMult).toFixed(2)}
+Training data                  $ ${(12.40*genMult).toFixed(2)}
+Behavioral prediction          $ ${(38.10*genMult).toFixed(2)}
+--------------------------------------------
+TOTAL VALUE GENERATED          $${youGen.toFixed(2).padStart(7)}
+
+============================================
+NET EXTRACTION              $ ${Math.abs(net).toFixed(2).padStart(7)}
+============================================
+
+${st.bigNumber} ${st.bigNote.toUpperCase()}.
+
+YOU ARE THE PRODUCT.
+YOU ARE ALSO A CUSTOMER.`;
+  const payBar = document.getElementById('payBar');
+  const genBar = document.getElementById('genBar');
+  const max = Math.max(youPaid, youGen);
+  payBar.style.width = (youPaid/max*100)+'%';
+  genBar.style.width = (youGen/max*100)+'%';
+  document.getElementById('payVal').textContent = '$' + youPaid.toFixed(0);
+  document.getElementById('genVal').textContent = '$' + youGen.toFixed(0);
+  document.getElementById('netVal').textContent = '$' + Math.abs(net).toFixed(0);
+}
+document.getElementById('mfState').addEventListener('change', renderMoneyReceipt);
+
+// ============================================================ CLASS SYSTEM GRID
+const CLASS_DATA = {
+  curator:    { tier:2, tn:'CLASS 02 · ASPIRATIONAL', desc:'Premium taste market. High-aesthetic editorial content, DTC home, members-only events.', feed:[{l:'Editorial publishing',t:'organic'},{l:'Boutique hotel ad',t:'cpm $14'},{l:'Design newsletter',t:'$12/mo'}], stats:[{l:'CPM',v:'$4.10'},{l:'Mfg cost',v:'$208'},{l:'Choice freq',v:'mid'}] },
+  caretaker:  { tier:1, tn:'CLASS 01 · PREMIUM', desc:'Highest lifetime value. Long-tail financial products, insurance, college planning. Stable algorithmic relationship.', feed:[{l:'Term life insurance',t:'cpm $22'},{l:'529 college plan',t:'cpm $18'},{l:'Boring SUV review',t:'sponsored'}], stats:[{l:'CPM',v:'$5.20'},{l:'Mfg cost',v:'$394'},{l:'Choice freq',v:'high'}] },
+  drifter:    { tier:4, tn:'CLASS 04 · VOLATILE', desc:'Cheap volatile inventory. Crypto, gambling, self-help. The lowest-bid pool, the highest-emotional load.', feed:[{l:'Crypto onboarding',t:'cpm $1.80'},{l:'Self-help subscription',t:'cpm $2.40'},{l:'Mood supplement DTC',t:'cpm $3.10'}], stats:[{l:'CPM',v:'$2.10'},{l:'Mfg cost',v:'$172'},{l:'Choice freq',v:'low'}] },
+  believer:   { tier:1, tn:'CLASS 01 · PREMIUM', desc:'Lifetime brand citizenship. Luxury goods, private banking, automotive. Lowest churn, highest renewal.', feed:[{l:'Luxury watch',t:'cpm $32'},{l:'Private bank',t:'invite'},{l:'Heritage automotive',t:'cpm $28'}], stats:[{l:'CPM',v:'$6.40'},{l:'Mfg cost',v:'$461'},{l:'Choice freq',v:'high'}] },
+  hustler:    { tier:2, tn:'CLASS 02 · ASPIRATIONAL', desc:'Creator economy. Productivity SaaS, courses, AI tools, wellness coaching. High velocity, high pivot.', feed:[{l:'AI ops platform',t:'cpm $9'},{l:'8-week course',t:'$1,200'},{l:'Wearable + coaching',t:'$40/mo'}], stats:[{l:'CPM',v:'$3.80'},{l:'Mfg cost',v:'$253'},{l:'Choice freq',v:'mid-hi'}] },
+  apprentice: { tier:3, tn:'CLASS 03 · EXTRACTABLE', desc:'High absorption, low defense. Fast fashion, BNPL, viral identity products. Where the system tests new manipulation.', feed:[{l:'Fast fashion drop',t:'$80 fit'},{l:'BNPL split-in-4',t:'no interest'},{l:'Personality quiz',t:'4M took'}], stats:[{l:'CPM',v:'$2.90'},{l:'Mfg cost',v:'$118'},{l:'Choice freq',v:'low'}] }
+};
+
+function renderClassGrid(){
+  const grid = document.getElementById('classGrid');
+  grid.innerHTML = Object.entries(CLASS_DATA).map(([id, c])=>{
+    const p = PERSONAS[id];
+    return `<div class="class-cell t${c.tier} ${id===STATE.persona?'is-you':''}" data-persona="${id}" style="--persona-color-fixed:${p.color}">
+      <div class="you-tag">YOU ARE HERE</div>
+      <div>
+        <div class="top-row">
+          <div class="ix">${p.name}</div>
+          <div class="tier">${c.tn}</div>
+        </div>
+        <div class="name">${p.name}</div>
+        <div class="desc">${c.desc}</div>
+        <div class="mini-feed">
+          ${c.feed.map(f=>`<div class="mp"><div class="lbl">${f.l}</div><div class="tg">${f.t}</div></div>`).join('')}
+        </div>
+      </div>
+      <div class="stats-row">
+        ${c.stats.map(s=>`<div class="st">${s.l}<span class="v">${s.v}</span></div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================ SHIELD INTERACTIVE
+const SHIELD_LEVELS = [
+  { stage:'EXPOSED',  desc:'<b>EXPOSED · the default</b>Most users live here. Every signal is inventory. Profile sold continuously to advertisers, lenders, insurers, political ops.', ext:254, ads:147, man:0.82, ch:3 },
+  { stage:'CASUAL',   desc:'<b>CASUAL · the easy wins</b>You turn off ad personalization, decline cookie banners, and stop posting location. Net extraction drops by a quarter. Manipulation noticeably softens.', ext:198, ads:112, man:0.71, ch:6 },
+  { stage:'CAREFUL',  desc:'<b>CAREFUL · the intentional citizen</b>You switch to a privacy-respecting browser, use a VPN, disable tracking pixels, and unlink social accounts. Brokers can\'t fuse you cleanly anymore.', ext:128, ads:71, man:0.52, ch:11 },
+  { stage:'PRIVATE',  desc:'<b>PRIVATE · the studied minority</b>You delete public-facing accounts, use email aliases, disable smart-home telemetry, and remove yourself from broker lists. Composite quality collapses.', ext:62, ads:34, man:0.28, ch:18 },
+  { stage:'FOG',      desc:'<b>FOG · the practical maximum</b>You operate under pseudonyms, pay cash where possible, run all traffic through privacy-preserving relays. You are functionally invisible to most of the system. Trade-offs are real.', ext:14, ads:9, man:0.08, ch:27 }
+];
+
+function applyShield(level){
+  const idx = Math.min(4, Math.floor(level/25));
+  const s = SHIELD_LEVELS[idx];
+  document.getElementById('shieldVal').textContent = level + '%';
+  document.getElementById('shieldDesc').innerHTML = s.desc;
+  document.querySelectorAll('.shield-ctrl .stages span').forEach((el, i)=>{
+    el.classList.toggle('on', i === idx);
+  });
+
+  // animate stats
+  document.getElementById('shExt').textContent = '$' + s.ext;
+  document.getElementById('shExt').className = 'v ' + (s.ext > 150 ? 'bad' : s.ext > 60 ? '' : 'good');
+  document.getElementById('shExtD').textContent = idx===0?'baseline':(idx===1?'-22%':idx===2?'-50%':idx===3?'-76%':'-94%');
+
+  document.getElementById('shAds').textContent = s.ads;
+  document.getElementById('shAds').className = 'v ' + (s.ads > 100 ? 'bad' : s.ads > 40 ? '' : 'good');
+  document.getElementById('shAdsD').textContent = idx===0?'baseline':(idx===1?'-24%':idx===2?'-52%':idx===3?'-77%':'-94%');
+
+  document.getElementById('shMan').textContent = s.man.toFixed(2);
+  document.getElementById('shMan').className = 'v ' + (s.man > 0.6 ? 'bad' : s.man > 0.3 ? '' : 'good');
+  document.getElementById('shManD').textContent = idx===0?'baseline':(idx===1?'-13%':idx===2?'-37%':idx===3?'-66%':'-90%');
+
+  document.getElementById('shCh').textContent = s.ch;
+  document.getElementById('shCh').className = 'v good';
+  document.getElementById('shChD').textContent = idx===0?'baseline':(idx===1?'+100%':idx===2?'+267%':idx===3?'+500%':'+800%');
+
+  // animate the rings
+  const rings = document.querySelectorAll('#shieldRings .ring');
+  const shrink = idx / 4;
+  rings.forEach((r, i)=>{
+    const baseR = [140, 115, 90, 65, 40][i];
+    r.setAttribute('r', baseR * (1 - shrink * 0.7));
+    r.setAttribute('stroke', shrink > 0.6 ? '#c8ff1e' : (shrink > 0.3 ? '#ffd500' : '#ff1a6b'));
+    if(i===4) r.setAttribute('fill', shrink > 0.6 ? '#c8ff1e' : (shrink > 0.3 ? '#ffd500' : '#ff1a6b'));
+    r.setAttribute('opacity', Math.max(0.15, (5-i)/5 * (1 - shrink * 0.4)));
+  });
+}
+document.getElementById('shieldSlider').addEventListener('input', e => applyShield(+e.target.value));
+
+// ============================================================ INIT
+setPersona('curator');
+renderMoneyStage();
+showMfDetail('you1');
+document.querySelector('[data-id="you1"]')?.classList.add('act');
+applyShield(25);
+</script>
+
+</body>
+</html>

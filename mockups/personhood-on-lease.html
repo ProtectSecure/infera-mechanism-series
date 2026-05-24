@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Personhood, on lease — Infera Mechanism Series · Issue 08</title>
+<meta name="description" content="An investigation into the invisible economy that runs on you — what it costs, who collects, and where the money quietly returns.">
+<meta property="og:title" content="Personhood, on lease — Infera Mechanism Series">
+<meta property="og:description" content="An investigation into the invisible economy that runs on you — what it costs, who collects, and where the money quietly returns.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Deep Oceanic palette */
+  --bg:#060a14;
+  --bg-deep:#0a1530;
+  --paper:#0f1d3a;
+  --paper-2:#142648;
+  --ink:#f0f4fa;
+  --ink-soft:#98a8c4;
+  --ink-faint:#5c6a82;
+  --accent:#3ecaf0;          /* cyan signal */
+  --accent-2:#f0b837;         /* gold — reserved for CTA only */
+  --warn:#ff5959;
+  --rule:rgba(255,255,255,.08);
+  --rule-strong:rgba(255,255,255,.18);
+
+  /* Editorial Authority type system */
+  --font-display:'Fraunces',Georgia,serif;
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-italic:'Instrument Serif',Georgia,serif;
+  --font-mono:'JetBrains Mono',ui-monospace,monospace;
+
+  /* Modular scale */
+  --t-xs:11px;  --t-sm:13px;  --t-base:15px;  --t-md:17px;  --t-lg:22px;
+  --t-xl:32px;
+  --t-2xl:clamp(36px,5vw,64px);
+  --t-3xl:clamp(54px,8vw,120px);
+  --t-4xl:clamp(72px,14vw,220px);
+
+  /* Motion */
+  --motion-instant:120ms; --motion-quick:240ms; --motion-normal:480ms; --motion-slow:780ms;
+  --ease-confident:cubic-bezier(.3,.7,.4,1);
+  --ease-arrival:cubic-bezier(.2,.9,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--font-sans);font-size:var(--t-base);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* ============================================================ ATMOSPHERE */
+.atmosphere{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 20% 30%,rgba(20,80,170,.35),transparent 60%),radial-gradient(ellipse at 80% 70%,rgba(50,30,120,.28),transparent 65%),radial-gradient(circle at 50% 100%,rgba(60,200,240,.14),transparent 55%),linear-gradient(180deg,#060a14 0%,#0a1530 50%,#060a14 100%);background-size:200% 200%;animation:drift 16s ease-in-out infinite alternate}
+.noise{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .2 0'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.55'/></svg>");mix-blend-mode:overlay;opacity:.32}
+@keyframes drift{0%{background-position:0% 0%}100%{background-position:100% 100%}}
+
+/* ============================================================ SKIP */
+.skip{position:absolute;left:-9999px;background:var(--accent);color:var(--bg);padding:12px 18px;z-index:999;font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.14em}
+.skip:focus{left:16px;top:16px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+/* ============================================================ EXECUTIVE NAV */
+.exec-nav{position:sticky;top:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:18px 36px;background:rgba(6,10,20,.6);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--rule);transition:padding var(--motion-quick) var(--ease-confident),background var(--motion-quick) var(--ease-confident)}
+.exec-nav.scrolled{padding:12px 36px;background:rgba(6,10,20,.88)}
+.exec-nav .brand{font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.exec-nav .brand em{font-style:italic;font-weight:300;color:var(--ink-soft)}
+.exec-nav .chapter-strip{display:flex;gap:6px;align-items:center}
+.exec-nav .ch{width:24px;height:2px;background:rgba(255,255,255,.18);transition:background var(--motion-quick),width var(--motion-quick)}
+.exec-nav .ch.on{background:var(--accent);width:38px}
+.exec-nav .ch.done{background:rgba(255,255,255,.55)}
+.exec-nav .links{display:flex;gap:24px;list-style:none}
+.exec-nav .links a{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);transition:color var(--motion-instant)}
+.exec-nav .links a:hover{color:var(--ink)}
+.exec-nav .cta{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:9px 16px;border:1px solid var(--rule-strong);transition:background var(--motion-quick),border-color var(--motion-quick)}
+.exec-nav .cta:hover{background:rgba(255,255,255,.06);border-color:var(--ink)}
+
+/* ============================================================ REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity var(--motion-normal) var(--ease-confident),transform var(--motion-normal) var(--ease-confident)}
+.reveal.in{opacity:1;transform:none}
+.reveal-stagger>*{opacity:0;transform:translateY(20px);transition:opacity var(--motion-normal) var(--ease-confident),transform var(--motion-normal) var(--ease-confident)}
+.reveal-stagger.in>*{opacity:1;transform:none}
+.reveal-stagger.in>*:nth-child(1){transition-delay:0ms}
+.reveal-stagger.in>*:nth-child(2){transition-delay:90ms}
+.reveal-stagger.in>*:nth-child(3){transition-delay:180ms}
+.reveal-stagger.in>*:nth-child(4){transition-delay:270ms}
+.reveal-stagger.in>*:nth-child(5){transition-delay:360ms}
+.reveal-stagger.in>*:nth-child(6){transition-delay:450ms}
+
+/* ============================================================ HERO (ACT 1) */
+.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:120px 36px 80px;position:relative}
+.hero .eyebrow{font-family:var(--font-mono);font-size:var(--t-sm);letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:32px;display:inline-flex;align-items:center;gap:12px}
+.hero .eyebrow::before{content:"";width:32px;height:1px;background:var(--accent)}
+.hero h1{font-family:var(--font-display);font-weight:800;font-size:var(--t-3xl);line-height:.9;letter-spacing:-.04em;max-width:14ch;font-variation-settings:"opsz" 144,"SOFT" 30}
+.hero h1 em{font-family:var(--font-italic);font-style:italic;font-weight:400;color:var(--accent)}
+.hero .sub{margin-top:36px;font-family:var(--font-italic);font-style:italic;font-size:var(--t-lg);line-height:1.4;color:var(--ink-soft);max-width:46ch}
+.hero .meta{margin-top:72px;display:flex;gap:48px;flex-wrap:wrap;font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}
+.hero .meta strong{display:block;color:var(--ink);font-family:var(--font-display);font-size:var(--t-md);letter-spacing:-.01em;text-transform:none;margin-top:5px;font-weight:400}
+.hero .scroll-cue{position:absolute;bottom:36px;left:36px;font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);display:inline-flex;align-items:center;gap:10px}
+.hero .scroll-cue::after{content:"↓";font-size:14px;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+/* ============================================================ SECTION SHELL */
+section{padding:140px 36px;position:relative}
+.section-head{display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:end;margin-bottom:64px;padding-bottom:28px;border-bottom:1px solid var(--rule)}
+.section-head .num{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.22em;color:var(--accent);text-transform:uppercase}
+.section-head .num .big{display:block;font-family:var(--font-display);font-size:80px;line-height:.85;letter-spacing:-.04em;color:var(--ink);margin-top:8px;font-weight:800;font-variation-settings:"opsz" 144,"SOFT" 0}
+.section-head h2{font-family:var(--font-display);font-weight:800;font-size:var(--t-2xl);line-height:.96;letter-spacing:-.03em;font-variation-settings:"opsz" 144,"SOFT" 30}
+.section-head h2 em{font-family:var(--font-italic);font-style:italic;font-weight:400;color:var(--accent)}
+.section-head .dek{grid-column:2;font-family:var(--font-italic);font-style:italic;font-size:var(--t-md);color:var(--ink-soft);max-width:60ch;margin-top:18px;line-height:1.45}
+
+/* ============================================================ SETUP (ACT 2) */
+.setup{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:start}
+.setup .editorial{font-family:var(--font-italic);font-style:italic;font-size:var(--t-xl);line-height:1.4;color:var(--ink);max-width:38ch}
+.setup .editorial b{font-style:normal;font-family:var(--font-display);font-weight:700;color:var(--accent)}
+.setup .symptoms{display:flex;flex-direction:column;gap:18px}
+.setup .symptom{padding:20px 24px;border-left:2px solid var(--accent);background:rgba(62,202,240,.04)}
+.setup .symptom .v{font-family:var(--font-display);font-size:var(--t-xl);letter-spacing:-.02em;color:var(--ink);font-weight:700;font-variation-settings:"opsz" 144,"SOFT" 0}
+.setup .symptom .v .u{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.14em;display:inline;color:var(--ink-faint);margin-left:6px;text-transform:uppercase;font-weight:400}
+.setup .symptom .l{font-family:var(--font-sans);font-size:var(--t-sm);color:var(--ink-soft);margin-top:6px;line-height:1.5}
+.setup .symptom .src{font-family:var(--font-mono);font-size:9.5px;color:var(--ink-faint);letter-spacing:.14em;text-transform:uppercase;margin-top:8px}
+
+/* ============================================================ CHAPTERS (ACT 3) */
+.chapters{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.chapter{padding:36px 32px;background:rgba(255,255,255,.025);border:1px solid var(--rule);position:relative;min-height:480px;display:flex;flex-direction:column;justify-content:space-between;transition:background var(--motion-quick),transform var(--motion-quick)}
+.chapter:hover{background:rgba(255,255,255,.04);transform:translateY(-4px);border-color:var(--rule-strong)}
+.chapter .ch-ix{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.22em;color:var(--accent);font-weight:700;text-transform:uppercase}
+.chapter h3{font-family:var(--font-display);font-size:30px;line-height:1.02;letter-spacing:-.025em;margin:16px 0 14px;font-weight:700;font-variation-settings:"opsz" 144,"SOFT" 30}
+.chapter h3 em{font-family:var(--font-italic);font-style:italic;font-weight:400}
+.chapter .stake{font-family:var(--font-italic);font-style:italic;font-size:var(--t-md);color:var(--accent);margin-bottom:14px;line-height:1.4}
+.chapter .reveal-line{font-family:var(--font-sans);font-size:var(--t-base);color:var(--ink-soft);line-height:1.55;margin-bottom:24px}
+.chapter .visual{margin:20px 0 24px;min-height:120px;display:flex;align-items:center;justify-content:center}
+.chapter .visual svg{width:100%;height:auto;color:var(--accent)}
+.chapter .proof{padding:14px 16px;background:rgba(0,0,0,.3);border-left:2px solid var(--accent);font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.08em;color:var(--ink);line-height:1.6}
+.chapter .proof b{font-family:var(--font-display);font-size:var(--t-md);color:var(--accent);letter-spacing:-.01em;display:block;margin-bottom:4px;font-weight:700;font-variation-settings:"opsz" 144,"SOFT" 0}
+.chapter .src{font-family:var(--font-mono);font-size:9.5px;color:var(--ink-faint);letter-spacing:.14em;text-transform:uppercase;margin-top:10px}
+
+/* ============================================================ BREAKER (ACT 4) — MONEY FLOW */
+.breaker{padding:160px 36px;background:linear-gradient(180deg,#0a1530 0%,#060a14 100%);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);position:relative}
+.breaker-head{max-width:880px;margin:0 auto 56px;text-align:center}
+.breaker-head .ix{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.28em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;display:inline-flex;align-items:center;gap:12px}
+.breaker-head .ix::before,.breaker-head .ix::after{content:"";width:32px;height:1px;background:var(--accent)}
+.breaker-head h3{font-family:var(--font-display);font-size:var(--t-2xl);line-height:.96;letter-spacing:-.03em;margin-bottom:18px;font-variation-settings:"opsz" 144,"SOFT" 30}
+.breaker-head h3 em{font-family:var(--font-italic);font-style:italic;font-weight:400;color:var(--accent)}
+.breaker-head p{font-family:var(--font-italic);font-style:italic;font-size:var(--t-md);line-height:1.5;color:var(--ink-soft);max-width:56ch;margin:0 auto}
+
+.mf-ctrls{max-width:1280px;margin:0 auto 24px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:18px 22px;background:rgba(15,29,58,.5);border:1px solid var(--rule)}
+.mf-ctrls .ctrl{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}
+.mf-ctrls select{font-family:var(--font-display);font-size:13px;letter-spacing:-.005em;padding:7px 12px;background:rgba(0,0,0,.3);color:var(--ink);border:1px solid var(--rule-strong);cursor:pointer;font-weight:600}
+.mf-ctrls .hint{margin-left:auto;font-family:var(--font-italic);font-style:italic;font-size:var(--t-sm);color:var(--ink-soft);text-transform:none;letter-spacing:0;display:inline-flex;align-items:center;gap:8px}
+.mf-ctrls .hint::before{content:"";width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+.mf-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.45fr 1fr;gap:24px;align-items:start}
+.mf-stage{background:rgba(0,0,0,.45);border:1px solid var(--rule);position:relative;aspect-ratio:1.05/1;overflow:hidden}
+.mf-stage svg{position:absolute;inset:0;width:100%;height:100%}
+.mf-stage canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+.mf-node{position:absolute;transform:translate(-50%,-50%);font-family:var(--font-display);font-size:12.5px;letter-spacing:-.005em;background:var(--paper);color:var(--ink);padding:11px 14px;border:1px solid var(--rule-strong);cursor:pointer;text-align:center;min-width:130px;transition:.25s var(--ease-confident);z-index:5;font-weight:600}
+.mf-node:hover{background:var(--accent);color:var(--bg);border-color:var(--accent);transform:translate(-50%,-50%) scale(1.04);box-shadow:0 0 0 1px var(--accent),0 0 28px -4px rgba(62,202,240,.5)}
+.mf-node.act{background:var(--accent);color:var(--bg);border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 0 32px -4px rgba(62,202,240,.6)}
+.mf-node .sub{display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.16em;margin-top:4px;font-weight:400;opacity:.75;text-transform:uppercase}
+.mf-node.you{background:transparent;color:var(--ink);border-color:var(--accent-2);border-width:1.5px;min-width:100px}
+.mf-node.you:hover,.mf-node.you.act{background:var(--accent-2);color:var(--bg);border-color:var(--accent-2);box-shadow:0 0 0 1px var(--accent-2),0 0 32px -4px rgba(240,184,55,.5)}
+.mf-arrow-lbl{position:absolute;font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--accent);background:rgba(6,10,20,.85);padding:2px 6px;pointer-events:none;z-index:4;text-transform:uppercase;font-weight:600}
+.mf-arrow-lbl.cost{color:var(--accent-2)}
+
+.mf-detail{background:rgba(15,29,58,.4);padding:28px;border:1px solid var(--rule);min-height:540px;display:flex;flex-direction:column}
+.mf-detail .d-label{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.22em;color:var(--accent);margin-bottom:10px;text-transform:uppercase;font-weight:700}
+.mf-detail h4{font-family:var(--font-display);font-size:28px;line-height:.98;letter-spacing:-.025em;margin-bottom:18px;font-weight:700;font-variation-settings:"opsz" 144,"SOFT" 30}
+.mf-detail h4 em{font-family:var(--font-italic);font-style:italic;font-weight:400;color:var(--accent)}
+.mf-detail .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 18px;padding:18px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.mf-detail .stat .v{font-family:var(--font-display);font-size:26px;color:var(--accent);letter-spacing:-.02em;line-height:1;font-weight:700;font-variation-settings:"opsz" 144,"SOFT" 0}
+.mf-detail .stat .v.cost{color:var(--accent-2)}
+.mf-detail .stat .l{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px;line-height:1.4}
+.mf-detail .body{font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.6;color:var(--ink-soft);margin-bottom:14px}
+.mf-detail .body b{color:var(--ink);font-weight:600}
+.mf-detail .body b.c{color:var(--accent)}
+.mf-detail .body b.g{color:var(--accent-2)}
+.mf-detail .who-pays{margin-top:auto;padding:14px 16px;background:rgba(0,0,0,.35);border-left:2px solid var(--accent-2);font-family:var(--font-italic);font-style:italic;font-size:13.5px;color:var(--ink);line-height:1.45}
+.mf-detail .who-pays b{font-style:normal;font-family:var(--font-display);font-weight:600;color:var(--accent-2);letter-spacing:-.005em}
+
+/* receipt panel — restrained editorial version */
+.mf-receipt{max-width:1280px;margin:36px auto 0;display:grid;grid-template-columns:1.05fr 1fr;gap:0;background:#f5efe1;border:1px solid var(--accent);color:var(--bg)}
+.mf-rec-left{background:#f5efe1;padding:0;border-right:2px dashed #2a2f48;position:relative}
+.mf-rec-left::before,.mf-rec-left::after{content:"";position:absolute;right:-12px;width:24px;height:24px;background:var(--bg);border-radius:50%;border:1px solid var(--accent)}
+.mf-rec-left::before{top:-13px}
+.mf-rec-left::after{bottom:-13px}
+.mf-rec-left pre{font-family:var(--font-mono);font-size:11px;line-height:1.7;color:#2a2f48;white-space:pre;padding:32px 36px;margin:0;overflow-x:auto}
+.mf-rec-left pre .h{font-family:var(--font-display);font-size:14px;letter-spacing:-.005em;color:#0a1530;display:inline-block;font-weight:700}
+.mf-rec-right{padding:32px;background:rgba(10,21,48,.96);color:var(--ink);display:flex;flex-direction:column;gap:18px;border-left:1px solid var(--accent)}
+.mf-rec-right h4{font-family:var(--font-display);font-size:24px;line-height:.98;letter-spacing:-.025em;font-weight:700;font-variation-settings:"opsz" 144,"SOFT" 30}
+.mf-rec-right h4 em{font-family:var(--font-italic);font-style:italic;font-weight:400;color:var(--accent-2)}
+.mf-rec-right .bars{display:grid;grid-template-columns:1fr;gap:10px;margin:6px 0}
+.mf-rec-right .bar{position:relative;height:28px;background:rgba(255,255,255,.06);overflow:hidden;border:1px solid var(--rule-strong)}
+.mf-rec-right .bar .f{position:absolute;left:0;top:0;bottom:0;transition:width .6s cubic-bezier(.3,.7,.4,1)}
+.mf-rec-right .bar .f.pay{background:repeating-linear-gradient(45deg,var(--accent-2) 0 8px,#d99c1f 8px 16px)}
+.mf-rec-right .bar .f.gen{background:repeating-linear-gradient(45deg,var(--accent) 0 8px,#2ba6c8 8px 16px)}
+.mf-rec-right .bar .lbl{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;color:var(--bg);font-weight:700;z-index:2;text-transform:uppercase}
+.mf-rec-right .bar .val{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-family:var(--font-display);font-size:14px;color:var(--bg);font-weight:700;letter-spacing:-.02em;z-index:2}
+.mf-rec-right .net{margin-top:auto;padding:20px;background:var(--accent-2);color:var(--bg);text-align:center}
+.mf-rec-right .net .l{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.mf-rec-right .net .big{font-family:var(--font-display);font-size:44px;line-height:.88;letter-spacing:-.04em;font-weight:800;font-variation-settings:"opsz" 144,"SOFT" 0}
+.mf-rec-right .net .big .u{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;display:block;margin-top:6px;font-weight:400;text-transform:uppercase}
+.mf-rec-right .closing{font-family:var(--font-italic);font-style:italic;font-size:14px;line-height:1.4;color:var(--ink-soft);text-align:center;padding:0 6px}
+
+/* ============================================================ RESOLUTION (ACT 5) */
+.resolution{padding:180px 36px;text-align:center;background:radial-gradient(ellipse at center,rgba(20,60,140,.25),transparent 60%)}
+.resolution .closer{font-family:var(--font-italic);font-style:italic;font-size:var(--t-xl);line-height:1.4;color:var(--ink-soft);max-width:48ch;margin:0 auto 48px}
+.resolution .closer b{font-style:normal;font-family:var(--font-display);font-weight:700;color:var(--ink)}
+.resolution .cta-climax{display:inline-block;font-family:var(--font-display);font-size:clamp(20px,2.2vw,26px);letter-spacing:-.015em;padding:24px 44px;background:var(--accent-2);color:var(--bg);transition:transform var(--motion-quick) var(--ease-confident),box-shadow var(--motion-quick) var(--ease-confident);font-weight:700}
+.resolution .cta-climax:hover{transform:translateY(-2px);box-shadow:0 18px 38px -12px rgba(240,184,55,.5)}
+.resolution .reassurance{margin-top:28px;font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);line-height:1.8}
+
+/* ============================================================ FOOTER */
+footer{padding:80px 36px 60px;background:var(--bg-deep);border-top:1px solid var(--rule);color:var(--ink-soft)}
+footer .top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;padding-bottom:36px;border-bottom:1px solid var(--rule);margin-bottom:32px}
+footer h6{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;font-weight:700}
+footer .closing{font-family:var(--font-italic);font-style:italic;font-size:var(--t-md);line-height:1.4;color:var(--ink);max-width:34ch}
+footer ul{list-style:none}
+footer ul li{font-family:var(--font-sans);font-size:var(--t-sm);line-height:2;color:var(--ink-soft)}
+footer ul li a:hover{color:var(--ink)}
+footer .bot{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+
+/* ============================================================ RESPONSIVE */
+@media (max-width:1100px){
+  .exec-nav{padding:14px 22px;flex-wrap:wrap;gap:14px}
+  .exec-nav .links{order:3;width:100%;justify-content:center}
+  .exec-nav .chapter-strip{display:none}
+  .hero{padding:100px 22px 60px}
+  section{padding:100px 22px}
+  .setup{grid-template-columns:1fr;gap:36px}
+  .chapters{grid-template-columns:1fr}
+  .section-head{grid-template-columns:1fr;gap:18px}
+  .section-head .dek{grid-column:1}
+  .mf-grid,.mf-receipt{grid-template-columns:1fr}
+  footer .top{grid-template-columns:1fr 1fr;gap:24px}
+}
+
+/* ============================================================ REDUCED MOTION */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+  .reveal,.reveal-stagger>*{opacity:1 !important;transform:none !important}
+  .atmosphere{animation:none !important}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="atmosphere"></div>
+<div class="noise"></div>
+
+<!-- =========================================================== EXECUTIVE NAV -->
+<header class="exec-nav" role="banner">
+  <div class="brand">Infera <em>· Mechanism Series</em></div>
+  <div class="chapter-strip" aria-hidden="true">
+    <span class="ch on" data-ch="1"></span>
+    <span class="ch" data-ch="2"></span>
+    <span class="ch" data-ch="3"></span>
+    <span class="ch" data-ch="4"></span>
+    <span class="ch" data-ch="5"></span>
+  </div>
+  <ul class="links" role="navigation">
+    <li><a href="#setup">The conflict</a></li>
+    <li><a href="#approach">The architecture</a></li>
+    <li><a href="#breaker">The money</a></li>
+    <li><a href="#resolution">Receive briefing</a></li>
+  </ul>
+  <a class="cta" href="#resolution">Receive briefing</a>
+</header>
+
+<main id="main">
+
+<!-- =========================================================== ACT 1 — HOOK -->
+<section class="hero" data-chapter="1">
+  <div class="eyebrow">Issue 08 · Field Investigation · May 2026</div>
+  <h1>Personhood, <em>on lease.</em></h1>
+  <div class="sub reveal">An investigation into the invisible economy that runs on you — what it costs, who collects, and where the money quietly returns.</div>
+  <div class="meta reveal">
+    <div>Reading time<strong>14 minutes</strong></div>
+    <div>Architecture<strong>5 acts · 1 interactive</strong></div>
+    <div>Sources<strong>13 · tier-tagged</strong></div>
+    <div>Discipline<strong>Tufte · Infera SVNIF</strong></div>
+  </div>
+  <div class="scroll-cue">begin</div>
+</section>
+
+<!-- =========================================================== ACT 2 — SETUP -->
+<section id="setup" data-chapter="2">
+  <div class="section-head reveal">
+    <div class="num">Act 02<span class="big">Setup</span></div>
+    <div>
+      <h2>The thing you are<br/>quietly <em>worried about.</em></h2>
+      <div class="dek">The conflict at the center of this issue — named before any frame is built around it.</div>
+    </div>
+  </div>
+
+  <div class="setup reveal-stagger">
+    <p class="editorial">You understand, abstractly, that data is collected. What you can&rsquo;t see is the architecture: how an image becomes a forecast, the forecast becomes a cluster, the cluster becomes inventory, the inventory becomes a data center you help pay to power, and the AI hosted on that data center charges you a monthly fee to use a model trained — in part — on what you gave away for free. <b>You are simultaneously the product, the labor, and the closing payer.</b></p>
+
+    <div class="symptoms">
+      <div class="symptom">
+        <div class="v">2,847<span class="u">data points / day</span></div>
+        <div class="l">The average count of signals captured per active digital citizen per day, across image, behavior, location, and biometric channels.</div>
+        <div class="src">— Industry estimate · multi-platform · 2024</div>
+      </div>
+      <div class="symptom">
+        <div class="v">$382<span class="u">/ month</span></div>
+        <div class="l">The estimated monthly economic value generated <em>by</em> a typical mid-tier consumer profile — paid to platforms, brokers, and AI hosts. None of it to the consumer.</div>
+        <div class="src">— Composite of disclosed adtech rate cards · 2024</div>
+      </div>
+      <div class="symptom">
+        <div class="v">$254<span class="u">/ month</span></div>
+        <div class="l">The net extraction — value the system collects <em>from</em> you, minus the value of services received. The line item appears on no bill.</div>
+        <div class="src">— Infera modeling · methodology in colophon</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== ACT 3 — CHAPTERS -->
+<section id="approach" data-chapter="3">
+  <div class="section-head reveal">
+    <div class="num">Act 03<span class="big">Architecture</span></div>
+    <div>
+      <h2>Three moves<br/>that make personhood<br/><em>monetizable.</em></h2>
+      <div class="dek">The pipeline is not hidden. It is unwatched. Each chapter below is one of the three structural moves the entire industry rests on.</div>
+    </div>
+  </div>
+
+  <div class="chapters reveal-stagger">
+    <article class="chapter">
+      <div>
+        <div class="ch-ix">Ch · 01</div>
+        <h3>Read every <em>image</em> twice.</h3>
+        <p class="stake">First for what is there. Then for what it suggests.</p>
+        <p class="reveal-line">Modern vision systems no longer ask <em>what is this?</em> — they ask <em>who is this becoming?</em> Forty-seven inferred attributes per uploaded frame: not just objects, but emotional tone, life-stage, purchase posture, network density, openness, stability.</p>
+        <div class="visual" aria-hidden="true">
+          <svg viewBox="0 0 220 90">
+            <g fill="none" stroke="currentColor" stroke-width="1" opacity=".25">
+              <rect x="0" y="0" width="220" height="90"/>
+            </g>
+            <g fill="currentColor" opacity=".55">
+              <circle cx="50" cy="42" r="3"/><circle cx="78" cy="28" r="3"/><circle cx="105" cy="58" r="3"/>
+              <circle cx="132" cy="32" r="3"/><circle cx="160" cy="48" r="3"/><circle cx="186" cy="22" r="3"/>
+            </g>
+            <g fill="none" stroke="currentColor" stroke-width="1" opacity=".5">
+              <line x1="50" y1="42" x2="78" y2="28"/>
+              <line x1="78" y1="28" x2="105" y2="58"/>
+              <line x1="105" y1="58" x2="132" y2="32"/>
+              <line x1="132" y1="32" x2="160" y2="48"/>
+              <line x1="160" y1="48" x2="186" y2="22"/>
+            </g>
+            <text x="0" y="86" font-family="JetBrains Mono" font-size="8" fill="currentColor" opacity=".55" letter-spacing="1">SIGNAL · 47 / FRAME</text>
+          </svg>
+        </div>
+      </div>
+      <div class="proof"><b>47 signals</b>per uploaded frame · across 12 inferred attribute classes</div>
+    </article>
+
+    <article class="chapter">
+      <div>
+        <div class="ch-ix">Ch · 02</div>
+        <h3>Fuse <em>twelve</em> sources<br/>into one composite.</h3>
+        <p class="stake">No platform alone knows you. The composite does.</p>
+        <p class="reveal-line">Instagram, LinkedIn, streaming, banking, smart home, location, public records, wearables, broker fusion. Twelve channels meet inside a single identity ledger. The result is not a copy of you — it is a forecast accurate enough to underwrite credit and steer purchase.</p>
+        <div class="visual" aria-hidden="true">
+          <svg viewBox="0 0 220 90">
+            <g stroke="currentColor" stroke-width="1" fill="none" opacity=".4">
+              <line x1="20" y1="15" x2="110" y2="45"/>
+              <line x1="20" y1="35" x2="110" y2="45"/>
+              <line x1="20" y1="55" x2="110" y2="45"/>
+              <line x1="20" y1="75" x2="110" y2="45"/>
+              <line x1="50" y1="10" x2="110" y2="45"/>
+              <line x1="50" y1="80" x2="110" y2="45"/>
+            </g>
+            <g fill="currentColor" opacity=".55">
+              <circle cx="20" cy="15" r="2.5"/><circle cx="20" cy="35" r="2.5"/><circle cx="20" cy="55" r="2.5"/><circle cx="20" cy="75" r="2.5"/>
+              <circle cx="50" cy="10" r="2.5"/><circle cx="50" cy="80" r="2.5"/>
+            </g>
+            <circle cx="110" cy="45" r="7" fill="currentColor"/>
+            <path d="M 117 45 L 195 45" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="200" cy="45" r="5" fill="currentColor" opacity=".7"/>
+            <text x="0" y="86" font-family="JetBrains Mono" font-size="8" fill="currentColor" opacity=".55" letter-spacing="1">SOURCES · 12 → COMPOSITE</text>
+          </svg>
+        </div>
+      </div>
+      <div class="proof"><b>312 attributes</b>per typical composite · updated continuously · never shown to the subject</div>
+    </article>
+
+    <article class="chapter">
+      <div>
+        <div class="ch-ix">Ch · 03</div>
+        <h3>Cluster <em>everyone</em><br/>into six shadows.</h3>
+        <p class="stake">Personhood, compressed into six recurring shapes the model has learned to price.</p>
+        <p class="reveal-line">Curator, Caretaker, Drifter, Believer, Hustler, Apprentice. Each cluster carries its own bid floor, its own predicted trajectory, its own end-state. The trajectory is not a prediction. It is increasingly a prescription.</p>
+        <div class="visual" aria-hidden="true">
+          <svg viewBox="0 0 220 90">
+            <g stroke="currentColor" stroke-width="1" fill="none" opacity=".45">
+              <path d="M 30 15 Q 110 15 190 25"/>
+              <path d="M 30 30 Q 110 35 190 40"/>
+              <path d="M 30 45 Q 110 45 190 55"/>
+              <path d="M 30 60 Q 110 55 190 35"/>
+              <path d="M 30 75 Q 110 75 190 70"/>
+              <path d="M 30 85 Q 110 80 190 60"/>
+            </g>
+            <g fill="currentColor" opacity=".55">
+              <rect x="20" y="11" width="14" height="8"/><rect x="20" y="26" width="14" height="8"/><rect x="20" y="41" width="14" height="8"/>
+              <rect x="20" y="56" width="14" height="8"/><rect x="20" y="71" width="14" height="8"/><rect x="20" y="81" width="14" height="6"/>
+            </g>
+            <g fill="currentColor" opacity=".75">
+              <rect x="186" y="21" width="10" height="8"/><rect x="186" y="36" width="10" height="8"/><rect x="186" y="51" width="10" height="8"/>
+              <rect x="186" y="31" width="10" height="8"/><rect x="186" y="56" width="10" height="8"/><rect x="186" y="66" width="10" height="8"/>
+            </g>
+            <text x="0" y="88" font-family="JetBrains Mono" font-size="8" fill="currentColor" opacity=".55" letter-spacing="1">CLUSTERS · 6 → ENDPOINTS</text>
+          </svg>
+        </div>
+      </div>
+      <div class="proof"><b>14,400+</b>named lookalike clusters in production globally · addressing nearly every adult</div>
+    </article>
+  </div>
+</section>
+
+<!-- =========================================================== ACT 4 — BREAKER · MONEY FLOW -->
+<section id="breaker" class="breaker" data-chapter="4">
+  <div class="breaker-head reveal">
+    <div class="ix">Act 04 · The breaker</div>
+    <h3>Follow the <em>money.</em><br/>Notice how it returns to you.</h3>
+    <p>Tap any node to see what flows through it. Switch state to see how the local utility and tax math changes. The receipt at the bottom is the bill no one itemizes.</p>
+  </div>
+
+  <div class="mf-ctrls reveal">
+    <div class="ctrl">State
+      <select id="mfState">
+        <option value="GA">Georgia</option>
+        <option value="VA">Virginia</option>
+        <option value="OR">Oregon</option>
+        <option value="IA">Iowa</option>
+      </select>
+    </div>
+    <div class="ctrl">Profile
+      <select id="mfProfile">
+        <option value="mid">Mid-tier composite</option>
+        <option value="high">High-engagement composite</option>
+        <option value="low">Low-engagement composite</option>
+      </select>
+    </div>
+    <div class="hint">Click any node — the cascade animates continuously.</div>
+  </div>
+
+  <div class="mf-grid reveal">
+    <div class="mf-stage" id="mfStage"></div>
+    <div class="mf-detail" id="mfDetail"></div>
+  </div>
+
+  <div class="mf-receipt reveal">
+    <div class="mf-rec-left">
+      <pre id="mfRecPre"></pre>
+    </div>
+    <div class="mf-rec-right">
+      <h4>The extraction<br/><em>nobody itemizes.</em></h4>
+      <div class="bars">
+        <div class="bar"><div class="f pay" id="payBar"></div><div class="lbl">YOU PAID</div><div class="val" id="payVal">$0</div></div>
+        <div class="bar"><div class="f gen" id="genBar"></div><div class="lbl">YOU GENERATED</div><div class="val" id="genVal">$0</div></div>
+      </div>
+      <div class="net">
+        <div class="l">NET EXTRACTION · MONTHLY</div>
+        <div class="big"><span id="netVal">$0</span><span class="u">transferred from you to the system</span></div>
+      </div>
+      <div class="closing">The receipt has line items the bill never did. Switch state. Switch profile. Notice that no version of it nets to zero.</div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== ACT 5 — RESOLUTION -->
+<section id="resolution" class="resolution" data-chapter="5">
+  <div class="reveal">
+    <p class="closer">If what you&rsquo;ve read is the architecture you suspected was there, the next step is the <b>full briefing</b> — a 28-page memo with the full methodology, the underlying datasets, and the per-state extraction tables. It is sent once, never resold.</p>
+    <a class="cta-climax" href="mailto:briefing@infera.example?subject=Issue%2008%20Briefing">Receive the briefing</a>
+    <div class="reassurance">PDF delivered within one business day &nbsp;·&nbsp; No mailing list, no sequence &nbsp;·&nbsp; Reply directly to discuss</div>
+  </div>
+</section>
+
+</main>
+
+<!-- =========================================================== FOOTER -->
+<footer>
+  <div class="top">
+    <div>
+      <h6>Infera · Mechanism Series · Issue 08</h6>
+      <p class="closing">A field investigation into the architecture of contemporary personhood. Written under the Infera SVNIF discipline. Filed from Atlanta, May 2026.</p>
+    </div>
+    <div>
+      <h6>Navigate</h6>
+      <ul>
+        <li><a href="#setup">The conflict</a></li>
+        <li><a href="#approach">The architecture</a></li>
+        <li><a href="#breaker">The money</a></li>
+        <li><a href="#resolution">Receive briefing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6>Series</h6>
+      <ul>
+        <li><a href="../index.html">Mechanism index</a></li>
+        <li><a href="../the-runoff-tells.html">Issue 06 · Runoff</a></li>
+        <li><a href="money-atlas.html">Issue 07 · Money Atlas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6>Provenance</h6>
+      <ul>
+        <li><a href="#">Methodology</a></li>
+        <li><a href="#">Sources</a></li>
+        <li><a href="#">Discipline (SVNIF)</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="bot">
+    <div>© 2026 Infera</div>
+    <div>Set in Fraunces · Inter · Instrument Serif · JetBrains Mono</div>
+  </div>
+</footer>
+
+<script>
+// ----------------- reveal -----------------
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '-8% 0px -5% 0px' });
+document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => revealObs.observe(el));
+
+// ----------------- sticky nav scroll state -----------------
+const nav = document.querySelector('.exec-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// ----------------- chapter strip progress -----------------
+const stripChs = document.querySelectorAll('.chapter-strip .ch');
+const chapters = document.querySelectorAll('[data-chapter]');
+const chObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const n = +e.target.dataset.chapter;
+      stripChs.forEach((s, i) => {
+        s.classList.toggle('on', i === n - 1);
+        s.classList.toggle('done', i < n - 1);
+      });
+    }
+  });
+}, { threshold: 0.35 });
+chapters.forEach(c => chObs.observe(c));
+
+// ============================================================ MONEY FLOW
+(function(){
+  const stage = document.getElementById('mfStage');
+  const detailRoot = document.getElementById('mfDetail');
+  const stateSel = document.getElementById('mfState');
+  const profileSel = document.getElementById('mfProfile');
+
+  const nodes = {
+    you1:     {x:50, y:7,  label:'YOU',          sub:'data · attention',     cls:'you'},
+    platform: {x:18, y:28, label:'PLATFORM',     sub:'IG · TikTok · Meta'},
+    broker:   {x:50, y:30, label:'DATA BROKER',  sub:'Acxiom · Experian'},
+    buyer:    {x:82, y:28, label:'AD BUYERS',    sub:'brands · banks · ops'},
+    dc:       {x:50, y:55, label:'DATA CENTERS', sub:'storage · compute'},
+    grid:     {x:14, y:78, label:'POWER GRID',   sub:'utility load'},
+    tax:      {x:50, y:80, label:'TAX SUBSIDIES',sub:'state · local'},
+    ai:       {x:86, y:78, label:'AI HOSTING',   sub:'OpenAI · Anthropic'},
+    you2:     {x:50, y:96, label:'YOU',          sub:'utility · taxes · subs', cls:'you'}
+  };
+
+  const edges = [
+    {from:'you1', to:'platform', kind:'free',  label:'FREE LABOR'},
+    {from:'you1', to:'broker',   kind:'free',  label:'FREE LABOR'},
+    {from:'platform', to:'broker', kind:'rev', label:'$ DATA RENT'},
+    {from:'broker', to:'buyer',  kind:'rev',   label:'$ AUDIENCE'},
+    {from:'buyer', to:'dc',      kind:'rev',   label:'$ STORAGE'},
+    {from:'platform', to:'dc',   kind:'rev',   label:'$ HOSTING'},
+    {from:'dc', to:'grid',       kind:'cost',  label:'LOAD'},
+    {from:'tax', to:'dc',        kind:'rev',   label:'$ INCENTIVES'},
+    {from:'dc', to:'ai',         kind:'rev',   label:'$ COMPUTE'},
+    {from:'ai', to:'you2',       kind:'cost',  label:'$ MEMBERSHIP'},
+    {from:'grid', to:'you2',     kind:'cost',  label:'$ UTILITY BILL'},
+    {from:'you2', to:'tax',      kind:'cost',  label:'$ TAXES'}
+  ];
+
+  const states = {
+    GA: {name:'GEORGIA',     dcShare:8.5,  utilityHit:8.50, taxShare:12.20, bigNumber:'$1.2B', bigNote:'in tax incentives for Microsoft, Google, and Meta data centers (2020–2024)'},
+    VA: {name:'VIRGINIA',    dcShare:26,   utilityHit:21.40,taxShare:18.60, bigNumber:'$929M', bigNote:'in annual data-center sales-tax exemptions (Loudoun + Prince William)'},
+    OR: {name:'OREGON',      dcShare:11,   utilityHit:6.20, taxShare:9.30,  bigNumber:'$225M', bigNote:'in property-tax abatements to a single data-center site over 15 years'},
+    IA: {name:'IOWA',        dcShare:14,   utilityHit:7.10, taxShare:11.50, bigNumber:'$700M', bigNote:'in sales-tax exemptions to Meta / Microsoft / Google data centers (2008–2024)'}
+  };
+
+  const profiles = {
+    mid:  {label:'MID-TIER',     payMult:1.00, genMult:1.00},
+    high: {label:'HIGH-ENGAGE',  payMult:1.18, genMult:1.65},
+    low:  {label:'LOW-ENGAGE',   payMult:0.72, genMult:0.48}
+  };
+
+  const details = {
+    you1: {
+      label:'NODE · YOU (UPSTREAM)',
+      title:'You · the data source',
+      body:'Every login, scroll, like, save, search, and idle moment is captured as <b class="c">free labor</b>. You provide the raw material the entire system processes. <b class="g">No platform pays you for it.</b> You think the product is free. The platform thinks you are the inventory.',
+      stats:[{v:'2,847', l:'data points / day (avg)'},{v:'$0', l:'paid to you',cost:true}],
+      who:'You — in time, attention, and identity formation handed over for free.'
+    },
+    platform: {
+      label:'NODE · PLATFORM',
+      title:'The platform layer',
+      body:'Meta, TikTok, LinkedIn, YouTube, X, Reddit. Each collects your data for free, hosts it on its own data centers, then either rents access directly to advertisers or hands packaged audiences to brokers. <b class="c">The free product you use is the upstream of an audience-rental factory.</b>',
+      stats:[{v:'$135B', l:'Meta ad revenue · 2024'},{v:'$67B', l:'TikTok est. global · 2024'}],
+      who:'You — by generating the inventory. Advertisers — by renting it. Then you again, when ads quietly raise product prices.'
+    },
+    broker: {
+      label:'NODE · DATA BROKER',
+      title:'The aggregation tier',
+      body:'Acxiom, Experian Marketing Services, Oracle Data Cloud, LiveRamp. They <b class="c">buy data from platforms</b>, fuse it with banking, public records, location, and purchase data, then resell scored audience access at scale. They have files on virtually every U.S. adult — and almost no consumer has heard of them.',
+      stats:[{v:'$280B', l:'global data broker mkt'},{v:'~700', l:'fields per typical profile'}],
+      who:'Advertisers and banks pay brokers. You pay nothing — and have no opt-out.'
+    },
+    buyer: {
+      label:'NODE · AD BUYERS',
+      title:'The demand side',
+      body:'Consumer brands, financial institutions, political operations, streaming platforms, insurers. They pay brokers and platforms per impression, per click, per acquisition. <b class="g">The cost is built into the price you pay for the product they\'re selling.</b> The ad is never free.',
+      stats:[{v:'$300B+', l:'US digital ad spend · 2024'},{v:'~14%', l:'avg consumer price markup from ads'}],
+      who:'You — every time you buy a product whose price quietly includes the ad cost.'
+    },
+    dc: {
+      label:'NODE · DATA CENTERS',
+      title:'The physical substrate',
+      body:'Every byte of data, every ad served, every AI query runs through a physical facility. Owned by Microsoft, Google, Meta, Amazon. Hyperscalers are building <b class="g">faster than the grid can accommodate them.</b> They need: land, electricity, water, fiber, and tax breaks.',
+      stats:[{v:'~4.4%', l:'of US electricity · 2023'},{v:'~12%', l:'projected by 2028'}],
+      who:'You — for power upgrades passed through utilities, and for tax incentives passed through state budgets.'
+    },
+    grid: {
+      label:'NODE · POWER GRID',
+      title:'The shared infrastructure',
+      body:'When a data center moves in, your local grid absorbs the load. Utilities request rate increases. Approval is typically granted. <b class="g">Residential customers absorb a meaningful share</b> of the cost of building infrastructure that mostly serves the data center. Water consumption follows the same pattern.',
+      stats:[{v:'+$8–22', l:'avg residential bill hit / mo'},{v:'~500K gal', l:'water / day per hyperscale DC'}],
+      who:'You — visible on every utility bill in counties hosting hyperscale facilities.'
+    },
+    tax: {
+      label:'NODE · TAX SUBSIDIES',
+      title:'The public underwriting',
+      body:'State and local governments compete with <b class="g">sales-tax exemptions, property-tax abatements, infrastructure giveaways, and direct grants.</b> The case made to voters is jobs. The actual jobs per site are typically dozens, not thousands.',
+      stats:[{v:'$1.2B', l:'GA DC tax incentives (4yr)'},{v:'~40', l:'permanent jobs / typical hyperscale DC'}],
+      who:'You — through forgone public services that those taxes would have funded.'
+    },
+    ai: {
+      label:'NODE · AI HOSTING',
+      title:'The membership layer',
+      body:'AI companies — OpenAI, Anthropic, Google DeepMind — don\'t own most of the data centers they run on. They <b class="c">rent compute</b> from hyperscalers, then sell access to consumers on a <b class="g">monthly subscription.</b> The cycle that began with your free data ends with you paying $20/month to use a model trained, in part, on it.',
+      stats:[{v:'$20–200', l:'consumer AI subs / mo'},{v:'~$0', l:'paid to data contributors',cost:true}],
+      who:'You — for the model, for the storage, for the electricity, and originally for the training data.'
+    },
+    you2: {
+      label:'NODE · YOU (DOWNSTREAM)',
+      title:'You · the closing payer',
+      body:'The loop closes here. The same person who provided the upstream data for free now <b class="g">pays the utility surcharge</b> for the data center storing it, <b class="g">pays the tax share</b> of the subsidy that built it, <b class="g">pays the AI subscription</b> that uses it, and <b class="g">pays the markup</b> on every product advertised back through the system.',
+      stats:[{v:'$127.79', l:'monthly cost to you'},{v:'$382.20', l:'monthly value you generate'}],
+      who:'You — net extraction of roughly $254 worth of value transferred from you to the system, with no line item on any bill identifying it.'
+    }
+  };
+
+  function renderNodes(){
+    const nodeHtml = Object.entries(nodes).map(([k,n])=>{
+      return `<div class="mf-node ${n.cls||''}" data-id="${k}" style="left:${n.x}%;top:${n.y}%">${n.label}<span class="sub">${n.sub}</span></div>`;
+    }).join('');
+
+    let svgDefs = `<defs>
+      <marker id="aCy" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3ecaf0"/></marker>
+      <marker id="aGold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#f0b837"/></marker>
+      <marker id="aWhite" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#98a8c4"/></marker>
+    </defs>`;
+    let svgPaths = '';
+    edges.forEach((e,i)=>{
+      const a = nodes[e.from], b = nodes[e.to];
+      const ax = a.x*10, ay = a.y*10, bx = b.x*10, by = b.y*10;
+      const mx = (ax+bx)/2, my = (ay+by)/2;
+      const offset = (i % 3 - 1) * 40;
+      const cx = mx + offset, cy = my + offset * 0.5;
+      let color, marker, dash, opacity;
+      if(e.kind === 'cost'){ color='#f0b837'; marker='aGold'; dash='0'; opacity=.7; }
+      else if(e.kind === 'free'){ color='#98a8c4'; marker='aWhite'; dash='4 6'; opacity=.5; }
+      else { color='#3ecaf0'; marker='aCy'; dash='0'; opacity=.7; }
+      svgPaths += `<path d="M ${ax} ${ay} Q ${cx} ${cy} ${bx} ${by}" stroke="${color}" stroke-width="1.5" fill="none" stroke-dasharray="${dash}" opacity="${opacity}" marker-end="url(#${marker})" class="mf-path"/>`;
+    });
+    const svg = `<svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">${svgDefs}${svgPaths}</svg>`;
+
+    const lblHtml = edges.map((e,i)=>{
+      const a = nodes[e.from], b = nodes[e.to];
+      const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+      const offset = (i % 3 - 1) * 4;
+      const px = mx + offset, py = my + offset * 0.5;
+      const cls = e.kind === 'cost' ? 'cost' : '';
+      return `<div class="mf-arrow-lbl ${cls}" style="left:${px}%;top:${py}%;transform:translate(-50%,-50%)">${e.label}</div>`;
+    }).join('');
+
+    stage.innerHTML = svg + lblHtml + nodeHtml;
+
+    // node click
+    stage.querySelectorAll('.mf-node').forEach(el=>{
+      el.addEventListener('click',()=>{
+        stage.querySelectorAll('.mf-node').forEach(x=>x.classList.remove('act'));
+        el.classList.add('act');
+        showDetail(el.dataset.id);
+      });
+    });
+  }
+
+  function showDetail(id){
+    const d = details[id];
+    if(!d) return;
+    detailRoot.innerHTML = `
+      <div class="d-label">${d.label}</div>
+      <h4>${d.title}</h4>
+      <div class="stat-row">
+        ${d.stats.map(s=>`<div class="stat"><div class="v ${s.cost?'cost':''}">${s.v}</div><div class="l">${s.l}</div></div>`).join('')}
+      </div>
+      <div class="body">${d.body}</div>
+      <div class="who-pays"><b>WHO PAYS · </b>${d.who}</div>
+    `;
+  }
+
+  function updateReceipt(){
+    const st = states[stateSel.value];
+    const pr = profiles[profileSel.value];
+    const pre = document.getElementById('mfRecPre');
+    const subs = 47.99 + 20;
+    const isp = 24.30;
+    const adMarkup = 14.80;
+    const baseYouPaid = (subs + isp + st.utilityHit + st.taxShare + adMarkup);
+    const baseYouGen = (284.50 + 47.20 + 12.40 + 38.10);
+    const youPaid = baseYouPaid * pr.payMult;
+    const youGen = baseYouGen * pr.genMult;
+    const net = youGen - youPaid;
+    pre.innerHTML = `<span class="h">INFERA · ISSUE 08</span>
+========================================
+   MONTHLY EXTRACTION RECEIPT
+   ACCOUNT:  0x4E7C
+   STATE:    ${st.name}
+   PROFILE:  ${pr.label}
+   PERIOD:   MAY 2026
+========================================
+
+YOU PAID THIS MONTH:
+----------------------------------------
+Streaming subscriptions         $ ${(subs*pr.payMult).toFixed(2)}
+ISP (transit to data centers)   $ ${(isp*pr.payMult).toFixed(2)}
+Utility share · DC load         $  ${(st.utilityHit*pr.payMult).toFixed(2)}
+Tax-subsidy share · DC incent.  $ ${(st.taxShare*pr.payMult).toFixed(2)}
+Hidden ad markup in prices      $ ${(adMarkup*pr.payMult).toFixed(2)}
+----------------------------------------
+SUBTOTAL                       $${youPaid.toFixed(2).padStart(7)}
+
+YOU GENERATED THIS MONTH:
+----------------------------------------
+Ad inventory value             $${(284.50*pr.genMult).toFixed(2).padStart(7)}
+Broker resale value            $ ${(47.20*pr.genMult).toFixed(2)}
+Training data value            $ ${(12.40*pr.genMult).toFixed(2)}
+Behavioral prediction value    $ ${(38.10*pr.genMult).toFixed(2)}
+----------------------------------------
+TOTAL VALUE GENERATED          $${youGen.toFixed(2).padStart(7)}
+
+========================================
+NET EXTRACTION              $ ${Math.abs(net).toFixed(2).padStart(7)}
+========================================
+
+${st.bigNumber} ${st.bigNote.toUpperCase()}.
+
+YOU ARE THE PRODUCT.
+YOU ARE ALSO A CUSTOMER.
+NO REFUNDS.`;
+
+    const payBar = document.getElementById('payBar');
+    const genBar = document.getElementById('genBar');
+    const payVal = document.getElementById('payVal');
+    const genVal = document.getElementById('genVal');
+    const netVal = document.getElementById('netVal');
+    const max = Math.max(youPaid, youGen);
+    payBar.style.width = (youPaid / max * 100) + '%';
+    genBar.style.width = (youGen / max * 100) + '%';
+    payVal.textContent = '$' + youPaid.toFixed(0);
+    genVal.textContent = '$' + youGen.toFixed(0);
+    netVal.textContent = '$' + Math.abs(net).toFixed(0);
+  }
+
+  // particle animation — auto-runs while breaker is in view
+  let particles = [];
+  let playing = false;
+  let canvas, ctx;
+
+  function spawnParticles(){
+    particles = [];
+    edges.forEach((e,i)=>{
+      const a = nodes[e.from], b = nodes[e.to];
+      const offset = (i % 3 - 1) * 4;
+      for(let k=0;k<2;k++){
+        particles.push({
+          fromX:a.x, fromY:a.y, toX:b.x, toY:b.y,
+          cx:(a.x+b.x)/2 + offset, cy:(a.y+b.y)/2 + offset*0.5,
+          t:Math.random(),
+          speed:.0024 + Math.random()*.003,
+          color: e.kind==='cost' ? '#f0b837' : (e.kind==='free' ? '#98a8c4' : '#3ecaf0')
+        });
+      }
+    });
+  }
+
+  function ensureCanvas(){
+    if(!canvas){
+      canvas = document.createElement('canvas');
+      canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3';
+      stage.appendChild(canvas);
+      ctx = canvas.getContext('2d');
+    }
+    const r = canvas.getBoundingClientRect();
+    if(canvas.width !== r.width * devicePixelRatio){
+      canvas.width = r.width * devicePixelRatio;
+      canvas.height = r.height * devicePixelRatio;
+      ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    }
+  }
+
+  function tick(){
+    if(!playing) return;
+    ensureCanvas();
+    const r = canvas.getBoundingClientRect();
+    ctx.clearRect(0,0,r.width,r.height);
+    particles.forEach(p=>{
+      p.t += p.speed;
+      if(p.t > 1) p.t = 0;
+      const inv = 1-p.t;
+      const x = (inv*inv*p.fromX + 2*inv*p.t*p.cx + p.t*p.t*p.toX) / 100 * r.width;
+      const y = (inv*inv*p.fromY + 2*inv*p.t*p.cy + p.t*p.t*p.toY) / 100 * r.height;
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI*2);
+      ctx.fillStyle = p.color;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 10;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+    requestAnimationFrame(tick);
+  }
+
+  // auto-start when breaker scrolls into view
+  const stageObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting && !playing){
+        playing = true;
+        if(particles.length === 0) spawnParticles();
+        tick();
+      } else if(!e.isIntersecting && playing){
+        playing = false;
+        if(canvas){ ctx.clearRect(0,0,canvas.width,canvas.height); }
+      }
+    });
+  }, { threshold: 0.18 });
+
+  stateSel.addEventListener('change', updateReceipt);
+  profileSel.addEventListener('change', updateReceipt);
+  window.addEventListener('resize', () => { if(canvas){ ctx.setTransform(1,0,0,1,0,0); ensureCanvas(); }});
+
+  renderNodes();
+  showDetail('you1');
+  stage.querySelector('[data-id="you1"]').classList.add('act');
+  updateReceipt();
+  stageObserver.observe(stage);
+})();
+</script>
+
+</body>
+</html>

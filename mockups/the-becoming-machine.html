@@ -1,0 +1,2892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PERSONHOOD, INC. — Infera Mechanism Series Vol. 01, Issue 08</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#f1ede1;            /* warm bone */
+  --bg-deep:#0a0a0a;       /* jet */
+  --bg-mid:#1a1a1f;
+  --ink:#0a0a0a;
+  --ink-soft:#3a3a3f;
+  --paper:#fbf7eb;
+  --rule:#d8d2bf;
+  --lime:#c8ff1e;
+  --pink:#ff1a6b;
+  --cobalt:#1e3cff;
+  --tomato:#ff3a2e;
+  --yellow:#ffd500;
+  --cream:#fbf7eb;
+  --display:'Archivo Black','Helvetica Neue',sans-serif;
+  --sans:'Space Grotesk','Helvetica Neue',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --italic:'Instrument Serif',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden}
+body{font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+::selection{background:var(--lime);color:var(--ink)}
+a{color:inherit}
+img{max-width:100%;display:block}
+
+/* NOISE TEXTURE LAYER (subtle, applied via SVG filter on cards) */
+.noise{position:relative}
+.noise::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .25 0'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='.6'/></svg>");
+  mix-blend-mode:multiply;opacity:.5;
+}
+
+/* ============================================================ TICKER */
+.ticker{
+  position:sticky;top:0;z-index:90;
+  height:32px;background:var(--ink);color:var(--bg);
+  display:flex;align-items:center;overflow:hidden;
+  border-bottom:2px solid var(--lime);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+}
+.ticker .row{display:flex;gap:40px;white-space:nowrap;padding-left:24px;animation:slide 90s linear infinite}
+.ticker .row span{display:inline-flex;align-items:center;gap:8px}
+.ticker .row .pin{width:6px;height:6px;background:var(--lime)}
+.ticker .row .p2{background:var(--pink)}
+.ticker .row .p3{background:var(--cobalt)}
+.ticker .row .p4{background:var(--tomato)}
+.ticker .row .p5{background:var(--yellow)}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============================================================ TOP STRIP */
+.top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 28px;border-bottom:2px solid var(--ink);
+}
+.top .mark{font-family:var(--display);font-size:18px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.top .mark .dot{width:12px;height:12px;background:var(--tomato);border-radius:50%;box-shadow:0 0 0 3px var(--bg),0 0 0 4px var(--ink)}
+.top .nav{display:flex;gap:18px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.top .nav a{text-decoration:none;color:var(--ink-soft);padding:4px 6px;border:1px solid transparent;transition:.15s}
+.top .nav a:hover{color:var(--ink);border-color:var(--ink);background:var(--lime)}
+.top .nav a.now{color:var(--ink);background:var(--ink);color:var(--bg)}
+
+/* ============================================================ HERO */
+.hero{
+  position:relative;
+  padding:64px 28px 40px;
+  border-bottom:2px solid var(--ink);
+  background:var(--bg);
+  overflow:hidden;
+}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:24px;position:relative;z-index:2}
+.hero-meta{display:flex;justify-content:space-between;align-items:flex-start;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+.hero-meta .ix{display:flex;gap:18px;align-items:center}
+.hero-meta .ix .badge{background:var(--ink);color:var(--bg);padding:5px 10px;letter-spacing:.18em}
+.hero-meta .ix .badge.lime{background:var(--lime);color:var(--ink)}
+.hero-meta .live{display:inline-flex;align-items:center;gap:8px}
+.hero-meta .live::before{content:"";width:8px;height:8px;background:var(--tomato);border-radius:50%;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(72px,16vw,260px);
+  line-height:.82;
+  letter-spacing:-.05em;
+  margin:8px 0;
+  position:relative;
+  z-index:3;
+}
+.hero h1 .word{display:block;position:relative}
+.hero h1 .w1{color:var(--ink)}
+.hero h1 .w2{
+  color:var(--pink);
+  text-stroke:2px var(--ink);
+  -webkit-text-stroke:2px var(--ink);
+  font-style:italic;
+  font-family:var(--italic);
+  font-weight:400;
+  font-size:1.05em;
+  letter-spacing:-.03em;
+  margin-left:.15em;
+  transform:translateY(-.08em);
+}
+.hero h1 .w3{color:var(--ink);position:relative}
+.hero h1 .w3::after{
+  content:"INC.";
+  position:absolute;
+  right:0;top:auto;bottom:.08em;
+  font-family:var(--mono);
+  font-size:.18em;letter-spacing:.4em;
+  color:var(--cobalt);
+  font-weight:700;
+}
+
+/* generative shapes layer */
+.hero-art{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hero-art canvas{width:100%;height:100%;display:block}
+
+.hero-foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;margin-top:48px;padding-top:24px;border-top:1px solid var(--ink);position:relative;z-index:2}
+.hero-foot .dek{font-family:var(--italic);font-style:italic;font-size:clamp(20px,2.2vw,30px);line-height:1.2;letter-spacing:-.01em;color:var(--ink)}
+.hero-foot .dek b{font-style:normal;background:var(--lime);padding:1px 8px;font-family:var(--sans);font-weight:700;letter-spacing:-.01em}
+.hero-foot .meta{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);line-height:1.8}
+.hero-foot .meta strong{display:block;color:var(--ink);font-size:13px;letter-spacing:.04em;text-transform:none;font-family:var(--display);font-weight:400;margin-top:2px}
+
+/* ============================================================ SECTIONS */
+section{padding:96px 28px;border-bottom:2px solid var(--ink);position:relative;background:var(--bg)}
+section.dark{background:var(--bg-deep);color:var(--bg);border-bottom-color:var(--bg-deep)}
+section.lime{background:var(--lime)}
+section.pink{background:var(--pink);color:var(--cream)}
+section.cobalt{background:var(--cobalt);color:var(--cream)}
+section.cream{background:var(--cream)}
+
+.head{display:grid;grid-template-columns:120px 1fr;gap:32px;align-items:end;margin-bottom:48px}
+.head .num{font-family:var(--display);font-size:96px;line-height:.85;letter-spacing:-.05em}
+.head .num .lbl{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;font-weight:400;margin-bottom:8px;opacity:.6}
+.head h2{font-family:var(--display);font-size:clamp(38px,5.5vw,84px);line-height:.92;letter-spacing:-.035em}
+.head h2 em{font-family:var(--italic);font-style:italic;font-weight:400;letter-spacing:-.02em}
+.head h2 .pink{color:var(--pink)}
+.head h2 .cobalt{color:var(--cobalt)}
+.head h2 .tomato{color:var(--tomato)}
+.head h2 .lime-bg{background:var(--lime);padding:0 .12em;color:var(--ink)}
+.head .dek{grid-column:2;font-family:var(--italic);font-style:italic;font-size:18px;line-height:1.4;margin-top:14px;max-width:780px;opacity:.85}
+section.dark .head .dek,section.pink .head .dek,section.cobalt .head .dek{opacity:.78}
+
+/* ============================================================ SECTION 01 — WHAT GETS SCANNED */
+.scanned{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.thumb{
+  aspect-ratio:1/1;background:var(--ink);position:relative;overflow:hidden;cursor:default;
+  border:2px solid var(--ink);
+  transition:transform .25s;
+}
+.thumb:hover{transform:translate3d(-2px,-2px,0)}
+.thumb svg{position:absolute;inset:0;width:100%;height:100%}
+.thumb .label{
+  position:absolute;top:8px;left:8px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--bg);background:var(--ink);padding:3px 6px;
+  z-index:2;
+}
+.thumb .tags{
+  position:absolute;bottom:8px;left:8px;right:8px;
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;
+  color:var(--lime);line-height:1.4;z-index:2;
+  text-transform:uppercase;
+}
+.thumb .tags .v{color:var(--pink)}
+.thumb .bbox{position:absolute;border:1px dashed var(--lime);z-index:1}
+.scanned .caption{grid-column:1/-1;margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);display:flex;justify-content:space-between}
+.scanned .caption b{color:var(--ink)}
+
+/* ============================================================ SECTION 02 — PIPELINE */
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:2px solid var(--ink);background:var(--ink)}
+.pipe .step{padding:32px 24px;background:var(--bg);position:relative;border-right:2px solid var(--ink)}
+.pipe .step:last-child{border-right:none}
+.pipe .step .stage{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--pink);font-weight:700}
+.pipe .step .num{font-family:var(--display);font-size:90px;line-height:.85;letter-spacing:-.04em;margin:6px 0 16px}
+.pipe .step h3{font-family:var(--display);font-size:24px;line-height:1.05;letter-spacing:-.02em;margin-bottom:10px}
+.pipe .step h3 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.pipe .step p{font-family:var(--sans);font-size:13.5px;line-height:1.5;color:var(--ink-soft);margin-bottom:16px}
+.pipe .step .demo{font-family:var(--mono);font-size:10.5px;line-height:1.7;background:var(--ink);color:var(--bg);padding:14px;border:none}
+.pipe .step .demo .row{display:flex;justify-content:space-between;border-bottom:1px dashed #2a2a2f;padding:4px 0}
+.pipe .step .demo .row:last-child{border:none}
+.pipe .step .demo .row span:first-child{opacity:.6}
+.pipe .step .demo .row span:last-child{color:var(--lime);font-weight:700}
+.pipe .step .demo .row .infer{color:var(--pink)!important}
+.pipe .step .demo .row .infer.b{color:var(--cobalt)!important}
+
+/* ============================================================ SECTION 03 — ARCHETYPES */
+.arch{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-top:2px solid var(--ink);border-left:2px solid var(--ink)}
+.arch .card{
+  border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  padding:24px 18px;background:var(--bg);position:relative;min-height:340px;
+  display:flex;flex-direction:column;justify-content:space-between;cursor:default;
+  transition:background .2s;
+}
+.arch .card:nth-child(1){background:var(--lime)}
+.arch .card:nth-child(2){background:var(--pink);color:var(--cream)}
+.arch .card:nth-child(3){background:var(--cobalt);color:var(--cream)}
+.arch .card:nth-child(4){background:var(--yellow)}
+.arch .card:nth-child(5){background:var(--tomato);color:var(--cream)}
+.arch .card:nth-child(6){background:var(--ink);color:var(--cream)}
+.arch .card .ix{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;opacity:.7}
+.arch .card .name{font-family:var(--display);font-size:28px;line-height:.95;letter-spacing:-.025em;margin-top:8px}
+.arch .card .name em{font-family:var(--italic);font-style:italic;font-weight:400;letter-spacing:-.015em}
+.arch .card .sig{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;margin-top:14px;opacity:.75;line-height:1.5}
+.arch .card .quote{font-family:var(--italic);font-style:italic;font-size:14.5px;line-height:1.35;margin-top:12px;opacity:.95}
+.arch .card .stats{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;border-top:1px solid currentColor;padding-top:12px;margin-top:14px;opacity:.85}
+.arch .card .stats b{font-family:var(--display);font-size:18px;display:block;margin-top:2px;letter-spacing:-.02em;opacity:1}
+
+/* ============================================================ SECTION 04 — PROFILE BUILDER */
+.builder{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:start}
+.builder .picker .lead{font-family:var(--italic);font-style:italic;font-size:20px;line-height:1.35;margin-bottom:18px;max-width:520px}
+.picker .group{margin-bottom:22px}
+.picker .group .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;display:flex;justify-content:space-between}
+.picker .group .lbl span{color:var(--pink)}
+.picker .opts{display:flex;gap:8px;flex-wrap:wrap}
+.picker .opt{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  padding:9px 13px;border:2px solid var(--ink);background:var(--bg);cursor:pointer;
+  transition:.15s;font-weight:500;
+}
+.picker .opt:hover{background:var(--ink);color:var(--bg)}
+.picker .opt.on{background:var(--lime);color:var(--ink);border-color:var(--ink);transform:translate3d(-1px,-1px,0);box-shadow:3px 3px 0 var(--ink)}
+.picker .reset{
+  margin-top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  background:none;border:none;color:var(--ink-soft);cursor:pointer;text-decoration:underline;padding:0;
+}
+.picker .reset:hover{color:var(--pink)}
+
+.profile-out{
+  background:var(--ink);color:var(--bg);padding:28px;border:2px solid var(--ink);
+  font-family:var(--mono);font-size:11.5px;line-height:1.7;
+  min-height:520px;display:flex;flex-direction:column;
+}
+.profile-out .label{font-size:10px;letter-spacing:.22em;color:var(--lime);margin-bottom:6px}
+.profile-out h4{font-family:var(--display);font-size:30px;line-height:.95;letter-spacing:-.025em;margin-bottom:16px;color:var(--bg)}
+.profile-out .block{margin-bottom:18px;padding-bottom:14px;border-bottom:1px dashed #2a2a2f}
+.profile-out .block:last-child{border:none;margin-bottom:0}
+.profile-out .block .h{color:var(--pink);font-size:9.5px;letter-spacing:.22em;margin-bottom:6px;text-transform:uppercase}
+.profile-out .block .v{color:var(--bg);line-height:1.6}
+.profile-out .block .v span.tag{display:inline-block;padding:2px 8px;background:var(--cobalt);color:var(--bg);margin:2px 4px 2px 0;font-size:10px;letter-spacing:.06em}
+.profile-out .block .v span.tag.l{background:var(--lime);color:var(--ink)}
+.profile-out .block .v span.tag.p{background:var(--pink)}
+.profile-out .block .v span.tag.y{background:var(--yellow);color:var(--ink)}
+.profile-out .auction{
+  margin-top:auto;background:var(--lime);color:var(--ink);padding:14px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.profile-out .auction .a-lbl{font-size:10px;letter-spacing:.18em}
+.profile-out .auction .a-val{font-family:var(--display);font-size:28px;letter-spacing:-.02em}
+.profile-out .empty{opacity:.5;font-style:italic;font-family:var(--italic);font-size:14px;color:var(--bg)}
+
+/* ============================================================ SECTION 05 — CONVERGENCE */
+section.yellow{background:var(--yellow)}
+.conv{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.src-card{background:var(--cream);border:2px solid var(--ink);padding:18px 16px;position:relative;min-height:230px;display:flex;flex-direction:column;justify-content:space-between;transition:.2s}
+.src-card:hover{transform:translate3d(-3px,-3px,0);box-shadow:6px 6px 0 var(--ink);background:#fff}
+.src-card .ic{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--lime);font-family:var(--display);font-size:18px;letter-spacing:-.02em;margin-bottom:10px}
+.src-card .ic svg{width:22px;height:22px;color:var(--lime)}
+.src-card .nm{font-family:var(--display);font-size:18px;line-height:1.02;letter-spacing:-.02em;margin-bottom:2px}
+.src-card .nm em{font-family:var(--italic);font-style:italic;font-weight:400}
+.src-card .ct{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px}
+.src-card .row{font-family:var(--mono);font-size:10px;letter-spacing:.06em;line-height:1.55;margin-bottom:8px}
+.src-card .row b{display:block;color:var(--pink);font-weight:700;letter-spacing:.18em;margin-bottom:3px;text-transform:uppercase;font-size:9px}
+.src-card .row.a b{color:var(--cobalt)}
+.src-card .wt{margin-top:auto;padding-top:10px;border-top:1px dashed var(--rule);font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:flex;justify-content:space-between;align-items:center}
+.src-card .wt b{font-family:var(--display);font-size:13px;color:var(--ink);letter-spacing:-.01em}
+.src-card .wt b.h{color:var(--pink)}
+.src-card .wt b.m{color:var(--cobalt)}
+.src-card .wt b.l{color:var(--ink-soft)}
+.composite-rev{margin-top:36px;background:var(--ink);color:var(--cream);padding:36px;border:3px solid var(--ink);position:relative;overflow:hidden}
+.composite-rev::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(200,255,30,.18) 0%,transparent 60%);pointer-events:none}
+.composite-rev .cr-lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--lime);text-transform:uppercase;margin-bottom:8px;position:relative}
+.composite-rev h3{font-family:var(--display);font-size:clamp(28px,4vw,52px);line-height:.95;letter-spacing:-.035em;margin-bottom:18px;position:relative}
+.composite-rev h3 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.composite-rev .cr-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:18px;position:relative}
+.composite-rev .cr-stat{padding:14px 0;border-top:2px solid var(--lime)}
+.composite-rev .cr-stat .v{font-family:var(--display);font-size:34px;letter-spacing:-.03em;line-height:.9;color:var(--lime)}
+.composite-rev .cr-stat .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,235,.6);margin-top:6px}
+.composite-rev .cr-bar{margin-top:24px;height:24px;background:rgba(251,247,235,.1);position:relative;border:1px solid rgba(200,255,30,.4)}
+.composite-rev .cr-bar .fill{position:absolute;left:0;top:0;bottom:0;width:91%;background:repeating-linear-gradient(135deg,var(--lime) 0 8px,#a8e016 8px 16px)}
+.composite-rev .cr-bar .lbl{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--ink);font-weight:700}
+.composite-rev .cr-note{margin-top:22px;font-family:var(--italic);font-style:italic;font-size:15px;line-height:1.4;color:rgba(251,247,235,.78);max-width:680px;position:relative}
+
+/* ============================================================ SECTION 06 — TRAJECTORY FLOW */
+.sankey-frame{background:var(--bg-deep);border:2px solid var(--lime);padding:24px;position:relative;overflow:hidden}
+.sankey-frame svg{width:100%;height:auto;display:block;font-family:var(--mono)}
+.sankey-frame .node-label{font-family:var(--display);font-size:13px;fill:var(--cream);letter-spacing:-.01em}
+.sankey-frame .node-pct{font-family:var(--mono);font-size:10px;fill:rgba(251,247,235,.6);letter-spacing:.08em}
+.sankey-frame .stage-lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;fill:var(--lime);text-transform:uppercase}
+.sankey-callouts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.sk-call{background:var(--bg-mid);border:1px solid var(--lime);padding:18px;color:var(--cream)}
+.sk-call .hd{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--lime);margin-bottom:8px;font-weight:700}
+.sk-call .bd{font-family:var(--italic);font-style:italic;font-size:14.5px;line-height:1.4}
+.sk-call .bd b{font-style:normal;font-family:var(--display);font-weight:400;color:var(--pink);font-size:18px;letter-spacing:-.01em}
+
+/* ============================================================ SECTION 07 — COMPOSITE EXERCISE */
+.ce{display:grid;grid-template-columns:1fr;gap:24px}
+.ce-tabs{display:flex;flex-wrap:wrap;gap:8px;padding:14px;background:var(--ink);border:2px solid var(--ink)}
+.ce-tab{flex:1;min-width:130px;font-family:var(--display);font-size:14px;letter-spacing:-.01em;padding:14px 12px;background:transparent;color:var(--cream);border:2px solid transparent;cursor:pointer;transition:.15s;text-transform:uppercase}
+.ce-tab:hover{background:var(--bg-mid)}
+.ce-tab.on{background:var(--lime);color:var(--ink);border-color:var(--ink)}
+.ce-ctrls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:var(--ink);padding:14px;border:2px solid var(--ink);border-top:0}
+.ce-ctrls button{font-family:var(--display);font-size:12px;letter-spacing:.04em;padding:11px 16px;background:var(--lime);color:var(--ink);border:none;cursor:pointer;transition:.15s;text-transform:uppercase}
+.ce-ctrls button:hover{background:var(--pink);color:var(--cream)}
+.ce-ctrls button.alt{background:transparent;color:var(--cream);border:1px solid rgba(251,247,235,.4)}
+.ce-ctrls button.alt:hover{background:var(--cream);color:var(--ink);border-color:var(--cream)}
+.ce-ctrls .lbl{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream)}
+.ce-ctrls .lbl b{color:var(--lime);font-family:var(--display);font-size:13px;letter-spacing:-.01em}
+
+.ce-meter-wrap{background:var(--ink);border:2px solid var(--ink);border-top:0;padding:18px}
+.ce-meter-wrap .m-lbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);margin-bottom:10px}
+.ce-meter-wrap .m-lbl b{color:var(--lime);font-family:var(--display);font-size:18px;letter-spacing:-.02em}
+.ce-meter{height:28px;background:var(--bg-mid);position:relative;overflow:hidden;border:1px solid rgba(251,247,235,.2)}
+.ce-meter .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--lime),var(--pink));transition:width .6s cubic-bezier(.3,.7,.4,1)}
+.ce-meter .ticks{position:absolute;inset:0;display:flex;pointer-events:none}
+.ce-meter .ticks span{flex:1;border-right:1px dashed rgba(251,247,235,.18)}
+.ce-meter .ticks span:last-child{border:none}
+
+.ce-timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:2px solid var(--ink);border-top:0}
+.ce-year{padding:22px 18px;background:var(--bg-mid);color:var(--cream);border-right:1px solid var(--ink);position:relative;min-height:280px;opacity:.32;transition:.45s cubic-bezier(.3,.7,.4,1)}
+.ce-year:last-child{border-right:none}
+.ce-year.act{opacity:1;background:var(--ink)}
+.ce-year .y{font-family:var(--display);font-size:54px;letter-spacing:-.04em;line-height:.85;color:var(--lime);margin-bottom:8px}
+.ce-year .y .u{font-family:var(--mono);font-size:11px;letter-spacing:.18em;display:block;margin-top:4px;color:var(--cream);font-weight:400;opacity:.5;text-transform:uppercase}
+.ce-year h5{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--pink);margin:14px 0 6px;text-transform:uppercase;font-weight:700}
+.ce-year .src-list{font-family:var(--mono);font-size:11px;line-height:1.55;color:var(--cream);margin-bottom:8px}
+.ce-year .src-list span{display:inline-block;padding:2px 7px;background:rgba(200,255,30,.14);color:var(--lime);margin:2px 4px 2px 0;border:1px solid rgba(200,255,30,.4)}
+.ce-year .attrs{font-family:var(--italic);font-style:italic;font-size:14px;line-height:1.4;color:var(--cream);margin-bottom:8px;opacity:.9}
+.ce-year .pred{font-family:var(--mono);font-size:10.5px;line-height:1.5;background:var(--lime);color:var(--ink);padding:8px 10px;font-weight:500;letter-spacing:.02em}
+.ce-year .pred b{display:block;font-size:9px;letter-spacing:.18em;margin-bottom:3px;text-transform:uppercase}
+
+.ce-final{margin-top:0;background:var(--pink);color:var(--cream);padding:32px;border:2px solid var(--ink);border-top:0;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.ce-final.show{}
+.ce-final .lf{flex:1;min-width:280px}
+.ce-final .f-lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--lime);margin-bottom:6px;text-transform:uppercase;font-weight:700}
+.ce-final h4{font-family:var(--display);font-size:42px;line-height:.92;letter-spacing:-.035em;margin-bottom:6px}
+.ce-final .desc{font-family:var(--italic);font-style:italic;font-size:15px;line-height:1.4;max-width:520px;opacity:.95}
+.ce-final .rt{text-align:right}
+.ce-final .rt .big{font-family:var(--display);font-size:84px;line-height:.85;letter-spacing:-.05em;color:var(--lime)}
+.ce-final .rt .big .pc{font-family:var(--mono);font-size:18px;letter-spacing:.05em;color:var(--cream);font-weight:400}
+.ce-final .rt .alts{font-family:var(--mono);font-size:10px;letter-spacing:.06em;line-height:1.7;color:rgba(251,247,235,.78);margin-top:8px;text-transform:uppercase}
+
+/* ============================================================ SECTION 08 — END POINTS */
+.endpoints{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--ink);border-left:2px solid var(--ink)}
+.ep-card{border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:28px 22px;background:var(--cream);position:relative;min-height:360px;display:flex;flex-direction:column;justify-content:space-between;transition:.2s}
+.ep-card:hover{background:#fff}
+.ep-card .top-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.ep-card .ix{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--ink-soft);font-weight:700;text-transform:uppercase}
+.ep-card .pct{font-family:var(--display);font-size:46px;line-height:.85;letter-spacing:-.04em;color:var(--ink);text-align:right}
+.ep-card .pct .u{font-family:var(--mono);font-size:10px;letter-spacing:.16em;display:block;margin-top:4px;color:var(--ink-soft);font-weight:400;text-transform:uppercase}
+.ep-card .nm{font-family:var(--display);font-size:30px;line-height:.95;letter-spacing:-.025em;margin-bottom:6px}
+.ep-card .nm em{font-family:var(--italic);font-style:italic;font-weight:400}
+.ep-card .from{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);font-weight:700;margin-bottom:14px}
+.ep-card .desc{font-family:var(--sans);font-size:13.5px;line-height:1.5;color:var(--ink-soft);margin-bottom:14px}
+.ep-card .life{font-family:var(--italic);font-style:italic;font-size:14px;line-height:1.4;color:var(--ink);background:var(--lime);padding:8px 12px;margin-bottom:14px}
+.ep-card .buy{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);border-top:1px dashed var(--rule);padding-top:10px}
+.ep-card .buy b{color:var(--ink)}
+.ep-card.ink{background:var(--ink);color:var(--cream)}
+.ep-card.ink .ix{color:rgba(251,247,235,.5)}
+.ep-card.ink .pct{color:var(--lime)}
+.ep-card.ink .pct .u{color:rgba(251,247,235,.5)}
+.ep-card.ink .from{color:var(--lime)}
+.ep-card.ink .desc{color:rgba(251,247,235,.78)}
+.ep-card.ink .life{background:var(--pink);color:var(--cream)}
+.ep-card.ink .buy{color:rgba(251,247,235,.5);border-top-color:rgba(251,247,235,.18)}
+.ep-card.ink .buy b{color:var(--lime)}
+
+/* ============================================================ SECTION 07 — BUYERS */
+.buyers{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--cream);border-left:2px solid var(--cream)}
+.buyer{
+  border-right:2px solid var(--cream);border-bottom:2px solid var(--cream);
+  padding:28px 24px;background:var(--ink);color:var(--cream);position:relative;min-height:300px;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.buyer .head-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.buyer .ix{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--lime);font-weight:700}
+.buyer .spend{font-family:var(--display);font-size:32px;line-height:.9;letter-spacing:-.03em;color:var(--lime);text-align:right}
+.buyer .spend .u{font-family:var(--mono);font-size:11px;letter-spacing:.12em;display:block;color:rgba(251,247,235,.5);margin-top:4px;font-weight:400}
+.buyer h4{font-family:var(--display);font-size:28px;line-height:.96;letter-spacing:-.025em;margin-bottom:8px}
+.buyer .sub{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);margin-bottom:14px;font-weight:700}
+.buyer p{font-family:var(--sans);font-size:14px;line-height:1.55;color:rgba(251,247,235,.78);margin-bottom:14px}
+.buyer .pays{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,235,.45);margin-bottom:6px}
+.buyer .pl{font-family:var(--italic);font-style:italic;font-size:14px;line-height:1.4;color:var(--cream)}
+.buyer .pl b{font-style:normal;font-family:var(--sans);font-weight:600;color:var(--lime);background:rgba(200,255,30,.1);padding:1px 6px}
+
+/* ============================================================ SECTION 08 — DRIFT */
+.drift-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+.drift-stage{
+  aspect-ratio:1.1/1;background:var(--ink);position:relative;overflow:hidden;border:3px solid var(--ink);
+}
+.drift-stage canvas{position:absolute;inset:0;width:100%;height:100%}
+.drift-stage .lbl{position:absolute;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;background:var(--lime);color:var(--ink);padding:5px 10px;z-index:3;font-weight:700}
+.drift-stage .lbl.now{top:14px;left:14px;background:var(--bg);color:var(--ink)}
+.drift-stage .lbl.future{bottom:14px;right:14px;background:var(--pink);color:var(--bg)}
+.drift-stage .arrow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-12deg);font-family:var(--italic);font-style:italic;color:var(--lime);font-size:48px;letter-spacing:-.03em;opacity:.7;pointer-events:none;z-index:2}
+.drift-copy h3{font-family:var(--display);font-size:clamp(36px,4.5vw,64px);line-height:.92;letter-spacing:-.035em;margin-bottom:18px}
+.drift-copy h3 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--pink)}
+.drift-copy p{font-family:var(--sans);font-size:16px;line-height:1.55;color:var(--ink-soft);margin-bottom:14px;max-width:560px}
+.drift-copy .pull{font-family:var(--italic);font-style:italic;font-size:22px;line-height:1.3;border-left:4px solid var(--cobalt);padding:8px 0 8px 20px;margin:24px 0;color:var(--ink);max-width:560px}
+.drift-copy .pull b{font-style:normal;font-family:var(--sans);font-weight:700;background:var(--cobalt);color:var(--bg);padding:0 8px}
+
+/* ============================================================ SECTION 09 — CAUTIONARY */
+.cau{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--ink);background:var(--ink)}
+.cau .tale{
+  background:var(--cream);padding:0;display:flex;flex-direction:column;
+  border-right:2px solid var(--ink);
+}
+.cau .tale:last-child{border-right:none}
+.cau .tale .ill{aspect-ratio:1.6/1;background:var(--ink);overflow:hidden;position:relative;border-bottom:2px solid var(--ink)}
+.cau .tale .ill svg{width:100%;height:100%}
+.cau .tale .body{padding:24px}
+.cau .tale .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:10px;display:inline-block;padding:4px 8px;color:var(--ink)}
+.cau .tale:nth-child(1) .kicker{background:var(--pink);color:var(--cream)}
+.cau .tale:nth-child(2) .kicker{background:var(--cobalt);color:var(--cream)}
+.cau .tale:nth-child(3) .kicker{background:var(--yellow);color:var(--ink)}
+.cau .tale h4{font-family:var(--display);font-size:26px;line-height:1.02;letter-spacing:-.025em;margin-bottom:12px}
+.cau .tale h4 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.cau .tale p{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--ink-soft)}
+.cau .tale .mech{margin-top:14px;padding-top:10px;border-top:1px dashed var(--rule);font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* ============================================================ SECTION 10 — MEMORY */
+.memory{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:2px solid var(--ink)}
+.mem{padding:32px;background:var(--bg);border-right:2px solid var(--ink);position:relative;overflow:hidden}
+.mem:last-child{border-right:none}
+.mem:nth-child(1){background:var(--cream)}
+.mem:nth-child(2){background:var(--lime)}
+.mem:nth-child(3){background:var(--bg-deep);color:var(--cream)}
+.mem .domain{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.mem:nth-child(3) .domain{color:var(--lime)}
+.mem h3{font-family:var(--display);font-size:32px;line-height:.96;letter-spacing:-.025em;margin-bottom:20px}
+.mem h3 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.mem .vs{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:18px 0}
+.mem .vs > div{padding:14px;border:2px solid currentColor;min-height:130px}
+.mem .vs > div:first-child{border-right:none}
+.mem .vs h5{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px;opacity:.7}
+.mem .vs p{font-family:var(--sans);font-size:13px;line-height:1.5}
+.mem .vs .b{background:transparent}
+.mem .vs .a{background:currentColor;color:var(--bg)}
+.mem:nth-child(2) .vs .a{background:var(--ink);color:var(--lime)}
+.mem:nth-child(3) .vs .a{background:var(--lime);color:var(--ink)}
+.mem .vs .a p{color:inherit}
+.mem .takeaway{font-family:var(--italic);font-style:italic;font-size:14.5px;line-height:1.45;padding-top:14px;border-top:1px solid currentColor;opacity:.85}
+.mem .takeaway b{font-style:normal;font-family:var(--sans);font-weight:700;background:currentColor;color:var(--bg);padding:0 6px}
+.mem:nth-child(3) .takeaway b{color:var(--ink)}
+
+/* ============================================================ SECTION 11 — DID YOU KNOW */
+.dyk{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.dyk-card{
+  background:var(--cream);border:2px solid var(--ink);padding:24px;position:relative;
+  display:flex;flex-direction:column;justify-content:space-between;min-height:280px;
+  transition:.2s;cursor:default;
+}
+.dyk-card:hover{transform:translate3d(-3px,-3px,0);box-shadow:6px 6px 0 var(--ink)}
+.dyk-card .tag{font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;background:var(--ink);color:var(--bg);padding:3px 7px;align-self:flex-start;font-weight:700}
+.dyk-card .big{font-family:var(--display);font-size:88px;line-height:.85;letter-spacing:-.05em;margin:18px 0 8px}
+.dyk-card .big .u{font-family:var(--mono);font-size:12px;letter-spacing:.1em;display:block;margin-top:6px;font-weight:400;opacity:.65;text-transform:uppercase}
+.dyk-card:nth-child(1) .big{color:var(--pink)}
+.dyk-card:nth-child(2) .big{color:var(--cobalt)}
+.dyk-card:nth-child(3) .big{color:var(--ink)}
+.dyk-card:nth-child(4) .big{color:var(--tomato)}
+.dyk-card p{font-family:var(--sans);font-size:13.5px;line-height:1.5;color:var(--ink-soft);margin-top:auto}
+.dyk-card .src{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-top:14px;padding-top:10px;border-top:1px dashed var(--rule)}
+
+/* ============================================================ SECTION 12 — METHOD */
+.method{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.method .card{background:var(--cream);border:2px solid var(--ink);padding:22px}
+.method .card .t{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.method .card .num{font-family:var(--mono);font-size:11px;letter-spacing:.18em;font-weight:700;color:var(--ink-soft)}
+.method .card .tier{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;font-weight:700;color:var(--bg)}
+.method .card .tier.p1{background:var(--lime);color:var(--ink)}
+.method .card .tier.p2{background:var(--cobalt)}
+.method .card .tier.p3{background:var(--yellow);color:var(--ink)}
+.method .card .tier.p4{background:var(--pink)}
+.method .card .tier.p5{background:var(--tomato)}
+.method .card h5{font-family:var(--display);font-size:19px;line-height:1.1;letter-spacing:-.015em;margin-bottom:8px}
+.method .card p{font-family:var(--sans);font-size:13.5px;line-height:1.5;color:var(--ink-soft)}
+
+/* ============================================================ SECTION 13 — SOURCES */
+.srcs{display:grid;grid-template-columns:1fr 1fr;gap:0 36px}
+.src{display:grid;grid-template-columns:50px 1fr;gap:14px;padding:13px 0;border-top:1px solid var(--ink);align-items:start}
+.src .t{font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding:3px 6px;text-align:center;font-weight:700;text-transform:uppercase;color:var(--bg)}
+.src .t.t1{background:var(--lime);color:var(--ink)}
+.src .t.t2{background:var(--cobalt)}
+.src .t.t3{background:var(--yellow);color:var(--ink)}
+.src .b{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--ink-soft)}
+.src .b b{color:var(--ink);font-family:var(--display);font-weight:400;font-size:13px}
+
+/* ============================================================ COLOPHON */
+.colophon{padding:72px 28px 100px;background:var(--ink);color:var(--bg);border-top:8px solid var(--lime)}
+.colophon .top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;padding-bottom:36px;border-bottom:1px dashed #2a2a2f;margin-bottom:32px}
+.colophon h6{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);margin-bottom:14px;font-weight:700}
+.colophon h4{font-family:var(--display);font-size:36px;line-height:.95;letter-spacing:-.025em;margin-bottom:14px}
+.colophon h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--pink)}
+.colophon p{font-family:var(--sans);font-size:14px;line-height:1.55;color:rgba(241,237,225,.7);margin-bottom:10px}
+.colophon .legend p{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:rgba(241,237,225,.85);line-height:2}
+.colophon .legend p b{padding:1px 6px;color:var(--bg);font-weight:700;letter-spacing:.04em;font-size:10px;text-transform:uppercase;margin-right:6px}
+.colophon .legend p .p1{background:var(--lime);color:var(--ink)}
+.colophon .legend p .p2{background:var(--cobalt)}
+.colophon .legend p .p3{background:var(--yellow);color:var(--ink)}
+.colophon .legend p .p4{background:var(--pink)}
+.colophon .legend p .p5{background:var(--tomato)}
+.colophon .index p{font-family:var(--mono);font-size:11px;line-height:2;color:rgba(241,237,225,.65)}
+.colophon .index p .now{color:var(--lime);font-weight:700}
+.colophon .bot{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:rgba(241,237,225,.5);letter-spacing:.14em;text-transform:uppercase}
+
+/* ============================================================ SECTION 09 — PERCEPTION LOOP */
+.perception{display:grid;grid-template-columns:.85fr 1.15fr;gap:0;border:2px solid var(--cream);background:var(--cream)}
+.p-ctrl{padding:28px;background:var(--ink);color:var(--cream);border-right:2px solid var(--cream)}
+.p-ctrl h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);margin:0 0 10px;font-weight:700}
+.p-ctrl h4:not(:first-child){margin-top:22px}
+.p-arch-tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.p-arch{font-family:var(--display);font-size:11px;letter-spacing:.04em;padding:11px 8px;background:transparent;color:var(--cream);border:1.5px solid rgba(251,247,235,.3);cursor:pointer;transition:.15s;text-transform:uppercase}
+.p-arch:hover{border-color:var(--lime);color:var(--lime)}
+.p-arch.on{background:var(--lime);color:var(--ink);border-color:var(--ink)}
+.p-slide{margin-top:6px}
+.p-slide input[type=range]{width:100%;accent-color:var(--pink);height:3px}
+.p-slide .lbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(251,247,235,.55);margin-top:4px}
+.p-slide .lbl b{color:var(--pink);font-family:var(--display);font-size:11px;letter-spacing:.04em}
+.p-stat{margin-top:22px;padding:14px;background:var(--bg-mid);border-left:3px solid var(--pink);font-family:var(--italic);font-style:italic;font-size:13.5px;line-height:1.4;color:var(--cream)}
+.p-stat b{font-style:normal;font-family:var(--display);font-size:18px;color:var(--lime);display:block;margin-bottom:4px;letter-spacing:-.02em}
+.p-stat .meta{font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,235,.5);margin-top:8px}
+.p-feed{padding:0;background:var(--cream);max-height:740px;overflow-y:auto;scrollbar-width:thin}
+.p-feed::-webkit-scrollbar{width:6px}
+.p-feed::-webkit-scrollbar-thumb{background:var(--ink)}
+.p-feed .p-feed-head{padding:14px 22px;background:var(--ink);color:var(--cream);font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;border-bottom:2px solid var(--cream);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.p-feed .p-feed-head .live::before{content:"";display:inline-block;width:7px;height:7px;background:var(--lime);border-radius:50%;margin-right:6px;animation:pulse 1.4s infinite}
+.p-post{padding:22px 24px;border-bottom:1.5px solid var(--rule);background:var(--cream);transition:opacity .35s,transform .35s;animation:postIn .35s ease}
+@keyframes postIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.p-post .p-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+.p-post .p-meta .tag{padding:2px 7px;background:var(--ink);color:var(--cream);font-weight:700}
+.p-post .p-meta .tag.ad{background:var(--pink);color:var(--cream)}
+.p-post h5{font-family:var(--display);font-size:18px;line-height:1.15;letter-spacing:-.02em;margin-bottom:8px}
+.p-post .body{font-family:var(--sans);font-size:13.5px;line-height:1.5;color:var(--ink-soft);margin-bottom:8px}
+.p-post .visual{height:84px;margin:10px 0;background:linear-gradient(135deg,var(--c1,var(--lime)),var(--c2,var(--pink)));position:relative;overflow:hidden}
+.p-post .visual::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><circle cx='20' cy='20' r='6' fill='%230a0a0a' opacity='.18'/></svg>");mix-blend-mode:multiply;opacity:.6}
+.p-post .cta{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--cobalt);font-weight:700}
+.p-post.ad .cta{color:var(--pink)}
+.p-post.ad{background:rgba(255,26,107,.04);border-left:3px solid var(--pink)}
+
+/* ============================================================ SECTION 10 — MONEY FLOW */
+.mf-wrap{background:var(--ink);color:var(--cream);padding:28px;border:3px solid var(--lime);position:relative}
+.mf-ctrls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px;padding-bottom:18px;border-bottom:1px dashed rgba(251,247,235,.2)}
+.mf-ctrls .ctrl{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(251,247,235,.6)}
+.mf-ctrls select{font-family:var(--display);font-size:12px;letter-spacing:.02em;padding:8px 14px;background:var(--bg-mid);color:var(--cream);border:1.5px solid var(--lime);cursor:pointer;text-transform:uppercase}
+.mf-ctrls button{font-family:var(--display);font-size:12px;letter-spacing:.04em;padding:9px 18px;background:var(--lime);color:var(--ink);border:none;cursor:pointer;text-transform:uppercase;transition:.15s}
+.mf-ctrls button:hover{background:var(--pink);color:var(--cream)}
+.mf-ctrls button.alt{background:transparent;color:var(--cream);border:1px solid rgba(251,247,235,.3)}
+.mf-ctrls button.alt:hover{background:var(--cream);color:var(--ink);border-color:var(--cream)}
+.mf-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;align-items:start}
+.mf-stage{background:#06080c;border:1px solid rgba(251,247,235,.1);position:relative;aspect-ratio:1.05/1;overflow:hidden}
+.mf-stage svg{width:100%;height:100%;display:block}
+.mf-stage .mf-node{position:absolute;transform:translate(-50%,-50%);font-family:var(--display);font-size:11px;letter-spacing:-.005em;background:var(--bg-mid);color:var(--cream);padding:10px 12px;border:1.5px solid var(--cream);cursor:pointer;text-align:center;min-width:120px;transition:.2s;z-index:5}
+.mf-stage .mf-node:hover{background:var(--lime);color:var(--ink);border-color:var(--ink);transform:translate(-50%,-50%) scale(1.05)}
+.mf-stage .mf-node.act{background:var(--lime);color:var(--ink);border-color:var(--ink);box-shadow:0 0 0 3px rgba(200,255,30,.3)}
+.mf-stage .mf-node .sub{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.16em;margin-top:3px;font-weight:400;opacity:.7}
+.mf-stage .mf-node.you{background:var(--pink);color:var(--cream);border-color:var(--cream);min-width:90px}
+.mf-stage .mf-node.you:hover{background:var(--cream);color:var(--ink);border-color:var(--ink)}
+.mf-stage .mf-arrow-lbl{position:absolute;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--lime);background:rgba(0,0,0,.7);padding:2px 6px;pointer-events:none;z-index:4;text-transform:uppercase;font-weight:700}
+.mf-stage .mf-arrow-lbl.cost{color:var(--pink)}
+.mf-detail{background:var(--bg-mid);padding:22px;border:1px solid rgba(251,247,235,.15);min-height:520px;display:flex;flex-direction:column}
+.mf-detail .d-label{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--lime);margin-bottom:8px;text-transform:uppercase;font-weight:700}
+.mf-detail h4{font-family:var(--display);font-size:26px;line-height:.96;letter-spacing:-.025em;margin-bottom:14px}
+.mf-detail .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0;padding:14px 0;border-top:1px solid rgba(251,247,235,.15);border-bottom:1px solid rgba(251,247,235,.15)}
+.mf-detail .stat{padding:8px 0}
+.mf-detail .stat .v{font-family:var(--display);font-size:24px;color:var(--lime);letter-spacing:-.02em;line-height:1}
+.mf-detail .stat .v.pink{color:var(--pink)}
+.mf-detail .stat .l{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,235,.6);margin-top:5px}
+.mf-detail .body{font-family:var(--sans);font-size:13.5px;line-height:1.55;color:rgba(251,247,235,.78);margin-bottom:14px}
+.mf-detail .body b{color:var(--lime);font-weight:600;background:rgba(200,255,30,.1);padding:0 4px}
+.mf-detail .body b.p{color:var(--pink);background:rgba(255,26,107,.12)}
+.mf-detail .who-pays{margin-top:auto;padding:12px 14px;background:var(--ink);border:1px solid var(--pink);font-family:var(--italic);font-style:italic;font-size:13px;color:var(--cream);line-height:1.4}
+.mf-detail .who-pays b{font-style:normal;font-family:var(--display);font-weight:400;color:var(--pink);letter-spacing:-.01em}
+
+.mf-receipt{margin-top:28px;display:grid;grid-template-columns:1.05fr 1fr;gap:0;border:2px solid var(--lime);background:var(--cream)}
+.mf-rec-left{background:var(--cream);color:var(--ink);padding:0;border-right:2px dashed var(--ink);position:relative}
+.mf-rec-left::before,.mf-rec-left::after{content:"";position:absolute;right:-12px;width:24px;height:24px;background:var(--ink);border-radius:50%}
+.mf-rec-left::before{top:-12px}
+.mf-rec-left::after{bottom:-12px}
+.mf-rec-left pre{font-family:var(--mono);font-size:11px;line-height:1.65;color:var(--ink);white-space:pre;padding:28px 30px;margin:0;overflow-x:auto}
+.mf-rec-left pre .h{font-family:var(--display);font-size:14px;letter-spacing:-.01em;color:var(--ink);display:inline-block}
+.mf-rec-right{padding:28px;background:var(--ink);color:var(--cream);display:flex;flex-direction:column;gap:18px}
+.mf-rec-right h4{font-family:var(--display);font-size:24px;line-height:.98;letter-spacing:-.025em;margin-bottom:8px}
+.mf-rec-right h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--pink)}
+.mf-rec-right .bars{display:grid;grid-template-columns:1fr;gap:10px;margin:6px 0}
+.mf-rec-right .bar{position:relative;height:28px;background:var(--bg-mid);overflow:hidden;border:1px solid rgba(251,247,235,.2)}
+.mf-rec-right .bar .f{position:absolute;left:0;top:0;bottom:0;transition:width .5s cubic-bezier(.3,.7,.4,1)}
+.mf-rec-right .bar .f.pay{background:repeating-linear-gradient(45deg,var(--pink) 0 8px,#d91458 8px 16px)}
+.mf-rec-right .bar .f.gen{background:repeating-linear-gradient(45deg,var(--lime) 0 8px,#a8e016 8px 16px)}
+.mf-rec-right .bar .lbl{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--ink);font-weight:700;z-index:2;text-transform:uppercase}
+.mf-rec-right .bar .val{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--display);font-size:14px;color:var(--ink);font-weight:400;letter-spacing:-.02em;z-index:2}
+.mf-rec-right .net{margin-top:auto;padding:18px;background:var(--pink);color:var(--cream);text-align:center}
+.mf-rec-right .net .l{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:5px;opacity:.85}
+.mf-rec-right .net .big{font-family:var(--display);font-size:46px;line-height:.85;letter-spacing:-.04em}
+.mf-rec-right .net .big .u{font-family:var(--mono);font-size:11px;letter-spacing:.14em;display:block;margin-top:5px;font-weight:400;opacity:.85;text-transform:uppercase}
+.mf-rec-right .closing{font-family:var(--italic);font-style:italic;font-size:14.5px;line-height:1.35;text-align:center;padding:0 4px;opacity:.85}
+
+/* ============================================================ REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:none}
+
+/* ============================================================ RESPONSIVE */
+@media (max-width:1100px){
+  .scanned{grid-template-columns:repeat(3,1fr)}
+  .pipe,.buyers,.method,.dyk,.memory{grid-template-columns:1fr}
+  .arch{grid-template-columns:repeat(2,1fr)}
+  .builder,.drift-grid{grid-template-columns:1fr}
+  .conv{grid-template-columns:repeat(2,1fr)}
+  .composite-rev .cr-stats{grid-template-columns:repeat(2,1fr)}
+  .ce-timeline{grid-template-columns:1fr}
+  .ce-year{border-right:none;border-bottom:1px solid var(--ink);min-height:auto}
+  .endpoints{grid-template-columns:1fr}
+  .sankey-callouts{grid-template-columns:1fr}
+  .perception,.mf-grid,.mf-receipt{grid-template-columns:1fr}
+  .p-feed{max-height:none}
+  .srcs{grid-template-columns:1fr}
+  .cau{grid-template-columns:1fr}
+  .cau .tale{border-right:none;border-bottom:2px solid var(--ink)}
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="row">
+    <span><span class="pin"></span>VISION STACK · ACTIVE</span>
+    <span><span class="pin p2"></span>47 INFERRED SIGNALS / FRAME</span>
+    <span><span class="pin p3"></span>CLUSTERS WORLDWIDE · 14,400+</span>
+    <span><span class="pin p4"></span>AD AUCTION · 9.4M PER SECOND</span>
+    <span><span class="pin p5"></span>BEHAVIORAL FUTURES · $327B MKT</span>
+    <span><span class="pin"></span>FILED · ISSUE 08 · PERSONHOOD INC.</span>
+    <span><span class="pin p2"></span>YOU ARE NOT THE CUSTOMER. YOU ARE THE SEAT.</span>
+    <span><span class="pin p3"></span>IDENTITY GRAPH STABILITY → AD PREMIUM</span>
+    <span><span class="pin p4"></span>FUTURE-SELF MODELS · T+24 MONTHS</span>
+    <span><span class="pin p5"></span>BECOMING IS NOW AN ASSET CLASS</span>
+    <!-- repeat -->
+    <span><span class="pin"></span>VISION STACK · ACTIVE</span>
+    <span><span class="pin p2"></span>47 INFERRED SIGNALS / FRAME</span>
+    <span><span class="pin p3"></span>CLUSTERS WORLDWIDE · 14,400+</span>
+    <span><span class="pin p4"></span>AD AUCTION · 9.4M PER SECOND</span>
+    <span><span class="pin p5"></span>BEHAVIORAL FUTURES · $327B MKT</span>
+    <span><span class="pin"></span>FILED · ISSUE 08 · PERSONHOOD INC.</span>
+    <span><span class="pin p2"></span>YOU ARE NOT THE CUSTOMER. YOU ARE THE SEAT.</span>
+    <span><span class="pin p3"></span>IDENTITY GRAPH STABILITY → AD PREMIUM</span>
+    <span><span class="pin p4"></span>FUTURE-SELF MODELS · T+24 MONTHS</span>
+    <span><span class="pin p5"></span>BECOMING IS NOW AN ASSET CLASS</span>
+  </div>
+</div>
+
+<!-- TOP -->
+<div class="top">
+  <div class="mark"><span class="dot"></span>INFERA &nbsp;/&nbsp; MECHANISM SERIES</div>
+  <div class="nav">
+    <a href="../index.html">Index</a>
+    <a href="../the-trickle.html">01</a>
+    <a href="../the-eviction-funnel.html">02</a>
+    <a href="../the-closed-hospital.html">03</a>
+    <a href="../the-coast-is-moving.html">04</a>
+    <a href="../the-provisional-ballot.html">05</a>
+    <a href="../the-runoff-tells.html">06</a>
+    <a href="money-atlas.html">07</a>
+    <a href="#" class="now">08 / Personhood</a>
+    <a href="../thesis.html">Thesis</a>
+  </div>
+</div>
+
+<!-- HERO ============================================================== -->
+<header class="hero noise">
+  <div class="hero-art"><canvas id="heroCanvas"></canvas></div>
+  <div class="hero-grid">
+    <div class="hero-meta">
+      <div class="ix">
+        <span class="badge">VOL. 01</span>
+        <span class="badge lime">ISSUE 08</span>
+        <span>FIELD REPORT · 23 MAY 2026</span>
+      </div>
+      <div class="live">LIVE FILE · MOCKUP</div>
+    </div>
+
+    <h1>
+      <span class="word w1">PERSONHOOD,</span>
+      <span class="word w2">becoming</span>
+      <span class="word w3">SOLD HERE</span>
+    </h1>
+
+    <div class="hero-foot">
+      <div class="dek">
+        An invisible economy runs on a thing you don&rsquo;t own and can&rsquo;t see: <b>the version of you</b> the machine is sure you&rsquo;re about to become.
+      </div>
+      <div class="meta">
+        Reading time<strong>16 minutes</strong>
+        Section count<strong>Sixteen passes</strong>
+        Difficulty<strong>Awake / Uncomfortable</strong>
+      </div>
+      <div class="meta">
+        Sources<strong>13 · tier-tagged</strong>
+        Interactive<strong>4 hands-on</strong>
+        Hands-on<strong>Profile · Composite · Perception · Money Flow</strong>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 · WHAT GETS SCANNED ============================================ -->
+<section>
+  <div class="head">
+    <div class="num">01<span class="lbl">CAPTURE</span></div>
+    <div>
+      <h2>Every image is <em>read.</em><br/><span class="pink">Twice.</span></h2>
+      <div class="dek">Modern vision systems do not look at photos. They scan them — first for what is there, then for what it suggests. Six generic uploads. Same machine. Different shadows of meaning.</div>
+    </div>
+  </div>
+
+  <div class="scanned reveal">
+    <!-- 6 generic thumbs -->
+    <div class="thumb">
+      <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#1a1a1f"/><rect x="20" y="60" width="160" height="100" fill="#c8ff1e"/><rect x="40" y="80" width="60" height="60" fill="#ff1a6b"/><rect x="120" y="100" width="40" height="40" fill="#1e3cff"/></svg>
+      <div class="bbox" style="top:30%;left:20%;width:30%;height:30%"></div>
+      <div class="bbox" style="top:50%;left:60%;width:20%;height:20%;border-color:#ff1a6b"></div>
+      <div class="label">FRAME 001</div>
+      <div class="tags">interior · neutral light<br/><span class="v">→ stability 0.81</span></div>
+    </div>
+    <div class="thumb">
+      <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#1a1a1f"/><circle cx="100" cy="100" r="60" fill="#ff3a2e"/><circle cx="100" cy="100" r="30" fill="#ffd500"/><line x1="100" y1="0" x2="100" y2="200" stroke="#fbf7eb" stroke-width="2"/><line x1="0" y1="100" x2="200" y2="100" stroke="#fbf7eb" stroke-width="2"/></svg>
+      <div class="bbox" style="top:20%;left:20%;width:60%;height:60%"></div>
+      <div class="label">FRAME 002</div>
+      <div class="tags">portrait · centered<br/><span class="v">→ confidence 0.94</span></div>
+    </div>
+    <div class="thumb">
+      <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#1a1a1f"/><polygon points="0,200 80,80 140,140 200,40 200,200" fill="#1e3cff"/><circle cx="40" cy="40" r="20" fill="#ffd500"/></svg>
+      <div class="bbox" style="top:10%;left:10%;width:25%;height:25%;border-color:#ffd500"></div>
+      <div class="label">FRAME 003</div>
+      <div class="tags">outdoor · horizon<br/><span class="v">→ travel signal 0.66</span></div>
+    </div>
+    <div class="thumb">
+      <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#1a1a1f"/><rect x="30" y="40" width="40" height="120" fill="#fbf7eb"/><rect x="80" y="30" width="40" height="140" fill="#c8ff1e"/><rect x="130" y="60" width="40" height="100" fill="#ff1a6b"/></svg>
+      <div class="bbox" style="top:15%;left:14%;width:75%;height:70%"></div>
+      <div class="label">FRAME 004</div>
+      <div class="tags">multiple subjects<br/><span class="v">→ social density 3.4</span></div>
+    </div>
+    <div class="thumb">
+      <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#1a1a1f"/><g fill="#c8ff1e"><circle cx="60" cy="60" r="8"/><circle cx="100" cy="80" r="8"/><circle cx="140" cy="60" r="8"/><circle cx="80" cy="120" r="8"/><circle cx="120" cy="140" r="8"/></g><g stroke="#ff1a6b" stroke-width="1.5" fill="none"><line x1="60" y1="60" x2="100" y2="80"/><line x1="100" y1="80" x2="140" y2="60"/><line x1="100" y1="80" x2="80" y2="120"/><line x1="80" y1="120" x2="120" y2="140"/><line x1="140" y1="60" x2="120" y2="140"/></g></svg>
+      <div class="label">FRAME 005</div>
+      <div class="tags">network · graph form<br/><span class="v">→ relational 0.78</span></div>
+    </div>
+    <div class="thumb">
+      <svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#1a1a1f"/><rect x="0" y="0" width="200" height="200" fill="url(#grad)"/><defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ff1a6b"/><stop offset="100%" stop-color="#1e3cff"/></linearGradient></defs><rect x="40" y="80" width="120" height="40" fill="#0a0a0a"/></svg>
+      <div class="bbox" style="top:40%;left:20%;width:60%;height:20%;border-color:#ffd500"></div>
+      <div class="label">FRAME 006</div>
+      <div class="tags">low-light · staged<br/><span class="v">→ event signal 0.71</span></div>
+    </div>
+
+    <div class="caption">
+      <span>Six generic frames · <b>282 total inferred attributes</b></span>
+      <span>System · stylized · for illustration</span>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · PIPELINE ===================================================== -->
+<section class="dark">
+  <div class="head">
+    <div class="num" style="color:var(--lime)">02<span class="lbl" style="color:rgba(241,237,225,.5)">PROCESS</span></div>
+    <div>
+      <h2 style="color:var(--bg)">From <em style="color:var(--lime)">pixel</em><br/>to <em style="color:var(--pink)">auction</em><br/>in four moves.</h2>
+      <div class="dek" style="color:rgba(241,237,225,.78)">No image goes directly to a buyer. It passes four stages, and each one multiplies the others. By the end, the photo is irrelevant. Only the cluster, and what it&rsquo;s worth, matters.</div>
+    </div>
+  </div>
+
+  <div class="pipe reveal">
+    <div class="step">
+      <div class="stage">CAPTURE</div>
+      <div class="num">01</div>
+      <h3>What was <em>literally</em> uploaded.</h3>
+      <p>Pixel resolution, EXIF data, time, location, device, format. The raw substrate.</p>
+      <div class="demo">
+        <div class="row"><span>resolution</span><span>3024 × 4032</span></div>
+        <div class="row"><span>device</span><span>iPhone</span></div>
+        <div class="row"><span>geo</span><span>masked</span></div>
+        <div class="row"><span>timestamp</span><span>UTC ·  20:14</span></div>
+        <div class="row"><span>upload velocity</span><span>4.2&nbsp;s</span></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="stage">DETECT</div>
+      <div class="num">02</div>
+      <h3>What is <em>visible</em> in frame.</h3>
+      <p>Objects, faces, brands, environments, social density, lighting, posture, composition.</p>
+      <div class="demo">
+        <div class="row"><span>scene class</span><span>indoor / staged</span></div>
+        <div class="row"><span>faces</span><span>3</span></div>
+        <div class="row"><span>logo present</span><span>yes · 0.72</span></div>
+        <div class="row"><span>composition</span><span>rule-of-thirds</span></div>
+        <div class="row"><span>lighting</span><span>warm · soft</span></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="stage">INFER</div>
+      <div class="num">03</div>
+      <h3>What it <em>suggests</em> about the upload.</h3>
+      <p>Inferred socioeconomic, emotional, aspirational, behavioral, life-stage variables. None asked. All logged.</p>
+      <div class="demo">
+        <div class="row"><span>aspiration index</span><span class="infer">high</span></div>
+        <div class="row"><span>stability score</span><span class="infer">0.83</span></div>
+        <div class="row"><span>openness (b5)</span><span class="infer">high</span></div>
+        <div class="row"><span>life-stage</span><span class="infer b">established</span></div>
+        <div class="row"><span>premium intent</span><span class="infer">0.79</span></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="stage">AUCTION</div>
+      <div class="num">04</div>
+      <h3>Who else <em>behaves</em> like this — and what they&rsquo;ll pay.</h3>
+      <p>Lookalike cluster assembled. Real-time bidding opens. Inventory priced. The image becomes a seat.</p>
+      <div class="demo">
+        <div class="row"><span>cluster size</span><span>9.6M</span></div>
+        <div class="row"><span>coherence</span><span>0.91</span></div>
+        <div class="row"><span>floor</span><span>$3.40 CPM</span></div>
+        <div class="row"><span>winning bid</span><span>$5.82</span></div>
+        <div class="row"><span>buyer category</span><span>finance</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 · ARCHETYPES =================================================== -->
+<section class="cream">
+  <div class="head">
+    <div class="num">03<span class="lbl">CLUSTER</span></div>
+    <div>
+      <h2>Six <span class="lime-bg">human shadows</span><br/>the machine keeps drawing.</h2>
+      <div class="dek">When pattern recognition runs on billions of uploads, the system collapses people into a small number of recurring human shapes. None of these are demographic. All are behavioral. Everyone gets sorted into some mix of them.</div>
+    </div>
+  </div>
+
+  <div class="arch reveal">
+    <div class="card">
+      <div>
+        <div class="ix">A · CLUSTER</div>
+        <div class="name">The <em>Curator</em></div>
+        <div class="sig">edits · arranges · re-frames<br/>likely high openness · pattern eye</div>
+        <div class="quote">&ldquo;If I shape what I keep, I shape what I am.&rdquo;</div>
+      </div>
+      <div class="stats"><div>BID FLOOR<b>$4.10</b></div><div>SIZE<b>11.2M</b></div></div>
+    </div>
+    <div class="card">
+      <div>
+        <div class="ix">B · CLUSTER</div>
+        <div class="name">The <em>Caretaker</em></div>
+        <div class="sig">tends · protects · plans ahead<br/>likely family-stable · long horizon</div>
+        <div class="quote">&ldquo;Most of what I do is for people not in the room.&rdquo;</div>
+      </div>
+      <div class="stats"><div>BID FLOOR<b>$5.20</b></div><div>SIZE<b>18.4M</b></div></div>
+    </div>
+    <div class="card">
+      <div>
+        <div class="ix">C · CLUSTER</div>
+        <div class="name">The <em>Drifter</em></div>
+        <div class="sig">searches · moves · re-tries<br/>likely volatile graph · low coherence</div>
+        <div class="quote">&ldquo;I don&rsquo;t know what I am yet, but I&rsquo;m looking.&rdquo;</div>
+      </div>
+      <div class="stats"><div>BID FLOOR<b>$2.10</b></div><div>SIZE<b>9.8M</b></div></div>
+    </div>
+    <div class="card">
+      <div>
+        <div class="ix">D · CLUSTER</div>
+        <div class="name">The <em>Believer</em></div>
+        <div class="sig">commits · returns · defends<br/>likely high-trust · brand loyal</div>
+        <div class="quote">&ldquo;Once I&rsquo;m in, I&rsquo;m in. I bring others.&rdquo;</div>
+      </div>
+      <div class="stats"><div>BID FLOOR<b>$6.40</b></div><div>SIZE<b>14.7M</b></div></div>
+    </div>
+    <div class="card">
+      <div>
+        <div class="ix">E · CLUSTER</div>
+        <div class="name">The <em>Hustler</em></div>
+        <div class="sig">builds · sells · self-promotes<br/>likely creator-economy · multi-platform</div>
+        <div class="quote">&ldquo;Every post is also an ad. I know. So is theirs.&rdquo;</div>
+      </div>
+      <div class="stats"><div>BID FLOOR<b>$3.80</b></div><div>SIZE<b>22.1M</b></div></div>
+    </div>
+    <div class="card">
+      <div>
+        <div class="ix">F · CLUSTER</div>
+        <div class="name">The <em>Apprentice</em></div>
+        <div class="sig">learns · copies · adopts<br/>likely young · high-receptive · low-defense</div>
+        <div class="quote">&ldquo;If everyone here does it, maybe I should too.&rdquo;</div>
+      </div>
+      <div class="stats"><div>BID FLOOR<b>$2.90</b></div><div>SIZE<b>31.6M</b></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 · PROFILE BUILDER (INTERACTIVE) ================================ -->
+<section class="lime">
+  <div class="head">
+    <div class="num">04<span class="lbl">TRY IT</span></div>
+    <div>
+      <h2>Build a <em>profile</em>.<br/>Watch a person <em>collapse</em> into a price.</h2>
+      <div class="dek">Pick a few signal categories the way the machine would. The system on the right will assemble a synthetic identity, route it to a cluster, and price the ad inventory in real time. No personal data is read or stored.</div>
+    </div>
+  </div>
+
+  <div class="builder reveal">
+    <div class="picker noise">
+      <div class="lead">Choose any combination. The machine doesn&rsquo;t need all of them — it works with what it gets.</div>
+
+      <div class="group">
+        <div class="lbl">Where the frames take place <span id="cEnv">0 selected</span></div>
+        <div class="opts" data-group="env">
+          <button class="opt" data-w="env" data-val="home">home</button>
+          <button class="opt" data-w="env" data-val="workplace">workplace</button>
+          <button class="opt" data-w="env" data-val="street">street</button>
+          <button class="opt" data-w="env" data-val="venue">event venue</button>
+          <button class="opt" data-w="env" data-val="travel">travel</button>
+          <button class="opt" data-w="env" data-val="institutional">institutional</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="lbl">Who appears in them <span id="cWho">0 selected</span></div>
+        <div class="opts" data-group="who">
+          <button class="opt" data-w="who" data-val="solo">solo</button>
+          <button class="opt" data-w="who" data-val="partner">partner</button>
+          <button class="opt" data-w="who" data-val="kids">kids</button>
+          <button class="opt" data-w="who" data-val="elders">elders</button>
+          <button class="opt" data-w="who" data-val="peers">peers</button>
+          <button class="opt" data-w="who" data-val="strangers">strangers</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="lbl">What objects keep appearing <span id="cObj">0 selected</span></div>
+        <div class="opts" data-group="obj">
+          <button class="opt" data-w="obj" data-val="books">books</button>
+          <button class="opt" data-w="obj" data-val="tech">tech / screens</button>
+          <button class="opt" data-w="obj" data-val="instruments">instruments</button>
+          <button class="opt" data-w="obj" data-val="vehicles">vehicles</button>
+          <button class="opt" data-w="obj" data-val="food">food / drink</button>
+          <button class="opt" data-w="obj" data-val="art">art / craft</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="lbl">Emotional temperature <span id="cMood">0 selected</span></div>
+        <div class="opts" data-group="mood">
+          <button class="opt" data-w="mood" data-val="warm">warm</button>
+          <button class="opt" data-w="mood" data-val="cool">cool</button>
+          <button class="opt" data-w="mood" data-val="bright">bright</button>
+          <button class="opt" data-w="mood" data-val="moody">moody</button>
+          <button class="opt" data-w="mood" data-val="staged">staged</button>
+          <button class="opt" data-w="mood" data-val="candid">candid</button>
+        </div>
+      </div>
+
+      <button class="reset" id="resetBuilder">↺ Reset</button>
+    </div>
+
+    <div class="profile-out" id="profileOut">
+      <div class="label">PROFILE · LIVE BUILD</div>
+      <h4 id="archName"><span class="empty">awaiting input...</span></h4>
+
+      <div class="block">
+        <div class="h">Detected signals</div>
+        <div class="v" id="sigOut"><span class="empty">none yet</span></div>
+      </div>
+
+      <div class="block">
+        <div class="h">Inferred attributes</div>
+        <div class="v" id="infOut"><span class="empty">none yet</span></div>
+      </div>
+
+      <div class="block">
+        <div class="h">Likely buyers</div>
+        <div class="v" id="buyOut"><span class="empty">none yet</span></div>
+      </div>
+
+      <div class="block">
+        <div class="h">Cluster match</div>
+        <div class="v" id="cluOut"><span class="empty">no cluster yet</span></div>
+      </div>
+
+      <div class="auction">
+        <div class="a-lbl">EST. AD VALUE (CPM)</div>
+        <div class="a-val" id="cpmOut">$0.00</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 · CONVERGENCE ================================================== -->
+<section class="cream">
+  <div class="head">
+    <div class="num">05<span class="lbl">CONVERGENCE</span></div>
+    <div>
+      <h2>Twelve sources. One <em>you.</em><br/>The <span class="pink">composite</span> no one signed off on.</h2>
+      <div class="dek">A single platform&rsquo;s read of a person is shallow. The composite — what happens when image data, work data, financial data, consumption data, location data, and public-record data all flow into the same identity ledger — is something else entirely. It is the closest thing to a biography being kept on you that no biographer ever wrote.</div>
+    </div>
+  </div>
+
+  <div class="conv reveal">
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="7" r="1.2"/></svg></div>
+      <div class="nm">Instagram /<br/><em>TikTok</em></div>
+      <div class="ct">visual feed</div>
+      <div class="row"><b>SEES</b>images · captions · dwell · save patterns · emotional tone</div>
+      <div class="row a"><b>ADDS</b>visual taste · aspiration signals · mood-time · social density</div>
+      <div class="wt"><span>WEIGHT</span><b class="h">HIGH</b></div>
+    </div>
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 9V5h6v4" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="nm">LinkedIn</div>
+      <div class="ct">professional graph</div>
+      <div class="row"><b>SEES</b>jobs · skills · endorsements · company affiliations · connection map</div>
+      <div class="row a"><b>ADDS</b>income trajectory · network density · institutional proximity</div>
+      <div class="wt"><span>WEIGHT</span><b class="h">HIGH</b></div>
+    </div>
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 12c2-3 8-3 10 0M8 16c2-2 6-2 8 0M9 8c1-1 4-1 5 0" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+      <div class="nm">Spotify /<br/><em>music</em></div>
+      <div class="ct">taste &amp; mood</div>
+      <div class="row"><b>SEES</b>listening patterns · playlist curation · mood-time correlation · skip rates</div>
+      <div class="row a"><b>ADDS</b>emotional regulation pattern · openness score · life-event hints</div>
+      <div class="wt"><span>WEIGHT</span><b class="m">MED</b></div>
+    </div>
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="13" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 9l8 3-8 3z" fill="currentColor"/></svg></div>
+      <div class="nm">Netflix /<br/><em>streaming</em></div>
+      <div class="ct">attention depth</div>
+      <div class="row"><b>SEES</b>watch history · completion rates · genre dwell · household profiles</div>
+      <div class="row a"><b>ADDS</b>attention depth · binge propensity · cohabitation signal</div>
+      <div class="wt"><span>WEIGHT</span><b class="m">MED</b></div>
+    </div>
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h18M3 8h18M3 16h18" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="8" r="1.5" fill="currentColor"/><circle cx="14" cy="12" r="1.5" fill="currentColor"/><circle cx="9" cy="16" r="1.5" fill="currentColor"/></svg></div>
+      <div class="nm">Cable / <em>ISP</em></div>
+      <div class="ct">consumption hours</div>
+      <div class="row"><b>SEES</b>bandwidth usage · domain visits · streaming services · time-of-day</div>
+      <div class="row a"><b>ADDS</b>media diet baseline · sleep window · weekend behavior delta</div>
+      <div class="wt"><span>WEIGHT</span><b class="h">HIGH</b></div>
+    </div>
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="11" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 22s8-8 8-13a8 8 0 10-16 0c0 5 8 13 8 13z" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="nm">Google Maps /<br/><em>location</em></div>
+      <div class="ct">movement &amp; intent</div>
+      <div class="row"><b>SEES</b>search history · navigation · places visited · frequency &amp; loyalty</div>
+      <div class="row a"><b>ADDS</b>commute pattern · social rituals · category-store affinity</div>
+      <div class="wt"><span>WEIGHT</span><b class="h">HIGH</b></div>
+    </div>
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M7 14h3" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="nm">Banking /<br/><em>Plaid feed</em></div>
+      <div class="ct">cash flow</div>
+      <div class="row"><b>SEES</b>income · recurring payments · savings rate · category spend · debt load</div>
+      <div class="row a"><b>ADDS</b>credit posture · life-stage transitions · risk appetite</div>
+      <div class="wt"><span>WEIGHT</span><b class="h">HIGH</b></div>
+    </div>
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9a1 1 0 01-1 1h-4v-6h-6v6H5a1 1 0 01-1-1z" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="nm">Smart home /<br/><em>IoT</em></div>
+      <div class="ct">presence &amp; habits</div>
+      <div class="row"><b>SEES</b>when home · what running · sleep schedule · who is present · temperature</div>
+      <div class="row a"><b>ADDS</b>household composition · routine stability · daily rhythm</div>
+      <div class="wt"><span>WEIGHT</span><b class="m">MED</b></div>
+    </div>
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12c5-7 13-7 18 0" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></div>
+      <div class="nm">Wearables</div>
+      <div class="ct">biometric stream</div>
+      <div class="row"><b>SEES</b>heart rate · HRV · sleep stages · exercise · stress markers</div>
+      <div class="row a"><b>ADDS</b>health trajectory · burnout signal · insurance pricing input</div>
+      <div class="wt"><span>WEIGHT</span><b class="m">MED</b></div>
+    </div>
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="nm">Public records</div>
+      <div class="ct">life-event log</div>
+      <div class="row"><b>SEES</b>marriages · births · deeds · court filings · permits · bankruptcies</div>
+      <div class="row a"><b>ADDS</b>life-stage anchor · household formation · stability ground truth</div>
+      <div class="wt"><span>WEIGHT</span><b class="h">HIGH</b></div>
+    </div>
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 21v-1a7 7 0 0114 0v1" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="nm">DMV / <em>voter rolls</em></div>
+      <div class="ct">government identity</div>
+      <div class="row"><b>SEES</b>residence · party registration · vehicle ownership · ID status</div>
+      <div class="row a"><b>ADDS</b>demographic baseline · political affinity · address continuity</div>
+      <div class="wt"><span>WEIGHT</span><b class="m">MED</b></div>
+    </div>
+    <div class="src-card">
+      <div class="ic"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5" fill="currentColor"/><circle cx="18" cy="6" r="2.5" fill="currentColor"/><circle cx="6" cy="18" r="2.5" fill="currentColor"/><circle cx="18" cy="18" r="2.5" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><line x1="8" y1="8" x2="11" y2="11" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="8" x2="13" y2="11" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="16" x2="11" y2="13" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="16" x2="13" y2="13" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="nm">Data brokers</div>
+      <div class="ct">aggregation tier</div>
+      <div class="row"><b>SEES</b>cross-platform identity match · purchase logs · device fingerprint · email overlap</div>
+      <div class="row a"><b>ADDS</b>cluster confirmation · churn risk · purchase prediction · trigger events</div>
+      <div class="wt"><span>WEIGHT</span><b class="h">HIGH</b></div>
+    </div>
+  </div>
+
+  <div class="composite-rev reveal noise">
+    <div class="cr-lbl">→ ALL TWELVE FLOW HERE</div>
+    <h3>THE COMPOSITE PROFILE<br/><em>continuously assembled · never shown to you</em></h3>
+    <div class="cr-stats">
+      <div class="cr-stat"><div class="v">312</div><div class="l">unique attributes</div></div>
+      <div class="cr-stat"><div class="v">14</div><div class="l">predictive scores</div></div>
+      <div class="cr-stat"><div class="v">4</div><div class="l">trajectory vectors</div></div>
+      <div class="cr-stat"><div class="v">23</div><div class="l">buyer-ready segments</div></div>
+    </div>
+    <div class="cr-bar"><div class="fill"></div><div class="lbl">COHERENCE · 0.91</div></div>
+    <div class="cr-note">No single source above is decisive. The composite is. Available to advertisers, brokers, lenders, insurers, and political operations at varying prices. The same person, refracted through twelve lenses, becomes a single sellable ledger.</div>
+  </div>
+</section>
+
+<!-- 06 · TRAJECTORY FLOW ============================================== -->
+<section class="dark">
+  <div class="head">
+    <div class="num" style="color:var(--lime)">06<span class="lbl" style="color:rgba(241,237,225,.5)">TRAJECTORY</span></div>
+    <div>
+      <h2 style="color:var(--bg)">Where the six<br/><em style="color:var(--lime)">archetypes</em> go.</h2>
+      <div class="dek" style="color:rgba(241,237,225,.78)">Identity is not static. The same six clusters from Section 03 flow over time — branching, merging, hardening — into a smaller set of long-term outcomes the system has learned to expect. Path width = predicted population share.</div>
+    </div>
+  </div>
+
+  <div class="sankey-frame reveal">
+    <svg id="sankeyChart" viewBox="0 0 1200 660" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+
+  <div class="sankey-callouts reveal">
+    <div class="sk-call">
+      <div class="hd">DOMINANT TRANSITION · APPRENTICE</div>
+      <div class="bd">Of every five teenagers tagged Apprentice, two arrive at adulthood as <b>Pre-Selected Adults</b> — identity formed around their predicted cluster before they noticed.</div>
+    </div>
+    <div class="sk-call">
+      <div class="hd">HARDEST LOCK-IN · BELIEVER</div>
+      <div class="bd">The Believer-to-<b>Brand Citizen</b> path is the highest-confidence trajectory in the model: <b>62% conversion</b> with the lowest reversal rate of any flow.</div>
+    </div>
+    <div class="sk-call">
+      <div class="hd">SYSTEM-RESISTANT PATH · DRIFTER</div>
+      <div class="bd">Drifters are the only archetype the system can&rsquo;t reliably terminate. Over half loop indefinitely — and are served stabilization content as a result.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 · COMPOSITE EXERCISE (INTERACTIVE) ============================= -->
+<section class="lime">
+  <div class="head">
+    <div class="num">07<span class="lbl">TRY IT</span></div>
+    <div>
+      <h2>Pick a person.<br/>Watch the <em>file thicken.</em></h2>
+      <div class="dek">Choose any archetype. The system below will walk through a hypothetical five-year journey, year by year — showing exactly which data sources joined the composite, what the model inferred at each step, and what new predictions opened up. None of this is anyone&rsquo;s real data. All of it is how the architecture works.</div>
+    </div>
+  </div>
+
+  <div class="ce reveal">
+    <div class="ce-tabs" id="ceTabs">
+      <button class="ce-tab on" data-arch="curator">A · Curator</button>
+      <button class="ce-tab" data-arch="caretaker">B · Caretaker</button>
+      <button class="ce-tab" data-arch="drifter">C · Drifter</button>
+      <button class="ce-tab" data-arch="believer">D · Believer</button>
+      <button class="ce-tab" data-arch="hustler">E · Hustler</button>
+      <button class="ce-tab" data-arch="apprentice">F · Apprentice</button>
+    </div>
+
+    <div class="ce-ctrls">
+      <button id="cePlay">▶ PLAY 5-YEAR JOURNEY</button>
+      <button class="alt" id="ceStep">→ STEP +1 YEAR</button>
+      <button class="alt" id="ceReset">↺ RESET</button>
+      <div class="lbl">JOURNEY · <b id="ceArchLabel">THE CURATOR</b></div>
+    </div>
+
+    <div class="ce-meter-wrap">
+      <div class="m-lbl"><span>COMPOSITE PROFILE DEPTH</span><b id="cePct">0%</b></div>
+      <div class="ce-meter"><div class="fill" id="ceFill"></div><div class="ticks"><span></span><span></span><span></span><span></span><span></span></div></div>
+    </div>
+
+    <div class="ce-timeline" id="ceTimeline"></div>
+
+    <div class="ce-final" id="ceFinal" style="display:none">
+      <div class="lf">
+        <div class="f-lbl">PROJECTED TERMINUS · 60-MONTH HORIZON</div>
+        <h4 id="ceTerminus">—</h4>
+        <div class="desc" id="ceDesc">—</div>
+      </div>
+      <div class="rt">
+        <div class="big"><span id="cePctFinal">0</span><span class="pc">%</span></div>
+        <div class="alts" id="ceAlts">—</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 · END POINTS =================================================== -->
+<section class="yellow">
+  <div class="head">
+    <div class="num">08<span class="lbl">DESTINATION</span></div>
+    <div>
+      <h2>Where most <em>journeys</em><br/>land.</h2>
+      <div class="dek">After thousands of cycles, the trajectory model has learned that most archetype paths terminate in one of a small number of recurring end-states. None of these are inevitable. All of them are heavily incentivized by the architecture and quietly preferred by the buyers paying to be there.</div>
+    </div>
+  </div>
+
+  <div class="endpoints reveal">
+    <div class="ep-card">
+      <div>
+        <div class="top-row"><div class="ix">END · 01</div><div class="pct">62<span class="u">% lock-in</span></div></div>
+        <div class="nm">The <em>Brand Citizen</em></div>
+        <div class="from">most likely from · believer · caretaker</div>
+        <div class="desc">Loyalty becomes identity. The person buys from the same four to six brands for life. Subscription stack rarely changes. Sees the brands not as vendors but as part of who they are.</div>
+        <div class="life">&ldquo;I&rsquo;m an Apple person. Always have been. Always will be.&rdquo;</div>
+      </div>
+      <div class="buy">PAID-FOR BY · <b>consumer brands · streaming · luxury</b></div>
+    </div>
+
+    <div class="ep-card">
+      <div>
+        <div class="top-row"><div class="ix">END · 02</div><div class="pct">58<span class="u">% lock-in</span></div></div>
+        <div class="nm">The <em>Stability Premium</em></div>
+        <div class="from">most likely from · caretaker · believer</div>
+        <div class="desc">Locked into long-horizon financial products. Mortgage, insurance, 529, IRA. Compound coherence rewards mean fewer offers from elsewhere — the household is now a known quantity with a 30-year tail.</div>
+        <div class="life">&ldquo;We finally have everything in one place. It just feels simpler now.&rdquo;</div>
+      </div>
+      <div class="buy">PAID-FOR BY · <b>financial institutions · insurance · realty</b></div>
+    </div>
+
+    <div class="ep-card">
+      <div>
+        <div class="top-row"><div class="ix">END · 03</div><div class="pct">45<span class="u">% lock-in</span></div></div>
+        <div class="nm">The <em>Curated Cell</em></div>
+        <div class="from">most likely from · curator · drifter</div>
+        <div class="desc">Taste equals identity. Aesthetic-driven major spending. Every room, every plate, every weekend is pre-validated by the cluster&rsquo;s feed. The person is happy. The system is happier.</div>
+        <div class="life">&ldquo;I just have very specific taste. People know that about me.&rdquo;</div>
+      </div>
+      <div class="buy">PAID-FOR BY · <b>DTC brands · home · travel · publishing</b></div>
+    </div>
+
+    <div class="ep-card ink">
+      <div>
+        <div class="top-row"><div class="ix">END · 04</div><div class="pct">54<span class="u">% loop rate</span></div></div>
+        <div class="nm">The <em>Drift Loop</em></div>
+        <div class="from">most likely from · drifter</div>
+        <div class="desc">Perpetual reorientation. Identity attempts the system can&rsquo;t price. Vulnerable to high-emotional ad targeting — the cluster receives the cheapest, most volatile inventory. Long-term ad value is low. Long-term cost is not.</div>
+        <div class="life">&ldquo;I keep thinking I&rsquo;ll figure out what I want. I haven&rsquo;t yet.&rdquo;</div>
+      </div>
+      <div class="buy">PAID-FOR BY · <b>gambling · crypto · DTC · self-help</b></div>
+    </div>
+
+    <div class="ep-card">
+      <div>
+        <div class="top-row"><div class="ix">END · 05</div><div class="pct">38<span class="u">% lock-in</span></div></div>
+        <div class="nm">The <em>Pre-Selected Adult</em></div>
+        <div class="from">most likely from · apprentice</div>
+        <div class="desc">Adulthood arrives pre-fit to the cluster the model assigned in adolescence. Self-image matches model prediction within tolerance. The shortlist they chose from was made for them years before they chose.</div>
+        <div class="life">&ldquo;I&rsquo;ve always been this way. It just took me a while to know it.&rdquo;</div>
+      </div>
+      <div class="buy">PAID-FOR BY · <b>category-forming brands · finance · education</b></div>
+    </div>
+
+    <div class="ep-card ink">
+      <div>
+        <div class="top-row"><div class="ix">END · 06</div><div class="pct">41<span class="u">% reset</span></div></div>
+        <div class="nm">The <em>Burnout Reset</em></div>
+        <div class="from">most likely from · hustler</div>
+        <div class="desc">Performance overtakes self. The wearable noticed before the person did. The cluster gets routed to recovery products, sabbatical-coded content, &ldquo;simplification&rdquo; offers. The person calls it a return to who they really are. The system calls it a pivot.</div>
+        <div class="life">&ldquo;I just need to focus on what really matters now.&rdquo;</div>
+      </div>
+      <div class="buy">PAID-FOR BY · <b>wellness · therapy SaaS · sabbatical travel</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 · PERCEPTION LOOP ============================================== -->
+<section class="cream">
+  <div class="head">
+    <div class="num">09<span class="lbl">PERCEPTION</span></div>
+    <div>
+      <h2>Change how you <em>present.</em><br/>Watch the <span class="pink">world</span> change.</h2>
+      <div class="dek">This is a mock of the feed your cluster would actually see. Pick an archetype on the left, adjust the dials, and the feed on the right re-sorts itself in real time — different posts, different ads, different aesthetic, different headlines. Same person. Different perceived world.</div>
+    </div>
+  </div>
+
+  <div class="perception reveal">
+    <div class="p-ctrl">
+      <h4>PRESENT AS</h4>
+      <div class="p-arch-tabs">
+        <button class="p-arch on" data-arch="curator">A · Curator</button>
+        <button class="p-arch" data-arch="caretaker">B · Caretaker</button>
+        <button class="p-arch" data-arch="drifter">C · Drifter</button>
+        <button class="p-arch" data-arch="believer">D · Believer</button>
+        <button class="p-arch" data-arch="hustler">E · Hustler</button>
+        <button class="p-arch" data-arch="apprentice">F · Apprentice</button>
+      </div>
+
+      <h4>POLISH LEVEL</h4>
+      <div class="p-slide">
+        <input type="range" id="pPolish" min="0" max="4" value="3" />
+        <div class="lbl"><span>raw</span><b id="pPolishVal">sharp</b><span>polished</span></div>
+      </div>
+
+      <h4>ACTIVITY LEVEL</h4>
+      <div class="p-slide">
+        <input type="range" id="pActivity" min="0" max="4" value="3" />
+        <div class="lbl"><span>quiet</span><b id="pActivityVal">heavy</b><span>always-on</span></div>
+      </div>
+
+      <div class="p-stat">
+        <b>YOU HAVE BEEN WATCHED</b>
+        Session log: <span id="pSessionLog">47</span> micro-behaviors recorded since you opened this section.
+        <div class="meta">→ <span id="pSessionAds">3</span> ad units served &nbsp; · &nbsp; cluster confidence rising</div>
+      </div>
+
+      <div class="p-stat" style="border-color:var(--lime)">
+        <b>WHAT TO NOTICE</b>
+        The headlines didn't change because the news did. The aesthetics didn't change because the world did. <em>You</em> didn't change. Only the classifier did.
+      </div>
+    </div>
+    <div class="p-feed" id="pFeed"></div>
+  </div>
+</section>
+
+<!-- 10 · MONEY FLOW =================================================== -->
+<section class="dark">
+  <div class="head">
+    <div class="num" style="color:var(--lime)">10<span class="lbl" style="color:rgba(241,237,225,.5)">CASCADE</span></div>
+    <div>
+      <h2 style="color:var(--bg)">Follow the <em style="color:var(--lime)">money.</em><br/>Then notice how it always<br/>comes back to <span class="pink">you.</span></h2>
+      <div class="dek" style="color:rgba(241,237,225,.78)">Tap any node to see what flows through it. Tap PLAY to animate the cascade. Switch states to see how local utility rates and tax subsidies change the math. The loop is real — it just isn&rsquo;t labeled on any bill.</div>
+    </div>
+  </div>
+
+  <div class="mf-wrap reveal">
+    <div class="mf-ctrls">
+      <button id="mfPlay">▶ ANIMATE MONEY FLOW</button>
+      <button class="alt" id="mfReset">↺ RESET</button>
+      <div class="ctrl">STATE
+        <select id="mfState">
+          <option value="GA">Georgia</option>
+          <option value="VA">Virginia</option>
+          <option value="OR">Oregon</option>
+          <option value="IA">Iowa</option>
+        </select>
+      </div>
+      <div class="ctrl" style="margin-left:auto;color:rgba(251,247,235,.5)">
+        ← &nbsp;CLICK ANY NODE&nbsp; ·
+      </div>
+    </div>
+
+    <div class="mf-grid">
+      <div class="mf-stage" id="mfStage"></div>
+      <div class="mf-detail" id="mfDetail"></div>
+    </div>
+
+    <div class="mf-receipt">
+      <div class="mf-rec-left">
+        <pre id="mfRecPre"></pre>
+      </div>
+      <div class="mf-rec-right">
+        <div>
+          <h4>The <em>extraction</em><br/>nobody itemizes.</h4>
+        </div>
+        <div class="bars">
+          <div class="bar"><div class="f pay" id="payBar"></div><div class="lbl">YOU PAID</div><div class="val" id="payVal">$0</div></div>
+          <div class="bar"><div class="f gen" id="genBar"></div><div class="lbl">YOU GENERATED</div><div class="val" id="genVal">$0</div></div>
+        </div>
+        <div class="net">
+          <div class="l">NET EXTRACTION · MONTHLY</div>
+          <div class="big"><span id="netVal">$254.41</span><span class="u">extracted from you</span></div>
+        </div>
+        <div class="closing">The receipt has line items the bill never did. Change the state. Watch the math shift. Notice that no version of it nets to zero.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · BUYERS ======================================================= -->
+<section class="cobalt">
+  <div class="head">
+    <div class="num" style="color:var(--lime)">11<span class="lbl" style="color:rgba(251,247,235,.6)">SPEND</span></div>
+    <div>
+      <h2 style="color:var(--cream)">Who is <em style="color:var(--lime)">renting</em><br/>your cluster — and<br/>what they pay.</h2>
+      <div class="dek" style="color:rgba(251,247,235,.78)">Nobody buys your photos. What gets sold is the right to whisper an offer into the ear of every person whose machine-vision profile matches yours. Six categories dominate the spend — together they account for the lion&rsquo;s share of the global ad market.</div>
+    </div>
+  </div>
+
+  <div class="buyers reveal">
+    <div class="buyer">
+      <div>
+        <div class="head-row">
+          <div class="ix">01</div>
+          <div class="spend">$248B<span class="u">consumer brands · 2024</span></div>
+        </div>
+        <h4>Consumer Brands</h4>
+        <div class="sub">Auto · Telecom · CPG · Luxury · Retail</div>
+        <p>Never name the person. Name the cluster: &ldquo;reach the cluster with high homeownership probability and luxury travel affinity.&rdquo; The buy is the segment.</p>
+      </div>
+      <div>
+        <div class="pays">most-paid-for inferences</div>
+        <div class="pl">homeownership · <b>travel affinity</b> · vehicle cycle · ecosystem stickiness</div>
+      </div>
+    </div>
+
+    <div class="buyer">
+      <div>
+        <div class="head-row">
+          <div class="ix">02</div>
+          <div class="spend">$16B<span class="u">political ads · 2024 cycle</span></div>
+        </div>
+        <h4>Political Operations</h4>
+        <div class="sub">Persuasion · Turnout · Issue affinity</div>
+        <p>Image-derived models classify civic engagement, institutional trust, and emotional resonance bands. The buy is the persuasion lane.</p>
+      </div>
+      <div>
+        <div class="pays">most-paid-for inferences</div>
+        <div class="pl">turnout probability · <b>persuadability</b> · issue affinity · network influence</div>
+      </div>
+    </div>
+
+    <div class="buyer">
+      <div>
+        <div class="head-row">
+          <div class="ix">03</div>
+          <div class="spend">$32B<span class="u">fin services digital · 2024</span></div>
+        </div>
+        <h4>Financial Institutions</h4>
+        <div class="sub">Banks · Wealth · Credit · Insurance</div>
+        <p>Image signals correlate (tightly) with creditworthiness models. Stability of dress, environment, and social density become inputs to pricing.</p>
+      </div>
+      <div>
+        <div class="pays">most-paid-for inferences</div>
+        <div class="pl">credit posture · <b>wealth trajectory</b> · long-term product value</div>
+      </div>
+    </div>
+
+    <div class="buyer">
+      <div>
+        <div class="head-row">
+          <div class="ix">04</div>
+          <div class="spend">$94B<span class="u">streaming ad spend · 2024</span></div>
+        </div>
+        <h4>Streaming &amp; Media</h4>
+        <div class="sub">Subscription · Attention · Taste graphs</div>
+        <p>Platforms build &ldquo;taste graphs&rdquo; from cross-image inferences and sell discovery to studios, podcast networks, publishers.</p>
+      </div>
+      <div>
+        <div class="pays">most-paid-for inferences</div>
+        <div class="pl">genre affinity · <b>attention depth</b> · subscription tolerance · binge propensity</div>
+      </div>
+    </div>
+
+    <div class="buyer">
+      <div>
+        <div class="head-row">
+          <div class="ix">05</div>
+          <div class="spend">$280B<span class="u">data broker mkt · 2024</span></div>
+        </div>
+        <h4>Data Brokers</h4>
+        <div class="sub">Aggregation · Resale · Risk scoring</div>
+        <p>Acxiom, Experian Marketing Services, Oracle Data Cloud, LiveRamp — aggregate signals across platforms and resell scored audience access at scale.</p>
+      </div>
+      <div>
+        <div class="pays">most-paid-for inferences</div>
+        <div class="pl">cross-platform identity · <b>life-event triggers</b> · purchase prediction · churn risk</div>
+      </div>
+    </div>
+
+    <div class="buyer">
+      <div>
+        <div class="head-row">
+          <div class="ix">06</div>
+          <div class="spend">emerging<span class="u">future-self · 2025+</span></div>
+        </div>
+        <h4>The Future-Self Market</h4>
+        <div class="sub">Trajectory · Generative · Identity shaping</div>
+        <p>The newest tier doesn&rsquo;t pay for who you are. They pay for who the model predicts you&rsquo;ll become — and the right to be the brand standing in that future already.</p>
+      </div>
+      <div>
+        <div class="pays">most-paid-for inferences</div>
+        <div class="pl">trajectory vectors · <b>aspirational identity</b> · category adoption timing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · CAUTIONARY =================================================== -->
+<section class="pink">
+  <div class="head">
+    <div class="num" style="color:var(--cream)">12<span class="lbl" style="color:rgba(251,247,235,.6)">SCENARIOS</span></div>
+    <div>
+      <h2 style="color:var(--cream)">The subculture is <em>invisible.</em><br/>The <span style="color:var(--lime)">impact is felt.</span></h2>
+      <div class="dek" style="color:rgba(251,247,235,.85)">Three composite scenarios, each plausible by 2030. None of the people are real. All of the mechanisms are.</div>
+    </div>
+  </div>
+
+  <div class="cau reveal">
+    <div class="tale">
+      <div class="ill">
+        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="320" height="200" fill="#0a0a0a"/>
+          <g fill="none" stroke="#ff1a6b" stroke-width="1.5" opacity=".8">
+            <rect x="60" y="30" width="200" height="140"/>
+            <rect x="80" y="50" width="160" height="100"/>
+            <rect x="100" y="70" width="120" height="60"/>
+            <rect x="130" y="90" width="60" height="20"/>
+          </g>
+          <circle cx="160" cy="100" r="6" fill="#c8ff1e"/>
+          <text x="14" y="190" font-family="JetBrains Mono" font-size="8" fill="rgba(251,247,235,.4)" letter-spacing="1">TALE 01 · APERTURE COLLAPSING</text>
+        </svg>
+      </div>
+      <div class="body">
+        <span class="kicker">001 · APERTURE</span>
+        <h4>Only ever seeing<br/><em>versions of yourself.</em></h4>
+        <p>The platform decided, with 0.94 confidence, that you are a certain kind of person. So it shows you that kind of person. Other interiors. Other relationships. Other futures. After eighteen months you can&rsquo;t remember considering anything else.</p>
+        <div class="mech">MECHANISM · LOOKALIKE COLLAPSE · MONOCULTURE</div>
+      </div>
+    </div>
+
+    <div class="tale">
+      <div class="ill">
+        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="320" height="200" fill="#0a0a0a"/>
+          <g stroke="#1e3cff" stroke-width="1.2" fill="none" opacity=".6">
+            <path d="M 40 50 L 160 100 L 280 50"/>
+            <path d="M 40 150 L 160 100 L 280 150"/>
+            <path d="M 40 100 L 280 100"/>
+          </g>
+          <g fill="#c8ff1e"><circle cx="40" cy="50" r="6"/><circle cx="280" cy="50" r="6"/><circle cx="40" cy="150" r="6"/><circle cx="280" cy="150" r="6"/><circle cx="40" cy="100" r="5"/><circle cx="280" cy="100" r="5"/></g>
+          <circle cx="160" cy="100" r="14" fill="#ff1a6b"/>
+          <circle cx="160" cy="100" r="22" fill="none" stroke="#ff1a6b" stroke-width="1" opacity=".4"/>
+          <text x="14" y="190" font-family="JetBrains Mono" font-size="8" fill="rgba(251,247,235,.4)" letter-spacing="1">TALE 02 · CASCADE NODE</text>
+        </svg>
+      </div>
+      <div class="body">
+        <span class="kicker">002 · CASCADE</span>
+        <h4>The trusted whisperer<br/>who never <em>noticed.</em></h4>
+        <p>The cluster marks you as a high-trust node — a 3.4× recommendation multiplier inside your network. Brands target you first; the people around you receive the same ad twelve hours later. You think you chose. So does everyone you chose for.</p>
+        <div class="mech">MECHANISM · INFLUENCE-DENSITY TARGETING</div>
+      </div>
+    </div>
+
+    <div class="tale">
+      <div class="ill">
+        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="320" height="200" fill="#0a0a0a"/>
+          <line x1="20" y1="100" x2="300" y2="100" stroke="#ffd500" stroke-width="1.5"/>
+          <g fill="rgba(251,247,235,.5)"><rect x="30" y="60" width="2" height="80"/><rect x="60" y="70" width="2" height="60"/><rect x="90" y="55" width="2" height="90"/><rect x="120" y="80" width="2" height="40"/></g>
+          <circle cx="160" cy="100" r="9" fill="#ffd500"/>
+          <g stroke="#ffd500" stroke-width="1.2" fill="none">
+            <path d="M 160 100 C 210 80, 240 60, 290 50"/>
+            <path d="M 160 100 C 210 110, 240 130, 290 150" opacity=".3"/>
+            <path d="M 160 100 C 210 95, 240 90, 290 90" opacity=".3"/>
+          </g>
+          <circle cx="290" cy="50" r="5" fill="#ffd500"/>
+          <text x="14" y="190" font-family="JetBrains Mono" font-size="8" fill="rgba(251,247,235,.4)" letter-spacing="1">TALE 03 · TRAJECTORY PRE-PAID</text>
+        </svg>
+      </div>
+      <div class="body">
+        <span class="kicker">003 · DOORWAY</span>
+        <h4>The future you keep<br/>meeting in <em>ads.</em></h4>
+        <p>The model has projected what you&rsquo;ll want at 22, 25, 30 — and quietly sold the doorway to whoever bid most. Every aspirational option you encounter is one a brand has pre-paid to be standing in. The choices feel like yours. The shortlist isn&rsquo;t.</p>
+        <div class="mech">MECHANISM · TRAJECTORY MODELING · PRE-PAID FUTURES</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · MEMORY ======================================================= -->
+<section>
+  <div class="head">
+    <div class="num">13<span class="lbl">CONSEQUENCE</span></div>
+    <div>
+      <h2>What happens to <em>history,</em><br/><em>learning,</em> and <em>memory.</em></h2>
+      <div class="dek">When identity is increasingly instructed rather than developed, three foundational human faculties shift. Each shift is small, daily, structural. Each one compounds.</div>
+    </div>
+  </div>
+
+  <div class="memory reveal">
+    <div class="mem">
+      <div class="domain" style="color:var(--pink)">DOMAIN · HISTORY</div>
+      <h3>From <em>shared past</em> to fragmented feed.</h3>
+      <div class="vs" style="color:var(--ink)">
+        <div class="b"><h5>Before</h5><p>A generation watched the same news, read the same papers, argued about the same events. The reference set was common.</p></div>
+        <div class="a"><h5>After</h5><p>Each person inhabits a separately curated past, tuned for retention. Neighbors recall different decades.</p></div>
+      </div>
+      <div class="takeaway"><b>Consequence:</b> shared cultural memory becomes a niche product. Public understanding fragments along cluster lines.</div>
+    </div>
+
+    <div class="mem">
+      <div class="domain" style="color:var(--ink)">DOMAIN · LEARNING</div>
+      <h3>From <em>encountered</em> to recommended.</h3>
+      <div class="vs" style="color:var(--ink)">
+        <div class="b"><h5>Before</h5><p>Most of what you learned, you stumbled into — a librarian&rsquo;s suggestion, a class detour, a friend&rsquo;s loaned book, an argument at a bar.</p></div>
+        <div class="a"><h5>After</h5><p>What you encounter is what your cluster has already proven retains people like you. Serendipity is engineered out as inefficient.</p></div>
+      </div>
+      <div class="takeaway"><b>Consequence:</b> learning narrows in the same direction your purchasing does. Curiosity is replaced by category fit.</div>
+    </div>
+
+    <div class="mem">
+      <div class="domain">DOMAIN · MEMORY</div>
+      <h3>From <em>experienced</em> to archived.</h3>
+      <div class="vs" style="color:var(--cream)">
+        <div class="b"><h5>Before</h5><p>You remembered moments because you lived them. The memory was the residue of attention.</p></div>
+        <div class="a"><h5>After</h5><p>The platform owns the archive — and surfaces it back to you on its schedule, in its emotional palette, paired with its ads.</p></div>
+      </div>
+      <div class="takeaway"><b>Consequence:</b> private memory becomes public inventory. The platform is now a partner in remembering — and in forgetting.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 · DID YOU KNOW ================================================= -->
+<section class="cream">
+  <div class="head">
+    <div class="num">14<span class="lbl">NOTABLE</span></div>
+    <div>
+      <h2>Four things that, once <em>seen,</em><br/>can&rsquo;t be <em>unseen.</em></h2>
+      <div class="dek">Four statistics that sit between &ldquo;industry-known&rdquo; and &ldquo;quietly disclosed.&rdquo; Each one is documented in regulator filings, academic papers, or platform whitepapers — and almost never communicated to the user it describes.</div>
+    </div>
+  </div>
+
+  <div class="dyk reveal">
+    <div class="dyk-card">
+      <div class="tag">DID YOU KNOW</div>
+      <div class="big">47<span class="u">signals / frame</span></div>
+      <p>Modern vision pipelines extract dozens of inferred attributes from a single uploaded photo — not just objects, but emotional tone, lifestyle cluster, and purchase posture.</p>
+      <div class="src">ML survey work · 2023–2025</div>
+    </div>
+    <div class="dyk-card">
+      <div class="tag">DID YOU KNOW</div>
+      <div class="big">3.4<span class="u">× recommendation lift</span></div>
+      <p>Users classified as &ldquo;trusted-network influencers&rdquo; trigger purchase behavior in their social graphs at over three times the rate of ordinary impressions — and command bid premiums to match.</p>
+      <div class="src">Disclosed adtech case studies</div>
+    </div>
+    <div class="dyk-card">
+      <div class="tag">DID YOU KNOW</div>
+      <div class="big">14.4K<span class="u">named clusters globally</span></div>
+      <p>The number of named lookalike audience segments in production use across the major ad platforms — collectively addressing virtually every person who&rsquo;s ever uploaded an image.</p>
+      <div class="src">Industry estimate · multiple platforms</div>
+    </div>
+    <div class="dyk-card">
+      <div class="tag">DID YOU KNOW</div>
+      <div class="big">24<span class="u">months projected</span></div>
+      <p>Trajectory models routinely forecast user identity drift more than a year forward — and quietly auction the right to be the brand standing in that predicted future.</p>
+      <div class="src">Adtech research · multiple</div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 · METHOD ======================================================= -->
+<section>
+  <div class="head">
+    <div class="num">15<span class="lbl">DISCIPLINE</span></div>
+    <div>
+      <h2>How this piece was made<br/>and what it <em>claims.</em></h2>
+      <div class="dek">Infera&rsquo;s editorial discipline tags every claim as <b>proven</b>, <b>strong</b>, <b>correlated</b>, <b>plausible</b>, or <b>speculative</b>. This piece is mostly correlated and plausible. The mechanisms are well-documented; the specific per-user numbers are illustrative.</div>
+    </div>
+  </div>
+
+  <div class="method reveal">
+    <div class="card">
+      <div class="t"><span class="num">CLAIM 01</span><span class="tier p3">CORRELATED</span></div>
+      <h5>Vision-system feature extraction</h5>
+      <p>Computer-vision systems extracting dozens of attributes per image is documented in ML research and platform technical disclosures. The exact list per vendor is proprietary; the categorical types described here are well-sourced.</p>
+    </div>
+    <div class="card">
+      <div class="t"><span class="num">CLAIM 02</span><span class="tier p2">STRONG</span></div>
+      <h5>Lookalike clustering &amp; ad pricing</h5>
+      <p>Lookalike audiences are a publicly documented product of major ad platforms. Pricing variance by cluster value is disclosed in advertiser-facing materials and FTC filings.</p>
+    </div>
+    <div class="card">
+      <div class="t"><span class="num">CLAIM 03</span><span class="tier p3">CORRELATED</span></div>
+      <h5>Variable-ratio reinforcement in feeds</h5>
+      <p>The Skinnerian framing is supported by behavioral research and platform whistleblower testimony. The reward-loop demo is illustrative, not a measurement of any specific platform.</p>
+    </div>
+    <div class="card">
+      <div class="t"><span class="num">CLAIM 04</span><span class="tier p4">PLAUSIBLE</span></div>
+      <h5>Trajectory / future-self modeling</h5>
+      <p>Generative recommendation systems already model multi-step user evolution. Pre-paid &ldquo;future-self&rdquo; ad inventory is emerging — directionally documented; per-user impact is forward-looking.</p>
+    </div>
+    <div class="card">
+      <div class="t"><span class="num">CLAIM 05</span><span class="tier p2">STRONG</span></div>
+      <h5>Data-broker aggregation</h5>
+      <p>The role of Acxiom, Experian, Oracle Data Cloud, and LiveRamp in audience aggregation and resale is publicly documented in their own filings and product disclosures.</p>
+    </div>
+    <div class="card">
+      <div class="t"><span class="num">CLAIM 06</span><span class="tier p5">SPECULATIVE</span></div>
+      <h5>Memory / learning / identity consequences</h5>
+      <p>The Section 10 framing is editorial synthesis. The mechanisms are documented; the long-arc consequences are interpretive and intentionally signaled as such.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 16 · SOURCES ====================================================== -->
+<section class="cream">
+  <div class="head">
+    <div class="num">16<span class="lbl">PROVENANCE</span></div>
+    <div>
+      <h2>What we read.<br/>Where we got it.</h2>
+      <div class="dek">T1 = primary official or regulatory record. T2 = peer-reviewed or expert investigative. T3 = mainstream reporting or industry disclosure. We do not cite tier-4 or tier-5 sources in mechanism pieces.</div>
+    </div>
+  </div>
+
+  <div class="srcs">
+    <div class="src"><span class="t t1">T1</span><div class="b"><b>FTC v. Meta Platforms</b> · complaints &amp; documents on data practices and advertising · ftc.gov</div></div>
+    <div class="src"><span class="t t1">T1</span><div class="b"><b>Meta Platforms 10-K</b> &amp; investor disclosures · ad-revenue concentration, lookalike audience description · sec.gov</div></div>
+    <div class="src"><span class="t t1">T1</span><div class="b"><b>U.S. Senate Commerce hearings</b> · platform algorithmic amplification testimony · commerce.senate.gov</div></div>
+    <div class="src"><span class="t t2">T2</span><div class="b"><b>Zuboff, S.</b> · <i>The Age of Surveillance Capitalism</i> · PublicAffairs, 2019 · foundational framing of behavioral futures markets</div></div>
+    <div class="src"><span class="t t2">T2</span><div class="b"><b>Eyal, N.</b> · <i>Hooked: How to Build Habit-Forming Products</i> · variable-reward architecture in consumer apps</div></div>
+    <div class="src"><span class="t t2">T2</span><div class="b"><b>Alter, A.</b> · <i>Irresistible</i> · Penguin Press, 2017 · behavioral addiction in feed-driven products</div></div>
+    <div class="src"><span class="t t2">T2</span><div class="b"><b>Mozilla Foundation</b> · YouTube Regrets &amp; RegretsReporter · recommendation drift research</div></div>
+    <div class="src"><span class="t t2">T2</span><div class="b"><b>Haugen, Frances</b> · disclosed Meta internal research &amp; congressional testimony · facebookpapers</div></div>
+    <div class="src"><span class="t t3">T3</span><div class="b"><b>The Markup</b> · Citizen Browser project · personalized feed inspection methodology · themarkup.org</div></div>
+    <div class="src"><span class="t t3">T3</span><div class="b"><b>ProPublica</b> · &ldquo;Facebook&rsquo;s Ad-Targeting Categories&rdquo; series · psychographic ad segments · propublica.org</div></div>
+    <div class="src"><span class="t t3">T3</span><div class="b"><b>Wall Street Journal</b> · &ldquo;The Facebook Files&rdquo; · platform-internal research on engagement</div></div>
+    <div class="src"><span class="t t3">T3</span><div class="b"><b>Acxiom · Experian · Oracle Data Cloud · LiveRamp</b> · public product documentation &amp; audience materials</div></div>
+    <div class="src"><span class="t t3">T3</span><div class="b"><b>Meta Ads Manager · TikTok For Business · Google Ads</b> · advertiser-facing audience &amp; lookalike docs</div></div>
+  </div>
+</section>
+
+<!-- COLOPHON ========================================================== -->
+<footer class="colophon">
+  <div class="top">
+    <div>
+      <h6>PERSONHOOD, INC. · ISSUE 08 · EDITORIAL MOCKUP</h6>
+      <h4>Identity used to be <em>slow.</em><br/>It used to belong to you.</h4>
+      <p>Infera does not believe technology is the enemy. It believes the architecture of how prediction-driven systems shape human becoming is the most under-reported story of this decade — and that good journalism is the work of making the invisible feelable.</p>
+      <p>This issue is a mockup. The mechanisms are real. The future is closer than the prose suggests.</p>
+    </div>
+    <div class="index">
+      <h6>MECHANISM SERIES · INDEX</h6>
+      <p>01 / The Trickle<br/>02 / The Eviction Funnel<br/>03 / The Closed Hospital<br/>04 / The Coast Is Moving<br/>05 / The Provisional Ballot<br/>06 / The Runoff Tells<br/>07 / Money Atlas<br/><span class="now">08 / PERSONHOOD, INC. ←</span></p>
+    </div>
+    <div class="legend">
+      <h6>DISCIPLINE · CLAIM TIERS</h6>
+      <p><b class="p1">PROVEN</b>verified primary record</p>
+      <p><b class="p2">STRONG</b>peer-reviewed / investigative</p>
+      <p><b class="p3">CORRELATED</b>multi-source pattern</p>
+      <p><b class="p4">PLAUSIBLE</b>directional · openly framed</p>
+      <p><b class="p5">SPECULATIVE</b>interpretive synthesis</p>
+    </div>
+  </div>
+  <div class="bot">
+    <div>INFERA · MECHANISM SERIES · VOL. 01</div>
+    <div>23 MAY 2026 · MOCKUP · NOT YET SHIPPED</div>
+    <div>SET IN ARCHIVO BLACK · SPACE GROTESK · JETBRAINS MONO · INSTRUMENT SERIF</div>
+  </div>
+</footer>
+
+<script>
+// ============================================================ REVEAL
+const io = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.05,rootMargin:'-8% 0px -5% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ============================================================ HERO CANVAS — generative geometric noise
+(function(){
+  const c = document.getElementById('heroCanvas'); if(!c) return;
+  const ctx = c.getContext('2d');
+  function r(){
+    const rect = c.getBoundingClientRect();
+    c.width = rect.width*devicePixelRatio;
+    c.height = rect.height*devicePixelRatio;
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  }
+  r(); window.addEventListener('resize',r);
+
+  const palette = ['#c8ff1e','#ff1a6b','#1e3cff','#ffd500','#ff3a2e'];
+  // floating geometric primitives that drift slowly
+  const shapes = [];
+  for(let i=0;i<28;i++){
+    shapes.push({
+      x: Math.random(),
+      y: Math.random(),
+      vx: (Math.random()-.5)*.00015,
+      vy: (Math.random()-.5)*.00015,
+      size: 8 + Math.random()*60,
+      kind: Math.floor(Math.random()*3),
+      color: palette[Math.floor(Math.random()*palette.length)],
+      alpha: .12 + Math.random()*.18,
+      rot: Math.random()*Math.PI*2,
+      vr: (Math.random()-.5)*.002
+    });
+  }
+
+  function tick(){
+    const w = c.width/devicePixelRatio, h = c.height/devicePixelRatio;
+    ctx.clearRect(0,0,w,h);
+    shapes.forEach(s=>{
+      s.x += s.vx; s.y += s.vy; s.rot += s.vr;
+      if(s.x<-.1) s.x=1.1; if(s.x>1.1) s.x=-.1;
+      if(s.y<-.1) s.y=1.1; if(s.y>1.1) s.y=-.1;
+      const px = s.x*w, py = s.y*h;
+      ctx.save();
+      ctx.translate(px,py);
+      ctx.rotate(s.rot);
+      ctx.globalAlpha = s.alpha;
+      ctx.fillStyle = s.color;
+      if(s.kind===0){
+        // square
+        ctx.fillRect(-s.size/2,-s.size/2,s.size,s.size);
+      } else if(s.kind===1){
+        // circle
+        ctx.beginPath(); ctx.arc(0,0,s.size/2,0,Math.PI*2); ctx.fill();
+      } else {
+        // triangle
+        ctx.beginPath();
+        ctx.moveTo(0,-s.size/2);
+        ctx.lineTo(s.size/2,s.size/2);
+        ctx.lineTo(-s.size/2,s.size/2);
+        ctx.closePath(); ctx.fill();
+      }
+      ctx.restore();
+    });
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+// ============================================================ PROFILE BUILDER
+(function(){
+  const state = {env:new Set(),who:new Set(),obj:new Set(),mood:new Set()};
+  const out = {
+    arch: document.getElementById('archName'),
+    sig: document.getElementById('sigOut'),
+    inf: document.getElementById('infOut'),
+    buy: document.getElementById('buyOut'),
+    clu: document.getElementById('cluOut'),
+    cpm: document.getElementById('cpmOut'),
+    cEnv: document.getElementById('cEnv'),
+    cWho: document.getElementById('cWho'),
+    cObj: document.getElementById('cObj'),
+    cMood: document.getElementById('cMood')
+  };
+
+  // mapping: each chosen signal contributes to dimensions
+  // dimensions: stability, openness, intent, network, family, creator
+  const map = {
+    env:{
+      home:{stability:2,family:2},
+      workplace:{stability:1,intent:2},
+      street:{openness:2,network:1},
+      venue:{network:2,creator:1},
+      travel:{openness:2,intent:2},
+      institutional:{stability:2,intent:1}
+    },
+    who:{
+      solo:{openness:1,creator:1},
+      partner:{stability:2,family:1},
+      kids:{family:3,stability:2},
+      elders:{family:2,stability:1},
+      peers:{network:2,creator:1},
+      strangers:{openness:2,network:1}
+    },
+    obj:{
+      books:{openness:2,stability:1},
+      tech:{creator:2,intent:1},
+      instruments:{creator:2,openness:1},
+      vehicles:{intent:2,stability:1},
+      food:{network:1,family:1},
+      art:{creator:2,openness:1}
+    },
+    mood:{
+      warm:{family:2,stability:1},
+      cool:{openness:1,creator:1},
+      bright:{network:1,creator:1},
+      moody:{openness:1,creator:1},
+      staged:{creator:2,intent:1},
+      candid:{openness:1,network:1}
+    }
+  };
+
+  // archetypes
+  const archetypes = [
+    {name:'Curator',     italic:'Curator',      dim:'openness',  desc:'edits · arranges · re-frames',     cpm:4.10, cluster:'CULT-OPEN · 11.2M',  buyers:['streaming','consumer brands','publishing']},
+    {name:'Caretaker',   italic:'Caretaker',    dim:'family',    desc:'tends · protects · plans ahead',   cpm:5.20, cluster:'FAM-STABLE · 18.4M',  buyers:['financial institutions','consumer brands','insurance']},
+    {name:'Drifter',     italic:'Drifter',      dim:'low',       desc:'searches · moves · re-tries',       cpm:2.10, cluster:'DRIFT-COLD · 9.8M',  buyers:['streaming','direct-to-consumer']},
+    {name:'Believer',    italic:'Believer',     dim:'stability', desc:'commits · returns · defends',       cpm:6.40, cluster:'TRUST-NODE · 14.7M', buyers:['luxury','financial institutions','political ops']},
+    {name:'Hustler',     italic:'Hustler',      dim:'creator',   desc:'builds · sells · self-promotes',    cpm:3.80, cluster:'CREATOR-MULTI · 22.1M', buyers:['adtech','SaaS','creator economy']},
+    {name:'Apprentice',  italic:'Apprentice',   dim:'intent',    desc:'learns · copies · adopts',          cpm:2.90, cluster:'EARLY-ADOPT · 31.6M', buyers:['streaming','tech','political ops','consumer brands']},
+    {name:'Connector',   italic:'Connector',    dim:'network',   desc:'introduces · convenes · spreads',   cpm:4.90, cluster:'BRIDGE · 16.3M',     buyers:['adtech','consumer brands','political ops']}
+  ];
+
+  function recalc(){
+    out.cEnv.textContent  = state.env.size  + ' selected';
+    out.cWho.textContent  = state.who.size  + ' selected';
+    out.cObj.textContent  = state.obj.size  + ' selected';
+    out.cMood.textContent = state.mood.size + ' selected';
+
+    const totalPicks = state.env.size + state.who.size + state.obj.size + state.mood.size;
+    if(totalPicks===0){
+      out.arch.innerHTML = '<span class="empty">awaiting input...</span>';
+      out.sig.innerHTML  = '<span class="empty">none yet</span>';
+      out.inf.innerHTML  = '<span class="empty">none yet</span>';
+      out.buy.innerHTML  = '<span class="empty">none yet</span>';
+      out.clu.innerHTML  = '<span class="empty">no cluster yet</span>';
+      out.cpm.textContent = '$0.00';
+      return;
+    }
+
+    // tally dimensions
+    const dim = {stability:0,openness:0,intent:0,network:0,family:0,creator:0};
+    for(const k of ['env','who','obj','mood']){
+      for(const v of state[k]){
+        const m = map[k][v];
+        if(m) for(const d in m) dim[d] = (dim[d]||0) + m[d];
+      }
+    }
+
+    // dominant dimension picks archetype
+    const sorted = Object.entries(dim).sort((a,b)=>b[1]-a[1]);
+    const topDim = sorted[0][1] > 0 ? sorted[0][0] : 'low';
+    const arch = archetypes.find(a=>a.dim===topDim) || archetypes[2];
+
+    // build signal tags
+    const sigTags = [];
+    state.env.forEach(v=>sigTags.push(`<span class="tag">env · ${v}</span>`));
+    state.who.forEach(v=>sigTags.push(`<span class="tag p">who · ${v}</span>`));
+    state.obj.forEach(v=>sigTags.push(`<span class="tag y">obj · ${v}</span>`));
+    state.mood.forEach(v=>sigTags.push(`<span class="tag l">mood · ${v}</span>`));
+
+    // inferred attributes — descriptive
+    const infTags = [];
+    if(dim.stability>=3) infTags.push(`<span class="tag l">stability HIGH</span>`);
+    else if(dim.stability>=1) infTags.push(`<span class="tag">stability MID</span>`);
+    if(dim.openness>=3) infTags.push(`<span class="tag l">openness HIGH</span>`);
+    else if(dim.openness>=1) infTags.push(`<span class="tag">openness MID</span>`);
+    if(dim.intent>=3) infTags.push(`<span class="tag y">premium-intent HIGH</span>`);
+    else if(dim.intent>=1) infTags.push(`<span class="tag">premium-intent MID</span>`);
+    if(dim.family>=3) infTags.push(`<span class="tag p">family-anchor HIGH</span>`);
+    else if(dim.family>=1) infTags.push(`<span class="tag">family-anchor MID</span>`);
+    if(dim.network>=3) infTags.push(`<span class="tag l">network-density HIGH</span>`);
+    else if(dim.network>=1) infTags.push(`<span class="tag">network-density MID</span>`);
+    if(dim.creator>=3) infTags.push(`<span class="tag y">creator-economy HIGH</span>`);
+    else if(dim.creator>=1) infTags.push(`<span class="tag">creator-economy MID</span>`);
+    if(infTags.length===0) infTags.push(`<span class="empty">insufficient signal · cluster cold</span>`);
+
+    // cpm based on dominant dim score + total picks (richness bonus)
+    const richness = Math.min(totalPicks/12, 1);
+    const adjustedCpm = (arch.cpm * (0.55 + richness*.7)).toFixed(2);
+
+    out.arch.innerHTML = `THE ${arch.name.toUpperCase()}`;
+    out.sig.innerHTML = sigTags.join('');
+    out.inf.innerHTML = infTags.join('');
+    out.buy.innerHTML = arch.buyers.map(b=>`<span class="tag">${b}</span>`).join('');
+    out.clu.innerHTML = `<span class="tag l">${arch.cluster}</span> · coherence ${(0.4 + richness*.55).toFixed(2)}`;
+    out.cpm.textContent = '$' + adjustedCpm;
+  }
+
+  document.querySelectorAll('.opt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const w = btn.dataset.w, v = btn.dataset.val;
+      if(state[w].has(v)){ state[w].delete(v); btn.classList.remove('on'); }
+      else { state[w].add(v); btn.classList.add('on'); }
+      recalc();
+    });
+  });
+
+  document.getElementById('resetBuilder').addEventListener('click',()=>{
+    for(const k of ['env','who','obj','mood']) state[k].clear();
+    document.querySelectorAll('.opt').forEach(b=>b.classList.remove('on'));
+    recalc();
+  });
+})();
+
+// ============================================================ TRAJECTORY SANKEY
+(function(){
+  const svg = document.getElementById('sankeyChart');
+  if(!svg) return;
+  const NS = 'http://www.w3.org/2000/svg';
+
+  // archetypes (left) and end-states (right)
+  const arch = [
+    {id:'curator',    name:'CURATOR',    color:'#c8ff1e'},
+    {id:'caretaker',  name:'CARETAKER',  color:'#ff1a6b'},
+    {id:'drifter',    name:'DRIFTER',    color:'#1e3cff'},
+    {id:'believer',   name:'BELIEVER',   color:'#ffd500'},
+    {id:'hustler',    name:'HUSTLER',    color:'#ff3a2e'},
+    {id:'apprentice', name:'APPRENTICE', color:'#fbf7eb'}
+  ];
+  const ends = [
+    {id:'brand',     name:'BRAND CITIZEN'},
+    {id:'stability', name:'STABILITY PREMIUM'},
+    {id:'curated',   name:'CURATED CELL'},
+    {id:'trusted',   name:'TRUSTED VOICE'},
+    {id:'drift',     name:'DRIFT LOOP'},
+    {id:'preselect', name:'PRE-SELECTED ADULT'},
+    {id:'burnout',   name:'BURNOUT RESET'},
+    {id:'exit',      name:'QUIET EXIT'}
+  ];
+
+  // flows: archetype -> {endId: pct}
+  const flows = {
+    curator:    {curated:45, brand:28, trusted:16, exit:11},
+    caretaker:  {stability:58, brand:23, preselect:12, exit:7},
+    drifter:    {drift:54, preselect:24, curated:14, exit:8},
+    believer:   {brand:62, trusted:22, stability:13, exit:3},
+    hustler:    {burnout:41, trusted:27, brand:19, exit:13},
+    apprentice: {preselect:38, brand:27, curated:19, drift:16}
+  };
+
+  // layout
+  const W = 1200, H = 660;
+  const lx = 30, lw = 220, rx = W - 30 - 220, rw = 220;
+  const aGap = (H - 60) / arch.length;
+  const eGap = (H - 60) / ends.length;
+  const archPos = {};
+  arch.forEach((a,i)=>{
+    archPos[a.id] = {y: 30 + i*aGap + aGap/2, color:a.color, name:a.name};
+  });
+  const endPos = {};
+  ends.forEach((e,i)=>{
+    endPos[e.id] = {y: 30 + i*eGap + eGap/2, name:e.name};
+  });
+
+  // draw stage labels
+  function txt(x,y,t,cls){
+    const el = document.createElementNS(NS,'text');
+    el.setAttribute('x',x); el.setAttribute('y',y);
+    if(cls) el.setAttribute('class',cls);
+    el.textContent = t;
+    svg.appendChild(el);
+    return el;
+  }
+  txt(lx, 18, 'T+0 · ARCHETYPE',     'stage-lbl');
+  txt(W/2-80, 18, '— predicted trajectory →', 'stage-lbl');
+  txt(rx+rw-220, 18, 'T+60mo · TERMINUS', 'stage-lbl');
+
+  // draw archetype nodes (left)
+  arch.forEach(a=>{
+    const p = archPos[a.id];
+    const r = document.createElementNS(NS,'rect');
+    r.setAttribute('x',lx); r.setAttribute('y', p.y-22);
+    r.setAttribute('width',lw); r.setAttribute('height',44);
+    r.setAttribute('fill',a.color); r.setAttribute('stroke','#0a0a0a'); r.setAttribute('stroke-width','1.5');
+    svg.appendChild(r);
+    const t = document.createElementNS(NS,'text');
+    t.setAttribute('x',lx+14); t.setAttribute('y',p.y+5);
+    t.setAttribute('font-family','Archivo Black'); t.setAttribute('font-size','15'); t.setAttribute('fill','#0a0a0a');
+    t.textContent = a.name;
+    svg.appendChild(t);
+  });
+
+  // draw end nodes (right)
+  ends.forEach(e=>{
+    const p = endPos[e.id];
+    const r = document.createElementNS(NS,'rect');
+    r.setAttribute('x',rx); r.setAttribute('y', p.y-18);
+    r.setAttribute('width',rw); r.setAttribute('height',36);
+    r.setAttribute('fill','#fbf7eb'); r.setAttribute('stroke','#c8ff1e'); r.setAttribute('stroke-width','1.5');
+    svg.appendChild(r);
+    const t = document.createElementNS(NS,'text');
+    t.setAttribute('x',rx+12); t.setAttribute('y',p.y+5);
+    t.setAttribute('font-family','Archivo Black'); t.setAttribute('font-size','13'); t.setAttribute('fill','#0a0a0a');
+    t.textContent = e.name;
+    svg.appendChild(t);
+  });
+
+  // draw flows
+  arch.forEach(a=>{
+    const src = archPos[a.id];
+    const dests = flows[a.id];
+    Object.entries(dests).forEach(([endId, pct])=>{
+      const dest = endPos[endId];
+      if(!dest) return;
+      const width = Math.max(2, pct * .9); // stroke-width
+      const c1x = lx + lw + (rx - lx - lw)*0.42;
+      const c2x = lx + lw + (rx - lx - lw)*0.58;
+      const path = document.createElementNS(NS,'path');
+      const d = `M ${lx+lw} ${src.y} C ${c1x} ${src.y}, ${c2x} ${dest.y}, ${rx} ${dest.y}`;
+      path.setAttribute('d', d);
+      path.setAttribute('fill','none');
+      path.setAttribute('stroke', src.color);
+      path.setAttribute('stroke-width', width);
+      path.setAttribute('opacity', '0.55');
+      path.setAttribute('stroke-linecap','round');
+      svg.appendChild(path);
+
+      // pct label at right edge of path
+      const lblX = rx - 14;
+      const lblY = dest.y + (src.y > dest.y ? -3 : 4) + (Math.random()-.5)*2;
+      const t = document.createElementNS(NS,'text');
+      t.setAttribute('x', lblX); t.setAttribute('y', lblY);
+      t.setAttribute('text-anchor','end');
+      t.setAttribute('font-family','JetBrains Mono'); t.setAttribute('font-size','9');
+      t.setAttribute('fill', src.color); t.setAttribute('font-weight','700');
+      t.textContent = pct + '%';
+      svg.appendChild(t);
+    });
+  });
+})();
+
+// ============================================================ COMPOSITE EXERCISE
+(function(){
+  const journeys = {
+    curator: {
+      label: 'THE CURATOR',
+      years: [
+        {n:1, sources:['Instagram','Spotify'], depth:14,
+         attrs:'visual taste cluster, mood-time correlation',
+         pred:'subscription propensity: 71%'},
+        {n:2, sources:['Netflix','LinkedIn'], depth:31,
+         attrs:'long-form attention high, professional identity formed',
+         pred:'premium SaaS adoption: 64%'},
+        {n:3, sources:['Banking','Google Maps'], depth:52,
+         attrs:'discretionary spend categories, place affinity',
+         pred:'experience-economy spend in 12mo: 78%'},
+        {n:4, sources:['Smart home','Apple Health'], depth:71,
+         attrs:'sleep schedule, household composition, biometric baseline',
+         pred:'wellness subscription: 81%'},
+        {n:5, sources:['Public records','Broker fusion'], depth:89,
+         attrs:'life events, cross-platform composite locked',
+         pred:'major aesthetic-driven purchase in 14mo: 73%'}
+      ],
+      terminus:'THE CURATED CELL', termPct:45,
+      desc:'Taste becomes identity. Aesthetic-driven major spend. Every room, every plate, pre-validated by the cluster.',
+      alts:'alt 28% Brand Citizen · 16% Trusted Voice · 11% Quiet Exit'
+    },
+    caretaker: {
+      label: 'THE CARETAKER',
+      years: [
+        {n:1, sources:['Banking','LinkedIn'], depth:18,
+         attrs:'household-provider signals, stability score high',
+         pred:'long-tail financial product adoption: 74%'},
+        {n:2, sources:['Insurance APIs','Smart home'], depth:36,
+         attrs:'family stability, schedule predictability',
+         pred:'mortgage refinance in 18mo: 62%'},
+        {n:3, sources:['Maps','Vehicle telematics'], depth:55,
+         attrs:'commute pattern, vehicle replacement cycle',
+         pred:'EV / new vehicle in 24mo: 58%'},
+        {n:4, sources:['Health insurer','Edu (kids)'], depth:73,
+         attrs:'education spend, health continuity, kid milestones',
+         pred:'529 / college planning ramp: 84%'},
+        {n:5, sources:['Public records','Broker'], depth:92,
+         attrs:'life-stage transitions visible, retirement horizon locked',
+         pred:'wealth-mgmt advisor handoff: 88%'}
+      ],
+      terminus:'THE STABILITY PREMIUM', termPct:58,
+      desc:'Locked into long-horizon financial products. Mortgage, insurance, retirement. The household becomes a 30-year known quantity.',
+      alts:'alt 23% Brand Citizen · 12% Pre-Selected (via kids) · 7% Quiet Exit'
+    },
+    drifter: {
+      label: 'THE DRIFTER',
+      years: [
+        {n:1, sources:['Instagram','TikTok'], depth:11,
+         attrs:'high churn, identity searching, low coherence',
+         pred:'unclear · cluster pending'},
+        {n:2, sources:['Streaming hop','App graveyard'], depth:24,
+         attrs:'low retention, broad genre exposure',
+         pred:'high-emotional ad vulnerability: 71%'},
+        {n:3, sources:['Banking (low signal)','Maps (irregular)'], depth:38,
+         attrs:'volatile income, geographic spread',
+         pred:'gambling / crypto exposure: 54%'},
+        {n:4, sources:['Stabilization content served','Profile re-anchored'], depth:56,
+         attrs:'system intervention · cluster fit imposed',
+         pred:'lookalike assignment despite coherence gap'},
+        {n:5, sources:['Broker','Cross-platform fusion'], depth:71,
+         attrs:'forced cluster fit · pricing now possible',
+         pred:'high-volatility ad inventory · low CPM'}
+      ],
+      terminus:'THE DRIFT LOOP', termPct:54,
+      desc:'Perpetual reorientation. Identity attempts the system can\'t price. Served the cheapest, most volatile inventory.',
+      alts:'alt 24% Pre-Selected Adult · 14% Curated Cell · 8% Quiet Exit'
+    },
+    believer: {
+      label: 'THE BELIEVER',
+      years: [
+        {n:1, sources:['Brand subs','LinkedIn'], depth:19,
+         attrs:'loyalty signals high, identity-brand merging early',
+         pred:'subscription stack growth: 82%'},
+        {n:2, sources:['Streaming','Reading apps'], depth:35,
+         attrs:'deep content engagement, opinion formation',
+         pred:'lifetime brand premium: 88%'},
+        {n:3, sources:['Banking','Recurring payments'], depth:53,
+         attrs:'subscription stack deep, low churn baseline',
+         pred:'5+ yr subscription renewal: 91%'},
+        {n:4, sources:['Maps','Community signals'], depth:71,
+         attrs:'geographic anchoring, community involvement',
+         pred:'civic / political consistency: 87%'},
+        {n:5, sources:['Public records','Donations'], depth:89,
+         attrs:'long-term commitment patterns crystallized',
+         pred:'highest lifetime-value cohort confirmed'}
+      ],
+      terminus:'THE BRAND CITIZEN', termPct:62,
+      desc:'Loyalty becomes identity. Same 4–6 brands for life. The person treats brands as parts of who they are, not as vendors.',
+      alts:'alt 22% Trusted Voice · 13% Stability Premium · 3% Quiet Exit'
+    },
+    hustler: {
+      label: 'THE HUSTLER',
+      years: [
+        {n:1, sources:['TikTok','IG','LinkedIn','Multiple SaaS'], depth:26,
+         attrs:'creator-economy footprint, multi-platform velocity',
+         pred:'tool-stack purchase rate: 79%'},
+        {n:2, sources:['Stripe','Banking','Productivity tools'], depth:47,
+         attrs:'income volatility, business+personal mix',
+         pred:'business banking conversion: 68%'},
+        {n:3, sources:['Streaming','News','Podcast'], depth:64,
+         attrs:'constant learning, trend tracking',
+         pred:'paid newsletter / education: 74%'},
+        {n:4, sources:['Smart home','Wearable'], depth:78,
+         attrs:'HRV declining, sleep degraded, burnout signals appearing',
+         pred:'wellness / therapy product entry: 71%'},
+        {n:5, sources:['Public records','Broker'], depth:91,
+         attrs:'professional pivot probability rising',
+         pred:'category exit / pivot in 18mo: 64%'}
+      ],
+      terminus:'THE BURNOUT RESET', termPct:41,
+      desc:'Performance overtakes self. The wearable noticed before the person did. Routed to recovery products and "simplification" offers.',
+      alts:'alt 27% Trusted Voice · 19% Brand Citizen · 13% Quiet Exit'
+    },
+    apprentice: {
+      label: 'THE APPRENTICE',
+      years: [
+        {n:1, sources:['TikTok'], depth:21,
+         attrs:'high absorption, low defense, identity-malleable',
+         pred:'algorithmic identity adoption: 84%'},
+        {n:2, sources:['Snapchat','Spotify','Early IG'], depth:39,
+         attrs:'social-media-shaped identity forming',
+         pred:'aesthetic lock-in by age 17: 71%'},
+        {n:3, sources:['First banking account','Early Maps'], depth:58,
+         attrs:'consumer behavior emerging, geography forming',
+         pred:'first major brand-loyalty score: 66%'},
+        {n:4, sources:['LinkedIn (first job)','Streaming'], depth:76,
+         attrs:'professional identity offered ready-made',
+         pred:'pre-validated career path acceptance: 78%'},
+        {n:5, sources:['Broker first aggregation','Cross-platform'], depth:93,
+         attrs:'adulthood arrives with full pre-built composite',
+         pred:'adult-self ≈ teen prediction within 0.85 tol.'}
+      ],
+      terminus:'THE PRE-SELECTED ADULT', termPct:38,
+      desc:'Adulthood arrives pre-fit to the cluster the model assigned in adolescence. The shortlist they chose from was made for them years before they chose.',
+      alts:'alt 27% Brand Citizen · 19% Curated Cell · 16% Drift Loop'
+    }
+  };
+
+  const tabs   = document.querySelectorAll('.ce-tab');
+  const tl     = document.getElementById('ceTimeline');
+  const fill   = document.getElementById('ceFill');
+  const pct    = document.getElementById('cePct');
+  const final  = document.getElementById('ceFinal');
+  const term   = document.getElementById('ceTerminus');
+  const desc   = document.getElementById('ceDesc');
+  const pctF   = document.getElementById('cePctFinal');
+  const alts   = document.getElementById('ceAlts');
+  const lbl    = document.getElementById('ceArchLabel');
+  const bPlay  = document.getElementById('cePlay');
+  const bStep  = document.getElementById('ceStep');
+  const bReset = document.getElementById('ceReset');
+
+  let current = 'curator';
+  let activeYear = 0;
+  let playing = false;
+  let playTimer = null;
+
+  function render(){
+    const j = journeys[current];
+    lbl.textContent = j.label;
+    tl.innerHTML = j.years.map(y=>`
+      <div class="ce-year" data-y="${y.n}">
+        <div class="y">${y.n}<span class="u">YEAR</span></div>
+        <h5>SOURCES ONLINE</h5>
+        <div class="src-list">${y.sources.map(s=>`<span>${s}</span>`).join('')}</div>
+        <h5>INFERRED</h5>
+        <div class="attrs">${y.attrs}</div>
+        <h5>NEW PREDICTION</h5>
+        <div class="pred"><b>SYSTEM PREDICTS</b>${y.pred}</div>
+      </div>
+    `).join('');
+    fill.style.width = '0%';
+    pct.textContent = '0%';
+    final.style.display = 'none';
+    activeYear = 0;
+  }
+
+  function reveal(year){
+    const j = journeys[current];
+    if(year < 1 || year > j.years.length) return;
+    activeYear = year;
+    const yEls = tl.querySelectorAll('.ce-year');
+    yEls.forEach((el,i)=>{
+      if(i < year) el.classList.add('act');
+      else el.classList.remove('act');
+    });
+    const y = j.years[year-1];
+    fill.style.width = y.depth + '%';
+    pct.textContent = y.depth + '%';
+    if(year === j.years.length){
+      term.textContent = j.terminus;
+      desc.textContent = j.desc;
+      pctF.textContent = j.termPct;
+      alts.textContent = j.alts;
+      final.style.display = 'flex';
+    } else {
+      final.style.display = 'none';
+    }
+  }
+
+  function play(){
+    if(playing) return;
+    playing = true;
+    bPlay.textContent = '⏸ PAUSE';
+    activeYear = 0;
+    reveal(0);
+    let step = 1;
+    function next(){
+      if(!playing) return;
+      reveal(step);
+      step++;
+      if(step <= journeys[current].years.length){
+        playTimer = setTimeout(next, 1400);
+      } else {
+        playing = false;
+        bPlay.textContent = '▶ PLAY 5-YEAR JOURNEY';
+      }
+    }
+    next();
+  }
+
+  function pause(){
+    playing = false;
+    if(playTimer) clearTimeout(playTimer);
+    bPlay.textContent = '▶ PLAY 5-YEAR JOURNEY';
+  }
+
+  function reset(){
+    pause();
+    activeYear = 0;
+    render();
+  }
+
+  tabs.forEach(t=>{
+    t.addEventListener('click',()=>{
+      tabs.forEach(x=>x.classList.remove('on'));
+      t.classList.add('on');
+      current = t.dataset.arch;
+      reset();
+    });
+  });
+
+  bPlay.addEventListener('click',()=>{
+    if(playing) pause();
+    else play();
+  });
+
+  bStep.addEventListener('click',()=>{
+    pause();
+    if(activeYear < journeys[current].years.length){
+      reveal(activeYear + 1);
+    }
+  });
+
+  bReset.addEventListener('click', reset);
+
+  render();
+})();
+
+// ============================================================ PERCEPTION LOOP
+(function(){
+  const tabs = document.querySelectorAll('.p-arch');
+  const feed = document.getElementById('pFeed');
+  const polish = document.getElementById('pPolish');
+  const activity = document.getElementById('pActivity');
+  const polishVal = document.getElementById('pPolishVal');
+  const activityVal = document.getElementById('pActivityVal');
+  const sessionLog = document.getElementById('pSessionLog');
+  const sessionAds = document.getElementById('pSessionAds');
+  let current = 'curator';
+
+  const polishLabels = ['raw','soft','clean','sharp','polished'];
+  const activityLabels = ['quiet','low','steady','heavy','always-on'];
+
+  // feed content by archetype
+  const content = {
+    curator: {
+      label: 'CURATOR · ARCHETYPE A',
+      posts: [
+        {tag:'editorial', cta:'read the issue →', h:'The new rules of intentional minimalism', b:'Inside a year-long experiment in subtractive design — and what it tells us about late-stage abundance.', c1:'#c8ff1e', c2:'#fbf7eb'},
+        {tag:'ad · DTC home', ad:true, cta:'shop the drop →', h:'The one chair we redesigned 47 times.', b:'Hand-finished oak. Made by 4 people in Maine. Ships free.', c1:'#fbf7eb', c2:'#d8cfb9'},
+        {tag:'aesthetic', cta:'save to mood →', h:'12 interiors that prove warmth and restraint can coexist.', b:'A scrolling essay on the new domestic palette of late-2020s upper-middle taste.', c1:'#e1a23a', c2:'#fbf7eb'},
+        {tag:'ad · travel', ad:true, cta:'reserve →', h:'A boutique hotel for people who hate hotels.', b:'13 rooms. Wood-burning sauna. No phone signal. Members-only after dark.', c1:'#7b5ea7', c2:'#c8ff1e'},
+        {tag:'culture', cta:'subscribe →', h:'Why every "tasteful" person owns the same 6 objects right now.', b:'A taxonomy of the algorithmic interior. Includes a downloadable taste audit.', c1:'#1aa6c4', c2:'#fbf7eb'},
+        {tag:'ad · publishing', ad:true, cta:'try 1 month free →', h:'The newsletter for people who curate other people\'s lives.', b:'Weekly. Long form. No clickbait. $12/mo after trial.', c1:'#fbf7eb', c2:'#ff1a6b'}
+      ]
+    },
+    caretaker: {
+      label: 'CARETAKER · ARCHETYPE B',
+      posts: [
+        {tag:'parenting', cta:'read →', h:'The financial talk to have with your kids before age 12.', b:'Three principles, no jargon. Recommended by 4 in 5 family-office advisors.', c1:'#ffd500', c2:'#fbf7eb'},
+        {tag:'ad · insurance', ad:true, cta:'get a quote →', h:'Term life from the company that doesn\'t make you talk to anyone.', b:'30-year policy. 11-minute application. No medical exam under $500K.', c1:'#1e3cff', c2:'#fbf7eb'},
+        {tag:'health', cta:'open in app →', h:'What good sleep actually costs — and who is selling it back to you.', b:'A long read on mattresses, supplements, and the wellness premium.', c1:'#3f8c66', c2:'#fbf7eb'},
+        {tag:'ad · 529 plan', ad:true, cta:'open in 7 min →', h:'College in 14 years. Time is your only advantage.', b:'Tax-advantaged. State match in 12 states. $25/mo minimum.', c1:'#e1a23a', c2:'#fbf7eb'},
+        {tag:'home', cta:'continue reading →', h:'The case for the boring SUV.', b:'Why every parent within a tight cluster is buying the same vehicle this year.', c1:'#fbf7eb', c2:'#d8cfb9'},
+        {tag:'ad · grocery', ad:true, cta:'first box 50% off →', h:'Pre-portioned dinners for households of four.', b:'Family-tested. Allergen-aware. Pause anytime.', c1:'#ff3a2e', c2:'#fbf7eb'}
+      ]
+    },
+    drifter: {
+      label: 'DRIFTER · ARCHETYPE C',
+      posts: [
+        {tag:'wellness', cta:'try the quiz →', h:'12 signs you\'re actually in a "becoming" phase.', b:'A self-assessment used by 80,000 people last week. Personalized result.', c1:'#ff1a6b', c2:'#7b5ea7'},
+        {tag:'ad · self-help app', ad:true, cta:'start free →', h:'Build the version of yourself you keep almost being.', b:'Daily prompts. 7-min sessions. $9.99/mo after trial.', c1:'#7b5ea7', c2:'#c8ff1e'},
+        {tag:'lifestyle', cta:'open →', h:'I left my city, my job, and my haircut. Here\'s what stuck.', b:'A first-person essay on reinvention, what survived it, and what didn\'t.', c1:'#1aa6c4', c2:'#fbf7eb'},
+        {tag:'ad · crypto', ad:true, cta:'claim $20 →', h:'Don\'t miss the next cycle. Start with $10.', b:'Commission-free. New users get $20 bonus. 24/7 trading.', c1:'#ffd500', c2:'#ff1a6b'},
+        {tag:'identity', cta:'read on →', h:'The decade of the soft pivot.', b:'Why your 20s, 30s, and 40s are now all defined by reinvention, not arrival.', c1:'#ff3a2e', c2:'#fbf7eb'},
+        {tag:'ad · DTC mood', ad:true, cta:'shop →', h:'The mood-supplement everyone says you should try.', b:'L-theanine + magnesium + nothing else. $32/mo. Skip anytime.', c1:'#c8ff1e', c2:'#7b5ea7'}
+      ]
+    },
+    believer: {
+      label: 'BELIEVER · ARCHETYPE D',
+      posts: [
+        {tag:'brand story', cta:'watch the film →', h:'How a 78-year-old company built the next 78 years.', b:'A short documentary on craft, legacy, and what gets passed down.', c1:'#1e3cff', c2:'#fbf7eb'},
+        {tag:'ad · luxury watch', ad:true, cta:'see the collection →', h:'For the way you mark time, not the way you spend it.', b:'Handmade in Switzerland. Lifetime service. Multi-generational ownership.', c1:'#0a0a0a', c2:'#e1a23a'},
+        {tag:'community', cta:'join the chapter →', h:'The local chapter you didn\'t know was waiting for you.', b:'A national membership that meets at the neighborhood scale. By invitation.', c1:'#3f8c66', c2:'#fbf7eb'},
+        {tag:'ad · private bank', ad:true, cta:'speak with an advisor →', h:'A bank that calls you back.', b:'For households over $1M. Family-office services. By referral only.', c1:'#fbf7eb', c2:'#1e3cff'},
+        {tag:'civic', cta:'subscribe →', h:'The case for institutional patience.', b:'A counterargument to the everything-now mood. Long form. Quarterly.', c1:'#ffd500', c2:'#fbf7eb'},
+        {tag:'ad · automotive', ad:true, cta:'configure yours →', h:'The car that holds its value the longest in your zip code.', b:'Now leasing from $649/mo. White-glove delivery within 50 miles.', c1:'#ff3a2e', c2:'#0a0a0a'}
+      ]
+    },
+    hustler: {
+      label: 'HUSTLER · ARCHETYPE E',
+      posts: [
+        {tag:'creator econ', cta:'unlock the playbook →', h:'How a 4-person studio hit $1M in 14 months.', b:'The exact stack, pricing, and content cadence that scaled. Free read.', c1:'#c8ff1e', c2:'#0a0a0a'},
+        {tag:'ad · productivity SaaS', ad:true, cta:'free 14-day trial →', h:'The AI ops platform that pays for itself by Tuesday.', b:'Used by 18,000 indie operators. $29/mo solo, $99 team.', c1:'#1aa6c4', c2:'#c8ff1e'},
+        {tag:'business', cta:'read the breakdown →', h:'Why the new playbook is fewer customers, higher ACV.', b:'A long analysis of where solo operators are quietly compounding.', c1:'#ff1a6b', c2:'#fbf7eb'},
+        {tag:'ad · course', ad:true, cta:'enroll · cohort 7 →', h:'Build your first $10K/mo offer in 8 weeks.', b:'Live Q&A. Lifetime access. $1,200. Payment plan available.', c1:'#ffd500', c2:'#ff3a2e'},
+        {tag:'tools', cta:'try beta →', h:'The 6 AI tools the top 1% of creators are quietly using.', b:'Curated stack. Pricing comparison. One signup link.', c1:'#7b5ea7', c2:'#c8ff1e'},
+        {tag:'ad · health', ad:true, cta:'get started →', h:'High performers don\'t skip sleep. They schedule it.', b:'Wearable + coaching membership. $40/mo. First month free.', c1:'#3f8c66', c2:'#ffd500'}
+      ]
+    },
+    apprentice: {
+      label: 'APPRENTICE · ARCHETYPE F',
+      posts: [
+        {tag:'trending', cta:'try the trend →', h:'Everyone is doing this one thing in their morning right now.', b:'The 47-second routine the algorithm decided you should know about.', c1:'#ff1a6b', c2:'#ffd500'},
+        {tag:'ad · fast fashion', ad:true, cta:'shop the look →', h:'The whole fit for under $80.', b:'Trending now. Ships in 2 days. Pay in 4 installments.', c1:'#c8ff1e', c2:'#ff1a6b'},
+        {tag:'social', cta:'open in app →', h:'15 things to say at a party so people remember you.', b:'A guide written by a former Disney imagineer. Read by 4M people.', c1:'#ffd500', c2:'#ff3a2e'},
+        {tag:'ad · BNPL', ad:true, cta:'split it →', h:'Buy now. Pay over 4 weeks. No interest.', b:'Use at 100K+ stores. Boost your spending score. Soft credit check.', c1:'#1e3cff', c2:'#c8ff1e'},
+        {tag:'identity', cta:'find your type →', h:'The personality quiz that has scared 2.4M people this week.', b:'12 questions. 8 possible types. One uncomfortable result.', c1:'#7b5ea7', c2:'#fbf7eb'},
+        {tag:'ad · streaming', ad:true, cta:'start watching →', h:'The series your cluster watched 4 nights in a row.', b:'New season. 8 episodes. Free with ads.', c1:'#0a0a0a', c2:'#c8ff1e'}
+      ]
+    }
+  };
+
+  function render(){
+    const c = content[current];
+    const polishN = parseInt(polish.value);
+    const activityN = parseInt(activity.value);
+
+    // determine how many ads based on activity level
+    let posts = c.posts.slice();
+    // activity higher = more ads. activity lower = ads removed.
+    const adKeep = Math.max(1, Math.round(activityN * 0.6)); // 0..3 ads kept
+    let adsKept = 0;
+    posts = posts.filter(p => {
+      if(p.ad){
+        if(adsKept < adKeep){ adsKept++; return true; }
+        return false;
+      }
+      return true;
+    });
+
+    // build feed
+    let html = `<div class="p-feed-head"><span class="live">YOUR PERSONALIZED FEED</span><span>${c.label}</span></div>`;
+    html += posts.map(p=>{
+      const isAd = p.ad;
+      // polish affects body text length and image visibility
+      const showVisual = polishN >= 2;
+      const truncatedB = polishN < 2 ? p.b.split('.').slice(0,1).join('.') + '.' : p.b;
+      return `<div class="p-post ${isAd?'ad':''}" style="--c1:${p.c1};--c2:${p.c2}">
+        <div class="p-meta"><span class="tag ${isAd?'ad':''}">${p.tag}</span><span>0x4E7C · MAY 2026</span></div>
+        <h5>${p.h}</h5>
+        <div class="body">${truncatedB}</div>
+        ${showVisual ? '<div class="visual"></div>' : ''}
+        <div class="cta">${p.cta}</div>
+      </div>`;
+    }).join('');
+
+    feed.innerHTML = html;
+
+    polishVal.textContent = polishLabels[polishN];
+    activityVal.textContent = activityLabels[activityN];
+
+    sessionLog.textContent = (12 + activityN * 11 + polishN * 4);
+    sessionAds.textContent = adsKept;
+  }
+
+  document.querySelectorAll('.p-arch').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.p-arch').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      current = b.dataset.arch;
+      render();
+    });
+  });
+  polish.addEventListener('input', render);
+  activity.addEventListener('input', render);
+  render();
+})();
+
+// ============================================================ MONEY FLOW
+(function(){
+  const stage = document.getElementById('mfStage');
+  const detailRoot = document.getElementById('mfDetail');
+  const stateSel = document.getElementById('mfState');
+  const playBtn = document.getElementById('mfPlay');
+  const resetBtn = document.getElementById('mfReset');
+  if(!stage) return;
+
+  // node definitions: positions in % of stage size
+  const nodes = {
+    you1:     {x:50, y:6,  label:'YOU',          sub:'data · attention',     cls:'you'},
+    platform: {x:18, y:28, label:'PLATFORM',     sub:'IG · TikTok · Meta'},
+    broker:   {x:50, y:30, label:'DATA BROKER',  sub:'Acxiom · Experian'},
+    buyer:    {x:82, y:28, label:'AD BUYERS',    sub:'brands · banks · ops'},
+    dc:       {x:50, y:55, label:'DATA CENTERS', sub:'storage · compute'},
+    grid:     {x:14, y:78, label:'POWER GRID',   sub:'utility load'},
+    tax:      {x:50, y:80, label:'TAX SUBSIDIES',sub:'state · local'},
+    ai:       {x:86, y:78, label:'AI HOSTING',   sub:'OpenAI · Anthropic'},
+    you2:     {x:50, y:96, label:'YOU',          sub:'utility · taxes · membership', cls:'you'}
+  };
+
+  // edges: from → to, cost vs revenue, label
+  const edges = [
+    {from:'you1', to:'platform', kind:'free',  label:'FREE LABOR',     desc:'data + attention'},
+    {from:'you1', to:'broker',   kind:'free',  label:'FREE LABOR',     desc:'identity match'},
+    {from:'platform', to:'broker', kind:'rev', label:'$ DATA RENT',    desc:'audience packets'},
+    {from:'broker', to:'buyer',  kind:'rev',   label:'$ AUDIENCE',     desc:'cluster access'},
+    {from:'buyer', to:'dc',      kind:'rev',   label:'$ STORAGE',      desc:'compute spend'},
+    {from:'platform', to:'dc',   kind:'rev',   label:'$ HOSTING',      desc:'data hosting'},
+    {from:'dc', to:'grid',       kind:'cost',  label:'LOAD',           desc:'~30%+ of grid'},
+    {from:'tax', to:'dc',        kind:'rev',   label:'$ INCENTIVES',   desc:'tax credits'},
+    {from:'dc', to:'ai',         kind:'rev',   label:'$ COMPUTE',      desc:'AI hosting'},
+    {from:'ai', to:'you2',       kind:'cost',  label:'$ SUBSCRIPTION', desc:'membership fees'},
+    {from:'grid', to:'you2',     kind:'cost',  label:'$ UTILITY BILL', desc:'raised rates'},
+    {from:'you2', to:'tax',      kind:'cost',  label:'$ TAXES',        desc:'state revenue'}
+  ];
+
+  // state datasets — per-state values
+  const states = {
+    GA: {
+      name:'GEORGIA',
+      dcShare: 8.5,    // % of state power going to data centers
+      utilityHit: 8.50, // $/mo per residential customer
+      taxShare: 12.20,  // $/mo per person of DC tax incentives
+      bigNumber: '$1.2B',
+      bigNote: 'in tax incentives for Microsoft, Google, and Meta data centers (2020–2024)',
+      grid: 'Georgia Power · regulated · ratepayers cover capacity expansion'
+    },
+    VA: {
+      name:'VIRGINIA',
+      dcShare: 26,
+      utilityHit: 21.40,
+      taxShare: 18.60,
+      bigNumber: '$929M',
+      bigNote: 'in annual data-center sales-tax exemptions (Loudoun + Prince William)',
+      grid: 'Dominion Energy · 70%+ of new load growth from data centers'
+    },
+    OR: {
+      name:'OREGON',
+      dcShare: 11,
+      utilityHit: 6.20,
+      taxShare: 9.30,
+      bigNumber: '$225M',
+      bigNote: 'in property-tax abatements granted to single data-center site over 15 years',
+      grid: 'PGE · industrial rates absorb shock; residential exposure rising'
+    },
+    IA: {
+      name:'IOWA',
+      dcShare: 14,
+      utilityHit: 7.10,
+      taxShare: 11.50,
+      bigNumber: '$700M',
+      bigNote: 'in sales-tax exemptions to Meta / Microsoft / Google data centers (2008–2024)',
+      grid: 'MidAmerican Energy · wind buildout coupled to DC offtake'
+    }
+  };
+
+  // node detail panels
+  const details = {
+    you1: {
+      label:'NODE · YOU (UPSTREAM)',
+      title:'You · the data source',
+      body:'Every login, scroll, like, save, search, location ping, voice query, and idle moment is captured as <b>free labor</b>. You provide the raw material the entire system processes. No platform pays you for it. <b class="p">You think the platform is free.</b> The platform thinks you are the inventory.',
+      stats:[
+        {v:'2,847', l:'data points / day (avg)'},
+        {v:'$0', l:'paid to you', pink:true}
+      ],
+      who:'Who pays? You — in time, attention, and identity formation handed over for free.'
+    },
+    platform: {
+      label:'NODE · PLATFORM',
+      title:'The platform layer',
+      body:'Facebook, Instagram, TikTok, LinkedIn, YouTube, X, Reddit. Each collects your data <b>for free</b>, hosts it on its own data centers, and either rents the access directly to advertisers or hands packaged versions to brokers. The free product you use is the upstream of an audience-rental factory.',
+      stats:[
+        {v:'$135B', l:'Meta ad revenue · 2024'},
+        {v:'$67B', l:'TikTok est. global · 2024'}
+      ],
+      who:'Who pays? You — by generating the inventory. Advertisers — by renting it. Then you again, when ads raise product prices.'
+    },
+    broker: {
+      label:'NODE · DATA BROKER',
+      title:'The aggregation tier',
+      body:'Acxiom, Experian Marketing Services, Oracle Data Cloud, LiveRamp. They <b>buy data from platforms</b>, fuse it with banking, public records, location, and purchase data, then resell <b>scored audience access</b> at scale. Most people have never heard of them. They have files on virtually every U.S. adult.',
+      stats:[
+        {v:'$280B', l:'global data broker mkt'},
+        {v:'~700', l:'fields per typical profile'}
+      ],
+      who:'Who pays? Advertisers and banks pay brokers. You pay nothing — and have no opt-out.'
+    },
+    buyer: {
+      label:'NODE · AD BUYERS',
+      title:'The demand side',
+      body:'Consumer brands, financial institutions, political operations, streaming platforms, insurers. They pay brokers and platforms <b>per impression, per click, per acquisition</b>. The cost is built into the price you pay for the product they\'re selling. The ad is never free. <b class="p">It is paid for by every customer the product reaches.</b>',
+      stats:[
+        {v:'$300B+', l:'US digital ad spend · 2024'},
+        {v:'~14%', l:'avg consumer price markup attributable to advertising'}
+      ],
+      who:'Who pays? You, every time you buy something whose price quietly includes the ad cost.'
+    },
+    dc: {
+      label:'NODE · DATA CENTERS',
+      title:'The physical substrate',
+      body:'Every byte of data, every ad served, every AI query, every recommendation runs through a <b>physical facility</b>. Owned by Microsoft, Google, Meta, Amazon. Hyperscalers are building <b class="p">faster than the grid can accommodate them</b>. They need: land, electricity, water, fiber, and tax breaks.',
+      stats:[
+        {v:'~4.4%', l:'of US electricity · 2023'},
+        {v:'~12%', l:'projected by 2028'}
+      ],
+      who:'Who pays? You — for power upgrades passed through utilities, and for tax incentives passed through state budgets.'
+    },
+    grid: {
+      label:'NODE · POWER GRID',
+      title:'The shared infrastructure',
+      body:'When a data center moves in, your local grid absorbs the load. Utilities request rate increases to fund the expansion. Approval is typically granted. <b>Residential customers absorb a meaningful share</b> of the cost of building infrastructure that mostly serves the data center. Water consumption follows the same pattern.',
+      stats:[
+        {v:'+$8–22', l:'avg residential bill hit / mo'},
+        {v:'~500K gal', l:'water / day per hyperscale DC'}
+      ],
+      who:'Who pays? You — visible on every utility bill in counties hosting hyperscale facilities.'
+    },
+    tax: {
+      label:'NODE · TAX SUBSIDIES',
+      title:'The public underwriting',
+      body:'State and local governments compete to attract data centers with <b class="p">sales-tax exemptions, property-tax abatements, infrastructure giveaways, and direct grants</b>. The case made to voters is jobs. The actual jobs created per site are typically dozens, not thousands. The forgone revenue could have funded schools and roads.',
+      stats:[
+        {v:'$1.2B', l:'GA DC tax incentives (4yr)'},
+        {v:'~40', l:'permanent jobs / typical hyperscale DC'}
+      ],
+      who:'Who pays? You — through forgone public services that taxes would have funded.'
+    },
+    ai: {
+      label:'NODE · AI HOSTING',
+      title:'The membership layer',
+      body:'AI companies (OpenAI, Anthropic, Google DeepMind) don\'t own most of the data centers they run on — they <b>rent compute</b> from hyperscalers. They then sell access to consumers on a <b class="p">monthly subscription</b>. The cycle that began with your free data ends with you paying $20/month to use a model trained on it.',
+      stats:[
+        {v:'$20–200', l:'consumer AI subs / mo'},
+        {v:'~$0', l:'paid to source data contributors', pink:true}
+      ],
+      who:'Who pays? You — for the model, for the storage, for the electricity, and originally for the training data, none of which was attributed to you.'
+    },
+    you2: {
+      label:'NODE · YOU (DOWNSTREAM)',
+      title:'You · the closing payer',
+      body:'The loop closes here. The same person who provided the upstream data for free now <b class="p">pays the utility surcharge</b> for the data center storing it, <b class="p">pays the tax share</b> of the subsidy that built it, <b class="p">pays the AI subscription</b> that uses it, and <b class="p">pays the markup</b> on every product advertised back through the system. The data was never free.',
+      stats:[
+        {v:'$127.79', l:'monthly cost to you'},
+        {v:'$382.20', l:'monthly value you generate'}
+      ],
+      who:'Net extraction per person, per month: roughly $254 worth of value transferred from you to the system, with no line item on any bill identifying it.'
+    }
+  };
+
+  // render nodes as HTML buttons over the SVG; render arrows in SVG
+  function renderNodes(){
+    const html = Object.entries(nodes).map(([k,n])=>{
+      return `<div class="mf-node ${n.cls||''}" data-id="${k}" style="left:${n.x}%;top:${n.y}%">
+        ${n.label}<span class="sub">${n.sub}</span>
+      </div>`;
+    }).join('');
+    // arrows in SVG
+    let svgPaths = '';
+    let svgDefs = `<defs>
+      <marker id="arrowLime" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c8ff1e"/></marker>
+      <marker id="arrowPink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ff1a6b"/></marker>
+      <marker id="arrowWhite" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#fbf7eb"/></marker>
+    </defs>`;
+    edges.forEach((e,i)=>{
+      const a = nodes[e.from], b = nodes[e.to];
+      // bezier control for curvature
+      const ax = a.x*10, ay = a.y*10; // viewBox 1000 x 1000
+      const bx = b.x*10, by = b.y*10;
+      const mx = (ax+bx)/2, my = (ay+by)/2;
+      // perpendicular offset based on edge index for varied paths
+      const offset = (i % 3 - 1) * 40;
+      const cx = mx + offset;
+      const cy = my + offset * 0.5;
+      const color = e.kind==='cost' ? '#ff1a6b' : (e.kind==='free' ? '#fbf7eb' : '#c8ff1e');
+      const marker = e.kind==='cost' ? 'arrowPink' : (e.kind==='free' ? 'arrowWhite' : 'arrowLime');
+      const dash = e.kind==='free' ? '4 6' : (e.kind==='cost' ? '0' : '0');
+      const opacity = e.kind==='free' ? .6 : .85;
+      svgPaths += `<path d="M ${ax} ${ay} Q ${cx} ${cy} ${bx} ${by}" stroke="${color}" stroke-width="2.2" fill="none" stroke-dasharray="${dash}" opacity="${opacity}" marker-end="url(#${marker})" data-edge="${e.from}-${e.to}" class="mf-path"/>`;
+    });
+
+    const svg = `<svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">${svgDefs}${svgPaths}</svg>`;
+
+    // arrow labels positioned over each midpoint
+    const lblHtml = edges.map((e,i)=>{
+      const a = nodes[e.from], b = nodes[e.to];
+      const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+      const offset = (i % 3 - 1) * 4;
+      const px = mx + offset;
+      const py = my + offset * 0.5;
+      const cls = e.kind === 'cost' ? 'cost' : '';
+      return `<div class="mf-arrow-lbl ${cls}" style="left:${px}%;top:${py}%;transform:translate(-50%,-50%)">${e.label}</div>`;
+    }).join('');
+
+    stage.innerHTML = svg + lblHtml + html;
+
+    // node click handler
+    stage.querySelectorAll('.mf-node').forEach(el=>{
+      el.addEventListener('click',()=>{
+        stage.querySelectorAll('.mf-node').forEach(x=>x.classList.remove('act'));
+        el.classList.add('act');
+        showDetail(el.dataset.id);
+      });
+    });
+  }
+
+  function showDetail(id){
+    const d = details[id];
+    if(!d) return;
+    detailRoot.innerHTML = `
+      <div class="d-label">${d.label}</div>
+      <h4>${d.title}</h4>
+      <div class="stat-row">
+        ${d.stats.map(s=>`<div class="stat"><div class="v ${s.pink?'pink':''}">${s.v}</div><div class="l">${s.l}</div></div>`).join('')}
+      </div>
+      <div class="body">${d.body}</div>
+      <div class="who-pays"><b>WHO PAYS · </b>${d.who}</div>
+    `;
+  }
+
+  // receipt update
+  function updateReceipt(){
+    const st = states[stateSel.value];
+    const pre = document.getElementById('mfRecPre');
+    const youPaid = (47.99 + 20 + 24.30 + st.utilityHit + st.taxShare + 14.80);
+    const youGen = (284.50 + 47.20 + 12.40 + 38.10);
+    const net = youGen - youPaid;
+    pre.innerHTML = `<span class="h">PERSONHOOD, INC.</span>
+========================================
+   MONTHLY EXTRACTION RECEIPT
+   ACCOUNT: 0x4E7C
+   STATE:   ${st.name}
+   PERIOD:  MAY 2026
+========================================
+
+YOU PAID THIS MONTH:
+----------------------------------------
+Streaming subscriptions         $ 47.99
+AI memberships (ChatGPT+)       $ 20.00
+ISP (transit to DCs)            $ 24.30
+Utility share · DC load         $  ${st.utilityHit.toFixed(2)}
+Tax-subsidy share · DC incent.  $ ${st.taxShare.toFixed(2)}
+Hidden ad markup in prices      $ 14.80
+----------------------------------------
+SUBTOTAL                       $${youPaid.toFixed(2).padStart(7)}
+
+YOU GENERATED THIS MONTH:
+----------------------------------------
+Ad inventory value             $284.50
+Broker resale value            $ 47.20
+Training data value            $ 12.40
+Behavioral prediction value    $ 38.10
+----------------------------------------
+TOTAL VALUE GENERATED          $382.20
+
+========================================
+NET EXTRACTION               $${(-net).toFixed(2).padStart(8)}
+========================================
+
+${st.bigNumber} ${st.bigNote.toUpperCase()}.
+
+YOU ARE THE PRODUCT.
+YOU ARE ALSO A CUSTOMER.
+NO REFUNDS.`;
+
+    // update bars
+    const payBar = document.getElementById('payBar');
+    const genBar = document.getElementById('genBar');
+    const payVal = document.getElementById('payVal');
+    const genVal = document.getElementById('genVal');
+    const netVal = document.getElementById('netVal');
+    const max = Math.max(youPaid, youGen);
+    payBar.style.width = (youPaid / max * 100) + '%';
+    genBar.style.width = (youGen / max * 100) + '%';
+    payVal.textContent = '$' + youPaid.toFixed(2);
+    genVal.textContent = '$' + youGen.toFixed(2);
+    netVal.textContent = '$' + Math.abs(net).toFixed(2);
+  }
+
+  // animated flow particles overlay
+  let particles = [];
+  let playing = false;
+  function spawnParticles(){
+    edges.forEach(e=>{
+      const a = nodes[e.from], b = nodes[e.to];
+      const i = edges.indexOf(e);
+      const offset = (i % 3 - 1) * 4;
+      for(let k=0;k<2;k++){
+        particles.push({
+          fromX: a.x, fromY: a.y, toX: b.x, toY: b.y,
+          cx: (a.x+b.x)/2 + offset, cy: (a.y+b.y)/2 + offset*0.5,
+          t: Math.random(),
+          speed: .003 + Math.random()*.004,
+          color: e.kind==='cost' ? '#ff1a6b' : (e.kind==='free' ? '#fbf7eb' : '#c8ff1e')
+        });
+      }
+    });
+  }
+  function animateParticles(){
+    if(!playing){
+      const existing = stage.querySelector('.mf-particle-canvas');
+      if(existing) existing.remove();
+      return;
+    }
+    let pc = stage.querySelector('.mf-particle-canvas');
+    if(!pc){
+      pc = document.createElement('canvas');
+      pc.className = 'mf-particle-canvas';
+      pc.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3';
+      stage.appendChild(pc);
+    }
+    const ctx = pc.getContext('2d');
+    const r = pc.getBoundingClientRect();
+    pc.width = r.width * devicePixelRatio;
+    pc.height = r.height * devicePixelRatio;
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    ctx.clearRect(0,0,r.width,r.height);
+    particles.forEach(p=>{
+      p.t += p.speed;
+      if(p.t > 1) p.t = 0;
+      const inv = 1-p.t;
+      const x = (inv*inv*p.fromX + 2*inv*p.t*p.cx + p.t*p.t*p.toX) / 100 * r.width;
+      const y = (inv*inv*p.fromY + 2*inv*p.t*p.cy + p.t*p.t*p.toY) / 100 * r.height;
+      ctx.beginPath();
+      ctx.arc(x, y, 3.5, 0, Math.PI*2);
+      ctx.fillStyle = p.color;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 12;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+    requestAnimationFrame(animateParticles);
+  }
+
+  playBtn.addEventListener('click',()=>{
+    if(playing){
+      playing = false;
+      playBtn.textContent = '▶ ANIMATE MONEY FLOW';
+    } else {
+      playing = true;
+      playBtn.textContent = '⏸ PAUSE';
+      if(particles.length === 0) spawnParticles();
+      animateParticles();
+    }
+  });
+
+  resetBtn.addEventListener('click',()=>{
+    playing = false;
+    playBtn.textContent = '▶ ANIMATE MONEY FLOW';
+    particles = [];
+    stage.querySelectorAll('.mf-node').forEach(x=>x.classList.remove('act'));
+    showDetail('you1');
+    const pc = stage.querySelector('.mf-particle-canvas');
+    if(pc) pc.remove();
+  });
+
+  stateSel.addEventListener('change', updateReceipt);
+
+  renderNodes();
+  showDetail('you1');
+  stage.querySelector('[data-id="you1"]').classList.add('act');
+  updateReceipt();
+})();
+
+</script>
+</body>
+</html>

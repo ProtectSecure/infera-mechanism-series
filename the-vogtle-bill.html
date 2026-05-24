@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Vogtle Bill — How $36.8B Flowed from a Kitchen Table to a Shareholder Dividend</title>
+<meta name="description" content="An investigation into how 15 years of nuclear cost overruns moved, rate case by rate case, from a Georgia household to a Southern Company dividend payment.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08080a;--bg-soft:#111114;--bg-card:#15151a;
+  --ink:#f0ebe0;--ink-dim:#a8a298;--ink-faint:#5a564e;
+  --rule:#28262a;
+  --d:#d4774a;          /* burden orange */
+  --r:#7a8c6a;
+  --gold:#c4a777;
+  --money:#e0b572;
+  --warning:#b54a3a;    /* alarm */
+  --steam:rgba(212,119,74,.18);
+  --grid:rgba(196,167,119,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-weight:300;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;z-index:0;opacity:.4}
+
+/* TAB NAV */
+.tabnav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,8,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+.tabnav-inner{display:flex;align-items:center;padding:12px 24px;gap:20px;overflow-x:auto;scrollbar-width:none}
+.tabnav-inner::-webkit-scrollbar{display:none}
+.brand{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);white-space:nowrap;text-decoration:none;padding-right:18px;border-right:1px solid var(--rule);display:flex;align-items:center;gap:8px}
+.brand .dot{width:6px;height:6px;background:var(--d);border-radius:50%;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.tab-list{display:flex;gap:2px;flex:1}
+.tab{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);padding:6px 10px;border-radius:2px;text-decoration:none;white-space:nowrap;transition:color .2s,background .2s}
+.tab:hover{color:var(--ink-dim);background:rgba(255,255,255,.04)}
+.tab.active{color:var(--d);background:rgba(212,119,74,.12)}
+.tab-num{font-family:'Fraunces',serif;font-style:italic;margin-right:5px;opacity:.6}
+
+/* HERO */
+.hero{height:100vh;min-height:720px;position:relative;display:grid;grid-template-rows:1fr auto 1fr;padding:80px 6vw 60px;overflow:hidden}
+.hero-canvas{position:absolute;inset:0;z-index:0;opacity:.55}
+.hero-content{position:relative;z-index:2;grid-row:2;text-align:center}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--d);opacity:0;animation:fadeUp 1s ease .4s forwards}
+h1.headline{font-family:'Fraunces',serif;font-weight:350;font-size:clamp(44px,8vw,116px);line-height:.98;letter-spacing:-.035em;margin:22px 0;font-variation-settings:"opsz" 144,"SOFT" 100}
+h1.headline .l{display:block;opacity:0;transform:translateY(40px);animation:dropIn 1.1s cubic-bezier(.2,.8,.2,1) forwards}
+h1.headline .l:nth-child(1){animation-delay:.7s}
+h1.headline .l:nth-child(2){animation-delay:1.1s;color:var(--gold);font-style:italic}
+h1.headline .l:nth-child(3){animation-delay:1.5s;color:var(--d)}
+.hero-sub{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(16px,1.5vw,20px);color:var(--ink-dim);max-width:580px;margin:0 auto;opacity:0;animation:fadeUp 1.2s ease 2.4s forwards;line-height:1.45}
+.scroll-cue{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-faint);opacity:0;animation:fadeUp 1s ease 3.4s forwards,float 2s ease-in-out 4s infinite;z-index:2}
+.scroll-cue::after{content:"↓";display:block;text-align:center;margin-top:6px;font-size:14px}
+@keyframes dropIn{to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-6px)}}
+
+/* PINNED STAGE */
+.stage-section{position:relative;background:var(--bg);overflow:hidden}
+.stage-sticky{position:sticky;top:0;height:100vh;width:60%;float:left;overflow:hidden;background:radial-gradient(ellipse at 30% 50%,#15151c 0%,var(--bg) 70%)}
+.stage-canvas{position:absolute;inset:0;width:100%;height:100%}
+.stage-overlay{position:absolute;inset:0;pointer-events:none;z-index:3}
+.stage-title{position:absolute;top:90px;left:40px;right:40px;pointer-events:none}
+.stage-act{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--d);margin-bottom:6px;transition:opacity .5s}
+.stage-title h2{font-family:'Fraunces',serif;font-weight:350;font-size:26px;line-height:1.15;color:var(--ink);font-style:italic;max-width:340px;transition:opacity .5s}
+.stage-counters{position:absolute;bottom:50px;left:40px;right:40px;display:flex;gap:36px;flex-wrap:wrap}
+.stage-counter{transition:opacity .5s,transform .5s}
+.stage-counter .lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px}
+.stage-counter .val{font-family:'Fraunces',serif;font-weight:400;font-size:26px;color:var(--ink);line-height:1;font-variant-numeric:tabular-nums}
+.stage-counter .val.gold{color:var(--gold)}
+.stage-counter .val.d{color:var(--d)}
+.stage-counter .val.warn{color:var(--warning)}
+
+/* EDITORIAL */
+.editorial{width:40%;float:right;padding:0 5vw 0 4vw}
+.chapter{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 0;opacity:.35;transition:opacity .6s}
+.chapter.active{opacity:1}
+.chapter-marker{font-family:'Fraunces',serif;font-style:italic;font-size:80px;color:var(--ink-faint);line-height:1;margin-bottom:20px;opacity:.35;transition:opacity .6s,color .6s}
+.chapter.active .chapter-marker{opacity:1;color:var(--d)}
+.chapter-stamp{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;display:flex;align-items:baseline;gap:12px}
+.chapter-stamp .gold{color:var(--gold)}
+.chapter h3{font-family:'Fraunces',serif;font-weight:350;font-size:clamp(26px,3vw,36px);line-height:1.1;letter-spacing:-.02em;color:var(--ink);margin-bottom:20px;max-width:22ch}
+.chapter h3 em{color:var(--gold);font-style:italic}
+.chapter h3 .d{color:var(--d);font-style:italic}
+.chapter p{font-size:16px;line-height:1.62;color:var(--ink-dim);margin-bottom:14px;max-width:44ch}
+.chapter p strong{color:var(--ink);font-weight:500}
+.chapter p em{color:var(--gold);font-style:italic}
+.chapter .num-callout{font-family:'Fraunces',serif;font-style:italic;font-weight:300;color:var(--gold)}
+.chapter .citation{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);border:1px solid var(--rule);padding:4px 10px;margin-top:14px;letter-spacing:.1em;border-radius:2px;text-decoration:none}
+.chapter .citation:hover{background:rgba(196,167,119,.08)}
+
+/* INTERLUDE */
+.interlude{clear:both;padding:18vh 6vw;background:var(--bg);border-top:1px solid var(--rule)}
+.interlude-inner{max-width:880px;margin:0 auto}
+.interlude .lead{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(28px,3.8vw,46px);line-height:1.16;color:var(--ink);letter-spacing:-.015em}
+.interlude .lead em{color:var(--d);font-style:italic}
+
+/* DISCIPLINE / SOURCES */
+.discipline{background:var(--bg-soft);padding:14vh 6vw;border-top:1px solid var(--rule)}
+.discipline-inner{max-width:1100px;margin:0 auto}
+.discipline h2{font-family:'Fraunces',serif;font-weight:350;font-size:clamp(36px,4.6vw,56px);line-height:1.05;letter-spacing:-.02em;margin-bottom:18px}
+.discipline h2 em{color:var(--d);font-style:italic;font-weight:300}
+.discipline .lead{font-family:'Fraunces',serif;font-size:18px;color:var(--ink-dim);max-width:64ch;line-height:1.55;margin-bottom:40px}
+.holes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.hole{background:var(--bg);padding:28px 24px}
+.hole .timing{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.hole h4{font-family:'Fraunces',serif;font-weight:400;font-size:19px;line-height:1.15;margin-bottom:8px}
+.hole p{font-size:12px;color:var(--ink-dim);line-height:1.5}
+.hole p a{color:var(--gold);text-decoration:underline}
+
+footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--bg)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;max-width:1200px;margin:0 auto}
+.footer-grid h5{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--d);margin-bottom:14px}
+.footer-grid p{font-family:'Fraunces',serif;font-size:14px;color:var(--ink-dim);line-height:1.5}
+.footer-grid ul{list-style:none}
+.footer-grid li{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);line-height:1.9;letter-spacing:.04em}
+.footer-grid li a{color:inherit;text-decoration:none}
+.footer-grid li a:hover{color:var(--gold)}
+
+@media (max-width:900px){
+  .stage-sticky,.editorial{width:100%;float:none}
+  .stage-sticky{position:relative;height:80vh}
+  .chapter{min-height:auto;padding:60px 24px}
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>INFERA · MECHANISM SERIES</a>
+    <div class="tab-list">
+      <a class="tab" href="index.html"><span class="tab-num">i.</span>Index</a>
+      <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">02</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">03</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">04</span>Coast</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">05</span>Ballot</a>
+      <a class="tab" href="the-runoff-tells.html"><span class="tab-num">06</span>Runoff</a>
+      <a class="tab" href="personhood-inc.html"><span class="tab-num">08</span>Personhood</a>
+      <a class="tab" href="thesis.html"><span class="tab-num">◉</span>Thesis</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <div class="hero-content">
+    <div class="kicker">Issue 09a · Field Investigation · May 2026</div>
+    <h1 class="headline">
+      <span class="l">A bill arrives,</span>
+      <span class="l">again and</span>
+      <span class="l">again and again.</span>
+    </h1>
+    <p class="hero-sub">How $36.8 billion in nuclear cost overruns flowed from a Georgia kitchen table to a shareholder dividend — one rate case at a time, for fifteen years.</p>
+  </div>
+  <div class="scroll-cue">follow the meter</div>
+</section>
+
+<!-- STAGE SECTION -->
+<section class="stage-section">
+  <div class="stage-sticky">
+    <canvas class="stage-canvas" id="stageCanvas"></canvas>
+    <div class="stage-overlay">
+      <div class="stage-title">
+        <div class="stage-act" id="stageAct">ACT · I · THE FILING</div>
+        <h2 id="stageH">A $14 billion promise filed at the Public Service Commission in 2009.</h2>
+      </div>
+      <div class="stage-counters">
+        <div class="stage-counter">
+          <div class="lbl">Year</div>
+          <div class="val" id="cYear">2009</div>
+        </div>
+        <div class="stage-counter">
+          <div class="lbl">Total cost</div>
+          <div class="val gold" id="cCost">$14.0B</div>
+        </div>
+        <div class="stage-counter">
+          <div class="lbl">On the household</div>
+          <div class="val d" id="cHH">$0</div>
+        </div>
+        <div class="stage-counter">
+          <div class="lbl">PSC rate-case votes</div>
+          <div class="val" id="cVotes">0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="editorial">
+    <article class="chapter" id="ch1" data-state="1">
+      <div class="chapter-marker">i.</div>
+      <div class="chapter-stamp"><span class="gold">2009 · the filing</span> · ACT I</div>
+      <h3>Fourteen billion was the <em>promise.</em></h3>
+      <p>In 2009, Southern Company filed its certificate application for Vogtle Units 3 and 4 with the Georgia Public Service Commission. The budget: <strong>$14 billion</strong>. The promise: the first new commercial nuclear reactors built in the United States in three decades, ready by 2016 and 2017.</p>
+      <p>The structure of the deal mattered. Under the original Georgia statute that enabled Vogtle, construction risk sat with the utility's parent company. <em>Ratepayers would begin paying only after the units were producing power.</em></p>
+      <a class="citation" href="https://psc.ga.gov" target="_blank">GA PSC · Docket 27800</a>
+    </article>
+
+    <article class="chapter" id="ch2" data-state="2">
+      <div class="chapter-marker">ii.</div>
+      <div class="chapter-stamp"><span class="gold">2013-2017 · the slip</span> · ACT II</div>
+      <h3>The schedule slipped. The <em>statute</em> changed.</h3>
+      <p>By 2013, the first revision: <strong>+$1 billion</strong>, +2 years. By 2017, Westinghouse — the lead contractor — declared bankruptcy mid-construction. Southern Company assumed direct project management. The legislature passed an amendment to the original Vogtle statute allowing <em>Construction Work In Progress</em> — ratepayer payments to begin before commercial operation.</p>
+      <p>Each rate case after 2017 layered an increment onto the residential bill, while the cumulative project cost crept upward in publicly filed updates.</p>
+      <a class="citation" href="https://www.ajc.com/news/psc-raises-georgia-power-rates-passing-most-plant-vogtle-expansion-costs-on-to-customers/6BAIOWM7J5BVHFZ2UN27KYXENA/" target="_blank">AJC · PSC raises rates for Vogtle</a>
+    </article>
+
+    <article class="chapter" id="ch3" data-state="3">
+      <div class="chapter-marker">iii.</div>
+      <div class="chapter-stamp"><span class="gold">Dec 2023 · the transfer</span> · ACT III</div>
+      <h3>$7.6 billion <span class="d">moved</span><br/>to ratepayer recovery.</h3>
+      <p>December 2023. The PSC voted 4-1 to move <strong>$7.6 billion</strong> of remaining Vogtle costs directly into the rate base. The one dissenting vote was Commissioner Tim Echols. The mechanism was procedural; the effect was a permanent line item on every Georgia Power residential bill.</p>
+      <p>Cumulative final construction cost across both new units: <strong class="num-callout">$36.8 billion</strong>. The original budget — $14 billion — had been exceeded by 163%. The schedule slip was approximately 7 years.</p>
+      <a class="citation" href="https://psc.ga.gov" target="_blank">PSC Order · Dec 2023</a>
+    </article>
+
+    <article class="chapter" id="ch4" data-state="4">
+      <div class="chapter-marker">iv.</div>
+      <div class="chapter-stamp"><span class="gold">Today · the flow</span> · ACT IV</div>
+      <h3>From a kitchen table<br/>to a <em>dividend.</em></h3>
+      <p>An average Georgia household now pays approximately <strong>$420 per year</strong> in Vogtle-attributable charges, embedded in the monthly bill. Multiply that across roughly 2.7 million residential accounts.</p>
+      <p>The dollars flow as designed: Georgia Power recovers <em>~$2.4B annually</em> in Vogtle rate base. Southern Company, the parent corporation, reports consolidated net income near $3.9B and declares <em>~$2.8B</em> in dividends. The three largest institutional shareholders — Vanguard, BlackRock, State Street — together hold approximately 46% of the stock.</p>
+      <p>The asset is real. The <strong>distribution of who paid for it</strong> is the political question.</p>
+      <a class="citation" href="https://www.sec.gov" target="_blank">Southern Co · 10-K · 2024</a>
+    </article>
+  </div>
+</section>
+
+<!-- INTERLUDE -->
+<section class="interlude">
+  <div class="interlude-inner">
+    <p class="lead">Two stories live inside Vogtle. The first is a major piece of long-duration <em>carbon-free infrastructure</em> finished in a country that has not finished one in thirty years. The second is a fifteen-year case study in how regulatory structures quietly transfer risk from equity holders to ratepayers, one rate case at a time. Both are true. The political question is which one gets told.</p>
+  </div>
+</section>
+
+<!-- DISCIPLINE / SOURCES -->
+<section class="discipline">
+  <div class="discipline-inner">
+    <h2>What we <em>read.</em><br/>Where we got it.</h2>
+    <p class="lead">All numbers above are sourced. The primary record sits in PSC dockets and Southern Company SEC filings; the reporting around it is in the AJC, Georgia Recorder, and Utility Dive. Tier 1 sources are primary regulatory or corporate filings; Tier 2 is investigative reporting and expert testimony.</p>
+    <div class="holes">
+      <div class="hole">
+        <div class="timing">T1 · primary record</div>
+        <h4>GA Public Service Commission</h4>
+        <p>Vogtle dockets <strong>27800, 29849, 4218</strong>, including the December 2023 order moving $7.6B to ratepayer recovery. <a href="https://psc.ga.gov" target="_blank">psc.ga.gov</a></p>
+      </div>
+      <div class="hole">
+        <div class="timing">T1 · primary record</div>
+        <h4>Southern Company 10-K</h4>
+        <p>Annual financial reports filed with the SEC, including consolidated net income and Vogtle rate-base disclosures. <a href="https://www.sec.gov" target="_blank">sec.gov</a></p>
+      </div>
+      <div class="hole">
+        <div class="timing">T1 · primary record</div>
+        <h4>NRC operating license</h4>
+        <p>Nuclear Regulatory Commission licensing for Vogtle Units 3 and 4 (issued 2017). Provides 60-80 year operating life basis.</p>
+      </div>
+      <div class="hole">
+        <div class="timing">T2 · investigative</div>
+        <h4>SACE intervenor analysis</h4>
+        <p>Southern Alliance for Clean Energy expert testimony on Vogtle cost recovery. <a href="https://cleanenergy.org" target="_blank">cleanenergy.org</a></p>
+      </div>
+      <div class="hole">
+        <div class="timing">T2 · investigative</div>
+        <h4>AJC · rate-case coverage</h4>
+        <p>Sustained reporting from the Atlanta Journal-Constitution on Vogtle rate cases through the project's life. <a href="https://www.ajc.com" target="_blank">ajc.com</a></p>
+      </div>
+      <div class="hole">
+        <div class="timing">T2 · investigative</div>
+        <h4>13F filings · institutional holders</h4>
+        <p>SEC 13F filings disclose the largest holders of Southern Company stock. Most recent quarter cited from the EDGAR database.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>Infera · Mechanism Series · 09a</h5>
+      <p>An investigation into how regulatory structure quietly transferred fifteen years of nuclear cost overruns from a publicly traded utility's equity holders to the residential customers of Georgia Power.</p>
+    </div>
+    <div>
+      <h5>Financial trilogy</h5>
+      <ul>
+        <li><a href="the-vogtle-bill.html">09a · Vogtle</a></li>
+        <li><a href="the-data-center-load.html">09b · Data Centers</a></li>
+        <li><a href="the-settlement-shrinkage.html">09c · Settlement</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Series</h5>
+      <ul>
+        <li><a href="index.html">Index</a></li>
+        <li><a href="thesis.html">Thesis</a></li>
+        <li><a href="the-runoff-tells.html">06 · Runoff</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ============================================================ HERO CANVAS — drifting cooling-tower steam
+(function(){
+  const c = document.getElementById('heroCanvas'); if(!c) return;
+  const ctx = c.getContext('2d');
+  let W = 0, H = 0;
+  function fit(){
+    const rect = c.getBoundingClientRect();
+    if(rect.width < 10 || rect.height < 10) return;
+    const dpr = window.devicePixelRatio || 1;
+    c.width = Math.round(rect.width * dpr);
+    c.height = Math.round(rect.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    W = rect.width; H = rect.height;
+  }
+  const ro = new ResizeObserver(fit);
+  ro.observe(c);
+  requestAnimationFrame(fit);
+  window.addEventListener('load', fit);
+
+  const particles = [];
+  for(let i=0;i<70;i++) particles.push({
+    x: Math.random(),
+    y: 0.6 + Math.random()*0.5,
+    vy: -0.0003 - Math.random()*0.0005,
+    vx: (Math.random()-.5)*0.0002,
+    r: 10 + Math.random()*36,
+    a: 0.08 + Math.random()*0.14
+  });
+
+  function tick(){
+    if(W < 10){ requestAnimationFrame(tick); return; }
+    ctx.clearRect(0, 0, W, H);
+
+    const grd = ctx.createRadialGradient(W*0.5, H*0.85, 50, W*0.5, H*0.85, W*0.7);
+    grd.addColorStop(0, 'rgba(212,119,74,.18)');
+    grd.addColorStop(1, 'rgba(212,119,74,0)');
+    ctx.fillStyle = grd; ctx.fillRect(0, 0, W, H);
+
+    particles.forEach(p=>{
+      p.x += p.vx; p.y += p.vy;
+      if(p.y < -0.1){ p.y = 1.1; p.x = Math.random(); }
+      ctx.beginPath();
+      ctx.arc(p.x*W, p.y*H, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(196,167,119,${p.a * (p.y < 0.5 ? p.y*2 : 1)})`;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+// ============================================================ STAGE CANVAS — Vogtle cost curve + flow
+(function(){
+  const c = document.getElementById('stageCanvas'); if(!c) return;
+  const ctx = c.getContext('2d');
+  let W = 0, H = 0;
+  function fit(){
+    const rect = c.getBoundingClientRect();
+    if(rect.width < 10 || rect.height < 10) return;
+    const dpr = window.devicePixelRatio || 1;
+    c.width = Math.round(rect.width * dpr);
+    c.height = Math.round(rect.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    W = rect.width; H = rect.height;
+  }
+  const ro = new ResizeObserver(fit);
+  ro.observe(c);
+  requestAnimationFrame(fit);
+  window.addEventListener('load', fit);
+
+  // 1-4 with smooth interpolation
+  let lerp = 1, target = 1;
+
+  const points = [
+    {y:'2009', cost:14},
+    {y:'2013', cost:15.5},
+    {y:'2017', cost:23},
+    {y:'2020', cost:28},
+    {y:'2023', cost:34},
+    {y:'2024', cost:36.8}
+  ];
+
+  const flow = [];
+  for(let i=0;i<55;i++) flow.push({t:Math.random(),speed:0.002+Math.random()*0.003});
+
+  function tick(){
+    if(W < 10){ requestAnimationFrame(tick); return; }
+
+    lerp += (target - lerp) * 0.08;
+    const state = lerp;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // chart geometry — leave room for title (top) and counters (bottom)
+    const padX = W * 0.10;
+    const padTop = 170;
+    const padBot = 140;
+    const chartW = W - padX * 2;
+    const chartH = Math.max(120, H - padTop - padBot);
+    const chartY = padTop;
+
+    // axis
+    ctx.strokeStyle = 'rgba(196,167,119,.12)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padX, chartY+chartH);
+    ctx.lineTo(padX+chartW, chartY+chartH);
+    ctx.stroke();
+
+    // budget reference line
+    const budgetY = chartY + chartH * (1 - 14/40);
+    ctx.strokeStyle = 'rgba(196,167,119,.30)';
+    ctx.setLineDash([4,4]);
+    ctx.beginPath(); ctx.moveTo(padX, budgetY); ctx.lineTo(padX+chartW, budgetY); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.font = '10px JetBrains Mono';
+    ctx.fillStyle = 'rgba(196,167,119,.65)';
+    ctx.fillText('ORIGINAL BUDGET · $14B', padX, budgetY - 6);
+
+    // reveal fraction based on state
+    // state 1 → reveals 1 point, state 2 → up to 3, state 3 → up to 5, state 4 → all 6
+    let revealEnd;
+    if(state < 1.5) revealEnd = 1 + (state - 1) * 2;          // 1..3
+    else if(state < 2.5) revealEnd = 3 + (state - 1.5) * 2;   // 3..5
+    else if(state < 3.5) revealEnd = 5 + (state - 2.5) * 1;   // 5..6
+    else revealEnd = 6;
+    revealEnd = Math.min(6, Math.max(1, revealEnd));
+
+    // build polyline up to revealEnd (interpolated)
+    const wholePts = Math.floor(revealEnd);
+    const frac = revealEnd - wholePts;
+    ctx.strokeStyle = state >= 2.5 ? '#d4774a' : '#c4a777';
+    ctx.lineWidth = 2.6;
+    ctx.beginPath();
+    for(let i = 0; i < wholePts; i++){
+      const p = points[i];
+      const x = padX + (i/(points.length-1)) * chartW;
+      const y = chartY + chartH * (1 - p.cost/40);
+      if(i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    // partial segment
+    if(wholePts < points.length && frac > 0.02){
+      const a = points[wholePts-1] || points[0];
+      const b = points[Math.min(wholePts, points.length-1)];
+      const ax = padX + ((wholePts-1)/(points.length-1)) * chartW;
+      const ay = chartY + chartH * (1 - a.cost/40);
+      const bx = padX + (wholePts/(points.length-1)) * chartW;
+      const by = chartY + chartH * (1 - b.cost/40);
+      const ix = ax + (bx-ax) * frac;
+      const iy = ay + (by-ay) * frac;
+      ctx.lineTo(ix, iy);
+    }
+    ctx.stroke();
+
+    // dots for revealed points
+    for(let i = 0; i < wholePts; i++){
+      const p = points[i];
+      const x = padX + (i/(points.length-1)) * chartW;
+      const y = chartY + chartH * (1 - p.cost/40);
+      const isLast = i === points.length-1;
+      ctx.fillStyle = state >= 2.5 && isLast ? '#d4774a' : '#c4a777';
+      ctx.beginPath(); ctx.arc(x, y, isLast ? 6 : 3.5, 0, Math.PI*2); ctx.fill();
+      ctx.font = '9px JetBrains Mono';
+      ctx.fillStyle = 'rgba(168,162,152,.75)';
+      ctx.fillText(p.y, x - 14, chartY + chartH + 18);
+    }
+
+    // state 3+ transfer marker (between 2023 and 2024 ≈ index 4)
+    if(state >= 2.5){
+      const alpha = Math.min(1, (state - 2.5) * 2);
+      const transferX = padX + (4/(points.length-1)) * chartW;
+      const transferY = chartY + chartH * (1 - 34/40);
+      ctx.strokeStyle = `rgba(181,74,58,${alpha})`;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([2,4]);
+      ctx.beginPath(); ctx.moveTo(transferX, transferY-26); ctx.lineTo(transferX, chartY+chartH); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.font = '11px Fraunces';
+      ctx.fillStyle = `rgba(212,119,74,${alpha})`;
+      ctx.fillText('$7.6B → ratepayers', transferX-56, transferY-32);
+    }
+
+    // final $36.8B label appears as we get past state 2.7
+    if(state >= 2.7){
+      const alpha = Math.min(1, (state - 2.7) * 2);
+      const lastX = padX + chartW;
+      const lastY = chartY + chartH * (1 - 36.8/40);
+      ctx.font = '20px Fraunces';
+      ctx.fillStyle = `rgba(212,119,74,${alpha})`;
+      ctx.textAlign = 'right';
+      ctx.fillText('$36.8B', lastX, lastY - 14);
+      ctx.textAlign = 'left';
+    }
+
+    // state 4: flow particles from base to top-right
+    if(state >= 3.2){
+      const alpha = Math.min(1, (state - 3.2) * 3);
+      flow.forEach(p=>{
+        p.t += p.speed;
+        if(p.t > 1) p.t = 0;
+        const sx = padX + chartW * 0.1;
+        const sy = chartY + chartH * 0.92;
+        const ex = padX + chartW * 0.90;
+        const ey = chartY + chartH * 0.10;
+        const x = sx + (ex - sx) * p.t;
+        const y = sy + (ey - sy) * p.t + Math.sin(p.t * 6.28) * 24;
+        ctx.beginPath();
+        ctx.arc(x, y, 2.5, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(224,181,114,${(0.4 + p.t*0.5) * alpha})`;
+        ctx.shadowColor = '#e0b572';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      ctx.font = '10px JetBrains Mono';
+      ctx.fillStyle = `rgba(168,162,152,${alpha})`;
+      ctx.fillText('HOUSEHOLD', padX, chartY + chartH + 40);
+      ctx.fillStyle = `rgba(212,119,74,${alpha})`;
+      ctx.textAlign = 'right';
+      ctx.fillText('SHAREHOLDER', padX + chartW, chartY + 6);
+      ctx.textAlign = 'left';
+    }
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // ===== CHAPTER OBSERVER =====
+  const stageH = document.getElementById('stageH');
+  const stageAct = document.getElementById('stageAct');
+  const cYear = document.getElementById('cYear');
+  const cCost = document.getElementById('cCost');
+  const cHH = document.getElementById('cHH');
+  const cVotes = document.getElementById('cVotes');
+
+  const STATES = {
+    1: { act:'ACT · I · THE FILING', h:'A $14 billion promise filed at the Public Service Commission in 2009.', year:'2009', cost:'$14.0B', hh:'$0', votes:'0' },
+    2: { act:'ACT · II · THE SLIP',   h:'The schedule slipped. Westinghouse went bankrupt. The statute changed.', year:'2017', cost:'$23.0B', hh:'$180', votes:'4' },
+    3: { act:'ACT · III · THE TRANSFER', h:'A 4–1 PSC vote moved $7.6 billion of remaining cost into the rate base.', year:'2023', cost:'$34.0B', hh:'$320', votes:'7' },
+    4: { act:'ACT · IV · THE FLOW',   h:'$420 per household per year now flows toward a $2.8B annual dividend.', year:'2024', cost:'$36.8B', hh:'$420', votes:'8' }
+  };
+
+  function setState(n){
+    target = n;
+    const s = STATES[n];
+    stageAct.textContent = s.act;
+    stageH.textContent = s.h;
+    cYear.textContent = s.year;
+    cCost.textContent = s.cost;
+    cHH.textContent = s.hh;
+    cVotes.textContent = s.votes;
+  }
+
+  const chapters = document.querySelectorAll('.chapter');
+  const chObs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        chapters.forEach(c=>c.classList.remove('active'));
+        e.target.classList.add('active');
+        const n = +e.target.dataset.state;
+        setState(n);
+      }
+    });
+  }, { threshold: 0.5 });
+  chapters.forEach(c => chObs.observe(c));
+})();
+</script>
+
+</body>
+</html>
