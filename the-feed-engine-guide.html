@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>THE OTHER INTERNET — A Field Manual for Re-Entering Shared Reality · Infera / Episode 02 Companion</title>
+<meta name="description" content="The companion field manual to The Feed Engine. Six sections, fourteen pages, one printable weekly discipline. How to re-author your information diet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf7eb;
+  --paper:#ffffff;
+  --ink:#0a0a0a;
+  --ink-soft:#3a3a3f;
+  --ink-faint:#7a7a82;
+  --rule:#d8d2bf;
+  --rule-strong:#0a0a0a;
+  --cobalt:#1e3cff;
+  --pink:#ff1a6b;
+  --lime:#c8ff1e;
+  --yellow:#ffd500;
+  --display:'Archivo Black','Helvetica Neue',sans-serif;
+  --sans:'Space Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --italic:'Instrument Serif',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{padding:40px 20px 60px}
+a{color:var(--cobalt);text-decoration:underline}
+::selection{background:var(--cobalt);color:var(--paper)}
+
+/* The "document" container — mimics page layout in browser, true page breaks in print */
+.doc{max-width:780px;margin:0 auto;background:var(--paper);border:2px solid var(--ink);padding:0}
+
+/* On-screen page breaks rendered as visible rules; print uses page-break */
+.page{padding:64px 56px 56px;border-bottom:1px dashed var(--rule);position:relative}
+.page:last-child{border-bottom:none}
+.page-tag{position:absolute;top:18px;right:24px;font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);font-weight:700}
+.page-tag .pg-num{color:var(--cobalt);margin-left:14px}
+
+/* COVER */
+.cover{padding:80px 56px 64px;background:var(--ink);color:var(--paper);position:relative}
+.cover .brand-bar{font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--lime);margin-bottom:32px;display:flex;justify-content:space-between;align-items:center}
+.cover .brand-bar .dot{display:inline-block;width:10px;height:10px;background:var(--cobalt);border-radius:50%;margin-right:8px;vertical-align:middle}
+.cover .micro{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--cobalt);text-transform:uppercase;margin-bottom:14px}
+.cover h1{font-family:var(--display);font-size:clamp(46px,8vw,84px);line-height:.88;letter-spacing:-.04em;margin-bottom:8px}
+.cover h1 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--cobalt)}
+.cover .sub{font-family:var(--italic);font-style:italic;font-size:clamp(18px,2vw,24px);line-height:1.35;color:rgba(251,247,235,.85);max-width:42ch;margin-top:24px}
+.cover .meta{margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding-top:24px;border-top:1px solid rgba(251,247,235,.18);font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(251,247,235,.55)}
+.cover .meta strong{display:block;color:var(--paper);font-family:var(--display);font-size:14px;letter-spacing:-.005em;margin-top:5px;text-transform:none}
+
+/* TYPOGRAPHY */
+.eye{font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--cobalt);font-weight:700;margin-bottom:10px;display:inline-flex;align-items:center;gap:10px}
+.eye::before{content:"";width:24px;height:1px;background:var(--cobalt)}
+.h2{font-family:var(--display);font-size:clamp(34px,5vw,56px);line-height:.95;letter-spacing:-.035em;margin-bottom:22px;color:var(--ink)}
+.h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--cobalt)}
+.h3{font-family:var(--display);font-size:22px;line-height:1.05;letter-spacing:-.02em;margin-bottom:10px;color:var(--ink)}
+.h3 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.lead{font-family:var(--italic);font-style:italic;font-size:clamp(18px,2vw,24px);line-height:1.4;color:var(--ink);margin-bottom:24px;max-width:52ch}
+.lead b{font-style:normal;background:var(--cobalt);color:var(--paper);padding:0 8px;font-family:var(--sans);font-weight:700}
+.body p{font-size:15px;line-height:1.62;color:var(--ink-soft);margin-bottom:14px;max-width:60ch}
+.body p strong{color:var(--ink);font-weight:600}
+.body p em{font-family:var(--italic);font-style:italic;color:var(--cobalt)}
+.pull{font-family:var(--italic);font-style:italic;font-size:22px;line-height:1.35;color:var(--ink);border-left:3px solid var(--cobalt);padding:8px 0 8px 22px;margin:22px 0;max-width:38ch}
+.pull b{font-style:normal;font-family:var(--sans);font-weight:700;background:var(--ink);color:var(--paper);padding:0 6px}
+
+/* MAP DIAGRAM */
+.layer-map{margin-top:24px;display:grid;grid-template-columns:auto 1fr;gap:0;border:2px solid var(--ink)}
+.layer-row{display:contents}
+.layer-row .n{padding:18px 16px;background:var(--ink);color:var(--cobalt);font-family:var(--display);font-size:32px;letter-spacing:-.04em;border-bottom:1px solid rgba(251,247,235,.18);text-align:center;min-width:64px;display:flex;align-items:center;justify-content:center}
+.layer-row:last-child .n{border-bottom:none}
+.layer-row .v{padding:18px 22px;border-bottom:1px solid var(--rule);background:var(--paper)}
+.layer-row:last-child .v{border-bottom:none}
+.layer-row .v .name{font-family:var(--display);font-size:15px;letter-spacing:-.005em;color:var(--ink)}
+.layer-row .v .name .what{color:var(--cobalt);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-left:10px;font-weight:700}
+.layer-row .v p{font-family:var(--sans);font-size:13.5px;line-height:1.5;color:var(--ink-soft);margin-top:4px}
+
+/* PRACTICE PAGES */
+.practice-head{display:flex;align-items:baseline;gap:20px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.practice-head .num{font-family:var(--display);font-size:68px;line-height:.85;letter-spacing:-.05em;color:var(--cobalt)}
+.practice-head .verb{font-family:var(--display);font-size:32px;line-height:.92;letter-spacing:-.025em;color:var(--ink)}
+.practice-head .verb em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--cobalt);margin-left:10px}
+.practice-frame{font-family:var(--italic);font-style:italic;font-size:18px;color:var(--ink);margin-bottom:18px;max-width:42ch;line-height:1.4}
+.practice-do{margin-top:18px;padding:18px;background:var(--bg);border-left:3px solid var(--cobalt)}
+.practice-do .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--cobalt);margin-bottom:8px;font-weight:700}
+.practice-do ul{list-style:none;padding:0}
+.practice-do li{font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--ink);padding:6px 0;display:grid;grid-template-columns:18px 1fr;gap:10px}
+.practice-do li::before{content:"→";color:var(--cobalt);font-weight:700;font-family:var(--display)}
+.practice-do li b{font-weight:700;color:var(--ink)}
+
+/* TOOLS LIST */
+.tools-grid{display:grid;grid-template-columns:1fr;gap:0;margin-top:18px;border-top:2px solid var(--ink)}
+.tool-cat{padding:20px 0;border-bottom:1px solid var(--rule)}
+.tool-cat:last-child{border-bottom:none}
+.tool-cat .cat-head{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--cobalt);font-weight:700;margin-bottom:10px}
+.tool-cat .cat-desc{font-family:var(--italic);font-style:italic;font-size:14px;color:var(--ink-soft);margin-bottom:14px;max-width:54ch}
+.tool-list{display:grid;grid-template-columns:1fr;gap:6px}
+.tool-list .tool{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:baseline;padding:6px 0;font-family:var(--sans);font-size:14px}
+.tool-list .tool .nm{font-family:var(--display);color:var(--ink);font-size:14.5px;letter-spacing:-.005em}
+.tool-list .tool .desc{color:var(--ink-soft);line-height:1.4}
+.tool-list .tool .pri{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--cobalt);font-weight:700;white-space:nowrap}
+.tool-list .tool .pri.free{color:#2a8a3a}
+.tool-list .tool .pri.paid{color:var(--pink)}
+
+/* FRIDGE CARD (page 11) */
+.fridge{margin:32px 0 0;padding:36px;background:var(--ink);color:var(--paper);position:relative;border:none}
+.fridge-card{padding:32px;background:var(--paper);color:var(--ink);border:2px dashed var(--cobalt);position:relative}
+.fridge-card::before,.fridge-card::after{content:"";position:absolute;width:18px;height:18px;background:var(--ink);border-radius:50%;border:2px dashed var(--cobalt)}
+.fridge-card::before{top:-10px;left:30px}
+.fridge-card::after{top:-10px;right:30px}
+.fridge .scissors{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--cobalt);text-align:center;margin-bottom:18px;letter-spacing:1em}
+.fridge-card .card-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.fridge-card .card-head .t{font-family:var(--display);font-size:22px;letter-spacing:-.02em}
+.fridge-card .card-head .t em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--cobalt)}
+.fridge-card .card-head .ix{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--cobalt);font-weight:700}
+.week-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.day-card{padding:18px 16px;background:var(--bg);border-left:3px solid var(--cobalt)}
+.day-card .day{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--cobalt);margin-bottom:6px;font-weight:700}
+.day-card .do{font-family:var(--display);font-size:16px;letter-spacing:-.015em;line-height:1.2;margin-bottom:4px}
+.day-card .why{font-family:var(--italic);font-style:italic;font-size:12.5px;line-height:1.4;color:var(--ink-soft)}
+.fridge-card .foot{margin-top:20px;padding-top:14px;border-top:1px dashed var(--rule);font-family:var(--italic);font-style:italic;font-size:13px;color:var(--ink-soft);text-align:center}
+
+/* CIVIC FRAME */
+.civic-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+.civic-stat{padding:18px 16px;background:var(--paper);border:2px solid var(--ink)}
+.civic-stat .v{font-family:var(--display);font-size:34px;line-height:.9;letter-spacing:-.035em;color:var(--cobalt)}
+.civic-stat .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:8px;line-height:1.5}
+
+.bridge-card{margin-top:28px;padding:24px;background:var(--ink);color:var(--paper)}
+.bridge-card .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--cobalt);margin-bottom:8px;font-weight:700}
+.bridge-card h3{font-family:var(--display);font-size:24px;line-height:1;letter-spacing:-.02em;margin-bottom:10px}
+.bridge-card h3 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--cobalt)}
+.bridge-card p{font-family:var(--italic);font-style:italic;font-size:14.5px;line-height:1.45;color:rgba(251,247,235,.8)}
+
+/* BACK COVER */
+.back-cover{padding:64px 56px;background:var(--bg);border-top:2px solid var(--ink)}
+.back-cover .ix{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--cobalt);margin-bottom:24px;font-weight:700}
+.back-cover h2{font-family:var(--display);font-size:clamp(28px,4vw,42px);line-height:.95;letter-spacing:-.03em;margin-bottom:18px}
+.back-cover h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--cobalt)}
+.back-cover p{font-family:var(--italic);font-style:italic;font-size:16px;line-height:1.45;color:var(--ink);max-width:48ch;margin-bottom:14px}
+.back-cover .colophon{margin-top:48px;padding-top:24px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);line-height:1.8}
+
+/* PRINT STYLES */
+@page{size:Letter;margin:0.6in}
+@media print{
+  body{padding:0;background:var(--paper)}
+  .doc{max-width:none;border:none;margin:0}
+  .page{padding:0 0 24px;border-bottom:none;page-break-after:always}
+  .page:last-child{page-break-after:auto}
+  .cover{page-break-after:always}
+  .back-cover{page-break-before:always}
+  .no-print{display:none}
+}
+
+/* WEB-ONLY UI */
+.web-bar{max-width:780px;margin:0 auto 18px;padding:14px 22px;background:var(--ink);color:var(--paper);display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;gap:14px;flex-wrap:wrap}
+.web-bar a{color:var(--cobalt);text-decoration:none}
+.web-bar a:hover{color:var(--lime)}
+.web-bar .home{font-family:var(--display);font-size:13px;letter-spacing:-.005em;color:var(--paper)}
+.web-bar button{font-family:var(--display);font-size:11px;letter-spacing:.04em;padding:8px 14px;background:var(--lime);color:var(--ink);border:none;cursor:pointer}
+
+@media (max-width:780px){
+  .page,.cover,.back-cover{padding:40px 22px}
+  .week-grid,.civic-stat-row{grid-template-columns:1fr;gap:10px}
+  .tool-list .tool{grid-template-columns:1fr;gap:2px}
+  .tool-list .tool .pri{justify-self:start}
+}
+</style>
+</head>
+<body>
+
+<div class="web-bar no-print">
+  <a class="home" href="the-feed-engine.html">← back to The Feed Engine</a>
+  <span>Companion field manual · ≈14 pages · printable</span>
+  <button onclick="window.print()">PRINT TO PDF</button>
+</div>
+
+<div class="doc">
+
+<!-- ============================== COVER ============================== -->
+<section class="cover">
+  <div class="brand-bar">
+    <span><span class="dot"></span>INFERA · MACHINE-READABLE · EPISODE 02 COMPANION</span>
+    <span>MAY 2026</span>
+  </div>
+  <div class="micro">A FIELD MANUAL</div>
+  <h1>THE OTHER<br/><em>INTERNET.</em></h1>
+  <div class="sub">How to re-enter the same internet as other people — six sections, fourteen pages, one printable weekly discipline. Built for the reader who finished The Feed Engine and is asking: <b>now what?</b></div>
+  <div class="meta">
+    <div>Sections<strong>Six</strong></div>
+    <div>Reading time<strong>~22 minutes</strong></div>
+    <div>One thing to do<strong>The fridge card on page 11</strong></div>
+  </div>
+</section>
+
+<!-- ============================== 01 · DIAGNOSIS ============================== -->
+<section class="page">
+  <div class="page-tag">SECTION 01 · DIAGNOSIS<span class="pg-num">PAGE 02</span></div>
+  <div class="eye">01 · the diagnosis</div>
+  <h2 class="h2">What just happened to you<br/>on <em>The Feed Engine.</em></h2>
+  <p class="lead">You didn't pick the world you were shown. <b>You also weren't manipulated.</b> You were served convenience, and convenience compounded into a private reality.</p>
+  <div class="body">
+    <p>The Feed Engine showed you two phones in the same city on the same day. The headlines were different. The ads were different. The prices were different. The framings of the same events were different. No memo was written that said <em>show this person worse choices.</em> Nothing about the result required malice.</p>
+    <p>What it required was scale, optimization, and your <strong>consent</strong> — given thousands of times, in millisecond increments, every time you tapped on something and every time you didn't. Your information environment is now the artifact of those consents.</p>
+    <div class="pull">The trade-off was convenience. <b>The cost was shared reality.</b></div>
+    <p>This manual is not about deleting apps. Most of the apps will stay. This is about <strong>rebuilding the diet that runs through them</strong> — and rebuilding it in a way that is small enough to actually maintain.</p>
+    <p>Six sections. Fourteen pages. One printable card. By the end, you'll have a single weekly discipline that can survive the moment a week from now when you've forgotten you read this.</p>
+  </div>
+</section>
+
+<!-- ============================== 02 · THE MAP ============================== -->
+<section class="page">
+  <div class="page-tag">SECTION 02 · THE MAP<span class="pg-num">PAGE 03</span></div>
+  <div class="eye">02 · the map</div>
+  <h2 class="h2">Five layers of <em>curation</em><br/>in a normal day.</h2>
+  <p class="lead">Most readers think their information diet has two ingredients: the news they read and the social posts they scroll. The honest count is closer to <b>five</b>.</p>
+  <div class="body">
+    <p>Each of these five layers is making editorial decisions about what reaches you — and each is optimized for a different outcome. Some serve the platform, some serve the advertiser, some serve themselves at your expense. Knowing which is which is half the battle.</p>
+  </div>
+
+  <div class="layer-map">
+    <div class="layer-row">
+      <div class="n">01</div>
+      <div class="v">
+        <div class="name">PLATFORM RECOMMENDATIONS<span class="what">"FOR YOU"</span></div>
+        <p>What TikTok, YouTube, Instagram, Netflix, and Spotify decide you'll watch / hear next. Optimized for retention, not relevance.</p>
+      </div>
+    </div>
+    <div class="layer-row">
+      <div class="n">02</div>
+      <div class="v">
+        <div class="name">SOCIAL FEEDS<span class="what">"FRIENDS"</span></div>
+        <p>What of your network's content the algorithm surfaces and what it suppresses. Most posts you've never seen.</p>
+      </div>
+    </div>
+    <div class="layer-row">
+      <div class="n">03</div>
+      <div class="v">
+        <div class="name">SEARCH RESULTS<span class="what">"ANSWERS"</span></div>
+        <p>What Google, ChatGPT, Perplexity, and TikTok-search return to your questions — and which sources they trust. Personalized more than you think.</p>
+      </div>
+    </div>
+    <div class="layer-row">
+      <div class="n">04</div>
+      <div class="v">
+        <div class="name">AD INVENTORY<span class="what">"OFFERS"</span></div>
+        <p>What products you're shown, at what prices, under what framings. The most directly economic of the five layers.</p>
+      </div>
+    </div>
+    <div class="layer-row">
+      <div class="n">05</div>
+      <div class="v">
+        <div class="name">PRICE DISCRIMINATION<span class="what">"DEALS"</span></div>
+        <p>Same product, different price, different person. Airline fares, ride-share, streaming subscriptions, even some retail. Often undetectable without comparison.</p>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:24px;font-family:var(--italic);font-style:italic;font-size:16px;color:var(--ink);max-width:54ch">Your first surprise on reading this list: <em>there is less unmediated input in a normal day than you imagined.</em> That's the honest baseline. Now we work from it.</p>
+</section>
+
+<!-- ============================== 03 · PRACTICE 01 · ROTATE ============================== -->
+<section class="page">
+  <div class="page-tag">SECTION 03 · PRACTICE 01<span class="pg-num">PAGE 04</span></div>
+  <div class="eye">03 · the five practices · one of five</div>
+  <div class="practice-head">
+    <div class="num">01</div>
+    <div class="verb">ROTATE <em>· one alternative source per topic per week.</em></div>
+  </div>
+  <p class="practice-frame">If you read about politics from one source, read about politics from a different source on Friday. If you get tech news from one publication, get it from a second one this week. Not "instead of" — "in addition to."</p>
+  <div class="body">
+    <p>The reason rotation matters is that <strong>tone, framing, and selection</strong> diverge far more than facts do. Same election. Same earnings report. Same supreme court ruling. Read about it from three places and the differences in <em>which facts get emphasized</em> tell you something the facts themselves never would.</p>
+    <p>You are not trying to read every perspective. You are trying to disrupt the one your algorithm has narrowed you to. <strong>One additional source per topic per week</strong> is enough to bend the curve. Less than that and the algorithm wins; more than that and you'll quit.</p>
+  </div>
+  <div class="practice-do">
+    <div class="lbl">DO THIS WEEK</div>
+    <ul>
+      <li>Pick <b>one topic</b> you already follow (e.g. AI, your city's politics, climate, a sport).</li>
+      <li>Pick <b>one publication you've never read</b> that covers it (the tools page has suggestions).</li>
+      <li>Read one of their long pieces on the topic. Don't skim. Read.</li>
+      <li>Notice what they emphasized that your usual source didn't.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================== 03 · PRACTICE 02 · TRIANGULATE ============================== -->
+<section class="page">
+  <div class="page-tag">SECTION 03 · PRACTICE 02<span class="pg-num">PAGE 05</span></div>
+  <div class="eye">03 · the five practices · two of five</div>
+  <div class="practice-head">
+    <div class="num">02</div>
+    <div class="verb">TRIANGULATE <em>· read the same story across three outlets.</em></div>
+  </div>
+  <p class="practice-frame">When a story actually matters to you — before you form an opinion, before you share it, before you argue about it — read it from three different outlets, ideally with three different editorial leans.</p>
+  <div class="body">
+    <p>Most arguments online are between people who read different summaries of the same source material. The argument feels substantive but it isn't, because the underlying disagreement is about <em>which facts surfaced first.</em></p>
+    <p>Triangulation breaks that pattern. You don't have to read three full articles. Often three headlines and three lede paragraphs are enough to show you the <strong>shape</strong> of the disagreement — and once you see the shape, you stop being inside it.</p>
+  </div>
+  <div class="practice-do">
+    <div class="lbl">DO THIS WEEK</div>
+    <ul>
+      <li>Find a story you might share or argue about today.</li>
+      <li>Open it in <b>Ground News</b> or <b>AllSides</b> (page 09) — both show coverage spread.</li>
+      <li>Read the headline and first paragraph from one left-leaning, one centrist, and one right-leaning source.</li>
+      <li>Decide what you think <em>after</em> the triangulation — not before.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================== 03 · PRACTICE 03 · AUDIT ============================== -->
+<section class="page">
+  <div class="page-tag">SECTION 03 · PRACTICE 03<span class="pg-num">PAGE 06</span></div>
+  <div class="eye">03 · the five practices · three of five</div>
+  <div class="practice-head">
+    <div class="num">03</div>
+    <div class="verb">AUDIT <em>· monthly reset of your feed inputs.</em></div>
+  </div>
+  <p class="practice-frame">Once a month, deliberately review what's feeding your feeds. Unfollow what doesn't compound. Unsubscribe from what arrives but never gets read. Revoke app permissions you forgot you granted.</p>
+  <div class="body">
+    <p>Your information diet has accumulated by default. Most of the accounts you follow, sites you subscribe to, and apps that have access to your data — you didn't deliberately choose. You consented once, in a moment, and they've been with you since.</p>
+    <p>A monthly audit re-asserts authorship. The point is not to minimize — it's to <strong>re-decide</strong>. The accounts you actively pick after a year of drift are very different from the ones you picked in a hurry the first time.</p>
+  </div>
+  <div class="practice-do">
+    <div class="lbl">MONTHLY · 30 MINUTES</div>
+    <ul>
+      <li><b>Social:</b> unfollow 5 accounts that no longer compound. Add 1 that does.</li>
+      <li><b>Email:</b> open the last 20 newsletters in your inbox. Unsubscribe from any you didn't open this month.</li>
+      <li><b>Permissions:</b> review which apps have location / contacts / camera / mic access. Revoke any you don't actively need.</li>
+      <li><b>Subscriptions:</b> open your phone Settings → Subscriptions. Cancel one. (There's always one.)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================== 03 · PRACTICE 04 · SLOW ============================== -->
+<section class="page">
+  <div class="page-tag">SECTION 03 · PRACTICE 04<span class="pg-num">PAGE 07</span></div>
+  <div class="eye">03 · the five practices · four of five</div>
+  <div class="practice-head">
+    <div class="num">04</div>
+    <div class="verb">SLOW <em>· chronological feeds, scheduled checking, inserted friction.</em></div>
+  </div>
+  <p class="practice-frame">The algorithm needs your speed. Slow it down and you starve it. Switch your feeds to chronological order where you can. Batch your checking. Add small barriers to the apps that make you scroll without choosing to.</p>
+  <div class="body">
+    <p>The algorithm's edge is the gap between your finger landing on the screen and your brain catching up. Every fraction of a second of inserted friction — a 5-second app delay, a hidden app icon, a closed tab, a chronological feed instead of a "for you" feed — moves a decision from <em>autopilot</em> into <em>awareness.</em></p>
+    <p>Awareness is the one variable the system cannot optimize around.</p>
+  </div>
+  <div class="practice-do">
+    <div class="lbl">DO THIS WEEK</div>
+    <ul>
+      <li><b>Switch Instagram and X to "Following" instead of "For You"</b> at least until next week.</li>
+      <li>Move social apps off your phone home screen. Put one boring screen between you and them.</li>
+      <li>Use a <b>screen-time limit</b> on the apps you scroll most. (iOS Screen Time · Android Digital Wellbeing.)</li>
+      <li>Pick <b>one window per day</b> for email and news. Outside that window, don't open them.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================== 03 · PRACTICE 05 · CROSS ============================== -->
+<section class="page">
+  <div class="page-tag">SECTION 03 · PRACTICE 05<span class="pg-num">PAGE 08</span></div>
+  <div class="eye">03 · the five practices · five of five</div>
+  <div class="practice-head">
+    <div class="num">05</div>
+    <div class="verb">CROSS <em>· deliberately consume what your cluster doesn't.</em></div>
+  </div>
+  <p class="practice-frame">Once a week, deliberately read or watch something that the algorithm would never serve you. Different politics. Different class. Different region. Different generation.</p>
+  <div class="body">
+    <p>This is the practice the system cannot help you with — because it has no way to model the value of breadth. Its incentive is to make you predictable. Yours, here, is the opposite.</p>
+    <p>Crossing doesn't mean accepting. It means <strong>encountering</strong>. Read what people unlike you are reading, watch what they're watching, before you decide what you think of them. Most of what looks like ideological disagreement online is actually <em>asymmetric exposure to different information environments</em>. Cross the gap regularly and the disagreement looks smaller.</p>
+  </div>
+  <div class="practice-do">
+    <div class="lbl">DO THIS WEEK</div>
+    <ul>
+      <li>Read <b>one substantive piece</b> from a publication associated with a politics you disagree with.</li>
+      <li>Watch <b>one long-form video</b> by a creator outside your demographic.</li>
+      <li>Have <b>one conversation</b> with someone whose feed you'd guess looks nothing like yours. Ask what's in it.</li>
+      <li>Notice what you assumed about that world that turned out to be wrong.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================== 04 · TOOLS ============================== -->
+<section class="page">
+  <div class="page-tag">SECTION 04 · TOOLS<span class="pg-num">PAGE 09</span></div>
+  <div class="eye">04 · the tools</div>
+  <h2 class="h2">A short list,<br/><em>opinionated.</em></h2>
+  <p class="lead">Not exhaustive. Every tool below is one I would point a friend at. Most are free. The paid ones are flagged.</p>
+
+  <div class="tools-grid">
+
+    <div class="tool-cat">
+      <div class="cat-head">CROSS-PERSPECTIVE NEWS</div>
+      <div class="cat-desc">See the political-bias spread on any story before forming a view.</div>
+      <div class="tool-list">
+        <div class="tool"><span class="nm">Ground News</span><span class="desc">groundnews.com · bias-spread per story, side-by-side coverage comparison</span><span class="pri free">FREE · paid tier</span></div>
+        <div class="tool"><span class="nm">AllSides</span><span class="desc">allsides.com · left / center / right rated coverage on the same headline</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">Tangle</span><span class="desc">readtangle.com · daily email · one issue, both sides, then editor's opinion</span><span class="pri free">FREE · paid tier</span></div>
+        <div class="tool"><span class="nm">1440</span><span class="desc">join1440.com · facts-only daily email, no editorial framing</span><span class="pri free">FREE</span></div>
+      </div>
+    </div>
+
+    <div class="tool-cat">
+      <div class="cat-head">ALGORITHM-FREE READING</div>
+      <div class="cat-desc">Replace algorithm-curated feeds with chronological, direct, or RSS-based ones.</div>
+      <div class="tool-list">
+        <div class="tool"><span class="nm">Feedly · Inoreader</span><span class="desc">RSS readers · subscribe directly to publications, no algorithmic re-ranking</span><span class="pri free">FREE · paid tier</span></div>
+        <div class="tool"><span class="nm">Mastodon</span><span class="desc">joinmastodon.org · social network, strictly chronological feed, no algorithm</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">Substack · email</span><span class="desc">substack.com · direct subscription to specific writers, no platform feed in the middle</span><span class="pri free">FREE · paid optional</span></div>
+        <div class="tool"><span class="nm">NetNewsWire</span><span class="desc">netnewswire.com · clean Mac/iOS RSS reader, open source</span><span class="pri free">FREE</span></div>
+      </div>
+    </div>
+
+    <div class="tool-cat">
+      <div class="cat-head">SEARCH ALTERNATIVES</div>
+      <div class="cat-desc">Reduce dependence on Google's personalized + ad-heavy results.</div>
+      <div class="tool-list">
+        <div class="tool"><span class="nm">Kagi</span><span class="desc">kagi.com · paid search, no ads, high quality results, ranking transparency</span><span class="pri paid">$10/mo</span></div>
+        <div class="tool"><span class="nm">DuckDuckGo</span><span class="desc">duckduckgo.com · privacy-respecting, no tracking, no personalization</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">Marginalia</span><span class="desc">marginalia.nu · indexes the small web — personal sites, blogs, weird corners</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">Brave Search</span><span class="desc">search.brave.com · independent index, no profile-based personalization</span><span class="pri free">FREE</span></div>
+      </div>
+    </div>
+
+    <div class="tool-cat">
+      <div class="cat-head">PRICE & PERSONALIZATION DETECTION</div>
+      <div class="cat-desc">Catch dynamic pricing in the moment.</div>
+      <div class="tool-list">
+        <div class="tool"><span class="nm">Incognito + main side-by-side</span><span class="desc">open the same product / flight in two browsers · note any price difference</span><span class="pri free">FREE · 30 sec</span></div>
+        <div class="tool"><span class="nm">Camelcamelcamel</span><span class="desc">camelcamelcamel.com · Amazon price history charts, alert at target price</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">VPN routing through another state</span><span class="desc">e.g. ProtonVPN, Mullvad · helpful for travel pricing comparisons</span><span class="pri paid">$5-10/mo</span></div>
+      </div>
+    </div>
+
+    <div class="tool-cat">
+      <div class="cat-head">LOCAL CIVIC RE-ENGAGEMENT</div>
+      <div class="cat-desc">Local news + local government is the one news layer the algorithm undersupplies hardest.</div>
+      <div class="tool-list">
+        <div class="tool"><span class="nm">Documenters Network</span><span class="desc">documenters.org · trained citizens covering local government meetings</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">BallotReady</span><span class="desc">ballotready.org · every race on your ballot, every candidate, in one place</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">BallotPedia</span><span class="desc">ballotpedia.org · nonpartisan election + policy encyclopedia</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">League of Women Voters</span><span class="desc">lwv.org · local chapters, voter guides, candidate forums</span><span class="pri free">FREE</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== 04 · TOOLS (more) ============================== -->
+<section class="page">
+  <div class="page-tag">SECTION 04 · TOOLS<span class="pg-num">PAGE 10</span></div>
+  <div class="eye">04 · the tools · continued</div>
+
+  <div class="tools-grid">
+
+    <div class="tool-cat">
+      <div class="cat-head">INVESTIGATIVE TECH JOURNALISM</div>
+      <div class="cat-desc">When you want to know what's actually happening inside the systems you use.</div>
+      <div class="tool-list">
+        <div class="tool"><span class="nm">The Markup</span><span class="desc">themarkup.org · investigative reporting on algorithms, with data + methodology</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">AlgorithmWatch</span><span class="desc">algorithmwatch.org · Europe-based algorithmic accountability research</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">Mozilla Foundation</span><span class="desc">foundation.mozilla.org · annual *Privacy Not Included* guides + research</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">EFF · Electronic Frontier Foundation</span><span class="desc">eff.org · digital civil liberties, "Cover Your Tracks" browser test, opt-out guides</span><span class="pri free">FREE</span></div>
+      </div>
+    </div>
+
+    <div class="tool-cat">
+      <div class="cat-head">DATA-BROKER OPT-OUTS</div>
+      <div class="cat-desc">Slow, ugly, worth doing once a year.</div>
+      <div class="tool-list">
+        <div class="tool"><span class="nm">Privacy Rights Clearinghouse</span><span class="desc">privacyrights.org · maintained directory of data brokers + opt-out links</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">DeleteMe</span><span class="desc">joindeleteme.com · paid service that handles opt-outs across ~30 brokers</span><span class="pri paid">$129/yr</span></div>
+        <div class="tool"><span class="nm">Just Delete Me</span><span class="desc">justdeleteme.xyz · directory of how to delete accounts on common services</span><span class="pri free">FREE</span></div>
+        <div class="tool"><span class="nm">Have I Been Pwned</span><span class="desc">haveibeenpwned.com · check if your email appears in known data breaches</span><span class="pri free">FREE</span></div>
+      </div>
+    </div>
+
+    <div class="tool-cat">
+      <div class="cat-head">FOR THE DEEPER READER</div>
+      <div class="cat-desc">Books that built the vocabulary for what The Feed Engine is showing.</div>
+      <div class="tool-list">
+        <div class="tool"><span class="nm">The Filter Bubble · Eli Pariser</span><span class="desc">2011 · the foundational essay-as-book on personalization's civic cost</span><span class="pri">BOOK</span></div>
+        <div class="tool"><span class="nm">Stolen Focus · Johann Hari</span><span class="desc">2022 · attention as a finite resource being mined at industrial scale</span><span class="pri">BOOK</span></div>
+        <div class="tool"><span class="nm">How to Do Nothing · Jenny Odell</span><span class="desc">2019 · contemplative manifesto for resisting the attention economy</span><span class="pri">BOOK</span></div>
+        <div class="tool"><span class="nm">The Age of Surveillance Capitalism · Shoshana Zuboff</span><span class="desc">2019 · the long version of what Infera is calling "Personhood, Inc."</span><span class="pri">BOOK</span></div>
+        <div class="tool"><span class="nm">Amusing Ourselves to Death · Neil Postman</span><span class="desc">1985 · still the sharpest critique of how mediums shape thought</span><span class="pri">BOOK</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== 05 · THE FRIDGE CARD ============================== -->
+<section class="page" style="background:var(--ink);color:var(--paper);padding:0">
+  <div class="page-tag" style="color:rgba(251,247,235,.5)">SECTION 05 · THE WEEKLY DISCIPLINE<span class="pg-num" style="color:var(--cobalt)">PAGE 11</span></div>
+
+  <div class="fridge">
+    <div class="scissors">— — — — — — — — — — — cut along the dashed line — — — — — — — — — — —</div>
+    <div class="fridge-card">
+      <div class="card-head">
+        <div class="t">The <em>Weekly Discipline</em></div>
+        <div class="ix">PRINT · POST · KEEP</div>
+      </div>
+      <div class="week-grid">
+        <div class="day-card">
+          <div class="day">MONDAY</div>
+          <div class="do">Read one outside source.</div>
+          <div class="why">A publication you've never read on a topic you already follow.</div>
+        </div>
+        <div class="day-card">
+          <div class="day">WEDNESDAY</div>
+          <div class="do">Compare one price.</div>
+          <div class="why">Same product, two browsers (incognito + main). Note any delta.</div>
+        </div>
+        <div class="day-card">
+          <div class="day">FRIDAY</div>
+          <div class="do">Cross one cluster.</div>
+          <div class="why">A conversation, an article, or a video by someone unlike you.</div>
+        </div>
+        <div class="day-card">
+          <div class="day">SUNDAY</div>
+          <div class="do">A scroll-free morning.</div>
+          <div class="why">Thirty minutes after waking. No phone. Just see what you actually want to do.</div>
+        </div>
+      </div>
+      <div class="foot">— Four practices · four days · about ninety minutes a week. The whole field manual fits on this card. —</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== 06 · CIVIC FRAME ============================== -->
+<section class="page">
+  <div class="page-tag">SECTION 06 · CIVIC FRAME<span class="pg-num">PAGE 12</span></div>
+  <div class="eye">06 · the civic frame</div>
+  <h2 class="h2">Why this matters past<br/>individual <em>hygiene.</em></h2>
+  <p class="lead">A shared reality is the <b>civic precondition</b> for democracy. The information you consume becomes the votes you cast, the policies you defend, the neighbors you trust.</p>
+  <div class="body">
+    <p>Democracy is not the act of voting. Voting is the visible part. Democracy is the much longer act of forming a view about your community, your country, and your shared situation that is <strong>compatible enough</strong> with everyone else's view to negotiate decisions together.</p>
+    <p>That negotiation depends on a baseline of shared information. When that baseline diverges to the degree The Feed Engine demonstrated — when two neighbors are quite literally inhabiting different epistemic worlds — the negotiation breaks. Not because either neighbor is wrong. Because they don't have the materials to recognize what the disagreement is actually about.</p>
+    <div class="pull">You are not just protecting yourself.<br/>You are protecting <b>the possibility of shared facts.</b></div>
+
+    <div class="civic-stat-row">
+      <div class="civic-stat">
+        <div class="v">~50%</div>
+        <div class="l">of US adults get most of their news from social media, where the algorithm is the editor</div>
+      </div>
+      <div class="civic-stat">
+        <div class="v">3.4×</div>
+        <div class="l">faster spread of false information than true information on major platforms, per MIT study</div>
+      </div>
+      <div class="civic-stat">
+        <div class="v">~14%</div>
+        <div class="l">average product price markup attributable to advertising — built into what you pay</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== 06 · CIVIC FRAME · cont ============================== -->
+<section class="page">
+  <div class="page-tag">SECTION 06 · CIVIC FRAME<span class="pg-num">PAGE 13</span></div>
+  <div class="eye">06 · the civic frame · continued</div>
+  <div class="body">
+    <p>The practices in this manual are individually small. Their power is that they are <strong>compatible with a full life</strong> — they don't require leaving social media, deleting smartphones, moving off-grid, or pretending you don't enjoy the convenience. They require, instead, that you act as the <em>editor</em> of your own information diet at least once a week, with a printed card on your fridge.</p>
+    <p>This is the soft version of cognitive sovereignty. The hard version costs years of practice and a different relationship with your phone. The soft version costs roughly ninety minutes a week and gives you, in exchange, the recoverable thing: <strong>the ability to know what you've been shown, and to choose, occasionally, to be shown something else.</strong></p>
+    <p>That's the leverage. That's what the system cannot auto-correct around. Awareness, exercised in small ritual, scaled to the day.</p>
+  </div>
+
+  <div class="bridge-card">
+    <div class="lbl">UP NEXT · MACHINE-READABLE / EPISODE 03</div>
+    <h3>The <em>Trust</em> Market.</h3>
+    <p>Reputation becomes currency. Hiring systems, insurance, loans, dating apps, background scoring. The future may not deny you publicly — it may quietly rank you lower. We'll show you how, and what to do about it. Drafting now · ships 2026.</p>
+  </div>
+</section>
+
+<!-- ============================== BACK COVER ============================== -->
+<section class="back-cover">
+  <div class="ix">END · INFERA / EPISODE 02 / FIELD COMPANION</div>
+  <h2>You did not pick the system.<br/>You can <em>still re-author</em><br/>what runs through it.</h2>
+  <p>One source rotated. One price triangulated. One conversation across the gap. One scroll-free morning. That's the protocol. The rest is just whether you do it.</p>
+  <p>If this manual helped, the most useful thing you can do is hand it to one other person. The signal of someone you trust telling you to read it cuts through more cleanly than any algorithm ever will.</p>
+  <div class="colophon">
+    INFERA · MACHINE-READABLE · EPISODE 02 COMPANION<br/>
+    THE OTHER INTERNET · A FIELD MANUAL · MAY 2026<br/>
+    SET IN ARCHIVO BLACK · SPACE GROTESK · JETBRAINS MONO · INSTRUMENT SERIF<br/>
+    NOT FOR RESALE · DISTRIBUTE FREELY
+  </div>
+</section>
+
+</div>
+
+</body>
+</html>

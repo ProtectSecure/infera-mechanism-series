@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MACHINE-READABLE — a seven-part investigation into invisible systems shaping modern life</title>
+<meta name="description" content="A new universe from Infera. Seven interconnected episodes — each revealing one layer of the operating system that quietly classifies, sorts, prices, and shapes you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;
+  --bg-soft:#15151a;
+  --bg-card:#1a1a1f;
+  --ink:#f0ebe0;
+  --ink-dim:#a8a298;
+  --ink-faint:#5a564e;
+  --rule:#28262a;
+  --lime:#c8ff1e;
+  --pink:#ff1a6b;
+  --cobalt:#1e3cff;
+  --yellow:#ffd500;
+  --tomato:#ff3a2e;
+  --black:#0a0a0a;
+  --gold:#c4a777;
+  --display:'Archivo Black','Helvetica Neue',sans-serif;
+  --sans:'Space Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --italic:'Instrument Serif',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-size:15px;line-height:1.55}
+::selection{background:var(--lime);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+
+/* =========================================================== NAV */
+.nav{position:sticky;top:0;z-index:90;display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+.nav .brand{font-family:var(--display);font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.nav .brand .d{width:11px;height:11px;background:var(--lime);border-radius:50%;box-shadow:0 0 0 3px var(--bg),0 0 0 4px var(--ink)}
+.nav .links{display:flex;gap:24px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.nav .links a{color:var(--ink-faint);transition:color .2s}
+.nav .links a:hover{color:var(--lime)}
+.nav .links a.live{color:var(--lime)}
+.nav .infera{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+
+/* =========================================================== HERO */
+.hero{padding:120px 28px 100px;border-bottom:1px solid var(--rule);position:relative;overflow:hidden}
+.hero canvas.hero-bg{position:absolute;inset:0;z-index:0;opacity:.5}
+.hero-inner{position:relative;z-index:2;max-width:1280px;margin:0 auto}
+.hero .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--lime);margin-bottom:32px;display:inline-flex;align-items:center;gap:14px}
+.hero .eyebrow::before{content:"";width:32px;height:1px;background:var(--lime)}
+.hero h1{font-family:var(--display);font-size:clamp(72px,14vw,220px);line-height:.82;letter-spacing:-.05em}
+.hero h1 .l1{color:var(--ink);display:block}
+.hero h1 .l2{display:block;font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime);font-size:1.05em;margin-left:.15em}
+.hero .dek{margin-top:48px;font-family:var(--italic);font-style:italic;font-size:clamp(22px,2.4vw,32px);line-height:1.3;color:var(--ink);max-width:42ch}
+.hero .dek b{font-style:normal;background:var(--lime);color:var(--bg);padding:1px 8px;font-family:var(--sans);font-weight:700}
+.hero-foot{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:64px;padding-top:32px;border-top:1px solid var(--rule)}
+.hero-foot .m{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);line-height:1.7}
+.hero-foot .m strong{display:block;color:var(--ink);font-size:13px;letter-spacing:.04em;text-transform:none;font-family:var(--display);font-weight:400;margin-top:4px}
+
+/* =========================================================== THESIS */
+.thesis{padding:120px 28px;background:var(--bg-soft);border-bottom:1px solid var(--rule)}
+.thesis-inner{max-width:1100px;margin:0 auto}
+.thesis-tag{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--lime);margin-bottom:18px}
+.thesis h2{font-family:var(--display);font-size:clamp(40px,5.5vw,80px);line-height:.95;letter-spacing:-.035em;margin-bottom:32px;color:var(--ink)}
+.thesis h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.thesis p{font-family:var(--italic);font-style:italic;font-size:clamp(20px,2vw,28px);line-height:1.4;color:var(--ink-dim);margin-bottom:24px;max-width:54ch}
+.thesis p b{font-style:normal;color:var(--ink);background:rgba(200,255,30,.15);padding:0 6px;font-family:var(--sans);font-weight:600}
+
+/* =========================================================== EPISODES */
+.episodes{padding:120px 28px;border-bottom:1px solid var(--rule)}
+.ep-head{max-width:1100px;margin:0 auto 64px}
+.ep-head .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--lime);margin-bottom:14px}
+.ep-head h2{font-family:var(--display);font-size:clamp(40px,5vw,72px);line-height:.95;letter-spacing:-.03em}
+.ep-head h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.ep-head .dek{font-family:var(--italic);font-style:italic;font-size:18px;color:var(--ink-dim);margin-top:14px;max-width:60ch;line-height:1.5}
+
+.ep-grid{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.ep{display:grid;grid-template-columns:120px 1fr 200px;gap:32px;padding:32px;background:var(--bg-card);align-items:center;transition:.25s;position:relative}
+.ep:hover{background:var(--bg-soft);transform:translateX(4px)}
+.ep.live{background:var(--bg-soft)}
+.ep.live:hover{background:#1f1f25}
+.ep .num{font-family:var(--display);font-size:64px;line-height:.85;letter-spacing:-.04em;color:var(--ep-color, var(--ink-faint))}
+.ep .info h3{font-family:var(--display);font-size:32px;line-height:1.02;letter-spacing:-.025em;margin-bottom:6px;color:var(--ink)}
+.ep .info h3 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--ep-color, var(--lime))}
+.ep .info .quote{font-family:var(--italic);font-style:italic;font-size:16px;line-height:1.35;color:var(--ink-dim);margin-bottom:8px}
+.ep .info .quote b{font-style:normal;font-family:var(--sans);font-weight:600;color:var(--ep-color, var(--lime))}
+.ep .info .what{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:8px}
+.ep .status{text-align:right}
+.ep .status .badge{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;padding:6px 12px;font-weight:700}
+.ep.live .status .badge{background:var(--lime);color:var(--bg)}
+.ep.drafting .status .badge{background:rgba(168,162,152,.12);color:var(--ink-dim);border:1px solid var(--rule)}
+.ep .status .meta{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:10px;line-height:1.6}
+.ep.live .status .meta{color:var(--lime)}
+.ep .arrow{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-family:var(--display);font-size:24px;color:var(--ink-faint);opacity:0;transition:opacity .2s,transform .2s;display:none}
+@media (min-width:1100px){
+  .ep.live .arrow{display:block;opacity:.5}
+  .ep.live:hover .arrow{opacity:1;transform:translateY(-50%) translateX(4px)}
+}
+
+.ep[data-ep="1"]{--ep-color:var(--lime)}
+.ep[data-ep="2"]{--ep-color:var(--cobalt)}
+.ep[data-ep="3"]{--ep-color:var(--yellow)}
+.ep[data-ep="4"]{--ep-color:var(--pink)}
+.ep[data-ep="5"]{--ep-color:var(--tomato)}
+.ep[data-ep="6"]{--ep-color:var(--gold)}
+.ep[data-ep="7"]{--ep-color:#7a8c6a}
+
+/* =========================================================== FLOW MAP */
+.flow{padding:120px 28px;background:var(--bg-soft);border-bottom:1px solid var(--rule)}
+.flow-inner{max-width:900px;margin:0 auto;text-align:center}
+.flow .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--lime);margin-bottom:14px}
+.flow h2{font-family:var(--display);font-size:clamp(36px,4.6vw,64px);line-height:.95;letter-spacing:-.03em;margin-bottom:48px}
+.flow h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.flow-arc{display:flex;flex-direction:column;gap:0;align-items:center}
+.flow-step{padding:18px 28px;background:var(--bg-card);border:1px solid var(--rule);font-family:var(--display);font-size:18px;letter-spacing:-.015em;color:var(--ink);min-width:360px;text-align:center}
+.flow-step em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.flow-step.live{border-color:var(--lime);color:var(--ink)}
+.flow-step .quote{display:block;font-family:var(--italic);font-style:italic;font-size:14px;color:var(--ink-dim);font-weight:400;margin-top:4px;letter-spacing:0}
+.flow-arr{padding:8px 0;font-family:var(--display);color:var(--ink-faint);font-size:20px}
+
+/* =========================================================== WHAT IS THIS */
+.what{padding:120px 28px;border-bottom:1px solid var(--rule)}
+.what-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:start}
+.what .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--lime);margin-bottom:14px}
+.what h2{font-family:var(--display);font-size:clamp(36px,5vw,68px);line-height:.95;letter-spacing:-.03em;margin-bottom:28px}
+.what h2 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.what p{font-family:var(--sans);font-size:17px;line-height:1.6;color:var(--ink-dim);margin-bottom:18px;max-width:48ch}
+.what p b{color:var(--ink);font-weight:600}
+.what p em{font-family:var(--italic);font-style:italic;color:var(--lime)}
+.what .principles{display:flex;flex-direction:column;gap:14px;padding:24px;background:var(--bg-card);border:1px solid var(--rule)}
+.what .principle{display:flex;gap:14px;align-items:flex-start}
+.what .principle .n{font-family:var(--display);font-size:24px;color:var(--lime);letter-spacing:-.02em;line-height:1;min-width:32px}
+.what .principle .t{font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--ink-dim)}
+.what .principle .t b{color:var(--ink);font-family:var(--display);font-weight:400;display:block;margin-bottom:4px;letter-spacing:-.01em;font-size:14.5px}
+
+/* =========================================================== FOOTER */
+footer{padding:60px 28px;background:#000;color:var(--ink-faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+footer a{color:var(--gold)}
+
+@media (max-width:1100px){
+  .hero-foot{grid-template-columns:repeat(2,1fr);gap:18px}
+  .ep{grid-template-columns:60px 1fr;gap:18px;padding:24px}
+  .ep .status{grid-column:2;text-align:left;display:flex;gap:14px;align-items:center}
+  .what-inner{grid-template-columns:1fr;gap:32px}
+  .flow-step{min-width:auto;width:100%}
+  .nav .links{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="machine-readable.html"><span class="d"></span>MACHINE-READABLE</a>
+  <div class="links">
+    <a class="live" href="personhood-inc.html">01 · Personhood Inc.</a>
+    <a class="live" href="the-feed-engine.html">02 · Feed Engine</a>
+    <a href="#future">03–07 · Coming</a>
+  </div>
+  <div class="infera"><a href="index.html">← INFERA</a></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas class="hero-bg" id="heroCanvas"></canvas>
+  <div class="hero-inner">
+    <div class="eyebrow">Vol. 02 · A NEW UNIVERSE FROM INFERA · MAY 2026</div>
+    <h1>
+      <span class="l1">MACHINE-</span>
+      <span class="l2">readable.</span>
+    </h1>
+    <p class="dek">A seven-part investigation into the <b>invisible systems</b> that classify, sort, price, and shape every modern life. Each episode is an interactive experience. Together, they form one connected universe.</p>
+    <div class="hero-foot">
+      <div class="m">Episodes<strong>7 total · 2 live</strong></div>
+      <div class="m">Format<strong>Interactive systems documentary</strong></div>
+      <div class="m">Continuity<strong>Your persona carries across</strong></div>
+      <div class="m">Length<strong>≈14 min each</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- THESIS -->
+<section class="thesis">
+  <div class="thesis-inner">
+    <div class="thesis-tag">THE THESIS</div>
+    <h2>Most journalism explains systems.<br/>This series makes you <em>feel them.</em></h2>
+    <p>You don't read about how a recommender system works. You <b>become</b> the input. You don't watch a documentary about psychographic clusters. You <b>get sorted</b> into one, in front of yourself, with your own choices.</p>
+    <p>The line at the end of Episode 01 — <em>"You are not on the same internet as them"</em> — is the thesis sentence of the whole series. Each episode picks up where the previous one ended and reveals another layer of the operating system.</p>
+    <p>This isn't a website. It's a <b>civic intelligence universe</b>. You walk in. You take an action. You see something you didn't know existed. You carry that knowledge into the next episode. Eventually the system reacts to you.</p>
+  </div>
+</section>
+
+<!-- EPISODES -->
+<section class="episodes" id="episodes">
+  <div class="ep-head">
+    <div class="lbl">THE SEVEN EPISODES</div>
+    <h2>Seven hidden <em>layers</em>.<br/>One operating system.</h2>
+    <div class="dek">Each episode reveals one structural mechanism shaping how modern life is sorted, valued, and steered. Start with Episode 01; the persona you pick there will carry through every episode that follows.</div>
+  </div>
+
+  <div class="ep-grid">
+
+    <a class="ep live" href="personhood-inc.html" data-ep="1">
+      <div class="num">01</div>
+      <div class="info">
+        <h3>Personhood, <em>Inc.</em></h3>
+        <div class="quote"><b>"I am being modeled."</b> Your identity is no longer private.</div>
+        <div class="what">PIPELINE · DECISION · SIGNALS · CONVERGENCE · JOURNEY · FEED · CASCADE · RECEIPTS · CLASS · SHIELD</div>
+      </div>
+      <div class="status">
+        <div class="badge">LIVE</div>
+        <div class="meta">10 stages · ≈14 min</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="ep live" href="the-feed-engine.html" data-ep="2">
+      <div class="num">02</div>
+      <div class="info">
+        <h3>The <em>Feed</em> Engine.</h3>
+        <div class="quote"><b>"My reality is being shaped."</b> Same city, same day, two completely different worlds.</div>
+        <div class="what">PHONE 1 vs PHONE 2 · NEWS · ADS · PRICES · FRAMES · DIVERGENCE QUANTIFIED</div>
+      </div>
+      <div class="status">
+        <div class="badge">LIVE</div>
+        <div class="meta">3 stages · ≈8 min</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <div class="ep drafting" data-ep="3">
+      <div class="num">03</div>
+      <div class="info">
+        <h3>The <em>Trust</em> Market.</h3>
+        <div class="quote"><b>"My opportunities are being ranked."</b> Reputation becomes currency — hiring, insurance, loans, dating apps.</div>
+        <div class="what">SCORING SYSTEMS · INVISIBLE INELIGIBILITY · ALGORITHMIC CREDIBILITY</div>
+      </div>
+      <div class="status">
+        <div class="badge">DRAFTING</div>
+        <div class="meta">In the field · 2026</div>
+      </div>
+    </div>
+
+    <div class="ep drafting" data-ep="4">
+      <div class="num">04</div>
+      <div class="info">
+        <h3>The <em>Influence</em> War.</h3>
+        <div class="quote"><b>"My emotions are being manipulated."</b> Attention is geopolitical. Outrage is engineered. Persuasion is industrialized.</div>
+        <div class="what">CAMPAIGN AMPLIFICATION · NARRATIVE OPERATIONS · EMOTIONAL CONTAGION</div>
+      </div>
+      <div class="status">
+        <div class="badge">DRAFTING</div>
+        <div class="meta">In the field · 2026</div>
+      </div>
+    </div>
+
+    <div class="ep drafting" data-ep="5">
+      <div class="num">05</div>
+      <div class="info">
+        <h3>The <em>Class</em> Engine.</h3>
+        <div class="quote"><b>"My future is being economically stratified."</b> Housing, jobs, healthcare access — quietly varied by signal.</div>
+        <div class="what">DIGITAL CASTE · COMPOUNDING OPTIMIZATION · OPPORTUNITY VARIANCE</div>
+      </div>
+      <div class="status">
+        <div class="badge">DRAFTING</div>
+        <div class="meta">Researching · 2026</div>
+      </div>
+    </div>
+
+    <div class="ep drafting" data-ep="6">
+      <div class="num">06</div>
+      <div class="info">
+        <h3>The <em>Synthetic</em> Self.</h3>
+        <div class="quote"><b>"My identity is becoming reproducible."</b> AI clones, predictive personalities, identity persistence after death.</div>
+        <div class="what">PREDICTIVE PERSONALITY · SYNTHETIC COMPANIONSHIP · MEMORY RECONSTRUCTION</div>
+      </div>
+      <div class="status">
+        <div class="badge">DRAFTING</div>
+        <div class="meta">Researching · 2026</div>
+      </div>
+    </div>
+
+    <div class="ep drafting" data-ep="7" id="future">
+      <div class="num">07</div>
+      <div class="info">
+        <h3>The <em>Governance</em> Layer.</h3>
+        <div class="quote"><b>"Who owns this system?"</b> AI governance, digital sovereignty, algorithmic regulation, the politics of the operating system.</div>
+        <div class="what">CORPORATE POWER · DECENTRALIZED IDENTITY · DEMOCRATIC OVERSIGHT</div>
+      </div>
+      <div class="status">
+        <div class="badge">DRAFTING</div>
+        <div class="meta">Outlining · late 2026</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FLOW MAP -->
+<section class="flow">
+  <div class="flow-inner">
+    <div class="lbl">THE NARRATIVE ARC</div>
+    <h2>Each episode is the <em>consequence</em><br/>of the one before.</h2>
+    <div class="flow-arc">
+      <div class="flow-step live"><em>01</em> · IDENTITY <span class="quote">I am being modeled.</span></div>
+      <div class="flow-arr">↓</div>
+      <div class="flow-step live"><em>02</em> · FEEDS <span class="quote">My reality is being shaped.</span></div>
+      <div class="flow-arr">↓</div>
+      <div class="flow-step"><em>03</em> · TRUST <span class="quote">My opportunities are being ranked.</span></div>
+      <div class="flow-arr">↓</div>
+      <div class="flow-step"><em>04</em> · INFLUENCE <span class="quote">My emotions are being manipulated.</span></div>
+      <div class="flow-arr">↓</div>
+      <div class="flow-step"><em>05</em> · CLASS <span class="quote">My future is being economically stratified.</span></div>
+      <div class="flow-arr">↓</div>
+      <div class="flow-step"><em>06</em> · SELF <span class="quote">My identity is becoming reproducible.</span></div>
+      <div class="flow-arr">↓</div>
+      <div class="flow-step"><em>07</em> · GOVERNANCE <span class="quote">Who owns this system?</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IS THIS -->
+<section class="what">
+  <div class="what-inner">
+    <div>
+      <div class="lbl">WHAT THIS ACTUALLY IS</div>
+      <h2>An <em>interactive civic-intelligence universe.</em></h2>
+      <p>Each episode is built as a participatory experiment, not a passive read. You make choices. The system remembers them. The next episode picks up where the last one ended — sometimes literally, in the bridge line; sometimes structurally, by inheriting your <em>persona</em>, your <em>data trail</em>, and the <em>class</em> you've been sorted into.</p>
+      <p>This is the format we believe modern journalism actually needs: <b>simulation with citation</b>. Every claim has a paper trail (see Episode 01, Stage 08). Every interaction reveals a real mechanism. Nothing is fictional — only re-presented in a way that makes the invisible feelable.</p>
+    </div>
+    <div class="principles">
+      <div class="principle"><div class="n">01</div><div class="t"><b>Persistent identity memory.</b> Your persona from Episode 01 carries into every subsequent episode. The system remembers.</div></div>
+      <div class="principle"><div class="n">02</div><div class="t"><b>Bridge lines.</b> Each episode opens with the line the previous episode closed on. The series reads as one continuous argument.</div></div>
+      <div class="principle"><div class="n">03</div><div class="t"><b>Receipts mandatory.</b> Every claim about a system is paired with a sourced real-world case — FTC actions, court filings, regulatory dockets, academic findings.</div></div>
+      <div class="principle"><div class="n">04</div><div class="t"><b>Simulation is the delivery medium.</b> Not because invented worlds are entertaining — because they make abstract architectures emotionally legible.</div></div>
+      <div class="principle"><div class="n">05</div><div class="t"><b>The user is complicit, not just victim.</b> Each episode includes a choice that implicates the user in the system being shown.</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>INFERA · MACHINE-READABLE · A UNIVERSE</div>
+  <div>VOL. 02 · MAY 2026</div>
+  <div><a href="index.html">← Back to Infera index</a> · SET IN ARCHIVO BLACK · INSTRUMENT SERIF · SPACE GROTESK · JETBRAINS MONO</div>
+</footer>
+
+<script>
+// hero canvas — drifting geometric noise
+(function(){
+  const c = document.getElementById('heroCanvas'); if(!c) return;
+  const ctx = c.getContext('2d');
+  let W = 0, H = 0;
+  function fit(){
+    const rect = c.getBoundingClientRect();
+    if(rect.width < 10) return;
+    const dpr = window.devicePixelRatio || 1;
+    c.width = Math.round(rect.width * dpr);
+    c.height = Math.round(rect.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    W = rect.width; H = rect.height;
+  }
+  const ro = new ResizeObserver(fit); ro.observe(c); requestAnimationFrame(fit);
+
+  const palette = ['#c8ff1e','#ff1a6b','#1e3cff','#ffd500','#ff3a2e','#c4a777'];
+  const shapes = [];
+  for(let i=0;i<28;i++) shapes.push({
+    x:Math.random(),y:Math.random(),
+    vx:(Math.random()-.5)*.00012,vy:(Math.random()-.5)*.00012,
+    size:8+Math.random()*54,
+    kind:Math.floor(Math.random()*3),
+    color:palette[Math.floor(Math.random()*palette.length)],
+    alpha:.10+Math.random()*.14,
+    rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.0018
+  });
+
+  function tick(){
+    if(W < 10){ requestAnimationFrame(tick); return; }
+    ctx.clearRect(0,0,W,H);
+    shapes.forEach(s=>{
+      s.x += s.vx; s.y += s.vy; s.rot += s.vr;
+      if(s.x<-.1)s.x=1.1; if(s.x>1.1)s.x=-.1; if(s.y<-.1)s.y=1.1; if(s.y>1.1)s.y=-.1;
+      ctx.save(); ctx.translate(s.x*W, s.y*H); ctx.rotate(s.rot);
+      ctx.globalAlpha = s.alpha; ctx.fillStyle = s.color;
+      if(s.kind===0) ctx.fillRect(-s.size/2,-s.size/2,s.size,s.size);
+      else if(s.kind===1){ ctx.beginPath(); ctx.arc(0,0,s.size/2,0,Math.PI*2); ctx.fill(); }
+      else { ctx.beginPath(); ctx.moveTo(0,-s.size/2); ctx.lineTo(s.size/2,s.size/2); ctx.lineTo(-s.size/2,s.size/2); ctx.closePath(); ctx.fill(); }
+      ctx.restore();
+    });
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
+
+</body>
+</html>

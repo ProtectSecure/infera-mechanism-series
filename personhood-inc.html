@@ -315,7 +315,26 @@ body[data-picked="true"] .arch-prompt .post{display:flex;align-items:center;gap:
 .net .big{font-family:var(--display);font-size:42px;line-height:.85;letter-spacing:-.04em}
 .net .big .u{font-family:var(--mono);font-size:10px;letter-spacing:.14em;display:block;margin-top:5px;font-weight:400}
 
-/* =========================================================== STAGE 8 — CLASS SYSTEM REVEAL (NEW) */
+/* =========================================================== STAGE 8 — RECEIPTS (NEW · proof layer) */
+.receipts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:3px solid var(--ink);border-left:3px solid var(--ink)}
+.rcpt{border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:24px 22px;background:var(--cream);display:flex;flex-direction:column;justify-content:space-between;min-height:380px;position:relative;transition:.25s}
+.rcpt:hover{transform:translate3d(-3px,-3px,0);box-shadow:6px 6px 0 var(--persona-color)}
+.rcpt .rcpt-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.rcpt .num{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--ink-soft);font-weight:700;text-transform:uppercase}
+.rcpt .tier{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;padding:4px 8px;font-weight:700;color:var(--cream);text-transform:uppercase}
+.rcpt .tier.t1{background:var(--ink)}
+.rcpt .tier.t2{background:var(--cobalt)}
+.rcpt .tier.t3{background:var(--pink)}
+.rcpt .claim{font-family:var(--display);font-size:20px;line-height:1.1;letter-spacing:-.02em;margin-bottom:14px}
+.rcpt .claim em{font-family:var(--italic);font-style:italic;font-weight:400}
+.rcpt .body{font-family:var(--sans);font-size:13.5px;line-height:1.55;color:var(--ink-soft);margin-bottom:14px}
+.rcpt .body b{color:var(--ink);font-weight:600}
+.rcpt .quote{font-family:var(--italic);font-style:italic;font-size:14px;line-height:1.4;color:var(--ink);background:var(--bg);padding:12px 14px;border-left:3px solid var(--persona-color);margin-bottom:14px;transition:border-color .4s}
+.rcpt .source{margin-top:auto;padding-top:12px;border-top:1px dashed var(--rule);font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.rcpt .source a{color:var(--cobalt);text-decoration:underline;letter-spacing:.06em;font-weight:500}
+.rcpt .source a:hover{color:var(--pink)}
+
+/* =========================================================== STAGE 9 — CLASS SYSTEM REVEAL (NEW) */
 .class-intro{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:32px}
 .class-intro .pull{font-family:var(--italic);font-style:italic;font-size:clamp(22px,2.5vw,32px);line-height:1.25;color:var(--ink);max-width:30ch}
 .class-intro .pull b{font-style:normal;background:var(--lime);padding:1px 8px;font-family:var(--sans);font-weight:700}
@@ -427,6 +446,8 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
       <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">04</span>Coast</a>
       <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">05</span>Ballot</a>
       <a class="tab active" href="personhood-inc.html"><span class="tab-num">08</span>Personhood</a>
+      <a class="tab" href="the-feed-engine.html" style="color:var(--lime)"><span class="tab-num">→</span>Episode 02</a>
+      <a class="tab" href="machine-readable.html" style="color:var(--lime)"><span class="tab-num">◉</span>Machine-Readable</a>
       <a class="tab" href="thesis.html"><span class="tab-num">◉</span>Thesis</a>
     </div>
   </div>
@@ -445,6 +466,7 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
     <span class="seg" data-s="7"></span>
     <span class="seg" data-s="8"></span>
     <span class="seg" data-s="9"></span>
+    <span class="seg" data-s="10"></span>
   </div>
   <div class="you">YOU·ARE <b id="hudPersona">UNPICKED</b></div>
 </header>
@@ -700,6 +722,7 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
       <div class="block"><div class="h">INFERRED</div><div class="v" id="infOut">—</div></div>
       <div class="block"><div class="h">BUYERS</div><div class="v" id="buyOut">—</div></div>
       <div class="block"><div class="h">CLUSTER</div><div class="v" id="cluOut">—</div></div>
+      <div class="block" id="sysLearnedBlock"><div class="h" style="color:var(--persona-color)">→ THE SYSTEM ALSO INFERRED</div><div class="v" id="sysLearnedOut" style="font-family:var(--italic);font-style:italic;font-size:13.5px;line-height:1.5;color:rgba(251,247,235,.85)">—</div></div>
       <div class="auction"><div class="a-lbl">EST. AD VALUE (CPM)</div><div class="a-val" id="cpmOut">$0.00</div></div>
     </div>
   </div>
@@ -819,10 +842,84 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
   </div>
 </section>
 
-<!-- =========================================================== STAGE 8 — CLASS SYSTEM REVEAL -->
-<section class="stage cream" id="s8" data-stage="8">
+<!-- =========================================================== STAGE 8 — RECEIPTS (proof layer) -->
+<section class="stage" id="s8" data-stage="8">
   <div class="head">
-    <div class="num">08<span class="lbl">CLASS</span></div>
+    <div class="num">08<span class="lbl">RECEIPTS</span></div>
+    <div>
+      <h2>Every claim above<br/>has a <em>paper trail.</em><br/><span class="lime-bg">Here are six of them.</span></h2>
+    </div>
+  </div>
+
+  <div class="receipts">
+
+    <article class="rcpt">
+      <div>
+        <div class="rcpt-head"><div class="num">RCPT · 01</div><div class="tier t1">T1 · CORPORATE</div></div>
+        <div class="claim">Acxiom holds <em>1,500+ data points</em> on 2.5 billion consumers.</div>
+        <div class="body">Acxiom — the data broker quietly underpinning much of US ad targeting — publishes its own scale. The number is not a leak; it's a sales pitch. <b>Your composite isn't theoretical. It already exists.</b></div>
+        <div class="quote">"More than 11,000 attributes across 2.5 billion consumers, with up to 1,500 attributes per person."</div>
+      </div>
+      <div class="source">SOURCE · <a href="https://www.acxiom.com/customer-data/" target="_blank" rel="noopener">acxiom.com / customer-data</a> · corporate fact sheet</div>
+    </article>
+
+    <article class="rcpt">
+      <div>
+        <div class="rcpt-head"><div class="num">RCPT · 02</div><div class="tier t1">T1 · FEDERAL</div></div>
+        <div class="claim">Facebook paid the FTC <em>$5 billion</em> for selling 87 million profiles.</div>
+        <div class="body">The 2019 settlement is the largest privacy penalty in US history — entered after Facebook handed Cambridge Analytica access to 87M profiles that became political-microtargeting inventory. <b>The vendor cycle exists because it works at scale.</b></div>
+        <div class="quote">"The $5 billion penalty against Facebook is the largest ever imposed on any company for violating consumers' privacy."</div>
+      </div>
+      <div class="source">SOURCE · <a href="https://www.ftc.gov/news-events/news/press-releases/2019/07/ftc-imposes-5-billion-penalty-sweeping-new-privacy-restrictions-facebook" target="_blank" rel="noopener">ftc.gov · 2019 press release</a></div>
+    </article>
+
+    <article class="rcpt">
+      <div>
+        <div class="rcpt-head"><div class="num">RCPT · 03</div><div class="tier t2">T2 · RESEARCH</div></div>
+        <div class="claim">TikTok's in-app browser <em>silently injects</em> a keystroke tracker.</div>
+        <div class="body">Security researcher Felix Krause discovered that TikTok's in-app browser injects JavaScript on every external link tap — observing form inputs and taps even on sites unrelated to TikTok. <b>The signal capture extends past the app boundary.</b></div>
+        <div class="quote">"TikTok iOS subscribes to every keystroke (text inputs) happening on third-party websites rendered inside the TikTok app."</div>
+      </div>
+      <div class="source">SOURCE · <a href="https://krausefx.com/blog/ios-privacy-instagram-and-facebook-can-track-anything-you-do-on-any-website-in-their-in-app-browser" target="_blank" rel="noopener">krausefx.com · 2022 disclosure</a></div>
+    </article>
+
+    <article class="rcpt">
+      <div>
+        <div class="rcpt-head"><div class="num">RCPT · 04</div><div class="tier t1">T1 · REGULATORY</div></div>
+        <div class="claim">Dominion forecasts data centers will drive <em>~70%</em> of Virginia load growth.</div>
+        <div class="body">In its 2024 Integrated Resource Plan filed with the State Corporation Commission, Dominion Energy projects data-center demand as the dominant component of its forecasted load growth — to be built and recovered, in significant part, from residential ratepayers. <b>Your bill is underwriting somebody else's compute.</b></div>
+        <div class="quote">"Data centers represent the largest single source of load growth, comprising the majority of incremental demand through 2039."</div>
+      </div>
+      <div class="source">SOURCE · <a href="https://www.dominionenergy.com" target="_blank" rel="noopener">Dominion Energy · 2024 VA IRP filing</a> · case PUR-2024-00050</div>
+    </article>
+
+    <article class="rcpt">
+      <div>
+        <div class="rcpt-head"><div class="num">RCPT · 05</div><div class="tier t1">T1 · FEDERAL</div></div>
+        <div class="claim">Spokeo paid the FTC <em>$800K</em> for selling profiles to employers.</div>
+        <div class="body">The 2012 settlement found that Spokeo had assembled detailed personal profiles from online sources — including Social Security inferences — and sold them as employment screening reports without complying with the Fair Credit Reporting Act. <b>People's profiles already affect hiring decisions in ways they cannot see or contest.</b></div>
+        <div class="quote">"Spokeo marketed its profiles on a subscription basis to human resources professionals as an employment screening tool."</div>
+      </div>
+      <div class="source">SOURCE · <a href="https://www.ftc.gov/news-events/news/press-releases/2012/06/spokeo-pay-800000-settle-ftc-charges-company-allegedly-marketed" target="_blank" rel="noopener">ftc.gov · 2012 press release</a></div>
+    </article>
+
+    <article class="rcpt">
+      <div>
+        <div class="rcpt-head"><div class="num">RCPT · 06</div><div class="tier t2">T2 · INVESTIGATIVE</div></div>
+        <div class="claim">Meta's pixel tracked patient data on <em>33 of 100</em> top hospital sites.</div>
+        <div class="body">A 2022 investigation by The Markup found Meta's tracking pixel collected sensitive patient data — including doctor names, appointment details, and condition queries — on a third of top US hospital websites and sent it back to Facebook for ad targeting. <b>Sensitive context is not a barrier to broker capture.</b></div>
+        <div class="quote">"Facebook is collecting sensitive medical information about people, including health conditions and prescriptions, through tracking code on hundreds of hospital websites."</div>
+      </div>
+      <div class="source">SOURCE · <a href="https://themarkup.org/pixel-hunt/2022/06/16/facebook-is-receiving-sensitive-medical-information-from-hospital-websites" target="_blank" rel="noopener">themarkup.org · Pixel Hunt 2022</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- =========================================================== STAGE 9 — CLASS SYSTEM REVEAL -->
+<section class="stage cream" id="s9" data-stage="9">
+  <div class="head">
+    <div class="num">09<span class="lbl">CLASS</span></div>
     <div>
       <h2>You are not on the<br/><span class="ink-bg">same internet</span> as them.</h2>
     </div>
@@ -840,9 +937,9 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
 </section>
 
 <!-- =========================================================== STAGE 9 — SHIELD INTERACTIVE -->
-<section class="stage" id="s9" data-stage="9">
+<section class="stage" id="s10" data-stage="10">
   <div class="head">
-    <div class="num">09<span class="lbl">SHIELD</span></div>
+    <div class="num">10<span class="lbl">SHIELD</span></div>
     <div>
       <h2>What you <em>get back</em><br/>when you stop<br/><span class="lime-bg">giving it away.</span></h2>
     </div>
@@ -851,7 +948,7 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
   <div class="shield">
     <div class="shield-ctrl">
       <h3>Identity <em>protection</em> level</h3>
-      <p>Slide to increase how much of your digital identity you protect. Watch your monthly extraction, ad load, manipulation index, and choice freedom move in real time.</p>
+      <p>The system optimizes around the signals you give it. <em>You're a trainer, not just a target.</em> Slide to reduce what you hand over. Watch extraction, ad load, manipulation, and choice freedom move in real time — because they all respond to one thing: your intentionality.</p>
       <div class="slider-lbl"><span>SHIELD</span><b id="shieldVal">25%</b><span>FULL FOG</span></div>
       <input type="range" id="shieldSlider" min="0" max="100" value="25" />
       <div class="stages">
@@ -909,10 +1006,16 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
 
 <!-- =========================================================== FINALE -->
 <section class="finale">
-  <h2>You can <em>opt out</em><br/>of being inventory.</h2>
-  <p class="closer">Not all of it. Not all at once. But more than the system makes you believe is possible. The shield above is real — every notch is something you can do this week.</p>
+  <h2>The cage was<br/><em>co-built.</em></h2>
+  <p class="closer">You didn't pick the system. You also trained it — every signal you gave it taught it to give you back more of the same. <b>Awareness is the only thing the system can't auto-correct for.</b> The shield above is real. Every notch is leverage you can recover this week.</p>
   <a class="cta" href="the-guide-12-ways-to-stop-being-inventory.pdf" download="The-Guide-12-Ways-to-Stop-Being-Inventory.pdf" target="_blank" rel="noopener">RECEIVE THE PROTECTION GUIDE</a>
   <div class="reassurance">PDF · concrete steps · no mailing list · download begins on click</div>
+
+  <div style="margin-top:60px;padding-top:40px;border-top:1px solid rgba(251,247,235,.18);max-width:560px;margin-left:auto;margin-right:auto">
+    <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);margin-bottom:14px">EPISODE 01 OF 07 · CONTINUE</div>
+    <p style="font-family:var(--italic);font-style:italic;font-size:22px;line-height:1.35;color:rgba(251,247,235,.85);margin-bottom:22px">You picked a persona. The system remembered. In Episode 02, that pick decides which world you are shown.</p>
+    <a href="the-feed-engine.html" style="display:inline-block;font-family:var(--display);font-size:16px;padding:14px 28px;background:transparent;color:var(--lime);border:2px solid var(--lime);letter-spacing:-.005em">EPISODE 02 · THE FEED ENGINE →</a>
+  </div>
 </section>
 
 </main>
@@ -945,6 +1048,8 @@ function setPersona(id) {
   STATE.persona = id;
   STATE.picked = true;
   const p = PERSONAS[id];
+  // persist for cross-episode identity memory (Episode 02 reads this)
+  try { localStorage.setItem('infera.persona', id); } catch(e) {}
   document.documentElement.style.setProperty('--persona-color', p.color);
   document.body.dataset.persona = id;
   document.body.dataset.picked = 'true';
@@ -1006,15 +1111,16 @@ const guideArr = document.getElementById('guideArr');
 const guideStep = document.getElementById('guideStep');
 
 const GUIDES = {
-  1: { txt: "<b>Stage 01.</b> Watch how a single upload becomes a behavioral forecast in four moves.", step:"01 / 09", arr:"↑" },
-  2: { txt: "<b>YOUR MOVE.</b> Pick a persona below. The rest of the page personalizes around it.", step:"02 / 09", arr:"↓" },
-  3: { txt: "<b>YOUR DEFAULTS.</b> Toggle signals to see how the profile shifts. The CPM updates live.", step:"03 / 09", arr:"→" },
-  4: { txt: "<b>12 SOURCES.</b> The sources active for your persona light up — the rest stay dim.", step:"04 / 09", arr:"↑" },
-  5: { txt: "<b>PLAY THE 5-YEAR JOURNEY.</b> Watch your composite thicken with every year that passes.", step:"05 / 09", arr:"↓" },
-  6: { txt: "<b>YOUR FEED.</b> This is the world your cluster is shown. Slide the dials.", step:"06 / 09", arr:"→" },
-  7: { txt: "<b>FOLLOW THE MONEY.</b> Tap any node. Switch state. See what comes back to you.", step:"07 / 09", arr:"↓" },
-  8: { txt: "<b>THE CLASS SYSTEM.</b> Six personas → four classes → six different internets.", step:"08 / 09", arr:"↓" },
-  9: { txt: "<b>SHIELD UP.</b> Slide protection level. Watch what you get back.", step:"09 / 09", arr:"←" }
+  1: { txt: "<b>Stage 01.</b> Watch how a single upload becomes a behavioral forecast in four moves.", step:"01 / 10", arr:"↑" },
+  2: { txt: "<b>YOUR MOVE.</b> Pick a persona below. The rest of the page personalizes around it.", step:"02 / 10", arr:"↓" },
+  3: { txt: "<b>YOUR DEFAULTS.</b> Toggle signals to see how the profile shifts. The CPM updates live.", step:"03 / 10", arr:"→" },
+  4: { txt: "<b>12 SOURCES.</b> The sources active for your persona light up — the rest stay dim.", step:"04 / 10", arr:"↑" },
+  5: { txt: "<b>PLAY THE 5-YEAR JOURNEY.</b> Watch your composite thicken with every year that passes.", step:"05 / 10", arr:"↓" },
+  6: { txt: "<b>YOUR FEED.</b> This is the world your cluster is shown. Slide the dials.", step:"06 / 10", arr:"→" },
+  7: { txt: "<b>FOLLOW THE MONEY.</b> Tap any node. Switch state. See what comes back to you.", step:"07 / 10", arr:"↓" },
+  8: { txt: "<b>RECEIPTS.</b> Every claim above has a paper trail. Here are six of them.", step:"08 / 10", arr:"↓" },
+  9: { txt: "<b>THE CLASS SYSTEM.</b> Six personas → four classes → six different internets.", step:"09 / 10", arr:"↓" },
+  10:{ txt: "<b>SHIELD UP.</b> Slide protection level. Watch what you get back.", step:"10 / 10", arr:"←" }
 };
 
 function showGuide(n){
@@ -1129,6 +1235,22 @@ function recalcProfile(){
   out.clu.innerHTML = `<span class="tag l">${arch.name.toUpperCase()}-MATCH</span> · coh ${(0.4+richness*.55).toFixed(2)}`;
   const persona = PERSONAS[STATE.persona];
   out.cpm.textContent = '$' + (persona.cpmBase * (0.55 + richness*.7)).toFixed(2);
+
+  // ============ THE SYSTEM ALSO INFERRED ============
+  // Uncomfortable specificity by persona — surfaced as a quiet observation, not an accusation
+  const LEARNED = {
+    curator:    ['high aesthetic discrimination','underlying status anxiety','low tolerance for visual mediocrity','elevated openness to premium niche subscriptions'],
+    caretaker:  ['high loss aversion','long-horizon decision frame','reduced novelty seeking','elevated susceptibility to "for the family" messaging'],
+    drifter:    ['emotional uncertainty','aspirational instability','novelty responsiveness','reduced long-term planning confidence'],
+    believer:   ['high institutional trust','low churn baseline','elevated brand loyalty','reduced disclosure of doubt'],
+    hustler:    ['compounding ambition fatigue','high self-optimization tendency','sleep deprivation flagged by wearable','elevated paid-tool acquisition rate'],
+    apprentice: ['high social-comparison sensitivity','identity-rotating tendency','low resistance to default','elevated BNPL adoption probability']
+  };
+  const list = LEARNED[STATE.persona] || LEARNED.curator;
+  const sysOut = document.getElementById('sysLearnedOut');
+  if(sysOut){
+    sysOut.innerHTML = `"${list[0]} · ${list[1]} · ${list[2]} · ${list[3]}"<br/><span style="font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,235,.5);font-style:normal;display:block;margin-top:8px">none of this was asked. all of it was inferred.</span>`;
+  }
 }
 
 document.querySelectorAll('.opt').forEach(b=>{

@@ -1,0 +1,2697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EPISODE 03 · THE TRUST MARKET — Design Mockup v0.9</title>
+<meta name="description" content="Episode 03 of the Machine-Readable series. Reputation becomes currency. A composite of you, built from data you didn't authorize, decides outcomes you'll never know happened.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f1ede1; --bg-deep:#0a0a0a; --bg-mid:#1a1a1f;
+  --ink:#0a0a0a; --ink-soft:#3a3a3f; --paper:#fbf7eb; --rule:#d8d2bf;
+  --lime:#c8ff1e; --pink:#ff1a6b; --cobalt:#1e3cff; --yellow:#ffd500; --tomato:#ff3a2e;
+  --cream:#fbf7eb;
+  --display:'Archivo Black','Helvetica Neue',sans-serif;
+  --sans:'Space Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --italic:'Instrument Serif',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-size:15px;line-height:1.55}
+::selection{background:var(--lime);color:var(--ink)}
+a,button{color:inherit;text-decoration:none;background:none;border:none;cursor:pointer;font:inherit}
+
+/* ============ SERIES NAV ============ */
+.seriesnav{position:sticky;top:0;z-index:90;background:rgba(8,8,10,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #28262a}
+.seriesnav-inner{display:flex;align-items:center;padding:10px 24px;gap:18px;overflow-x:auto;scrollbar-width:none;font-family:var(--mono)}
+.seriesnav-inner::-webkit-scrollbar{display:none}
+.seriesnav .brand{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#c4a777;white-space:nowrap;padding-right:18px;border-right:1px solid #28262a;display:flex;align-items:center;gap:8px}
+.seriesnav .brand .d{width:6px;height:6px;background:var(--pink);border-radius:50%}
+.seriesnav .tabs{display:flex;gap:2px;flex:1}
+.seriesnav .tab{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#5a564e;padding:6px 10px;white-space:nowrap;transition:color .2s,background .2s}
+.seriesnav .tab:hover{color:#a8a298;background:rgba(255,255,255,.04)}
+.seriesnav .tab.active{color:var(--pink);background:rgba(255,26,107,.14)}
+.seriesnav .tab.draft{color:#7a715f;font-style:italic}
+.seriesnav .tab-num{font-family:var(--italic);font-style:italic;margin-right:5px;opacity:.6}
+
+/* ============ DOC FLAG ============ */
+.docflag{padding:14px 28px;background:var(--pink);color:var(--cream);font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--ink);flex-wrap:wrap;gap:10px}
+.docflag .right{font-family:var(--italic);font-style:italic;font-size:13px;letter-spacing:.02em;text-transform:none;opacity:.95}
+
+/* ============ STAGE 01 · CINEMATIC CAROUSEL ============ */
+.carousel-stage{background:var(--ink);color:var(--cream);position:relative;border-bottom:3px solid var(--ink);overflow:hidden}
+.cs-frame{position:relative;height:min(86vh,820px);min-height:580px;display:flex;flex-direction:column;justify-content:stretch}
+.cs-overlay{position:absolute;top:0;left:0;right:0;z-index:8;padding:18px 28px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase}
+.cs-overlay .ep{color:var(--pink);font-weight:700;display:flex;align-items:center;gap:10px}
+.cs-overlay .ep::before{content:"";width:7px;height:7px;background:var(--pink);border-radius:50%;animation:csPulse 1.4s infinite}
+@keyframes csPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.4)}}
+.cs-overlay .title{color:rgba(251,247,235,.7);font-family:var(--italic);font-style:italic;font-size:13.5px;letter-spacing:.02em;text-transform:none}
+
+.carousel{flex:1;position:relative;overflow:hidden}
+.carousel-slide{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1.05fr;align-items:center;padding:64px 56px 80px;gap:56px;opacity:0;pointer-events:none;transition:opacity .9s cubic-bezier(.4,0,.2,1)}
+.carousel-slide.active{opacity:1;pointer-events:auto}
+.carousel-slide .left{display:flex;flex-direction:column;gap:18px;justify-content:center;min-width:0}
+.carousel-slide .cat{font-family:var(--mono);font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--lime);font-weight:700;opacity:0;transform:translateY(8px);transition:.6s .15s}
+.carousel-slide.active .cat{opacity:1;transform:none}
+.carousel-slide h2{font-family:var(--display);font-size:clamp(54px,8.4vw,128px);line-height:.85;letter-spacing:-.045em;color:var(--cream);opacity:0;transform:translateY(20px);transition:.8s .3s cubic-bezier(.3,.7,.3,1)}
+.carousel-slide.active h2{opacity:1;transform:none}
+.carousel-slide h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--pink)}
+.carousel-slide .punch{font-family:var(--italic);font-style:italic;font-size:clamp(20px,2.6vw,32px);line-height:1.32;color:rgba(251,247,235,.78);max-width:32ch;opacity:0;transform:translateY(12px);transition:.7s .55s}
+.carousel-slide.active .punch{opacity:1;transform:none}
+.carousel-slide .punch b{font-style:normal;color:var(--cream);font-weight:400;font-family:var(--display);background:var(--pink);padding:0 5px}
+.carousel-slide .score-strip{display:flex;align-items:center;gap:16px;margin-top:6px;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(251,247,235,.55);font-weight:700;opacity:0;transform:translateY(10px);transition:.6s .85s}
+.carousel-slide.active .score-strip{opacity:1;transform:none}
+.carousel-slide .score-strip .score{display:inline-flex;align-items:baseline;gap:8px;padding:8px 14px;background:rgba(255,255,255,.08);border-left:3px solid var(--lime)}
+.carousel-slide .score-strip .score b{font-family:var(--display);font-size:18px;letter-spacing:-.01em;color:var(--lime);font-weight:400;font-variant-numeric:tabular-nums}
+
+.carousel-slide .right{display:flex;align-items:center;justify-content:center;height:100%;position:relative}
+.cs-visual{width:100%;max-width:540px;aspect-ratio:1/1.1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);padding:24px;display:flex;flex-direction:column;justify-content:flex-start;gap:10px;font-family:-apple-system,'SF Pro Text',system-ui,sans-serif;position:relative;overflow:hidden;backdrop-filter:blur(6px);transform:scale(.94);opacity:0;transition:.8s .4s cubic-bezier(.3,.7,.3,1)}
+.carousel-slide.active .cs-visual{opacity:1;transform:scale(1)}
+.cs-visual .vh{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55);padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:6px}
+.cs-visual .row{padding:10px 12px;background:rgba(255,255,255,.05);font-size:11px;line-height:1.4;color:var(--cream);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cs-visual .row .v{font-family:var(--mono);color:var(--lime);font-size:10px}
+.cs-visual .row.dim{color:rgba(255,255,255,.4);background:rgba(255,255,255,.02)}
+.cs-visual .row.fired{border-left:2px solid var(--pink);background:rgba(255,26,107,.1);color:var(--cream)}
+.cs-visual .row.fired .v{color:var(--pink)}
+.cs-visual .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;background:var(--pink);color:var(--cream)}
+.cs-visual .stamp{position:absolute;bottom:18px;right:18px;font-family:var(--display);font-size:13px;color:var(--lime);letter-spacing:-.005em;padding:5px 10px;background:rgba(0,0,0,.5);border:1px solid var(--lime);transform:rotate(-3deg);text-transform:uppercase}
+
+/* carousel controls strip */
+.cs-controls{position:absolute;left:0;right:0;bottom:0;z-index:9;padding:18px 28px;display:flex;align-items:center;gap:18px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.55))}
+.cs-progress{flex:1;display:flex;gap:6px;align-items:center}
+.cs-pip{flex:1;height:3px;background:rgba(255,255,255,.18);overflow:hidden;cursor:pointer;transition:.2s}
+.cs-pip:hover{background:rgba(255,255,255,.28)}
+.cs-pip.passed{background:rgba(255,255,255,.45)}
+.cs-pip.active{background:rgba(255,255,255,.25)}
+.cs-pip .fill{display:block;height:100%;width:0;background:var(--lime);transition:width .15s linear}
+.cs-pip.active .fill{width:100%;transition:width var(--slide-dur,6s) linear}
+.cs-pip.passed .fill{width:100%;transition:none}
+.cs-meta{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);display:flex;gap:18px;align-items:center;font-weight:600}
+.cs-meta .num{color:var(--lime);font-family:var(--display);letter-spacing:-.005em;font-weight:400;font-size:13px}
+.cs-btn{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65);padding:6px 10px;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition:.2s;font-weight:700}
+.cs-btn:hover{color:var(--cream);border-color:var(--cream);background:rgba(255,255,255,.05)}
+
+/* final stinger slide (slide 7) */
+.carousel-slide.stinger{grid-template-columns:1fr;justify-items:center;text-align:center;padding:80px 56px}
+.carousel-slide.stinger h2{font-size:clamp(48px,7vw,108px);max-width:18ch}
+.carousel-slide.stinger .punch{max-width:42ch;font-size:clamp(22px,2.6vw,32px)}
+.carousel-slide.stinger .down-arrow{margin-top:36px;font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);display:inline-flex;align-items:center;gap:10px;opacity:0;transform:translateY(8px);transition:.7s 1.2s}
+.carousel-slide.stinger.active .down-arrow{opacity:1;transform:none}
+.carousel-slide.stinger .down-arrow::after{content:"↓";font-size:18px;animation:bobDown 1.4s ease-in-out infinite}
+@keyframes bobDown{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+/* ============ CINEMATIC MOTION GRAPHICS · v0.9 ============ */
+.cs-motion{position:relative;width:100%;max-width:560px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;transform:scale(.96);transition:1.2s .5s cubic-bezier(.3,.7,.3,1)}
+.carousel-slide.active .cs-motion{opacity:1;transform:scale(1)}
+
+/* ===== Slide 1 · EMOJI RAIN · 👍×36 + ❤×4 floating up · stock-down chart ===== */
+.mo-rain{position:relative;width:100%;max-width:540px;aspect-ratio:360/460;overflow:hidden}
+.mo-rain svg.mo-rain-bg{width:100%;height:100%;position:absolute;inset:0;filter:drop-shadow(0 18px 40px rgba(0,0,0,.55))}
+.mo-rain .mo-rain-chart polyline.mo-rain-trend{stroke-dasharray:1000;stroke-dashoffset:1000;animation:trendDraw 2.2s cubic-bezier(.3,.7,.3,1) .8s forwards}
+@keyframes trendDraw{to{stroke-dashoffset:0}}
+.mo-rain-emojis{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2}
+.mo-rain-emojis .ej{position:absolute;font-size:22px;line-height:1;animation:rainRise var(--d,9s) linear infinite;animation-delay:var(--del,0s);left:var(--x,50%);bottom:-30px;opacity:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+.mo-rain-emojis .ej.heart{font-size:30px;filter:drop-shadow(0 0 12px rgba(255,26,107,.7))}
+@keyframes rainRise{
+  0%{transform:translate(0,0) rotate(0deg);opacity:0}
+  10%{opacity:1}
+  50%{transform:translate(var(--dx,12px),-240px) rotate(var(--rot,6deg))}
+  90%{opacity:.9}
+  100%{transform:translate(var(--dx2,24px),-510px) rotate(var(--rot2,14deg));opacity:0}
+}
+.mo-rain-stat{position:absolute;top:128px;right:22px;z-index:4;display:flex;flex-direction:column;align-items:flex-end;padding:10px 14px;background:rgba(10,10,15,.7);backdrop-filter:blur(6px);border-left:3px solid var(--pink)}
+.mo-rain-stat .mr-num{display:flex;align-items:baseline;gap:4px;font-family:var(--display);color:var(--pink);font-variant-numeric:tabular-nums;line-height:.9;letter-spacing:-.04em;filter:drop-shadow(0 0 10px rgba(255,26,107,.5))}
+.mo-rain-stat .mr-num b{font-size:48px}
+.mo-rain-stat .mr-num i{font-style:normal;font-size:16px;color:rgba(255,26,107,.55)}
+.mo-rain-stat .mr-lbl{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65);font-weight:700;margin-top:2px}
+.mo-rain-foot{position:absolute;left:0;right:0;bottom:14px;z-index:4;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,26,107,.55);font-weight:700}
+
+/* ===== Slide 2 · SCAN · resume cascade through scanner beam ===== */
+.mo-scan{position:relative}
+.mo-scan svg{width:100%;max-width:540px;filter:drop-shadow(0 18px 40px rgba(0,0,0,.55))}
+.mo-scan .mo-scan-zoom{transform:scale(1);transform-origin:180px 230px;transition:transform 11s cubic-bezier(.3,.7,.3,1)}
+.carousel-slide.active .mo-scan .mo-scan-zoom{transform:scale(1.08)}
+.mo-scan .res-fall{animation:resFall var(--d,3.4s) linear infinite;animation-delay:var(--del,0s);transform-box:fill-box;transform-origin:center}
+.mo-scan .res-fall.rejected{animation-name:resFallReject}
+@keyframes resFall{0%{transform:translate(0,-30px);opacity:0}10%{opacity:1}48%{transform:translate(0,200px)}100%{transform:translate(0,420px);opacity:.95}}
+@keyframes resFallReject{0%{transform:translate(0,-30px);opacity:0}15%{opacity:1}48%{transform:translate(0,200px);opacity:1}55%{transform:translate(0,224px) scale(1.18);filter:drop-shadow(0 0 12px rgba(255,26,107,.95))}65%{transform:translate(var(--rx,20px),226px) scale(.5) rotate(var(--rot,30deg));opacity:.35}100%{transform:translate(var(--rx2,40px),230px) scale(0) rotate(var(--rot2,60deg));opacity:0}}
+
+/* ===== Slide 3 · NEON WINDOW · hipster brick-loft "FOR RENT → RENTED" ===== */
+.mo-neon{position:relative}
+.mo-neon svg{width:100%;max-width:540px;filter:drop-shadow(0 22px 48px rgba(0,0,0,.6))}
+
+/* ===== Slide 7 · STINGER · zoom-out reveal field ===== */
+.mo-stinger-stage{position:relative;width:100%;max-width:680px;margin-top:20px;overflow:hidden;border:1px solid rgba(255,26,107,.18)}
+.mo-stinger-stage svg{width:100%;display:block}
+.mo-stinger-stage .mo-sting-zoom{transform:scale(3.6);transform-origin:400px 180px;transition:transform 13s cubic-bezier(.5,.05,.5,1)}
+.carousel-slide.stinger.active .mo-stinger-stage .mo-sting-zoom{transform:scale(1)}
+.mo-stinger-stage .mo-sting-word{filter:drop-shadow(0 0 16px rgba(255,26,107,.7));animation:stingWordPulse 2.2s ease-in-out infinite 10s}
+@keyframes stingWordPulse{0%,100%{filter:drop-shadow(0 0 12px rgba(255,26,107,.5))}50%{filter:drop-shadow(0 0 26px rgba(255,26,107,1))}}
+
+/* ===== Slide 4 · HOUSES · coin streams ===== */
+.mo-houses{position:relative}
+.mo-houses svg{width:100%;max-width:540px}
+
+/* ===== Slide 5 · AERIAL · intersection ===== */
+.mo-aerial{position:relative}
+.mo-aerial svg{width:100%;max-width:540px;filter:drop-shadow(0 16px 36px rgba(0,0,0,.6))}
+.mo-aerial .mo-price-card.you{animation:priceHover 3.6s ease-in-out infinite}
+@keyframes priceHover{0%,100%{transform:translate(200px,90px)}50%{transform:translate(200px,84px)}}
+
+/* ===== Slide 6 · GAUGE · industrial dial ===== */
+.mo-gauge{position:relative}
+.mo-gauge svg{width:100%;max-width:540px;filter:drop-shadow(0 18px 44px rgba(0,0,0,.55))}
+.carousel-slide.active .mo-gauge #csDialNeedle,.carousel-slide.active .mo-gauge #csNeedleShadow{transform:rotate(28deg) !important}
+
+/* ===== Slide 7 · STINGER · icon grid ===== */
+.mo-stinger{margin-top:18px;display:grid;grid-template-columns:repeat(16,1fr);gap:3px;width:100%;max-width:560px;opacity:0;transform:translateY(10px);transition:1s 1.6s}
+.carousel-slide.stinger.active .mo-stinger{opacity:.95;transform:none}
+.mo-stinger .tile{aspect-ratio:1;background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.05);position:relative;animation:moStingFlick var(--d,3s) ease-in-out infinite;animation-delay:var(--del,0s)}
+.mo-stinger .tile.hot{background:rgba(255,26,107,.65);box-shadow:0 0 6px rgba(255,26,107,.3)}
+.mo-stinger .tile.warm{background:rgba(255,213,0,.55);box-shadow:0 0 4px rgba(255,213,0,.25)}
+.mo-stinger .tile.cool{background:rgba(30,60,255,.5);box-shadow:0 0 4px rgba(30,60,255,.25)}
+.mo-stinger .tile.lime{background:rgba(200,255,30,.5);box-shadow:0 0 4px rgba(200,255,30,.25)}
+@keyframes moStingFlick{0%,100%{opacity:.18}30%{opacity:.95}60%{opacity:.35}}
+
+/* Stage 02 silhouette section removed in v0.9 — flow goes carousel → builder directly */
+
+/* ============ STAGE 02 · GATEKEEPERS — sector grid + composite ownership + scope overlap + end-goal ============ */
+/* (moved from Feed Engine v0.9 — see migration log) */
+.gk-stage{background:var(--cream);padding:100px 28px;border-bottom:3px solid var(--ink)}
+.gk-head{max-width:1320px;margin:0 auto 32px}
+.gk-head .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--pink);font-weight:700;margin-bottom:8px;display:inline-flex;align-items:center;gap:10px}
+.gk-head .lbl::before{content:"";width:24px;height:1.5px;background:var(--pink)}
+.gk-head h2{font-family:var(--display);font-size:clamp(36px,5.2vw,76px);line-height:.92;letter-spacing:-.035em;max-width:22ch}
+.gk-head h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--pink)}
+.gk-head .dek{font-family:var(--italic);font-style:italic;font-size:clamp(17px,1.9vw,22px);line-height:1.45;color:var(--ink-soft);max-width:64ch;margin-top:14px}
+.gk-body{max-width:1320px;margin:0 auto}
+
+.tb-intro{font-family:var(--italic);font-style:italic;font-size:clamp(20px,2.2vw,28px);line-height:1.3;color:var(--ink);max-width:64ch;margin-bottom:32px}
+.tb-intro b{font-style:normal;background:var(--ink);color:var(--cream);padding:1px 8px;font-family:var(--sans);font-weight:700}
+.tb-intro em{color:var(--pink)}
+
+.tb-sectors{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:32px;border:3px solid var(--ink);background:var(--ink)}
+.tb-sector{background:var(--cream);padding:24px 22px;border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);position:relative;transition:.25s}
+.tb-sector:nth-child(3n){border-right:none}
+.tb-sector:nth-last-child(-n+3){border-bottom:none}
+.tb-sector:hover{background:var(--ink);color:var(--cream)}
+.tb-sector:hover .tb-stat .v{color:var(--lime)}
+.tb-sector:hover .tb-who b{color:var(--lime)}
+.tb-sector .tb-l{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--pink);font-weight:700;margin-bottom:6px}
+.tb-sector h5{font-family:var(--display);font-size:22px;line-height:1.05;letter-spacing:-.025em;margin-bottom:10px}
+.tb-sector h5 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--pink)}
+.tb-sector .tb-stat{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.tb-sector .tb-stat .v{font-family:var(--display);font-size:32px;letter-spacing:-.03em;line-height:1;color:var(--cobalt);font-variant-numeric:tabular-nums;transition:color .25s}
+.tb-sector .tb-stat .l{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.65}
+.tb-sector .tb-body{font-family:var(--sans);font-size:13px;line-height:1.5;margin-bottom:10px;opacity:.85}
+.tb-sector .tb-body b{font-weight:700}
+.tb-sector .tb-who{margin-top:10px;padding-top:10px;border-top:1px dashed currentColor;font-family:var(--italic);font-style:italic;font-size:12.5px;line-height:1.4;opacity:.85}
+.tb-sector .tb-who b{font-style:normal;font-family:var(--display);font-weight:400;color:var(--pink);transition:color .25s}
+
+.tb-composite{margin-top:36px;padding:32px;background:var(--ink);color:var(--cream);border:3px solid var(--ink);position:relative}
+.tb-composite .tb-l{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:10px;display:inline-flex;align-items:center;gap:10px}
+.tb-composite .tb-l::before{content:"";width:24px;height:1px;background:var(--lime)}
+.tb-composite h4{font-family:var(--display);font-size:clamp(26px,3vw,40px);letter-spacing:-.025em;line-height:.98;margin-bottom:8px}
+.tb-composite h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.tb-composite .sub{font-family:var(--italic);font-style:italic;font-size:15px;color:rgba(251,247,235,.7);max-width:60ch;line-height:1.4;margin-bottom:24px}
+.tb-treemap{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:46px;gap:3px}
+.tb-block{padding:9px 12px;font-family:var(--sans);font-size:11px;letter-spacing:-.005em;line-height:1.25;display:flex;flex-direction:column;justify-content:space-between;background:var(--blk-color,var(--cobalt));color:var(--cream);transition:.25s;cursor:default;position:relative;overflow:hidden}
+.tb-block:hover{filter:brightness(1.15);transform:translate(-1px,-1px);box-shadow:2px 2px 0 rgba(255,255,255,.15)}
+.tb-block .nm{font-family:var(--display);font-size:14px;letter-spacing:-.015em;line-height:1}
+.tb-block .ct{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.8;font-weight:700;margin-top:auto}
+.tb-block .ct b{font-family:var(--display);font-size:11px;letter-spacing:-.005em;color:#fff;font-weight:400;display:block;margin-top:2px;font-variant-numeric:tabular-nums}
+.tb-block.tier1{--blk-color:var(--cobalt);grid-column:span 5;grid-row:span 3}
+.tb-block.tier1b{--blk-color:#1530c8;grid-column:span 4;grid-row:span 3}
+.tb-block.tier2{--blk-color:var(--pink);grid-column:span 3;grid-row:span 2}
+.tb-block.tier2b{--blk-color:#c81450;grid-column:span 3;grid-row:span 2}
+.tb-block.tier2c{--blk-color:#a01040;grid-column:span 3;grid-row:span 2}
+.tb-block.tier3{--blk-color:var(--yellow);color:var(--ink);grid-column:span 2;grid-row:span 2}
+.tb-block.tier3 .nm{color:var(--ink)}
+.tb-block.tier3 .ct b{color:var(--ink)}
+.tb-block.tier3b{--blk-color:#d4af00;color:var(--ink);grid-column:span 2;grid-row:span 2}
+.tb-block.tier3b .nm,.tb-block.tier3b .ct b{color:var(--ink)}
+.tb-block.tier3c{--blk-color:#a08600;color:var(--cream);grid-column:span 2;grid-row:span 2}
+.tb-block.tier4{--blk-color:rgba(251,247,235,.16);grid-column:span 2;grid-row:span 1}
+
+.tb-scope{margin-top:32px;padding:0;background:var(--cream);border:3px solid var(--ink);overflow:hidden}
+.tb-scope-head{padding:24px 28px 18px;border-bottom:3px solid var(--ink)}
+.tb-scope-head .tb-l{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--cobalt);font-weight:700;margin-bottom:8px;display:inline-flex;align-items:center;gap:10px}
+.tb-scope-head .tb-l::before{content:"";width:24px;height:1px;background:var(--cobalt)}
+.tb-scope-head h4{font-family:var(--display);font-size:clamp(24px,2.8vw,34px);letter-spacing:-.025em;line-height:1;margin-bottom:8px}
+.tb-scope-head h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--cobalt)}
+.tb-scope-grid{display:grid;grid-template-columns:240px repeat(5,1fr);font-family:var(--mono);font-size:10.5px}
+.tb-scope-grid .row{display:contents}
+.tb-scope-grid .cell{padding:13px 12px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:center;text-align:center}
+.tb-scope-grid .cell.h{background:var(--ink);color:var(--cream);font-family:var(--display);font-size:11.5px;letter-spacing:-.005em;text-transform:none;font-weight:400}
+.tb-scope-grid .cell.dim{background:var(--bg)}
+.tb-scope-grid .cell.lbl{justify-content:flex-start;padding-left:18px;font-family:var(--sans);font-size:12px;color:var(--ink);font-weight:600;text-align:left;letter-spacing:0}
+.tb-scope-grid .cell.full{background:var(--cobalt);color:var(--cream);font-weight:700}
+.tb-scope-grid .cell.partial{background:rgba(255,213,0,.5);color:var(--ink)}
+.tb-scope-grid .cell.none{color:rgba(10,10,10,.3)}
+
+.tb-future{margin-top:36px;padding:32px;background:var(--pink);color:var(--cream);position:relative;border:3px solid var(--ink)}
+.tb-future .tb-l{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--cream);font-weight:700;margin-bottom:8px;opacity:.75}
+.tb-future h4{font-family:var(--display);font-size:clamp(28px,3.4vw,44px);letter-spacing:-.03em;line-height:.95;margin-bottom:18px;max-width:24ch}
+.tb-future h4 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.tb-future-points{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
+.tb-fp{padding-top:16px;border-top:2px solid rgba(255,255,255,.4)}
+.tb-fp .n{font-family:var(--display);font-size:24px;letter-spacing:-.025em;line-height:1.05;margin-bottom:6px}
+.tb-fp .n em{font-family:var(--italic);font-style:italic;font-weight:400}
+.tb-fp .d{font-family:var(--italic);font-style:italic;font-size:14px;line-height:1.45;opacity:.92}
+
+@media (max-width:1000px){
+  .tb-sectors{grid-template-columns:1fr 1fr}
+  .tb-sector:nth-child(3n){border-right:3px solid var(--ink)}
+  .tb-sector:nth-child(2n){border-right:none}
+  .tb-treemap{grid-template-columns:repeat(6,1fr);grid-auto-rows:54px}
+  .tb-block.tier1,.tb-block.tier1b{grid-column:span 6;grid-row:span 2}
+  .tb-block.tier2,.tb-block.tier2b,.tb-block.tier2c{grid-column:span 3}
+  .tb-block.tier3,.tb-block.tier3b,.tb-block.tier3c{grid-column:span 2}
+  .tb-block.tier4{grid-column:span 3}
+  .tb-scope-grid{grid-template-columns:180px repeat(5,1fr);font-size:9.5px}
+  .tb-future-points{grid-template-columns:1fr}
+}
+
+/* ============ STAGE 03 · INTERACTIVE COMPOSITE BUILDER (life events feed composite + scores) ============ */
+.build-stage{background:var(--cream);padding:100px 28px;border-bottom:3px solid var(--ink)}
+.build-shead{max-width:1320px;margin:0 auto 36px}
+.build-shead .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--cobalt);font-weight:700;margin-bottom:8px;display:inline-flex;align-items:center;gap:10px}
+.build-shead .lbl::before{content:"";width:24px;height:1.5px;background:var(--cobalt)}
+.build-shead h2{font-family:var(--display);font-size:clamp(36px,5.2vw,76px);line-height:.92;letter-spacing:-.035em}
+.build-shead h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--cobalt)}
+.build-shead .dek{font-family:var(--italic);font-style:italic;font-size:clamp(17px,1.9vw,22px);line-height:1.45;color:var(--ink-soft);max-width:64ch;margin-top:14px}
+
+.build-lab{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.bl-panel{background:var(--ink);color:var(--cream);padding:28px;border:3px solid var(--ink)}
+.bl-panel .panel-l{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:6px;display:inline-flex;align-items:center;gap:10px}
+.bl-panel .panel-l::before{content:"";width:18px;height:1.5px;background:var(--lime)}
+.bl-panel h3{font-family:var(--display);font-size:24px;letter-spacing:-.025em;line-height:1;margin-bottom:14px}
+.bl-panel h3 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+
+/* LEFT panel — life events trigger */
+.bl-events{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.bl-event{padding:11px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);text-align:left;cursor:pointer;font-family:var(--sans);font-size:12.5px;color:var(--cream);transition:.2s;display:flex;flex-direction:column;gap:3px;font-weight:500}
+.bl-event:hover{background:rgba(255,255,255,.1);border-color:var(--lime)}
+.bl-event.fired{background:var(--cobalt);border-color:var(--cobalt);color:var(--cream)}
+.bl-event.fired::after{content:"✓ FIRED";display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--lime);margin-top:2px;font-weight:700}
+.bl-event.harm.fired{background:var(--pink);border-color:var(--pink)}
+.bl-event .ev-age{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:700}
+.bl-event .ev-nm{font-family:var(--display);font-size:12.5px;letter-spacing:-.005em;color:var(--cream);line-height:1.15}
+
+/* KIDS panel — self-served data */
+.bl-kids{margin-top:18px;padding:18px 18px;background:rgba(255,213,0,.08);border-left:3px solid var(--yellow)}
+.bl-kids .kids-l{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow);font-weight:700;margin-bottom:6px}
+.bl-kids h4{font-family:var(--display);font-size:16px;letter-spacing:-.015em;line-height:1.1;margin-bottom:8px;color:var(--cream)}
+.bl-kids h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--yellow)}
+.bl-kids p{font-family:var(--italic);font-style:italic;font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.78)}
+.bl-kids p b{font-style:normal;font-weight:700;color:var(--yellow)}
+.bl-kids-stats{margin-top:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.bl-kids-stats .ks{padding:8px;background:rgba(0,0,0,.3);text-align:center}
+.bl-kids-stats .ks .v{font-family:var(--display);font-size:22px;letter-spacing:-.025em;color:var(--yellow);font-variant-numeric:tabular-nums;line-height:1}
+.bl-kids-stats .ks .l{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:700;margin-top:3px;line-height:1.2}
+
+/* RIGHT panel — composite fill + scores */
+.bl-composite{display:flex;flex-direction:column;gap:14px}
+.bl-comp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,.15);padding:1px;margin-bottom:8px}
+.bl-comp-sec{padding:8px 10px;background:var(--ink);position:relative;display:flex;flex-direction:column;gap:2px;transition:.3s}
+.bl-comp-sec .nm{font-family:var(--display);font-size:11px;letter-spacing:-.005em;color:var(--cream);line-height:1.15}
+.bl-comp-sec .from{font-family:var(--mono);font-size:7.5px;letter-spacing:.08em;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:600}
+.bl-comp-sec .fill-bar{height:3px;background:rgba(255,255,255,.08);margin-top:4px;position:relative;overflow:hidden}
+.bl-comp-sec .fill-bar::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--fill,8%);background:var(--lime);transition:width .6s cubic-bezier(.3,.7,.3,1)}
+.bl-comp-sec.bumped{background:linear-gradient(180deg,rgba(200,255,30,.18),var(--ink))}
+.bl-comp-sec.flag .fill-bar::after{background:var(--pink)}
+.bl-scores{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.15);padding:1px}
+.bl-score{padding:11px 10px;background:var(--ink);display:flex;flex-direction:column;gap:3px;transition:.3s}
+.bl-score .l{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:700}
+.bl-score .v{font-family:var(--display);font-size:18px;letter-spacing:-.02em;color:var(--lime);font-variant-numeric:tabular-nums;line-height:1;transition:color .3s,transform .3s}
+.bl-score .v.bumped{animation:scoreBump .4s cubic-bezier(.3,.7,.3,1)}
+@keyframes scoreBump{0%{transform:scale(1)}45%{transform:scale(1.22)}100%{transform:scale(1)}}
+.bl-score .v.bad{color:var(--pink)}
+.bl-score .v.mid{color:var(--yellow)}
+
+.bl-trust-tax{padding:20px 22px;background:var(--pink);color:var(--cream);text-align:left;display:flex;flex-direction:column;gap:6px}
+.bl-trust-tax .l{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+.bl-trust-tax .v{font-family:var(--display);font-size:42px;letter-spacing:-.035em;line-height:.92;font-variant-numeric:tabular-nums}
+.bl-trust-tax .sub{font-family:var(--italic);font-style:italic;font-size:13px;line-height:1.4;opacity:.92}
+
+.bl-instructions{margin-top:18px;padding:18px;background:var(--cream);border-left:3px solid var(--pink);font-family:var(--italic);font-style:italic;font-size:15px;line-height:1.5;color:var(--ink);max-width:1320px;margin-left:auto;margin-right:auto}
+.bl-instructions b{font-style:normal;font-family:var(--display);font-weight:400;color:var(--pink)}
+.bl-reset-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.bl-reset{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);background:var(--ink);padding:7px 12px;cursor:pointer;font-weight:700;border:1px solid rgba(255,255,255,.2)}
+.bl-reset:hover{background:var(--pink);border-color:var(--pink)}
+.bl-toggle{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);background:transparent;padding:7px 12px;cursor:pointer;font-weight:700;border:1px solid rgba(255,255,255,.3);transition:.2s}
+.bl-toggle:hover{border-color:var(--cream)}
+.bl-toggle[aria-pressed="true"]{background:var(--yellow);color:var(--ink);border-color:var(--yellow)}
+
+.bl-disp{margin-top:18px;padding:18px;background:rgba(255,213,0,.06);border-left:3px solid var(--yellow)}
+.bl-disp .bl-disp-l{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow);font-weight:700;margin-bottom:8px}
+.bl-disp .bl-disp-body{font-family:var(--sans);font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.78);margin-bottom:12px}
+.bl-disp .bl-disp-body b{color:var(--yellow);font-weight:700}
+.bl-disp-slider{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.bl-disp-slider .ds-l,.bl-disp-slider .ds-v{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:700;display:flex;justify-content:space-between}
+.bl-disp-slider .ds-v b{font-family:var(--display);font-size:12px;color:var(--yellow);font-weight:400;letter-spacing:-.005em;font-variant-numeric:tabular-nums}
+.bl-disp-slider input[type=range]{-webkit-appearance:none;appearance:none;height:5px;background:rgba(255,255,255,.15);outline:none;cursor:pointer}
+.bl-disp-slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;background:var(--yellow);border-radius:50%;cursor:pointer}
+.bl-disp-slider input[type=range]::-moz-range-thumb{width:14px;height:14px;background:var(--yellow);border-radius:50%;border:none;cursor:pointer}
+.bl-disp-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.bl-disp-stat{padding:8px;background:rgba(0,0,0,.3);text-align:center;display:flex;flex-direction:column;gap:2px}
+.bl-disp-stat span{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:700}
+.bl-disp-stat b{font-family:var(--display);font-size:16px;letter-spacing:-.015em;color:var(--yellow);font-variant-numeric:tabular-nums;font-weight:400;line-height:1}
+.bl-disp-cit{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;color:rgba(255,255,255,.45);font-weight:600;line-height:1.55}
+.bl-disp-cit em{font-style:italic;color:var(--yellow)}
+
+/* ============ STAGE 04 · BESPOKE INTERACTIVE CASE STUDIES ============ */
+.story-stage{background:var(--ink);color:var(--cream);padding:100px 28px;border-bottom:3px solid var(--ink)}
+.story-shead{max-width:1320px;margin:0 auto 36px}
+.story-shead .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:8px;display:inline-flex;align-items:center;gap:10px}
+.story-shead .lbl::before{content:"";width:24px;height:1.5px;background:var(--lime)}
+.story-shead h2{font-family:var(--display);font-size:clamp(36px,5.2vw,76px);line-height:.92;letter-spacing:-.035em;color:var(--cream)}
+.story-shead h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.story-shead .dek{font-family:var(--italic);font-style:italic;font-size:clamp(17px,1.9vw,22px);line-height:1.45;color:rgba(255,255,255,.75);max-width:64ch;margin-top:14px}
+
+.story-cases{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+.story-case{background:var(--bg-mid);padding:32px;border-left:6px solid var(--case-color,var(--lime));display:grid;grid-template-columns:1fr minmax(380px,520px);gap:36px;align-items:stretch;position:relative}
+.sc-side{display:flex;flex-direction:column;gap:14px}
+.sc-side .case-l{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--case-color,var(--lime));font-weight:700}
+.sc-side h3{font-family:var(--display);font-size:clamp(24px,2.8vw,36px);letter-spacing:-.025em;line-height:1;color:var(--cream)}
+.sc-side h3 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--case-color,var(--lime))}
+.sc-side .protagonist{display:flex;align-items:center;gap:14px;padding-top:8px;padding-bottom:6px;border-top:1px dashed rgba(255,255,255,.18);border-bottom:1px dashed rgba(255,255,255,.18);margin-top:4px;margin-bottom:8px}
+.sc-side .protagonist .av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--case-color,var(--lime)),rgba(0,0,0,.7));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:22px;letter-spacing:-.025em;color:rgba(0,0,0,.7);flex-shrink:0}
+.sc-side .protagonist .nm{font-family:var(--display);font-size:14px;letter-spacing:-.005em;color:var(--cream);line-height:1.15}
+.sc-side .protagonist .blr{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600;margin-top:3px}
+
+.sc-narration{flex:1;font-family:var(--italic);font-style:italic;font-size:15.5px;line-height:1.55;color:rgba(255,255,255,.85);min-height:120px;transition:.5s cubic-bezier(.3,.7,.3,1)}
+.sc-narration b{font-style:normal;font-weight:700;color:var(--cream)}
+.sc-narration em.hot{font-family:var(--italic);font-style:italic;color:var(--case-color,var(--lime));font-weight:400}
+
+.sc-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid rgba(255,255,255,.15);margin-top:auto}
+.sc-stat{padding:12px 14px;background:rgba(255,255,255,.02);border-right:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:3px}
+.sc-stat:last-child{border-right:none}
+.sc-stat .l{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:700}
+.sc-stat .v{font-family:var(--display);font-size:22px;letter-spacing:-.025em;color:var(--case-color,var(--lime));font-variant-numeric:tabular-nums;line-height:1;transition:color .3s}
+
+.sc-reveal{padding:20px 22px;background:var(--case-color,var(--lime));color:var(--ink);display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-top:4px}
+.sc-reveal .rev-text{display:flex;flex-direction:column;gap:6px}
+.sc-reveal .rev-l{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+.sc-reveal .rev-v{font-family:var(--display);font-size:38px;letter-spacing:-.04em;line-height:.92;font-variant-numeric:tabular-nums}
+.sc-reveal .rev-sub{font-family:var(--italic);font-style:italic;font-size:13.5px;line-height:1.35}
+.sc-reveal .rev-sub b{font-style:normal;font-weight:700}
+.sc-reveal .rev-src{font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,.7);font-weight:700;line-height:1.6;max-width:42ch}
+
+/* visualization area · right side · per-case bespoke */
+.sc-viz{position:relative;background:var(--ink);border:1.5px solid rgba(255,255,255,.12);padding:20px;display:flex;flex-direction:column;gap:14px;min-height:480px}
+.sc-viz .viz-h{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sc-viz .viz-h .vh-l{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--case-color,var(--lime));font-weight:700}
+.sc-viz .viz-h .vh-yr{font-family:var(--display);font-size:24px;letter-spacing:-.025em;color:var(--cream);font-variant-numeric:tabular-nums}
+.sc-viz .viz-h .vh-yr em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--case-color,var(--lime));font-size:.7em;margin-left:6px}
+.sc-viz-canvas{flex:1;position:relative;background:rgba(0,0,0,.3);min-height:280px;overflow:hidden}
+.sc-viz-controls{display:flex;gap:8px;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid rgba(255,255,255,.1)}
+.sc-viz-controls .ctl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);font-weight:700;padding:7px 12px;background:transparent;border:1.5px solid rgba(255,255,255,.3);cursor:pointer;transition:.2s}
+.sc-viz-controls .ctl:hover{background:var(--case-color,var(--lime));color:var(--ink);border-color:var(--case-color,var(--lime))}
+.sc-viz-controls .ctl.play{background:var(--case-color,var(--lime));color:var(--ink);border-color:var(--case-color,var(--lime))}
+.sc-viz-controls .ctl.play:hover{background:transparent;color:var(--cream);border-color:var(--cream)}
+.sc-viz-controls .scrub{flex:1;height:4px;background:rgba(255,255,255,.12);position:relative;cursor:pointer}
+.sc-viz-controls .scrub .scrub-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--case-color,var(--lime));transition:width .15s linear}
+.sc-viz-controls .scrub .scrub-thumb{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);width:11px;height:11px;background:var(--case-color,var(--lime));border-radius:50%;border:2px solid var(--ink);transition:left .15s linear}
+
+/* ===== CASE 1 · FAMILY TREE VIZ ===== */
+.viz-tree svg{width:100%;height:100%}
+.viz-tree .tree-node circle{transition:.4s cubic-bezier(.3,.7,.3,1)}
+.viz-tree .tree-node text{font-family:var(--mono);font-size:7.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;text-anchor:middle;fill:rgba(255,255,255,.55);transition:.4s}
+.viz-tree .tree-node.you circle{fill:var(--cream);stroke:var(--pink);stroke-width:2}
+.viz-tree .tree-node.you text{fill:var(--cream)}
+.viz-tree .tree-node.untested circle{fill:rgba(255,255,255,.08);stroke:rgba(255,255,255,.3);stroke-width:1}
+.viz-tree .tree-node.tested circle{fill:var(--pink);stroke:var(--pink);stroke-width:1.5}
+.viz-tree .tree-node.tested text{fill:var(--cream)}
+.viz-tree .tree-node.tested .test-ring{fill:none;stroke:var(--pink);stroke-width:1;opacity:0;animation:treeRingPulse 2s ease-out infinite}
+@keyframes treeRingPulse{0%{r:8;opacity:.6}100%{r:24;opacity:0}}
+.viz-tree .tree-link{stroke:rgba(255,255,255,.2);stroke-width:.8;fill:none;transition:.4s}
+.viz-tree .tree-link.active{stroke:var(--pink);stroke-width:1.5;stroke-dasharray:3 4;animation:linkDraw 1.5s linear infinite}
+@keyframes linkDraw{from{stroke-dashoffset:0}to{stroke-dashoffset:-14}}
+.viz-tree .you-multiplier{position:absolute;left:50%;top:50%;transform:translate(-50%,calc(-50% - 48px));font-family:var(--display);font-size:18px;letter-spacing:-.02em;color:var(--pink);font-variant-numeric:tabular-nums;background:var(--ink);padding:4px 10px;border:1.5px solid var(--pink);pointer-events:none;transition:transform .3s,opacity .3s}
+
+/* ===== CASE 2 · MORTGAGE RACE VIZ ===== */
+.viz-race{display:flex;flex-direction:column;gap:14px;padding:14px}
+.viz-race .race-row{display:grid;grid-template-columns:80px 1fr 80px;gap:10px;align-items:center}
+.viz-race .race-row .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:700;line-height:1.2}
+.viz-race .race-row .lbl b{font-family:var(--display);color:var(--cream);letter-spacing:-.005em;display:block;font-weight:400;font-size:10.5px}
+.viz-race .race-row .bar-track{height:22px;background:rgba(255,255,255,.06);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.12)}
+.viz-race .race-row .bar-fill{position:absolute;left:0;top:0;bottom:0;background:var(--case-color,var(--cobalt));width:0;transition:width .25s linear}
+.viz-race .race-row.you .bar-fill{background:var(--pink)}
+.viz-race .race-row .bar-val{font-family:var(--display);font-size:14px;letter-spacing:-.005em;color:var(--cream);text-align:right;font-variant-numeric:tabular-nums}
+.viz-race .race-row.you .bar-val{color:var(--pink)}
+.viz-race .race-gap{margin-top:10px;padding:14px;background:rgba(255,26,107,.1);border-left:3px solid var(--pink);display:flex;flex-direction:column;gap:4px}
+.viz-race .race-gap .gl{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:700}
+.viz-race .race-gap .gv{font-family:var(--display);font-size:30px;letter-spacing:-.03em;color:var(--pink);font-variant-numeric:tabular-nums;line-height:1}
+.viz-race .race-gap .gs{font-family:var(--italic);font-style:italic;font-size:12.5px;color:rgba(255,255,255,.75);margin-top:2px}
+.viz-race .race-gap .gs b{font-style:normal;color:var(--pink);font-weight:700;font-family:var(--display);letter-spacing:-.005em}
+.viz-race .missed-wealth{margin-top:6px;padding:11px 14px;background:rgba(200,255,30,.07);border-left:3px solid var(--lime);font-family:var(--sans);font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.85)}
+.viz-race .missed-wealth b{font-family:var(--display);font-weight:400;color:var(--lime);font-size:16px;letter-spacing:-.005em;font-variant-numeric:tabular-nums;margin-left:4px}
+
+/* ===== CASE 3 · COMPOSITE COLLISION VIZ ===== */
+.viz-merge{position:relative;display:flex;align-items:center;justify-content:center;padding:18px}
+.viz-merge svg{width:100%;height:280px}
+.viz-merge .comp-circle{transition:transform 1s cubic-bezier(.3,.7,.3,1),opacity .6s}
+.viz-merge .comp-circle .ring{fill:var(--ring-fill,rgba(255,213,0,.16));stroke:var(--ring-color,var(--yellow));stroke-width:1.5;transition:.6s}
+.viz-merge .comp-circle .name{font-family:var(--display);font-size:14px;letter-spacing:-.005em;text-anchor:middle;font-weight:400;fill:var(--cream)}
+.viz-merge .comp-circle .meta{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;text-anchor:middle;fill:rgba(255,255,255,.55)}
+.viz-merge .comp-circle .marker{transition:.4s}
+.viz-merge .merge-line{stroke:var(--yellow);stroke-width:1.5;stroke-dasharray:3 5;opacity:0;transition:.6s}
+.viz-merge .merge-line.flow{opacity:.8;animation:linkDraw 1.5s linear infinite}
+.viz-merge .ghost-marker{fill:rgba(255,26,107,.4);transition:.6s}
+.viz-merge .household-label{position:absolute;left:50%;top:14px;transform:translateX(-50%);font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);font-weight:700;opacity:0;transition:.5s}
+.viz-merge .household-label.show{opacity:1}
+.viz-merge-legend{display:flex;justify-content:center;gap:24px;padding:6px 12px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:700}
+.viz-merge-legend .sw{display:inline-flex;align-items:center;gap:6px}
+.viz-merge-legend .sw::before{content:"";width:8px;height:8px;border-radius:50%}
+.viz-merge-legend .sw.lena::before{background:rgba(200,255,30,.7)}
+.viz-merge-legend .sw.theo::before{background:rgba(255,26,107,.55)}
+.viz-merge-legend .sw.house::before{background:var(--yellow)}
+
+/* ============ STAGE 05 · PROTECTION FIELD MANUAL (largely unchanged, restyled headers) ============ */
+.prot-stage{background:var(--cream);padding:100px 28px;border-bottom:3px solid var(--ink)}
+.prot-shead{max-width:1320px;margin:0 auto 32px}
+.prot-shead .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--cobalt);font-weight:700;margin-bottom:8px;display:inline-flex;align-items:center;gap:10px}
+.prot-shead .lbl::before{content:"";width:24px;height:1.5px;background:var(--cobalt)}
+.prot-shead h2{font-family:var(--display);font-size:clamp(36px,5.2vw,76px);line-height:.92;letter-spacing:-.035em}
+.prot-shead h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--cobalt)}
+.prot-shead .dek{font-family:var(--italic);font-style:italic;font-size:clamp(17px,1.9vw,22px);line-height:1.45;color:var(--ink-soft);max-width:64ch;margin-top:14px}
+
+.protection{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:3px solid var(--ink)}
+.prot-group{padding:24px;background:var(--cream);border-right:3px solid var(--ink);border-bottom:3px solid var(--ink)}
+.prot-group:nth-child(3n){border-right:none}
+.prot-group:nth-last-child(-n+3){border-bottom:none}
+.prot-group .pg-h{font-family:var(--display);font-size:14px;letter-spacing:-.005em;color:var(--pink);text-transform:uppercase;margin-bottom:14px;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.prot-action{padding:10px 0;border-bottom:1px dashed var(--rule);display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}
+.prot-action:last-child{border-bottom:none}
+.prot-action .nm{font-family:var(--sans);font-size:13px;line-height:1.4;font-weight:500;color:var(--ink)}
+.prot-action .nm b{font-weight:700;font-family:var(--display);font-size:13px;letter-spacing:-.005em}
+.prot-action .nm em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--pink)}
+.prot-action .meta{display:flex;gap:5px;align-items:center;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.prot-action .meta .tag{padding:2px 6px;background:var(--bg);font-weight:700;color:var(--ink-soft)}
+.prot-action .meta .star{color:var(--pink);font-family:var(--display);font-size:11px;letter-spacing:0}
+
+/* ============ STAGE 06 · BRIDGE ============ */
+.bridge{padding:80px 28px;background:var(--pink);color:var(--cream);text-align:center;border-bottom:3px solid var(--ink)}
+.bridge .up-next{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.78);margin-bottom:18px;font-weight:700}
+.bridge h2{font-family:var(--display);font-size:clamp(48px,7vw,108px);line-height:.88;letter-spacing:-.045em;margin-bottom:24px}
+.bridge h2 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.bridge .closer{font-family:var(--italic);font-style:italic;font-size:clamp(18px,2vw,24px);line-height:1.45;max-width:48ch;margin:0 auto;color:rgba(255,255,255,.92)}
+.bridge .closer b{font-style:normal;background:var(--ink);color:var(--cream);padding:0 6px;font-family:var(--sans);font-weight:700}
+
+/* ============ DESIGN QUESTIONS + BUILD ORDER + SOURCES (kept from v0.1, restyled) ============ */
+.design-q{max-width:1320px;margin:48px auto 0;padding:32px;background:var(--yellow);color:var(--ink);border:3px solid var(--ink)}
+.design-q .l{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;margin-bottom:14px;display:inline-flex;align-items:center;gap:10px}
+.design-q .l::before{content:"";width:24px;height:2px;background:var(--ink)}
+.design-q h4{font-family:var(--display);font-size:clamp(24px,3vw,38px);letter-spacing:-.025em;line-height:.98;margin-bottom:24px;max-width:30ch}
+.design-q h4 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.dq-list{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.dq{padding:16px 18px;background:var(--cream);border-left:3px solid var(--ink)}
+.dq .qn{font-family:var(--display);font-size:12px;letter-spacing:-.005em;color:var(--pink);margin-bottom:4px}
+.dq h5{font-family:var(--display);font-size:15px;letter-spacing:-.015em;line-height:1.2;margin-bottom:6px;color:var(--ink)}
+.dq p{font-family:var(--italic);font-style:italic;font-size:13px;line-height:1.45;color:var(--ink);opacity:.85}
+.dq p b{font-style:normal;font-weight:700}
+
+.build-section{padding:80px 28px;background:var(--ink);color:var(--cream)}
+.build-phases{max-width:1320px;margin:24px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;border:3px solid var(--cream)}
+.bp{padding:22px 20px;background:var(--bg-mid);color:var(--cream);border-right:3px solid var(--cream);display:flex;flex-direction:column;gap:6px;position:relative}
+.bp:last-child{border-right:none}
+.bp .phase{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);font-weight:700}
+.bp h5{font-family:var(--display);font-size:16px;letter-spacing:-.015em;line-height:1.15}
+.bp h5 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.bp .ph-list{margin-top:8px;font-family:var(--sans);font-size:12.5px;line-height:1.55;color:rgba(255,255,255,.78)}
+.bp .ph-list b{font-weight:700}
+
+.sources{max-width:1320px;margin:32px auto 0;padding:32px;background:var(--ink);color:var(--cream);border:3px solid var(--ink)}
+.sources .l{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:14px;display:inline-flex;align-items:center;gap:10px}
+.sources .l::before{content:"";width:24px;height:2px;background:var(--lime)}
+.sources h4{font-family:var(--display);font-size:clamp(24px,3vw,36px);letter-spacing:-.025em;line-height:1;margin-bottom:20px}
+.sources h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.src-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.src-col h5{font-family:var(--display);font-size:14px;letter-spacing:-.005em;color:var(--lime);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(200,255,30,.3)}
+.src-col ul{list-style:none;padding:0}
+.src-col li{font-family:var(--mono);font-size:11px;letter-spacing:.02em;line-height:1.7;color:rgba(255,255,255,.85);padding-left:12px;position:relative}
+.src-col li::before{content:"·";position:absolute;left:0;color:var(--lime)}
+.src-col li em{font-family:var(--italic);font-style:italic;color:var(--cream)}
+
+footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1100px){
+  .build-lab{grid-template-columns:1fr}
+  .story-case{grid-template-columns:1fr}
+  .sc-viz{min-height:380px}
+  .protection{grid-template-columns:1fr 1fr}
+  .dq-list{grid-template-columns:1fr 1fr}
+  .src-grid{grid-template-columns:1fr}
+  .carousel-slide{grid-template-columns:1fr;gap:24px;padding:48px 32px 96px}
+  .carousel-slide .right{order:-1;justify-content:flex-start;min-height:240px}
+  .cs-motion{max-width:280px}
+}
+@media (max-width:700px){
+  .protection,.dq-list,.bl-events,.bl-comp-grid,.bl-kids-stats{grid-template-columns:1fr 1fr}
+  .bl-scores{grid-template-columns:1fr 1fr}
+  .carousel-slide h2{font-size:48px}
+  .silh-header h2,.build-shead h2,.story-shead h2,.prot-shead h2{font-size:36px}
+}
+</style>
+</head>
+<body>
+
+<!-- SERIES NAV -->
+<nav class="seriesnav">
+  <div class="seriesnav-inner">
+    <a class="brand" href="machine-readable.html"><span class="d"></span>INFERA · MACHINE-READABLE</a>
+    <div class="tabs">
+      <a class="tab" href="machine-readable.html"><span class="tab-num">i.</span>Series</a>
+      <a class="tab" href="personhood-inc.html"><span class="tab-num">01</span>Personhood Inc.</a>
+      <a class="tab" href="the-feed-engine.html"><span class="tab-num">02</span>Feed Engine</a>
+      <a class="tab active" href="episode-03-trust-market-mockup.html"><span class="tab-num">03</span>Trust Market <span style="opacity:.5">· mockup v0.9</span></a>
+      <span class="tab draft"><span class="tab-num">04</span>Influence War · soon</span>
+    </div>
+  </div>
+</nav>
+
+<!-- DOC FLAG -->
+<div class="docflag">
+  <span>DESIGN DOC · INTERNAL · v0.9 · MAY 2026</span>
+  <span class="right">Cinematic carousel art · mortgage case removed · scaffold sections trimmed</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- STAGE 01 · CINEMATIC CAROUSEL                                -->
+<!-- ============================================================ -->
+<section class="carousel-stage">
+  <div class="cs-frame">
+    <div class="cs-overlay">
+      <span class="ep">EPISODE 03 · THE TRUST MARKET</span>
+      <span class="title">Six moments. One thesis. <span style="color:var(--lime)">Watch.</span></span>
+    </div>
+
+    <div class="carousel" id="cs">
+
+      <!-- Slide 1 · DATING — 4 of 40 matches grid animation -->
+      <div class="carousel-slide active" data-i="0" data-dur="11000">
+        <div class="left">
+          <span class="cat">01 · DATING</span>
+          <h2>You got <em>4 matches</em> today.</h2>
+          <p class="punch">Not 40. The "elo" score the platform never published put you in the <b>bottom 30%</b> of your cluster.</p>
+          <div class="score-strip">
+            <div class="score">SCORE <b>0.31</b></div>
+            <div class="score">MATCH GROUP · CLUSTER F</div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="cs-motion mo-rain">
+            <!-- backdrop + stock-down chart -->
+            <svg class="mo-rain-bg" viewBox="0 0 360 460" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs>
+                <linearGradient id="rainBg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#1a0a20"/>
+                  <stop offset="55%" stop-color="#0a0510"/>
+                  <stop offset="100%" stop-color="#020208"/>
+                </linearGradient>
+                <pattern id="rainDots" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+                  <circle cx="7" cy="7" r=".5" fill="rgba(255,26,107,.10)"/>
+                </pattern>
+                <linearGradient id="trendLine" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="rgba(255,26,107,.4)"/>
+                  <stop offset="100%" stop-color="rgba(255,26,107,1)"/>
+                </linearGradient>
+                <filter id="rainGlow" x="-100%" y="-100%" width="300%" height="300%">
+                  <feGaussianBlur stdDeviation="3"/>
+                </filter>
+              </defs>
+              <rect width="360" height="460" fill="url(#rainBg)"/>
+              <rect width="360" height="460" fill="url(#rainDots)"/>
+
+              <!-- editorial top labels -->
+              <text x="30" y="34" font-family="JetBrains Mono" font-size="9" letter-spacing=".28em" fill="rgba(255,26,107,.85)" font-weight="700">MATCH GROUP · CLUSTER F</text>
+              <text x="30" y="64" font-family="Instrument Serif" font-style="italic" font-size="22" fill="var(--cream)">40 saw you.</text>
+              <text x="30" y="88" font-family="Instrument Serif" font-style="italic" font-size="22" fill="var(--cream)"><tspan fill="#ff1a6b">4</tspan> said yes.</text>
+
+              <!-- STOCK-MARKET DOWN trending line · jagged, drawn-in -->
+              <g class="mo-rain-chart" transform="translate(0,0)">
+                <!-- grid baseline -->
+                <line x1="20" y1="200" x2="340" y2="200" stroke="rgba(255,26,107,.12)" stroke-width=".5" stroke-dasharray="2 4"/>
+                <line x1="20" y1="260" x2="340" y2="260" stroke="rgba(255,26,107,.12)" stroke-width=".5" stroke-dasharray="2 4"/>
+                <line x1="20" y1="320" x2="340" y2="320" stroke="rgba(255,26,107,.12)" stroke-width=".5" stroke-dasharray="2 4"/>
+                <!-- under-fill area (pink decay) -->
+                <path d="M 26 170 L 60 200 L 100 188 L 140 232 L 180 222 L 220 268 L 260 290 L 300 332 L 332 360 L 332 410 L 26 410 Z" fill="rgba(255,26,107,.10)" opacity="0">
+                  <animate attributeName="opacity" values="0;1" dur="1.4s" begin=".8s" fill="freeze"/>
+                </path>
+                <!-- jagged trending-down line · drawn-in -->
+                <polyline class="mo-rain-trend" points="26,170 60,200 100,188 140,232 180,222 220,268 260,290 300,332 332,360" fill="none" stroke="url(#trendLine)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" filter="url(#rainGlow)"/>
+                <polyline points="26,170 60,200 100,188 140,232 180,222 220,268 260,290 300,332 332,360" fill="none" stroke="var(--pink)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+                <!-- arrow head pointing down-right -->
+                <g transform="translate(332,360) rotate(36)">
+                  <polygon points="0,0 -14,-7 -14,7" fill="var(--pink)"/>
+                </g>
+                <!-- chart labels -->
+                <text x="26" y="158" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".18em" fill="rgba(255,26,107,.7)" font-weight="700">YOUR RANK</text>
+                <text x="332" y="354" text-anchor="end" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".18em" fill="var(--pink)" font-weight="700">↓ BOTTOM 30%</text>
+                <!-- score data point dots along the line -->
+                <g fill="var(--pink)">
+                  <circle cx="60" cy="200" r="2"/>
+                  <circle cx="140" cy="232" r="2"/>
+                  <circle cx="220" cy="268" r="2"/>
+                  <circle cx="300" cy="332" r="2"/>
+                </g>
+              </g>
+            </svg>
+
+            <!-- floating emoji rain layer · HTML overlay for clean transform/opacity -->
+            <div class="mo-rain-emojis" id="csEmojiRain"></div>
+
+            <!-- editorial overlay: big "4 / 40" + bottom score -->
+            <div class="mo-rain-stat">
+              <div class="mr-num"><b>4</b><i>/40</i></div>
+              <div class="mr-lbl">matched · tonight</div>
+            </div>
+            <div class="mo-rain-foot">SCORE 0.31 · ELO TIER F · BOTTOM 30%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 · EMPLOYMENT — Resume funnel · 100 enter, 5 pass -->
+      <div class="carousel-slide" data-i="1" data-dur="11000">
+        <div class="left">
+          <span class="cat">02 · EMPLOYMENT</span>
+          <h2>Polite auto-reply.<br/><em>No callback.</em></h2>
+          <p class="punch">Workday's ATS filtered your resume before a human read it. <b>Keyword fit was 0.46. Threshold was 0.62.</b> You were told nothing.</p>
+          <div class="score-strip">
+            <div class="score">FIT <b>0.46</b></div>
+            <div class="score">WORKDAY · ATS v9</div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="cs-motion mo-scan">
+            <svg viewBox="0 0 360 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <linearGradient id="scanBg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#06020a"/>
+                  <stop offset="50%" stop-color="#0a0610"/>
+                  <stop offset="100%" stop-color="#02060a"/>
+                </linearGradient>
+                <linearGradient id="scanBeam" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(255,26,107,0)"/>
+                  <stop offset="50%" stop-color="rgba(255,26,107,.85)"/>
+                  <stop offset="100%" stop-color="rgba(255,26,107,0)"/>
+                </linearGradient>
+                <linearGradient id="limeZone" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(200,255,30,.04)"/>
+                  <stop offset="100%" stop-color="rgba(200,255,30,.18)"/>
+                </linearGradient>
+                <pattern id="halftone2" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+                  <circle cx="4" cy="4" r=".6" fill="rgba(255,26,107,.15)"/>
+                </pattern>
+                <filter id="scanGlow" x="-100%" y="-100%" width="300%" height="300%">
+                  <feGaussianBlur stdDeviation="6"/>
+                </filter>
+              </defs>
+
+              <!-- backdrop -->
+              <rect width="360" height="460" fill="url(#scanBg)"/>
+              <rect width="360" height="460" fill="url(#halftone2)"/>
+
+              <!-- vertical conveyor channel walls -->
+              <line x1="90" y1="20" x2="90" y2="440" stroke="rgba(255,26,107,.3)" stroke-width=".5" stroke-dasharray="2 4"/>
+              <line x1="270" y1="20" x2="270" y2="440" stroke="rgba(255,26,107,.3)" stroke-width=".5" stroke-dasharray="2 4"/>
+
+              <!-- top label -->
+              <text x="30" y="34" font-family="JetBrains Mono" font-size="9" letter-spacing=".28em" fill="rgba(255,26,107,.85)" font-weight="700">WORKDAY · ATS v9</text>
+              <text x="30" y="58" font-family="Instrument Serif" font-style="italic" font-size="22" fill="var(--cream)">100 in.</text>
+              <text x="30" y="84" font-family="Instrument Serif" font-style="italic" font-size="22" fill="var(--cream)"><tspan fill="#c8ff1e">5 out.</tspan></text>
+
+              <!-- scanner beam · horizontal across middle, pulsing -->
+              <g transform="translate(0,220)">
+                <rect x="0" y="-2" width="360" height="4" fill="url(#scanBeam)"/>
+                <rect x="0" y="-12" width="360" height="24" fill="url(#scanBeam)" opacity=".35" filter="url(#scanGlow)"/>
+                <!-- subtle pulse -->
+                <animate attributeName="opacity" values=".7;1;.7" dur="2s" repeatCount="indefinite"/>
+              </g>
+              <!-- scanner label -->
+              <text x="328" y="217" text-anchor="end" font-family="JetBrains Mono" font-size="8" letter-spacing=".22em" fill="rgba(255,26,107,.85)" font-weight="700">SCAN · THRESHOLD 0.62</text>
+
+              <!-- LIME safe zone at bottom -->
+              <rect x="92" y="360" width="178" height="76" fill="url(#limeZone)" stroke="rgba(200,255,30,.5)" stroke-width="1" stroke-dasharray="3 4"/>
+              <text x="181" y="384" text-anchor="middle" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".22em" fill="var(--lime)" font-weight="700">SEEN BY HUMAN</text>
+              <text x="181" y="424" text-anchor="middle" font-family="Archivo Black" font-size="42" letter-spacing="-.04em" fill="var(--lime)">5</text>
+
+              <!-- soft-zoom container holding the resume cascade · resumes fall through scanner -->
+              <g class="mo-scan-zoom" style="transform-origin:180px 230px">
+                <g id="csResumeCascade"></g>
+              </g>
+
+              <!-- right column · big editorial numerals -->
+              <g transform="translate(330,140)">
+                <text text-anchor="end" font-family="Archivo Black" font-size="64" letter-spacing="-.05em" fill="var(--cream)" opacity=".95">100</text>
+                <text y="16" text-anchor="end" font-family="JetBrains Mono" font-size="8" letter-spacing=".22em" fill="rgba(251,247,235,.55)" font-weight="700">APPLIED</text>
+                <text y="68" text-anchor="end" font-family="Archivo Black" font-size="64" letter-spacing="-.05em" fill="var(--pink)">95</text>
+                <text y="84" text-anchor="end" font-family="JetBrains Mono" font-size="8" letter-spacing=".22em" fill="rgba(255,26,107,.7)" font-weight="700">FILTERED</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 · RENTAL — Flag pulse + applicant swap -->
+      <div class="carousel-slide" data-i="2" data-dur="11000">
+        <div class="left">
+          <span class="cat">03 · HOUSING</span>
+          <h2>"We have <em>other applicants.</em>"</h2>
+          <p class="punch">Tenant-screening flagged a <b>2019 medical-debt collection</b>. You don't see the flag. The landlord saw a yellow indicator. The unit went to someone else.</p>
+          <div class="score-strip">
+            <div class="score">FLAG · YELLOW</div>
+            <div class="score">CORELOGIC · SAFERENT</div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="cs-motion mo-neon">
+            <svg viewBox="0 0 540 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <pattern id="brick" x="0" y="0" width="62" height="28" patternUnits="userSpaceOnUse">
+                  <rect width="62" height="28" fill="#2a1814"/>
+                  <rect width="56" height="11" x="3" y="3" rx="1" fill="#4a2820"/>
+                  <rect width="25" height="11" x="3" y="17" rx="1" fill="#4a2820"/>
+                  <rect width="25" height="11" x="34" y="17" rx="1" fill="#4a2820"/>
+                </pattern>
+                <linearGradient id="brickAtmo" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(0,0,0,.55)"/>
+                  <stop offset="100%" stop-color="rgba(0,0,0,.1)"/>
+                </linearGradient>
+                <radialGradient id="winWarm" cx="50%" cy="50%" r="55%">
+                  <stop offset="0%" stop-color="#ffeaa0"/>
+                  <stop offset="50%" stop-color="#d09040"/>
+                  <stop offset="100%" stop-color="#3a1a08"/>
+                </radialGradient>
+                <radialGradient id="neonHaloPink" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="rgba(255,26,107,.75)"/>
+                  <stop offset="60%" stop-color="rgba(255,26,107,.18)"/>
+                  <stop offset="100%" stop-color="rgba(255,26,107,0)"/>
+                </radialGradient>
+                <radialGradient id="neonHaloLime" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="rgba(200,255,30,.75)"/>
+                  <stop offset="60%" stop-color="rgba(200,255,30,.18)"/>
+                  <stop offset="100%" stop-color="rgba(200,255,30,0)"/>
+                </radialGradient>
+                <filter id="neonGlow" x="-100%" y="-100%" width="300%" height="300%">
+                  <feGaussianBlur stdDeviation="3"/>
+                </filter>
+                <filter id="neonGlowSm" x="-100%" y="-100%" width="300%" height="300%">
+                  <feGaussianBlur stdDeviation="1"/>
+                </filter>
+                <linearGradient id="stickyNote" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#ffe066"/>
+                  <stop offset="100%" stop-color="#e8c050"/>
+                </linearGradient>
+              </defs>
+
+              <!-- BRICK WALL -->
+              <rect width="540" height="460" fill="#1a0e0a"/>
+              <rect width="540" height="460" fill="url(#brick)"/>
+              <rect width="540" height="460" fill="url(#brickAtmo)"/>
+
+              <!-- editorial top label -->
+              <text x="30" y="36" font-family="JetBrains Mono" font-size="10" letter-spacing=".28em" fill="rgba(232,196,120,.7)" font-weight="700">CORELOGIC SAFERENT · LANDLORD VIEW</text>
+
+              <!-- WINDOW -->
+              <g transform="translate(120,80)">
+                <rect x="-6" y="-6" width="312" height="312" fill="#3a2510" stroke="#1a0f06" stroke-width="2"/>
+                <rect width="300" height="300" fill="url(#winWarm)" opacity=".9"/>
+                <line x1="150" y1="0" x2="150" y2="300" stroke="#3a2510" stroke-width="3"/>
+                <line x1="0" y1="150" x2="300" y2="150" stroke="#3a2510" stroke-width="3"/>
+                <rect x="2" y="2" width="146" height="146" fill="none" stroke="rgba(0,0,0,.18)" stroke-width=".5"/>
+                <rect x="152" y="2" width="146" height="146" fill="none" stroke="rgba(0,0,0,.18)" stroke-width=".5"/>
+                <rect x="2" y="152" width="146" height="146" fill="none" stroke="rgba(0,0,0,.18)" stroke-width=".5"/>
+                <rect x="152" y="152" width="146" height="146" fill="none" stroke="rgba(0,0,0,.18)" stroke-width=".5"/>
+
+                <!-- tenant silhouette inside, vague behind the sign -->
+                <ellipse cx="220" cy="195" rx="14" ry="18" fill="rgba(10,8,4,.45)"/>
+                <path d="M 195 250 Q 195 215 220 215 Q 245 215 245 250 Z" fill="rgba(10,8,4,.42)"/>
+
+                <!-- NEON: FOR RENT -->
+                <g class="neon-rent">
+                  <ellipse cx="150" cy="138" rx="120" ry="42" fill="url(#neonHaloPink)">
+                    <animate attributeName="opacity" values=".95;.7;.95;.6;.95;.95;0;0;0;0;0" dur="10s" begin="0s" repeatCount="indefinite"/>
+                  </ellipse>
+                  <g filter="url(#neonGlow)">
+                    <text x="150" y="148" text-anchor="middle" font-family="Archivo Black" font-size="44" letter-spacing="-.02em" fill="#ff1a6b">FOR RENT</text>
+                  </g>
+                  <text x="150" y="148" text-anchor="middle" font-family="Archivo Black" font-size="44" letter-spacing="-.02em" fill="#fff" stroke="#ff1a6b" stroke-width="1.2" filter="url(#neonGlowSm)">FOR RENT
+                    <animate attributeName="opacity" values="1;.4;1;.85;1;1;0;0;0;0;0" dur="10s" begin="0s" repeatCount="indefinite"/>
+                  </text>
+                  <line x1="80" y1="30" x2="80" y2="118" stroke="rgba(232,196,120,.4)" stroke-width=".6"/>
+                  <line x1="220" y1="30" x2="220" y2="118" stroke="rgba(232,196,120,.4)" stroke-width=".6"/>
+                </g>
+
+                <!-- NEON: RENTED (revealed later) -->
+                <g class="neon-rented" opacity="0">
+                  <animate attributeName="opacity" values="0;0;0;0;0;0;1;.7;1;.85;1" dur="10s" begin="0s" repeatCount="indefinite"/>
+                  <ellipse cx="150" cy="138" rx="110" ry="42" fill="url(#neonHaloLime)"/>
+                  <g filter="url(#neonGlow)">
+                    <text x="150" y="148" text-anchor="middle" font-family="Archivo Black" font-size="44" letter-spacing="-.02em" fill="#c8ff1e">RENTED</text>
+                  </g>
+                  <text x="150" y="148" text-anchor="middle" font-family="Archivo Black" font-size="44" letter-spacing="-.02em" fill="#fff" stroke="#c8ff1e" stroke-width="1.2" filter="url(#neonGlowSm)">RENTED</text>
+                </g>
+              </g>
+
+              <!-- PLANT on windowsill -->
+              <g transform="translate(100,360)">
+                <path d="M -22 0 L 22 0 L 18 42 L -18 42 Z" fill="#3a2810" stroke="#1a1208" stroke-width="1"/>
+                <ellipse cx="0" cy="0" rx="22" ry="3" fill="#1a0f06"/>
+                <path d="M -2 0 Q -10 -22 -18 -38" fill="none" stroke="#2a3e1c" stroke-width="2"/>
+                <path d="M 2 0 Q 8 -28 22 -52" fill="none" stroke="#2a3e1c" stroke-width="2"/>
+                <path d="M 0 0 Q -4 -32 -8 -64" fill="none" stroke="#2a3e1c" stroke-width="2"/>
+                <ellipse cx="-18" cy="-38" rx="14" ry="22" fill="#2a4020" stroke="#1a3010" stroke-width=".8" transform="rotate(-26 -18 -38)"/>
+                <path d="M -18 -50 L -18 -22" stroke="#1a3010" stroke-width=".8" fill="none" transform="rotate(-26 -18 -38)"/>
+                <ellipse cx="22" cy="-52" rx="14" ry="24" fill="#3a5828" stroke="#1a3010" stroke-width=".8" transform="rotate(18 22 -52)"/>
+                <path d="M 22 -68 L 22 -34" stroke="#1a3010" stroke-width=".8" fill="none" transform="rotate(18 22 -52)"/>
+                <ellipse cx="-8" cy="-64" rx="13" ry="26" fill="#2a4020" stroke="#1a3010" stroke-width=".8" transform="rotate(-6 -8 -64)"/>
+                <path d="M -8 -82 L -8 -42" stroke="#1a3010" stroke-width=".8" fill="none" transform="rotate(-6 -8 -64)"/>
+              </g>
+
+              <!-- bistro lights string -->
+              <g>
+                <path d="M 30 60 Q 270 90 510 60" fill="none" stroke="rgba(232,196,120,.3)" stroke-width=".5"/>
+                <circle cx="60" cy="68" r="3" fill="#ffe066" filter="url(#neonGlowSm)"><animate attributeName="opacity" values=".9;.5;.9" dur="3.4s" repeatCount="indefinite"/></circle>
+                <circle cx="120" cy="76" r="3" fill="#ffe066" filter="url(#neonGlowSm)"><animate attributeName="opacity" values=".9;.6;.9" dur="3s" begin="-.5s" repeatCount="indefinite"/></circle>
+                <circle cx="190" cy="84" r="3" fill="#ffe066" filter="url(#neonGlowSm)"><animate attributeName="opacity" values=".9;.5;.9" dur="4s" begin="-1.2s" repeatCount="indefinite"/></circle>
+                <circle cx="270" cy="88" r="3" fill="#ffe066" filter="url(#neonGlowSm)"><animate attributeName="opacity" values=".9;.6;.9" dur="3.6s" begin="-1.8s" repeatCount="indefinite"/></circle>
+                <circle cx="350" cy="84" r="3" fill="#ffe066" filter="url(#neonGlowSm)"><animate attributeName="opacity" values=".9;.5;.9" dur="3.2s" begin="-.8s" repeatCount="indefinite"/></circle>
+                <circle cx="420" cy="76" r="3" fill="#ffe066" filter="url(#neonGlowSm)"><animate attributeName="opacity" values=".9;.6;.9" dur="4.2s" begin="-2s" repeatCount="indefinite"/></circle>
+                <circle cx="480" cy="68" r="3" fill="#ffe066" filter="url(#neonGlowSm)"><animate attributeName="opacity" values=".9;.5;.9" dur="3.4s" begin="-1.4s" repeatCount="indefinite"/></circle>
+              </g>
+
+              <!-- STICKY NOTE pinned to wall (your app's fate) -->
+              <g transform="translate(440,310) rotate(8)">
+                <rect x="-4" y="-2" width="92" height="92" fill="rgba(0,0,0,.4)" rx="1"/>
+                <rect width="90" height="90" fill="url(#stickyNote)" stroke="rgba(0,0,0,.25)" stroke-width=".5"/>
+                <circle cx="45" cy="10" r="4" fill="#ff1a6b" stroke="rgba(0,0,0,.5)" stroke-width=".5"/>
+                <circle cx="45" cy="10" r="1.4" fill="rgba(255,255,255,.7)"/>
+                <text x="45" y="36" text-anchor="middle" font-family="Instrument Serif" font-style="italic" font-size="13" fill="var(--ink)">your app</text>
+                <text x="45" y="56" text-anchor="middle" font-family="Archivo Black" font-size="15" letter-spacing="-.02em" fill="var(--ink)">FLAGGED</text>
+                <line x1="14" y1="64" x2="76" y2="68" stroke="rgba(10,10,10,.4)" stroke-width="1.2"/>
+                <text x="45" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing=".14em" fill="rgba(10,10,10,.55)" font-weight="700">CLUE · 2019 MED</text>
+              </g>
+
+              <!-- editorial bottom strip -->
+              <text x="30" y="430" font-family="Instrument Serif" font-style="italic" font-size="20" fill="var(--cream)">they said <tspan fill="#ff1a6b">"other applicants."</tspan></text>
+              <text x="30" y="450" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="rgba(232,196,120,.55)" font-weight="700">NO ADVERSE-ACTION NOTICE SENT</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4 · MORTGAGE — Two rate bars growing -->
+      <div class="carousel-slide" data-i="3" data-dur="11000">
+        <div class="left">
+          <span class="cat">04 · LENDING</span>
+          <h2><em>0.4%</em> higher than your neighbor.</h2>
+          <p class="punch">Same credit. Same income. Same zip. The composite included <b>"education-pricing"</b> inputs and a banking-history feature your neighbor didn't have. <br/>30-year cost: <b>+$58,000</b>.</p>
+          <div class="score-strip">
+            <div class="score">SPREAD · +40bps</div>
+            <div class="score">UPSTART · ZESTAI</div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="cs-motion mo-houses">
+            <svg viewBox="0 0 360 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <linearGradient id="houseGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(251,247,235,.7)"/>
+                  <stop offset="100%" stop-color="rgba(251,247,235,.45)"/>
+                </linearGradient>
+                <linearGradient id="houseRoof" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#3a3a3f"/>
+                  <stop offset="100%" stop-color="#1a1a1f"/>
+                </linearGradient>
+                <radialGradient id="coinGrad" cx="35%" cy="35%" r="65%">
+                  <stop offset="0%" stop-color="#ffe066"/>
+                  <stop offset="100%" stop-color="#a08600"/>
+                </radialGradient>
+              </defs>
+              <!-- top header strip -->
+              <text x="180" y="32" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="rgba(251,247,235,.55)" font-weight="700">30-YR FIXED · SAME ZIP · SAME 742 FICO</text>
+              <!-- two identical houses -->
+              <g transform="translate(78,90)">
+                <!-- neighbor house -->
+                <polygon points="0,40 40,0 80,40" fill="url(#houseRoof)"/>
+                <rect x="6" y="40" width="68" height="56" fill="url(#houseGrad)"/>
+                <rect x="32" y="62" width="16" height="34" fill="rgba(10,10,10,.65)"/>
+                <rect x="14" y="50" width="12" height="10" fill="rgba(10,10,10,.4)"/>
+                <rect x="54" y="50" width="12" height="10" fill="rgba(10,10,10,.4)"/>
+                <text x="40" y="116" text-anchor="middle" font-family="Archivo Black" font-size="10" letter-spacing="-.01em" fill="var(--cream)">NEIGHBOR</text>
+                <text x="40" y="128" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing=".14em" fill="var(--cobalt)" font-weight="700">6.45%</text>
+              </g>
+              <g transform="translate(202,90)">
+                <!-- your house -->
+                <polygon points="0,40 40,0 80,40" fill="url(#houseRoof)"/>
+                <rect x="6" y="40" width="68" height="56" fill="url(#houseGrad)"/>
+                <rect x="32" y="62" width="16" height="34" fill="rgba(10,10,10,.65)"/>
+                <rect x="14" y="50" width="12" height="10" fill="rgba(10,10,10,.4)"/>
+                <rect x="54" y="50" width="12" height="10" fill="rgba(10,10,10,.4)"/>
+                <text x="40" y="116" text-anchor="middle" font-family="Archivo Black" font-size="10" letter-spacing="-.01em" fill="var(--cream)">YOU</text>
+                <text x="40" y="128" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing=".14em" fill="var(--pink)" font-weight="700">6.85%</text>
+              </g>
+              <!-- coin streams · falling continuously from each house -->
+              <g class="mo-coin-stream">
+                <!-- NEIGHBOR · sparser, smaller -->
+                <circle r="4" fill="url(#coinGrad)"><animate attributeName="cy" values="148;420" dur="3.6s" repeatCount="indefinite"/><animate attributeName="cx" values="118;115" dur="3.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="3.6s" repeatCount="indefinite"/></circle>
+                <circle r="4" fill="url(#coinGrad)"><animate attributeName="cy" values="148;420" dur="3.6s" begin="-1.2s" repeatCount="indefinite"/><animate attributeName="cx" values="122;126" dur="3.6s" begin="-1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="3.6s" begin="-1.2s" repeatCount="indefinite"/></circle>
+                <circle r="4" fill="url(#coinGrad)"><animate attributeName="cy" values="148;420" dur="3.6s" begin="-2.4s" repeatCount="indefinite"/><animate attributeName="cx" values="115;120" dur="3.6s" begin="-2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="3.6s" begin="-2.4s" repeatCount="indefinite"/></circle>
+                <!-- YOU · denser, faster stream -->
+                <circle r="5" fill="url(#coinGrad)" filter="drop-shadow(0 0 4px rgba(255,224,102,.5))"><animate attributeName="cy" values="148;420" dur="2.4s" repeatCount="indefinite"/><animate attributeName="cx" values="240;244" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" repeatCount="indefinite"/></circle>
+                <circle r="5" fill="url(#coinGrad)" filter="drop-shadow(0 0 4px rgba(255,224,102,.5))"><animate attributeName="cy" values="148;420" dur="2.4s" begin="-.4s" repeatCount="indefinite"/><animate attributeName="cx" values="244;248" dur="2.4s" begin="-.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="-.4s" repeatCount="indefinite"/></circle>
+                <circle r="5" fill="url(#coinGrad)" filter="drop-shadow(0 0 4px rgba(255,224,102,.5))"><animate attributeName="cy" values="148;420" dur="2.4s" begin="-.8s" repeatCount="indefinite"/><animate attributeName="cx" values="248;252" dur="2.4s" begin="-.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="-.8s" repeatCount="indefinite"/></circle>
+                <circle r="5" fill="url(#coinGrad)" filter="drop-shadow(0 0 4px rgba(255,224,102,.5))"><animate attributeName="cy" values="148;420" dur="2.4s" begin="-1.2s" repeatCount="indefinite"/><animate attributeName="cx" values="252;248" dur="2.4s" begin="-1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="-1.2s" repeatCount="indefinite"/></circle>
+                <circle r="5" fill="url(#coinGrad)" filter="drop-shadow(0 0 4px rgba(255,224,102,.5))"><animate attributeName="cy" values="148;420" dur="2.4s" begin="-1.6s" repeatCount="indefinite"/><animate attributeName="cx" values="244;248" dur="2.4s" begin="-1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="-1.6s" repeatCount="indefinite"/></circle>
+                <circle r="5" fill="url(#coinGrad)" filter="drop-shadow(0 0 4px rgba(255,224,102,.5))"><animate attributeName="cy" values="148;420" dur="2.4s" begin="-2.0s" repeatCount="indefinite"/><animate attributeName="cx" values="240;236" dur="2.4s" begin="-2.0s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="-2.0s" repeatCount="indefinite"/></circle>
+              </g>
+              <!-- collection bins at the bottom -->
+              <g transform="translate(78,400)">
+                <rect width="80" height="32" fill="rgba(30,60,255,.15)" stroke="var(--cobalt)" stroke-width="1"/>
+                <text x="40" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".12em" fill="var(--cobalt)" font-weight="700">$485K</text>
+              </g>
+              <g transform="translate(202,400)">
+                <rect width="80" height="32" fill="rgba(255,26,107,.2)" stroke="var(--pink)" stroke-width="1.5"/>
+                <text x="40" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".12em" fill="var(--pink)" font-weight="700">$543K</text>
+              </g>
+              <!-- delta callout -->
+              <g transform="translate(180,350)">
+                <text text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(251,247,235,.55)" font-weight="700" y="-2">YOUR EXTRA · 30YR</text>
+                <text text-anchor="middle" font-family="Archivo Black" font-size="38" letter-spacing="-.04em" fill="var(--pink)" y="34">$58,200</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 5 · MOBILITY — Two phones with prices + surge wave -->
+      <div class="carousel-slide" data-i="4" data-dur="11000">
+        <div class="left">
+          <span class="cat">05 · MOBILITY</span>
+          <h2><em>$4 more</em> for the same Lyft.</h2>
+          <p class="punch">Both waiting on the same corner. The model knows your <b>price-sensitivity score</b> says you'll accept it. Hers says she'd switch apps.</p>
+          <div class="score-strip">
+            <div class="score">ELASTICITY <b>0.71</b></div>
+            <div class="score">LYFT · personalized</div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="cs-motion mo-aerial">
+            <svg viewBox="0 0 360 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <linearGradient id="asphalt" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#1a1a20"/>
+                  <stop offset="100%" stop-color="#0a0a10"/>
+                </linearGradient>
+              </defs>
+              <!-- background blocks (city aerial) -->
+              <rect width="360" height="460" fill="#06060a"/>
+              <rect x="0" y="0" width="120" height="180" fill="rgba(251,247,235,.05)"/>
+              <rect x="240" y="0" width="120" height="180" fill="rgba(251,247,235,.05)"/>
+              <rect x="0" y="280" width="120" height="180" fill="rgba(251,247,235,.05)"/>
+              <rect x="240" y="280" width="120" height="180" fill="rgba(251,247,235,.05)"/>
+              <!-- intersection roads (cross) -->
+              <rect x="0" y="180" width="360" height="100" fill="url(#asphalt)"/>
+              <rect x="120" y="0" width="120" height="460" fill="url(#asphalt)"/>
+              <!-- crosswalk stripes -->
+              <g fill="rgba(251,247,235,.18)">
+                <rect x="124" y="186" width="112" height="3"/><rect x="124" y="192" width="112" height="3"/><rect x="124" y="198" width="112" height="3"/>
+                <rect x="124" y="266" width="112" height="3"/><rect x="124" y="260" width="112" height="3"/><rect x="124" y="254" width="112" height="3"/>
+              </g>
+              <!-- lane dashes -->
+              <line x1="180" y1="0" x2="180" y2="180" stroke="rgba(255,213,0,.35)" stroke-width="1.5" stroke-dasharray="6 8"/>
+              <line x1="180" y1="280" x2="180" y2="460" stroke="rgba(255,213,0,.35)" stroke-width="1.5" stroke-dasharray="6 8"/>
+              <line x1="0" y1="230" x2="120" y2="230" stroke="rgba(255,213,0,.35)" stroke-width="1.5" stroke-dasharray="6 8"/>
+              <line x1="240" y1="230" x2="360" y2="230" stroke="rgba(255,213,0,.35)" stroke-width="1.5" stroke-dasharray="6 8"/>
+
+              <!-- two pedestrian dots at the corner -->
+              <g transform="translate(150,250)">
+                <circle r="6" fill="var(--cream)"/>
+                <circle r="2.5" fill="var(--pink)"/>
+                <text x="-12" y="-12" font-family="JetBrains Mono" font-size="7" letter-spacing=".14em" fill="rgba(255,255,255,.7)" font-weight="700" text-anchor="end">YOU</text>
+              </g>
+              <g transform="translate(210,250)">
+                <circle r="6" fill="var(--cream)"/>
+                <circle r="2.5" fill="var(--cobalt)"/>
+                <text x="14" y="-12" font-family="JetBrains Mono" font-size="7" letter-spacing=".14em" fill="rgba(255,255,255,.7)" font-weight="700">HER</text>
+              </g>
+
+              <!-- sonar pulses from the corner -->
+              <circle cx="180" cy="250" r="20" fill="none" stroke="rgba(255,26,107,.55)" stroke-width="1.2">
+                <animate attributeName="r" values="20;130" dur="3.6s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values=".8;0" dur="3.6s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="180" cy="250" r="20" fill="none" stroke="rgba(255,26,107,.55)" stroke-width="1.2">
+                <animate attributeName="r" values="20;130" dur="3.6s" begin="-1.2s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values=".8;0" dur="3.6s" begin="-1.2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="180" cy="250" r="20" fill="none" stroke="rgba(255,26,107,.55)" stroke-width="1.2">
+                <animate attributeName="r" values="20;130" dur="3.6s" begin="-2.4s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values=".8;0" dur="3.6s" begin="-2.4s" repeatCount="indefinite"/>
+              </circle>
+
+              <!-- a car drives in from the top, slows, then leaves to bottom -->
+              <g class="mo-car" transform="translate(170,0)">
+                <rect x="0" y="0" width="20" height="36" rx="3" fill="var(--yellow)" stroke="var(--ink)" stroke-width="1"/>
+                <rect x="3" y="6" width="14" height="10" fill="rgba(10,10,10,.7)"/>
+                <rect x="3" y="22" width="14" height="8" fill="rgba(10,10,10,.7)"/>
+                <animateTransform attributeName="transform" type="translate" values="170,-40; 170,140; 170,140; 170,500" keyTimes="0;.4;.6;1" dur="8s" repeatCount="indefinite"/>
+              </g>
+
+              <!-- floating price cards -->
+              <g class="mo-price-card her" transform="translate(60,90)">
+                <rect width="100" height="62" fill="rgba(30,60,255,.18)" stroke="var(--cobalt)" stroke-width="1.5"/>
+                <text x="50" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing=".14em" fill="rgba(255,255,255,.6)" font-weight="700">HER FARE</text>
+                <text x="50" y="42" text-anchor="middle" font-family="Archivo Black" font-size="20" letter-spacing="-.03em" fill="var(--cream)">$16.05</text>
+                <text x="50" y="56" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing=".12em" fill="rgba(255,255,255,.55)">1.13× base</text>
+              </g>
+              <g class="mo-price-card you" transform="translate(200,90)" filter="drop-shadow(0 4px 12px rgba(255,26,107,.4))">
+                <rect width="100" height="62" fill="rgba(255,26,107,.2)" stroke="var(--pink)" stroke-width="2"/>
+                <text x="50" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing=".14em" fill="rgba(255,255,255,.6)" font-weight="700">YOUR FARE</text>
+                <text x="50" y="42" text-anchor="middle" font-family="Archivo Black" font-size="20" letter-spacing="-.03em" fill="var(--pink)">$20.18</text>
+                <text x="50" y="56" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing=".12em" fill="rgba(255,26,107,.85)">1.42× personalized</text>
+              </g>
+
+              <!-- delta callout -->
+              <g transform="translate(180,400)">
+                <text text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(255,255,255,.55)" font-weight="700" y="0">PERSONALIZATION DELTA</text>
+                <text text-anchor="middle" font-family="Archivo Black" font-size="32" letter-spacing="-.03em" fill="var(--pink)" y="34">+$4.13</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 6 · INSURANCE — Premium multiplier dial -->
+      <div class="carousel-slide" data-i="5" data-dur="11000">
+        <div class="left">
+          <span class="cat">06 · INSURANCE</span>
+          <h2><em>$80/month</em> more.</h2>
+          <p class="punch">Not denied. Just priced for what the actuarial model thinks <b>your future looks like.</b> The model has 700 attributes about you. You can audit four.</p>
+          <div class="score-strip">
+            <div class="score">MULTIPLIER <b>1.34×</b></div>
+            <div class="score">LEXISNEXIS · CLUE</div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="cs-motion mo-gauge">
+            <svg viewBox="0 0 360 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <radialGradient id="gaugeFace" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#1a1a20"/>
+                  <stop offset="100%" stop-color="#06060a"/>
+                </radialGradient>
+                <linearGradient id="gaugeRim" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#3a3a3f"/>
+                  <stop offset="100%" stop-color="#15151a"/>
+                </linearGradient>
+                <filter id="needleShadow"><feGaussianBlur stdDeviation="2"/></filter>
+              </defs>
+              <!-- top label · industrial -->
+              <text x="180" y="34" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".28em" fill="rgba(251,247,235,.55)" font-weight="700">LEXISNEXIS · CLUE · ANNUAL PREMIUM MULT.</text>
+              <!-- gauge rim · thick outer -->
+              <circle cx="180" cy="220" r="140" fill="url(#gaugeRim)"/>
+              <circle cx="180" cy="220" r="130" fill="url(#gaugeFace)" stroke="rgba(251,247,235,.18)" stroke-width="1"/>
+              <!-- inner bezel ring -->
+              <circle cx="180" cy="220" r="118" fill="none" stroke="rgba(251,247,235,.06)" stroke-width="1"/>
+
+              <!-- colored arc (1.0 to 2.0) -->
+              <path d="M 70 280 A 110 110 0 0 1 100 145" fill="none" stroke="rgba(200,255,30,.55)" stroke-width="14" stroke-linecap="round"/>
+              <path d="M 100 145 A 110 110 0 0 1 200 113" fill="none" stroke="rgba(200,255,30,.55)" stroke-width="14" stroke-linecap="round"/>
+              <path d="M 200 113 A 110 110 0 0 1 260 145" fill="none" stroke="rgba(255,213,0,.55)" stroke-width="14" stroke-linecap="round"/>
+              <path d="M 260 145 A 110 110 0 0 1 290 280" fill="none" stroke="rgba(255,26,107,.7)" stroke-width="14" stroke-linecap="round"/>
+
+              <!-- tick marks · major + minor -->
+              <g stroke="rgba(251,247,235,.6)" stroke-width="1.5">
+                <line x1="70" y1="280" x2="74" y2="272"/>
+                <line x1="103" y1="148" x2="111" y2="156"/>
+                <line x1="180" y1="110" x2="180" y2="120"/>
+                <line x1="257" y1="148" x2="249" y2="156"/>
+                <line x1="290" y1="280" x2="286" y2="272"/>
+              </g>
+
+              <!-- tick labels -->
+              <text x="58" y="298" font-family="JetBrains Mono" font-size="9" letter-spacing=".1em" fill="rgba(251,247,235,.7)" text-anchor="middle" font-weight="700">1.0×</text>
+              <text x="92" y="138" font-family="JetBrains Mono" font-size="9" letter-spacing=".1em" fill="rgba(251,247,235,.7)" text-anchor="middle" font-weight="700">1.25×</text>
+              <text x="180" y="100" font-family="JetBrains Mono" font-size="9" letter-spacing=".1em" fill="rgba(251,247,235,.7)" text-anchor="middle" font-weight="700">1.5×</text>
+              <text x="268" y="138" font-family="JetBrains Mono" font-size="9" letter-spacing=".1em" fill="rgba(251,247,235,.7)" text-anchor="middle" font-weight="700">1.75×</text>
+              <text x="302" y="298" font-family="JetBrains Mono" font-size="9" letter-spacing=".1em" fill="rgba(251,247,235,.7)" text-anchor="middle" font-weight="700">2.0×</text>
+
+              <!-- zone labels (small) -->
+              <text x="100" y="232" font-family="JetBrains Mono" font-size="7" letter-spacing=".18em" fill="rgba(200,255,30,.7)" text-anchor="middle" font-weight="700">SAFE</text>
+              <text x="180" y="172" font-family="JetBrains Mono" font-size="7" letter-spacing=".18em" fill="rgba(255,213,0,.7)" text-anchor="middle" font-weight="700">WATCH</text>
+              <text x="260" y="232" font-family="JetBrains Mono" font-size="7" letter-spacing=".18em" fill="rgba(255,26,107,.85)" text-anchor="middle" font-weight="700">PRICED-OUT</text>
+
+              <!-- needle · animated · with shadow trail -->
+              <g transform="translate(180,220)">
+                <!-- shadow needle (offset, blurred) -->
+                <polygon points="-3,4 3,4 0,-100" fill="rgba(0,0,0,.6)" filter="url(#needleShadow)" id="csNeedleShadow" style="transform-origin:0 0;transform:rotate(-90deg);transition:transform 2.8s cubic-bezier(.3,.7,.3,1) .4s"/>
+                <!-- main needle -->
+                <polygon points="-3,4 3,4 0,-100" fill="var(--cream)" id="csDialNeedle" style="transform-origin:0 0;transform:rotate(-90deg);transition:transform 2.8s cubic-bezier(.3,.7,.3,1) .4s"/>
+                <!-- hub -->
+                <circle r="14" fill="url(#gaugeRim)" stroke="var(--cream)" stroke-width="1.5"/>
+                <circle r="6" fill="var(--ink)"/>
+                <circle r="2" fill="var(--pink)"/>
+              </g>
+
+              <!-- big multiplier readout · industrial -->
+              <g transform="translate(180,340)">
+                <rect x="-70" y="-22" width="140" height="44" fill="rgba(10,10,10,.85)" stroke="var(--pink)" stroke-width="1.5"/>
+                <text id="csDialV" x="0" y="14" text-anchor="middle" font-family="Archivo Black" font-size="28" letter-spacing="-.04em" fill="var(--pink)">1.34×</text>
+              </g>
+              <text x="180" y="376" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".18em" fill="rgba(251,247,235,.55)" font-weight="700">PREMIUM MULTIPLIER · TODAY'S QUOTE</text>
+
+              <!-- attribute count strip -->
+              <g transform="translate(0,418)">
+                <text x="60" y="0" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(251,247,235,.5)" font-weight="700">700 ATTR USED</text>
+                <text x="300" y="0" text-anchor="end" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(251,247,235,.5)" font-weight="700">4 YOU CAN AUDIT</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 7 · STINGER — Decision field that zooms OUT to reveal scale -->
+      <div class="carousel-slide stinger" data-i="6" data-dur="10000">
+        <div class="left">
+          <span class="cat" style="color:var(--pink)">THE THESIS</span>
+          <h2>None of this had a paper trail.<br/><em>All of it was a model</em> deciding about you.</h2>
+          <p class="punch">You weren't denied. <b>You were quietly ranked.</b> The era of explicit "no" is over. The era of <em>the offer that never came</em> is here.</p>
+          <div class="down-arrow">SCROLL · BUILD YOUR OWN COMPOSITE</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cs-controls">
+      <div class="cs-meta">
+        <span>SLIDE <span class="num" id="csNum">1</span> / 7</span>
+      </div>
+      <div class="cs-progress" id="csProgress"></div>
+      <button class="cs-btn" id="csPlay">⏸ PAUSE</button>
+      <button class="cs-btn" id="csSkip">SKIP ↓</button>
+    </div>
+  </div>
+</section>
+
+<!-- (Stage 02 silhouette removed in v0.9 · carousel now feeds directly into the builder below) -->
+
+
+<!-- ============================================================ -->
+<!-- STAGE 02 · THE GATEKEEPERS — sectors + composite ownership + scope -->
+<!-- ============================================================ -->
+<section class="gk-stage">
+  <div class="gk-head">
+    <div class="lbl">02 · WHO RANKS YOU · WHO OWNS YOU · WHAT THEY SEE</div>
+    <h2>The architecture of the <em>quiet ranking.</em></h2>
+    <p class="dek">Before we play with the composite, see the gatekeepers. Six sectors already score you. Four companies own most of the picture. Different gatekeepers see different slices — together they see everything.</p>
+  </div>
+
+  <div class="gk-body">
+
+    <p class="tb-intro">If your news, ads, prices, and social proof are <b>all different</b> from the person next to you — your <em>opportunities</em> are already diverging. The next layer takes those signals and turns them into <em>scores</em> attached to your name. You don't get told. You just stop getting the call back.</p>
+
+    <!-- SECTOR GRID — what's already scoring you -->
+    <div class="tb-sectors">
+      <div class="tb-sector">
+        <div class="tb-l">HIRING</div>
+        <h5>Resume-ranking <em>AI</em> in 99% of Fortune 500</h5>
+        <div class="tb-stat"><div class="v">75%</div><div class="l">of resumes filtered before a human reads</div></div>
+        <div class="tb-body">Applicant-tracking systems score keyword fit, prior-employer prestige, and social-graph proxies. Some cross-check broker-supplied attributes silently.</div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>Workday · iCIMS · LinkedIn Talent Insights · HireVue · Eightfold.</div>
+      </div>
+      <div class="tb-sector">
+        <div class="tb-l">INSURANCE</div>
+        <h5>Underwriting <em>by composite</em></h5>
+        <div class="tb-stat"><div class="v">700+</div><div class="l">attributes per quote</div></div>
+        <div class="tb-body">Credit-based insurance scoring is legal in 47 states. Auto + home + life + health insurers buy from the same broker layer that prices your ads. <b>Same data, different decision.</b></div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>LexisNexis Risk Solutions · TransUnion · Verisk · Milliman.</div>
+      </div>
+      <div class="tb-sector">
+        <div class="tb-l">CREDIT + LENDING</div>
+        <h5>FICO + <em>alternative</em> scoring</h5>
+        <div class="tb-stat"><div class="v">~1,200</div><div class="l">alt-score inputs per applicant</div></div>
+        <div class="tb-body">Traditional FICO is just the front door. Behind it: utility payments, rental history, BNPL patterns, social-graph stability, even smartphone model. Sub-prime lenders score most aggressively.</div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>FICO · VantageScore · Experian Boost · ZestAI · Upstart.</div>
+      </div>
+      <div class="tb-sector">
+        <div class="tb-l">DATING</div>
+        <h5>Desirability scoring is <em>real</em></h5>
+        <div class="tb-stat"><div class="v">internal</div><div class="l">"elo" rankings per user</div></div>
+        <div class="tb-body">Major apps assign each user an internal attractiveness/engagement score that decides who sees you and who you're shown. They don't publish it. They do match against it.</div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>Match Group (Tinder, Hinge, OkCupid) · Bumble · Grindr.</div>
+      </div>
+      <div class="tb-sector">
+        <div class="tb-l">DNA + GENEALOGY</div>
+        <h5>Your <em>and your family's</em> genome</h5>
+        <div class="tb-stat"><div class="v">30M+</div><div class="l">US samples in commercial databases</div></div>
+        <div class="tb-body">23andMe, AncestryDNA, MyHeritage. Once one cousin tests, ~60% of US adults of European descent can be identified by triangulation — whether they opted in or not.</div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>23andMe · AncestryDNA · MyHeritage · GEDmatch (law-enforcement accessible).</div>
+      </div>
+      <div class="tb-sector">
+        <div class="tb-l">BACKGROUND + RENTAL</div>
+        <h5>Eviction scoring · <em>tenant blacklists</em></h5>
+        <div class="tb-stat"><div class="v">90%</div><div class="l">of landlords use a scoring service</div></div>
+        <div class="tb-body">Tenant scoring layers eviction records, credit pulls, and predictive models that estimate "future eviction risk." Errors are common, appeals are rare, and the score follows you across cities.</div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>CoreLogic · TransUnion SmartMove · RealPage · Yardi.</div>
+      </div>
+    </div>
+
+    <!-- COMPOSITE OWNERSHIP TREEMAP -->
+    <div class="tb-composite">
+      <div class="tb-l">WHO OWNS THE MOST COMPLETE COMPOSITE OF YOU</div>
+      <h4>Not the company you signed up with.<br/><em>The four that bought the rest.</em></h4>
+      <p class="sub">Block size = approximate share of total US adult digital-personhood data under each operator's roof. Tier-1 owns the substrate (platforms + ad networks + cloud). Tier-2 brokers fuse cross-source. Tier-3 sector specialists own deep verticals. Tier-4 is fragmented.</p>
+      <div class="tb-treemap">
+        <div class="tb-block tier1"><div class="nm">META / GOOGLE / APPLE / AMAZON</div><div class="ct">Substrate + ads + cloud<b>~62% of total signal</b></div></div>
+        <div class="tb-block tier1b"><div class="nm">MICROSOFT</div><div class="ct">Cloud + LinkedIn + ads<b>~12% of total signal</b></div></div>
+        <div class="tb-block tier2"><div class="nm">ACXIOM / LIVERAMP</div><div class="ct">Consumer data broker<b>~6%</b></div></div>
+        <div class="tb-block tier2b"><div class="nm">EXPERIAN</div><div class="ct">Credit + marketing<b>~4%</b></div></div>
+        <div class="tb-block tier2c"><div class="nm">LEXISNEXIS</div><div class="ct">Risk + insurance<b>~3%</b></div></div>
+        <div class="tb-block tier3"><div class="nm">CORELOGIC</div><div class="ct">Housing<b>~2%</b></div></div>
+        <div class="tb-block tier3b"><div class="nm">23ANDME</div><div class="ct">Genomics<b>~1.5%</b></div></div>
+        <div class="tb-block tier3c"><div class="nm">PALANTIR</div><div class="ct">Gov + enterprise<b>~1.5%</b></div></div>
+        <div class="tb-block tier4"><div class="nm">EVERYONE ELSE</div><div class="ct">Long-tail brokers + sector tools<b>~8%</b></div></div>
+      </div>
+    </div>
+
+    <!-- SCOPE OVERLAP TABLE — what each tier can collect -->
+    <div class="tb-scope">
+      <div class="tb-scope-head">
+        <div class="tb-l">SCOPE · WHAT EACH TIER CAN SEE</div>
+        <h4>Different gatekeepers see <em>different slices.</em> Together they see <em>everything.</em></h4>
+      </div>
+      <div class="tb-scope-grid">
+        <div class="row">
+          <div class="cell h"></div>
+          <div class="cell h">Platforms</div>
+          <div class="cell h">Brokers</div>
+          <div class="cell h">Insurers</div>
+          <div class="cell h">Banks</div>
+          <div class="cell h">DNA / Health</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl dim">Browsing + clicks</div>
+          <div class="cell full dim">FULL</div>
+          <div class="cell partial dim">PARTIAL</div>
+          <div class="cell none dim">—</div>
+          <div class="cell none dim">—</div>
+          <div class="cell none dim">—</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl">Location history</div>
+          <div class="cell full">FULL</div>
+          <div class="cell full">FULL</div>
+          <div class="cell partial">PARTIAL</div>
+          <div class="cell partial">PARTIAL</div>
+          <div class="cell none">—</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl dim">Purchase + transactions</div>
+          <div class="cell partial dim">PARTIAL</div>
+          <div class="cell full dim">FULL</div>
+          <div class="cell partial dim">PARTIAL</div>
+          <div class="cell full dim">FULL</div>
+          <div class="cell none dim">—</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl">Social graph + DMs</div>
+          <div class="cell full">FULL</div>
+          <div class="cell none">—</div>
+          <div class="cell none">—</div>
+          <div class="cell none">—</div>
+          <div class="cell none">—</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl dim">Medical claims + Rx</div>
+          <div class="cell none dim">—</div>
+          <div class="cell partial dim">PARTIAL</div>
+          <div class="cell full dim">FULL</div>
+          <div class="cell none dim">—</div>
+          <div class="cell full dim">FULL</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl">Income + assets</div>
+          <div class="cell partial">PARTIAL</div>
+          <div class="cell full">FULL</div>
+          <div class="cell partial">PARTIAL</div>
+          <div class="cell full">FULL</div>
+          <div class="cell none">—</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl dim">Genetic + family history</div>
+          <div class="cell none dim">—</div>
+          <div class="cell none dim">—</div>
+          <div class="cell partial dim">PARTIAL</div>
+          <div class="cell none dim">—</div>
+          <div class="cell full dim">FULL</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl">Photos + face IDs</div>
+          <div class="cell full">FULL</div>
+          <div class="cell partial">PARTIAL</div>
+          <div class="cell none">—</div>
+          <div class="cell none">—</div>
+          <div class="cell partial">PARTIAL</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHERE IT'S HEADING -->
+    <div class="tb-future">
+      <div class="tb-l">WHERE THIS IS HEADING · THE END GOAL</div>
+      <h4>The next decade isn't about <em>more data.</em><br/>It's about <em>fewer humans</em> in the decision.</h4>
+      <div class="tb-future-points">
+        <div class="tb-fp">
+          <div class="n">A single <em>composite score</em></div>
+          <div class="d">Hiring + insurance + lending + housing + dating fuse into one cross-sector reputation token. Privately held, opaque, mostly accurate, occasionally devastating.</div>
+        </div>
+        <div class="tb-fp">
+          <div class="n">Autonomous <em>decision agents</em></div>
+          <div class="d">Bidders, recommenders, underwriters, recruiters — all AI agents transacting on your composite without any human in the chain until it's already locked in.</div>
+        </div>
+        <div class="tb-fp">
+          <div class="n">The <em>quiet denial</em></div>
+          <div class="d">You won't be told no. The interview just doesn't come. The rate is slightly higher. The match never shows up. The credit is approved but at a different number than your neighbor.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- STAGE 03 · INTERACTIVE COMPOSITE BUILDER + KIDS PANEL          -->
+<!-- ============================================================ -->
+<section class="build-stage">
+  <div class="build-shead">
+    <div class="lbl">03 · BUILD A COMPOSITE · WATCH THE SCORES SHIFT</div>
+    <h2>Tap a life event.<br/><em>Watch the dossier fill in.</em> Watch the scores follow.</h2>
+    <p class="dek">Each tap fires a life event — graduation, a card, a marriage, a medical collection. The composite sections ratchet. Six scoring systems update. The trust-tax meter reacts. The point isn't the number — it's how <b style="font-style:normal;font-family:var(--sans);font-weight:700;background:var(--cobalt);color:var(--cream);padding:0 6px">information you give in one place flows to systems you didn't know were watching.</b></p>
+  </div>
+
+  <div class="build-lab">
+
+    <!-- LEFT · life event triggers -->
+    <div class="bl-panel">
+      <div class="panel-l">LIFE EVENTS · TAP TO FIRE</div>
+      <h3>Your <em>life so far</em> · what you tell the system without realizing it</h3>
+
+      <div class="bl-events" id="blEvents">
+        <button class="bl-event" data-ev="card"><span class="ev-age">AGE 21</span><span class="ev-nm">First credit card</span></button>
+        <button class="bl-event" data-ev="lease"><span class="ev-age">AGE 22</span><span class="ev-nm">First lease signed</span></button>
+        <button class="bl-event" data-ev="job"><span class="ev-age">AGE 23</span><span class="ev-nm">First salaried job</span></button>
+        <button class="bl-event" data-ev="dating"><span class="ev-age">AGE 24</span><span class="ev-nm">Dating app joined</span></button>
+        <button class="bl-event" data-ev="dna"><span class="ev-age">AGE 26</span><span class="ev-nm">23andMe kit</span></button>
+        <button class="bl-event" data-ev="move"><span class="ev-age">AGE 28</span><span class="ev-nm">Moved cities</span></button>
+        <button class="bl-event" data-ev="marriage"><span class="ev-age">AGE 30</span><span class="ev-nm">Got married</span></button>
+        <button class="bl-event" data-ev="house"><span class="ev-age">AGE 32</span><span class="ev-nm">Bought a house</span></button>
+        <button class="bl-event harm" data-ev="medcoll"><span class="ev-age">AGE 33</span><span class="ev-nm">Medical collection</span></button>
+        <button class="bl-event" data-ev="kid"><span class="ev-age">AGE 34</span><span class="ev-nm">First child</span></button>
+        <button class="bl-event harm" data-ev="layoff"><span class="ev-age">AGE 36</span><span class="ev-nm">Laid off · 11wk gap</span></button>
+        <button class="bl-event" data-ev="business"><span class="ev-age">AGE 38</span><span class="ev-nm">Started a business</span></button>
+      </div>
+
+      <div class="bl-reset-row">
+        <button class="bl-reset" id="blReset">↻ RESET COMPOSITE</button>
+        <button class="bl-toggle" id="blDispToggle" aria-pressed="false">⊕ SHOW DISPARATE IMPACT</button>
+      </div>
+
+      <div class="bl-disp" id="blDisp" hidden>
+        <div class="bl-disp-l">DISPARATE IMPACT · documented · citable</div>
+        <div class="bl-disp-body">
+          Federal enforcement records show the same composite — same income, same FICO, same employment tenure — produces <b>materially different scoring outcomes</b> when the proxy variable changes. Slide below the documented gap (mid-range, peer-reviewed) to layer it onto your current composite.
+        </div>
+        <div class="bl-disp-slider">
+          <span class="ds-l">PROXY DELTA · 0× → max documented</span>
+          <input type="range" id="blDispRange" min="0" max="100" value="0"/>
+          <span class="ds-v"><b id="blDispV">0%</b> of documented gap</span>
+        </div>
+        <div class="bl-disp-row">
+          <div class="bl-disp-stat"><span>INSURANCE</span><b id="bldI">+0%</b></div>
+          <div class="bl-disp-stat"><span>MORTGAGE</span><b id="bldM">+0bps</b></div>
+          <div class="bl-disp-stat"><span>CALLBACK</span><b id="bldJ">+0%</b></div>
+        </div>
+        <div class="bl-disp-cit">
+          Brookings 2022 (zip-pricing) · CFPB 2024 (algorithmic mortgage) · McKinsey/EEOC 2023 (callback gap) · <em>conservative midpoint of published ranges</em>
+        </div>
+      </div>
+
+      <!-- KIDS / SELF-SERVE DATA PANEL -->
+      <div class="bl-kids">
+        <div class="kids-l">⚠ FOR PARENTS · WHAT KIDS DON'T KNOW THEY'RE GIVING</div>
+        <h4>Your kid's pre-adult composite is <em>~40% built</em> by age 13.</h4>
+        <p>Before they ever apply for a job or a loan or an apartment, the system already has their <b>video-game spending patterns</b> from Roblox/Fortnite, their <b>YouTube watch history</b> back to age 7, their <b>school-district medical records</b>, their <b>school-bus GPS pattern</b>, their <b>TikTok engagement profile</b>, and their <b>browser-tracking history</b>. At 18, the composite is waiting for them. They just inherit it.</p>
+        <div class="bl-kids-stats">
+          <div class="ks"><div class="v">~40%</div><div class="l">composite filled by age 13</div></div>
+          <div class="ks"><div class="v">~700</div><div class="l">tags on the average teen</div></div>
+          <div class="ks"><div class="v">11 yr</div><div class="l">avg span of self-served history before age 18</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT · composite display + scores + trust-tax -->
+    <div class="bl-composite">
+      <div class="bl-panel">
+        <div class="panel-l">COMPOSITE · LIVE FILL</div>
+        <h3>The <em>copy of you</em> takes shape · one event at a time</h3>
+        <div class="bl-comp-grid" id="blCompGrid">
+          <div class="bl-comp-sec" data-sec="identity"><span class="nm">Identity + IDs</span><span class="from">LexisNexis · LiveRamp</span><div class="fill-bar" style="--fill:14%"></div></div>
+          <div class="bl-comp-sec" data-sec="behavior"><span class="nm">Behavioral signals</span><span class="from">Acxiom · Oracle</span><div class="fill-bar" style="--fill:18%"></div></div>
+          <div class="bl-comp-sec" data-sec="financial"><span class="nm">Credit + cash flow</span><span class="from">Experian · TransUnion · Plaid</span><div class="fill-bar" style="--fill:8%"></div></div>
+          <div class="bl-comp-sec" data-sec="employment"><span class="nm">Employment + payroll</span><span class="from">Workday · Equifax Work Number</span><div class="fill-bar" style="--fill:6%"></div></div>
+          <div class="bl-comp-sec" data-sec="housing"><span class="nm">Housing + tenant</span><span class="from">CoreLogic · RealPage</span><div class="fill-bar" style="--fill:4%"></div></div>
+          <div class="bl-comp-sec" data-sec="dating"><span class="nm">Desirability + dating</span><span class="from">Match Group</span><div class="fill-bar" style="--fill:0%"></div></div>
+          <div class="bl-comp-sec" data-sec="health"><span class="nm">Health + medical</span><span class="from">Optum · Athenahealth</span><div class="fill-bar" style="--fill:12%"></div></div>
+          <div class="bl-comp-sec" data-sec="genetic"><span class="nm">Genetic + family</span><span class="from">23andMe · AncestryDNA</span><div class="fill-bar" style="--fill:0%"></div></div>
+          <div class="bl-comp-sec" data-sec="location"><span class="nm">Location + movement</span><span class="from">SafeGraph · X-Mode</span><div class="fill-bar" style="--fill:6%"></div></div>
+          <div class="bl-comp-sec" data-sec="shadow"><span class="nm">Court + public records</span><span class="from">Thomson Reuters CLEAR</span><div class="fill-bar" style="--fill:2%"></div></div>
+        </div>
+      </div>
+
+      <div class="bl-panel">
+        <div class="panel-l">SCORING OUTPUTS · LIVE</div>
+        <h3>Six systems · <em>updating right now</em></h3>
+        <div class="bl-scores" id="blScores">
+          <div class="bl-score"><span class="l">INSURANCE</span><span class="v" id="scInsurance">1.00×</span></div>
+          <div class="bl-score"><span class="l">JOB CALLBACK</span><span class="v" id="scJob">71%</span></div>
+          <div class="bl-score"><span class="l">MORTGAGE RATE</span><span class="v" id="scMortgage">+0bps</span></div>
+          <div class="bl-score"><span class="l">DATING TIER</span><span class="v" id="scDating">—</span></div>
+          <div class="bl-score"><span class="l">RENTAL FLAG</span><span class="v" id="scRental">green</span></div>
+          <div class="bl-score"><span class="l">BACKGROUND</span><span class="v" id="scBg">0.08</span></div>
+        </div>
+      </div>
+
+      <div class="bl-trust-tax">
+        <div class="l">TRUST-TAX · ANNUAL · ILLUSTRATIVE MIDPOINT</div>
+        <div class="v" id="blTaxV">$0</div>
+        <div class="sub">Conservative midpoint estimate of annual extra cost for this composite vs. the best-decile composite, same ability and intent. <b>Lifetime range (40 yr): ~$120K–$220K</b> in published estimates · we lead with the midpoint, not the high end.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bl-instructions">
+    Try a sequence. Fire <b>first credit card</b>, then <b>moved cities</b>, then <b>medical collection</b>. Watch how an honest life — one bad medical bill, one work move — collapses scores in five different systems. <b>None of these decisions are explained to you in real life.</b> They just happen.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- STAGE 04 · CASE-STUDY NARRATIVES (cousin DNA · spouse merge)    -->
+<!-- ============================================================ -->
+<section class="story-stage">
+  <div class="story-shead">
+    <div class="lbl">04 · THE PEOPLE WHO PAY · TWO TRUE-SHAPE STORIES</div>
+    <h2>The composite is <em>not abstract.</em><br/>It costs particular people particular money.</h2>
+    <p class="dek">Two composite case studies. A second cousin's DNA. A spouse's old credit file. Each one shows how a <b style="font-style:normal;font-family:var(--sans);font-weight:700;background:var(--lime);color:var(--ink);padding:0 6px">single signal you didn't authorize</b> can re-shape a life.</p>
+  </div>
+
+  <div class="story-cases">
+
+    <!-- ============ CASE 1 · COUSIN DNA · FAMILY TREE VIZ ============ -->
+    <div class="story-case" id="case1" style="--case-color:var(--pink)">
+      <div class="sc-side">
+        <div class="case-l">CASE 01 · THE COUSIN'S DNA</div>
+        <h3>She never spit in the tube.<br/><em>Her premium went up anyway.</em></h3>
+        <div class="protagonist">
+          <div class="av">M</div>
+          <div>
+            <div class="nm">MARA · age 41</div>
+            <div class="blr">DESIGNER · NEVER TESTED · MAINE</div>
+          </div>
+        </div>
+        <div class="sc-narration" id="case1Nar">"Mara is one of <b>thirteen extended family members</b> the model can identify with confidence — without her ever submitting a sample. Press play to watch the schedule unfold, or <b>click any relative</b> to toggle them tested / untested and see how the model's confidence + her premium re-compute live."</div>
+        <div class="sc-stat-row">
+          <div class="sc-stat"><div class="l">RELATIVES TESTED</div><div class="v" id="c1Tested">0</div></div>
+          <div class="sc-stat"><div class="l">MODEL CONFIDENCE</div><div class="v" id="c1Conf">0%</div></div>
+          <div class="sc-stat"><div class="l">PREMIUM MULT.</div><div class="v" id="c1Mult">1.00×</div></div>
+        </div>
+        <div class="sc-reveal">
+          <div class="rev-text">
+            <div class="rev-l">CONSEQUENCE · 30 YR</div>
+            <div class="rev-v" id="c1Reveal">+$48,600</div>
+            <div class="rev-sub">Estimated additional life + LTC + disability premium <b>from data she never authorized.</b></div>
+          </div>
+          <div class="rev-src">Sweeney et al. 2018<br/>GINA §201–§215<br/>42 USC §2000ff</div>
+        </div>
+      </div>
+      <div class="sc-viz">
+        <div class="viz-h">
+          <span class="vh-l">FAMILY · LIVE</span>
+          <span class="vh-yr">YEAR <em id="c1Year">2021</em></span>
+        </div>
+        <div class="sc-viz-canvas viz-tree" id="c1Viz">
+          <svg viewBox="0 0 460 320" preserveAspectRatio="xMidYMid meet">
+            <g class="links" id="c1Links">
+              <!-- links generated by JS -->
+            </g>
+            <g class="nodes" id="c1Nodes">
+              <!-- nodes generated by JS -->
+            </g>
+          </svg>
+          <div class="you-multiplier" id="c1YouMult">1.00×</div>
+        </div>
+        <div class="sc-viz-controls">
+          <button class="ctl play" id="c1Play">▶ PLAY 2021 → 2030</button>
+          <div class="scrub" id="c1Scrub"><div class="scrub-fill" id="c1ScrubFill"></div><div class="scrub-thumb" id="c1ScrubThumb"></div></div>
+          <button class="ctl" id="c1Reset">↻</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============ CASE 3 · SPOUSE COMPOSITE MERGE · COLLISION ============ -->
+    <div class="story-case" id="case3" style="--case-color:var(--yellow)">
+      <div class="sc-side">
+        <div class="case-l">CASE 02 · THE SPOUSE COMPOSITE MERGE</div>
+        <h3>She kept her credit clean.<br/><em>Her wedding cost her 0.3%.</em></h3>
+        <div class="protagonist">
+          <div class="av">L</div>
+          <div>
+            <div class="nm">LENA · age 29</div>
+            <div class="blr">NURSE · NEWLY MARRIED · CHICAGO</div>
+          </div>
+        </div>
+        <div class="sc-narration" id="case3Nar">"Lena had a 790 FICO. Theo had a 651. They didn't merge bank accounts. <b>The system merged them anyway</b> within 90 days — and Theo's 2018 late-payment markers transferred onto Lena's household composite. Press play."</div>
+        <div class="sc-stat-row">
+          <div class="sc-stat"><div class="l">MARRIAGE STATUS</div><div class="v" id="c3Stat">SOLO</div></div>
+          <div class="sc-stat"><div class="l">EXTRA PREMIUM</div><div class="v" id="c3Premium">$0/mo</div></div>
+          <div class="sc-stat"><div class="l">GHOST MARKERS</div><div class="v" id="c3Ghost">0</div></div>
+        </div>
+        <div class="sc-reveal" style="background:var(--yellow);color:var(--ink)">
+          <div class="rev-text">
+            <div class="rev-l">CONSEQUENCE · 5 YR</div>
+            <div class="rev-v" id="c3Reveal">+$8,940</div>
+            <div class="rev-sub">Extra in insurance + lending <b>from a spouse's history she never agreed to share.</b></div>
+          </div>
+          <div class="rev-src">CFPB 2023 household-scoring<br/>LexisNexis CLUE<br/>Markup 2024</div>
+        </div>
+      </div>
+      <div class="sc-viz">
+        <div class="viz-h">
+          <span class="vh-l">COMPOSITE COLLISION · LIVE</span>
+          <span class="vh-yr">YEAR <em id="c3Year">2024</em></span>
+        </div>
+        <div class="sc-viz-canvas viz-merge" id="c3Viz">
+          <span class="household-label" id="c3House">HOUSEHOLD COMPOSITE · ACTIVE</span>
+          <svg viewBox="0 0 460 280" preserveAspectRatio="xMidYMid meet">
+            <!-- Lena (left) -->
+            <g class="comp-circle" id="c3Lena" style="--ring-color:var(--lime);--ring-fill:rgba(200,255,30,.16)" transform="translate(115,140)">
+              <circle class="ring" r="60"/>
+              <text class="name" y="-72">LENA</text>
+              <text class="meta" y="80">FICO 790 · CLEAN</text>
+              <!-- positive markers · slow subtle drift via SMIL · each on its own rhythm -->
+              <circle class="marker" cx="-22" cy="-12" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="-22;-20;-24;-22" dur="7s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="-12;-10;-14;-12" dur="9s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="14" cy="-22" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="14;16;12;14" dur="8s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="-22;-24;-20;-22" dur="10s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="22" cy="8" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="22;20;24;22" dur="11s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="8;10;6;8" dur="8.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="-8" cy="18" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="-8;-6;-10;-8" dur="9.5s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="18;20;16;18" dur="7.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="-26" cy="22" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="-26;-24;-28;-26" dur="10.5s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="22;24;20;22" dur="8s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="6" cy="28" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="6;8;4;6" dur="11.5s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="28;30;26;28" dur="9s" repeatCount="indefinite"/>
+              </circle>
+            </g>
+            <!-- Theo (right) -->
+            <g class="comp-circle" id="c3Theo" style="--ring-color:var(--pink);--ring-fill:rgba(255,26,107,.12)" transform="translate(345,140)">
+              <circle class="ring" r="60"/>
+              <text class="name" y="-72">THEO</text>
+              <text class="meta" y="80">FICO 651 · 3 LATES (2018)</text>
+              <!-- markers — mix of positive and flag (pink) · subtle drift on each -->
+              <circle class="marker" cx="-22" cy="-12" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="-22;-20;-24;-22" dur="8s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="-12;-14;-10;-12" dur="10s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="14" cy="-22" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="14;12;16;14" dur="9.5s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="-22;-20;-24;-22" dur="7s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker theo-flag" cx="22" cy="8" r="3" fill="rgba(255,26,107,.85)">
+                <animate attributeName="cx" values="22;24;20;22" dur="9s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="8;6;10;8" dur="11s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker theo-flag" cx="-8" cy="18" r="3" fill="rgba(255,26,107,.85)">
+                <animate attributeName="cx" values="-8;-10;-6;-8" dur="10s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="18;16;20;18" dur="8.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker theo-flag" cx="-26" cy="22" r="3" fill="rgba(255,26,107,.85)">
+                <animate attributeName="cx" values="-26;-28;-24;-26" dur="11s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="22;20;24;22" dur="9.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="6" cy="28" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="6;4;8;6" dur="8s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="28;26;30;28" dur="10.5s" repeatCount="indefinite"/>
+              </circle>
+            </g>
+            <!-- merge connector (initially hidden) -->
+            <line class="merge-line" id="c3MergeLine" x1="175" y1="140" x2="285" y2="140"/>
+          </svg>
+        </div>
+        <div class="viz-merge-legend">
+          <span class="sw lena">Lena marker</span>
+          <span class="sw theo">Theo flag</span>
+          <span class="sw house">Household merge</span>
+        </div>
+        <div class="sc-viz-controls">
+          <button class="ctl play" id="c3Play">▶ PLAY 2024 → 2029</button>
+          <div class="scrub" id="c3Scrub"><div class="scrub-fill" id="c3ScrubFill"></div><div class="scrub-thumb" id="c3ScrubThumb"></div></div>
+          <button class="ctl" id="c3Reset">↻</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- STAGE 05 · PROTECTION · ACTION-ORIENTED                        -->
+<!-- ============================================================ -->
+<section class="prot-stage">
+  <div class="prot-shead">
+    <div class="lbl">05 · THE PROTECTION LAYER · MINIMAL VIABLE DEFENSE</div>
+    <h2>Two hours of work · <em>one bad week never reaches your future.</em></h2>
+    <p class="dek">The asymmetry is real — the system is set up to extract more than you can ever clean up. But there's a defensible floor most people never reach. Every action below is rated by <b style="font-style:normal;font-family:var(--sans);font-weight:700">Time · Cost · Effectiveness (★) · Discomfort</b> so you can pick the ones that fit your hour. Three of them, done today, cover ~70% of the avoidable damage.</p>
+  </div>
+
+  <div class="protection">
+    <div class="prot-group">
+      <div class="pg-h">CREDIT + FINANCE</div>
+      <div class="prot-action">
+        <div class="nm"><b>Freeze credit at 3 bureaus + Innovis</b><br/>15 min · $0</div>
+        <div class="meta"><span class="star">★★★★★</span></div>
+      </div>
+      <div class="prot-action">
+        <div class="nm"><b>Pull annual reports + dispute errors</b><br/>1 hr · $0</div>
+        <div class="meta"><span class="star">★★★★</span></div>
+      </div>
+      <div class="prot-action">
+        <div class="nm"><b>Lock Equifax Work Number</b><br/>10 min · $0</div>
+        <div class="meta"><span class="star">★★★★</span></div>
+      </div>
+    </div>
+    <div class="prot-group">
+      <div class="pg-h">INSURANCE</div>
+      <div class="prot-action">
+        <div class="nm"><b>Request CLUE report</b> · LexisNexis<br/>30 min · $0</div>
+        <div class="meta"><span class="star">★★★★</span></div>
+      </div>
+      <div class="prot-action">
+        <div class="nm"><b>Decline telematics opt-in</b><br/>2 min · $0</div>
+        <div class="meta"><span class="star">★★</span></div>
+      </div>
+    </div>
+    <div class="prot-group">
+      <div class="pg-h">HOUSING</div>
+      <div class="prot-action">
+        <div class="nm"><b>Pull tenant-screening files</b><br/>30 min · ~$25</div>
+        <div class="meta"><span class="star">★★★★</span></div>
+      </div>
+      <div class="prot-action">
+        <div class="nm"><b>Dispute eviction records</b><br/>2 hrs · $0–200</div>
+        <div class="meta"><span class="star">★★★★</span></div>
+      </div>
+    </div>
+    <div class="prot-group">
+      <div class="pg-h">HEALTH + DNA</div>
+      <div class="prot-action">
+        <div class="nm"><b>Don't submit DNA. Ask family not to.</b><br/>0 min · $0 · <em>this one is hard</em></div>
+        <div class="meta"><span class="star">★★★★★</span></div>
+      </div>
+      <div class="prot-action">
+        <div class="nm"><b>Period tracking → paper / Drip</b><br/>15 min · $0</div>
+        <div class="meta"><span class="star">★★★★★</span></div>
+      </div>
+      <div class="prot-action">
+        <div class="nm"><b>23andMe: request federal deletion</b><br/>20 min · $0</div>
+        <div class="meta"><span class="star">★★★</span></div>
+      </div>
+    </div>
+    <div class="prot-group">
+      <div class="pg-h">EMPLOYMENT</div>
+      <div class="prot-action">
+        <div class="nm"><b>LinkedIn: signals off</b><br/>5 min · $0</div>
+        <div class="meta"><span class="star">★★</span></div>
+      </div>
+      <div class="prot-action">
+        <div class="nm"><b>Request HireVue / Pymetrics accommodation</b><br/>10 min · $0</div>
+        <div class="meta"><span class="star">★★</span></div>
+      </div>
+    </div>
+    <div class="prot-group">
+      <div class="pg-h">FOR KIDS · FAMILY</div>
+      <div class="prot-action">
+        <div class="nm"><b>Freeze children's credit at birth</b> · all 3 bureaus<br/>30 min · $0</div>
+        <div class="meta"><span class="star">★★★★★</span></div>
+      </div>
+      <div class="prot-action">
+        <div class="nm"><b>Opt out of school-district data-sharing</b> (FERPA)<br/>20 min · $0</div>
+        <div class="meta"><span class="star">★★★★</span></div>
+      </div>
+      <div class="prot-action">
+        <div class="nm"><b>Roblox / Fortnite / TikTok privacy settings</b><br/>20 min · $0</div>
+        <div class="meta"><span class="star">★★★</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- STAGE 06 · BRIDGE                                              -->
+<!-- ============================================================ -->
+<section class="bridge">
+  <div class="up-next">EPISODE 04 · UP NEXT · DRAFTING</div>
+  <h2>The <em>Influence War.</em></h2>
+  <p class="closer">If Episode 03 is what other systems <b>do with your composite</b>, Episode 04 is what political + persuasion systems do with it. Microtargeting · synthetic constituents · campaign trust-market integration. <em>The system tries to make you become someone specific.</em></p>
+</section>
+
+
+<footer>
+  <div>INFERA · MACHINE-READABLE · EPISODE 03 · MOCKUP v0.9</div>
+  <div>DESIGN PHASE · MAY 2026</div>
+  <div>ARCHIVO BLACK · SPACE GROTESK · JETBRAINS MONO · INSTRUMENT SERIF</div>
+</footer>
+
+<script>
+// ============================================================ CAROUSEL ENGINE
+(function(){
+  const slides = document.querySelectorAll('.carousel-slide');
+  const num    = document.getElementById('csNum');
+  const playBtn= document.getElementById('csPlay');
+  const skipBtn= document.getElementById('csSkip');
+  const progressMount = document.getElementById('csProgress');
+  if(!slides.length) return;
+
+  let idx = 0;
+  let timer = null;
+  let isPlaying = true;
+
+  // build progress pips
+  slides.forEach((s, i) => {
+    const dur = parseInt(s.dataset.dur || '6000', 10);
+    const pip = document.createElement('div');
+    pip.className = 'cs-pip' + (i === 0 ? ' active' : '');
+    pip.style.setProperty('--slide-dur', (dur / 1000) + 's');
+    pip.innerHTML = '<span class="fill"></span>';
+    pip.addEventListener('click', () => { go(i); });
+    progressMount.appendChild(pip);
+  });
+  const pips = progressMount.querySelectorAll('.cs-pip');
+
+  function go(newIdx){
+    idx = (newIdx + slides.length) % slides.length;
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+    pips.forEach((p, i) => {
+      p.classList.toggle('active', i === idx);
+      p.classList.toggle('passed', i < idx);
+      const fill = p.querySelector('.fill');
+      if(i < idx){ fill.style.width = '100%'; }
+      else if(i > idx){ fill.style.width = '0'; }
+    });
+    num.textContent = idx + 1;
+    scheduleNext();
+  }
+
+  function scheduleNext(){
+    clearTimeout(timer);
+    if(!isPlaying) return;
+    const dur = parseInt(slides[idx].dataset.dur || '6000', 10);
+    timer = setTimeout(() => go(idx + 1), dur);
+  }
+
+  playBtn.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    playBtn.textContent = isPlaying ? '⏸ PAUSE' : '▶ PLAY';
+    if(isPlaying) scheduleNext();
+    else clearTimeout(timer);
+  });
+  skipBtn.addEventListener('click', () => {
+    const next = document.querySelector('.build-stage');
+    if(next) next.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+
+  scheduleNext();
+
+  // ============ MOTION SEEDS · v0.9 ============
+
+  // Slide 1 · EMOJI RAIN — 36 thumbs-up + 4 hearts rising bubble-style
+  // Each emoji floats up from below with a random horizontal drift + delay
+  (function(){
+    const g = document.getElementById('csEmojiRain'); if(!g) return;
+    // 4 heart positions interleaved with 36 likes (scattered randomly through 0-39)
+    const heartIdx = new Set([7, 14, 23, 31]);
+    let html = '';
+    for(let i = 0; i < 40; i++){
+      const isHeart = heartIdx.has(i);
+      const emoji = isHeart ? '❤️' : '👍';
+      const cls = isHeart ? 'ej heart' : 'ej';
+      // horizontal starting position: spread across full width
+      const x = (4 + Math.random() * 92).toFixed(1) + '%';
+      // duration + delay variation
+      const dur = (7 + Math.random() * 6).toFixed(1) + 's';
+      const del = (Math.random() * 11).toFixed(1) + 's';
+      // sway/drift
+      const dx = (Math.random() * 40 - 20).toFixed(0) + 'px';
+      const dx2 = (Math.random() * 70 - 35).toFixed(0) + 'px';
+      const rot = (Math.random() * 30 - 15).toFixed(0) + 'deg';
+      const rot2 = (Math.random() * 50 - 25).toFixed(0) + 'deg';
+      html += `<span class="${cls}" style="--x:${x};--d:${dur};--del:${del};--dx:${dx};--dx2:${dx2};--rot:${rot};--rot2:${rot2}">${emoji}</span>`;
+    }
+    g.innerHTML = html;
+  })();
+
+  // Slide 2 · SCAN — vertical cascade of resume cards · most rejected at the scanner beam
+  (function(){
+    const g = document.getElementById('csResumeCascade'); if(!g) return;
+    // 14 cards on staggered loops; ~12 of 14 visually rejected, 2 pass through (5/100 conceptually)
+    const total = 14;
+    const passIdx = new Set([6, 12]);
+    const cols = [120, 156, 192, 228];
+    let html = '';
+    for(let i = 0; i < total; i++){
+      const col = cols[i % 4];
+      const dur = (3.8 + (i % 3) * 0.4).toFixed(2);
+      const del = (i * 0.28).toFixed(2);
+      const passes = passIdx.has(i);
+      const cls = passes ? 'res-fall' : 'res-fall rejected';
+      const rx = ((i % 2 === 0 ? -1 : 1) * (30 + (i % 3) * 14)).toFixed(0);
+      const rx2 = ((i % 2 === 0 ? -1 : 1) * (60 + (i % 3) * 18)).toFixed(0);
+      const rot = ((i % 2 === 0 ? -1 : 1) * (25 + (i % 4) * 10)).toFixed(0);
+      const rot2 = ((i % 2 === 0 ? -1 : 1) * (50 + (i % 4) * 16)).toFixed(0);
+      const fill = passes ? 'rgba(200,255,30,.9)' : 'rgba(251,247,235,.92)';
+      const txtColor = passes ? 'var(--ink)' : 'rgba(10,10,10,.8)';
+      html += `<g class="${cls}" style="--d:${dur}s;--del:${del}s;--rx:${rx}px;--rx2:${rx2}px;--rot:${rot}deg;--rot2:${rot2}deg" transform="translate(${col},0)">
+        <rect x="-22" y="-14" width="44" height="28" fill="${fill}" stroke="rgba(0,0,0,.4)" stroke-width=".5"/>
+        <circle cx="-13" cy="-5" r="4" fill="${txtColor}"/>
+        <rect x="-6" y="-9" width="22" height="3" fill="${txtColor}"/>
+        <rect x="-6" y="-4" width="18" height="2" fill="${txtColor}" opacity=".7"/>
+        <rect x="-18" y="4" width="36" height="1.6" fill="${txtColor}" opacity=".5"/>
+        <rect x="-18" y="8" width="28" height="1.6" fill="${txtColor}" opacity=".4"/>
+      </g>`;
+    }
+    g.innerHTML = html;
+  })();
+
+  // Slide 3 · FACADE — build a 5-col x 6-row dark window grid (most stay dark)
+  (function(){
+    const g = document.getElementById('csWindows'); if(!g) return;
+    const startX = 80, startY = 120, stepX = 50, stepY = 42;
+    let html = '';
+    for(let r = 0; r < 6; r++){
+      for(let c = 0; c < 5; c++){
+        const x = startX + c * stepX;
+        const y = startY + r * stepY;
+        // skip the "other applicant" window (4th col, 3rd row at 172,210) and a few warm glows
+        if((c === 3 && r === 2) || (c === 0 && r === 0) || (c === 2 && r === 1) || (c === 4 && r === 3)) continue;
+        html += `<rect x="${x}" y="${y}" width="22" height="28" fill="rgba(251,247,235,.04)" stroke="rgba(255,213,0,.12)" stroke-width=".5"/>`;
+      }
+    }
+    g.innerHTML = html;
+  })();
+
+  // Slide 7 · STINGER — graphic removed in v0.9 · typography-only slide now
+  (function(){ return; })();
+  // legacy code retained below (no-op):
+  // Slide 7 · STINGER — massive decision field of small icon-tiles · 60 cols × 24 rows
+  (function(){
+    const g = document.getElementById('csStingerField'); if(!g) return;
+    const cols = 60, rows = 24;
+    const tw = 800 / cols, th = 360 / rows;
+    // small inset symbols hint at categories: rectangle=apartment, heart=dating, circle=$ etc.
+    const symbols = ['rect', 'heart', 'dollar', 'circle', 'cross', 'square'];
+    let html = '';
+    for(let r = 0; r < rows; r++){
+      for(let c = 0; c < cols; c++){
+        const x = c * tw;
+        const y = r * th;
+        const i = r * cols + c;
+        const rnd = Math.random();
+        let bg = 'rgba(255,255,255,.05)';
+        let sym = 'rgba(255,255,255,.18)';
+        if(rnd < 0.05){ bg = 'rgba(255,26,107,.6)'; sym = '#fff'; }
+        else if(rnd < 0.10){ bg = 'rgba(255,213,0,.5)'; sym = 'rgba(10,10,10,.7)'; }
+        else if(rnd < 0.14){ bg = 'rgba(30,60,255,.5)'; sym = 'rgba(251,247,235,.9)'; }
+        else if(rnd < 0.18){ bg = 'rgba(200,255,30,.5)'; sym = 'rgba(10,10,10,.7)'; }
+        const dur = (1.8 + Math.random() * 3.4).toFixed(2);
+        const del = (Math.random() * 6).toFixed(2);
+        const symType = symbols[i % symbols.length];
+        let symEl = '';
+        const ccx = x + tw/2, ccy = y + th/2;
+        if(symType === 'heart') symEl = `<circle cx="${ccx-1}" cy="${ccy-.5}" r="1.2" fill="${sym}"/><circle cx="${ccx+1}" cy="${ccy-.5}" r="1.2" fill="${sym}"/><path d="M ${ccx-2.2} ${ccy} L ${ccx} ${ccy+2.5} L ${ccx+2.2} ${ccy} Z" fill="${sym}"/>`;
+        else if(symType === 'dollar') symEl = `<rect x="${ccx-.4}" y="${ccy-2.4}" width=".8" height="4.8" fill="${sym}"/><path d="M ${ccx-1.6} ${ccy-1.6} Q ${ccx+1.6} ${ccy-1.6} ${ccx+1.6} ${ccy-.4} Q ${ccx-1.6} ${ccy-.4} ${ccx-1.6} ${ccy+.8} Q ${ccx+1.6} ${ccy+.8} ${ccx+1.6} ${ccy+2}" fill="none" stroke="${sym}" stroke-width=".5"/>`;
+        else if(symType === 'cross') symEl = `<line x1="${ccx-2}" y1="${ccy}" x2="${ccx+2}" y2="${ccy}" stroke="${sym}" stroke-width=".6"/><line x1="${ccx}" y1="${ccy-2}" x2="${ccx}" y2="${ccy+2}" stroke="${sym}" stroke-width=".6"/>`;
+        else if(symType === 'square') symEl = `<rect x="${ccx-1.8}" y="${ccy-1.8}" width="3.6" height="3.6" fill="none" stroke="${sym}" stroke-width=".5"/>`;
+        else if(symType === 'circle') symEl = `<circle cx="${ccx}" cy="${ccy}" r="1.6" fill="none" stroke="${sym}" stroke-width=".5"/>`;
+        else symEl = `<rect x="${ccx-1.6}" y="${ccy-1}" width="3.2" height="2" fill="${sym}"/>`;
+        html += `<g style="animation:moStingFlick ${dur}s ease-in-out infinite ${del}s"><rect x="${x+.5}" y="${y+.5}" width="${tw-1}" height="${th-1}" fill="${bg}"/>${symEl}</g>`;
+      }
+    }
+    g.innerHTML = html;
+  })();
+})();
+
+// ============================================================ STAGE 02 · ORBITING CARDS · CONNECTORS · PARALLAX (DISABLED v0.9 — section removed)
+(function(){
+  if(true) return;
+  const outer       = document.getElementById('silhOuter');
+  const pin         = document.getElementById('silhPin');
+  const anchor      = document.getElementById('silhAnchor');
+  const svgEl       = document.getElementById('silhSvg');
+  const cards       = document.querySelectorAll('.silh-card');
+  const regions     = document.querySelectorAll('.region-group');
+  const stampEl     = document.getElementById('silhStamp');
+  const pips        = document.querySelectorAll('#silhPips .pip');
+  const autoBtn     = document.getElementById('silhAutoBtn');
+  const connSvg     = document.getElementById('silhConnectors');
+  const fillEl      = document.getElementById('silhMtrFill');
+  const pctEl       = document.getElementById('silhMtrPct');
+  const particlesEl = document.getElementById('silhParticles');
+  if(!outer || !cards.length || !connSvg) return;
+
+  const PCT_MAP = [10, 22, 34, 45, 56, 68, 78, 87, 94];
+  let active = 0;
+  let autoTimer = null;
+
+  // ============ AMBIENT PARTICLES ============
+  // generate ~24 floating dots inside the particles svg
+  let pHtml = '';
+  for(let i = 0; i < 24; i++){
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    const r = Math.random() * .35 + .15;
+    const dur = 8 + Math.random() * 14;
+    const delay = -Math.random() * dur;
+    pHtml += `<circle cx="${x}" cy="${y}" r="${r}" fill="rgba(255,26,107,.5)">
+      <animate attributeName="cy" values="${y};${(y + (Math.random() - .5) * 14).toFixed(2)};${y}" dur="${dur}s" begin="${delay}s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;0" dur="${dur}s" begin="${delay}s" repeatCount="indefinite"/>
+    </circle>`;
+  }
+  particlesEl.innerHTML = pHtml;
+
+  // ============ CONNECTOR LINE DRAWING ============
+  // Re-compute connector paths each time layout settles or window resizes
+  function drawConnectors(){
+    const stageRect = pin.getBoundingClientRect();
+    const svgRect = svgEl.getBoundingClientRect();
+    const pathsHtml = [];
+    // SVG paths are in absolute px relative to the stage; we set the connSvg viewBox to match
+    connSvg.setAttribute('viewBox', `0 0 ${stageRect.width} ${stageRect.height}`);
+    connSvg.setAttribute('width', stageRect.width);
+    connSvg.setAttribute('height', stageRect.height);
+
+    cards.forEach((card, i) => {
+      const targetId = card.dataset.target;
+      const targetEl = document.getElementById(targetId);
+      if(!targetEl) return;
+      const cardRect = card.getBoundingClientRect();
+      const tEl = targetEl.querySelector('.hotspot');
+      const tRect = tEl.getBoundingClientRect();
+      // start at edge of card nearest to figure
+      const cardCx = cardRect.left + cardRect.width/2 - stageRect.left;
+      const cardCy = cardRect.top + cardRect.height/2 - stageRect.top;
+      const tCx = tRect.left + tRect.width/2 - stageRect.left;
+      const tCy = tRect.top + tRect.height/2 - stageRect.top;
+      // pull start point toward target a bit so line doesn't begin inside card center
+      const dx = tCx - cardCx, dy = tCy - cardCy;
+      const len = Math.sqrt(dx*dx + dy*dy);
+      const offset = Math.min(len * .4, 90);
+      const sx = cardCx + (dx/len) * offset;
+      const sy = cardCy + (dy/len) * offset;
+      // curve control: midpoint pulled toward the figure
+      const mx = (sx + tCx)/2 + (dy/len) * 16;
+      const my = (sy + tCy)/2 - (dx/len) * 16;
+      const cls = (i === active) ? 'active flow' : '';
+      pathsHtml.push(`<path data-i="${i}" class="${cls}" d="M ${sx.toFixed(1)} ${sy.toFixed(1)} Q ${mx.toFixed(1)} ${my.toFixed(1)} ${tCx.toFixed(1)} ${tCy.toFixed(1)}"/>`);
+    });
+    connSvg.innerHTML = pathsHtml.join('');
+  }
+
+  function setActive(i){
+    active = (i + cards.length) % cards.length;
+    cards.forEach((c, k) => c.classList.toggle('active', k === active));
+    regions.forEach((r, k) => r.classList.toggle('active', k === active));
+    pips.forEach((p, k) => p.classList.toggle('lit', k <= active));
+    stampEl.textContent = (active + 1) + ' / ' + cards.length;
+    const pct = PCT_MAP[active] || 10;
+    if(fillEl) fillEl.style.width = pct + '%';
+    if(pctEl)  pctEl.textContent  = pct + '%';
+    drawConnectors();
+  }
+
+  // ============ SCROLL → CHAPTER MAPPING ============
+  // The outer container is ~520vh tall. As the user scrolls through it, the active card cycles through 0..8.
+  function syncFromScroll(){
+    const rect = outer.getBoundingClientRect();
+    const totalScrollable = outer.offsetHeight - window.innerHeight;
+    if(totalScrollable <= 0) return;
+    // progress: 0 when outer top is at viewport top; 1 when outer bottom hits viewport bottom
+    const progress = Math.max(0, Math.min(1, -rect.top / totalScrollable));
+    const i = Math.min(cards.length - 1, Math.floor(progress * cards.length));
+    if(i !== active) setActive(i);
+  }
+
+  // ============ PARALLAX TILT on figure (mouse) ============
+  pin.addEventListener('mousemove', (e) => {
+    const rect = pin.getBoundingClientRect();
+    const px = ((e.clientX - rect.left) / rect.width - .5) * 2;   // -1..1
+    const py = ((e.clientY - rect.top)  / rect.height - .5) * 2;
+    anchor.style.setProperty('--tilt-x', (px * 4).toFixed(2) + 'deg');
+    anchor.style.setProperty('--tilt-y', (-py * 3).toFixed(2) + 'deg');
+  });
+  pin.addEventListener('mouseleave', () => {
+    anchor.style.setProperty('--tilt-x', '0deg');
+    anchor.style.setProperty('--tilt-y', '0deg');
+  });
+
+  // ============ CLICK A CARD → activate ============
+  cards.forEach((c, i) => {
+    c.addEventListener('click', () => { stopAuto(); setActive(i); });
+  });
+  pips.forEach((p) => {
+    p.addEventListener('click', () => { stopAuto(); setActive(parseInt(p.dataset.i, 10)); });
+  });
+
+  // ============ AUTO-ADVANCE (toggleable) ============
+  function startAuto(){
+    autoBtn.classList.add('on');
+    autoBtn.textContent = '⏸ AUTO';
+    if(autoTimer) clearInterval(autoTimer);
+    autoTimer = setInterval(() => setActive(active + 1), 3800);
+  }
+  function stopAuto(){
+    autoBtn.classList.remove('on');
+    autoBtn.textContent = '⏵ AUTO';
+    if(autoTimer){ clearInterval(autoTimer); autoTimer = null; }
+  }
+  autoBtn.addEventListener('click', () => { autoTimer ? stopAuto() : startAuto(); });
+
+  // ============ INIT + observers ============
+  window.addEventListener('scroll', syncFromScroll, { passive:true });
+  window.addEventListener('resize', () => { drawConnectors(); syncFromScroll(); });
+  // re-draw after fonts settle
+  setTimeout(() => { drawConnectors(); syncFromScroll(); }, 100);
+  setTimeout(() => { drawConnectors(); }, 500);
+  setActive(0);
+})();
+
+// ============================================================ INTERACTIVE COMPOSITE BUILDER
+(function(){
+  const events = document.querySelectorAll('.bl-event');
+  const resetBtn = document.getElementById('blReset');
+  if(!events.length) return;
+
+  // each event contributes to composite sections + scores
+  // composite sections: identity, behavior, financial, employment, housing, dating, health, genetic, location, shadow
+  // scores: insurance, job, mortgage, dating, rental, bg
+  // values are simplified illustrative coefficients
+  const IMPACT = {
+    card:     { comp:{financial:24, identity:8},                                    score:{insurance:0,    job:0,  mortgage:-5,  dating:0, rental:0,   bg:0},   tax:0 },
+    lease:    { comp:{housing:18, identity:6, financial:6},                         score:{insurance:0,    job:0,  mortgage:0,   dating:0, rental:0,   bg:0},   tax:0 },
+    job:      { comp:{employment:30, identity:6, financial:8},                      score:{insurance:-2,   job:+5, mortgage:-3,  dating:0, rental:-1,  bg:0},   tax:-180 },
+    dating:   { comp:{dating:42, behavior:6},                                       score:{insurance:0,    job:0,  mortgage:0,   dating:1, rental:0,   bg:0},   tax:0 },
+    dna:      { comp:{genetic:60, health:8},                                        score:{insurance:+8,   job:0,  mortgage:0,   dating:0, rental:0,   bg:0},   tax:+220 },
+    move:     { comp:{location:24, housing:10, shadow:12},                          score:{insurance:+4,   job:0,  mortgage:+3,  dating:0, rental:+1,  bg:+1},  tax:+140 },
+    marriage: { comp:{identity:6, financial:14, housing:6, health:8},               score:{insurance:-3,   job:0,  mortgage:-2,  dating:-1,rental:-1,  bg:0},   tax:-160 },
+    house:    { comp:{financial:14, housing:32, shadow:6},                          score:{insurance:0,    job:0,  mortgage:0,   dating:0, rental:0,   bg:0},   tax:0 },
+    medcoll:  { comp:{financial:6, health:14, shadow:18},                           score:{insurance:+10,  job:-3, mortgage:+18, dating:0, rental:+2,  bg:+1},  tax:+940 },
+    kid:      { comp:{identity:4, health:14, behavior:8, financial:8, housing:6},   score:{insurance:+3,   job:-1, mortgage:0,   dating:0, rental:0,   bg:0},   tax:+120 },
+    layoff:   { comp:{employment:8, financial:6, shadow:14},                        score:{insurance:+4,   job:-5, mortgage:+8,  dating:-1,rental:+1,  bg:+1},  tax:+520 },
+    business: { comp:{employment:8, financial:10, identity:4},                      score:{insurance:+2,   job:+3, mortgage:+4,  dating:0, rental:0,   bg:0},   tax:+80 }
+  };
+
+  // baseline composite fill (already there from the silhouette walk)
+  const BASE = { identity:14, behavior:18, financial:8, employment:6, housing:4, dating:0, health:12, genetic:0, location:6, shadow:2 };
+
+  // baseline scores
+  const BASE_SCORE = { insurance:1.00, job:71, mortgage:0, dating:3, rental:0, bg:0.08, tax:0 };
+  const DATING_TIERS = ['top 5%','top 10%','top 20%','mid','bottom 30%','bottom 10%'];
+  const RENTAL_TIERS = ['green','green','yellow','yellow','red'];
+
+  const fired = new Set();
+
+  function recompute(){
+    // start from base
+    const comp = Object.assign({}, BASE);
+    const score = Object.assign({}, BASE_SCORE);
+    let tax = 0;
+    fired.forEach(ev => {
+      const m = IMPACT[ev]; if(!m) return;
+      Object.keys(m.comp || {}).forEach(k => { comp[k] = Math.min(100, (comp[k] || 0) + m.comp[k]); });
+      Object.keys(m.score || {}).forEach(k => {
+        if(k === 'insurance') score.insurance += m.score[k] * 0.01;
+        else if(k === 'mortgage') score.mortgage += m.score[k]; // in basis points
+        else if(k === 'job') score.job += m.score[k];
+        else if(k === 'dating') score.dating += m.score[k];
+        else if(k === 'rental') score.rental += m.score[k];
+        else if(k === 'bg') score.bg = Math.min(1, score.bg + m.score[k] * 0.04);
+      });
+      tax += m.tax || 0;
+    });
+
+    // render composite fills
+    Object.keys(comp).forEach(k => {
+      const el = document.querySelector(`.bl-comp-sec[data-sec="${k}"]`);
+      if(!el) return;
+      const bar = el.querySelector('.fill-bar');
+      bar.style.setProperty('--fill', comp[k] + '%');
+      // bump effect
+      el.classList.remove('bumped'); void el.offsetWidth; el.classList.add('bumped');
+      // flag class if score is harmful
+      el.classList.toggle('flag', comp[k] > 70 && (k === 'shadow' || k === 'genetic'));
+    });
+
+    // render scores
+    const setScore = (id, txt, cls) => {
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.textContent = txt;
+      el.className = 'v ' + (cls || '');
+      el.classList.remove('bumped'); void el.offsetWidth; el.classList.add('bumped');
+    };
+    setScore('scInsurance', score.insurance.toFixed(2) + '×', score.insurance > 1.15 ? 'bad' : score.insurance > 1.05 ? 'mid' : '');
+    setScore('scJob', Math.max(0, Math.min(100, score.job)) + '%', score.job < 55 ? 'bad' : score.job < 65 ? 'mid' : '');
+    setScore('scMortgage', (score.mortgage >= 0 ? '+' : '') + score.mortgage + 'bps', score.mortgage > 15 ? 'bad' : score.mortgage > 5 ? 'mid' : '');
+    setScore('scDating', DATING_TIERS[Math.max(0, Math.min(5, score.dating))] || 'mid', score.dating >= 4 ? 'bad' : '');
+    setScore('scRental', RENTAL_TIERS[Math.max(0, Math.min(4, score.rental))] || 'green', score.rental >= 2 ? 'bad' : '');
+    setScore('scBg', score.bg.toFixed(2), score.bg > 0.3 ? 'bad' : score.bg > 0.15 ? 'mid' : '');
+
+    // tax
+    const taxEl = document.getElementById('blTaxV');
+    if(taxEl){
+      taxEl.textContent = '$' + Math.max(0, tax).toLocaleString();
+    }
+  }
+
+  events.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ev = btn.dataset.ev;
+      if(fired.has(ev)){
+        fired.delete(ev);
+        btn.classList.remove('fired');
+      } else {
+        fired.add(ev);
+        btn.classList.add('fired');
+      }
+      recompute();
+    });
+  });
+
+  resetBtn.addEventListener('click', () => {
+    fired.clear();
+    events.forEach(b => b.classList.remove('fired'));
+    recompute();
+  });
+
+  // ============ Q2 · DISPARATE IMPACT TOGGLE + SLIDER ============
+  const dispBtn = document.getElementById('blDispToggle');
+  const dispPanel = document.getElementById('blDisp');
+  const dispRange = document.getElementById('blDispRange');
+  const dispV  = document.getElementById('blDispV');
+  const bldI = document.getElementById('bldI');
+  const bldM = document.getElementById('bldM');
+  const bldJ = document.getElementById('bldJ');
+  if(dispBtn && dispPanel && dispRange){
+    dispBtn.addEventListener('click', () => {
+      const open = dispBtn.getAttribute('aria-pressed') === 'true';
+      dispBtn.setAttribute('aria-pressed', open ? 'false' : 'true');
+      dispBtn.textContent = open ? '⊕ SHOW DISPARATE IMPACT' : '⊖ HIDE DISPARATE IMPACT';
+      dispPanel.hidden = open;
+    });
+    dispRange.addEventListener('input', () => {
+      const pct = parseInt(dispRange.value, 10);
+      dispV.textContent = pct + '%';
+      // documented mid-range deltas (peer-reviewed midpoints, conservative)
+      const insPct  = (pct / 100) * 9;   // up to +9% insurance multiplier
+      const mtgBps  = (pct / 100) * 24;  // up to +24bps mortgage
+      const jobPct  = (pct / 100) * 14;  // up to 14% callback gap
+      bldI.textContent = '+' + insPct.toFixed(1) + '%';
+      bldM.textContent = '+' + Math.round(mtgBps) + 'bps';
+      bldJ.textContent = '-' + jobPct.toFixed(1) + '%';
+    });
+  }
+
+  recompute();
+})();
+
+// ============================================================ STAGE 04 · CASE 1 · FAMILY TREE DNA VIZ
+(function(){
+  const linksEl = document.getElementById('c1Links');
+  const nodesEl = document.getElementById('c1Nodes');
+  if(!linksEl || !nodesEl) return;
+
+  // 13 family members on a tree — YOU in center, generations around
+  const NODES = [
+    // id, label, x, y, testYear (or null if untested), tier (relation distance)
+    { id:'you',     l:'YOU',   x:230, y:160, test:null, tier:0 },
+    { id:'mom',     l:'MOM',   x:170, y:80,  test:null, tier:1 },
+    { id:'dad',     l:'DAD',   x:290, y:80,  test:null, tier:1 },
+    { id:'sis',     l:'SIS',   x:130, y:160, test:2024, tier:1 },
+    { id:'bro',     l:'BRO',   x:330, y:160, test:null, tier:1 },
+    { id:'maunt',   l:'AUNT M',x:80,  y:80,  test:2022, tier:2 },
+    { id:'puncle',  l:'UNCLE P',x:380, y:80, test:2026, tier:2 },
+    { id:'gpa1',    l:'GMA',   x:230, y:30,  test:null, tier:2 },
+    { id:'cous1',   l:'COUSIN',x:60,  y:160, test:2025, tier:2 },
+    { id:'cous2',   l:'COUSIN',x:400, y:160, test:null,tier:2 },
+    { id:'2cous1',  l:'MARGARET',x:30, y:240,test:2021, tier:3 },
+    { id:'2cous2',  l:'2-COUSIN',x:130, y:260, test:2028, tier:3 },
+    { id:'2cous3',  l:'2-COUSIN',x:330, y:260, test:2027, tier:3 },
+    { id:'2cous4',  l:'2-COUSIN',x:430, y:240,test:null,tier:3 }
+  ];
+  // edges (parent-child + sibling links)
+  const EDGES = [
+    ['gpa1','mom'],['gpa1','maunt'],['gpa1','puncle'],
+    ['mom','you'],['mom','sis'],['mom','bro'],
+    ['dad','you'],['dad','sis'],['dad','bro'],
+    ['maunt','cous1'],['maunt','2cous1'],['maunt','2cous2'],
+    ['puncle','cous2'],['puncle','2cous3'],['puncle','2cous4']
+  ];
+
+  // render edges
+  EDGES.forEach(([a,b]) => {
+    const na = NODES.find(n=>n.id===a), nb = NODES.find(n=>n.id===b);
+    if(!na||!nb) return;
+    linksEl.insertAdjacentHTML('beforeend',
+      `<line class="tree-link" data-a="${a}" data-b="${b}" x1="${na.x}" y1="${na.y}" x2="${nb.x}" y2="${nb.y}"/>`);
+  });
+
+  // render nodes — clickable (except YOU)
+  NODES.forEach(n => {
+    const cls = n.id === 'you' ? 'tree-node you' : 'tree-node untested';
+    const cur = n.id === 'you' ? '' : 'cursor:pointer';
+    nodesEl.insertAdjacentHTML('beforeend',
+      `<g class="${cls}" data-id="${n.id}" data-test="${n.test||''}" transform="translate(${n.x},${n.y})" style="${cur}">
+        <circle class="test-ring" r="0"/>
+        <circle r="${n.id==='you'?12:8}"/>
+        <text y="${n.id==='you'?22:18}">${n.l}</text>
+      </g>`);
+  });
+
+  // sub-interactive · click a node to toggle its tested state — overrides the year schedule
+  const manualOverride = new Map(); // id → boolean (true = forced tested, false = forced untested)
+  nodesEl.querySelectorAll('.tree-node[data-id]').forEach(g => {
+    if(g.dataset.id === 'you') return;
+    g.addEventListener('click', () => {
+      const id = g.dataset.id;
+      // 3-state cycle: schedule → forced-tested → forced-untested → schedule
+      if(!manualOverride.has(id)){
+        manualOverride.set(id, true);   // force tested
+      } else if(manualOverride.get(id) === true){
+        manualOverride.set(id, false);  // force untested
+      } else {
+        manualOverride.delete(id);      // revert to schedule
+      }
+      update();
+    });
+  });
+  // expose to update()
+  window.__c1Override = manualOverride;
+
+  // state
+  const yearEl   = document.getElementById('c1Year');
+  const testedEl = document.getElementById('c1Tested');
+  const confEl   = document.getElementById('c1Conf');
+  const multEl   = document.getElementById('c1Mult');
+  const youMultEl= document.getElementById('c1YouMult');
+  const revealEl = document.getElementById('c1Reveal');
+  const playBtn  = document.getElementById('c1Play');
+  const resetBtn = document.getElementById('c1Reset');
+  const scrub    = document.getElementById('c1Scrub');
+  const scrubFill= document.getElementById('c1ScrubFill');
+  const scrubThumb= document.getElementById('c1ScrubThumb');
+  const narEl    = document.getElementById('case1Nar');
+
+  const YEAR_MIN = 2021, YEAR_MAX = 2030;
+  let year = YEAR_MIN;
+  let playing = false;
+  let playId = null;
+
+  const NAR = {
+    2021:'"Mara\'s <b>second cousin Margaret</b> in Vermont submits to AncestryDNA as a Christmas gift. She consents to <em class=\"hot\">all research uses.</em>"',
+    2022:'A research consortium licenses Ancestry\'s file. Margaret\'s <b>BRCA1 marker triangulates</b> to ~60% of her extended family with high confidence. Mara is in that set.',
+    2023:'Mara applies for <b>long-term care insurance.</b> GINA protects her from health-insurance discrimination. <em class="hot">GINA does NOT cover LTC.</em> Her premium comes back $112/mo higher than her coworker.',
+    2024:'Her sister tests. The model now has <b>two confirmed paths</b> to Mara\'s genome.',
+    2025:'A first cousin tests. Mara switches life insurance. <em class="hot">Same pattern.</em> Composite was updated using data she never gave.',
+    2026:'An uncle on her mother\'s side tests. <b>Five inferred markers</b> now attached to her file.',
+    2027:'Another second-cousin tests. Disability-insurance quote bumps again.',
+    2028:'Another. The actuarial confidence threshold is crossed. <em class="hot">No notice owed.</em>',
+    2030:'Two more cousins have tested. The model is <b>more confident about Mara now than in 2023.</b> The shadow grows whether she participates or not.'
+  };
+
+  function update(){
+    yearEl.textContent = year;
+    // schedule-based tested set
+    let tested = NODES.filter(n => n.test && n.test <= year).map(n => n.id);
+    // apply manual overrides (click-to-toggle on tree nodes)
+    if(window.__c1Override){
+      window.__c1Override.forEach((forceTested, id) => {
+        if(forceTested && !tested.includes(id)) tested.push(id);
+        if(!forceTested) tested = tested.filter(t => t !== id);
+      });
+    }
+    // update nodes
+    nodesEl.querySelectorAll('.tree-node').forEach(g => {
+      const id = g.dataset.id;
+      if(id === 'you') return;
+      const isTested = tested.includes(id);
+      g.classList.toggle('tested', isTested);
+      g.classList.toggle('untested', !isTested);
+    });
+    // update edges: active when both endpoints are tested OR endpoint connects to YOU through a tested chain
+    linksEl.querySelectorAll('.tree-link').forEach(l => {
+      const a = l.dataset.a, b = l.dataset.b;
+      const aT = tested.includes(a) || a === 'you';
+      const bT = tested.includes(b) || b === 'you';
+      l.classList.toggle('active', aT && bT);
+    });
+    // stats
+    testedEl.textContent = tested.length;
+    const conf = Math.min(96, tested.length * 14);
+    confEl.textContent = conf + '%';
+    const mult = 1 + (tested.length * 0.06);
+    multEl.textContent = mult.toFixed(2) + '×';
+    youMultEl.textContent = mult.toFixed(2) + '×';
+    // reveal — scales with tested count and year
+    const dollars = Math.round((year - YEAR_MIN) / (YEAR_MAX - YEAR_MIN) * 48600);
+    revealEl.textContent = '+$' + dollars.toLocaleString();
+    // narrative
+    if(NAR[year]) narEl.innerHTML = NAR[year];
+    // scrub
+    const pct = ((year - YEAR_MIN) / (YEAR_MAX - YEAR_MIN)) * 100;
+    scrubFill.style.width = pct + '%';
+    scrubThumb.style.left = pct + '%';
+  }
+
+  function play(){
+    if(playing){
+      pause();
+      return;
+    }
+    if(year >= YEAR_MAX) year = YEAR_MIN;
+    playing = true;
+    playBtn.textContent = '⏸ PAUSE';
+    playId = setInterval(() => {
+      year++;
+      if(year > YEAR_MAX){ pause(); return; }
+      update();
+    }, 1000);
+    update();
+  }
+  function pause(){
+    playing = false;
+    playBtn.textContent = year >= YEAR_MAX ? '↻ REPLAY' : '▶ PLAY 2021 → 2030';
+    if(playId){ clearInterval(playId); playId = null; }
+  }
+  function reset(){
+    pause();
+    year = YEAR_MIN;
+    update();
+    playBtn.textContent = '▶ PLAY 2021 → 2030';
+  }
+
+  playBtn.addEventListener('click', play);
+  resetBtn.addEventListener('click', reset);
+  scrub.addEventListener('click', (e) => {
+    pause();
+    const r = scrub.getBoundingClientRect();
+    const pct = (e.clientX - r.left) / r.width;
+    year = Math.round(YEAR_MIN + pct * (YEAR_MAX - YEAR_MIN));
+    update();
+  });
+
+  update();
+})();
+
+// ============================================================ STAGE 04 · CASE 2 · MORTGAGE RACE (DISABLED v0.9)
+(function(){
+  if(true) return;
+  const yearEl = document.getElementById('c2Year');
+  const youBar = document.getElementById('c2YouBar');
+  const herBar = document.getElementById('c2HerBar');
+  const youVal = document.getElementById('c2YouVal');
+  const herVal = document.getElementById('c2HerVal');
+  const gapV   = document.getElementById('c2GapV');
+  const gapPct = document.getElementById('c2GapPct');
+  const youTot = document.getElementById('c2YouTot');
+  const herTot = document.getElementById('c2HerTot');
+  const spread = document.getElementById('c2Spread');
+  const missed = document.getElementById('c2MissedV');
+  const revealEl = document.getElementById('c2Reveal');
+  const narEl  = document.getElementById('case2Nar');
+  const playBtn= document.getElementById('c2Play');
+  const resetBtn = document.getElementById('c2Reset');
+  const scrub  = document.getElementById('c2Scrub');
+  const scrubFill = document.getElementById('c2ScrubFill');
+  const scrubThumb = document.getElementById('c2ScrubThumb');
+  if(!yearEl) return;
+
+  const YEAR_MIN = 2024, YEAR_MAX = 2054;
+  let year = YEAR_MIN;
+  let playing = false;
+  let playId = null;
+
+  // Loan parameters — simplified amortization for $400K loan, 30-yr fixed
+  // Daniel: 6.85% · Neighbor: 6.45%
+  // Total interest at maturity: Daniel ~ $543,000, Neighbor ~ $485,000 → spread ~$58,000 (close to our $58,200 stat)
+  const DAN_TOTAL = 543000;
+  const NEI_TOTAL = 484800;
+  // interest accumulates roughly linearly (it's not actually linear in amortization but for vis we use a slight curve)
+  function intAt(year, total){
+    const t = (year - YEAR_MIN) / (YEAR_MAX - YEAR_MIN);
+    // mortgage interest accrues faster early on — apply a mild ease-out
+    const eased = 1 - Math.pow(1 - t, 1.7);
+    return Math.round(total * eased);
+  }
+
+  const NAR = {
+    2024:'"Same credit. Same income. Same zip. The lender\'s alt-data model gave Daniel a <b>0.4% higher rate</b> because of an education-pricing feature. The race begins."',
+    2029:'Five years in. <b>The spread has already passed $7,400.</b> Daniel has stopped looking at the rate — he\'s busy raising a kid.',
+    2034:'Ten years. Spread above <b>$16,000</b>. Daniel\'s neighbor refinances. Daniel doesn\'t qualify because his new alt-data composite has shifted.',
+    2039:'Fifteen years. The compounded missed investment is more than the spread itself.',
+    2044:'Twenty years. <em class="hot">The gap is now most of a year\'s salary.</em>',
+    2054:'Thirty years. Daniel has paid <b>$58,200 more in interest</b> for the same house. Invested instead at 7%, that gap would be <em class="hot">~$190K of missed retirement wealth.</em>'
+  };
+
+  function update(){
+    yearEl.textContent = year;
+    const dan = intAt(year, DAN_TOTAL);
+    const nei = intAt(year, NEI_TOTAL);
+    const gap = dan - nei;
+    const t = (year - YEAR_MIN) / (YEAR_MAX - YEAR_MIN);
+    youBar.style.width = (t * 100).toFixed(2) + '%';
+    herBar.style.width = (t * 100 * (NEI_TOTAL / DAN_TOTAL)).toFixed(2) + '%';
+    youVal.textContent = '$' + dan.toLocaleString();
+    herVal.textContent = '$' + nei.toLocaleString();
+    youTot.textContent = '$' + (dan/1000).toFixed(0) + 'K';
+    herTot.textContent = '$' + (nei/1000).toFixed(0) + 'K';
+    gapV.textContent = '$' + gap.toLocaleString();
+    spread.textContent = '$' + (gap/1000).toFixed(1) + 'K';
+    gapPct.textContent = ((gap / nei) * 100).toFixed(1) + '%';
+    // compounded missed wealth at 7% annual return on the gap accumulated each year
+    // simplified: missed = gap * (1.07 ^ (yearsFromNow)) for each year's accumulation
+    const yearsHeld = year - YEAR_MIN;
+    let compounded = 0;
+    for(let y = 0; y < yearsHeld; y++){
+      const annualGap = (DAN_TOTAL - NEI_TOTAL) / (YEAR_MAX - YEAR_MIN);
+      compounded += annualGap * Math.pow(1.07, yearsHeld - y);
+    }
+    missed.textContent = '$' + Math.round(compounded).toLocaleString();
+    revealEl.textContent = '+$' + gap.toLocaleString();
+    // narrative — use closest defined year
+    const narYears = Object.keys(NAR).map(Number).sort((a,b)=>a-b);
+    const narYr = narYears.reduce((best, yr) => year >= yr ? yr : best, YEAR_MIN);
+    if(NAR[narYr]) narEl.innerHTML = NAR[narYr];
+    // scrub
+    const pct = t * 100;
+    scrubFill.style.width = pct + '%';
+    scrubThumb.style.left = pct + '%';
+  }
+
+  function play(){
+    if(playing){ pause(); return; }
+    if(year >= YEAR_MAX) year = YEAR_MIN;
+    playing = true;
+    playBtn.textContent = '⏸ PAUSE';
+    playId = setInterval(() => {
+      year++;
+      if(year > YEAR_MAX){ pause(); return; }
+      update();
+    }, 300);
+    update();
+  }
+  function pause(){
+    playing = false;
+    playBtn.textContent = year >= YEAR_MAX ? '↻ REPLAY' : '▶ PLAY 2024 → 2054';
+    if(playId){ clearInterval(playId); playId = null; }
+  }
+  function reset(){
+    pause();
+    year = YEAR_MIN;
+    update();
+    playBtn.textContent = '▶ PLAY 2024 → 2054';
+  }
+
+  playBtn.addEventListener('click', play);
+  resetBtn.addEventListener('click', reset);
+  scrub.addEventListener('click', (e) => {
+    pause();
+    const r = scrub.getBoundingClientRect();
+    const pct = (e.clientX - r.left) / r.width;
+    year = Math.round(YEAR_MIN + pct * (YEAR_MAX - YEAR_MIN));
+    update();
+  });
+  update();
+})();
+
+// ============================================================ STAGE 04 · CASE 3 · COMPOSITE COLLISION
+(function(){
+  const yearEl = document.getElementById('c3Year');
+  const statEl = document.getElementById('c3Stat');
+  const premEl = document.getElementById('c3Premium');
+  const ghostEl = document.getElementById('c3Ghost');
+  const revealEl = document.getElementById('c3Reveal');
+  const narEl  = document.getElementById('case3Nar');
+  const playBtn = document.getElementById('c3Play');
+  const resetBtn = document.getElementById('c3Reset');
+  const scrub = document.getElementById('c3Scrub');
+  const scrubFill = document.getElementById('c3ScrubFill');
+  const scrubThumb = document.getElementById('c3ScrubThumb');
+  const lena   = document.getElementById('c3Lena');
+  const theo   = document.getElementById('c3Theo');
+  const mergeLine = document.getElementById('c3MergeLine');
+  const houseLbl = document.getElementById('c3House');
+  if(!yearEl) return;
+
+  const YEAR_MIN = 2024, YEAR_MAX = 2029;
+  let year = YEAR_MIN;
+  let playing = false;
+  let playId = null;
+
+  const NAR = {
+    2024:'"Lena, FICO 790, marries Theo, FICO 651. They don\'t merge bank accounts. <b>The system merges them anyway</b> within 90 days."',
+    2025:'Lena renews auto + home insurance solo. Premium <b>up $42/mo.</b> The carrier doesn\'t tell her why. <em class="hot">Household composite picked up Theo\'s 2018 late-payment events.</em>',
+    2026:'She applies for a personal line of credit. Offered <b>0.3% above her solo FICO</b>. The "household risk" feature has no opt-out.',
+    2027:'They divorce. <em class="hot">Theo\'s file remains attached</em> in the household-composite layer for ~5 years.',
+    2028:'Her dating-app rank shifts too. <b>The ghost markers from the merger</b> stay on her file.',
+    2029:'Three ghost markers remain. The cost over five years: a vacation she never took.'
+  };
+
+  function update(){
+    yearEl.textContent = year;
+    // pre-merge (2024 start), merged (2024+), divorced (2027+)
+    const merged = year >= 2024;
+    const divorced = year >= 2027;
+
+    if(merged && !divorced){
+      lena.setAttribute('transform','translate(180,140)');
+      theo.setAttribute('transform','translate(280,140)');
+      mergeLine.classList.add('flow');
+      houseLbl.classList.add('show');
+      statEl.textContent = 'MERGED';
+    } else if(divorced){
+      lena.setAttribute('transform','translate(115,140)');
+      theo.setAttribute('transform','translate(345,140)');
+      mergeLine.classList.remove('flow');
+      houseLbl.classList.remove('show');
+      statEl.textContent = 'DIVORCED';
+      // add ghost markers near Lena
+      const existing = lena.querySelectorAll('.ghost-marker');
+      const targetGhost = year - 2026; // 1, 2, 3...
+      if(existing.length < targetGhost){
+        for(let i = existing.length; i < targetGhost; i++){
+          const angle = (i / 3) * Math.PI * 2;
+          const x = Math.cos(angle) * 36;
+          const y = Math.sin(angle) * 36 - 4;
+          lena.insertAdjacentHTML('beforeend',
+            `<circle class="ghost-marker" cx="${x}" cy="${y}" r="3"/>`);
+        }
+      }
+    } else {
+      lena.setAttribute('transform','translate(115,140)');
+      theo.setAttribute('transform','translate(345,140)');
+      mergeLine.classList.remove('flow');
+      houseLbl.classList.remove('show');
+      statEl.textContent = 'SOLO';
+    }
+
+    // premium
+    const premiums = {2024:0, 2025:42, 2026:42, 2027:62, 2028:38, 2029:38};
+    premEl.textContent = '$' + (premiums[year] || 0) + '/mo';
+    // ghosts visible
+    const visible = lena.querySelectorAll('.ghost-marker').length;
+    ghostEl.textContent = visible;
+    // reveal scales
+    const yrsIn = year - YEAR_MIN;
+    const reveal = Math.round((yrsIn / (YEAR_MAX - YEAR_MIN)) * 8940);
+    revealEl.textContent = '+$' + reveal.toLocaleString();
+    // narrative
+    if(NAR[year]) narEl.innerHTML = NAR[year];
+    // scrub
+    const pct = ((year - YEAR_MIN) / (YEAR_MAX - YEAR_MIN)) * 100;
+    scrubFill.style.width = pct + '%';
+    scrubThumb.style.left = pct + '%';
+  }
+
+  function play(){
+    if(playing){ pause(); return; }
+    if(year >= YEAR_MAX) reset();
+    playing = true;
+    playBtn.textContent = '⏸ PAUSE';
+    playId = setInterval(() => {
+      year++;
+      if(year > YEAR_MAX){ pause(); return; }
+      update();
+    }, 1400);
+    update();
+  }
+  function pause(){
+    playing = false;
+    playBtn.textContent = year >= YEAR_MAX ? '↻ REPLAY' : '▶ PLAY 2024 → 2029';
+    if(playId){ clearInterval(playId); playId = null; }
+  }
+  function reset(){
+    pause();
+    year = YEAR_MIN;
+    // remove ghost markers
+    lena.querySelectorAll('.ghost-marker').forEach(g => g.remove());
+    update();
+    playBtn.textContent = '▶ PLAY 2024 → 2029';
+  }
+
+  playBtn.addEventListener('click', play);
+  resetBtn.addEventListener('click', reset);
+  scrub.addEventListener('click', (e) => {
+    pause();
+    const r = scrub.getBoundingClientRect();
+    const pct = (e.clientX - r.left) / r.width;
+    year = Math.round(YEAR_MIN + pct * (YEAR_MAX - YEAR_MIN));
+    // for non-sequential scrub, remove and rebuild ghosts properly
+    lena.querySelectorAll('.ghost-marker').forEach(g => g.remove());
+    update();
+  });
+  update();
+})();
+</script>
+
+</body>
+</html>
