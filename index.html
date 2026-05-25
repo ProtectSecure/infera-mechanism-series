@@ -3,934 +3,737 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Infera · The Mechanism Series — systems journalism, episode by episode</title>
-<meta name="description" content="The Mechanism Series traces the systems that quietly shape American life — using publicly sourced data, episode by episode. Two seasons: a Georgia-2026 field investigation of structural political pressure, and Machine-Readable, an interactive series on the invisible systems that classify, sort, price, and shape every modern life.">
+<title>The Mechanism Series — investigative journalism, built as an experience</title>
+<meta name="description" content="The Mechanism Series · cinematic investigative journalism where you don't just read the story — you move through the data. One question. Many perspectives. Sourced end-to-end." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #08080a;
-    --bg-soft: #111114;
-    --bg-card: #15151a;
-    --ink: #f0ebe0;
-    --ink-dim: #a8a298;
-    --ink-faint: #5a564e;
-    --rule: #28262a;
-    --gold: #c4a777;
-    --d: #d4774a;
-    --r: #7a8c6a;
-    --grid: rgba(196, 167, 119, 0.05);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg); color: var(--ink);
-    font-family: 'Inter', system-ui, sans-serif; font-weight: 300;
-    line-height: 1.5; overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-  .grid-bg {
-    position: fixed; inset: 0;
-    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size: 64px 64px; pointer-events: none; z-index: 0; opacity: 0.5;
-  }
+/* ============================================================ DESIGN TOKENS ============================================================ */
+:root{
+  /* Ink palette */
+  --ink:#08080c;
+  --ink-soft:#101018;
+  --ink-card:#161620;
+  --ink-rule:#2a2a36;
+  /* Paper / type */
+  --paper:#f7f3e8;
+  --cream:#fbf7eb;
+  --bone:#e8e3d4;
+  --dim:#a8a298;
+  --faint:#5a564e;
+  --whisper:#36343a;
+  /* Electric accents */
+  --lime:#c8ff1e;
+  --pink:#ff1a6b;
+  --cobalt:#1e3cff;
+  --amber:#ffd500;
+  --teal:#00ddc8;
+  --violet:#9b6dd4;
+  --tang:#ff7a2e;
+  /* Type */
+  --display:'Archivo Black', system-ui, sans-serif;
+  --editorial:'Fraunces', 'Times New Roman', serif;
+  --italic:'Instrument Serif', 'Fraunces', serif;
+  --sans:'Inter', system-ui, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, monospace;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink); color:var(--cream);
+  font-family:var(--sans); font-weight:300; line-height:1.55;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--lime); color:var(--ink)}
 
-  /* TAB NAV (shared across all pages) */
-  .tabnav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(8,8,10,0.92); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--rule);
-  }
-  .tabnav-inner {
-    display: flex; align-items: center; padding: 12px 24px; gap: 20px;
-    overflow-x: auto; scrollbar-width: none;
-  }
-  .tabnav-inner::-webkit-scrollbar { display: none; }
-  .brand {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--gold); white-space: nowrap; text-decoration: none;
-    padding-right: 18px; border-right: 1px solid var(--rule);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .brand .dot {
-    width: 6px; height: 6px; background: var(--d); border-radius: 50%;
-    animation: pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-  .tab-list { display: flex; gap: 2px; flex: 1; }
-  .tab {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink-faint); padding: 6px 10px; border-radius: 2px;
-    text-decoration: none; white-space: nowrap;
-    transition: color 0.2s, background 0.2s;
-  }
-  .tab:hover { color: var(--ink-dim); background: rgba(255,255,255,0.04); }
-  .tab.active { color: var(--gold); background: rgba(196,167,119,0.12); }
-  .tab-num {
-    font-family: 'Fraunces', serif; font-style: italic;
-    margin-right: 5px; opacity: 0.6;
-  }
+/* ============================================================ AMBIENT BACKDROP — quiet, alive ============================================================ */
+.ambient{position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden}
+.ambient .grid{position:absolute; inset:0; background-image:
+  linear-gradient(rgba(168,162,152,.05) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(168,162,152,.05) 1px, transparent 1px);
+  background-size:72px 72px; opacity:.7}
+.ambient .halo{position:absolute; width:46vw; height:46vw; border-radius:50%; filter:blur(120px); opacity:.18}
+.ambient .h1{background:var(--lime); top:-12vw; left:-10vw; animation:driftA 24s ease-in-out infinite}
+.ambient .h2{background:var(--pink); top:38vh; right:-14vw; animation:driftB 28s ease-in-out infinite}
+.ambient .h3{background:var(--cobalt); bottom:-12vw; left:25vw; animation:driftC 32s ease-in-out infinite; opacity:.12}
+@keyframes driftA{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,30px)}}
+@keyframes driftB{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,20px)}}
+@keyframes driftC{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-20px)}}
 
-  /* HERO */
-  .hero {
-    padding: 140px 6vw 80px;
-    text-align: center; max-width: 1100px; margin: 0 auto;
-    position: relative; z-index: 2;
-  }
-  .hero-canvas { position: fixed; top: 0; left: 0; right: 0; height: 100vh; z-index: 1; pointer-events: none; opacity: 0.65; }
-  .brand .dot { cursor: pointer; pointer-events: auto; }
-  .brand .dot:hover { transform: scale(1.5); transition: transform 0.2s; }
-  /* Easter egg overlays */
-  .editor-note { position: fixed; inset: 0; z-index: 999; background: rgba(6,7,10,0.94); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: center; padding: 40px; opacity: 0; pointer-events: none; transition: opacity 0.6s; }
-  .editor-note.show { opacity: 1; pointer-events: auto; }
-  .editor-note-inner { max-width: 700px; padding: 50px 40px; border: 1px solid var(--gold); background: var(--bg-card); border-radius: 4px; position: relative; }
-  .editor-note h3 { font-family: 'Fraunces', serif; font-weight: 350; font-size: 36px; line-height: 1.1; margin-bottom: 18px; color: var(--gold); font-style: italic; }
-  .editor-note p { font-family: 'Fraunces', serif; font-size: 16px; line-height: 1.65; color: var(--ink-dim); margin-bottom: 14px; }
-  .editor-note p strong { color: var(--ink); font-weight: 500; }
-  .editor-note .sig { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; color: var(--ink-faint); margin-top: 24px; text-transform: uppercase; }
-  .editor-note .close { position: absolute; top: 14px; right: 18px; background: none; border: none; color: var(--ink-faint); font-size: 22px; cursor: pointer; padding: 4px 10px; }
-  .editor-note .close:hover { color: var(--gold); }
-  .editor-note .e-stamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; opacity: 0.7; }
-  /* Toast for easter egg discovery */
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--bg-card); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 3px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; z-index: 998; opacity: 0; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); pointer-events: none; }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  /* Visit tracker — subtle dots in the brand */
-  .visit-track { display: inline-flex; gap: 3px; margin-left: 10px; opacity: 0.55; transition: opacity 0.3s; }
-  .visit-track:hover { opacity: 1; }
-  .visit-track .vd { width: 4px; height: 4px; border-radius: 50%; background: var(--ink-faint); transition: background 0.3s; }
-  .visit-track .vd.seen { background: var(--gold); }
-  /* Constellation easter — when complete */
-  .const-overlay { position: fixed; inset: 0; z-index: 997; pointer-events: none; opacity: 0; transition: opacity 1s; }
-  .const-overlay.show { opacity: 1; }
-  /* Story card hover preview */
-  .story-card { transform: translateY(0); transition: background 0.3s, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
-  .story-card:hover { transform: translateY(-4px); }
-  .story-card canvas.preview { position: absolute; bottom: 0; right: 0; width: 80px; height: 80px; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
-  .story-card:hover canvas.preview { opacity: 0.55; }
-  .kicker {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    letter-spacing: 0.32em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 28px;
-  }
-  h1 {
-    font-family: 'Fraunces', serif; font-weight: 350;
-    font-size: clamp(48px, 8vw, 116px); line-height: 0.96;
-    letter-spacing: -0.035em; margin-bottom: 28px;
-    font-variation-settings: "opsz" 144, "SOFT" 80;
-  }
-  h1 em { font-style: italic; color: var(--gold); }
-  .lead {
-    font-family: 'Fraunces', serif; font-weight: 300;
-    font-size: clamp(18px, 1.8vw, 22px); color: var(--ink-dim);
-    max-width: 720px; margin: 0 auto; line-height: 1.5;
-  }
+/* ============================================================ NAV ============================================================ */
+.brand-nav{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 28px; background:rgba(8,8,12,.78); backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(168,162,152,.08);
+}
+.brand-nav .brand{display:flex; align-items:center; gap:10px; text-decoration:none}
+.brand-nav .brand .dot{width:8px; height:8px; background:var(--lime); border-radius:50%; box-shadow:0 0 0 2px rgba(200,255,30,.2); animation:bp 2s ease-in-out infinite}
+.brand-nav .brand .nm{font-family:var(--display); font-size:11px; letter-spacing:.18em; color:var(--cream); text-transform:uppercase}
+.brand-nav .brand .nm em{font-family:var(--italic); font-style:italic; font-weight:400; color:var(--lime); letter-spacing:.02em; font-size:14px; padding:0 4px}
+@keyframes bp{0%,100%{opacity:1; transform:scale(1)}50%{opacity:.5; transform:scale(.85)}}
+.brand-nav .links{display:flex; gap:4px; align-items:center; flex-wrap:wrap}
+.brand-nav .links a{
+  font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--dim); padding:8px 12px; text-decoration:none; transition:.18s;
+  border:1px solid transparent;
+}
+.brand-nav .links a:hover{color:var(--cream); background:rgba(255,255,255,.04)}
+.brand-nav .links a.lit{color:var(--lime); border-color:rgba(200,255,30,.3)}
 
-  /* FRAMEWORK section */
-  .framework { padding: 60px 6vw 40px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; border-top: 1px solid var(--rule); }
-  .framework-stamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
-  .framework h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(28px, 3.6vw, 42px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 22px; max-width: 38ch; }
-  .framework h2 em { font-style: italic; color: var(--gold); font-weight: 300; }
-  .framework-lead { font-family: 'Fraunces', serif; font-size: 17px; color: var(--ink-dim); max-width: 64ch; line-height: 1.6; margin-bottom: 40px; }
-  .framework-lead strong { color: var(--ink); font-weight: 500; }
-  .framework-lead em { color: var(--gold); font-style: italic; }
-  .confidence-legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 40px; }
-  .conf-cell { background: var(--bg-card); padding: 18px 16px; display: flex; flex-direction: column; gap: 8px; }
-  .conf-badge { display: inline-flex; align-items: center; gap: 7px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; padding: 4px 9px; border-radius: 2px; border: 1px solid; align-self: flex-start; }
-  .conf-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
-  .conf-badge.proven      { color: #88c088; border-color: #2a4a2a; } .conf-badge.proven::before      { background: #88c088; }
-  .conf-badge.strong      { color: #a8c08a; border-color: #2a3a20; } .conf-badge.strong::before      { background: transparent; box-shadow: inset 0 0 0 1.5px #a8c08a; }
-  .conf-badge.correlated  { color: #c4a560; border-color: #3a3220; } .conf-badge.correlated::before  { background: #c4a560; }
-  .conf-badge.plausible   { color: #c89060; border-color: #3a2a20; } .conf-badge.plausible::before   { background: transparent; box-shadow: inset 0 0 0 1.5px #c89060; }
-  .conf-badge.speculative { color: #c47060; border-color: #3a2520; } .conf-badge.speculative::before { background: transparent; box-shadow: inset 0 0 0 1.5px #c47060; opacity: 0.7; }
-  .conf-badge.competing   { color: #a890c8; border-color: #2a2540; } .conf-badge.competing::before   { background: linear-gradient(90deg, #c89060 50%, #a890c8 50%); }
-  .conf-cell .desc { font-size: 12px; color: var(--ink-dim); line-height: 1.45; }
-  .stance { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; margin-bottom: 24px; }
-  .stance-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
-  .stance-col p { font-size: 14px; color: var(--ink-dim); line-height: 1.55; }
-  .stance-col p strong { color: var(--ink); font-weight: 500; }
+/* ============================================================ HERO — cinematic, multi-perspective rotating headline ============================================================ */
+.hero{
+  position:relative; z-index:1; min-height:100vh;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:120px 6vw 64px; max-width:1500px; margin:0 auto;
+}
+.hero-over{
+  display:flex; align-items:center; gap:14px; margin-bottom:32px;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.32em; text-transform:uppercase; color:var(--dim);
+}
+.hero-over .pulse{width:7px; height:7px; background:var(--lime); border-radius:50%; box-shadow:0 0 12px var(--lime)}
+.hero-over .div{width:24px; height:1px; background:var(--whisper)}
+.hero-over .cycle-num{color:var(--lime)}
+.hero h1{
+  font-family:var(--display); font-size:clamp(48px, 9vw, 152px);
+  letter-spacing:-.045em; line-height:.88;
+  color:var(--cream); margin-bottom:22px; text-wrap:balance;
+}
+.hero h1 .word-cycle{
+  display:inline-block; min-width:6ch; vertical-align:baseline;
+  font-family:var(--italic); font-style:italic; font-weight:400;
+  color:var(--lime); letter-spacing:-.025em; font-size:.94em;
+  text-shadow:0 0 32px rgba(200,255,30,.45);
+  transition:opacity .35s ease, transform .35s ease;
+}
+.hero h1 .word-cycle.swap{opacity:0; transform:translateY(8px)}
+.hero .deck{
+  font-family:var(--italic); font-style:italic; font-size:clamp(20px, 2.2vw, 28px);
+  line-height:1.35; color:var(--bone); max-width:54ch; margin-bottom:48px;
+}
+.hero .deck em{font-style:normal; color:var(--lime); border-bottom:1px solid rgba(200,255,30,.4)}
+.hero-ctas{display:flex; gap:14px; flex-wrap:wrap}
+.hero-cta{
+  display:inline-flex; align-items:center; gap:14px;
+  padding:18px 24px; font-family:var(--display); font-size:13px;
+  letter-spacing:-.005em; text-transform:uppercase;
+  text-decoration:none; transition:.2s; border:2px solid transparent;
+}
+.hero-cta.s1{background:var(--tang); color:var(--ink)}
+.hero-cta.s1:hover{background:var(--amber); transform:translateY(-2px)}
+.hero-cta.s2{background:var(--lime); color:var(--ink)}
+.hero-cta.s2:hover{background:var(--cream); transform:translateY(-2px)}
+.hero-cta .num{font-family:var(--mono); font-size:10px; letter-spacing:.2em; opacity:.65}
+.hero-cta .ar{transition:transform .2s}
+.hero-cta:hover .ar{transform:translateX(6px)}
+.hero-scroll{
+  position:absolute; left:6vw; bottom:36px;
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--faint); display:inline-flex; align-items:center; gap:14px;
+}
+.hero-scroll .line{display:block; width:1px; height:36px; background:var(--lime); animation:hsl 2.2s ease-in-out infinite}
+@keyframes hsl{0%,100%{transform:scaleY(0); transform-origin:top}50%{transform:scaleY(1)}}
 
-  /* STORIES GRID */
-  .stories {
-    padding: 60px 6vw 100px; max-width: 1400px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2px; background: var(--rule); border: 1px solid var(--rule);
-    position: relative; z-index: 2;
-  }
-  .story-card {
-    background: var(--bg-card); padding: 32px 28px 28px;
-    display: flex; flex-direction: column; gap: 14px;
-    min-height: 340px; text-decoration: none; color: var(--ink);
-    transition: background 0.3s, transform 0.3s;
-    position: relative; overflow: hidden;
-  }
-  .story-card::before {
-    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: var(--accent, var(--gold));
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  .story-card:hover { background: var(--bg-soft); }
-  .story-card:hover::before { transform: scaleX(1); }
-  .story-card .num {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    letter-spacing: 0.24em; color: var(--accent, var(--gold));
-  }
-  .story-card .mech {
-    font-family: 'JetBrains Mono', monospace; font-size: 9px;
-    letter-spacing: 0.2em; color: var(--ink-faint);
-    text-transform: uppercase; margin-bottom: 4px;
-  }
-  .story-card h2 {
-    font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: clamp(24px, 2.2vw, 30px); line-height: 1.1;
-    color: var(--ink); letter-spacing: -0.015em;
-  }
-  .story-card p {
-    font-size: 14px; color: var(--ink-dim); line-height: 1.55;
-    margin-top: 4px;
-  }
-  .story-card .read {
-    margin-top: auto; font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.2em; color: var(--accent, var(--gold));
-    text-transform: uppercase; display: flex; align-items: center; gap: 8px;
-  }
-  .story-card .read::after { content: "→"; transition: transform 0.3s; }
-  .story-card:hover .read::after { transform: translateX(4px); }
+/* ============================================================ PRISM — interactive multi-perspective demonstration ============================================================ */
+.prism{
+  position:relative; z-index:1; padding:120px 6vw;
+  background:var(--paper); color:var(--ink);
+}
+.prism-inner{max-width:1300px; margin:0 auto}
+.section-eyebrow{
+  display:flex; align-items:center; gap:14px; margin-bottom:18px;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.32em; text-transform:uppercase; color:var(--whisper);
+}
+.section-eyebrow b{font-family:var(--display); font-size:14px; letter-spacing:.02em; color:var(--pink); font-weight:400; text-transform:uppercase}
+.section-eyebrow .div{width:32px; height:1.5px; background:currentColor}
 
-  /* Custom accents per story */
-  .story-card[data-id="trickle"]    { --accent: #d4774a; }
-  .story-card[data-id="vogtle"]     { --accent: #4d8ca8; }
-  .story-card[data-id="data"]       { --accent: #d44a8c; }
-  .story-card[data-id="eviction"]   { --accent: #b85a52; }
-  .story-card[data-id="hospital"]   { --accent: #5fa68a; }
-  .story-card[data-id="coast"]      { --accent: #4a9fa8; }
-  .story-card[data-id="settle"]     { --accent: #b58840; }
-  .story-card[data-id="ballot"]     { --accent: #c4a04a; }
-  .story-card[data-id="runoff"]     { --accent: #d8a35a; }
-  .story-card[data-id="personhood"]     { --accent: #c8ff1e; }
-  .story-card[data-id="feedengine"]     { --accent: #1e3cff; }
-  .story-card[data-id="machinereadable"]{ --accent: #c4a777; }
-  .story-card[data-id="committee"]      { --accent: #98a456; }
+.prism h2{
+  font-family:var(--display); font-size:clamp(40px, 5vw, 72px);
+  letter-spacing:-.04em; line-height:.92; color:var(--ink); margin-bottom:24px;
+  max-width:20ch;
+}
+.prism h2 em{font-family:var(--italic); font-style:italic; color:var(--pink); font-weight:400; letter-spacing:-.02em}
+.prism .lead{
+  font-family:var(--italic); font-style:italic;
+  font-size:clamp(17px, 1.9vw, 22px); line-height:1.45; color:#3a3835;
+  max-width:48ch; margin-bottom:56px;
+}
 
-  footer {
-    padding: 60px 6vw 80px; border-top: 1px solid var(--rule);
-    background: var(--bg-soft);
-  }
-  .footer-grid {
-    display: grid; grid-template-columns: 2fr 1fr 1fr;
-    gap: 60px; max-width: 1200px; margin: 0 auto;
-  }
-  footer h5 {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    letter-spacing: 0.24em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 14px;
-  }
-  footer p { font-size: 13px; color: var(--ink-dim); line-height: 1.7; }
-  footer .sig {
-    font-family: 'Fraunces', serif; font-style: italic;
-    font-size: 18px; color: var(--ink); margin-top: 24px;
-  }
+.prism-stage{
+  display:grid; grid-template-columns:340px 1fr; gap:48px; align-items:start;
+}
+.prism-q{
+  background:var(--ink); color:var(--cream); padding:36px 30px;
+  border:2px solid var(--ink); position:relative; overflow:hidden;
+}
+.prism-q::before{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(ellipse at 100% 100%, rgba(255,26,107,.18), transparent 60%);
+  pointer-events:none;
+}
+.prism-q .pq-tag{font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--pink); margin-bottom:14px; display:block; position:relative}
+.prism-q .pq-q{font-family:var(--editorial); font-size:30px; line-height:1.08; letter-spacing:-.015em; color:var(--cream); margin-bottom:22px; position:relative}
+.prism-q .pq-q em{font-family:var(--italic); font-style:italic; color:var(--lime); font-weight:400}
+.prism-q .pq-fact{
+  font-family:var(--mono); font-size:11px; letter-spacing:.06em; line-height:1.65;
+  padding:14px 16px; background:rgba(200,255,30,.08); border-left:2px solid var(--lime);
+  color:var(--bone); position:relative;
+}
+.prism-q .pq-fact b{color:var(--cream); font-weight:700}
+.prism-q .pq-foot{margin-top:18px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); position:relative}
 
-  @media (max-width: 700px) {
-    .footer-grid { grid-template-columns: 1fr; gap: 36px; }
-    .hero { padding: 110px 6vw 60px; }
-    .stories { padding: 40px 4vw 80px; grid-template-columns: 1fr; }
-    .tabnav-inner { padding: 10px 16px; gap: 12px; }
-    .brand { font-size: 10px; padding-right: 12px; }
-  }
+.prism-lenses{display:flex; flex-direction:column; gap:14px}
+.lens-row{display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:#d9d3c4; padding:1px}
+.lens-btn{
+  background:var(--paper); padding:18px 16px; cursor:pointer;
+  border:none; text-align:left; transition:.2s; position:relative;
+  display:flex; flex-direction:column; gap:6px; font-family:inherit;
+}
+.lens-btn::before{
+  content:""; position:absolute; left:0; top:0; right:0; height:3px;
+  background:var(--lens-accent, var(--pink)); transform:scaleX(0); transform-origin:left; transition:transform .25s ease;
+}
+.lens-btn:hover{background:#ede8d9}
+.lens-btn.active{background:var(--ink); color:var(--cream)}
+.lens-btn.active::before{transform:scaleX(1)}
+.lens-btn .lens-lbl{font-family:var(--mono); font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--whisper); transition:color .2s}
+.lens-btn.active .lens-lbl{color:var(--lens-accent, var(--pink))}
+.lens-btn .lens-nm{font-family:var(--display); font-size:14px; letter-spacing:-.005em; color:var(--ink); transition:color .2s}
+.lens-btn.active .lens-nm{color:var(--cream)}
+.lens-btn[data-lens="renter"]{--lens-accent:var(--pink)}
+.lens-btn[data-lens="landlord"]{--lens-accent:var(--cobalt)}
+.lens-btn[data-lens="planner"]{--lens-accent:var(--lime)}
 
-  /* === Dim-switch: bold reveals as you scroll past === */
-  strong {
-    color: var(--ink-dim);
-    text-shadow: 0 0 0 transparent;
-    transition: color 1.3s ease 0.08s, text-shadow 1.3s ease 0.08s;
-  }
-  strong.lit {
-    color: var(--ink);
-    text-shadow: 0 0 14px rgba(232, 200, 144, 0.22), 0 0 4px rgba(232, 200, 144, 0.32);
-  }
-  em.lit-em {
-    /* keep italic emphasis untouched; lit only applies if we explicitly opt in */
-  }
-  /* Reading-time badge */
-  .read-time {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: 'JetBrains Mono', monospace; font-size: 9px;
-    letter-spacing: 0.28em; color: var(--ink-faint);
-    text-transform: uppercase;
-    padding: 5px 10px; border: 1px solid var(--rule);
-    border-radius: 2px; margin-left: 14px; vertical-align: middle;
-    transition: color 0.6s, border-color 0.6s;
-  }
-  .read-time::before {
-    content: ""; width: 5px; height: 5px; border-radius: 50%;
-    background: currentColor; opacity: 0.55;
-  }
-  .read-time.lit { color: var(--gold, #c4a777); border-color: rgba(196,167,119,0.4); }
+.lens-read{
+  background:var(--ink-soft); color:var(--cream); padding:32px 32px;
+  display:grid; grid-template-columns:1fr 1fr; gap:32px; min-height:340px;
+  border-top:1px solid rgba(255,255,255,.08); position:relative; overflow:hidden;
+}
+.lens-read::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+  background:var(--lens-accent, var(--pink)); transition:background .3s;
+}
+.lens-read .lr-l{display:flex; flex-direction:column; gap:14px}
+.lens-read .lr-tag{font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--lens-accent, var(--pink)); transition:color .3s}
+.lens-read .lr-h{font-family:var(--editorial); font-size:32px; line-height:1.05; letter-spacing:-.02em; color:var(--cream); margin-bottom:6px}
+.lens-read .lr-h em{font-family:var(--italic); font-style:italic; font-weight:400; color:var(--lens-accent, var(--pink)); transition:color .3s}
+.lens-read .lr-body{font-family:var(--italic); font-style:italic; font-size:16px; line-height:1.5; color:var(--bone)}
+.lens-read .lr-r{display:flex; flex-direction:column; gap:14px}
+.lens-read .lr-stat{padding:14px 16px; background:rgba(255,255,255,.04); border-left:2px solid var(--lens-accent, var(--pink)); transition:border-color .3s}
+.lens-read .lr-stat .l{font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); margin-bottom:4px}
+.lens-read .lr-stat .v{font-family:var(--display); font-size:24px; letter-spacing:-.02em; color:var(--cream); line-height:1; font-variant-numeric:tabular-nums}
+.lens-read .lr-stat .s{font-family:var(--sans); font-size:12px; color:var(--dim); line-height:1.4; margin-top:4px}
+.lens-read.r-renter{--lens-accent:var(--pink)}
+.lens-read.r-landlord{--lens-accent:var(--cobalt)}
+.lens-read.r-planner{--lens-accent:var(--lime)}
 
+.prism-coda{
+  margin-top:36px; padding:28px 32px; background:var(--ink); color:var(--cream);
+  display:flex; align-items:center; gap:32px; flex-wrap:wrap;
+}
+.prism-coda .pc-eyebrow{font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--lime); font-weight:700}
+.prism-coda .pc-quote{font-family:var(--italic); font-style:italic; font-size:clamp(18px, 2vw, 24px); line-height:1.3; color:var(--cream); flex:1; min-width:300px}
+.prism-coda .pc-quote em{color:var(--lime); font-style:italic}
+
+/* ============================================================ PRACTICE — short editorial blocks ============================================================ */
+.practice{
+  position:relative; z-index:1; padding:120px 6vw;
+  background:var(--ink); color:var(--cream);
+}
+.practice-inner{max-width:1300px; margin:0 auto}
+.practice .section-eyebrow{color:var(--dim)}
+.practice .section-eyebrow b{color:var(--lime)}
+.practice .section-eyebrow .div{background:var(--whisper)}
+.practice h2{font-family:var(--display); font-size:clamp(40px, 5vw, 68px); letter-spacing:-.035em; line-height:.94; margin-bottom:18px; max-width:20ch}
+.practice h2 em{font-family:var(--italic); font-style:italic; font-weight:400; color:var(--lime)}
+.practice .deck{font-family:var(--italic); font-style:italic; font-size:18px; line-height:1.45; color:var(--bone); max-width:54ch; margin-bottom:56px}
+
+.tenets{display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:rgba(255,255,255,.08); padding:1px}
+.tenet{padding:32px 28px; background:var(--ink-soft); display:flex; flex-direction:column; gap:14px; position:relative; overflow:hidden}
+.tenet::before{content:""; position:absolute; left:0; top:0; right:0; height:2px; background:var(--ten-accent); opacity:.7}
+.tenet .num{font-family:var(--display); font-size:60px; letter-spacing:-.04em; line-height:.85; color:var(--ten-accent); opacity:.35}
+.tenet h4{font-family:var(--display); font-size:18px; letter-spacing:-.005em; color:var(--cream); text-transform:uppercase}
+.tenet p{font-family:var(--sans); font-size:14px; line-height:1.6; color:var(--bone)}
+.tenet p em{font-family:var(--italic); font-style:italic; color:var(--ten-accent)}
+.tenet:nth-child(1){--ten-accent:var(--lime)}
+.tenet:nth-child(2){--ten-accent:var(--amber)}
+.tenet:nth-child(3){--ten-accent:var(--pink)}
+
+/* ============================================================ SEASONS — cinematic full-bleed ============================================================ */
+.season{position:relative; z-index:1; padding:140px 6vw; overflow:hidden}
+.season.s1{background:var(--paper); color:var(--ink)}
+.season.s2{background:var(--ink); color:var(--cream)}
+.season-inner{max-width:1500px; margin:0 auto; position:relative}
+.season-mask{position:absolute; pointer-events:none; opacity:.06; mix-blend-mode:multiply}
+.season-mask.s1{top:-40px; right:-60px; font-family:var(--display); font-size:clamp(280px, 38vw, 480px); letter-spacing:-.06em; color:var(--tang); line-height:.85}
+.season-mask.s2{top:-40px; right:-60px; font-family:var(--display); font-size:clamp(280px, 38vw, 480px); letter-spacing:-.06em; color:var(--lime); line-height:.85; opacity:.07; mix-blend-mode:screen}
+
+.season-head{display:grid; grid-template-columns:minmax(0,1.4fr) minmax(280px,1fr); gap:64px; align-items:end; margin-bottom:56px; padding-bottom:32px; border-bottom:1px solid rgba(255,255,255,.1)}
+.season.s1 .season-head{border-bottom-color:rgba(10,10,14,.15)}
+.season-head .sh-l{display:flex; flex-direction:column; gap:14px}
+.season-head .sh-meta{font-family:var(--mono); font-size:10.5px; letter-spacing:.32em; text-transform:uppercase; color:var(--season-accent); font-weight:700; display:inline-flex; align-items:center; gap:14px}
+.season-head .sh-meta::before{content:""; width:36px; height:1.5px; background:var(--season-accent)}
+.season-head h2{font-family:var(--display); font-size:clamp(56px, 8vw, 124px); letter-spacing:-.045em; line-height:.85}
+.season-head h2 em{font-family:var(--italic); font-style:italic; font-weight:400; color:var(--season-accent)}
+.season-head .sh-status{display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--season-accent); padding:6px 12px; border:1.5px solid var(--season-accent); width:max-content}
+.season-head .sh-status .blink{width:7px; height:7px; background:var(--season-accent); border-radius:50%; animation:bp 1.6s ease-in-out infinite}
+.season-head .sh-r{font-family:var(--italic); font-style:italic; font-size:clamp(16px,1.6vw,20px); line-height:1.45}
+.season-head .sh-r strong{font-style:normal; font-family:var(--display); font-weight:400; letter-spacing:-.005em; font-size:.95em}
+
+.season.s1{--season-accent:var(--tang)}
+.season.s2{--season-accent:var(--lime)}
+
+.ep-row{display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:rgba(0,0,0,.18)}
+.season.s2 .ep-row{background:rgba(255,255,255,.1)}
+.ep-tile{
+  display:flex; flex-direction:column; gap:10px; padding:28px 26px; min-height:280px;
+  background:var(--paper); color:var(--ink); text-decoration:none;
+  position:relative; overflow:hidden; transition:.25s;
+}
+.season.s2 .ep-tile{background:var(--ink-card); color:var(--cream)}
+.ep-tile::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:var(--tile); transition:width .22s;
+}
+.ep-tile:hover{transform:translateY(-3px)}
+.ep-tile:hover::before{width:6px}
+.season.s1 .ep-tile:hover{background:#ede8d9}
+.season.s2 .ep-tile:hover{background:#1d1d28}
+.ep-tile .tile-row{display:flex; justify-content:space-between; align-items:center}
+.ep-tile .ep-num{font-family:var(--display); font-size:38px; letter-spacing:-.04em; color:var(--tile); line-height:.85}
+.ep-tile .ep-stat{font-family:var(--mono); font-size:8.5px; letter-spacing:.2em; text-transform:uppercase; padding:4px 9px; border:1px solid currentColor; color:var(--tile); font-weight:700}
+.ep-tile.drafting .ep-stat{color:var(--faint); opacity:.7; border-color:currentColor}
+.ep-tile .ep-mech{font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--faint); margin-top:8px}
+.season.s2 .ep-tile .ep-mech{color:var(--dim)}
+.ep-tile h3{font-family:var(--editorial); font-size:clamp(22px,2vw,30px); line-height:1.05; letter-spacing:-.02em; color:inherit; font-weight:400; margin-top:6px}
+.ep-tile h3 em{font-family:var(--italic); font-style:italic; color:var(--tile)}
+.ep-tile p{font-family:var(--sans); font-size:13.5px; line-height:1.5; color:inherit; opacity:.78; margin-top:4px}
+.ep-tile .ep-cta{margin-top:auto; font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--tile); display:inline-flex; align-items:center; gap:10px; padding-top:10px}
+.ep-tile .ep-cta::after{content:"→"; transition:transform .25s}
+.ep-tile:hover .ep-cta::after{transform:translateX(5px)}
+.ep-tile.drafting{cursor:default; opacity:.7}
+.ep-tile.drafting:hover{transform:none}
+.ep-tile.drafting:hover::before{width:3px}
+.ep-tile.drafting .ep-cta{display:none}
+
+/* per-tile accents */
+.ep-tile[data-tile="trickle"]   {--tile:#ff7a2e}
+.ep-tile[data-tile="eviction"]  {--tile:#e15247}
+.ep-tile[data-tile="hospital"]  {--tile:#5fa68a}
+.ep-tile[data-tile="coast"]     {--tile:#4a9fa8}
+.ep-tile[data-tile="ballot"]    {--tile:#d8a35a}
+.ep-tile[data-tile="runoff"]    {--tile:#c4a04a}
+.ep-tile[data-tile="personhood"]{--tile:var(--lime)}
+.ep-tile[data-tile="feed"]      {--tile:#5a8aff}
+.ep-tile[data-tile="trust"]     {--tile:var(--pink)}
+.ep-tile[data-tile="influence"] {--tile:var(--amber)}
+.ep-tile[data-tile="class"]     {--tile:var(--tang)}
+.ep-tile[data-tile="synthetic"] {--tile:var(--violet)}
+.ep-tile[data-tile="governance"]{--tile:var(--teal)}
+
+/* ============================================================ AHEAD — what's coming sign-off ============================================================ */
+.ahead{
+  position:relative; z-index:1; padding:120px 6vw 80px;
+  background:linear-gradient(180deg, var(--ink) 0%, #04040a 100%);
+  color:var(--cream); text-align:center;
+}
+.ahead-inner{max-width:900px; margin:0 auto}
+.ahead .section-eyebrow{justify-content:center; color:var(--dim)}
+.ahead .section-eyebrow b{color:var(--cream)}
+.ahead .section-eyebrow .div{background:var(--whisper)}
+.ahead h2{font-family:var(--display); font-size:clamp(38px,5vw,68px); letter-spacing:-.035em; line-height:.94; margin-bottom:22px}
+.ahead h2 em{font-family:var(--italic); font-style:italic; color:var(--lime); font-weight:400}
+.ahead p{font-family:var(--italic); font-style:italic; font-size:18px; line-height:1.5; color:var(--bone); max-width:46ch; margin:0 auto 36px}
+.ahead .a-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:8px}
+.ahead .a-pill{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; text-transform:uppercase;
+  padding:12px 18px; border:1.5px solid var(--whisper); color:var(--bone); text-decoration:none;
+  transition:.2s;
+}
+.ahead .a-pill:hover{border-color:var(--lime); color:var(--lime)}
+.ahead .a-pill.live{border-color:var(--lime); color:var(--lime)}
+.ahead .a-pill.live::before{content:"●"; margin-right:6px; animation:bp 1.5s ease-in-out infinite}
+
+/* ============================================================ FOOTER — minimal ============================================================ */
+footer{
+  position:relative; z-index:1; padding:32px 6vw;
+  background:#04040a; border-top:1px solid var(--whisper);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:18px;
+}
+footer .copy{font-family:var(--mono); font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--faint)}
+footer .copy em{font-family:var(--italic); font-style:italic; color:var(--dim); letter-spacing:.02em; font-size:11px}
+footer .meta{display:flex; gap:18px; font-family:var(--mono); font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--faint)}
+
+/* ============================================================ RESPONSIVE ============================================================ */
+@media (max-width: 900px){
+  .prism-stage{grid-template-columns:1fr}
+  .lens-read{grid-template-columns:1fr; min-height:auto}
+  .tenets{grid-template-columns:1fr}
+  .ep-row{grid-template-columns:1fr 1fr}
+  .season-head{grid-template-columns:1fr; gap:24px}
+  .brand-nav{padding:12px 18px}
+  .brand-nav .links a{padding:6px 9px; font-size:9px}
+  .hero{padding:96px 6vw 48px; min-height:auto}
+  .hero-cta{padding:14px 18px; font-size:11px}
+}
+@media (max-width: 600px){
+  .ep-row{grid-template-columns:1fr}
+  .lens-row{grid-template-columns:1fr; gap:1px}
+  .hero h1 .word-cycle{min-width:5ch}
+  .prism, .practice, .season, .ahead{padding-left:5vw; padding-right:5vw}
+}
 </style>
 </head>
 <body>
-<div class="grid-bg"></div>
-<canvas class="hero-canvas" id="indexHero"></canvas>
 
-<nav class="tabnav">
-  <div class="tabnav-inner">
-    <a class="brand" href="index.html"><span class="dot"></span>INFERA · MECHANISM SERIES</a>
-    <div class="tab-list">
-      <a class="tab active" href="index.html"><span class="tab-num">i.</span>The Work</a>
-      <a class="tab" href="#season-1"><span class="tab-num">S1</span>Pressure Series</a>
-      <a class="tab" href="#season-2"><span class="tab-num">S2</span>Machine-Readable</a>
-      <a class="tab" href="machine-readable.html"><span class="tab-num">◉</span>Universe Map</a>
-      <a class="tab" href="thesis.html"><span class="tab-num">◉</span>Thesis</a>
-    </div>
+<!-- ambient backdrop -->
+<div class="ambient" aria-hidden="true">
+  <div class="grid"></div>
+  <div class="halo h1"></div>
+  <div class="halo h2"></div>
+  <div class="halo h3"></div>
+</div>
+
+<!-- NAV -->
+<nav class="brand-nav">
+  <a class="brand" href="index.html">
+    <span class="dot"></span>
+    <span class="nm">The <em>Mechanism</em> Series</span>
+  </a>
+  <div class="links">
+    <a href="#prism">The Practice</a>
+    <a href="#season-1">Season I</a>
+    <a href="#season-2">Season II</a>
+    <a href="machine-readable.html">Universe Map</a>
+    <a href="thesis.html">Thesis</a>
   </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="kicker">INFERA · THE MECHANISM SERIES · SYSTEMS JOURNALISM<span class="read-time">~3 min · what this is</span></div>
-  <h1>Trace the systems that quietly shape <em>American life</em> — episode by episode, from <em>public records only</em>.</h1>
-  <p class="lead">Two ongoing seasons. One method. Each episode picks a system most coverage describes from a single angle, then takes it apart in public — with sourced data, marked confidence, named blind spots, and a falsifier on every claim. The point isn't to win an argument. <strong>It's to give people of different politics a shared set of facts to stand on.</strong></p>
-
-  <div class="hero-track-jump">
-    <a class="htj-card s1" href="#season-1">
-      <span class="htj-lbl">SEASON I · 2026 · LIVE</span>
-      <span class="htj-h">The Pressure Series</span>
-      <span class="htj-sub">Georgia field investigation · 6 episodes · how structural pressure shows up in the political record before politics names it</span>
-      <span class="htj-cta">Enter season I →</span>
+  <div class="hero-over">
+    <span class="pulse"></span>
+    <span>The Mechanism Series</span>
+    <span class="div"></span>
+    <span class="cycle-num">CYCLE 02 · 2026</span>
+    <span class="div"></span>
+    <span>Investigative journalism, built as an experience</span>
+  </div>
+  <h1>
+    Same fact.<br/>
+    Different
+    <span class="word-cycle" id="heroCycle" aria-live="polite">truth.</span>
+  </h1>
+  <p class="deck">
+    Most coverage hands you a verdict. We hand you the <em>controls</em>. Move through the data, switch perspectives, see why two readers with different politics can stand in front of the same chart and walk away with very different — and equally defensible — conclusions.
+  </p>
+  <div class="hero-ctas">
+    <a class="hero-cta s1" href="#season-1">
+      <span class="num">S/01</span>
+      <span>The Pressure Series</span>
+      <span class="ar">→</span>
     </a>
-    <a class="htj-card s2" href="#season-2">
-      <span class="htj-lbl">SEASON II · ONGOING · 2 LIVE · 1 MOCKUP · 4 DRAFTING</span>
-      <span class="htj-h">Machine-Readable</span>
-      <span class="htj-sub">A 7-episode investigation of the invisible systems that classify, sort, price, and shape every modern life. Interactive · your persona carries across every episode.</span>
-      <span class="htj-cta">Enter season II →</span>
+    <a class="hero-cta s2" href="#season-2">
+      <span class="num">S/02</span>
+      <span>Machine-Readable</span>
+      <span class="ar">→</span>
     </a>
   </div>
+  <a class="hero-scroll" href="#prism"><span class="line"></span>open the prism · see how it reads</a>
 </section>
 
-<style>
-  /* HERO TRACK-JUMP CARDS (new) — two-season chooser sits directly under the hero copy */
-  .hero-track-jump{
-    display:grid; grid-template-columns:1fr 1fr; gap:14px;
-    max-width:1100px; margin:48px auto 0; padding:0 6vw;
-    position:relative; z-index:2;
-  }
-  .htj-card{
-    display:flex; flex-direction:column; gap:8px;
-    padding:24px 22px; background:var(--bg-card);
-    border:1px solid var(--rule); text-decoration:none; color:var(--ink);
-    transition:.25s; position:relative; overflow:hidden;
-    text-align:left;
-  }
-  .htj-card::before{
-    content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
-    background:var(--accent); transition:width .25s;
-  }
-  .htj-card:hover{background:var(--bg-soft); transform:translateY(-2px)}
-  .htj-card:hover::before{width:5px}
-  .htj-card.s1{--accent:#d4774a}
-  .htj-card.s2{--accent:#c8ff1e}
-  .htj-card .htj-lbl{
-    font-family:'JetBrains Mono', monospace; font-size:9.5px;
-    letter-spacing:.22em; text-transform:uppercase;
-    color:var(--accent); font-weight:500;
-  }
-  .htj-card .htj-h{
-    font-family:'Fraunces', serif; font-weight:400; font-style:italic;
-    font-size:clamp(22px,2.4vw,30px); line-height:1.05;
-    letter-spacing:-.015em; color:var(--ink); margin:2px 0 4px;
-  }
-  .htj-card .htj-sub{font-size:13px; line-height:1.5; color:var(--ink-dim)}
-  .htj-card .htj-cta{
-    margin-top:10px; font-family:'JetBrains Mono', monospace; font-size:10px;
-    letter-spacing:.2em; text-transform:uppercase; color:var(--accent);
-  }
-  @media (max-width:720px){ .hero-track-jump{grid-template-columns:1fr} }
+<!-- ============================================================ PRISM · interactive multi-perspective demo ============================================================ -->
+<section class="prism" id="prism">
+  <div class="prism-inner">
+    <div class="section-eyebrow"><span class="div"></span><b>01 · How we read</b><span>the same fact, three angles</span></div>
+    <h2>One question. <em>Three perspectives.</em> Same data.</h2>
+    <p class="lead">An example. Tap a lens — watch the reading rewrite itself. Every Mechanism Series episode works like this. There isn't one answer because nobody experiences the system the same way. The job is to surface all of them and let you decide where you stand.</p>
 
-  /* THE WORK · mission synopsis */
-  .work{
-    padding:80px 6vw 40px; max-width:1100px; margin:0 auto;
-    position:relative; z-index:2;
-  }
-  .work .lbl{font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.32em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; display:inline-flex; align-items:center; gap:10px}
-  .work .lbl::before{content:""; width:24px; height:1px; background:var(--gold)}
-  .work h2{font-family:'Fraunces', serif; font-weight:400; font-size:clamp(30px,3.4vw,46px); letter-spacing:-.025em; line-height:1.05; color:var(--ink); margin-bottom:22px; max-width:24ch}
-  .work h2 em{font-family:'Fraunces', serif; font-style:italic; font-weight:400; color:var(--gold)}
-  .work-cols{display:grid; grid-template-columns:repeat(3, 1fr); gap:36px; margin-top:14px}
-  .work-cols .col h4{font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); margin-bottom:10px; font-weight:500}
-  .work-cols .col p{font-size:14px; line-height:1.65; color:var(--ink-dim)}
-  .work-cols .col p strong{color:var(--ink); font-weight:500}
-  .work-cols .col p em{font-family:'Fraunces', serif; font-style:italic; color:var(--gold)}
-  @media (max-width:780px){ .work-cols{grid-template-columns:1fr; gap:28px} }
-</style>
+    <div class="prism-stage">
+      <!-- LEFT: the shared question + fact -->
+      <div class="prism-q">
+        <span class="pq-tag">SHARED FACT · 2024</span>
+        <div class="pq-q">Atlanta-metro rent went up <em>23%</em> in three years.<br/>What does that <em>mean</em>?</div>
+        <div class="pq-fact"><b>FACT · STRONG</b><br/>Zillow ZORI · Atlanta MSA · median ask rent 2021Q4 → 2024Q4 · +23.4% nominal. Source-tier T1 (real-estate listing index, public method).</div>
+        <div class="pq-foot">Stay on this fact. Switch the lens →</div>
+      </div>
 
-<section class="work">
-  <div class="lbl">THE WORK · WHAT THIS IS</div>
-  <h2>One method. <em>Two seasons.</em><br/>Built so two readers with different politics<br/>can still agree on what's on the page.</h2>
-  <div class="work-cols">
-    <div class="col">
-      <h4>01 · WHAT WE DO</h4>
-      <p>Each episode takes a system most coverage flattens into a headline — a county-level eviction docket, a behavioral-ad auction, a credit-score black box, a Senate runoff — and traces it from <strong>publicly sourced records</strong> to outcomes you can verify. No anonymous sources. No hostile framing. The pipeline is the article.</p>
+      <!-- RIGHT: lens controls + reading panel -->
+      <div class="prism-lenses">
+        <div class="lens-row">
+          <button class="lens-btn active" data-lens="renter">
+            <span class="lens-lbl">LENS 01</span>
+            <span class="lens-nm">THE RENTER</span>
+          </button>
+          <button class="lens-btn" data-lens="landlord">
+            <span class="lens-lbl">LENS 02</span>
+            <span class="lens-nm">THE LANDLORD</span>
+          </button>
+          <button class="lens-btn" data-lens="planner">
+            <span class="lens-lbl">LENS 03</span>
+            <span class="lens-nm">THE CITY PLANNER</span>
+          </button>
+        </div>
+
+        <div class="lens-read r-renter" id="lensRead">
+          <!-- populated by JS -->
+        </div>
+      </div>
     </div>
-    <div class="col">
-      <h4>02 · HOW WE WORK</h4>
-      <p>Every claim is tagged with one of six confidence levels (Proven · Strong · Correlated · Plausible · Speculative · Competing). Every piece names the <strong>falsifier</strong> — the evidence that would change the inference. Every section flags its own blind spots. We use the <em>Infera narrative-integrity framework</em> end-to-end and the source-tier classifier on every URL we cite.</p>
-    </div>
-    <div class="col">
-      <h4>03 · WHY IT MATTERS</h4>
-      <p>The premise: <strong>shared facts produce shared ground</strong>. A reader who disagrees with us politically can still verify the same records and reach a useful conversation. The series is a deliberate counter-frame to coverage that maximizes engagement by maximizing disagreement — built for <em>common ground in America</em>, not against either side of it.</p>
+
+    <div class="prism-coda">
+      <span class="pc-eyebrow">THE PRACTICE</span>
+      <p class="pc-quote">No single answer. <em>That's not a bug</em> — it's the discipline. Every episode in the series carries multiple defensible readings of the same record, and tells you exactly what would change each one.</p>
     </div>
   </div>
 </section>
 
-<style>
-  /* SYSTEMS VIEW section */
-  .systems-view { padding: 50px 6vw 30px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
-  .sv-stamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; text-align: center; }
-  .sv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--rule); border: 1px solid var(--rule); }
-  .sv-card { background: var(--bg-card); padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; min-height: 220px; text-decoration: none; color: var(--ink); transition: background 0.3s; position: relative; overflow: hidden; }
-  .sv-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
-  .sv-card:hover { background: var(--bg-soft); }
-  .sv-card:hover::before { transform: scaleX(1); }
-  .sv-card .glyph { font-family: 'Fraunces', serif; font-size: 32px; color: var(--accent); line-height: 1; }
-  .sv-card .kind { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; color: var(--accent); }
-  .sv-card h2 { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(26px, 2.6vw, 34px); line-height: 1.1; color: var(--ink); letter-spacing: -0.015em; }
-  .sv-card p { font-size: 14px; color: var(--ink-dim); line-height: 1.55; }
-  .sv-card .enter { margin-top: auto; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
-  .sv-card .enter::after { content: "→"; transition: transform 0.3s; }
-  .sv-card:hover .enter::after { transform: translateX(4px); }
-  .sv-card[data-sv="map"]   { --accent: #c4a777; }
-  .sv-card[data-sv="atlas"] { --accent: #4a9fa8; }
-  .stories-stamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink-faint); margin: 40px auto 14px; text-align: center; padding: 0 6vw; max-width: 1400px; }
-  @media (max-width: 700px) {
-    .sv-grid { grid-template-columns: 1fr; }
-  }
-</style>
+<!-- ============================================================ PRACTICE · 3 short editorial tenets ============================================================ -->
+<section class="practice">
+  <div class="practice-inner">
+    <div class="section-eyebrow"><span class="div"></span><b>02 · The Mechanism Series</b><span>What you're walking into</span></div>
+    <h2>Built so you remember what you read.<br/><em>Built to make you want to come back.</em></h2>
+    <p class="deck">Long-form investigative journalism, redesigned as an experience. Each episode is a small piece of software disguised as an article — interactive, sourced, opinionated about its own uncertainty, and shockingly hard to forget.</p>
 
-<section class="framework">
-  <div class="framework-stamp">The method · how every piece is built</div>
-  <h2>Every claim, marked. Every blind spot, named. <em>Every conclusion has a falsifier.</em></h2>
-  <p class="framework-lead">The discipline is the spine of the series. Whether a piece is investigating a county magistrate court or a $300B ad-tech market, the same rules apply: every assertion gets a confidence tier, every source gets a tier label, every section flags what would break its own conclusion. <strong>This is what lets two readers with very different politics read the same page and disagree about implications without disagreeing about facts.</strong></p>
-
-  <div class="confidence-legend">
-    <div class="conf-cell"><span class="conf-badge proven">Proven</span><span class="desc">Directly documented by primary sources — court filings, certified records, SEC reports.</span></div>
-    <div class="conf-cell"><span class="conf-badge strong">Strong</span><span class="desc">Established by peer-reviewed research or aggregated public data with replicable methodology.</span></div>
-    <div class="conf-cell"><span class="conf-badge correlated">Correlated</span><span class="desc">Two variables move together at the population level. Direction of causation not yet established.</span></div>
-    <div class="conf-cell"><span class="conf-badge plausible">Plausible</span><span class="desc">Mechanism is theoretically coherent and partially evidenced. Not yet quantified.</span></div>
-    <div class="conf-cell"><span class="conf-badge speculative">Speculative</span><span class="desc">Pattern-recognition hypothesis. Useful for framing future investigation; not for asserting fact.</span></div>
-    <div class="conf-cell"><span class="conf-badge competing">Competing</span><span class="desc">Multiple defensible interpretations exist. We name them rather than choose.</span></div>
-  </div>
-
-  <div class="stance">
-    <div class="stance-col">
-      <h4>What we are</h4>
-      <p>A <strong>systems-journalism practice</strong>. Each episode picks a system most coverage flattens to a headline and traces it from public records to outcomes you can verify.</p>
-    </div>
-    <div class="stance-col">
-      <h4>What we are not</h4>
-      <p>Not a prediction engine. Not a verdict. Not a claim that any single mechanism explains an outcome. Most things worth covering are multi-causal — we mark our piece <em>alongside</em> the other inputs, not above them.</p>
-    </div>
-    <div class="stance-col">
-      <h4>What would falsify it</h4>
-      <p>Each piece names the test that would break its mechanism — what evidence, if found, would change the inference. <strong>If we can't name the falsifier, we can't claim the conclusion.</strong></p>
+    <div class="tenets">
+      <div class="tenet">
+        <div class="num">01</div>
+        <h4>Move through it.</h4>
+        <p>Scrub a timeline, switch a perspective, watch a system reconfigure around your choice. You don't read the chart — you <em>operate</em> it.</p>
+      </div>
+      <div class="tenet">
+        <div class="num">02</div>
+        <h4>Ask the big questions.</h4>
+        <p>What's actually driving this? Who benefits? Who's keeping score? The series picks fights with the questions that get smoothed over in 800-word explainers — and refuses to pretend there's only one right answer.</p>
+      </div>
+      <div class="tenet">
+        <div class="num">03</div>
+        <h4>Bring everyone with you.</h4>
+        <p>Curious without being credulous. Pointed without being partisan. Every piece is built so a reader on either side of an argument can verify the same record and have a useful disagreement at the end.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<style>
-  /* TWO SEASONS layout (replaces the flat stories grid) */
-  .season{padding:80px 6vw 30px; max-width:1400px; margin:0 auto; position:relative; z-index:2}
-  .season + .season{padding-top:48px}
-  .season-head{display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,360px); gap:48px; align-items:end; margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--rule)}
-  .season-head .sh-l{display:flex; flex-direction:column; gap:10px}
-  .season-head .sh-meta{font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.32em; text-transform:uppercase; color:var(--season-accent, var(--gold)); font-weight:500; display:inline-flex; align-items:center; gap:12px}
-  .season-head .sh-meta::before{content:""; width:32px; height:1px; background:var(--season-accent, var(--gold))}
-  .season-head h2{font-family:'Fraunces', serif; font-weight:400; font-size:clamp(36px,4vw,56px); letter-spacing:-.025em; line-height:.98; color:var(--ink)}
-  .season-head h2 em{font-family:'Fraunces', serif; font-style:italic; color:var(--season-accent, var(--gold))}
-  .season-head .sh-status{font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-dim); padding:5px 10px; border:1px solid var(--rule); align-self:flex-start; width:max-content}
-  .season-head .sh-status.live{color:var(--season-accent, var(--gold)); border-color:var(--season-accent, var(--gold))}
-  .season-head .sh-r{font-size:14px; line-height:1.55; color:var(--ink-dim)}
-  .season-head .sh-r strong{color:var(--ink); font-weight:500}
-  .season.season-1{--season-accent:#d4774a}
-  .season.season-2{--season-accent:#c8ff1e}
-
-  .ep-row{display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--rule); border:1px solid var(--rule)}
-  .ep-row .ep-tile{
-    display:flex; flex-direction:column; gap:8px; padding:24px 22px;
-    background:var(--bg-card); text-decoration:none; color:var(--ink);
-    transition:.25s; min-height:200px; position:relative; overflow:hidden;
-  }
-  .ep-row .ep-tile::before{
-    content:""; position:absolute; left:0; top:0; bottom:0; width:2px;
-    background:var(--tile-accent, var(--season-accent, var(--gold))); transition:width .22s;
-  }
-  .ep-row .ep-tile:hover{background:var(--bg-soft); transform:translateY(-2px)}
-  .ep-row .ep-tile:hover::before{width:4px}
-  .ep-row .ep-tile .num{font-family:'JetBrains Mono', monospace; font-size:9.5px; letter-spacing:.24em; color:var(--tile-accent, var(--season-accent, var(--gold)))}
-  .ep-row .ep-tile .mech{font-family:'JetBrains Mono', monospace; font-size:8.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint)}
-  .ep-row .ep-tile h3{font-family:'Fraunces', serif; font-weight:400; font-size:clamp(20px, 1.9vw, 26px); line-height:1.08; letter-spacing:-.015em; color:var(--ink); margin-top:2px}
-  .ep-row .ep-tile p{font-size:13px; line-height:1.5; color:var(--ink-dim); margin-top:2px}
-  .ep-row .ep-tile .badge-row{display:flex; gap:8px; margin-top:auto; align-items:center; justify-content:space-between}
-  .ep-row .ep-tile .status-badge{font-family:'JetBrains Mono', monospace; font-size:8.5px; letter-spacing:.2em; text-transform:uppercase; padding:3px 8px; border:1px solid var(--rule); color:var(--ink-faint); font-weight:500}
-  .ep-row .ep-tile.live .status-badge{color:var(--tile-accent); border-color:var(--tile-accent)}
-  .ep-row .ep-tile.mockup .status-badge{color:#d44a8c; border-color:#d44a8c}
-  .ep-row .ep-tile.drafting{opacity:.66}
-  .ep-row .ep-tile.drafting:hover{transform:none; opacity:.85}
-  .ep-row .ep-tile.drafting{cursor:default}
-  .ep-row .ep-tile.drafting .read{display:none}
-  .ep-row .ep-tile .read{font-family:'JetBrains Mono', monospace; font-size:9.5px; letter-spacing:.2em; color:var(--tile-accent); text-transform:uppercase}
-  .ep-row .ep-tile .read::after{content:" →"; transition:transform .25s; display:inline-block}
-  .ep-row .ep-tile:hover .read::after{transform:translateX(4px)}
-
-  /* per-tile accents inherit from season accent by default; override per-episode */
-  .ep-row .ep-tile[data-ep="trickle"]   {--tile-accent:#d4774a}
-  .ep-row .ep-tile[data-ep="eviction"]  {--tile-accent:#b85a52}
-  .ep-row .ep-tile[data-ep="hospital"]  {--tile-accent:#5fa68a}
-  .ep-row .ep-tile[data-ep="coast"]     {--tile-accent:#4a9fa8}
-  .ep-row .ep-tile[data-ep="ballot"]    {--tile-accent:#c4a04a}
-  .ep-row .ep-tile[data-ep="runoff"]    {--tile-accent:#d8a35a}
-  .ep-row .ep-tile[data-ep="personhood"]{--tile-accent:#c8ff1e}
-  .ep-row .ep-tile[data-ep="feed"]      {--tile-accent:#1e3cff}
-  .ep-row .ep-tile[data-ep="trust"]     {--tile-accent:#d44a8c}
-  .ep-row .ep-tile[data-ep="influence"] {--tile-accent:#ff8c42}
-  .ep-row .ep-tile[data-ep="class"]     {--tile-accent:#b58840}
-  .ep-row .ep-tile[data-ep="synthetic"] {--tile-accent:#9b6dd4}
-  .ep-row .ep-tile[data-ep="governance"]{--tile-accent:#56a4a4}
-
-  @media (max-width:1000px){ .ep-row{grid-template-columns:repeat(2, 1fr)} }
-  @media (max-width:680px){
-    .ep-row{grid-template-columns:1fr}
-    .season-head{grid-template-columns:1fr; gap:18px}
-    .season-head .sh-status{align-self:flex-start}
-  }
-</style>
-
-<!-- ============================================================ SEASON I · THE PRESSURE SERIES ============================================================ -->
-<section id="season-1" class="season season-1">
-  <div class="season-head">
-    <div class="sh-l">
-      <span class="sh-meta">SEASON I · GEORGIA · 2026</span>
-      <h2>The <em>Pressure</em> Series.</h2>
-      <span class="sh-status live">● LIVE · 6 EPISODES</span>
+<!-- ============================================================ SEASON I · The Pressure Series ============================================================ -->
+<section class="season s1" id="season-1">
+  <div class="season-mask s1" aria-hidden="true">S/01</div>
+  <div class="season-inner">
+    <div class="season-head">
+      <div class="sh-l">
+        <span class="sh-meta">SEASON I · GEORGIA · 2026</span>
+        <h2>The <em>Pressure</em> Series.</h2>
+        <span class="sh-status"><span class="blink"></span>LIVE · 6 EPISODES</span>
+      </div>
+      <div class="sh-r">A field investigation of the <strong>structural pressures</strong> shaping American political life before politics gets around to naming them. Commutes, evictions, hospital closures, climate migration, ballot adjudication, the runoff.</div>
     </div>
-    <div class="sh-r">A field investigation of the <strong>structural pressures</strong> that show up in the political record before politics names them. Commutes, evictions, hospital closures, climate migration, ballot adjudication, runoff dynamics — six counties, six mechanisms, sourced end-to-end.</div>
-  </div>
 
-  <div class="ep-row">
-    <a class="ep-tile live" data-ep="trickle" href="the-trickle.html">
-      <span class="num">01</span><span class="mech">Commuter economy</span>
-      <h3>The Trickle</h3>
-      <p>How a federal job in Fulton County became a primary vote in DeKalb. The political shift didn't start where the political result appeared.</p>
-      <div class="badge-row"><span class="status-badge">LIVE · ~6 MIN</span><span class="read">Read</span></div>
-    </a>
-    <a class="ep-tile live" data-ep="eviction" href="the-eviction-funnel.html">
-      <span class="num">02</span><span class="mech">Civic disappearance</span>
-      <h3>The Eviction Funnel</h3>
-      <p>A magistrate filing in November becomes a non-vote the next May. Six administrative steps converting housing instability into structural disenfranchisement.</p>
-      <div class="badge-row"><span class="status-badge">LIVE · ~7 MIN</span><span class="read">Read</span></div>
-    </a>
-    <a class="ep-tile live" data-ep="hospital" href="the-closed-hospital.html">
-      <span class="num">03</span><span class="mech">Care cascade</span>
-      <h3>The Closed Hospital</h3>
-      <p>A rural ER closes in March. By August, vital statistics in three counties have shifted. The closure-to-outcome lag is the part nobody has shown.</p>
-      <div class="badge-row"><span class="status-badge">LIVE · ~6 MIN</span><span class="read">Read</span></div>
-    </a>
-    <a class="ep-tile live" data-ep="coast" href="the-coast-is-moving.html">
-      <span class="num">04</span><span class="mech">Climate migration</span>
-      <h3>The Coast Is Moving North</h3>
-      <p>Florida's insurance crisis routes into Georgia's coast. A slow demographic migration reshaping six counties — visible in real estate, schools, and registration.</p>
-      <div class="badge-row"><span class="status-badge">LIVE · ~6 MIN</span><span class="read">Read</span></div>
-    </a>
-    <a class="ep-tile live" data-ep="ballot" href="the-provisional-ballot.html">
-      <span class="num">05</span><span class="mech">Adjudication geometry</span>
-      <h3>The Provisional Ballot Maze</h3>
-      <p>The same ballot, cast for the same reason, can be counted in DeKalb and rejected in Whitfield. Map every fork in the adjudication road.</p>
-      <div class="badge-row"><span class="status-badge">LIVE · ~6 MIN</span><span class="read">Read</span></div>
-    </a>
-    <a class="ep-tile live" data-ep="runoff" href="the-runoff-tells.html">
-      <span class="num">06</span><span class="mech">Convergence diagnostic</span>
-      <h3>The Runoff Tells</h3>
-      <p>Twenty-eight days. Seven statewide races. The runoff isn't a do-over — it's a diagnostic that reveals which coalitions held and which issues no candidate will defend on their own.</p>
-      <div class="badge-row"><span class="status-badge">LIVE · ~7 MIN</span><span class="read">Read</span></div>
-    </a>
-  </div>
-</section>
-
-<!-- ============================================================ SEASON II · MACHINE-READABLE ============================================================ -->
-<section id="season-2" class="season season-2">
-  <div class="season-head">
-    <div class="sh-l">
-      <span class="sh-meta">SEASON II · MACHINE-READABLE · ONGOING</span>
-      <h2><em>Machine-</em>Readable.</h2>
-      <span class="sh-status live">● LIVE · 2 EPISODES + MOCKUP + 4 DRAFTING</span>
-    </div>
-    <div class="sh-r">A 7-episode investigation of the <strong>invisible systems</strong> that classify, sort, price, and shape every modern life — from the data-broker file with your name on it to the bid-time decision about what flight price you see. Interactive: the persona you pick in Episode 01 carries through every episode that follows.</div>
-  </div>
-
-  <div class="ep-row">
-    <a class="ep-tile live" data-ep="personhood" href="personhood-inc.html">
-      <span class="num">01</span><span class="mech">Identity · interactive</span>
-      <h3>Personhood, Inc.</h3>
-      <p>Pick one of six personas. Watch the page rebuild around your choice — profile signals, data convergence, projected trajectory, the feed you'd be shown, the money flow that closes back on you, the class you've been quietly sorted into.</p>
-      <div class="badge-row"><span class="status-badge">LIVE · ~14 MIN</span><span class="read">Explore</span></div>
-    </a>
-    <a class="ep-tile live" data-ep="feed" href="the-feed-engine.html">
-      <span class="num">02</span><span class="mech">Feeds · ad machine</span>
-      <h3>The Feed Engine</h3>
-      <p>Step out of the algorithm. See the 10-layer machine that orchestrates it — who pays whom across every page load, what slips out of your hands at each connection, and the $1,200 per US adult per year that gets baked back into product prices.</p>
-      <div class="badge-row"><span class="status-badge">LIVE · ~12 MIN</span><span class="read">Explore</span></div>
-    </a>
-    <a class="ep-tile mockup" data-ep="trust" href="episode-03-trust-market-mockup.html">
-      <span class="num">03</span><span class="mech">Trust · scoring economy</span>
-      <h3>The Trust Market</h3>
-      <p>My opportunities are being ranked. Reputation becomes currency — hiring, insurance, loans, dating. Six narrative moments across the systems that quietly score you and the ones that get to act on the score.</p>
-      <div class="badge-row"><span class="status-badge">MOCKUP · V0.9</span><span class="read">Preview</span></div>
-    </a>
-    <div class="ep-tile drafting" data-ep="influence">
-      <span class="num">04</span><span class="mech">Persuasion · drafting</span>
-      <h3>The Influence War</h3>
-      <p>My emotions are being manipulated. Attention is geopolitical, outrage is engineered, persuasion is industrialized — campaign amplification, narrative operations, emotional contagion.</p>
-      <div class="badge-row"><span class="status-badge">DRAFTING</span></div>
-    </div>
-    <div class="ep-tile drafting" data-ep="class">
-      <span class="num">05</span><span class="mech">Stratification · researching</span>
-      <h3>The Class Engine</h3>
-      <p>My future is being economically stratified. Housing, jobs, healthcare access — quietly varied by signal. The compounding optimization that produces a digital caste.</p>
-      <div class="badge-row"><span class="status-badge">DRAFTING</span></div>
-    </div>
-    <div class="ep-tile drafting" data-ep="synthetic">
-      <span class="num">06</span><span class="mech">Identity · researching</span>
-      <h3>The Synthetic Self</h3>
-      <p>My identity is becoming reproducible. AI clones, predictive personalities, identity persistence after death. The economy of synthetic companionship and predictive selves.</p>
-      <div class="badge-row"><span class="status-badge">DRAFTING</span></div>
-    </div>
-    <div class="ep-tile drafting" data-ep="governance">
-      <span class="num">07</span><span class="mech">Governance · outlining</span>
-      <h3>The Governance Layer</h3>
-      <p>Who owns this system? AI governance, digital sovereignty, algorithmic regulation, the politics of the operating system. The closing arc of the Machine-Readable universe.</p>
-      <div class="badge-row"><span class="status-badge">DRAFTING</span></div>
+    <div class="ep-row">
+      <a class="ep-tile" data-tile="trickle" href="the-trickle.html">
+        <div class="tile-row"><span class="ep-num">01</span><span class="ep-stat">~6 MIN</span></div>
+        <span class="ep-mech">Commuter economy</span>
+        <h3>The <em>Trickle</em></h3>
+        <p>A federal job in Fulton becomes a primary vote in DeKalb. The political shift didn't start where the political result appeared.</p>
+        <span class="ep-cta">Read the trace</span>
+      </a>
+      <a class="ep-tile" data-tile="eviction" href="the-eviction-funnel.html">
+        <div class="tile-row"><span class="ep-num">02</span><span class="ep-stat">~7 MIN</span></div>
+        <span class="ep-mech">Civic disappearance</span>
+        <h3>The <em>Eviction</em> Funnel</h3>
+        <p>A magistrate filing in November becomes a non-vote the next May. Six administrative steps converting housing instability into structural disenfranchisement.</p>
+        <span class="ep-cta">Read the trace</span>
+      </a>
+      <a class="ep-tile" data-tile="hospital" href="the-closed-hospital.html">
+        <div class="tile-row"><span class="ep-num">03</span><span class="ep-stat">~6 MIN</span></div>
+        <span class="ep-mech">Care cascade</span>
+        <h3>The <em>Closed</em> Hospital</h3>
+        <p>A rural ER closes in March. By August, vital statistics in three counties have shifted. The closure-to-outcome lag is the part nobody has shown.</p>
+        <span class="ep-cta">Read the trace</span>
+      </a>
+      <a class="ep-tile" data-tile="coast" href="the-coast-is-moving.html">
+        <div class="tile-row"><span class="ep-num">04</span><span class="ep-stat">~6 MIN</span></div>
+        <span class="ep-mech">Climate migration</span>
+        <h3>The <em>Coast</em> Is Moving North</h3>
+        <p>Florida's insurance crisis routes into Georgia's coast. A slow demographic migration reshaping six counties — visible in real estate, schools, and registration.</p>
+        <span class="ep-cta">Read the trace</span>
+      </a>
+      <a class="ep-tile" data-tile="ballot" href="the-provisional-ballot.html">
+        <div class="tile-row"><span class="ep-num">05</span><span class="ep-stat">~6 MIN</span></div>
+        <span class="ep-mech">Adjudication geometry</span>
+        <h3>The <em>Provisional</em> Ballot Maze</h3>
+        <p>The same ballot, cast for the same reason, can be counted in DeKalb and rejected in Whitfield. Map every fork in the adjudication road.</p>
+        <span class="ep-cta">Read the trace</span>
+      </a>
+      <a class="ep-tile" data-tile="runoff" href="the-runoff-tells.html">
+        <div class="tile-row"><span class="ep-num">06</span><span class="ep-stat">~7 MIN</span></div>
+        <span class="ep-mech">Convergence diagnostic</span>
+        <h3>The <em>Runoff</em> Tells</h3>
+        <p>Twenty-eight days, seven statewide races. The runoff isn't a do-over — it's a diagnostic that reveals which coalitions held and which issues no candidate will defend on their own.</p>
+        <span class="ep-cta">Read the trace</span>
+      </a>
     </div>
   </div>
 </section>
 
+<!-- ============================================================ SEASON II · Machine-Readable ============================================================ -->
+<section class="season s2" id="season-2">
+  <div class="season-mask s2" aria-hidden="true">S/02</div>
+  <div class="season-inner">
+    <div class="season-head">
+      <div class="sh-l">
+        <span class="sh-meta">SEASON II · MACHINE-READABLE · ONGOING</span>
+        <h2><em>Machine-</em>Readable.</h2>
+        <span class="sh-status"><span class="blink"></span>2 LIVE · 1 MOCKUP · 4 DRAFTING</span>
+      </div>
+      <div class="sh-r">A seven-episode investigation of the <strong>invisible systems</strong> that classify, sort, price, and shape every modern life — from the broker file with your name on it to the bid-time decision about which flight price you see. Pick a persona in Episode 01 and it carries through everything that follows.</div>
+    </div>
+
+    <div class="ep-row">
+      <a class="ep-tile" data-tile="personhood" href="personhood-inc.html">
+        <div class="tile-row"><span class="ep-num">01</span><span class="ep-stat">LIVE · ~14 MIN</span></div>
+        <span class="ep-mech">Identity · interactive</span>
+        <h3><em>Personhood,</em> Inc.</h3>
+        <p>Pick one of six personas. Watch the page rebuild around your choice — profile signals, projected trajectory, the feed you'd be shown, the class you've been quietly sorted into.</p>
+        <span class="ep-cta">Explore</span>
+      </a>
+      <a class="ep-tile" data-tile="feed" href="the-feed-engine.html">
+        <div class="tile-row"><span class="ep-num">02</span><span class="ep-stat">LIVE · ~12 MIN</span></div>
+        <span class="ep-mech">Feeds · ad machine</span>
+        <h3>The <em>Feed</em> Engine</h3>
+        <p>Step out of the algorithm to see the 10-layer machine that orchestrates it — who pays whom, what slips out of your hands at each layer, and the $1,200 per US adult per year quietly baked into product prices.</p>
+        <span class="ep-cta">Explore</span>
+      </a>
+      <a class="ep-tile" data-tile="trust" href="episode-03-trust-market-mockup.html">
+        <div class="tile-row"><span class="ep-num">03</span><span class="ep-stat">MOCKUP · V0.9</span></div>
+        <span class="ep-mech">Trust · scoring economy</span>
+        <h3>The <em>Trust</em> Market</h3>
+        <p>Reputation becomes currency — hiring, insurance, loans, dating. Six narrative moments across the systems that quietly score you and the ones that get to act on the score.</p>
+        <span class="ep-cta">Preview</span>
+      </a>
+      <div class="ep-tile drafting" data-tile="influence">
+        <div class="tile-row"><span class="ep-num">04</span><span class="ep-stat">DRAFTING</span></div>
+        <span class="ep-mech">Persuasion · attention war</span>
+        <h3>The <em>Influence</em> War</h3>
+        <p>Attention is geopolitical. Outrage is engineered. Persuasion is industrialized — campaign amplification, narrative operations, emotional contagion.</p>
+      </div>
+      <div class="ep-tile drafting" data-tile="class">
+        <div class="tile-row"><span class="ep-num">05</span><span class="ep-stat">DRAFTING</span></div>
+        <span class="ep-mech">Stratification · digital caste</span>
+        <h3>The <em>Class</em> Engine</h3>
+        <p>Housing, jobs, healthcare access — quietly varied by signal. The compounding optimization that produces a digital caste over time.</p>
+      </div>
+      <div class="ep-tile drafting" data-tile="synthetic">
+        <div class="tile-row"><span class="ep-num">06</span><span class="ep-stat">DRAFTING</span></div>
+        <span class="ep-mech">Identity · reproducibility</span>
+        <h3>The <em>Synthetic</em> Self</h3>
+        <p>AI clones, predictive personalities, identity persistence after death. The economy of synthetic companionship and predictive selves.</p>
+      </div>
+      <div class="ep-tile drafting" data-tile="governance">
+        <div class="tile-row"><span class="ep-num">07</span><span class="ep-stat">DRAFTING</span></div>
+        <span class="ep-mech">Governance · who owns this</span>
+        <h3>The <em>Governance</em> Layer</h3>
+        <p>Who owns this system? AI governance, digital sovereignty, algorithmic regulation, the politics of the operating system. Closes the arc.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ AHEAD ============================================================ -->
+<section class="ahead">
+  <div class="ahead-inner">
+    <div class="section-eyebrow"><span class="div"></span><b>What's next</b><span>stay close · the next drop is always closer than it looks</span></div>
+    <h2>Investigative journalism<br/>that <em>moves like the systems</em> it covers.</h2>
+    <p>Each episode is built once and then quietly maintained as the underlying systems shift. The Trust Market promotes from mockup to live this quarter. New season opens late 2026.</p>
+    <div class="a-row">
+      <a class="a-pill live" href="#season-1">SEASON I · Live</a>
+      <a class="a-pill" href="#season-2">SEASON II · Ongoing</a>
+      <a class="a-pill" href="machine-readable.html">Universe Map</a>
+      <a class="a-pill" href="thesis.html">Thesis</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <div class="footer-grid">
-    <div>
-      <h5>The series</h5>
-      <p>Two seasons, ongoing. Each episode traces one system from public-record sources to outcomes you can verify. Built on the Infera narrative-integrity framework — every claim tagged FACT, INFERENCE, or NOT YET KNOWABLE. The discipline is the spine.</p>
-      <div class="sig">— Infera Editorial</div>
-    </div>
-    <div>
-      <h5>Method</h5>
-      <p>Mechanism tracing<br>Source-tier classification<br>Common-ground detection<br>Cross-cycle voter shift<br>Blind-spot audit</p>
-    </div>
-    <div>
-      <h5>What's next</h5>
-      <p><a href="#season-1" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--ink-faint)">Season I · Pressure Series</a><br/><a href="#season-2" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--ink-faint)">Season II · Machine-Readable</a><br/><a href="machine-readable.html" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--ink-faint)">Universe map</a><br/><a href="thesis.html" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--ink-faint)">Thesis · why this exists</a></p>
-    </div>
-  </div>
+  <div class="copy">The <em>Mechanism</em> Series · 2026</div>
+  <div class="meta"><span>Independent · Reader-supported</span><span>Built for shared ground</span></div>
 </footer>
 
-<!-- Easter egg overlays -->
-<div class="editor-note" id="editorNote">
-  <div class="editor-note-inner">
-    <button class="close" id="noteClose">×</button>
-    <div class="e-stamp">— editor's note · unlocked —</div>
-    <h3>You found this. So you're paying attention.</h3>
-    <p>This panel is hidden behind a Konami code (↑ ↑ ↓ ↓ ← → ← → B A). If you're reading it, you're the kind of reader who looks at the seams.</p>
-    <p>The Mechanism Series is one publication's attempt to do <strong>systems journalism</strong> in a moment when most political coverage has surrendered to the candidate-and-controversy frame. We refuse the frame. We trace the pressures. We mark what we don't know.</p>
-    <p>Three pieces are held for <strong>Edition 2</strong>: <em>The Vogtle Bill</em> (how $35B in nuclear overruns flows from your kitchen table to a shareholder dividend), <em>The Settlement Shrinkage</em> ($636M in opioid money, where the audit trail thins), and <em>The Committee Trade</em> (the donor-committee graph of the Georgia statehouse). Each one is fully drafted. They publish in Edition 2 when we've finished sourcing the last citation tier.</p>
-    <p>Thanks for caring about the craft. Tell someone what you found here.</p>
-    <div class="sig">— Infera Editorial · GA 2026</div>
-  </div>
-</div>
-
-<div class="toast" id="toast">Toast message</div>
-
-<canvas class="const-overlay" id="constOverlay"></canvas>
-
 <script>
-// ═══════════════════════════════════════════════════════════════
-// INDEX HERO — animated constellation echoing all 5 stories
-// ═══════════════════════════════════════════════════════════════
-(function indexHero() {
-  const c = document.getElementById('indexHero');
-  if (!c) return;
-  const ctx = c.getContext('2d');
-  let W, H;
-  const DPR = window.devicePixelRatio || 1;
-  function resize() {
-    W = c.clientWidth = window.innerWidth; H = c.clientHeight = window.innerHeight;
-    c.width = W * DPR; c.height = H * DPR;
-    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
-  }
-  window.addEventListener('resize', resize); resize();
-
-  // 5 nodes representing 5 stories, drifting slowly
-  const STORY_COLORS = ['#d4774a', '#b85a52', '#5fa68a', '#4a9fa8', '#c4a04a'];
-  const nodes = STORY_COLORS.map((color, i) => ({
-    color,
-    x: W * (0.2 + (i * 0.15)),
-    y: H * (0.3 + Math.sin(i * 1.7) * 0.2),
-    vx: (Math.random() - 0.5) * 0.15,
-    vy: (Math.random() - 0.5) * 0.15,
-    r: 3 + Math.random() * 2,
-    phase: Math.random() * Math.PI * 2,
-  }));
-
-  // Particle field (echoes the trickle/coast aesthetic)
-  const particles = [];
-  for (let i = 0; i < 80; i++) {
-    particles.push({
-      x: Math.random() * W, y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
-      color: STORY_COLORS[Math.floor(Math.random() * 5)],
-      alpha: 0.15 + Math.random() * 0.3,
-      r: 0.8 + Math.random() * 0.8,
-    });
-  }
-
-  let mouseX = -1000, mouseY = -1000;
-  window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-
-  let frame = 0;
-  function loop() {
-    frame++;
-    ctx.clearRect(0, 0, W, H);
-
-    // Drift particles
-    particles.forEach(p => {
-      // gentle attraction to mouse
-      const dx = mouseX - p.x, dy = mouseY - p.y;
-      const d = Math.hypot(dx, dy);
-      if (d < 220 && d > 0) {
-        p.vx += (dx / d) * 0.01;
-        p.vy += (dy / d) * 0.01;
-      }
-      p.vx *= 0.99; p.vy *= 0.99;
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color + Math.round(p.alpha * 255).toString(16).padStart(2, '0');
-      ctx.fill();
-    });
-
-    // Draw connecting lines between near nodes (constellation)
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const a = nodes[i], b = nodes[j];
-        const d = Math.hypot(a.x - b.x, a.y - b.y);
-        if (d < W * 0.45) {
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(196, 167, 119, ${(1 - d / (W * 0.45)) * 0.12})`;
-          ctx.lineWidth = 0.7;
-          ctx.stroke();
-        }
-      }
-    }
-
-    // Draw story nodes — drifting + breathing
-    nodes.forEach((n, i) => {
-      n.phase += 0.012;
-      n.x += n.vx + Math.sin(n.phase) * 0.06;
-      n.y += n.vy + Math.cos(n.phase) * 0.06;
-      if (n.x < W * 0.1) n.vx = Math.abs(n.vx);
-      if (n.x > W * 0.9) n.vx = -Math.abs(n.vx);
-      if (n.y < H * 0.15) n.vy = Math.abs(n.vy);
-      if (n.y > H * 0.85) n.vy = -Math.abs(n.vy);
-      const halo = n.r * 8;
-      const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, halo);
-      g.addColorStop(0, n.color + '33');
-      g.addColorStop(1, n.color + '00');
-      ctx.fillStyle = g;
-      ctx.fillRect(n.x - halo, n.y - halo, halo * 2, halo * 2);
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = n.color;
-      ctx.fill();
-    });
-
-    requestAnimationFrame(loop);
-  }
-  loop();
-})();
-
-// ═══════════════════════════════════════════════════════════════
-// EASTER EGG SYSTEM
-// ═══════════════════════════════════════════════════════════════
-
-const STORY_URLS = ['the-trickle.html','the-eviction-funnel.html','the-closed-hospital.html','the-coast-is-moving.html','the-provisional-ballot.html','thesis.html','map.html','atlas.html'];
-
-function showToast(text, duration) {
-  const t = document.getElementById('toast');
-  t.textContent = text;
-  t.classList.add('show');
-  clearTimeout(window._toastT);
-  window._toastT = setTimeout(() => t.classList.remove('show'), duration || 3000);
-}
-
-// Visit tracker — light up dots for stories you've visited
-(function visitTracker() {
-  const track = document.getElementById('visitTrack');
-  if (!track) return;
-  let visited = [];
-  try { visited = JSON.parse(localStorage.getItem('infera-visited') || '[]'); } catch (e) {}
-  STORY_URLS.forEach(url => {
-    const dot = document.createElement('span');
-    dot.className = 'vd' + (visited.includes(url) ? ' seen' : '');
-    dot.title = url.replace('.html','').replace('the-','');
-    track.appendChild(dot);
-  });
-  // If all 8 visited, show constellation easter egg automatically next time
-  if (visited.length >= STORY_URLS.length && !localStorage.getItem('infera-completed-shown')) {
+// ============================================================ HERO · rotating word cycle
+(function(){
+  const el = document.getElementById('heroCycle');
+  if(!el) return;
+  const WORDS = ['truth.', 'reading.', 'answer.', 'pressure.', 'stake.', 'frame.'];
+  let i = 0;
+  setInterval(() => {
+    el.classList.add('swap');
     setTimeout(() => {
-      showToast('★ You\'ve seen the whole pattern. The room thanks you.', 5000);
-      try { localStorage.setItem('infera-completed-shown', '1'); } catch(e) {}
-    }, 1200);
-  }
+      i = (i + 1) % WORDS.length;
+      el.textContent = WORDS[i];
+      el.classList.remove('swap');
+    }, 360);
+  }, 2400);
 })();
 
-// Brand-dot easter — 5 clicks within 3 sec shows the editor's note
-(function brandDotEgg() {
-  const dot = document.getElementById('brandDot');
-  if (!dot) return;
-  let clicks = 0;
-  let timer = null;
-  dot.addEventListener('click', (e) => {
-    e.preventDefault();
-    clicks++;
-    clearTimeout(timer);
-    timer = setTimeout(() => { clicks = 0; }, 3000);
-    if (clicks === 3) showToast('Two more...', 1500);
-    if (clicks >= 5) {
-      clicks = 0;
-      document.getElementById('editorNote').classList.add('show');
+// ============================================================ PRISM · lens reader
+(function(){
+  const READING = {
+    renter: {
+      tag:'LENS 01 · THE RENTER',
+      head:'<em>I am paying $360 more every month for the same apartment.</em>',
+      body:'My income did not move 23%. My landlord did not improve anything. What changed is the price tag — and the floor under it. Every renewal letter feels like a vote nobody told me I was casting.',
+      stats:[
+        { l:'My share of income on rent', v:'42%', s:'national affordability threshold: 30%' },
+        { l:'Renewal increases I refused', v:'2 of 3', s:'each refusal = a move; each move ≈ $2,400 in friction costs' },
+        { l:'My rent vs. wage growth', v:'+23% vs +12%', s:'cumulative since 2021Q4'}
+      ]
+    },
+    landlord: {
+      tag:'LENS 02 · THE LANDLORD',
+      head:'<em>My costs went up first.</em>',
+      body:'Insurance is up 31% on this property. Property tax is up 18%. My mortgage rate doubled if I refinanced. The 23% rent figure looks like a windfall in a headline — on my P&L it covers the carrying cost and leaves me almost where I was.',
+      stats:[
+        { l:'My insurance premium', v:'+31%', s:'wind/hail riders on metro-Atlanta multifamily, 2021→2024' },
+        { l:'My property-tax bill', v:'+18%', s:'driven by assessor reappraisals in DeKalb + Fulton' },
+        { l:'My net operating income', v:'+4.2%', s:'after carrying costs absorb the rent increase' }
+      ]
+    },
+    planner: {
+      tag:'LENS 03 · THE CITY PLANNER',
+      head:'<em>The 23% is a permitting story, not a rent story.</em>',
+      body:'Atlanta MSA permitted 18% fewer units in 2023 than the 10-year average. Demand kept growing, supply stalled, and the price absorbed the gap. Until permitting accelerates, every renewal cycle re-prices a fixed amount of housing against rising demand.',
+      stats:[
+        { l:'Multifamily permits issued · 2023', v:'-18%', s:'vs 2014-2023 average, ATL MSA' },
+        { l:'Net population in-migration', v:'+85K', s:'10-county metro · 2024 estimate' },
+        { l:'Units short to hold rent flat', v:'≈42,000', s:'modeled at trailing absorption rates' }
+      ]
     }
-  });
-})();
-
-// Konami code: ↑ ↑ ↓ ↓ ← → ← → B A
-(function konami() {
-  const seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','KeyB','KeyA'];
-  let idx = 0;
-  window.addEventListener('keydown', (e) => {
-    if (e.code === seq[idx]) {
-      idx++;
-      if (idx === seq.length) {
-        idx = 0;
-        document.getElementById('editorNote').classList.add('show');
-        showToast('★ Konami unlocked', 2500);
-      }
-    } else { idx = 0; }
-  });
-})();
-
-// Close editor note
-document.getElementById('noteClose').addEventListener('click', () => {
-  document.getElementById('editorNote').classList.remove('show');
-});
-document.getElementById('editorNote').addEventListener('click', (e) => {
-  if (e.target.id === 'editorNote') document.getElementById('editorNote').classList.remove('show');
-});
-
-// Story-card hover — mini-mechanism canvas previews
-(function cardPreviews() {
-  const previews = {
-    trickle:  { color: '#d4774a', kind: 'flow' },
-    eviction: { color: '#b85a52', kind: 'fade' },
-    hospital: { color: '#5fa68a', kind: 'pulse' },
-    coast:    { color: '#4a9fa8', kind: 'rain' },
-    ballot:   { color: '#c4a04a', kind: 'sort' },
   };
-  document.querySelectorAll('.story-card[data-id]').forEach(card => {
-    const id = card.dataset.id;
-    const conf = previews[id];
-    if (!conf) return;
-    const canvas = document.createElement('canvas');
-    canvas.className = 'preview';
-    canvas.width = 160; canvas.height = 160;
-    card.appendChild(canvas);
-    const cctx = canvas.getContext('2d');
-    let raf, frame = 0, active = false;
-    function drawPreview() {
-      frame++;
-      cctx.clearRect(0, 0, 80, 80);
-      const color = conf.color;
-      if (conf.kind === 'flow') {
-        for (let i = 0; i < 8; i++) {
-          const t = ((frame + i * 10) / 120) % 1;
-          const x = t * 80, y = 40 + Math.sin(t * Math.PI * 2 + i) * 14;
-          cctx.beginPath(); cctx.arc(x, y, 1.4, 0, Math.PI * 2);
-          cctx.fillStyle = color + Math.round((1 - t) * 200).toString(16).padStart(2, '0'); cctx.fill();
-        }
-      } else if (conf.kind === 'fade') {
-        for (let i = 0; i < 6; i++) {
-          for (let j = 0; j < 6; j++) {
-            const a = Math.max(0, 1 - ((frame * 0.01) + i * 0.15 + j * 0.1) % 1.5);
-            cctx.fillStyle = color + Math.round(a * 200).toString(16).padStart(2, '0');
-            cctx.fillRect(8 + i * 11, 8 + j * 11, 5, 5);
-          }
-        }
-      } else if (conf.kind === 'pulse') {
-        const r = ((frame % 60) / 60) * 35;
-        cctx.beginPath(); cctx.arc(40, 40, r, 0, Math.PI * 2);
-        cctx.strokeStyle = color + Math.round((1 - r / 35) * 200).toString(16).padStart(2, '0');
-        cctx.lineWidth = 1.5; cctx.stroke();
-        cctx.beginPath(); cctx.arc(40, 40, 3, 0, Math.PI * 2);
-        cctx.fillStyle = color; cctx.fill();
-      } else if (conf.kind === 'rain') {
-        for (let i = 0; i < 16; i++) {
-          const y = ((frame + i * 8) % 80);
-          const x = (i * 5) % 80;
-          cctx.fillStyle = color + 'aa';
-          cctx.fillRect(x, y, 1, 4);
-        }
-      } else if (conf.kind === 'sort') {
-        for (let i = 0; i < 8; i++) {
-          const x = 10 + i * 8;
-          const y = ((frame + i * 7) % 70);
-          const through = (i + Math.floor(frame / 40)) % 3 !== 0;
-          cctx.fillStyle = through ? '#88c088aa' : '#d86050aa';
-          cctx.fillRect(x, y, 5, 3);
-        }
-      }
-      if (active) raf = requestAnimationFrame(drawPreview);
-    }
-    card.addEventListener('mouseenter', () => { active = true; drawPreview(); });
-    card.addEventListener('mouseleave', () => { active = false; cancelAnimationFrame(raf); });
-  });
-})();
+  const root = document.getElementById('lensRead');
+  const btns = document.querySelectorAll('.lens-btn');
+  if(!root || !btns.length) return;
 
-// Mark this page as visited
-(function markVisited() {
-  let visited = [];
-  try { visited = JSON.parse(localStorage.getItem('infera-visited') || '[]'); } catch (e) {}
-  const here = location.pathname.split('/').pop() || 'index.html';
-  if (here !== 'index.html' && !visited.includes(here)) {
-    visited.push(here);
-    try { localStorage.setItem('infera-visited', JSON.stringify(visited)); } catch (e) {}
+  function render(key){
+    const r = READING[key]; if(!r) return;
+    root.className = 'lens-read r-' + key;
+    root.innerHTML = `
+      <div class="lr-l">
+        <span class="lr-tag">${r.tag}</span>
+        <div class="lr-h">${r.head}</div>
+        <p class="lr-body">${r.body}</p>
+      </div>
+      <div class="lr-r">
+        ${r.stats.map(s => `<div class="lr-stat"><div class="l">${s.l}</div><div class="v">${s.v}</div><div class="s">${s.s}</div></div>`).join('')}
+      </div>
+    `;
+    btns.forEach(b => b.classList.toggle('active', b.dataset.lens === key));
   }
-})();
 
-// === Dim-switch: light up strong text as it enters view ===
-(function dimSwitch() {
-  if (!('IntersectionObserver' in window)) {
-    document.querySelectorAll('strong').forEach(el => el.classList.add('lit'));
-    return;
-  }
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('lit'); obs.unobserve(e.target); } });
-  }, { threshold: 0.55, rootMargin: '-10% 0px' });
-  document.querySelectorAll('strong, .read-time').forEach(el => obs.observe(el));
+  btns.forEach(b => b.addEventListener('click', () => render(b.dataset.lens)));
+  render('renter');
 })();
-
 </script>
 
 </body>
