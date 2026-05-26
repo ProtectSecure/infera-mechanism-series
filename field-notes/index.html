@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Field Notes · The Mechanism Series</title>
+<meta name="description" content="Monthly short dispatches between episode drops — what changed, what we got wrong, what's developing. From the Infera editorial desk."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#08080c; --ink-soft:#101018; --ink-card:#161620;
+  --cream:#fbf7eb; --bone:#e8e3d4; --dim:#a8a298; --faint:#5a564e;
+  --lime:#c8ff1e; --pink:#ff1a6b; --amber:#ffd500; --cobalt:#1e3cff;
+  --display:'Archivo Black', system-ui, sans-serif;
+  --italic:'Instrument Serif', Georgia, serif;
+  --sans:'Inter', system-ui, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, monospace;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink); color:var(--cream); font-family:var(--sans); font-weight:300; line-height:1.55}
+
+nav.tn{position:sticky; top:0; z-index:50; padding:14px 28px; background:rgba(8,8,12,.94); backdrop-filter:blur(14px); border-bottom:1px solid rgba(168,162,152,.08); display:flex; justify-content:space-between; align-items:center}
+nav.tn .brand{font-family:var(--display); font-size:11px; letter-spacing:.18em; color:var(--cream); text-decoration:none; text-transform:uppercase}
+nav.tn .brand em{font-family:var(--italic); font-style:italic; color:var(--lime); font-size:14px; padding:0 4px}
+nav.tn .links{display:flex; gap:4px; flex-wrap:wrap}
+nav.tn .links a{font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); padding:8px 12px; text-decoration:none; transition:.18s; border:1px solid transparent}
+nav.tn .links a:hover{color:var(--cream); background:rgba(255,255,255,.04)}
+nav.tn .links a.lit{color:var(--lime); border-color:rgba(200,255,30,.3)}
+
+.hero{padding:80px 6vw 60px; max-width:1100px; margin:0 auto}
+.hero .eb{font-family:var(--mono); font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--lime); margin-bottom:14px; display:inline-flex; align-items:center; gap:14px}
+.hero .eb::before{content:""; width:36px; height:1.5px; background:var(--lime)}
+.hero h1{font-family:var(--display); font-size:clamp(40px,6.5vw,84px); letter-spacing:-.04em; line-height:.92; margin-bottom:18px}
+.hero h1 em{font-family:var(--italic); font-style:italic; font-weight:400; color:var(--lime)}
+.hero p{font-family:var(--italic); font-style:italic; font-size:clamp(17px,1.7vw,22px); line-height:1.45; color:var(--bone); max-width:60ch}
+
+.notes{max-width:1100px; margin:0 auto 80px; padding:0 6vw}
+.note{display:grid; grid-template-columns:140px 1fr; gap:32px; padding:36px 0; border-top:1px solid rgba(168,162,152,.12)}
+.note:first-child{border-top:2px solid var(--lime)}
+.note .meta{font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); font-weight:700}
+.note .meta b{display:block; color:var(--lime); font-family:var(--display); font-weight:400; font-size:20px; letter-spacing:-.02em; margin-top:4px}
+.note .meta .ix{margin-top:6px; font-style:italic; font-family:var(--italic); letter-spacing:.02em; text-transform:none; color:var(--faint)}
+.note .body{display:flex; flex-direction:column; gap:8px}
+.note .body h3{font-family:var(--display); font-size:clamp(22px,2.4vw,32px); letter-spacing:-.025em; line-height:1.05; color:var(--cream)}
+.note .body h3 em{font-family:var(--italic); font-style:italic; font-weight:400; color:var(--lime)}
+.note .body h3 a{color:inherit; text-decoration:none}
+.note .body h3 a:hover{color:var(--lime)}
+.note .body .deck{font-family:var(--italic); font-style:italic; font-size:17px; line-height:1.45; color:var(--bone); max-width:54ch}
+.note .body .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
+.note .body .tags span{font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; padding:3px 7px; background:rgba(255,255,255,.06); color:var(--dim); font-weight:700}
+.note .body .cta{margin-top:10px; font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--lime); font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:10px}
+.note .body .cta::after{content:"→"; transition:transform .2s}
+.note .body .cta:hover::after{transform:translateX(5px)}
+
+.empty-state{padding:40px 0; font-family:var(--italic); font-style:italic; font-size:18px; color:var(--dim); border-top:1px dashed rgba(168,162,152,.2); margin-top:24px}
+
+footer{padding:50px 6vw; border-top:1px solid rgba(168,162,152,.1); background:var(--ink); text-align:center}
+footer p{font-family:var(--mono); font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--faint)}
+footer p a{color:var(--lime); text-decoration:none; margin:0 8px}
+footer p em{font-family:var(--italic); font-style:italic; color:var(--dim); letter-spacing:.02em; font-size:11px}
+
+@media (max-width:680px){
+  .note{grid-template-columns:1fr; gap:14px}
+}
+</style>
+</head>
+<body>
+
+<nav class="tn">
+  <a class="brand" href="../index.html">The <em>Mechanism</em> Series</a>
+  <div class="links">
+    <a href="../index.html">Home</a>
+    <a href="../index.html#season-1">Season I</a>
+    <a href="../index.html#season-2">Season II</a>
+    <a href="../systems-atlas.html">Systems Atlas</a>
+    <a href="../claims-atlas.html">Claims Atlas</a>
+    <a href="../case-file.html">Case File</a>
+    <a href="index.html" class="lit">Field Notes</a>
+    <a href="../index.html#about">About</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eb">The Field Notes</div>
+  <h1>Short dispatches <em>between drops.</em></h1>
+  <p>Episodes are long; the world keeps moving. Field Notes are 600-word dispatches we publish between major episode drops — what changed in a story we already covered, what we got wrong, what's developing. Always one chart. Always sourced. Always short.</p>
+</section>
+
+<div class="notes">
+  <article class="note">
+    <div class="meta">
+      <span>Field Note · 01</span>
+      <b>26 May 2026</b>
+      <span class="ix">~3 min read</span>
+    </div>
+    <div class="body">
+      <h3><a href="01-fhfa-update.html">The FHFA just confirmed the coastal premium <em>was understated.</em></a></h3>
+      <p class="deck">FHFA's May 2026 county-level HPI release shows Camden and Glynn counties up another 4.1% Q/Q. That's faster than we modeled in <em>The Coast Is Moving</em> three weeks ago. We update the figure and walk through what it means for the insurance pivot we'll cover next.</p>
+      <div class="tags"><span>Coast is Moving</span><span>FHFA</span><span>Correction</span></div>
+      <a class="cta" href="01-fhfa-update.html">Read the note</a>
+    </div>
+  </article>
+
+  <div class="empty-state">
+    More dispatches land monthly. <a href="../index.html#about" style="color:var(--lime)">Subscribe</a> to get the next one when it ships.
+  </div>
+</div>
+
+<footer>
+  <p><a href="../index.html">← Mechanism Series</a> · <a href="../index.html#about">About</a> · <a href="../claims-atlas.html">Claims Atlas</a></p>
+  <p style="margin-top:14px"><em>Field Notes are the publication's living margin — what we update between major episodes.</em></p>
+</footer>
+
+</body>
+</html>

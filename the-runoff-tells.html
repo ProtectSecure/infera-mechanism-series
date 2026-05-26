@@ -1613,5 +1613,210 @@
 })();
 
 </script>
+
+<!-- ============================================================ PROVENANCE LAYER + EVIDENCE MODE (chassis-level credibility infrastructure) -->
+<style id="infera-provenance-evidence">
+/* ===== PROVENANCE BADGES ===== */
+[data-provenance]{position:relative}
+[data-provenance]::before{
+  content:attr(data-provenance-label);
+  position:absolute; top:6px; right:6px; z-index:30;
+  padding:3px 7px 3px 18px;
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  font-size:8.5px; letter-spacing:.16em; text-transform:uppercase; font-weight:700;
+  color:#0a0a0a;
+  border:1px solid transparent;
+  pointer-events:auto;
+  transition:transform .2s,box-shadow .2s;
+}
+[data-provenance]::after{
+  content:""; position:absolute; top:50%; left:0; transform:translateY(-50%);
+  display:none; pointer-events:none;
+}
+[data-provenance="documented"]::before{background:#c8ff1e; border-color:#c8ff1e}
+[data-provenance="documented"]::before{
+  background-image:radial-gradient(circle at 8px center, #0a0a0a 2.5px, transparent 2.6px);
+}
+[data-provenance="modeled"]::before{background:#ffd500; border-color:#ffd500;
+  background-image:radial-gradient(circle at 8px center, transparent 1.5px, #0a0a0a 1.6px, #0a0a0a 2.5px, transparent 2.6px);
+}
+[data-provenance="speculative"]::before{background:#ff1a6b; color:#fbf7eb; border-color:#ff1a6b;
+  background-image:repeating-linear-gradient(45deg, transparent 0 2px, rgba(0,0,0,.35) 2px 4px);
+  padding-left:10px;
+}
+[data-provenance]:hover::before{transform:scale(1.05); box-shadow:0 2px 12px rgba(0,0,0,.3)}
+[data-provenance][data-prov-label="hide"]::before{display:none}
+
+/* Provenance tooltip on click */
+.prov-tip{
+  position:absolute; top:36px; right:6px; z-index:40;
+  max-width:280px; padding:12px 14px;
+  background:#0a0a0a; color:#fbf7eb;
+  border:1px solid var(--prov-color, #c8ff1e);
+  border-left-width:3px;
+  font-family:'Inter',system-ui,sans-serif; font-size:12px; line-height:1.5;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);
+}
+.prov-tip-hd{font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; font-weight:700; color:var(--prov-color, #c8ff1e); margin-bottom:6px}
+.prov-tip a{color:var(--prov-color, #c8ff1e); text-decoration:underline; text-underline-offset:2px}
+.prov-tip .prov-meta{margin-top:8px; font-family:'Instrument Serif',Georgia,serif; font-style:italic; font-size:11.5px; color:rgba(251,247,235,.6)}
+
+/* ===== EVIDENCE MODE ===== */
+body.evidence-mode{cursor:help}
+body.evidence-mode [data-citation], body.evidence-mode [data-confidence], body.evidence-mode [data-provenance]{
+  outline:2px dashed #c8ff1e; outline-offset:3px;
+  background:rgba(200,255,30,.06);
+  transition:outline-color .2s, background .2s;
+}
+body.evidence-mode [data-provenance="modeled"]{outline-color:#ffd500; background:rgba(255,213,0,.06)}
+body.evidence-mode [data-provenance="speculative"]{outline-color:#ff1a6b; background:rgba(255,26,107,.06)}
+body.evidence-mode .citations, body.evidence-mode .src, body.evidence-mode cite{
+  background:rgba(200,255,30,.08); padding:2px 5px; border-left:2px solid #c8ff1e
+}
+body.evidence-mode [data-citation]::after, body.evidence-mode [data-confidence]::after{
+  content:attr(data-citation) attr(data-confidence);
+  display:block; margin-top:4px;
+  font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9.5px;
+  color:#c8ff1e; letter-spacing:.04em;
+  white-space:pre-wrap;
+}
+
+/* Evidence Mode indicator (always visible when active) */
+.evidence-bar{
+  position:fixed; bottom:0; left:0; right:0; z-index:200;
+  padding:10px 18px;
+  background:#0a0a0a; color:#fbf7eb;
+  border-top:2px solid #c8ff1e;
+  font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; font-weight:700;
+  display:none; justify-content:space-between; align-items:center; gap:18px;
+  flex-wrap:wrap;
+  box-shadow:0 -8px 24px rgba(0,0,0,.4);
+}
+body.evidence-mode .evidence-bar{display:flex}
+.evidence-bar .eb-l{display:flex; align-items:center; gap:14px}
+.evidence-bar .eb-dot{width:8px; height:8px; background:#c8ff1e; border-radius:50%; box-shadow:0 0 12px #c8ff1e; animation:ebPulse 1.4s ease-in-out infinite}
+@keyframes ebPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.evidence-bar .eb-legend{display:flex; gap:14px; align-items:center; flex-wrap:wrap; opacity:.85}
+.evidence-bar .eb-legend span{display:inline-flex; align-items:center; gap:6px}
+.evidence-bar .eb-legend i{width:9px; height:9px; display:inline-block; font-style:normal}
+.evidence-bar .eb-legend .doc{background:#c8ff1e}
+.evidence-bar .eb-legend .mod{background:#ffd500}
+.evidence-bar .eb-legend .spec{background:#ff1a6b}
+.evidence-bar button{background:transparent; border:1px solid #c8ff1e; color:#c8ff1e; padding:5px 10px; font:inherit; cursor:pointer; letter-spacing:.16em; text-transform:uppercase}
+.evidence-bar button:hover{background:rgba(200,255,30,.12)}
+
+/* Evidence Mode toggle hint (subtle, top-right of nav) */
+.evidence-hint{
+  position:fixed; top:14px; right:18px; z-index:55;
+  padding:5px 9px;
+  background:rgba(10,10,10,.7); color:rgba(251,247,235,.55); border:1px solid rgba(200,255,30,.25);
+  font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+  pointer-events:none; opacity:0; transition:opacity .4s;
+}
+.evidence-hint.show{opacity:1}
+.evidence-hint kbd{
+  background:rgba(200,255,30,.15); color:#c8ff1e;
+  padding:2px 5px; margin:0 4px; border-radius:2px;
+  font-family:inherit; font-size:9px;
+}
+body.evidence-mode .evidence-hint{display:none}
+
+@media (prefers-reduced-motion: reduce){
+  .evidence-bar .eb-dot{animation:none}
+  [data-provenance]:hover::before{transform:none}
+}
+@media (max-width:640px){
+  .evidence-bar{font-size:8.5px; padding:8px 12px}
+  .evidence-bar .eb-legend{display:none}
+  .evidence-hint{display:none !important}
+  [data-provenance]::before{font-size:7.5px; padding:2px 5px 2px 14px}
+}
+</style>
+
+<!-- Evidence Mode UI -->
+<div class="evidence-hint" id="evidenceHint">Press <kbd>E</kbd> for evidence mode</div>
+<div class="evidence-bar" role="status" aria-live="polite">
+  <div class="eb-l">
+    <span class="eb-dot"></span>
+    <span>Evidence mode · on</span>
+  </div>
+  <div class="eb-legend">
+    <span><i class="doc"></i> Documented</span>
+    <span><i class="mod"></i> Modeled</span>
+    <span><i class="spec"></i> Speculative</span>
+  </div>
+  <button type="button" data-evidence-exit>Exit · Esc</button>
+</div>
+
+<script>
+// ============================================================ PROVENANCE LAYER · click badge for source detail
+(function(){
+  document.addEventListener('click', function(e){
+    var el = e.target.closest('[data-provenance]');
+    if(!el) return;
+    // only fire if the click is on the badge pseudo (top-right corner)
+    var rect = el.getBoundingClientRect();
+    var x = e.clientX - rect.left, y = e.clientY - rect.top;
+    var badgeRight = (x > rect.width - 100 && y < 30);
+    if(!badgeRight) return;
+    e.stopPropagation(); e.preventDefault();
+    // Close existing tips
+    document.querySelectorAll('.prov-tip').forEach(function(t){ t.remove(); });
+    var prov = el.dataset.provenance;
+    var color = prov === 'modeled' ? '#ffd500' : prov === 'speculative' ? '#ff1a6b' : '#c8ff1e';
+    var label = prov === 'modeled' ? 'Modeled estimate' : prov === 'speculative' ? 'Speculative scenario' : 'Documented · sourced';
+    var src   = el.dataset.provSource || '';
+    var note  = el.dataset.provNote || '';
+    var tip = document.createElement('div');
+    tip.className = 'prov-tip';
+    tip.style.setProperty('--prov-color', color);
+    tip.innerHTML = '<div class="prov-tip-hd">' + label + '</div>' +
+                    (src  ? '<div>' + src + '</div>' : '') +
+                    (note ? '<div class="prov-meta">' + note + '</div>' : '') +
+                    '<div class="prov-meta" style="margin-top:8px">Press <kbd style="background:rgba(255,255,255,.1);padding:1px 4px">e</kbd> for full evidence mode · click outside to close.</div>';
+    el.appendChild(tip);
+    var dismiss = function(ev){ if(!tip.contains(ev.target)){ tip.remove(); document.removeEventListener('click', dismiss); } };
+    setTimeout(function(){ document.addEventListener('click', dismiss); }, 50);
+  });
+})();
+
+// ============================================================ EVIDENCE MODE · 'e' to toggle
+(function(){
+  var hint = document.getElementById('evidenceHint');
+  var hintTimer = null;
+  // Show the hint briefly when the user has scrolled past the hero
+  function pulseHint(){
+    if(!hint || document.body.classList.contains('evidence-mode')) return;
+    hint.classList.add('show');
+    if(hintTimer) clearTimeout(hintTimer);
+    hintTimer = setTimeout(function(){ hint.classList.remove('show'); }, 4200);
+  }
+  window.addEventListener('scroll', function once(){
+    if(window.scrollY > 800){ pulseHint(); window.removeEventListener('scroll', once); }
+  });
+
+  function toggle(force){
+    var on = force !== undefined ? force : !document.body.classList.contains('evidence-mode');
+    document.body.classList.toggle('evidence-mode', on);
+    if(on && hint) hint.classList.remove('show');
+    try { localStorage.setItem('infera.evidenceMode', on ? '1' : '0'); } catch(_){}
+  }
+  // Restore preference
+  try {
+    if(localStorage.getItem('infera.evidenceMode') === '1') toggle(true);
+  } catch(_){}
+
+  document.addEventListener('keydown', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    if(tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+    if(e.key === 'e' || e.key === 'E'){ e.preventDefault(); toggle(); }
+    if(e.key === 'Escape' && document.body.classList.contains('evidence-mode')) toggle(false);
+  });
+  document.addEventListener('click', function(e){
+    if(e.target.closest('[data-evidence-exit]')) toggle(false);
+  });
+})();
+</script>
+
 </body>
 </html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Claims Atlas · Infera Mechanism Series</title>
+<meta name="description" content="Every load-bearing claim in the Mechanism Series, sortable by source tier and confidence. The publication's accountability dashboard, open to readers, critics, and researchers."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#08080c; --ink-soft:#101018; --ink-card:#161620;
+  --cream:#fbf7eb; --bone:#e8e3d4; --dim:#a8a298; --faint:#5a564e;
+  --lime:#c8ff1e; --pink:#ff1a6b; --amber:#ffd500; --cobalt:#1e3cff;
+  --display:'Archivo Black', system-ui, sans-serif;
+  --italic:'Instrument Serif', Georgia, serif;
+  --sans:'Inter', system-ui, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, monospace;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink); color:var(--cream); font-family:var(--sans); font-weight:300; line-height:1.55}
+
+nav.tn{position:sticky; top:0; z-index:50; padding:14px 28px; background:rgba(8,8,12,.94); backdrop-filter:blur(14px); border-bottom:1px solid rgba(168,162,152,.08); display:flex; justify-content:space-between; align-items:center}
+nav.tn .brand{font-family:var(--display); font-size:11px; letter-spacing:.18em; color:var(--cream); text-decoration:none; text-transform:uppercase}
+nav.tn .brand em{font-family:var(--italic); font-style:italic; color:var(--lime); font-size:14px; padding:0 4px}
+nav.tn .links{display:flex; gap:4px; flex-wrap:wrap}
+nav.tn .links a{font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); padding:8px 12px; text-decoration:none; transition:.18s; border:1px solid transparent}
+nav.tn .links a:hover{color:var(--cream); background:rgba(255,255,255,.04)}
+nav.tn .links a.lit{color:var(--lime); border-color:rgba(200,255,30,.3)}
+
+.hero{padding:80px 6vw 50px; max-width:1320px; margin:0 auto}
+.hero .eb{font-family:var(--mono); font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--lime); margin-bottom:14px; display:inline-flex; align-items:center; gap:14px}
+.hero .eb::before{content:""; width:36px; height:1.5px; background:var(--lime)}
+.hero h1{font-family:var(--display); font-size:clamp(40px,6.5vw,84px); letter-spacing:-.04em; line-height:.92; margin-bottom:18px}
+.hero h1 em{font-family:var(--italic); font-style:italic; font-weight:400; color:var(--lime)}
+.hero p{font-family:var(--italic); font-style:italic; font-size:clamp(17px,1.7vw,22px); line-height:1.45; color:var(--bone); max-width:62ch}
+
+.controls{max-width:1320px; margin:0 auto; padding:0 6vw 24px; display:grid; grid-template-columns:minmax(0,1.4fr) repeat(4, minmax(0,1fr)); gap:8px}
+.controls input, .controls select{
+  background:var(--ink-card); border:1px solid rgba(168,162,152,.18); color:var(--cream);
+  font-family:var(--mono); font-size:11px; letter-spacing:.04em; padding:11px 12px; outline:none;
+  transition:border-color .2s, background .2s;
+}
+.controls input::placeholder{color:rgba(168,162,152,.5); font-style:italic; font-family:var(--italic); font-size:13px; letter-spacing:0}
+.controls input:focus, .controls select:focus{border-color:var(--lime); background:rgba(200,255,30,.04)}
+.controls select{cursor:pointer; appearance:none; background-image:linear-gradient(45deg, transparent 50%, var(--lime) 50%), linear-gradient(135deg, var(--lime) 50%, transparent 50%); background-position:calc(100% - 18px) center, calc(100% - 13px) center; background-size:5px 5px; background-repeat:no-repeat; padding-right:30px}
+
+.stats{max-width:1320px; margin:0 auto; padding:0 6vw 30px; display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:rgba(255,255,255,.06)}
+.stat{background:var(--ink-soft); padding:18px 20px; display:flex; flex-direction:column; gap:4px}
+.stat .v{font-family:var(--display); font-size:36px; letter-spacing:-.03em; line-height:1; color:var(--cream)}
+.stat .v.lime{color:var(--lime)} .stat .v.amber{color:var(--amber)} .stat .v.pink{color:var(--pink)}
+.stat .l{font-family:var(--mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); font-weight:700}
+
+.table-wrap{max-width:1320px; margin:0 auto 80px; padding:0 6vw}
+table{width:100%; border-collapse:collapse; font-size:13px}
+thead th{background:var(--ink-soft); padding:12px 14px; text-align:left; font-family:var(--mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--lime); font-weight:700; border-bottom:2px solid var(--ink-card); cursor:pointer; user-select:none; white-space:nowrap}
+thead th:hover{color:var(--cream)}
+thead th[data-sort]::after{content:" ↕"; opacity:.4; font-size:11px}
+thead th.sorted-asc::after{content:" ↑"; opacity:1; color:var(--lime)}
+thead th.sorted-desc::after{content:" ↓"; opacity:1; color:var(--lime)}
+tbody tr{border-bottom:1px solid rgba(168,162,152,.07); transition:background .15s}
+tbody tr:hover{background:rgba(200,255,30,.03)}
+tbody td{padding:14px; vertical-align:top}
+.col-claim{font-family:var(--italic); font-style:italic; font-size:15px; line-height:1.4; color:var(--cream); max-width:46ch}
+.col-claim a{color:var(--lime); text-decoration:none; border-bottom:1px solid transparent; transition:border-color .2s}
+.col-claim a:hover{border-bottom-color:var(--lime)}
+.col-ep{font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); white-space:nowrap}
+.col-ep a{color:var(--dim); text-decoration:none}
+.col-ep a:hover{color:var(--lime)}
+.col-tier{font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:.1em; padding:4px 8px; border:1px solid currentColor; display:inline-block; white-space:nowrap}
+.col-tier.t1{color:var(--lime); background:rgba(200,255,30,.06)}
+.col-tier.t2{color:var(--amber); background:rgba(255,213,0,.06)}
+.col-tier.t3{color:var(--cobalt); background:rgba(30,60,255,.1)}
+.col-tier.t4{color:var(--dim); background:rgba(168,162,152,.06)}
+.col-conf{font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:.1em; padding:4px 8px; display:inline-block; white-space:nowrap}
+.col-conf.strong{color:var(--lime); background:rgba(200,255,30,.12)}
+.col-conf.plausible{color:var(--amber); background:rgba(255,213,0,.12)}
+.col-conf.correlated{color:var(--cobalt); background:rgba(30,60,255,.16)}
+.col-conf.competing{color:var(--pink); background:rgba(255,26,107,.1)}
+.col-src{font-family:var(--mono); font-size:11px; color:var(--bone)}
+.col-src a{color:var(--lime); text-decoration:underline; text-underline-offset:3px}
+.col-src .lbl{display:block; font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); font-weight:700; margin-bottom:2px}
+.col-prov{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding:3px 7px; display:inline-block}
+.col-prov.documented{color:#0a0a0a; background:var(--lime)}
+.col-prov.modeled{color:#0a0a0a; background:var(--amber)}
+.col-prov.speculative{color:var(--cream); background:var(--pink)}
+
+.no-results{padding:60px 20px; text-align:center; font-family:var(--italic); font-style:italic; color:var(--dim); font-size:18px; display:none}
+.no-results.show{display:block}
+
+footer{padding:50px 6vw; border-top:1px solid rgba(168,162,152,.1); background:var(--ink); text-align:center}
+footer p{font-family:var(--mono); font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--faint)}
+footer p a{color:var(--lime); text-decoration:none; margin:0 8px}
+footer p em{font-family:var(--italic); font-style:italic; color:var(--dim); letter-spacing:.02em; font-size:11px}
+
+@media (max-width:880px){
+  .controls{grid-template-columns:1fr 1fr; gap:6px}
+  .stats{grid-template-columns:1fr 1fr}
+  thead th{font-size:9px; padding:10px 8px}
+  tbody td{padding:10px 8px}
+  .col-claim{font-size:14px}
+}
+@media (max-width:600px){
+  .col-src{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="tn">
+  <a class="brand" href="index.html">The <em>Mechanism</em> Series</a>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="index.html#season-1">Season I</a>
+    <a href="index.html#season-2">Season II</a>
+    <a href="systems-atlas.html">Systems Atlas</a>
+    <a href="claims-atlas.html" class="lit">Claims Atlas</a>
+    <a href="case-file.html">Case File</a>
+    <a href="field-notes/index.html">Field Notes</a>
+    <a href="index.html#about">About</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eb">The Claims Atlas</div>
+  <h1>Every load-bearing claim. <em>Audit us.</em></h1>
+  <p>One row per load-bearing claim across the entire publication. Filter by episode, source tier, confidence stamp, or provenance. Click any source. If a claim isn't here, it isn't load-bearing — atmosphere doesn't make the table.</p>
+</section>
+
+<div class="controls">
+  <input type="search" id="qFilter" placeholder="Search claims, episodes, sources…" />
+  <select id="epFilter"><option value="">All episodes</option></select>
+  <select id="tierFilter">
+    <option value="">All source tiers</option>
+    <option value="t1">T1 · primary official</option>
+    <option value="t2">T2 · named secondary</option>
+    <option value="t3">T3 · peer-reviewed</option>
+    <option value="t4">T4 · contextual</option>
+  </select>
+  <select id="confFilter">
+    <option value="">All confidence</option>
+    <option value="strong">Strong</option>
+    <option value="plausible">Plausible</option>
+    <option value="correlated">Correlated</option>
+    <option value="competing">Competing</option>
+  </select>
+  <select id="provFilter">
+    <option value="">All provenance</option>
+    <option value="documented">Documented</option>
+    <option value="modeled">Modeled</option>
+    <option value="speculative">Speculative</option>
+  </select>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="v" id="cTotal">—</span><span class="l">Total claims</span></div>
+  <div class="stat"><span class="v lime" id="cDoc">—</span><span class="l">Documented</span></div>
+  <div class="stat"><span class="v amber" id="cMod">—</span><span class="l">Modeled</span></div>
+  <div class="stat"><span class="v pink" id="cSpec">—</span><span class="l">Speculative</span></div>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th data-sort="claim">Claim</th>
+        <th data-sort="ep">Episode</th>
+        <th data-sort="tier">Tier</th>
+        <th data-sort="conf">Confidence</th>
+        <th data-sort="prov">Provenance</th>
+        <th data-sort="src">Source</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="no-results" id="noResults">No claims match these filters. Try widening the search.</div>
+</div>
+
+<footer>
+  <p><a href="index.html">← Mechanism Series</a> · <a href="#" onclick="document.body.classList.add('evidence-mode');return false;">Evidence mode (press E)</a> · <a href="index.html#about">About</a></p>
+  <p style="margin-top:14px"><em>The Claims Atlas is our accountability dashboard. Send corrections to corrections@infera.studio.</em></p>
+</footer>
+
+<script>
+// ============================================================ CLAIMS ATLAS DATA
+// Each entry: { claim, episode, episodeUrl, tier (t1-t4), confidence (strong|plausible|correlated|competing),
+//               provenance (documented|modeled|speculative), sourceLabel, sourceUrl, note }
+// Curated list. Extend as the publication grows.
+const CLAIMS = [
+  // ============================ SEASON I · THE TRICKLE
+  { claim: 'Federal job loss in Fulton County is one upstream driver of a measurable D-shift in DeKalb voting patterns.',
+    episode: 'The Trickle', episodeUrl: 'the-trickle.html#main',
+    tier: 't1', confidence: 'plausible', provenance: 'modeled',
+    sourceLabel: 'LEHD + ACS · cross-cycle precinct results',
+    sourceUrl: 'https://lehd.ces.census.gov/',
+    note: 'The +12-point shift estimate is flagged as illustrative in the discipline section.' },
+  { claim: 'A federal employee in metro Atlanta returns roughly 24¢ of every dollar earned to local sales tax base.',
+    episode: 'The Trickle', episodeUrl: 'the-trickle.html#main',
+    tier: 't3', confidence: 'plausible', provenance: 'modeled',
+    sourceLabel: 'Emerson regional multiplier · Atlanta Fed',
+    sourceUrl: 'https://www.atlantafed.org/research/data-and-tools',
+    note: 'Multiplier is illustrative; actual returns vary by household and county.' },
+
+  // ============================ SEASON I · THE EVICTION FUNNEL
+  { claim: 'A November eviction filing typically becomes a non-vote in the following May primary through six lawful administrative steps.',
+    episode: 'The Eviction Funnel', episodeUrl: 'the-eviction-funnel.html#main',
+    tier: 't1', confidence: 'strong', provenance: 'documented',
+    sourceLabel: 'NVRA §8 + GA SoS list maintenance + Fulton Magistrate dockets',
+    sourceUrl: 'https://www.justice.gov/crt/about-national-voter-registration-act' },
+  { claim: 'Most affected voters do not know their registration was administratively suspended.',
+    episode: 'The Eviction Funnel', episodeUrl: 'the-eviction-funnel.html#main',
+    tier: 't2', confidence: 'plausible', provenance: 'documented',
+    sourceLabel: 'Eviction Lab + Brennan Center voter-list research',
+    sourceUrl: 'https://evictionlab.org/' },
+
+  // ============================ SEASON I · THE CLOSED HOSPITAL
+  { claim: 'A rural ER closure produces measurable downstream effects on maternal, infant, and cardiac outcomes within 4–9 months.',
+    episode: 'The Closed Hospital', episodeUrl: 'the-closed-hospital.html#main',
+    tier: 't3', confidence: 'correlated', provenance: 'documented',
+    sourceLabel: 'Sheps Center · UNC · NEJM rural-hospital studies',
+    sourceUrl: 'https://www.shepscenter.unc.edu/programs-projects/rural-health/' },
+  { claim: 'Catchment redraws compound: each closure stresses the next-nearest catchment.',
+    episode: 'The Closed Hospital', episodeUrl: 'the-closed-hospital.html#main',
+    tier: 't3', confidence: 'plausible', provenance: 'modeled',
+    sourceLabel: 'GA Hospital Association · CMS Form 855A',
+    sourceUrl: 'https://www.cms.gov/Medicare/Provider-Enrollment-and-Certification/MedicareProviderSupEnroll' },
+
+  // ============================ SEASON I · THE COAST IS MOVING
+  { claim: 'Florida insurance hardening is one upstream driver of measurable FL→GA coastal migration; not the only one.',
+    episode: 'The Coast Is Moving', episodeUrl: 'the-coast-is-moving.html#main',
+    tier: 't1', confidence: 'strong', provenance: 'documented',
+    sourceLabel: 'FL OIR rate filings + NAIC + USPS NCOA',
+    sourceUrl: 'https://www.floir.com/' },
+  { claim: 'Camden, Glynn, McIntosh, Bryan, and Chatham counties absorb the bulk of FL→GA coastal relocation.',
+    episode: 'The Coast Is Moving', episodeUrl: 'the-coast-is-moving.html#main',
+    tier: 't1', confidence: 'plausible', provenance: 'documented',
+    sourceLabel: 'FHFA House Price Index · Redfin Migration Data',
+    sourceUrl: 'https://www.fhfa.gov/data/hpi' },
+  { claim: 'Most coastal arrivals frame the move as cost, not climate. The two are the same thing told differently.',
+    episode: 'The Coast Is Moving', episodeUrl: 'the-coast-is-moving.html#main',
+    tier: 't3', confidence: 'competing', provenance: 'modeled',
+    sourceLabel: 'NHC + NOAA + survey methodology framing literature',
+    sourceUrl: 'https://www.nhc.noaa.gov/',
+    note: 'Competing read: respondents may genuinely separate the two motivations. We disclose both interpretations.' },
+
+  // ============================ SEASON I · THE PROVISIONAL BALLOT
+  { claim: 'Provisional-ballot cure rates vary measurably county-to-county within the same election cycle.',
+    episode: 'The Provisional Ballot', episodeUrl: 'the-provisional-ballot.html#main',
+    tier: 't1', confidence: 'strong', provenance: 'documented',
+    sourceLabel: 'EAC EAVS · OCGA §21-2-417/419 · GA SoS',
+    sourceUrl: 'https://www.eac.gov/research-and-data/studies-and-reports',
+    note: 'County-level cure rates require county-by-county records requests; no centralized GA dataset.' },
+  { claim: 'Some Georgia counties run cure rates above 60%, others below 25%.',
+    episode: 'The Provisional Ballot', episodeUrl: 'the-provisional-ballot.html#main',
+    tier: 't2', confidence: 'plausible', provenance: 'modeled',
+    sourceLabel: 'EAVS jurisdiction-level + supplemental records',
+    sourceUrl: 'https://www.eac.gov/voters/provisional-ballots' },
+
+  // ============================ SEASON II · PERSONHOOD INC
+  { claim: 'A US adult generates roughly $382/month in algorithmic value while paying ~$127/month in extracted costs — net extraction of ~$254/month.',
+    episode: 'Personhood Inc.', episodeUrl: 'personhood-inc.html#s7',
+    tier: 't3', confidence: 'plausible', provenance: 'modeled',
+    sourceLabel: 'Meta 10-K · TikTok est. · IDC ad-market reports · synthesis',
+    sourceUrl: 'https://investor.atmeta.com/',
+    note: 'Per-persona figures are tier-weighted illustrative estimates; range is +/- 30% for a typical user.' },
+  { claim: 'Acxiom, Experian, Oracle, and LiveRamp hold profiles with roughly 700 fields per US adult.',
+    episode: 'Personhood Inc.', episodeUrl: 'personhood-inc.html#s7',
+    tier: 't2', confidence: 'strong', provenance: 'documented',
+    sourceLabel: 'Acxiom InfoBase docs · Experian Mosaic methodology · Senate Commerce 2014 broker report',
+    sourceUrl: 'https://www.commerce.senate.gov/services/files/0d2b3642-6221-4888-a631-08f2f255b577' },
+  { claim: 'Georgia data-center tax incentives 2020–2024 totaled approximately $1.2B.',
+    episode: 'Personhood Inc.', episodeUrl: 'personhood-inc.html#s7',
+    tier: 't1', confidence: 'strong', provenance: 'documented',
+    sourceLabel: 'GA Dept of Revenue HB 1192 disclosures',
+    sourceUrl: 'https://dor.georgia.gov/' },
+  { claim: 'A household-composite merger transfers one spouse\'s historical credit events to the other\'s insurance and lending scoring within ~90 days.',
+    episode: 'Personhood Inc.', episodeUrl: 'personhood-inc.html#s7',
+    tier: 't3', confidence: 'correlated', provenance: 'modeled',
+    sourceLabel: 'CFPB 2023 household-scoring report · LexisNexis CLUE methodology',
+    sourceUrl: 'https://www.consumerfinance.gov/data-research/research-reports/' },
+
+  // ============================ SEASON II · THE FEED ENGINE
+  { claim: 'Amazon alone accounts for roughly 10% of total US digital ad spend in 2024 (~$30B).',
+    episode: 'The Feed Engine', episodeUrl: 'the-feed-engine.html#advertisers',
+    tier: 't1', confidence: 'strong', provenance: 'documented',
+    sourceLabel: 'eMarketer 2024 · Standard Media Index · Comvergence top-100',
+    sourceUrl: 'https://www.emarketer.com/' },
+  { claim: 'The top 10 US digital advertisers account for ~33% of total digital ad spend; top 100 ~70%.',
+    episode: 'The Feed Engine', episodeUrl: 'the-feed-engine.html#advertisers',
+    tier: 't1', confidence: 'strong', provenance: 'documented',
+    sourceLabel: 'eMarketer + Comvergence + SMI 2024',
+    sourceUrl: 'https://www.emarketer.com/' },
+  { claim: 'A "same city, same day, different feed" comparison reveals divergent realities measurable at the post-set level.',
+    episode: 'The Feed Engine', episodeUrl: 'the-feed-engine.html#main',
+    tier: 't3', confidence: 'correlated', provenance: 'modeled',
+    sourceLabel: 'Mozilla RegretsReporter · NYU Cybersecurity for Democracy · Pew',
+    sourceUrl: 'https://foundation.mozilla.org/en/youtube/regretsreporter/' },
+
+  // ============================ SEASON II · TRUST MARKET
+  { claim: 'Roughly four operators (Meta, Google, Apple, Amazon) hold ~62% of US adult digital-personhood signal.',
+    episode: 'The Trust Market', episodeUrl: 'episode-03-trust-market-mockup.html#tmGatekeepers',
+    tier: 't2', confidence: 'plausible', provenance: 'documented',
+    sourceLabel: 'Synergy Research cloud-share + 10-K filings synthesis',
+    sourceUrl: 'https://www.srgresearch.com/',
+    note: 'Share is estimated from public filings; exact share is non-public and varies by definition of "signal."' },
+  { claim: 'Tenant-scoring (CoreLogic, RealPage, TransUnion SmartMove, Yardi) is used by approximately 90% of US landlords.',
+    episode: 'The Trust Market', episodeUrl: 'episode-03-trust-market-mockup.html#tmGatekeepers',
+    tier: 't2', confidence: 'strong', provenance: 'documented',
+    sourceLabel: 'TransUnion industry surveys + NCRC fair-housing studies',
+    sourceUrl: 'https://ncrc.org/' },
+  { claim: 'Same-county pricing differentials of 0.3% APR or more can persist after a household-composite merger.',
+    episode: 'The Trust Market', episodeUrl: 'episode-03-trust-market-mockup.html#tmCases',
+    tier: 't3', confidence: 'correlated', provenance: 'modeled',
+    sourceLabel: 'CFPB 2023 household-scoring report · synthesized case study',
+    sourceUrl: 'https://www.consumerfinance.gov/data-research/research-reports/',
+    note: 'Case-study figures are composite, drawn from documented harms; names changed.' },
+  { claim: 'Reputation, trust, and behavioral scores may become tradable infrastructure in adjacent markets within this decade.',
+    episode: 'The Trust Market', episodeUrl: 'episode-03-trust-market-mockup.html#tmCases',
+    tier: 't4', confidence: 'competing', provenance: 'speculative',
+    sourceLabel: 'Pasquale · The Black Box Society · regulatory horizon scan',
+    sourceUrl: 'https://www.hup.harvard.edu/books/9780674970847',
+    note: 'Speculative scenario. The opposing read is that fragmented regulation prevents market formation. We disclose both.' },
+];
+
+// ============================================================ RENDER & FILTER
+const $rows = document.getElementById('rows');
+const $noRes = document.getElementById('noResults');
+const $q = document.getElementById('qFilter');
+const $ep = document.getElementById('epFilter');
+const $tier = document.getElementById('tierFilter');
+const $conf = document.getElementById('confFilter');
+const $prov = document.getElementById('provFilter');
+
+// Populate episode filter
+[...new Set(CLAIMS.map(c=>c.episode))].sort().forEach(e => {
+  const o = document.createElement('option'); o.value = e; o.textContent = e; $ep.appendChild(o);
+});
+
+let sortKey = 'ep', sortDir = 'asc';
+
+function render(){
+  const q = $q.value.toLowerCase().trim();
+  const ep = $ep.value;
+  const tier = $tier.value;
+  const conf = $conf.value;
+  const prov = $prov.value;
+
+  let list = CLAIMS.filter(c => {
+    if(ep && c.episode !== ep) return false;
+    if(tier && c.tier !== tier) return false;
+    if(conf && c.confidence !== conf) return false;
+    if(prov && c.provenance !== prov) return false;
+    if(q){
+      const hay = (c.claim + ' ' + c.episode + ' ' + c.sourceLabel + ' ' + (c.note||'')).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  list.sort((a,b) => {
+    let av, bv;
+    if(sortKey === 'claim') { av = a.claim; bv = b.claim; }
+    else if(sortKey === 'ep') { av = a.episode; bv = b.episode; }
+    else if(sortKey === 'tier') { av = a.tier; bv = b.tier; }
+    else if(sortKey === 'conf') { av = a.confidence; bv = b.confidence; }
+    else if(sortKey === 'prov') { av = a.provenance; bv = b.provenance; }
+    else { av = a.sourceLabel; bv = b.sourceLabel; }
+    return sortDir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+
+  $rows.innerHTML = list.map(c => {
+    const tierLabel = { t1:'T1 · official', t2:'T2 · secondary', t3:'T3 · research', t4:'T4 · contextual' }[c.tier] || c.tier;
+    return `<tr>
+      <td class="col-claim">${c.claim}${c.note ? `<br/><span style="font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.04em;font-style:normal">↳ ${c.note}</span>` : ''}</td>
+      <td class="col-ep"><a href="${c.episodeUrl}">${c.episode}</a></td>
+      <td><span class="col-tier ${c.tier}">${tierLabel}</span></td>
+      <td><span class="col-conf ${c.confidence}">${c.confidence}</span></td>
+      <td><span class="col-prov ${c.provenance}">${c.provenance}</span></td>
+      <td class="col-src"><span class="lbl">${c.sourceLabel.split('·')[0].trim()}</span><a href="${c.sourceUrl}" target="_blank" rel="noopener">${c.sourceLabel}</a></td>
+    </tr>`;
+  }).join('');
+
+  $noRes.classList.toggle('show', list.length === 0);
+
+  // stats
+  document.getElementById('cTotal').textContent = list.length;
+  document.getElementById('cDoc').textContent  = list.filter(c => c.provenance === 'documented').length;
+  document.getElementById('cMod').textContent  = list.filter(c => c.provenance === 'modeled').length;
+  document.getElementById('cSpec').textContent = list.filter(c => c.provenance === 'speculative').length;
+}
+
+[$q, $ep, $tier, $conf, $prov].forEach(el => el.addEventListener('input', render));
+
+document.querySelectorAll('thead th[data-sort]').forEach(th => {
+  th.addEventListener('click', () => {
+    const k = th.dataset.sort;
+    if(sortKey === k) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+    else { sortKey = k; sortDir = 'asc'; }
+    document.querySelectorAll('thead th').forEach(h => h.classList.remove('sorted-asc','sorted-desc'));
+    th.classList.add(sortDir === 'asc' ? 'sorted-asc' : 'sorted-desc');
+    render();
+  });
+});
+
+render();
+</script>
+
+</body>
+</html>

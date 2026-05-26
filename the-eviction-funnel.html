@@ -411,6 +411,54 @@
 }
 </style>
 
+
+<!-- ============================================================ COUNTER-READ PATTERN — self-hosted strongest opposing reading -->
+<style id="infera-counter-read">
+.counter-read{
+  margin:24px 0;
+  padding:0;
+  background:rgba(255,26,107,.04);
+  border:1px solid rgba(255,26,107,.28);
+  border-left:3px solid #ff1a6b;
+  font-family:'Inter', system-ui, sans-serif;
+}
+.counter-read summary{
+  cursor:pointer; padding:14px 18px; list-style:none;
+  display:flex; align-items:center; gap:12px;
+  font-family:'JetBrains Mono', ui-monospace, monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:#ff1a6b;
+}
+.counter-read summary::-webkit-details-marker{display:none}
+.counter-read summary::before{
+  content:""; width:14px; height:14px;
+  border:1.5px solid #ff1a6b; border-radius:50%;
+  background:radial-gradient(circle at center, #ff1a6b 30%, transparent 32%);
+  flex-shrink:0; transition:transform .2s;
+}
+.counter-read[open] summary::before{transform:rotate(90deg)}
+.counter-read summary .cr-prompt{flex:1; opacity:.85}
+.counter-read summary .cr-cue{font-family:'Instrument Serif',Georgia,serif; font-style:italic; font-size:14px; letter-spacing:0; text-transform:none; opacity:.7; color:rgba(251,247,235,.7)}
+.counter-read .cr-body{padding:0 18px 18px; font-size:14.5px; line-height:1.55; color:rgba(251,247,235,.88)}
+.counter-read .cr-body p{margin-bottom:10px}
+.counter-read .cr-body strong{font-family:'Archivo Black',sans-serif; font-weight:400; letter-spacing:-.005em; color:#fbf7eb}
+.counter-read .cr-body em{font-family:'Instrument Serif',Georgia,serif; font-style:italic; color:#ff1a6b}
+.counter-read .cr-source{
+  margin-top:14px; padding-top:12px; border-top:1px dashed rgba(255,26,107,.3);
+  font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:rgba(251,247,235,.5); font-weight:700;
+  display:flex; gap:8px; align-items:center;
+}
+.counter-read .cr-source::before{content:"→"; color:#ff1a6b; font-size:13px}
+.counter-read .cr-source a{color:#ff1a6b; text-decoration:underline; text-underline-offset:3px}
+/* Light-theme override (papers/cream backgrounds) */
+.cream .counter-read, .paper .counter-read, [style*="background:var(--paper)"] .counter-read, .light-section .counter-read{
+  background:rgba(255,26,107,.06); color:#1a1a1a;
+}
+.cream .counter-read .cr-body, .paper .counter-read .cr-body, .light-section .counter-read .cr-body{color:#3a3a3a}
+.cream .counter-read .cr-body strong, .paper .counter-read .cr-body strong, .light-section .counter-read .cr-body strong{color:#0a0a0a}
+.cream .counter-read .cr-body em, .paper .counter-read .cr-body em, .light-section .counter-read .cr-body em{color:#ff1a6b}
+.cream .counter-read .cr-source, .paper .counter-read .cr-source, .light-section .counter-read .cr-source{color:rgba(10,10,10,.6)}
+</style>
+
 </head>
 <body>
 <div class="grid-bg"></div>
@@ -671,7 +719,7 @@
       <h4>You found this one. <em>Find the next.</em></h4>
       <p>The Mechanism Series publishes one investigation at a time. One short email per drop, no tracking pixels, one-click unsubscribe.</p>
     </div>
-    <form class="esc-form" data-stayclose autocomplete="off" action="#" method="post">
+    <form class="esc-form" data-stayclose autocomplete="off" action="https://buttondown.email/api/emails/embed-subscribe/REPLACE_WITH_YOUR_SLUG" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.email/REPLACE_WITH_YOUR_SLUG','popupwindow')" data-newsletter-provider="buttondown">
       <input type="email" required placeholder="your@email.com" aria-label="Your email address"/>
       <button type="submit">Subscribe</button>
     </form>
@@ -701,6 +749,21 @@
   });
 })();
 </script>
+
+<section style="max-width:880px;margin:60px auto;padding:0 6vw">
+<details class="counter-read">
+  <summary>
+    <span class="cr-prompt">The strongest counter-read · the funnel framing</span>
+    <span class="cr-cue">click to expand</span>
+  </summary>
+  <div class="cr-body">
+    <p>A reasonable critic — particularly an election administrator — would argue: <strong>each of the six steps exists for a defensible administrative reason</strong>. Voter-roll maintenance is required by NVRA. Address verification protects against impersonation. The "funnel" framing implies intent where there is procedure.</p>
+    <p>The critic is partly right. <em>None of the six steps were designed to produce non-voters.</em> But the cumulative effect is measurable, and procedure-without-intent still produces disparate impact under standard civil-rights tests. The episode's argument is structural, not motivational.</p>
+    <p>If you accept the steps as individually lawful (we do), the question becomes: is the cumulative outcome acceptable? That is a policy question this episode does not pretend to settle.</p>
+  </div>
+  <div class="cr-source"><a href="https://www.brennancenter.org/our-work/research-reports/voter-purge-rates-remain-high" target="_blank" rel="noopener">Brennan Center · voter-list maintenance research</a></div>
+</details>
+</section>
 
 <footer>
   <div class="footer-grid">
@@ -1399,6 +1462,234 @@ window._LENS_DATA = {"lenses": [{"key": "A", "name": "Economic Lens", "tag": "A 
   document.querySelectorAll('strong, .read-time').forEach(el => obs.observe(el));
 })();
 
+</script>
+
+<!-- ============================================================ PROVENANCE LAYER + EVIDENCE MODE (chassis-level credibility infrastructure) -->
+<style id="infera-provenance-evidence">
+/* ===== PROVENANCE BADGES ===== */
+[data-provenance]{position:relative}
+[data-provenance]::before{
+  content:attr(data-provenance-label);
+  position:absolute; top:6px; right:6px; z-index:30;
+  padding:3px 7px 3px 18px;
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  font-size:8.5px; letter-spacing:.16em; text-transform:uppercase; font-weight:700;
+  color:#0a0a0a;
+  border:1px solid transparent;
+  pointer-events:auto;
+  transition:transform .2s,box-shadow .2s;
+}
+[data-provenance]::after{
+  content:""; position:absolute; top:50%; left:0; transform:translateY(-50%);
+  display:none; pointer-events:none;
+}
+[data-provenance="documented"]::before{background:#c8ff1e; border-color:#c8ff1e}
+[data-provenance="documented"]::before{
+  background-image:radial-gradient(circle at 8px center, #0a0a0a 2.5px, transparent 2.6px);
+}
+[data-provenance="modeled"]::before{background:#ffd500; border-color:#ffd500;
+  background-image:radial-gradient(circle at 8px center, transparent 1.5px, #0a0a0a 1.6px, #0a0a0a 2.5px, transparent 2.6px);
+}
+[data-provenance="speculative"]::before{background:#ff1a6b; color:#fbf7eb; border-color:#ff1a6b;
+  background-image:repeating-linear-gradient(45deg, transparent 0 2px, rgba(0,0,0,.35) 2px 4px);
+  padding-left:10px;
+}
+[data-provenance]:hover::before{transform:scale(1.05); box-shadow:0 2px 12px rgba(0,0,0,.3)}
+[data-provenance][data-prov-label="hide"]::before{display:none}
+
+/* Provenance tooltip on click */
+.prov-tip{
+  position:absolute; top:36px; right:6px; z-index:40;
+  max-width:280px; padding:12px 14px;
+  background:#0a0a0a; color:#fbf7eb;
+  border:1px solid var(--prov-color, #c8ff1e);
+  border-left-width:3px;
+  font-family:'Inter',system-ui,sans-serif; font-size:12px; line-height:1.5;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);
+}
+.prov-tip-hd{font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; font-weight:700; color:var(--prov-color, #c8ff1e); margin-bottom:6px}
+.prov-tip a{color:var(--prov-color, #c8ff1e); text-decoration:underline; text-underline-offset:2px}
+.prov-tip .prov-meta{margin-top:8px; font-family:'Instrument Serif',Georgia,serif; font-style:italic; font-size:11.5px; color:rgba(251,247,235,.6)}
+
+/* ===== EVIDENCE MODE ===== */
+body.evidence-mode{cursor:help}
+body.evidence-mode [data-citation], body.evidence-mode [data-confidence], body.evidence-mode [data-provenance]{
+  outline:2px dashed #c8ff1e; outline-offset:3px;
+  background:rgba(200,255,30,.06);
+  transition:outline-color .2s, background .2s;
+}
+body.evidence-mode [data-provenance="modeled"]{outline-color:#ffd500; background:rgba(255,213,0,.06)}
+body.evidence-mode [data-provenance="speculative"]{outline-color:#ff1a6b; background:rgba(255,26,107,.06)}
+body.evidence-mode .citations, body.evidence-mode .src, body.evidence-mode cite{
+  background:rgba(200,255,30,.08); padding:2px 5px; border-left:2px solid #c8ff1e
+}
+body.evidence-mode [data-citation]::after, body.evidence-mode [data-confidence]::after{
+  content:attr(data-citation) attr(data-confidence);
+  display:block; margin-top:4px;
+  font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9.5px;
+  color:#c8ff1e; letter-spacing:.04em;
+  white-space:pre-wrap;
+}
+
+/* Evidence Mode indicator (always visible when active) */
+.evidence-bar{
+  position:fixed; bottom:0; left:0; right:0; z-index:200;
+  padding:10px 18px;
+  background:#0a0a0a; color:#fbf7eb;
+  border-top:2px solid #c8ff1e;
+  font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; font-weight:700;
+  display:none; justify-content:space-between; align-items:center; gap:18px;
+  flex-wrap:wrap;
+  box-shadow:0 -8px 24px rgba(0,0,0,.4);
+}
+body.evidence-mode .evidence-bar{display:flex}
+.evidence-bar .eb-l{display:flex; align-items:center; gap:14px}
+.evidence-bar .eb-dot{width:8px; height:8px; background:#c8ff1e; border-radius:50%; box-shadow:0 0 12px #c8ff1e; animation:ebPulse 1.4s ease-in-out infinite}
+@keyframes ebPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.evidence-bar .eb-legend{display:flex; gap:14px; align-items:center; flex-wrap:wrap; opacity:.85}
+.evidence-bar .eb-legend span{display:inline-flex; align-items:center; gap:6px}
+.evidence-bar .eb-legend i{width:9px; height:9px; display:inline-block; font-style:normal}
+.evidence-bar .eb-legend .doc{background:#c8ff1e}
+.evidence-bar .eb-legend .mod{background:#ffd500}
+.evidence-bar .eb-legend .spec{background:#ff1a6b}
+.evidence-bar button{background:transparent; border:1px solid #c8ff1e; color:#c8ff1e; padding:5px 10px; font:inherit; cursor:pointer; letter-spacing:.16em; text-transform:uppercase}
+.evidence-bar button:hover{background:rgba(200,255,30,.12)}
+
+/* Evidence Mode toggle hint (subtle, top-right of nav) */
+.evidence-hint{
+  position:fixed; top:14px; right:18px; z-index:55;
+  padding:5px 9px;
+  background:rgba(10,10,10,.7); color:rgba(251,247,235,.55); border:1px solid rgba(200,255,30,.25);
+  font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+  pointer-events:none; opacity:0; transition:opacity .4s;
+}
+.evidence-hint.show{opacity:1}
+.evidence-hint kbd{
+  background:rgba(200,255,30,.15); color:#c8ff1e;
+  padding:2px 5px; margin:0 4px; border-radius:2px;
+  font-family:inherit; font-size:9px;
+}
+body.evidence-mode .evidence-hint{display:none}
+
+@media (prefers-reduced-motion: reduce){
+  .evidence-bar .eb-dot{animation:none}
+  [data-provenance]:hover::before{transform:none}
+}
+@media (max-width:640px){
+  .evidence-bar{font-size:8.5px; padding:8px 12px}
+  .evidence-bar .eb-legend{display:none}
+  .evidence-hint{display:none !important}
+  [data-provenance]::before{font-size:7.5px; padding:2px 5px 2px 14px}
+}
+</style>
+
+<!-- Evidence Mode UI -->
+<div class="evidence-hint" id="evidenceHint">Press <kbd>E</kbd> for evidence mode</div>
+<div class="evidence-bar" role="status" aria-live="polite">
+  <div class="eb-l">
+    <span class="eb-dot"></span>
+    <span>Evidence mode · on</span>
+  </div>
+  <div class="eb-legend">
+    <span><i class="doc"></i> Documented</span>
+    <span><i class="mod"></i> Modeled</span>
+    <span><i class="spec"></i> Speculative</span>
+  </div>
+  <button type="button" data-evidence-exit>Exit · Esc</button>
+</div>
+
+<script>
+// ============================================================ PROVENANCE LAYER · click badge for source detail
+(function(){
+  document.addEventListener('click', function(e){
+    var el = e.target.closest('[data-provenance]');
+    if(!el) return;
+    // only fire if the click is on the badge pseudo (top-right corner)
+    var rect = el.getBoundingClientRect();
+    var x = e.clientX - rect.left, y = e.clientY - rect.top;
+    var badgeRight = (x > rect.width - 100 && y < 30);
+    if(!badgeRight) return;
+    e.stopPropagation(); e.preventDefault();
+    // Close existing tips
+    document.querySelectorAll('.prov-tip').forEach(function(t){ t.remove(); });
+    var prov = el.dataset.provenance;
+    var color = prov === 'modeled' ? '#ffd500' : prov === 'speculative' ? '#ff1a6b' : '#c8ff1e';
+    var label = prov === 'modeled' ? 'Modeled estimate' : prov === 'speculative' ? 'Speculative scenario' : 'Documented · sourced';
+    var src   = el.dataset.provSource || '';
+    var note  = el.dataset.provNote || '';
+    var tip = document.createElement('div');
+    tip.className = 'prov-tip';
+    tip.style.setProperty('--prov-color', color);
+    tip.innerHTML = '<div class="prov-tip-hd">' + label + '</div>' +
+                    (src  ? '<div>' + src + '</div>' : '') +
+                    (note ? '<div class="prov-meta">' + note + '</div>' : '') +
+                    '<div class="prov-meta" style="margin-top:8px">Press <kbd style="background:rgba(255,255,255,.1);padding:1px 4px">e</kbd> for full evidence mode · click outside to close.</div>';
+    el.appendChild(tip);
+    var dismiss = function(ev){ if(!tip.contains(ev.target)){ tip.remove(); document.removeEventListener('click', dismiss); } };
+    setTimeout(function(){ document.addEventListener('click', dismiss); }, 50);
+  });
+})();
+
+// ============================================================ EVIDENCE MODE · 'e' to toggle
+(function(){
+  var hint = document.getElementById('evidenceHint');
+  var hintTimer = null;
+  // Show the hint briefly when the user has scrolled past the hero
+  function pulseHint(){
+    if(!hint || document.body.classList.contains('evidence-mode')) return;
+    hint.classList.add('show');
+    if(hintTimer) clearTimeout(hintTimer);
+    hintTimer = setTimeout(function(){ hint.classList.remove('show'); }, 4200);
+  }
+  window.addEventListener('scroll', function once(){
+    if(window.scrollY > 800){ pulseHint(); window.removeEventListener('scroll', once); }
+  });
+
+  function toggle(force){
+    var on = force !== undefined ? force : !document.body.classList.contains('evidence-mode');
+    document.body.classList.toggle('evidence-mode', on);
+    if(on && hint) hint.classList.remove('show');
+    try { localStorage.setItem('infera.evidenceMode', on ? '1' : '0'); } catch(_){}
+  }
+  // Restore preference
+  try {
+    if(localStorage.getItem('infera.evidenceMode') === '1') toggle(true);
+  } catch(_){}
+
+  document.addEventListener('keydown', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    if(tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+    if(e.key === 'e' || e.key === 'E'){ e.preventDefault(); toggle(); }
+    if(e.key === 'Escape' && document.body.classList.contains('evidence-mode')) toggle(false);
+  });
+  document.addEventListener('click', function(e){
+    if(e.target.closest('[data-evidence-exit]')) toggle(false);
+  });
+})();
+</script>
+
+
+<script id="infera-episode-autolog">
+// AUTOLOG · case-file integration. Fires once per scroll engagement (~30% viewed).
+(function(){
+  const EP_ID = "eviction";
+  let logged = false;
+  function log(){
+    if(logged) return;
+    try {
+      const arr = JSON.parse(localStorage.getItem('infera.episodeLog') || '[]');
+      if(!arr.includes(EP_ID)){ arr.push(EP_ID); localStorage.setItem('infera.episodeLog', JSON.stringify(arr)); }
+      logged = true;
+    } catch(_){}
+  }
+  // Mark as read after they have scrolled ~30% of the page OR spent 60s on page
+  function onScroll(){
+    const pct = window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight);
+    if(pct >= 0.3) { log(); window.removeEventListener('scroll', onScroll); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  setTimeout(log, 60000);
+})();
 </script>
 </body>
 </html>
