@@ -521,36 +521,45 @@ a,button{color:inherit;text-decoration:none;background:none;border:none;cursor:p
 .viz-merge .comp-circle .marker{transition:.4s}
 .viz-merge .merge-line{stroke:var(--yellow);stroke-width:1.5;stroke-dasharray:3 5;opacity:0;transition:.6s}
 .viz-merge .merge-line.flow{opacity:.8;animation:linkDraw 1.5s linear infinite}
-.viz-merge .ghost-marker{fill:rgba(255,26,107,.4);transition:.6s}
-/* CASE 03 · spouse merge — more active idle motion across both circles + chaotic pink-dot jitter */
-.viz-merge .comp-circle{animation:mergeCircleBreathe 5.6s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
-.viz-merge #c3Theo{animation-duration:5.1s;animation-delay:-1.4s}
-@keyframes mergeCircleBreathe{
-  0%,100%{transform:translateZ(0) scale(1) translate(0,0)}
-  25%   {transform:scale(1.018) translate(2px,-2px)}
-  50%   {transform:scale(1.008) translate(-3px,3px)}
-  75%   {transform:scale(1.022) translate(3px,2px)}
-}
-/* Generic markers (lime · Lena + Theo-positive) get a more active sporadic drift */
-.viz-merge .marker{transform-box:fill-box;transform-origin:center;animation:markerSporadic 4.4s cubic-bezier(.4,0,.6,1) infinite}
-.viz-merge .marker:nth-child(3n){animation-duration:3.9s;animation-delay:-.7s}
-.viz-merge .marker:nth-child(3n+1){animation-duration:5.1s;animation-delay:-1.6s}
-.viz-merge .marker:nth-child(3n+2){animation-duration:4.6s;animation-delay:-2.4s}
+.viz-merge .ghost-marker{fill:rgba(255,26,107,.55);transition:.6s;animation:ghostBreathe 3.2s ease-in-out infinite}
+@keyframes ghostBreathe{0%,100%{opacity:.55;r:3}50%{opacity:.95;r:3.6}}
+/* CASE 03 · spouse merge — CIRCLES ARE LOCKED STATIC. The dots are the active narrative layer. */
+.viz-merge .comp-circle{animation:none}
+/* Generic lime markers — sporadic, restless drift to feel ALIVE */
+.viz-merge .marker{transform-box:fill-box;transform-origin:center;animation:markerSporadic 3.6s cubic-bezier(.4,0,.6,1) infinite}
+.viz-merge .marker:nth-of-type(3n){animation-duration:3.1s;animation-delay:-.7s}
+.viz-merge .marker:nth-of-type(3n+1){animation-duration:4.3s;animation-delay:-1.6s}
+.viz-merge .marker:nth-of-type(3n+2){animation-duration:3.8s;animation-delay:-2.4s}
 @keyframes markerSporadic{
   0%,100%{transform:translate(0,0)}
-  18%   {transform:translate(4px,-3px)}
-  36%   {transform:translate(-3px,4px)}
-  54%   {transform:translate(5px,2px)}
-  72%   {transform:translate(-2px,-5px)}
-  90%   {transform:translate(3px,3px)}
+  16%   {transform:translate(6px,-4px)}
+  33%   {transform:translate(-5px,5px)}
+  50%   {transform:translate(7px,3px)}
+  66%   {transform:translate(-4px,-6px)}
+  83%   {transform:translate(4px,5px)}
 }
-/* Pink Theo-flag dots — much more chaotic, jittery cadence, occasionally jolt + flash */
+/* Pink Theo-flag dots — chaotic high-frequency jitter + periodic warning flash */
 .viz-merge .theo-flag{
-  filter:drop-shadow(0 0 4px rgba(255,26,107,.45));
-  animation:theoJitter 1.4s steps(8,end) infinite, theoFlash 5s ease-in-out infinite;
+  filter:drop-shadow(0 0 5px rgba(255,26,107,.55));
+  animation:theoJitter 1.1s steps(10,end) infinite, theoFlash 4.2s ease-in-out infinite;
 }
-.viz-merge .theo-flag:nth-of-type(odd){animation-delay:-.4s,-1.7s}
-.viz-merge .theo-flag:nth-of-type(even){animation-delay:-.9s,-3.1s}
+.viz-merge .theo-flag:nth-of-type(odd){animation-delay:-.35s,-1.5s}
+.viz-merge .theo-flag:nth-of-type(even){animation-delay:-.8s,-2.6s}
+/* Migrating dots — pink late-payment markers that fly from Theo's circle across to Lena's */
+.viz-merge .migrate-dot{
+  fill:rgba(255,26,107,.92);
+  filter:drop-shadow(0 0 6px rgba(255,26,107,.7));
+  transition:cx 1.8s cubic-bezier(.5,.1,.3,1), cy 1.8s cubic-bezier(.5,.1,.3,1), opacity .6s ease, r .6s ease;
+  opacity:0;
+}
+.viz-merge .migrate-dot.live{opacity:1}
+.viz-merge .migrate-dot.crossing{animation:migrateThrob 1.4s ease-in-out infinite}
+.viz-merge .migrate-dot.settled{animation:settledPulse 2.6s ease-in-out infinite}
+@keyframes migrateThrob{0%,100%{r:3.2;filter:drop-shadow(0 0 6px rgba(255,26,107,.7))}50%{r:4.6;filter:drop-shadow(0 0 14px rgba(255,26,107,1))}}
+@keyframes settledPulse{0%,100%{r:3;opacity:.85}50%{r:3.6;opacity:1}}
+/* Strengthen the merge connector with directional pull arrows */
+.viz-merge .merge-line.flow{opacity:.95;stroke-dasharray:6 4;animation:mergeArrowPull 1.2s linear infinite}
+@keyframes mergeArrowPull{from{stroke-dashoffset:0}to{stroke-dashoffset:-20}}
 @keyframes theoJitter{
   0%  {transform:translate(0,0)}
   12% {transform:translate(3px,-2px)}
@@ -1725,6 +1734,12 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
             </g>
             <!-- merge connector (initially hidden) -->
             <line class="merge-line" id="c3MergeLine" x1="175" y1="140" x2="285" y2="140"/>
+            <!-- migrating dots · Theo's pink late-payment markers that fly into Lena's circle when merged -->
+            <g id="c3MigrateLayer">
+              <circle class="migrate-dot" id="c3Mig1" cx="345" cy="128" r="3.2"/>
+              <circle class="migrate-dot" id="c3Mig2" cx="367" cy="148" r="3.2"/>
+              <circle class="migrate-dot" id="c3Mig3" cx="319" cy="162" r="3.2"/>
+            </g>
           </svg>
         </div>
         <div class="viz-merge-legend">
@@ -2655,42 +2670,89 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
     2029:'Three ghost markers remain. The cost over five years: a vacation she never took.'
   };
 
+  // CIRCLES ARE LOCKED — only set their transform ONCE (never moves)
+  lena.setAttribute('transform','translate(115,140)');
+  theo.setAttribute('transform','translate(345,140)');
+
+  // Migrating-dot endpoints (in SVG coords)
+  // Theo origin positions (where pink late-payment markers live initially):
+  const MIG_THEO = [
+    { id:'c3Mig1', x:345, y:128 },
+    { id:'c3Mig2', x:367, y:148 },
+    { id:'c3Mig3', x:319, y:162 }
+  ];
+  // Lena destinations (positioned around Lena's circle, asymmetric so they look organic):
+  const MIG_LENA = [
+    { id:'c3Mig1', x: 95, y:124 },
+    { id:'c3Mig2', x:138, y:152 },
+    { id:'c3Mig3', x: 88, y:160 }
+  ];
+  function setMigratePositions(targetSet, phase){
+    targetSet.forEach(p => {
+      const el = document.getElementById(p.id);
+      if(!el) return;
+      el.setAttribute('cx', p.x);
+      el.setAttribute('cy', p.y);
+      el.classList.remove('crossing','settled');
+      if(phase === 'crossing') el.classList.add('crossing');
+      else if(phase === 'settled') el.classList.add('settled');
+    });
+  }
+  function showMigrate(visible){
+    MIG_THEO.forEach(p => {
+      const el = document.getElementById(p.id);
+      if(el) el.classList.toggle('live', visible);
+    });
+  }
+
   function update(){
     yearEl.textContent = year;
-    // pre-merge (2024 start), merged (2024+), divorced (2027+)
-    const merged = year >= 2024;
-    const divorced = year >= 2027;
+    // 2024 = merge moment (dots in transit) · 2025-2026 = settled in Lena · 2027+ = divorced/ghost
+    const merging  = (year === 2024);
+    const merged   = (year >= 2025 && year < 2027);
+    const divorced = (year >= 2027);
 
-    if(merged && !divorced){
-      lena.setAttribute('transform','translate(180,140)');
-      theo.setAttribute('transform','translate(280,140)');
+    if(merging){
+      mergeLine.classList.add('flow');
+      houseLbl.classList.add('show');
+      statEl.textContent = 'MERGING';
+      showMigrate(true);
+      // start at Theo, will animate to Lena via the CSS transition
+      setMigratePositions(MIG_THEO, 'crossing');
+      // trigger transition to Lena on next frame
+      requestAnimationFrame(() => requestAnimationFrame(() => setMigratePositions(MIG_LENA, 'crossing')));
+    } else if(merged){
       mergeLine.classList.add('flow');
       houseLbl.classList.add('show');
       statEl.textContent = 'MERGED';
+      showMigrate(true);
+      setMigratePositions(MIG_LENA, 'settled');
     } else if(divorced){
-      lena.setAttribute('transform','translate(115,140)');
-      theo.setAttribute('transform','translate(345,140)');
       mergeLine.classList.remove('flow');
       houseLbl.classList.remove('show');
-      statEl.textContent = 'DIVORCED';
-      // add ghost markers near Lena
+      statEl.textContent = 'DIVORCED · GHOSTED';
+      // The dots stay attached to Lena — that's the point of the case study
+      showMigrate(true);
+      setMigratePositions(MIG_LENA, 'settled');
+      // add the "ghost-marker" label dots that pulse as the count rises (year 2027 = 1, 2028 = 2, 2029 = 3)
       const existing = lena.querySelectorAll('.ghost-marker');
-      const targetGhost = year - 2026; // 1, 2, 3...
+      const targetGhost = Math.min(3, Math.max(0, year - 2026));
       if(existing.length < targetGhost){
         for(let i = existing.length; i < targetGhost; i++){
-          const angle = (i / 3) * Math.PI * 2;
-          const x = Math.cos(angle) * 36;
-          const y = Math.sin(angle) * 36 - 4;
+          const angle = ((i + 1) / 4) * Math.PI * 2;
+          const x = Math.cos(angle) * 40;
+          const y = Math.sin(angle) * 40 - 6;
           lena.insertAdjacentHTML('beforeend',
             `<circle class="ghost-marker" cx="${x}" cy="${y}" r="3"/>`);
         }
       }
     } else {
-      lena.setAttribute('transform','translate(115,140)');
-      theo.setAttribute('transform','translate(345,140)');
+      // pre-merge fallback (shouldn't happen on the 2024-2029 timeline)
       mergeLine.classList.remove('flow');
       houseLbl.classList.remove('show');
       statEl.textContent = 'SOLO';
+      showMigrate(false);
+      setMigratePositions(MIG_THEO, null);
     }
 
     // premium
