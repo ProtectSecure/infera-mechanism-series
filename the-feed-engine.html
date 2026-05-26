@@ -644,6 +644,9 @@ section.stage.cobalt{background:var(--cobalt);color:var(--cream)}
 /* === ACT 1 · PRICE OF YOU bars === */
 .act-price .ta-viz .pricebar{transition:opacity .25s}
 .act-price .ta-viz .pricebar:hover{opacity:.85}
+/* lightweight 2024 marker pulse · single animation, GPU-friendly */
+.act-price .ta-viz .price-pulse{transform-origin:570px 287px;transform-box:fill-box;animation:pricePulse 2.8s ease-in-out infinite}
+@keyframes pricePulse{0%,100%{transform:scale(1);opacity:.45}50%{transform:scale(1.5);opacity:.18}}
 
 /* === ACT 2 · DATA EMISSIONS rose chart === */
 .act-marketplace .rose-wedge{transition:opacity .2s}
@@ -1363,162 +1366,111 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
           <div class="ta-source">Source · IAB Internet Advertising Revenue Report 2024 · eMarketer 2024 · US Census Bureau adult-population estimates. Per-adult figures derived from total US digital ad spend ÷ US adult population.</div>
         </div>
         <div class="ta-viz">
-          <svg viewBox="0 0 800 580" preserveAspectRatio="xMidYMid meet" aria-label="Dollar bills cascading from the advertiser stack into the per-adult share pile" id="billRig">
+          <!-- LIGHT-WEIGHT replacement for the dollar-bill cascade. Editorial price-history line chart. Renders in one paint, draws in once via CSS, then idles. No symbols, no patterns, no filters, no requestAnimationFrame loop. -->
+          <svg viewBox="0 0 800 580" preserveAspectRatio="xMidYMid meet" aria-label="Per-US-adult digital ad spend by era · 1995 to 2030 projected" id="billRig">
             <defs>
-              <!-- bill gradient · greenish at one end → bleeding into the brand palette at the other (lime · yellow · pink) -->
-              <linearGradient id="billGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%"   stop-color="rgba(108,195,140,.96)"/>
-                <stop offset="22%"  stop-color="rgba(170,230,80,.92)"/>
-                <stop offset="45%"  stop-color="rgba(220,255,30,.92)"/>
-                <stop offset="68%"  stop-color="rgba(255,213,0,.92)"/>
-                <stop offset="100%" stop-color="rgba(255,90,160,.92)"/>
+              <linearGradient id="priceLine" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#6ec38c"/>
+                <stop offset="35%"  stop-color="#c8ff1e"/>
+                <stop offset="68%"  stop-color="#ffd500"/>
+                <stop offset="100%" stop-color="#ff1a6b"/>
               </linearGradient>
-              <linearGradient id="billGradLite" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%"   stop-color="rgba(255,255,255,.16)"/>
-                <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+              <linearGradient id="priceFill" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%"   stop-color="rgba(255,26,107,.22)"/>
+                <stop offset="100%" stop-color="rgba(255,26,107,0)"/>
               </linearGradient>
-              <linearGradient id="billShine" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%"   stop-color="rgba(255,255,255,0)"/>
-                <stop offset="45%"  stop-color="rgba(255,255,255,0)"/>
-                <stop offset="50%"  stop-color="rgba(255,255,255,1)"/>
-                <stop offset="55%"  stop-color="rgba(255,255,255,0)"/>
-                <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-              </linearGradient>
-              <radialGradient id="dreamGlow" cx="50%" cy="50%" r="58%">
-                <stop offset="0%"   stop-color="rgba(108,195,140,.38)"/>
-                <stop offset="55%"  stop-color="rgba(200,255,30,.10)"/>
-                <stop offset="100%" stop-color="rgba(255,90,160,0)"/>
+              <radialGradient id="priceGlow" cx="50%" cy="50%" r="55%">
+                <stop offset="0%"   stop-color="rgba(108,195,140,.22)"/>
+                <stop offset="60%"  stop-color="rgba(255,26,107,.06)"/>
+                <stop offset="100%" stop-color="rgba(255,26,107,0)"/>
               </radialGradient>
-              <radialGradient id="dreamFog" cx="50%" cy="35%" r="80%">
-                <stop offset="0%"   stop-color="rgba(255,255,255,.05)"/>
-                <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-              </radialGradient>
-              <pattern id="billFiber" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
-                <path d="M 0 6 L 6 0" stroke="rgba(0,0,0,.05)" stroke-width=".4"/>
-                <path d="M -1 1 L 1 -1" stroke="rgba(0,0,0,.05)" stroke-width=".4"/>
-              </pattern>
-              <filter id="billShadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="rgba(0,0,0,.6)"/>
-              </filter>
-              <filter id="billShadowSoft" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="rgba(0,0,0,.45)"/>
-              </filter>
-              <filter id="billBlurBack" x="-10%" y="-10%" width="120%" height="120%">
-                <feGaussianBlur stdDeviation=".8"/>
-              </filter>
-              <!-- ornate centerpiece motif · used inside every bill -->
-              <symbol id="ornament" viewBox="-15 -15 30 30">
-                <circle cx="0" cy="0" r="14" fill="none" stroke="rgba(0,0,0,.4)" stroke-width=".9"/>
-                <circle cx="0" cy="0" r="11" fill="rgba(0,0,0,.12)"/>
-                <circle cx="0" cy="0" r="11" fill="none" stroke="rgba(0,0,0,.32)" stroke-width=".5" stroke-dasharray="1 1.5"/>
-                <circle cx="0" cy="0" r="6.5" fill="none" stroke="rgba(0,0,0,.32)" stroke-width=".4"/>
-                <text x="0" y="4.2" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="13" fill="rgba(0,0,0,.82)" font-weight="700">$</text>
-              </symbol>
-              <!-- bill master · 140w × 64h · drawn around origin so it's easy to translate+rotate -->
-              <symbol id="billSym" viewBox="-70 -32 140 64">
-                <!-- back/main fill -->
-                <rect x="-70" y="-32" width="140" height="64" rx="3" fill="url(#billGrad)"/>
-                <!-- fiber pattern overlay for paper texture -->
-                <rect x="-70" y="-32" width="140" height="64" rx="3" fill="url(#billFiber)"/>
-                <!-- top-light gloss -->
-                <rect x="-70" y="-32" width="140" height="32" rx="3" fill="url(#billGradLite)"/>
-                <!-- inner frame double border -->
-                <rect x="-67" y="-29" width="134" height="58" rx="2" fill="none" stroke="rgba(0,0,0,.42)" stroke-width="1"/>
-                <rect x="-64" y="-26" width="128" height="52" rx="2" fill="none" stroke="rgba(0,0,0,.22)" stroke-width=".5" stroke-dasharray="1 2"/>
-                <!-- ornate centerpiece -->
-                <use href="#ornament" x="0" y="0"/>
-                <!-- LEFT panel: serial + denomination -->
-                <g transform="translate(-44, 0)">
-                  <rect x="-16" y="-22" width="32" height="44" rx="1.5" fill="none" stroke="rgba(0,0,0,.28)" stroke-width=".5"/>
-                  <text x="0" y="-9" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="14" fill="rgba(0,0,0,.75)" font-weight="700">$</text>
-                  <text x="0" y="5"  text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" fill="rgba(0,0,0,.6)" font-weight="700" letter-spacing=".06em">USA</text>
-                  <text x="0" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5"   fill="rgba(0,0,0,.55)" letter-spacing=".08em">ONE · ONE</text>
-                </g>
-                <!-- RIGHT panel: mirror -->
-                <g transform="translate(44, 0)">
-                  <rect x="-16" y="-22" width="32" height="44" rx="1.5" fill="none" stroke="rgba(0,0,0,.28)" stroke-width=".5"/>
-                  <text x="0" y="-9" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="14" fill="rgba(0,0,0,.75)" font-weight="700">$</text>
-                  <text x="0" y="5"  text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" fill="rgba(0,0,0,.6)" font-weight="700" letter-spacing=".06em">USA</text>
-                  <text x="0" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5"   fill="rgba(0,0,0,.55)" letter-spacing=".08em">ONE · ONE</text>
-                </g>
-                <!-- corner serration tick marks -->
-                <g stroke="rgba(0,0,0,.35)" stroke-width=".5">
-                  <line x1="-62" y1="-26" x2="-58" y2="-22"/>
-                  <line x1="-62" y1="-22" x2="-58" y2="-26"/>
-                  <line x1="58" y1="-26" x2="62" y2="-22"/>
-                  <line x1="58" y1="-22" x2="62" y2="-26"/>
-                  <line x1="-62" y1="22" x2="-58" y2="26"/>
-                  <line x1="-62" y1="26" x2="-58" y2="22"/>
-                  <line x1="58" y1="22" x2="62" y2="26"/>
-                  <line x1="58" y1="26" x2="62" y2="22"/>
-                </g>
-                <!-- micro filigree top + bottom -->
-                <path d="M -52 -28 Q -26 -30 0 -28 Q 26 -30 52 -28" fill="none" stroke="rgba(0,0,0,.22)" stroke-width=".4"/>
-                <path d="M -52 28 Q -26 30 0 28 Q 26 30 52 28" fill="none" stroke="rgba(0,0,0,.22)" stroke-width=".4"/>
-              </symbol>
             </defs>
 
-            <!-- dreamcore ambient halo -->
-            <ellipse cx="320" cy="290" rx="420" ry="260" fill="url(#dreamGlow)"/>
-            <ellipse cx="320" cy="200" rx="380" ry="180" fill="url(#dreamFog)"/>
-            <!-- soft horizon glow on top stack -->
-            <ellipse cx="290" cy="148" rx="220" ry="28" fill="rgba(108,195,140,.22)"/>
-            <!-- floor halo · under the bottom pile -->
-            <ellipse cx="290" cy="510" rx="240" ry="20" fill="rgba(255,90,160,.18)"/>
+            <!-- single ambient halo · cheap to render -->
+            <ellipse cx="400" cy="320" rx="420" ry="240" fill="url(#priceGlow)"/>
 
-            <!-- LEFT LABEL: TOP STACK = the advertiser pile (what gets paid) -->
-            <text class="tv-lbl" x="60" y="42" fill="var(--cream)" font-size="10.5" opacity=".82" letter-spacing=".22em">ADVERTISER STACK</text>
-            <text class="tv-lbl" x="60" y="58" fill="rgba(108,195,140,.92)" font-size="10" opacity=".95" letter-spacing=".18em">$300B / YR · US DIGITAL AD SPEND</text>
-            <line x1="60" y1="70" x2="60" y2="200" stroke="rgba(108,195,140,.55)" stroke-width="1.2" stroke-dasharray="3 4"/>
+            <!-- top-left editorial header -->
+            <text x="50" y="46" fill="rgba(251,247,235,.55)" font-family="JetBrains Mono, monospace" font-size="10.5" letter-spacing=".22em" font-weight="700">PER US ADULT · PER YEAR · IAB 2024</text>
+            <text x="50" y="78" fill="var(--cream)" font-family="Instrument Serif, Georgia, serif" font-style="italic" font-size="22">Three decades. One curve.</text>
 
-            <!-- TOP PILE · advertiser stack of bills · slow parallax breathing on the whole group -->
-            <g id="billStackTop">
-              <animateTransform attributeName="transform" type="translate" values="0 0; 0 -3; 0 0; 0 3; 0 0" dur="11s" repeatCount="indefinite"/>
+            <!-- chart area: x=80..720, y=140..440 -->
+            <!-- gridlines (very subtle) -->
+            <g stroke="rgba(251,247,235,.07)" stroke-width=".6">
+              <line x1="80" y1="160" x2="720" y2="160"/>
+              <line x1="80" y1="240" x2="720" y2="240"/>
+              <line x1="80" y1="320" x2="720" y2="320"/>
+              <line x1="80" y1="400" x2="720" y2="400"/>
             </g>
 
-            <!-- ANIMATED falling bills — 7 of them looping, staggered, depth-blurred at the back -->
-            <g id="fallingBills"></g>
+            <!-- y-axis labels (left) -->
+            <g fill="rgba(251,247,235,.5)" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing=".14em" font-weight="700" text-anchor="end">
+              <text x="72" y="164">$2,200</text>
+              <text x="72" y="244">$1,500</text>
+              <text x="72" y="324">$800</text>
+              <text x="72" y="404">$100</text>
+              <text x="72" y="444">$0</text>
+            </g>
 
-            <!-- BOTTOM PILE · per-adult extraction · grows as more bills land -->
-            <text class="tv-lbl" x="60" y="448" fill="var(--cream)" font-size="10.5" opacity=".82" letter-spacing=".22em">YOUR SHARE</text>
-            <text class="tv-lbl" x="60" y="464" fill="rgba(255,90,160,.92)" font-size="10" opacity=".95" letter-spacing=".18em">PER US ADULT / YR · BAKED IN</text>
-            <line x1="60" y1="476" x2="60" y2="540" stroke="rgba(255,90,160,.55)" stroke-width="1.2" stroke-dasharray="3 4"/>
-            <g id="billStackBottom"></g>
+            <!-- baseline axis -->
+            <line x1="80" y1="440" x2="720" y2="440" stroke="rgba(251,247,235,.22)" stroke-width="1"/>
 
-            <!-- floor baseline -->
-            <line x1="40" y1="540" x2="560" y2="540" stroke="rgba(251,247,235,.22)" stroke-width="1"/>
+            <!-- x-axis era ticks -->
+            <g font-family="JetBrains Mono, monospace" font-size="9.5" letter-spacing=".16em" font-weight="700" text-anchor="middle">
+              <text x="120" y="466" fill="rgba(251,247,235,.55)">1995</text>
+              <text x="270" y="466" fill="rgba(251,247,235,.55)">2005</text>
+              <text x="420" y="466" fill="rgba(251,247,235,.55)">2015</text>
+              <text x="570" y="466" fill="rgba(255,26,107,.95)">2024</text>
+              <text x="700" y="466" fill="rgba(255,26,107,.7)" font-style="italic">2030*</text>
+            </g>
 
-            <!-- right-side era ladder · scale reference, taller layout -->
-            <g transform="translate(600,40)">
-              <text class="tv-lbl" x="0" y="0" fill="var(--cream)" font-size="10" opacity=".7" letter-spacing=".22em">PER ADULT · PER YEAR</text>
-              <line x1="0" y1="10" x2="170" y2="10" stroke="rgba(251,247,235,.18)"/>
-              <g class="tv-num" fill="var(--cream)" font-size="15">
-                <text x="0" y="38"><tspan opacity=".5">1995</tspan> <tspan dx="22" fill="rgba(108,195,140,.95)">$4</tspan></text>
-                <text x="0" y="68"><tspan opacity=".5">2005</tspan> <tspan dx="22" fill="rgba(200,255,30,.95)">$80</tspan></text>
-                <text x="0" y="98"><tspan opacity=".5">2015</tspan> <tspan dx="22" fill="rgba(255,213,0,.95)">$480</tspan></text>
-                <text x="0" y="128"><tspan opacity=".5">2024</tspan> <tspan dx="22" fill="rgba(255,80,150,1)" font-weight="700">$1,200</tspan></text>
-                <text x="0" y="158"><tspan opacity=".5">2030</tspan> <tspan dx="22" fill="rgba(255,26,107,1)" font-style="italic">$2,100*</tspan></text>
+            <!-- under-line fill (cheap, single static path) -->
+            <!-- y mapping: $0→440, $2200→160; height 280 over 2200 → px = 440 - (val*280/2200) -->
+            <!-- points: (120, 440-0.5)=439.5, (270, 440-10.2)=429.8, (420, 440-61.1)=378.9, (570, 440-152.7)=287.3, (700, 440-267.3)=172.7 -->
+            <path d="M 120 439.5 L 270 429.8 L 420 378.9 L 570 287.3 L 700 172.7 L 700 440 L 120 440 Z" fill="url(#priceFill)" opacity=".7"/>
+
+            <!-- the main rising line · drawn in once via CSS dasharray -->
+            <path id="priceCurve" d="M 120 439.5 L 270 429.8 L 420 378.9 L 570 287.3 L 700 172.7" fill="none" stroke="url(#priceLine)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- era marker dots + value labels (each above its dot) -->
+            <g font-family="Archivo Black, sans-serif" letter-spacing="-.02em" font-variant-numeric="tabular-nums">
+              <g>
+                <circle cx="120" cy="439.5" r="5" fill="#6ec38c"/>
+                <text x="120" y="425" text-anchor="middle" font-size="14" fill="#6ec38c">$4</text>
               </g>
-              <line x1="0" y1="172" x2="170" y2="172" stroke="rgba(251,247,235,.18)"/>
-              <text class="tv-lbl" x="0" y="188" fill="var(--cream)" font-size="8" opacity=".5" font-style="italic">*projected · agentic era</text>
-
-              <!-- mini "300×" callout -->
-              <g transform="translate(0,220)">
-                <text class="tv-num" x="0" y="0" fill="var(--lime)" font-size="32" font-weight="400" letter-spacing="-.02em">300×</text>
-                <text class="tv-lbl" x="0" y="18" fill="var(--cream)" font-size="9" opacity=".6" letter-spacing=".14em">price of you · 1995→2024</text>
+              <g>
+                <circle cx="270" cy="429.8" r="5" fill="#c8ff1e"/>
+                <text x="270" y="415" text-anchor="middle" font-size="15" fill="#c8ff1e">$80</text>
               </g>
-              <!-- "every 12s another bill lands" call -->
-              <g transform="translate(0,290)">
-                <circle cx="6" cy="-3" r="4" fill="var(--lime)"><animate attributeName="opacity" values="1;.25;1" dur="2.5s" repeatCount="indefinite"/></circle>
-                <text class="tv-lbl" x="16" y="0" fill="var(--cream)" font-size="9" opacity=".7" letter-spacing=".14em">CASCADE · LIVE LOOP</text>
+              <g>
+                <circle cx="420" cy="378.9" r="6" fill="#ffd500"/>
+                <text x="420" y="362" text-anchor="middle" font-size="17" fill="#ffd500">$480</text>
+              </g>
+              <g>
+                <!-- 2024 marker · subtle pulse only here, single CSS animation -->
+                <circle cx="570" cy="287.3" r="14" fill="rgba(255,26,107,.18)" class="price-pulse"/>
+                <circle cx="570" cy="287.3" r="8" fill="#ff1a6b"/>
+                <text x="570" y="266" text-anchor="middle" font-size="24" fill="#ff1a6b">$1,200</text>
+              </g>
+              <g>
+                <circle cx="700" cy="172.7" r="5" fill="rgba(255,26,107,.55)" stroke="#ff1a6b" stroke-width="1.4" stroke-dasharray="3 3"/>
+                <text x="700" y="156" text-anchor="middle" font-size="14" fill="rgba(255,26,107,.85)" font-style="italic">$2,100*</text>
               </g>
             </g>
 
-            <!-- big anchored amount + label · centered above the bottom pile -->
-            <g transform="translate(290,498)" text-anchor="middle">
-              <text class="tv-num" x="0" y="0" fill="var(--cream)" font-size="48" font-weight="400" id="billCounter" letter-spacing="-.025em">$1,200</text>
-              <text class="tv-lbl" x="0" y="20" fill="var(--lime)" font-size="10" opacity=".82" letter-spacing=".18em">PER US ADULT · 2024 · KEEPS STACKING</text>
+            <!-- "300×" headline callout on the right-middle -->
+            <g transform="translate(520,144)">
+              <text x="0" y="0" font-family="Archivo Black, sans-serif" font-size="46" letter-spacing="-.04em" fill="#c8ff1e">300×</text>
+              <text x="0" y="20" font-family="JetBrains Mono, monospace" font-size="9.5" letter-spacing=".14em" fill="rgba(251,247,235,.6)" font-weight="700">price of you · 1995→2024</text>
             </g>
+
+            <!-- BIG anchored amount + label · centered below the chart · ticks UP once from $4 → $1,200 on first reveal, then idles -->
+            <g transform="translate(400,520)" text-anchor="middle">
+              <text id="billCounter" x="0" y="0" font-family="Archivo Black, sans-serif" font-size="52" letter-spacing="-.025em" fill="var(--cream)" font-variant-numeric="tabular-nums">$1,200</text>
+              <text x="0" y="22" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing=".18em" fill="var(--lime)" font-weight="700" opacity=".82">PER US ADULT · 2024 · BAKED INTO RETAIL PRICES</text>
+            </g>
+
+            <!-- bottom footnote · projected disclaimer -->
+            <text x="700" y="486" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".14em" fill="rgba(251,247,235,.4)" font-style="italic">*2030 projected · agentic era</text>
           </svg>
         </div>
       </div>
@@ -3551,213 +3503,55 @@ if(STAGE_01_LIVE){
 })();
 
 
-// ============================================================ STAGE 02 · THESIS · ACT 1 · dollar-bill cascade (advertiser stack → your share)
+// ============================================================ STAGE 02 · THESIS · ACT 1 · price-history line · one-shot count-up
+// Lightweight replacement for the dollar-bill cascade. No continuous rAF loop, no filters, no SVG symbols.
+// Behavior: when the chart scrolls into view, the line draws in (CSS) and the big counter ticks from $4 → $1,200 once, then idles.
 (function(){
   const rig = document.getElementById('billRig'); if(!rig) return;
-  const SVG_NS = 'http://www.w3.org/2000/svg';
-  const stackTop = document.getElementById('billStackTop');
-  const stackBot = document.getElementById('billStackBottom');
-  const falling = document.getElementById('fallingBills');
-  if(!stackTop || !stackBot || !falling) return;
+  const counterEl = document.getElementById('billCounter');
+  const curveEl   = document.getElementById('priceCurve');
+  if(!counterEl) return;
 
-  // build static advertiser stack (top) — 16 bills tilted with depth offset
-  const TOP_COUNT = 16;
-  const TOP_BASE_X = 290;
-  const TOP_BASE_Y = 188;
-  for(let i = 0; i < TOP_COUNT; i++){
-    const u = document.createElementNS(SVG_NS, 'use');
-    u.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#billSym');
-    u.setAttribute('href', '#billSym');
-    const tilt = (Math.random() - .5) * 9;
-    const dx = (Math.random() - .5) * 26;
-    const dy = TOP_BASE_Y - i * 5; // each bill sits ~5px above the previous
-    u.setAttribute('transform', `translate(${TOP_BASE_X + dx},${dy}) rotate(${tilt})`);
-    u.setAttribute('filter', i < 4 ? 'url(#billShadowSoft)' : 'url(#billShadow)');
-    u.setAttribute('opacity', String(.62 + (i / TOP_COUNT) * .38));
-    stackTop.appendChild(u);
-  }
+  const fmt = new Intl.NumberFormat('en-US');
+  let played = false;
 
-  // build the bottom "your share" pile — starts at 8 bills, can grow
-  const BOTTOM_BASE_X = 290;
-  const BOTTOM_BASE_Y = 530;
-  let bottomCount = 0;
-  function addBottomBill(){
-    const u = document.createElementNS(SVG_NS, 'use');
-    u.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#billSym');
-    u.setAttribute('href', '#billSym');
-    const tilt = (Math.random() - .5) * 14;
-    const dx = (Math.random() - .5) * 30;
-    const dy = BOTTOM_BASE_Y - bottomCount * 5.5;
-    u.setAttribute('transform', `translate(${BOTTOM_BASE_X + dx},${dy}) rotate(${tilt})`);
-    u.setAttribute('filter', 'url(#billShadow)');
-    u.setAttribute('opacity', '0');
-    stackBot.appendChild(u);
-    // fade in once it "lands"
-    requestAnimationFrame(() => { u.style.transition = 'opacity .45s ease-out'; u.setAttribute('opacity', String(.82 + Math.random() * .18)); });
-    bottomCount++;
-    // cap height so the pile doesn't grow indefinitely; reset to a smaller pile every ~30 bills
-    if(bottomCount > 20){
-      while(stackBot.firstChild) stackBot.removeChild(stackBot.firstChild);
-      bottomCount = 0;
-      // seed a smaller base pile so it isn't empty
-      for(let i = 0; i < 8; i++){ addBottomBill(); }
+  function play(){
+    if(played) return; played = true;
+    // 1) draw the curve via stroke-dashoffset trick (works without measuring the path)
+    if(curveEl){
+      // give the path a stroke-dasharray equal to its approximate length so it draws in cleanly
+      let len = 0;
+      try { len = curveEl.getTotalLength ? curveEl.getTotalLength() : 1500; } catch(e){ len = 1500; }
+      curveEl.style.strokeDasharray = len + 'px';
+      curveEl.style.strokeDashoffset = len + 'px';
+      curveEl.style.transition = 'stroke-dashoffset 2.2s cubic-bezier(.4,.0,.2,1)';
+      requestAnimationFrame(() => { curveEl.style.strokeDashoffset = '0px'; });
     }
-  }
-  // seed the bottom pile
-  for(let i = 0; i < 9; i++){ addBottomBill(); }
-
-  // FALLING BILLS — 7 lanes (3 of them in the BACK for depth blur, 4 in the FRONT sharp), staggered, looping
-  const BILLS = [
-    { lane: 0, delay: 0,    dur: 4.4, x0: 285, x1: 295, scale: 1.0, back: false },
-    { lane: 1, delay: 1.0,  dur: 4.8, x0: 320, x1: 280, scale: 1.0, back: false },
-    { lane: 2, delay: 2.0,  dur: 4.2, x0: 258, x1: 305, scale: 1.0, back: false },
-    { lane: 3, delay: 3.0,  dur: 5.0, x0: 305, x1: 286, scale: 1.0, back: false },
-    { lane: 4, delay: 4.0,  dur: 4.6, x0: 272, x1: 298, scale: 1.0, back: false },
-    // back-layer bills · smaller scale + blur for depth
-    { lane: 5, delay: 1.6,  dur: 5.6, x0: 250, x1: 270, scale: 0.7, back: true },
-    { lane: 6, delay: 3.4,  dur: 5.2, x0: 330, x1: 310, scale: 0.72, back: true }
-  ];
-  const SHIMMER_INTERVAL = 12; // seconds — pick a falling bill to shimmer
-
-  BILLS.forEach((b, idx) => {
-    const wrap = document.createElementNS(SVG_NS, 'g');
-    wrap.setAttribute('id', 'fb' + idx);
-    wrap.setAttribute('opacity', '0');
-    wrap.setAttribute('filter', b.back ? 'url(#billBlurBack)' : 'url(#billShadow)');
-
-    // animated wrapper transform — translate down + slight x drift + rotation + scale (back bills are smaller)
-    const yStart = 178;       // just below the top stack
-    const yEnd   = 500;       // about to land in the bottom pile
-    const dur = b.dur;
-    const delay = b.delay;
-
-    wrap.setAttribute('transform', `translate(${b.x0},${yStart}) rotate(0) scale(${b.scale})`);
-    // bill use
-    const u = document.createElementNS(SVG_NS, 'use');
-    u.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#billSym');
-    u.setAttribute('href', '#billSym');
-    wrap.appendChild(u);
-
-    // shine overlay rect — sized to match the new bill geometry (140×64) — toggled on during shimmer
-    const shine = document.createElementNS(SVG_NS, 'rect');
-    shine.setAttribute('x', '-70');
-    shine.setAttribute('y', '-32');
-    shine.setAttribute('width', '140');
-    shine.setAttribute('height', '64');
-    shine.setAttribute('rx', '3');
-    shine.setAttribute('fill', 'url(#billShine)');
-    shine.setAttribute('opacity', '0');
-    shine.setAttribute('class', 'fb-shine');
-    shine.style.mixBlendMode = 'screen';
-    wrap.appendChild(shine);
-
-    falling.appendChild(wrap);
-
-    // store config on the element for the loop
-    wrap.__cfg = { yStart, yEnd, dur, delay, x0: b.x0, x1: b.x1, shine, scale: b.scale, back: !!b.back };
-  });
-
-  // master rAF loop drives all falling bills
-  let lastShimmerTime = 0;
-  let shimmerActiveBill = -1;
-  const startT = performance.now();
-
-  function tick(now){
-    const tGlobal = (now - startT) / 1000; // seconds since start
-
-    BILLS.forEach((b, idx) => {
-      const g = falling.children[idx]; if(!g) return;
-      const cfg = g.__cfg;
-      const t = ((tGlobal - cfg.delay) % (cfg.dur + .8) + (cfg.dur + .8)) % (cfg.dur + .8);
-      if(t < 0 || t > cfg.dur){
-        // brief invisible reset gap between loops
-        g.setAttribute('opacity', '0');
-        cfg.shine.setAttribute('opacity', '0');
-        return;
-      }
-      const f = t / cfg.dur; // 0..1
-      const easedF = f < .15 ? f * 1.6 : (f > .92 ? .92 + (f - .92) * 1.2 : f);
-      const y = cfg.yStart + (cfg.yEnd - cfg.yStart) * easedF;
-      const x = cfg.x0 + (cfg.x1 - cfg.x0) * f;
-      const rot = (f - .5) * 38; // -19 → +19 degrees, like a leaf falling
-      // visibility envelope — fade in at start, hold, fade slightly toward landing
-      const opBase = f < .1 ? f * 10 : (f > .9 ? 1 - (f - .9) * 6 : 1);
-      const op = cfg.back ? opBase * .55 : opBase; // back bills are softer
-      g.setAttribute('transform', `translate(${x},${y}) rotate(${rot}) scale(${cfg.scale || 1})`);
-      g.setAttribute('opacity', String(Math.max(0, Math.min(1, op))));
-
-      // SHIMMER — every SHIMMER_INTERVAL seconds, pick a bill to shimmer on its way down
-      if(idx === shimmerActiveBill && f > .15 && f < .85){
-        // shine sweep ~0..1 across the bill via gradient offset (we fake it by animating opacity)
-        const localT = (f - .15) / .7; // 0..1 during shimmer window
-        // sharp peak in the middle
-        const shineOp = Math.max(0, 1 - Math.abs(localT - .5) * 3);
-        cfg.shine.setAttribute('opacity', String(shineOp * .95));
-        // also temporarily tint the bill border lime
-        u_brighten(g, shineOp);
-      } else {
-        cfg.shine.setAttribute('opacity', '0');
-        u_brighten(g, 0);
-      }
-    });
-
-    // every SHIMMER_INTERVAL pick the next bill to shimmer (pick whichever bill is at the top of its loop)
-    if(tGlobal - lastShimmerTime >= SHIMMER_INTERVAL){
-      // pick the bill whose t is currently small (just starting its fall)
-      let bestIdx = 0, bestT = 999;
-      BILLS.forEach((b, idx) => {
-        const cfg = falling.children[idx].__cfg;
-        const t = ((tGlobal - cfg.delay) % (cfg.dur + .8) + (cfg.dur + .8)) % (cfg.dur + .8);
-        if(t >= 0 && t < bestT){ bestT = t; bestIdx = idx; }
-      });
-      shimmerActiveBill = bestIdx;
-      lastShimmerTime = tGlobal;
-      // when a shimmer fires, also drop a fresh bill onto the bottom pile so the pile feels alive
-      addBottomBill();
-      // and pulse the counter
-      flashCounter();
+    // 2) count up the big number once · $4 → $1,200 over ~2s, then stop
+    const start = 4, end = 1200, dur = 2100;
+    const t0 = performance.now();
+    function tick(now){
+      const f = Math.min(1, (now - t0) / dur);
+      // ease-out cubic so the number lands softly on $1,200
+      const eased = 1 - Math.pow(1 - f, 3);
+      const v = Math.round(start + (end - start) * eased);
+      counterEl.textContent = '$' + fmt.format(v);
+      if(f < 1) requestAnimationFrame(tick);
     }
-
-    // every cycle's landing — when a bill reaches f > .96 — also feed a new bill onto the bottom
-    BILLS.forEach((b, idx) => {
-      const g = falling.children[idx]; if(!g) return;
-      const cfg = g.__cfg;
-      const t = ((tGlobal - cfg.delay) % (cfg.dur + .8) + (cfg.dur + .8)) % (cfg.dur + .8);
-      if(t > cfg.dur * .98 && t < cfg.dur * .98 + .05 && !g.__landed){
-        g.__landed = true;
-        addBottomBill();
-      } else if(t < cfg.dur * .1){
-        g.__landed = false;
-      }
-    });
-
     requestAnimationFrame(tick);
   }
-  function u_brighten(g, amt){
-    const isBack = g.__cfg && g.__cfg.back;
-    if(isBack){
-      // keep back bills with their depth blur — no glow, but a tiny bump in opacity is enough
-      g.style.filter = 'url(#billBlurBack)';
-      return;
-    }
-    g.style.filter = amt > 0
-      ? `url(#billShadow) drop-shadow(0 0 ${6 + amt * 14}px rgba(200,255,30,${amt * .85})) drop-shadow(0 0 ${amt * 22}px rgba(255,213,0,${amt * .4}))`
-      : 'url(#billShadow)';
+
+  // Trigger when the chart enters the viewport
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if(en.isIntersecting && en.intersectionRatio > 0.3) play();
+      });
+    }, { threshold: [0, 0.3, 0.6] });
+    io.observe(rig);
+  } else {
+    play();
   }
-  // bouncing counter pulse
-  const counterEl = document.getElementById('billCounter');
-  function flashCounter(){
-    if(!counterEl) return;
-    counterEl.style.transition = 'transform .25s, fill .25s';
-    counterEl.style.transformOrigin = 'center';
-    counterEl.style.transform = 'translateY(-2px) scale(1.04)';
-    counterEl.setAttribute('fill', 'rgba(200,255,30,1)');
-    setTimeout(() => {
-      counterEl.style.transform = 'translateY(0) scale(1)';
-      counterEl.setAttribute('fill', 'var(--cream)');
-    }, 260);
-  }
-  requestAnimationFrame(tick);
 })();
 
 // ============================================================ STAGE 02 · THESIS · ACT 2 · 24-hour data-emission rose chart
