@@ -710,6 +710,36 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
 .cs-art-num{font-family:var(--display);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
 .cs-art-rule{stroke:rgba(251,247,235,.18);stroke-width:.5}
 .cs-art-rule-warn{stroke:rgba(255,26,107,.45);stroke-width:.6;stroke-dasharray:4 4}
+
+/* ===== TRUST MARKET CAROUSEL · STATIC FRAMES (overrides pan/zoom) ===== */
+.carousel-slide.active .cs-motion svg{animation:none !important; transform:none !important; transform-origin:50% 50% !important; will-change:auto !important}
+.carousel-slide[data-i="1"].active .cs-motion svg,
+.carousel-slide[data-i="2"].active .cs-motion svg,
+.carousel-slide[data-i="3"].active .cs-motion svg{animation:none !important; transform:none !important; transform-origin:50% 50% !important}
+.mo-scan .mo-scan-zoom{transition:none !important; transform:none !important}
+.carousel-slide.active .mo-scan .mo-scan-zoom{transform:none !important}
+.mo-stinger-stage{overflow:hidden}
+.mo-stinger-stage .mo-sting-zoom{transition:none !important; transform:none !important}
+.carousel-slide.stinger.active .mo-stinger-stage .mo-sting-zoom{transform:none !important}
+/* ===== NEW MUSEUM-QUALITY ART · INTERNAL MOTION ONLY ===== */
+.cs-motion svg{display:block;width:100%;max-width:560px;height:auto}
+.mo-static{position:relative;width:100%;max-width:560px;display:flex;justify-content:center;align-items:center}
+.cs-art-yes{filter:drop-shadow(0 0 8px rgba(200,255,30,.55))}
+.cs-art-no{filter:drop-shadow(0 0 6px rgba(255,26,107,.5))}
+.cs-art-warm{filter:drop-shadow(0 0 6px rgba(255,213,0,.5))}
+@keyframes csaPulse{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes csaGlow{0%,100%{opacity:.4;r:9}50%{opacity:1;r:11}}
+@keyframes csaScan{0%{transform:translateY(0)}100%{transform:translateY(420px)}}
+@keyframes csaRise{0%{transform:translateY(0);opacity:0}10%{opacity:.85}90%{opacity:.85}100%{transform:translateY(-340px);opacity:0}}
+@keyframes csaFlow{from{transform:translateX(-260px)}to{transform:translateX(540px)}}
+@keyframes csaRadarRing{0%{r:30;opacity:.45}100%{r:230;opacity:0}}
+@keyframes csaOscillate{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes csaWindowFlicker{0%,100%{opacity:.18}10%{opacity:.85}30%{opacity:.55}50%{opacity:.95}70%{opacity:.4}90%{opacity:.78}}
+@keyframes csaDrawLine{0%{stroke-dashoffset:600}40%{stroke-dashoffset:0}60%{stroke-dashoffset:0;opacity:.7}100%{stroke-dashoffset:-600;opacity:0}}
+@media (prefers-reduced-motion: reduce){
+  .cs-motion svg *{animation:none !important}
+}
+
 </style>
 
 <!-- ============================================================ MOTION DEFENSE — reduced-motion + small-viewport hardening (P7) -->
@@ -864,101 +894,92 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
           </div>
         </div>
         <div class="right">
-          <div class="cs-motion mo-editorial mo-ed-dating">
-            <!-- DATING · refined chart of 40 marks on dark ink · 4 lit lime, 36 hairline-pink empty, YOU is a ringed mark with a callout. ProPublica-tone composition recolored to the carousel's electric palette. -->
-            <svg viewBox="0 0 540 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <div class="cs-motion mo-static mo-dating">
+            <svg viewBox="0 0 540 540" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
               <defs>
-                <radialGradient id="s1bgDark" cx="50%" cy="60%" r="60%">
-                  <stop offset="0%" stop-color="#1a0820"/>
-                  <stop offset="100%" stop-color="#050208"/>
+                <radialGradient id="dateBg" cx="50%" cy="40%" r="70%">
+                  <stop offset="0%" stop-color="#0e1828"/><stop offset="100%" stop-color="#03060c"/>
+                </radialGradient>
+                <radialGradient id="dateYouHalo" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="rgba(255,26,107,.55)"/>
+                  <stop offset="60%" stop-color="rgba(255,26,107,.1)"/>
+                  <stop offset="100%" stop-color="rgba(255,26,107,0)"/>
                 </radialGradient>
               </defs>
-              <rect width="540" height="460" fill="url(#s1bgDark)"/>
-              <!-- masthead rule + figure label -->
-              <text x="40" y="44" class="cs-art-label pink">FIG. 01 · MATCH GROUP F · 14 MAY 2026</text>
-              <line x1="40" y1="58" x2="500" y2="58" class="cs-art-rule"/>
-              <!-- editorial deck -->
-              <text x="40" y="86" class="cs-art-deck">Of the forty who saw you tonight,</text>
-              <text x="40" y="106" class="cs-art-deck">four said <tspan font-style="italic" fill="#c8ff1e">yes</tspan>. The other thirty-six did not.</text>
-
-              <!-- 40 marks · 5 rows × 8 cols — top 4 filled lime, all others hairline pink empty -->
-              <g transform="translate(60,158)">
-                <!-- row 1 · top of cluster · 4 filled lime + 4 empty -->
-                <circle cx="0"   cy="0"   r="9" class="cs-art-fill"/>
-                <circle cx="56"  cy="0"   r="9" class="cs-art-fill"/>
-                <circle cx="112" cy="0"   r="9" class="cs-art-fill"/>
-                <circle cx="168" cy="0"   r="9" class="cs-art-fill"/>
-                <circle cx="224" cy="0"   r="9" class="cs-art-empty"/>
-                <circle cx="280" cy="0"   r="9" class="cs-art-empty"/>
-                <circle cx="336" cy="0"   r="9" class="cs-art-empty"/>
-                <circle cx="392" cy="0"   r="9" class="cs-art-empty"/>
-                <!-- row 2 -->
-                <circle cx="0"   cy="46"  r="9" class="cs-art-empty"/>
-                <circle cx="56"  cy="46"  r="9" class="cs-art-empty"/>
-                <circle cx="112" cy="46"  r="9" class="cs-art-empty"/>
-                <circle cx="168" cy="46"  r="9" class="cs-art-empty"/>
-                <circle cx="224" cy="46"  r="9" class="cs-art-empty"/>
-                <circle cx="280" cy="46"  r="9" class="cs-art-empty"/>
-                <circle cx="336" cy="46"  r="9" class="cs-art-empty"/>
-                <circle cx="392" cy="46"  r="9" class="cs-art-empty"/>
-                <!-- row 3 -->
-                <circle cx="0"   cy="92"  r="9" class="cs-art-empty"/>
-                <circle cx="56"  cy="92"  r="9" class="cs-art-empty"/>
-                <circle cx="112" cy="92"  r="9" class="cs-art-empty"/>
-                <circle cx="168" cy="92"  r="9" class="cs-art-empty"/>
-                <circle cx="224" cy="92"  r="9" class="cs-art-empty"/>
-                <circle cx="280" cy="92"  r="9" class="cs-art-empty"/>
-                <circle cx="336" cy="92"  r="9" class="cs-art-empty"/>
-                <circle cx="392" cy="92"  r="9" class="cs-art-empty"/>
-                <!-- CLUSTER MEDIAN rule -->
-                <line x1="-20" y1="115" x2="420" y2="115" class="cs-art-rule-warn"/>
-                <text x="420" y="111" text-anchor="end" class="cs-art-label pink" font-size="8">CLUSTER MEDIAN ↓</text>
-                <!-- row 4 -->
-                <circle cx="0"   cy="138" r="9" class="cs-art-empty"/>
-                <circle cx="56"  cy="138" r="9" class="cs-art-empty"/>
-                <circle cx="112" cy="138" r="9" class="cs-art-empty"/>
-                <circle cx="168" cy="138" r="9" class="cs-art-empty"/>
-                <circle cx="224" cy="138" r="9" class="cs-art-empty"/>
-                <circle cx="280" cy="138" r="9" class="cs-art-empty"/>
-                <circle cx="336" cy="138" r="9" class="cs-art-empty"/>
-                <circle cx="392" cy="138" r="9" class="cs-art-empty"/>
-                <!-- row 5 · YOU sit at position 36 (3rd col of bottom row, index 35 in 0-based) -->
-                <circle cx="0"   cy="184" r="9" class="cs-art-empty"/>
-                <circle cx="56"  cy="184" r="9" class="cs-art-empty"/>
-                <circle cx="112" cy="184" r="9" class="cs-art-empty"/>
-                <!-- YOU marker · ringed pink mark with thin callout line to italic label -->
-                <g transform="translate(168,184)">
-                  <circle r="14" fill="rgba(255,26,107,.12)"><animate attributeName="r" values="14;18;14" dur="3s" repeatCount="indefinite"/></circle>
-                  <circle r="11" fill="none" stroke="var(--pink)" stroke-width="1.2"/>
-                  <circle r="4" fill="var(--pink)"/>
-                  <line x1="14" y1="0" x2="80" y2="-26" stroke="var(--pink)" stroke-width=".6"/>
-                  <circle cx="80" cy="-26" r="1.6" fill="var(--pink)"/>
-                  <text x="88" y="-22" font-family="Instrument Serif" font-style="italic" font-size="14" fill="var(--cream)">you · 0.31 elo</text>
-                  <text x="88" y="-6" class="cs-art-label pink" font-size="8.5">RANK 36 / 40</text>
-                </g>
-                <circle cx="224" cy="184" r="9" class="cs-art-empty"/>
-                <circle cx="280" cy="184" r="9" class="cs-art-empty"/>
-                <circle cx="336" cy="184" r="9" class="cs-art-empty"/>
-                <circle cx="392" cy="184" r="9" class="cs-art-empty"/>
+              <rect width="540" height="540" fill="url(#dateBg)"/>
+              <g stroke="rgba(168,162,152,.05)" stroke-width=".5">
+                <line x1="0" y1="135" x2="540" y2="135"/><line x1="0" y1="270" x2="540" y2="270"/>
+                <line x1="0" y1="405" x2="540" y2="405"/><line x1="135" y1="0" x2="135" y2="540"/>
+                <line x1="270" y1="0" x2="270" y2="540"/><line x1="405" y1="0" x2="405" y2="540"/>
               </g>
-
-              <!-- legend strip + source line -->
-              <line x1="40" y1="400" x2="500" y2="400" class="cs-art-rule"/>
-              <g transform="translate(40,420)">
-                <circle cx="0" cy="-3" r="4" class="cs-art-fill"/>
-                <text x="12" y="0" class="cs-art-label">SAID YES</text>
-                <circle cx="120" cy="-3" r="4" class="cs-art-empty"/>
-                <text x="132" y="0" class="cs-art-label">SWIPED LEFT</text>
-                <text x="460" y="0" text-anchor="end" class="cs-art-label" font-size="8">SOURCE · MATCH GROUP CLUSTER REPORT</text>
+              <text x="40" y="56" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="rgba(255,26,107,.85)" font-weight="700">FIG. 01 · MATCH GROUP F · 14 MAY 2026</text>
+              <line x1="40" y1="70" x2="500" y2="70" stroke="rgba(251,247,235,.16)" stroke-width=".5"/>
+              <text x="40" y="100" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)">Of the forty who saw you tonight,</text>
+              <text x="40" y="119" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)">four said <tspan fill="#c8ff1e">yes</tspan>. The rest did not.</text>
+              <path d="M217.4 140.1 Q227.0 138.0 236.6 191.8" fill="none" stroke="rgba(200,255,30,.55)" stroke-width=".9" stroke-dasharray="600" style="animation: csaDrawLine 9s ease-in-out infinite; animation-delay: 0.0s"/>
+              <path d="M236.6 191.8 Q254.8 223.6 272.9 311.4" fill="none" stroke="rgba(200,255,30,.55)" stroke-width=".9" stroke-dasharray="600" style="animation: csaDrawLine 9s ease-in-out infinite; animation-delay: 1.2s"/>
+              <path d="M272.9 311.4 Q198.6 314.1 124.2 372.9" fill="none" stroke="rgba(200,255,30,.55)" stroke-width=".9" stroke-dasharray="600" style="animation: csaDrawLine 9s ease-in-out infinite; animation-delay: 2.4s"/>
+              <path d="M217.4 140.1 Q170.8 228.5 124.2 372.9" fill="none" stroke="rgba(200,255,30,.55)" stroke-width=".9" stroke-dasharray="600" style="animation: csaDrawLine 9s ease-in-out infinite; animation-delay: 0.0s"/>
+              <g>
+              <circle cx="55.8" cy="133.0" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="119.6" cy="131.4" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="172.9" cy="137.3" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="217.4" cy="140.1" r="9" fill="#c8ff1e" class="cs-art-yes" style="animation: csaGlow 3.6s ease-in-out infinite; animation-delay: 2.10s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="272.9" cy="138.7" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="329.7" cy="131.8" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="394.2" cy="146.5" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="443.0" cy="134.5" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="63.1" cy="205.0" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="117.9" cy="193.9" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="183.4" cy="186.9" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="236.6" cy="191.8" r="9" fill="#c8ff1e" class="cs-art-yes" style="animation: csaGlow 3.6s ease-in-out infinite; animation-delay: 2.10s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="275.5" cy="188.4" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="335.4" cy="202.3" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="388.3" cy="197.6" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="455.3" cy="193.4" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="61.1" cy="243.3" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="105.4" cy="246.1" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="176.3" cy="250.6" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="223.5" cy="253.7" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="282.9" cy="248.0" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="347.1" cy="256.0" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="389.9" cy="253.5" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="452.6" cy="259.5" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="65.5" cy="303.8" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="127.5" cy="300.4" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="170.0" cy="313.1" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="219.6" cy="307.8" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="272.9" cy="311.4" r="9" fill="#c8ff1e" class="cs-art-yes" style="animation: csaGlow 3.6s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="346.3" cy="309.5" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="405.0" cy="304.3" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="456.7" cy="309.9" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="61.9" cy="363.1" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="124.2" cy="372.9" r="9" fill="#c8ff1e" class="cs-art-yes" style="animation: csaGlow 3.6s ease-in-out infinite; animation-delay: 0.70s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="171.4" cy="367.3" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <!-- YOU -->
+              <circle cx="287.5" cy="373.9" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="347.7" cy="359.7" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="393.3" cy="367.4" r="3.4" fill="rgba(251,247,235,.32)"/>
+              <circle cx="440.5" cy="363.2" r="3.4" fill="rgba(251,247,235,.32)"/>
+                <g transform="translate(217.5,368.0)">
+                  <circle r="28" fill="url(#dateYouHalo)" style="animation: csaGlow 4.2s ease-in-out infinite; transform-box:fill-box; transform-origin:center"/>
+                  <circle r="11" fill="none" stroke="#ff1a6b" stroke-width="1.4"/>
+                  <circle r="4" fill="#ff1a6b"/>
+                  <line x1="14" y1="0" x2="60" y2="-22" stroke="rgba(255,26,107,.7)" stroke-width=".7"/>
+                  <circle cx="60" cy="-22" r="1.6" fill="#ff1a6b"/>
+                  <text x="66" y="-18" font-family="Instrument Serif" font-style="italic" font-size="13" fill="#fbf7eb">you · 0.31 elo</text>
+                  <text x="66" y="-3" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(255,26,107,.85)" font-weight="700">RANK 36 / 40</text>
+                </g>
+              </g>
+              <line x1="40" y1="470" x2="500" y2="470" stroke="rgba(251,247,235,.16)" stroke-width=".5"/>
+              <g transform="translate(40,494)">
+                <circle cx="0" cy="-3" r="4" fill="#c8ff1e"/>
+                <text x="12" y="0" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".22em" fill="rgba(251,247,235,.55)" font-weight="700">SAID YES</text>
+                <circle cx="110" cy="-3" r="3" fill="rgba(251,247,235,.32)"/>
+                <text x="122" y="0" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".22em" fill="rgba(251,247,235,.55)" font-weight="700">SWIPED LEFT</text>
+                <text x="460" y="0" text-anchor="end" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(251,247,235,.45)" font-weight="700">SOURCE · CLUSTER REPORT</text>
               </g>
             </svg>
-
-            <!-- editorial overlay: big "4 / 40" + bottom score -->
-            <div class="mo-rain-stat">
-              <div class="mr-num"><b>4</b><i>/40</i></div>
-              <div class="mr-lbl">matched · tonight</div>
-            </div>
-            <div class="mo-rain-foot">SCORE 0.31 · ELO TIER F · BOTTOM 30%</div>
           </div>
         </div>
       </div>
@@ -975,84 +996,134 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
           </div>
         </div>
         <div class="right">
-          <div class="cs-motion mo-funnel">
-            <!-- EMPLOYMENT · refined funnel chart · 100 dots applied, ATS threshold filter, 5 survive · ProPublica-tone on dark -->
-            <svg viewBox="0 0 540 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <div class="cs-motion mo-static mo-employment">
+            <svg viewBox="0 0 540 540" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
               <defs>
-                <radialGradient id="s2bg" cx="50%" cy="50%" r="60%">
-                  <stop offset="0%" stop-color="#10081a"/>
-                  <stop offset="100%" stop-color="#04020a"/>
-                </radialGradient>
+                <radialGradient id="empBg" cx="50%" cy="50%" r="70%"><stop offset="0%" stop-color="#0c0e1a"/><stop offset="100%" stop-color="#040608"/></radialGradient>
+                <linearGradient id="empScan" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(255,26,107,0)"/>
+                  <stop offset="50%" stop-color="rgba(255,26,107,.85)"/>
+                  <stop offset="100%" stop-color="rgba(255,26,107,0)"/>
+                </linearGradient>
               </defs>
-              <rect width="540" height="460" fill="url(#s2bg)"/>
-              <text x="40" y="44" class="cs-art-label pink">FIG. 02 · WORKDAY ATS v9 · APPLICANT COHORT 100</text>
-              <line x1="40" y1="58" x2="500" y2="58" class="cs-art-rule"/>
-              <text x="40" y="86" class="cs-art-deck">Of every hundred applications submitted,</text>
-              <text x="40" y="106" class="cs-art-deck">five reach <tspan font-style="italic" fill="#c8ff1e">human eyes</tspan>. Ninety-five are filtered first.</text>
-
-              <!-- 100 small dots in a 10×10 grid · top zone "APPLIED" -->
-              <g transform="translate(60,140)">
-                <text x="0" y="-4" class="cs-art-label">100 APPLIED · KEYWORD FIT &lt; 0.62 → REJECT</text>
-                <g>
-                  <!-- 10 rows × 10 cols, dots at 28px spacing -->
-                  <!-- 5 dots will be lime (the ones that pass); positions: indexes 27, 38, 52, 73, 84 -->
-                  <!-- helper: each circle at cx = (col*36), cy = (row*16), r 4 -->
-                  <!-- positive 5 dots are filled lime · rest are hairline empty (filtered/rejected) -->
-                  <!-- but I'll render all 100 with positions; 5 LIME at specific indexes -->
-                  <g>
-                    <!-- row 0 -->
-                    <circle cx="0"   cy="0" r="4" class="cs-art-empty"/><circle cx="36"  cy="0" r="4" class="cs-art-empty"/><circle cx="72"  cy="0" r="4" class="cs-art-empty"/><circle cx="108" cy="0" r="4" class="cs-art-empty"/><circle cx="144" cy="0" r="4" class="cs-art-empty"/><circle cx="180" cy="0" r="4" class="cs-art-empty"/><circle cx="216" cy="0" r="4" class="cs-art-empty"/><circle cx="252" cy="0" r="4" class="cs-art-empty"/><circle cx="288" cy="0" r="4" class="cs-art-empty"/><circle cx="324" cy="0" r="4" class="cs-art-empty"/>
-                    <!-- row 1 -->
-                    <circle cx="0" cy="16" r="4" class="cs-art-empty"/><circle cx="36" cy="16" r="4" class="cs-art-empty"/><circle cx="72" cy="16" r="4" class="cs-art-empty"/><circle cx="108" cy="16" r="4" class="cs-art-empty"/><circle cx="144" cy="16" r="4" class="cs-art-empty"/><circle cx="180" cy="16" r="4" class="cs-art-empty"/><circle cx="216" cy="16" r="4" class="cs-art-empty"/><circle cx="252" cy="16" r="4" class="cs-art-empty"/><circle cx="288" cy="16" r="4" class="cs-art-empty"/><circle cx="324" cy="16" r="4" class="cs-art-empty"/>
-                    <!-- row 2 (LIME at col 7 = idx 27) -->
-                    <circle cx="0" cy="32" r="4" class="cs-art-empty"/><circle cx="36" cy="32" r="4" class="cs-art-empty"/><circle cx="72" cy="32" r="4" class="cs-art-empty"/><circle cx="108" cy="32" r="4" class="cs-art-empty"/><circle cx="144" cy="32" r="4" class="cs-art-empty"/><circle cx="180" cy="32" r="4" class="cs-art-empty"/><circle cx="216" cy="32" r="4" class="cs-art-empty"/><circle cx="252" cy="32" r="4.5" class="cs-art-fill"/><circle cx="288" cy="32" r="4" class="cs-art-empty"/><circle cx="324" cy="32" r="4" class="cs-art-empty"/>
-                    <!-- row 3 (LIME at col 8 = idx 38) -->
-                    <circle cx="0" cy="48" r="4" class="cs-art-empty"/><circle cx="36" cy="48" r="4" class="cs-art-empty"/><circle cx="72" cy="48" r="4" class="cs-art-empty"/><circle cx="108" cy="48" r="4" class="cs-art-empty"/><circle cx="144" cy="48" r="4" class="cs-art-empty"/><circle cx="180" cy="48" r="4" class="cs-art-empty"/><circle cx="216" cy="48" r="4" class="cs-art-empty"/><circle cx="252" cy="48" r="4" class="cs-art-empty"/><circle cx="288" cy="48" r="4.5" class="cs-art-fill"/><circle cx="324" cy="48" r="4" class="cs-art-empty"/>
-                    <!-- row 4 -->
-                    <circle cx="0" cy="64" r="4" class="cs-art-empty"/><circle cx="36" cy="64" r="4" class="cs-art-empty"/><circle cx="72" cy="64" r="4" class="cs-art-empty"/><circle cx="108" cy="64" r="4" class="cs-art-empty"/><circle cx="144" cy="64" r="4" class="cs-art-empty"/><circle cx="180" cy="64" r="4" class="cs-art-empty"/><circle cx="216" cy="64" r="4" class="cs-art-empty"/><circle cx="252" cy="64" r="4" class="cs-art-empty"/><circle cx="288" cy="64" r="4" class="cs-art-empty"/><circle cx="324" cy="64" r="4" class="cs-art-empty"/>
-                    <!-- row 5 (LIME at col 2 = idx 52) -->
-                    <circle cx="0" cy="80" r="4" class="cs-art-empty"/><circle cx="36" cy="80" r="4" class="cs-art-empty"/><circle cx="72" cy="80" r="4.5" class="cs-art-fill"/><circle cx="108" cy="80" r="4" class="cs-art-empty"/><circle cx="144" cy="80" r="4" class="cs-art-empty"/><circle cx="180" cy="80" r="4" class="cs-art-empty"/><circle cx="216" cy="80" r="4" class="cs-art-empty"/><circle cx="252" cy="80" r="4" class="cs-art-empty"/><circle cx="288" cy="80" r="4" class="cs-art-empty"/><circle cx="324" cy="80" r="4" class="cs-art-empty"/>
-                    <!-- row 6 -->
-                    <circle cx="0" cy="96" r="4" class="cs-art-empty"/><circle cx="36" cy="96" r="4" class="cs-art-empty"/><circle cx="72" cy="96" r="4" class="cs-art-empty"/><circle cx="108" cy="96" r="4" class="cs-art-empty"/><circle cx="144" cy="96" r="4" class="cs-art-empty"/><circle cx="180" cy="96" r="4" class="cs-art-empty"/><circle cx="216" cy="96" r="4" class="cs-art-empty"/><circle cx="252" cy="96" r="4" class="cs-art-empty"/><circle cx="288" cy="96" r="4" class="cs-art-empty"/><circle cx="324" cy="96" r="4" class="cs-art-empty"/>
-                    <!-- row 7 (LIME at col 3 = idx 73) -->
-                    <circle cx="0" cy="112" r="4" class="cs-art-empty"/><circle cx="36" cy="112" r="4" class="cs-art-empty"/><circle cx="72" cy="112" r="4" class="cs-art-empty"/><circle cx="108" cy="112" r="4.5" class="cs-art-fill"/><circle cx="144" cy="112" r="4" class="cs-art-empty"/><circle cx="180" cy="112" r="4" class="cs-art-empty"/><circle cx="216" cy="112" r="4" class="cs-art-empty"/><circle cx="252" cy="112" r="4" class="cs-art-empty"/><circle cx="288" cy="112" r="4" class="cs-art-empty"/><circle cx="324" cy="112" r="4" class="cs-art-empty"/>
-                    <!-- row 8 (LIME at col 4 = idx 84) -->
-                    <circle cx="0" cy="128" r="4" class="cs-art-empty"/><circle cx="36" cy="128" r="4" class="cs-art-empty"/><circle cx="72" cy="128" r="4" class="cs-art-empty"/><circle cx="108" cy="128" r="4" class="cs-art-empty"/><circle cx="144" cy="128" r="4.5" class="cs-art-fill"/><circle cx="180" cy="128" r="4" class="cs-art-empty"/><circle cx="216" cy="128" r="4" class="cs-art-empty"/><circle cx="252" cy="128" r="4" class="cs-art-empty"/><circle cx="288" cy="128" r="4" class="cs-art-empty"/><circle cx="324" cy="128" r="4" class="cs-art-empty"/>
-                    <!-- row 9 -->
-                    <circle cx="0" cy="144" r="4" class="cs-art-empty"/><circle cx="36" cy="144" r="4" class="cs-art-empty"/><circle cx="72" cy="144" r="4" class="cs-art-empty"/><circle cx="108" cy="144" r="4" class="cs-art-empty"/><circle cx="144" cy="144" r="4" class="cs-art-empty"/><circle cx="180" cy="144" r="4" class="cs-art-empty"/><circle cx="216" cy="144" r="4" class="cs-art-empty"/><circle cx="252" cy="144" r="4" class="cs-art-empty"/><circle cx="288" cy="144" r="4" class="cs-art-empty"/><circle cx="324" cy="144" r="4" class="cs-art-empty"/>
-                  </g>
-                </g>
+              <rect width="540" height="540" fill="url(#empBg)"/>
+              <text x="40" y="56" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="rgba(200,255,30,.85)" font-weight="700">FIG. 02 · ATS FILTER · 100 → 5</text>
+              <line x1="40" y1="70" x2="500" y2="70" stroke="rgba(251,247,235,.16)" stroke-width=".5"/>
+              <text x="40" y="100" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)">A hundred résumés enter.</text>
+              <text x="40" y="119" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)">The system reads <tspan fill="#c8ff1e">five</tspan>.</text>
+              <g>
+              <circle cx="70" cy="160" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="112" cy="160" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="154" cy="160" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 2.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="196" cy="160" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 3.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="238" cy="160" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 0.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="280" cy="160" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 1.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="322" cy="160" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="364" cy="160" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 4.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="406" cy="160" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 0.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="448" cy="160" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 2.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="70" cy="192" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="112" cy="192" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 4.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="154" cy="192" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 0.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="196" cy="192" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 2.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="238" cy="192" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 3.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="280" cy="192" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="322" cy="192" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="364" cy="192" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 2.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="406" cy="192" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 3.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="448" cy="192" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 0.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="70" cy="224" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="112" cy="224" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 2.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="154" cy="224" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 3.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="196" cy="224" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 0.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="238" cy="224" r="7" fill="#c8ff1e" class="cs-art-yes" style="animation: csaGlow 3.2s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="280" cy="224" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="322" cy="224" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 4.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="364" cy="224" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 0.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="406" cy="224" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 2.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="448" cy="224" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 3.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="70" cy="256" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 4.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="112" cy="256" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 0.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="154" cy="256" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 2.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="196" cy="256" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 3.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="238" cy="256" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="280" cy="256" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="322" cy="256" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 2.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="364" cy="256" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 3.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="406" cy="256" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 0.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="448" cy="256" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 1.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="70" cy="288" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 2.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="112" cy="288" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 3.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="154" cy="288" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 0.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="196" cy="288" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 1.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="238" cy="288" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="280" cy="288" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 4.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="322" cy="288" r="7" fill="#c8ff1e" class="cs-art-yes" style="animation: csaGlow 3.2s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="364" cy="288" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 2.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="406" cy="288" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 3.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="448" cy="288" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="70" cy="320" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 0.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="112" cy="320" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 2.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="154" cy="320" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 3.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="196" cy="320" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="238" cy="320" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="280" cy="320" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 2.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="322" cy="320" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 3.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="364" cy="320" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 0.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="406" cy="320" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 1.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="448" cy="320" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="70" cy="352" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 3.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="112" cy="352" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 0.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="154" cy="352" r="7" fill="#c8ff1e" class="cs-art-yes" style="animation: csaGlow 3.2s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="196" cy="352" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="238" cy="352" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 4.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="280" cy="352" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 0.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="322" cy="352" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 2.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="364" cy="352" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 3.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="406" cy="352" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="448" cy="352" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="70" cy="384" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 2.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="112" cy="384" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 3.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="154" cy="384" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="196" cy="384" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="238" cy="384" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 2.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="280" cy="384" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 3.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="322" cy="384" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 0.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="364" cy="384" r="7" fill="#c8ff1e" class="cs-art-yes" style="animation: csaGlow 3.2s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="406" cy="384" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="448" cy="384" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 4.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="70" cy="416" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 0.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="112" cy="416" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 1.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="154" cy="416" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="196" cy="416" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 4.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="238" cy="416" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 0.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="280" cy="416" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 2.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="322" cy="416" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 3.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="364" cy="416" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="406" cy="416" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="448" cy="416" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 2.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="70" cy="448" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 3.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="112" cy="448" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="154" cy="448" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="196" cy="448" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 2.40s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="238" cy="448" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 3.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="280" cy="448" r="7" fill="#c8ff1e" class="cs-art-yes" style="animation: csaGlow 3.2s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="322" cy="448" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 1.60s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="364" cy="448" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="406" cy="448" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 5s ease-in-out infinite; animation-delay: 4.00s; transform-box:fill-box; transform-origin:center"/>
+              <circle cx="448" cy="448" r="3.6" fill="rgba(255,213,0,.55)" style="animation: csaPulse 3s ease-in-out infinite; animation-delay: 0.80s; transform-box:fill-box; transform-origin:center"/>
               </g>
-
-              <!-- ATS threshold + sweep beam -->
-              <g transform="translate(0,330)">
-                <line x1="40" y1="0" x2="500" y2="0" class="cs-art-rule-warn"/>
-                <text x="60" y="-6" class="cs-art-label pink">ATS THRESHOLD · KEYWORD FIT 0.62</text>
-                <text x="480" y="-6" text-anchor="end" class="cs-art-label pink">↓ 5 OF 100 PASS</text>
-                <!-- thin scanning sweep · subtle motion -->
-                <rect x="40" y="-1.5" width="60" height="3" fill="rgba(255,26,107,.55)">
-                  <animate attributeName="x" values="40;420;40" dur="6s" repeatCount="indefinite"/>
-                </rect>
+              <g style="animation: csaScan 7s linear infinite; transform-box:fill-box; transform-origin:center">
+                <rect x="40" y="155" width="460" height="2.4" fill="url(#empScan)"/>
+                <text x="40" y="150" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(255,26,107,.85)" font-weight="700">THRESHOLD ↓</text>
               </g>
-
-              <!-- the 5 survivors · refined cluster at bottom -->
-              <g transform="translate(60,374)">
-                <text x="0" y="-6" class="cs-art-label lime">5 REACH HUMAN REVIEW</text>
-                <circle cx="80"  cy="14" r="6" class="cs-art-fill"/>
-                <circle cx="130" cy="14" r="6" class="cs-art-fill"/>
-                <circle cx="180" cy="14" r="6" class="cs-art-fill"/>
-                <circle cx="230" cy="14" r="6" class="cs-art-fill"/>
-                <circle cx="280" cy="14" r="6" class="cs-art-fill"/>
-              </g>
-
-              <!-- legend strip + source -->
-              <line x1="40" y1="412" x2="500" y2="412" class="cs-art-rule"/>
-              <g transform="translate(40,432)">
-                <circle cx="0" cy="-3" r="4" class="cs-art-fill"/>
-                <text x="12" y="0" class="cs-art-label">PASSED · 5</text>
-                <circle cx="120" cy="-3" r="4" class="cs-art-empty"/>
-                <text x="132" y="0" class="cs-art-label">FILTERED · 95</text>
-                <text x="460" y="0" text-anchor="end" class="cs-art-label" font-size="8">SOURCE · WORKDAY ATS COHORT</text>
+              <line x1="40" y1="492" x2="500" y2="492" stroke="rgba(251,247,235,.16)" stroke-width=".5"/>
+              <g transform="translate(40,516)">
+                <circle cx="0" cy="-3" r="4" fill="#c8ff1e"/>
+                <text x="12" y="0" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".22em" fill="rgba(251,247,235,.55)" font-weight="700">PASS · 5</text>
+                <circle cx="90" cy="-3" r="3" fill="rgba(255,213,0,.55)"/>
+                <text x="102" y="0" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".22em" fill="rgba(251,247,235,.55)" font-weight="700">FILTERED · 95</text>
+                <text x="460" y="0" text-anchor="end" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(251,247,235,.45)" font-weight="700">SOURCE · ATS LOG (REDACTED)</text>
               </g>
             </svg>
           </div>
@@ -1071,75 +1142,80 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
           </div>
         </div>
         <div class="right">
-          <div class="cs-motion mo-units">
-            <!-- HOUSING · refined building unit-grid · 11 taken (cobalt), 1 yours hairline-pink + flag tag · ProPublica-tone on dark -->
-            <svg viewBox="0 0 540 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-              <defs>
-                <radialGradient id="s3bg" cx="50%" cy="50%" r="60%">
-                  <stop offset="0%" stop-color="#08101a"/>
-                  <stop offset="100%" stop-color="#02040a"/>
-                </radialGradient>
-              </defs>
-              <rect width="540" height="460" fill="url(#s3bg)"/>
-              <text x="40" y="44" class="cs-art-label cool">FIG. 03 · CORELOGIC SAFERENT · BUILDING 1224 · 12 UNITS</text>
-              <line x1="40" y1="58" x2="500" y2="58" class="cs-art-rule"/>
-              <text x="40" y="86" class="cs-art-deck">Eleven units rented this season.</text>
-              <text x="40" y="106" class="cs-art-deck">Your application was flagged — and <tspan font-style="italic" fill="#ff1a6b">silently passed over</tspan>.</text>
-
-              <!-- building schematic · 4 columns × 3 rows of unit rectangles -->
-              <g transform="translate(60,150)">
-                <!-- column dividers + floor lines (architectural feel) -->
-                <line x1="0" y1="0" x2="420" y2="0" class="cs-art-rule"/>
-                <line x1="0" y1="80" x2="420" y2="80" class="cs-art-rule"/>
-                <line x1="0" y1="160" x2="420" y2="160" class="cs-art-rule"/>
-                <line x1="0" y1="240" x2="420" y2="240" class="cs-art-rule"/>
-                <!-- 12 units · 4 cols (each 105 wide) × 3 rows (each 80 tall) -->
-                <!-- floor 3 (top, units 9-12): all taken -->
-                <g>
-                  <rect x="6"   y="6" width="93" height="68" fill="rgba(30,60,255,.16)" stroke="var(--cobalt)" stroke-width="1.2"/>
-                  <rect x="111" y="6" width="93" height="68" fill="rgba(30,60,255,.16)" stroke="var(--cobalt)" stroke-width="1.2"/>
-                  <rect x="216" y="6" width="93" height="68" fill="rgba(30,60,255,.16)" stroke="var(--cobalt)" stroke-width="1.2"/>
-                  <rect x="321" y="6" width="93" height="68" fill="rgba(30,60,255,.16)" stroke="var(--cobalt)" stroke-width="1.2"/>
+          <div class="cs-motion mo-static mo-housing">
+            <svg viewBox="0 0 540 540" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs><linearGradient id="houBg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#0a1322"/><stop offset="100%" stop-color="#03060c"/></linearGradient></defs>
+              <rect width="540" height="540" fill="url(#houBg)"/>
+              <text x="40" y="56" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="rgba(120,180,255,.85)" font-weight="700">FIG. 03 · TENANT SCORING · 12-UNIT BUILDING</text>
+              <line x1="40" y1="70" x2="500" y2="70" stroke="rgba(251,247,235,.16)" stroke-width=".5"/>
+              <text x="40" y="100" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)">Eleven took the unit.</text>
+              <text x="40" y="119" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)">The twelfth was <tspan fill="#ff1a6b">you</tspan>.</text>
+              <line x1="40" y1="528" x2="500" y2="528" stroke="rgba(168,162,152,.18)" stroke-width=".5"/>
+              <g>
+              <g>
+                  <rect x="56" y="140" width="96" height="110" fill="rgba(255,213,0,.18)" stroke="rgba(255,213,0,.55)" stroke-width="1" class="cs-art-warm" style="animation: csaWindowFlicker 4s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="104" y1="140" x2="104" y2="250" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                  <line x1="56" y1="195" x2="152" y2="195" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
                 </g>
-                <!-- floor 2 (middle, units 5-8): YOUR unit is index 2 (col 3, row 2) — hairline pink empty -->
-                <g>
-                  <rect x="6"   y="86" width="93" height="68" fill="rgba(30,60,255,.16)" stroke="var(--cobalt)" stroke-width="1.2"/>
-                  <rect x="111" y="86" width="93" height="68" fill="rgba(30,60,255,.16)" stroke="var(--cobalt)" stroke-width="1.2"/>
-                  <!-- YOUR unit · hairline pink, empty, with flag tag -->
-                  <rect x="216" y="86" width="93" height="68" fill="none" stroke="var(--pink)" stroke-width="1.6" stroke-dasharray="6 4"/>
-                  <!-- subtle interior dot indicating "yours" -->
-                  <circle cx="262.5" cy="120" r="4" fill="var(--pink)"/>
-                  <text x="262.5" y="146" text-anchor="middle" class="cs-art-label pink" font-size="7">UNIT 207 · YOU</text>
-                  <rect x="321" y="86" width="93" height="68" fill="rgba(30,60,255,.16)" stroke="var(--cobalt)" stroke-width="1.2"/>
+              <g>
+                  <rect x="176" y="140" width="96" height="110" fill="rgba(255,213,0,.18)" stroke="rgba(255,213,0,.55)" stroke-width="1" class="cs-art-warm" style="animation: csaWindowFlicker 5s ease-in-out infinite; animation-delay: 1.10s; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="224" y1="140" x2="224" y2="250" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                  <line x1="176" y1="195" x2="272" y2="195" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
                 </g>
-                <!-- floor 1 (bottom, units 1-4): all taken -->
-                <g>
-                  <rect x="6"   y="166" width="93" height="68" fill="rgba(30,60,255,.16)" stroke="var(--cobalt)" stroke-width="1.2"/>
-                  <rect x="111" y="166" width="93" height="68" fill="rgba(30,60,255,.16)" stroke="var(--cobalt)" stroke-width="1.2"/>
-                  <rect x="216" y="166" width="93" height="68" fill="rgba(30,60,255,.16)" stroke="var(--cobalt)" stroke-width="1.2"/>
-                  <rect x="321" y="166" width="93" height="68" fill="rgba(30,60,255,.16)" stroke="var(--cobalt)" stroke-width="1.2"/>
+              <g>
+                  <rect x="296" y="140" width="96" height="110" fill="rgba(255,213,0,.18)" stroke="rgba(255,213,0,.55)" stroke-width="1" class="cs-art-warm" style="animation: csaWindowFlicker 6s ease-in-out infinite; animation-delay: 2.20s; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="344" y1="140" x2="344" y2="250" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                  <line x1="296" y1="195" x2="392" y2="195" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
                 </g>
-
-                <!-- FLAG TAG · floating above YOUR unit with thin callout line -->
-                <g transform="translate(440,90)">
-                  <line x1="-80" y1="34" x2="0" y2="0" stroke="var(--pink)" stroke-width=".6"/>
-                  <circle cx="-80" cy="34" r="1.6" fill="var(--pink)"/>
-                  <rect x="0" y="-12" width="86" height="48" fill="rgba(255,26,107,.1)" stroke="var(--pink)" stroke-width="1.2"/>
-                  <text x="6" y="2" class="cs-art-label pink" font-size="7">FLAG · YELLOW</text>
-                  <text x="6" y="16" font-family="Instrument Serif" font-style="italic" font-size="11" fill="var(--cream)">2019 medical</text>
-                  <text x="6" y="28" font-family="Instrument Serif" font-style="italic" font-size="11" fill="var(--cream)">collection</text>
+              <g>
+                  <rect x="416" y="140" width="96" height="110" fill="rgba(255,213,0,.18)" stroke="rgba(255,213,0,.55)" stroke-width="1" class="cs-art-warm" style="animation: csaWindowFlicker 7s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="464" y1="140" x2="464" y2="250" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                  <line x1="416" y1="195" x2="512" y2="195" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
                 </g>
-
-                <!-- floor labels on the left -->
-                <text x="-8" y="50" text-anchor="end" class="cs-art-label" font-size="7">FL 3</text>
-                <text x="-8" y="130" text-anchor="end" class="cs-art-label" font-size="7">FL 2</text>
-                <text x="-8" y="210" text-anchor="end" class="cs-art-label" font-size="7">FL 1</text>
+              <g>
+                  <rect x="56" y="274" width="96" height="110" fill="rgba(255,213,0,.18)" stroke="rgba(255,213,0,.55)" stroke-width="1" class="cs-art-warm" style="animation: csaWindowFlicker 4s ease-in-out infinite; animation-delay: 2.30s; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="104" y1="274" x2="104" y2="384" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                  <line x1="56" y1="329" x2="152" y2="329" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                </g>
+              <g>
+                  <rect x="176" y="274" width="96" height="110" fill="rgba(255,213,0,.18)" stroke="rgba(255,213,0,.55)" stroke-width="1" class="cs-art-warm" style="animation: csaWindowFlicker 5s ease-in-out infinite; animation-delay: 3.40s; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="224" y1="274" x2="224" y2="384" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                  <line x1="176" y1="329" x2="272" y2="329" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                </g>
+              <g>
+                  <rect x="296" y="274" width="96" height="110" fill="rgba(255,213,0,.18)" stroke="rgba(255,213,0,.55)" stroke-width="1" class="cs-art-warm" style="animation: csaWindowFlicker 6s ease-in-out infinite; animation-delay: 2.40s; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="344" y1="274" x2="344" y2="384" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                  <line x1="296" y1="329" x2="392" y2="329" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                </g>
+              <g>
+                  <rect x="416" y="274" width="96" height="110" fill="#06080c" stroke="#ff1a6b" stroke-width="2" class="cs-art-no" style="animation: csaPulse 3.4s ease-in-out infinite; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="464" y1="274" x2="464" y2="384" stroke="rgba(255,26,107,.45)" stroke-width=".6"/>
+                  <line x1="416" y1="329" x2="512" y2="329" stroke="rgba(255,26,107,.45)" stroke-width=".6"/>
+                  <text x="464" y="406" text-anchor="middle" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".18em" fill="#ff1a6b" font-weight="700">UNIT 12 · YOURS</text>
+                </g>
+              <g>
+                  <rect x="56" y="408" width="96" height="110" fill="rgba(255,213,0,.18)" stroke="rgba(255,213,0,.55)" stroke-width="1" class="cs-art-warm" style="animation: csaWindowFlicker 4s ease-in-out infinite; animation-delay: 4.60s; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="104" y1="408" x2="104" y2="518" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                  <line x1="56" y1="463" x2="152" y2="463" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                </g>
+              <g>
+                  <rect x="176" y="408" width="96" height="110" fill="rgba(255,213,0,.18)" stroke="rgba(255,213,0,.55)" stroke-width="1" class="cs-art-warm" style="animation: csaWindowFlicker 5s ease-in-out infinite; animation-delay: 3.60s; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="224" y1="408" x2="224" y2="518" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                  <line x1="176" y1="463" x2="272" y2="463" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                </g>
+              <g>
+                  <rect x="296" y="408" width="96" height="110" fill="rgba(255,213,0,.18)" stroke="rgba(255,213,0,.55)" stroke-width="1" class="cs-art-warm" style="animation: csaWindowFlicker 6s ease-in-out infinite; animation-delay: 4.70s; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="344" y1="408" x2="344" y2="518" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                  <line x1="296" y1="463" x2="392" y2="463" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                </g>
+              <g>
+                  <rect x="416" y="408" width="96" height="110" fill="rgba(255,213,0,.18)" stroke="rgba(255,213,0,.55)" stroke-width="1" class="cs-art-warm" style="animation: csaWindowFlicker 7s ease-in-out infinite; animation-delay: 5.80s; transform-box:fill-box; transform-origin:center"/>
+                  <line x1="464" y1="408" x2="464" y2="518" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                  <line x1="416" y1="463" x2="512" y2="463" stroke="rgba(255,213,0,.35)" stroke-width=".6"/>
+                </g>
               </g>
-
-              <!-- editorial bottom strip -->
-              <line x1="40" y1="410" x2="500" y2="410" class="cs-art-rule"/>
-              <text x="40" y="432" font-family="Instrument Serif" font-style="italic" font-size="16" fill="var(--cream)">They said <tspan fill="#ff1a6b">"other applicants"</tspan> · no adverse-action notice sent.</text>
-              <!-- HIDE the rest of the legacy brick SVG via a JS-free trick: the next defs/pattern block was inside this svg but I'm replacing the whole svg, so we simply terminate here -->
+              <text x="40" y="510" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(251,247,235,.45)" font-weight="700">SCORE 0.41 · CORELOGIC RANKING</text>
+              <text x="500" y="510" text-anchor="end" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(251,247,235,.45)" font-weight="700">SOURCE · LANDLORD REPORT</text>
             </svg>
           </div>
         </div>
@@ -1157,53 +1233,72 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
           </div>
         </div>
         <div class="right">
-          <div class="cs-motion mo-bars">
-            <!-- LENDING · refined dual bar chart · 30-yr total interest paid · neighbor cobalt vs you pink, with delta bracket -->
-            <svg viewBox="0 0 540 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <div class="cs-motion mo-static mo-lending">
+            <svg viewBox="0 0 540 540" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
               <defs>
-                <radialGradient id="s4bg" cx="50%" cy="50%" r="60%">
-                  <stop offset="0%" stop-color="#0a1018"/>
-                  <stop offset="100%" stop-color="#020408"/>
-                </radialGradient>
+                <linearGradient id="lendBg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#0d0816"/><stop offset="100%" stop-color="#02040a"/></linearGradient>
+                <linearGradient id="lendHerFill" x1="0%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stop-color="rgba(200,255,30,.35)"/><stop offset="100%" stop-color="rgba(200,255,30,.08)"/></linearGradient>
+                <linearGradient id="lendYouFill" x1="0%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stop-color="rgba(255,26,107,.45)"/><stop offset="100%" stop-color="rgba(255,26,107,.12)"/></linearGradient>
+                <clipPath id="lendHerClip"><rect x="140" y="290" width="80" height="160"/></clipPath>
+                <clipPath id="lendYouClip"><rect x="320" y="216" width="80" height="234"/></clipPath>
               </defs>
-              <rect width="540" height="460" fill="url(#s4bg)"/>
-              <text x="40" y="44" class="cs-art-label cool">FIG. 04 · UPSTART · ZESTAI · 30-YR FIXED · SAME ZIP · SAME 742 FICO</text>
-              <line x1="40" y1="58" x2="500" y2="58" class="cs-art-rule"/>
-              <text x="40" y="86" class="cs-art-deck">Same credit. Same income. Same neighborhood.</text>
-              <text x="40" y="106" class="cs-art-deck">Different model. Different rate. <tspan font-style="italic" fill="#ff1a6b">$58,000 difference</tspan> over thirty years.</text>
-              <g transform="translate(120,168)">
-                <line x1="0" y1="0" x2="0" y2="220" class="cs-art-rule"/>
-                <line x1="0" y1="220" x2="320" y2="220" class="cs-art-rule"/>
-                <text x="-10" y="4"   text-anchor="end" class="cs-art-label" font-size="8">$550K</text>
-                <text x="-10" y="56"  text-anchor="end" class="cs-art-label" font-size="8">$500K</text>
-                <text x="-10" y="108" text-anchor="end" class="cs-art-label" font-size="8">$450K</text>
-                <text x="-10" y="160" text-anchor="end" class="cs-art-label" font-size="8">$400K</text>
-                <text x="-10" y="224" text-anchor="end" class="cs-art-label" font-size="8">$0</text>
-                <line x1="0" y1="56"  x2="320" y2="56"  class="cs-art-rule" stroke-dasharray="2 4"/>
-                <line x1="0" y1="108" x2="320" y2="108" class="cs-art-rule" stroke-dasharray="2 4"/>
-                <line x1="0" y1="160" x2="320" y2="160" class="cs-art-rule" stroke-dasharray="2 4"/>
-                <rect x="60" y="46" width="80" height="174" fill="rgba(30,60,255,.18)" stroke="var(--cobalt)" stroke-width="1.5"/>
-                <text x="100" y="40" text-anchor="middle" class="cs-art-label cool" font-size="8.5">6.45% · NEIGHBOR</text>
-                <text x="100" y="138" text-anchor="middle" class="cs-art-num" font-size="22" fill="var(--cream)">$485K</text>
-                <text x="100" y="154" text-anchor="middle" class="cs-art-label" font-size="7">TOTAL PAID</text>
-                <text x="100" y="244" text-anchor="middle" class="cs-art-label" font-size="8">NEIGHBOR</text>
-                <rect x="180" y="3" width="80" height="217" fill="rgba(255,26,107,.22)" stroke="var(--pink)" stroke-width="2"/>
-                <text x="220" y="-4" text-anchor="middle" class="cs-art-label pink" font-size="8.5">6.85% · YOU</text>
-                <text x="220" y="118" text-anchor="middle" class="cs-art-num" font-size="26" fill="var(--pink)">$543K</text>
-                <text x="220" y="134" text-anchor="middle" class="cs-art-label pink" font-size="7">TOTAL PAID</text>
-                <text x="220" y="244" text-anchor="middle" class="cs-art-label pink" font-size="8">YOU</text>
-                <g>
-                  <line x1="140" y1="46" x2="180" y2="46" stroke="var(--pink)" stroke-width="1"/>
-                  <line x1="140" y1="46" x2="140" y2="20" stroke="var(--pink)" stroke-width="1"/>
-                  <line x1="180" y1="46" x2="180" y2="20" stroke="var(--pink)" stroke-width="1"/>
-                  <line x1="140" y1="20" x2="180" y2="20" stroke="var(--pink)" stroke-width="1"/>
-                  <line x1="160" y1="20" x2="160" y2="-14" stroke="var(--pink)" stroke-width="1"/>
-                  <rect x="120" y="-44" width="80" height="30" fill="rgba(255,26,107,.18)" stroke="var(--pink)" stroke-width="1.5"/>
-                  <text x="160" y="-23" text-anchor="middle" class="cs-art-num" font-size="14" fill="var(--pink)">+$58,200</text>
+              <rect width="540" height="540" fill="url(#lendBg)"/>
+              <text x="40" y="56" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="rgba(255,26,107,.85)" font-weight="700">FIG. 04 · LENDING APR · SAME INCOME · SAME ADDRESS</text>
+              <line x1="40" y1="70" x2="500" y2="70" stroke="rgba(251,247,235,.16)" stroke-width=".5"/>
+              <text x="40" y="100" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)">Same income. Same address.</text>
+              <text x="40" y="119" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)">Different <tspan fill="#ff1a6b">APR.</tspan></text>
+              <g>
+                <rect x="140" y="170" width="80" height="280" fill="none" stroke="rgba(200,255,30,.35)" stroke-width=".7"/>
+                <rect x="140" y="290" width="80" height="160" fill="url(#lendHerFill)"/>
+                <line x1="140" y1="290" x2="220" y2="290" stroke="#c8ff1e" stroke-width="1.6"/>
+                <text x="180" y="278" text-anchor="middle" font-family="Archivo Black" font-size="26" letter-spacing="-.025em" fill="#c8ff1e">6.4%</text>
+                <text x="180" y="475" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="rgba(200,255,30,.7)" font-weight="700">HER</text>
+                <g clip-path="url(#lendHerClip)">
+                  <circle cx="146" cy="450" r="2.6" fill="#c8ff1e" opacity="0" style="animation: csaRise 5.2s linear infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="153" cy="450" r="2.6" fill="#c8ff1e" opacity="0" style="animation: csaRise 5.6s linear infinite; animation-delay: 0.35s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="160" cy="450" r="2.6" fill="#c8ff1e" opacity="0" style="animation: csaRise 6.0s linear infinite; animation-delay: 0.70s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="167" cy="450" r="2.6" fill="#c8ff1e" opacity="0" style="animation: csaRise 5.2s linear infinite; animation-delay: 1.05s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="174" cy="450" r="2.6" fill="#c8ff1e" opacity="0" style="animation: csaRise 5.6s linear infinite; animation-delay: 1.40s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="181" cy="450" r="2.6" fill="#c8ff1e" opacity="0" style="animation: csaRise 6.0s linear infinite; animation-delay: 1.75s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="188" cy="450" r="2.6" fill="#c8ff1e" opacity="0" style="animation: csaRise 5.2s linear infinite; animation-delay: 2.10s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="195" cy="450" r="2.6" fill="#c8ff1e" opacity="0" style="animation: csaRise 5.6s linear infinite; animation-delay: 2.45s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="202" cy="450" r="2.6" fill="#c8ff1e" opacity="0" style="animation: csaRise 6.0s linear infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="209" cy="450" r="2.6" fill="#c8ff1e" opacity="0" style="animation: csaRise 5.2s linear infinite; animation-delay: 3.15s; transform-box:fill-box; transform-origin:center"/>
                 </g>
               </g>
-              <line x1="40" y1="430" x2="500" y2="430" class="cs-art-rule"/>
-              <text x="40" y="452" font-family="Instrument Serif" font-style="italic" font-size="14" fill="var(--cream)">Composite included <tspan fill="#ff1a6b">education-pricing</tspan> + banking-history features your neighbor lacks.</text>
+              <g>
+                <rect x="320" y="170" width="80" height="280" fill="none" stroke="rgba(255,26,107,.45)" stroke-width=".7"/>
+                <rect x="320" y="216" width="80" height="234" fill="url(#lendYouFill)"/>
+                <line x1="320" y1="216" x2="400" y2="216" stroke="#ff1a6b" stroke-width="1.6"/>
+                <text x="360" y="204" text-anchor="middle" font-family="Archivo Black" font-size="26" letter-spacing="-.025em" fill="#ff1a6b">8.7%</text>
+                <text x="360" y="475" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="rgba(255,26,107,.85)" font-weight="700">YOU</text>
+                <g clip-path="url(#lendYouClip)">
+                  <circle cx="326" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 4.2s linear infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="333" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 4.6s linear infinite; animation-delay: 0.35s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="340" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 5.0s linear infinite; animation-delay: 0.70s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="347" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 4.2s linear infinite; animation-delay: 1.05s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="354" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 4.6s linear infinite; animation-delay: 1.40s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="361" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 5.0s linear infinite; animation-delay: 1.75s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="368" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 4.2s linear infinite; animation-delay: 2.10s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="375" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 4.6s linear infinite; animation-delay: 2.45s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="382" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 5.0s linear infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="389" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 4.2s linear infinite; animation-delay: 3.15s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="330" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 4.6s linear infinite; animation-delay: 3.50s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="337" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 5.0s linear infinite; animation-delay: 3.85s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="344" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 4.2s linear infinite; animation-delay: 4.20s; transform-box:fill-box; transform-origin:center"/>
+                  <circle cx="351" cy="450" r="2.6" fill="#ff1a6b" opacity="0" style="animation: csaRise 4.6s linear infinite; animation-delay: 0.35s; transform-box:fill-box; transform-origin:center"/>
+                </g>
+              </g>
+              <g>
+                <line x1="225" y1="216" x2="315" y2="216" stroke="#ffd500" stroke-width="1" stroke-dasharray="3 3"/>
+                <line x1="225" y1="290" x2="315" y2="290" stroke="#ffd500" stroke-width="1" stroke-dasharray="3 3"/>
+                <line x1="270" y1="216" x2="270" y2="290" stroke="#ffd500" stroke-width="1.5"/>
+                <rect x="245" y="240" width="50" height="26" fill="#06080c" stroke="#ffd500" stroke-width=".8"/>
+                <text x="270" y="258" text-anchor="middle" font-family="Archivo Black" font-size="13" letter-spacing="-.015em" fill="#ffd500">+2.3%</text>
+              </g>
+              <line x1="40" y1="490" x2="500" y2="490" stroke="rgba(251,247,235,.16)" stroke-width=".5"/>
+              <text x="40" y="514" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".22em" fill="rgba(251,247,235,.55)" font-weight="700">DELTA · $58,200 over 30 yrs</text>
+              <text x="500" y="514" text-anchor="end" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(251,247,235,.45)" font-weight="700">SOURCE · EXPERIAN MOSAIC</text>
             </svg>
           </div>
         </div>
@@ -1221,49 +1316,76 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
           </div>
         </div>
         <div class="right">
-          <div class="cs-motion mo-fares">
-            <!-- MOBILITY · refined horizontal price-bar chart · her vs you fare for the same Lyft, with elasticity indicator -->
-            <svg viewBox="0 0 540 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <div class="cs-motion mo-static mo-mobility">
+            <svg viewBox="0 0 540 540" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
               <defs>
-                <radialGradient id="s5bg" cx="50%" cy="50%" r="60%">
-                  <stop offset="0%" stop-color="#161018"/>
-                  <stop offset="100%" stop-color="#04020a"/>
+                <radialGradient id="mobBg" cx="50%" cy="50%" r="70%">
+                  <stop offset="0%" stop-color="#0a0d18"/>
+                  <stop offset="100%" stop-color="#02040a"/>
                 </radialGradient>
+                <linearGradient id="mobHerWave" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgba(200,255,30,0)"/>
+                  <stop offset="50%" stop-color="rgba(200,255,30,.65)"/>
+                  <stop offset="100%" stop-color="rgba(200,255,30,0)"/>
+                </linearGradient>
+                <linearGradient id="mobYouWave" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgba(255,26,107,0)"/>
+                  <stop offset="50%" stop-color="rgba(255,26,107,.85)"/>
+                  <stop offset="100%" stop-color="rgba(255,26,107,0)"/>
+                </linearGradient>
               </defs>
-              <rect width="540" height="460" fill="url(#s5bg)"/>
-              <text x="40" y="44" class="cs-art-label pink">FIG. 05 · LYFT · PERSONALIZED PRICING · 8:12 PM · MIDTOWN</text>
-              <line x1="40" y1="58" x2="500" y2="58" class="cs-art-rule"/>
-              <text x="40" y="86" class="cs-art-deck">Both waiting at the same corner.</text>
-              <text x="40" y="106" class="cs-art-deck">Hers would walk away. <tspan font-style="italic" fill="#c8ff1e">Yours</tspan> won't, and the model knows it.</text>
-              <g transform="translate(70,160)">
-                <line x1="0" y1="0" x2="0" y2="180" class="cs-art-rule"/>
-                <text x="0" y="-8" class="cs-art-label" font-size="8">FARE · USD</text>
-                <line x1="0" y1="180" x2="400" y2="180" class="cs-art-rule"/>
-                <text x="0"   y="200" text-anchor="middle" class="cs-art-label" font-size="7">$0</text>
-                <text x="100" y="200" text-anchor="middle" class="cs-art-label" font-size="7">$5</text>
-                <text x="200" y="200" text-anchor="middle" class="cs-art-label" font-size="7">$10</text>
-                <text x="300" y="200" text-anchor="middle" class="cs-art-label" font-size="7">$15</text>
-                <text x="400" y="200" text-anchor="middle" class="cs-art-label" font-size="7">$20</text>
-                <text x="50" y="48" text-anchor="end" class="cs-art-label cool" font-size="8">HER</text>
-                <rect x="60" y="38" width="321" height="22" fill="rgba(120,180,255,.16)" stroke="var(--cobalt)" stroke-width="1.5"/>
-                <text x="394" y="54" class="cs-art-num" font-size="18" fill="var(--cream)">$16.05</text>
-                <text x="50" y="108" text-anchor="end" class="cs-art-label pink" font-size="8">YOU</text>
-                <rect x="60" y="98" width="404" height="28" fill="rgba(255,26,107,.22)" stroke="var(--pink)" stroke-width="2"/>
-                <text x="476" y="118" class="cs-art-num" font-size="20" fill="var(--pink)">$20.18</text>
-                <g transform="translate(60,150)">
-                  <text x="0" y="0" class="cs-art-label" font-size="8">PRICE-SENSITIVITY ELASTICITY (HER 0.41 ← → YOU 0.71)</text>
-                  <line x1="0" y1="12" x2="400" y2="12" class="cs-art-rule"/>
-                  <circle cx="164" cy="12" r="5" class="cs-art-fill cool"/>
-                  <text x="164" y="32" text-anchor="middle" class="cs-art-label cool" font-size="7">HER · 0.41</text>
-                  <circle cx="284" cy="12" r="6" class="cs-art-fill warn"/>
-                  <text x="284" y="32" text-anchor="middle" class="cs-art-label pink" font-size="7">YOU · 0.71</text>
+              <rect width="540" height="540" fill="url(#mobBg)"/>
+              <text x="40" y="56" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="rgba(255,26,107,.85)" font-weight="700">FIG. 05 · SURGE PRICING · TWIN TRIPS · 4 MIN APART</text>
+              <line x1="40" y1="70" x2="500" y2="70" stroke="rgba(251,247,235,.16)" stroke-width=".5"/>
+              <text x="40" y="100" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)">Same trip. Four minutes apart.</text>
+              <text x="40" y="119" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)"><tspan fill="#ff1a6b">$4.13</tspan> more.</text>
+
+              <!-- HER bar -->
+              <g transform="translate(40,200)">
+                <rect width="460" height="56" fill="rgba(200,255,30,.08)" stroke="rgba(200,255,30,.35)" stroke-width=".8"/>
+                <clipPath id="mobHerClip"><rect width="460" height="56"/></clipPath>
+                <g clip-path="url(#mobHerClip)">
+                  <rect x="-260" y="0" width="260" height="56" fill="url(#mobHerWave)" style="animation: csaFlow 9s linear infinite; transform-box:fill-box; transform-origin:left"/>
                 </g>
+                <text x="14" y="34" font-family="Archivo Black" font-size="22" letter-spacing="-.025em" fill="#c8ff1e">$16.05</text>
+                <text x="446" y="34" text-anchor="end" font-family="JetBrains Mono" font-size="10" letter-spacing=".22em" fill="rgba(200,255,30,.85)" font-weight="700">HER · 7:47p</text>
               </g>
-              <g transform="translate(40,432)">
-                <text class="cs-art-label">DELTA · </text>
-                <text x="64" class="cs-art-num" font-size="14" fill="var(--pink)">+$4.13</text>
-                <text x="120" class="cs-art-label">25% PERSONALIZATION PREMIUM</text>
+
+              <!-- YOUR bar -->
+              <g transform="translate(40,300)">
+                <rect width="460" height="56" fill="rgba(255,26,107,.1)" stroke="rgba(255,26,107,.45)" stroke-width=".8"/>
+                <clipPath id="mobYouClip"><rect width="460" height="56"/></clipPath>
+                <g clip-path="url(#mobYouClip)">
+                  <rect x="-260" y="0" width="260" height="56" fill="url(#mobYouWave)" style="animation: csaFlow 7s linear infinite; transform-box:fill-box; transform-origin:left"/>
+                </g>
+                <text x="14" y="34" font-family="Archivo Black" font-size="22" letter-spacing="-.025em" fill="#ff1a6b">$20.18</text>
+                <text x="446" y="34" text-anchor="end" font-family="JetBrains Mono" font-size="10" letter-spacing=".22em" fill="rgba(255,26,107,.85)" font-weight="700">YOU · 7:51p</text>
               </g>
+
+              <!-- delta indicator between -->
+              <g>
+                <line x1="270" y1="256" x2="270" y2="300" stroke="#ffd500" stroke-width="1.6"/>
+                <rect x="240" y="266" width="60" height="24" fill="#06080c" stroke="#ffd500" stroke-width=".8"/>
+                <text x="270" y="283" text-anchor="middle" font-family="Archivo Black" font-size="12" letter-spacing="-.015em" fill="#ffd500">+25.7%</text>
+              </g>
+
+              <!-- 4-minute tick marks across both bars -->
+              <g stroke="rgba(168,162,152,.25)" stroke-width=".5">
+                <line x1="40" y1="380" x2="500" y2="380"/>
+                <line x1="40" y1="378" x2="40" y2="386"/>
+                <line x1="270" y1="378" x2="270" y2="386"/>
+                <line x1="500" y1="378" x2="500" y2="386"/>
+              </g>
+              <g font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(251,247,235,.45)" font-weight="700">
+                <text x="40" y="400">7:47P</text>
+                <text x="270" y="400" text-anchor="middle">+ 2 MIN</text>
+                <text x="500" y="400" text-anchor="end">7:51P</text>
+              </g>
+
+              <!-- footer -->
+              <line x1="40" y1="490" x2="500" y2="490" stroke="rgba(251,247,235,.16)" stroke-width=".5"/>
+              <text x="40" y="514" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".22em" fill="rgba(251,247,235,.55)" font-weight="700">ELASTICITY · YOUR PRICE = TIER · TIER = COMPOSITE</text>
+              <text x="500" y="514" text-anchor="end" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(251,247,235,.45)" font-weight="700">SOURCE · RIDE PLATFORM API</text>
             </svg>
           </div>
         </div>
@@ -1281,55 +1403,101 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
           </div>
         </div>
         <div class="right">
-          <div class="cs-motion mo-scale">
-            <!-- INSURANCE · refined horizontal scale · 700 attributes → 1.34x multiplier · ProPublica-tone -->
-            <svg viewBox="0 0 540 460" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <div class="cs-motion mo-static mo-insurance">
+            <svg viewBox="0 0 540 540" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
               <defs>
-                <radialGradient id="s6bg" cx="50%" cy="50%" r="60%">
-                  <stop offset="0%" stop-color="#0e1408"/>
-                  <stop offset="100%" stop-color="#040a02"/>
+                <radialGradient id="insBg" cx="50%" cy="55%" r="70%">
+                  <stop offset="0%" stop-color="#0b0d18"/>
+                  <stop offset="100%" stop-color="#02040a"/>
+                </radialGradient>
+                <radialGradient id="insCenter" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="rgba(255,26,107,.25)"/>
+                  <stop offset="100%" stop-color="rgba(255,26,107,0)"/>
                 </radialGradient>
               </defs>
-              <rect width="540" height="460" fill="url(#s6bg)"/>
-              <text x="40" y="44" class="cs-art-label lime">FIG. 06 · LEXISNEXIS CLUE · ANNUAL PREMIUM MULTIPLIER · TODAY'S QUOTE</text>
-              <line x1="40" y1="58" x2="500" y2="58" class="cs-art-rule"/>
-              <text x="40" y="86" class="cs-art-deck">Not denied. Just priced for what the actuarial</text>
-              <text x="40" y="106" class="cs-art-deck">model thinks your future <tspan font-style="italic" fill="#c8ff1e">looks like</tspan>.</text>
-              <g transform="translate(60,200)">
-                <rect x="0"   y="0" width="160" height="36" fill="rgba(200,255,30,.16)" stroke="var(--lime)" stroke-width="1.2"/>
-                <text x="80" y="22" text-anchor="middle" class="cs-art-label lime" font-size="9">SAFE · 1.0×–1.25×</text>
-                <rect x="160" y="0" width="80" height="36" fill="rgba(255,213,0,.16)" stroke="var(--yellow)" stroke-width="1.2"/>
-                <text x="200" y="22" text-anchor="middle" class="cs-art-label" font-size="9" fill="var(--yellow)">WATCH</text>
-                <rect x="240" y="0" width="180" height="36" fill="rgba(255,26,107,.20)" stroke="var(--pink)" stroke-width="1.5"/>
-                <text x="330" y="22" text-anchor="middle" class="cs-art-label pink" font-size="9">PRICED-OUT · 1.5×–2.0×</text>
-                <g>
-                  <line x1="0"   y1="44" x2="0"   y2="50" class="cs-art-rule"/>
-                  <line x1="160" y1="44" x2="160" y2="50" class="cs-art-rule"/>
-                  <line x1="240" y1="44" x2="240" y2="50" class="cs-art-rule"/>
-                  <line x1="420" y1="44" x2="420" y2="50" class="cs-art-rule"/>
-                  <text x="0"   y="62" text-anchor="middle" class="cs-art-label" font-size="8">1.0×</text>
-                  <text x="160" y="62" text-anchor="middle" class="cs-art-label" font-size="8">1.25×</text>
-                  <text x="240" y="62" text-anchor="middle" class="cs-art-label" font-size="8">1.5×</text>
-                  <text x="420" y="62" text-anchor="middle" class="cs-art-label" font-size="8">2.0×</text>
-                </g>
-                <g transform="translate(217,-44)">
-                  <polygon points="0,38 -7,28 7,28" fill="var(--pink)"/>
-                  <line x1="0" y1="28" x2="0" y2="-26" stroke="var(--pink)" stroke-width="1.2"/>
-                  <rect x="-44" y="-60" width="88" height="34" fill="rgba(255,26,107,.2)" stroke="var(--pink)" stroke-width="1.5"/>
-                  <text x="0" y="-37" text-anchor="middle" class="cs-art-num" font-size="20" fill="var(--pink)">1.34×</text>
-                  <text x="0" y="-72" text-anchor="middle" class="cs-art-label pink" font-size="8">YOUR PREMIUM</text>
-                </g>
+              <rect width="540" height="540" fill="url(#insBg)"/>
+              <text x="40" y="56" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="rgba(255,26,107,.85)" font-weight="700">FIG. 06 · INSURANCE MULTIPLIER · LEXISNEXIS RISK</text>
+              <line x1="40" y1="70" x2="500" y2="70" stroke="rgba(251,247,235,.16)" stroke-width=".5"/>
+              <text x="40" y="100" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)">The base rate is $1,200.</text>
+              <text x="40" y="119" font-family="Instrument Serif" font-style="italic" font-size="15" fill="rgba(251,247,235,.78)">Yours is <tspan fill="#ff1a6b">1.34×</tspan> that.</text>
+              <!-- concentric radar pulses -->
+              <g>
+                <circle cx="270" cy="290" r="30" fill="none" stroke="rgba(255,26,107,.45)" stroke-width="1" style="animation: csaRadarRing 4s linear infinite"/>
+                <circle cx="270" cy="290" r="30" fill="none" stroke="rgba(255,26,107,.45)" stroke-width="1" style="animation: csaRadarRing 4s linear infinite; animation-delay: 1.3s"/>
+                <circle cx="270" cy="290" r="30" fill="none" stroke="rgba(255,26,107,.45)" stroke-width="1" style="animation: csaRadarRing 4s linear infinite; animation-delay: 2.6s"/>
               </g>
-              <g transform="translate(60,330)">
-                <text x="0" y="0" class="cs-art-label">ATTRIBUTES MODEL CONSIDERED</text>
-                <text x="0" y="36" class="cs-art-num" font-size="44" fill="var(--cream)">700</text>
-                <text x="120" y="36" class="cs-art-label" font-size="11">attributes</text>
-                <text x="240" y="0" class="cs-art-label pink">ATTRIBUTES YOU CAN AUDIT</text>
-                <text x="240" y="36" class="cs-art-num" font-size="44" fill="var(--pink)">4</text>
-                <text x="280" y="36" class="cs-art-label pink" font-size="11">attributes</text>
+              <!-- outer dial: ring -->
+              <circle cx="270" cy="290" r="186" fill="none" stroke="rgba(168,162,152,.22)" stroke-width=".8"/>
+              <circle cx="270" cy="290" r="168" fill="none" stroke="rgba(168,162,152,.12)" stroke-width=".4"/>
+              <!-- tick wheel · gently oscillates ±3° -->
+              <g style="animation: csaOscillate 9s ease-in-out infinite; transform-box:fill-box; transform-origin:center" transform-origin="270 290">
+                <line x1="270.0" y1="122.0" x2="270.0" y2="106.0" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="300.2" y1="118.6" x2="302.0" y2="108.8" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="329.5" y1="126.5" x2="332.9" y2="117.1" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="354.0" y1="144.5" x2="362.0" y2="130.7" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="381.8" y1="156.7" x2="388.3" y2="149.0" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="403.3" y1="178.2" x2="411.0" y2="171.7" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="415.5" y1="206.0" x2="429.3" y2="198.0" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="433.5" y1="230.5" x2="442.9" y2="227.1" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="441.4" y1="259.8" x2="451.2" y2="258.0" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="438.0" y1="290.0" x2="454.0" y2="290.0" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="441.4" y1="320.2" x2="451.2" y2="322.0" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="433.5" y1="349.5" x2="442.9" y2="352.9" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="415.5" y1="374.0" x2="429.3" y2="382.0" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="403.3" y1="401.8" x2="411.0" y2="408.3" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="381.8" y1="423.3" x2="388.3" y2="431.0" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="354.0" y1="435.5" x2="362.0" y2="449.3" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="329.5" y1="453.5" x2="332.9" y2="462.9" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="300.2" y1="461.4" x2="302.0" y2="471.2" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="270.0" y1="458.0" x2="270.0" y2="474.0" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="239.8" y1="461.4" x2="238.0" y2="471.2" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="210.5" y1="453.5" x2="207.1" y2="462.9" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="186.0" y1="435.5" x2="178.0" y2="449.3" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="158.2" y1="423.3" x2="151.7" y2="431.0" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="136.7" y1="401.8" x2="129.0" y2="408.3" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="124.5" y1="374.0" x2="110.7" y2="382.0" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="106.5" y1="349.5" x2="97.1" y2="352.9" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="98.6" y1="320.2" x2="88.8" y2="322.0" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="102.0" y1="290.0" x2="86.0" y2="290.0" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="98.6" y1="259.8" x2="88.8" y2="258.0" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="106.5" y1="230.5" x2="97.1" y2="227.1" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="124.5" y1="206.0" x2="110.7" y2="198.0" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="136.7" y1="178.2" x2="129.0" y2="171.7" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="158.2" y1="156.7" x2="151.7" y2="149.0" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="186.0" y1="144.5" x2="178.0" y2="130.7" stroke="rgba(251,247,235,.7)" stroke-width="1.2"/>
+                <line x1="210.5" y1="126.5" x2="207.1" y2="117.1" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
+                <line x1="239.8" y1="118.6" x2="238.0" y2="108.8" stroke="rgba(251,247,235,.3)" stroke-width="0.6"/>
               </g>
-              <line x1="40" y1="412" x2="500" y2="412" class="cs-art-rule"/>
-              <text x="40" y="436" font-family="Instrument Serif" font-style="italic" font-size="14" fill="var(--cream)">$80 / month more · for the version of your future <tspan fill="#ff1a6b">the model imagines</tspan>.</text>
+              <text x="128.6" y="435.4" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".14em" fill="rgba(251,247,235,.55)" font-weight="700">0.5×</text>
+              <text x="128.6" y="152.6" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".14em" fill="rgba(251,247,235,.55)" font-weight="700">1.0×</text>
+              <text x="411.4" y="152.6" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".14em" fill="rgba(251,247,235,.55)" font-weight="700">1.5×</text>
+              <text x="411.4" y="435.4" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".14em" fill="rgba(251,247,235,.55)" font-weight="700">2.0×</text>
+              <!-- center hub + glow -->
+              <circle cx="270" cy="290" r="60" fill="url(#insCenter)"/>
+              <circle cx="270" cy="290" r="6" fill="#ff1a6b" class="cs-art-no"/>
+              <!-- needle pointing at 1.34× -->
+              <g transform="rotate(16.2 270 290)">
+                <line x1="270" y1="290" x2="270" y2="118" stroke="#ff1a6b" stroke-width="2.2" class="cs-art-no"/>
+                <circle cx="270" cy="118" r="5" fill="#ff1a6b" class="cs-art-no"/>
+                <text x="270" y="106" text-anchor="middle" font-family="Archivo Black" font-size="14" letter-spacing="-.015em" fill="#ff1a6b">1.34×</text>
+              </g>
+              <!-- other people scattered -->
+              <g>
+                <circle cx="127.2" cy="342.0" r="3" fill="rgba(255,213,0,.6)" style="animation: csaPulse 2.6s ease-in-out infinite; animation-delay: 0.00s; transform-box:fill-box; transform-origin:center"/>
+                <circle cx="124.2" cy="264.3" r="3" fill="rgba(255,213,0,.6)" style="animation: csaPulse 3.0s ease-in-out infinite; animation-delay: 0.40s; transform-box:fill-box; transform-origin:center"/>
+                <circle cx="177.4" cy="179.7" r="3" fill="rgba(255,213,0,.6)" style="animation: csaPulse 3.4000000000000004s ease-in-out infinite; animation-delay: 0.80s; transform-box:fill-box; transform-origin:center"/>
+                <circle cx="243.6" cy="140.3" r="3" fill="rgba(255,213,0,.6)" style="animation: csaPulse 2.6s ease-in-out infinite; animation-delay: 1.20s; transform-box:fill-box; transform-origin:center"/>
+                <circle cx="344.0" cy="161.8" r="3" fill="rgba(255,213,0,.6)" style="animation: csaPulse 3.0s ease-in-out infinite; animation-delay: 1.60s; transform-box:fill-box; transform-origin:center"/>
+                <circle cx="394.7" cy="218.0" r="3" fill="rgba(255,213,0,.6)" style="animation: csaPulse 3.4000000000000004s ease-in-out infinite; animation-delay: 2.00s; transform-box:fill-box; transform-origin:center"/>
+                <circle cx="419.7" cy="316.4" r="3" fill="rgba(255,213,0,.6)" style="animation: csaPulse 2.6s ease-in-out infinite; animation-delay: 2.40s; transform-box:fill-box; transform-origin:center"/>
+                <circle cx="383.4" cy="385.1" r="3" fill="rgba(255,213,0,.6)" style="animation: csaPulse 3.0s ease-in-out infinite; animation-delay: 2.80s; transform-box:fill-box; transform-origin:center"/>
+              </g>
+              <!-- center label -->
+              <text x="270" y="332" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="rgba(251,247,235,.55)" font-weight="700">MULTIPLIER · ANNUAL</text>
+              <!-- footer -->
+              <line x1="40" y1="500" x2="500" y2="500" stroke="rgba(251,247,235,.16)" stroke-width=".5"/>
+              <text x="40" y="522" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".22em" fill="rgba(251,247,235,.55)" font-weight="700">+$408 / YR · UNDISCLOSED INPUTS</text>
+              <text x="500" y="522" text-anchor="end" font-family="JetBrains Mono" font-size="8" letter-spacing=".18em" fill="rgba(251,247,235,.45)" font-weight="700">SOURCE · CARRIER RATING SHEET</text>
             </svg>
           </div>
         </div>
@@ -1342,6 +1510,68 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
           <h2>None of this had a paper trail.<br/><em>All of it was a model</em> deciding about you.</h2>
           <p class="punch">You weren't denied. <b>You were quietly ranked.</b> The era of explicit "no" is over. The era of <em>the offer that never came</em> is here.</p>
           <div class="down-arrow">SCROLL · BUILD YOUR OWN COMPOSITE</div>
+        </div>
+        <div class="right" style="width:100%;display:flex;justify-content:center;margin-top:18px">
+          <div class="cs-motion mo-static mo-stinger-art" style="max-width:760px;width:100%">
+            <svg viewBox="0 0 720 240" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <radialGradient id="stingBg" cx="50%" cy="50%" r="60%">
+                  <stop offset="0%" stop-color="#0a1020"/><stop offset="100%" stop-color="#02040a"/>
+                </radialGradient>
+              </defs>
+              <rect width="720" height="240" fill="url(#stingBg)"/>
+              <!-- 6 mini-icons in a hex arrangement around a center -->
+              <text x="360" y="118" text-anchor="middle" font-family="Archivo Black" font-size="13" letter-spacing="-.015em" fill="rgba(251,247,235,.6)">ONE</text>
+              <text x="360" y="136" text-anchor="middle" font-family="Instrument Serif" font-style="italic" font-size="13" fill="rgba(200,255,30,.85)">system</text>
+
+              <g transform="translate(360,40)" style="animation: csaPulse 4s ease-in-out infinite; transform-box:fill-box; transform-origin:center">
+                <circle r="28" fill="none" stroke="rgba(255,26,107,.4)" stroke-width=".8"/>
+                <circle cx="-10" cy="-6" r="3" fill="#c8ff1e"/><circle cx="0" cy="-6" r="3" fill="#c8ff1e"/>
+                <circle cx="10" cy="-6" r="3" fill="#c8ff1e"/><circle cx="0" cy="4" r="3" fill="#c8ff1e"/>
+                <circle cx="-10" cy="12" r="1.8" fill="rgba(251,247,235,.35)"/><circle cx="10" cy="12" r="1.8" fill="rgba(251,247,235,.35)"/>
+                <text x="0" y="46" text-anchor="middle" font-family="JetBrains Mono" font-size="7.5" letter-spacing=".22em" fill="rgba(251,247,235,.6)" font-weight="700">DATING</text>
+              </g>
+              <g transform="translate(540,108)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay:.5s; transform-box:fill-box; transform-origin:center">
+                <rect x="-20" y="-20" width="40" height="40" fill="none" stroke="rgba(255,213,0,.35)" stroke-width=".7"/>
+                <circle cx="-10" cy="-6" r="2.2" fill="#c8ff1e"/><circle cx="6" cy="2" r="2.2" fill="#c8ff1e"/>
+                <circle cx="-4" cy="10" r="2.2" fill="#c8ff1e"/>
+                <line x1="-20" y1="0" x2="20" y2="0" stroke="rgba(255,26,107,.5)" stroke-width=".7"/>
+                <text x="0" y="46" text-anchor="middle" font-family="JetBrains Mono" font-size="7.5" letter-spacing=".22em" fill="rgba(251,247,235,.6)" font-weight="700">EMPLOYMENT</text>
+              </g>
+              <g transform="translate(540,200)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay:1s; transform-box:fill-box; transform-origin:center">
+                <rect x="-20" y="-16" width="12" height="12" fill="rgba(255,213,0,.45)"/>
+                <rect x="-4" y="-16" width="12" height="12" fill="rgba(255,213,0,.45)"/>
+                <rect x="12" y="-16" width="12" height="12" fill="#06080c" stroke="#ff1a6b" stroke-width=".8"/>
+                <rect x="-20" y="0" width="12" height="12" fill="rgba(255,213,0,.45)"/>
+                <rect x="-4" y="0" width="12" height="12" fill="rgba(255,213,0,.45)"/>
+                <rect x="12" y="0" width="12" height="12" fill="rgba(255,213,0,.45)"/>
+                <text x="0" y="32" text-anchor="middle" font-family="JetBrains Mono" font-size="7.5" letter-spacing=".22em" fill="rgba(251,247,235,.6)" font-weight="700">HOUSING</text>
+              </g>
+              <g transform="translate(360,210)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay:1.5s; transform-box:fill-box; transform-origin:center">
+                <rect x="-16" y="-20" width="12" height="40" fill="none" stroke="rgba(200,255,30,.45)" stroke-width=".7"/>
+                <rect x="-16" y="0" width="12" height="20" fill="rgba(200,255,30,.4)"/>
+                <rect x="4" y="-20" width="12" height="40" fill="none" stroke="rgba(255,26,107,.45)" stroke-width=".7"/>
+                <rect x="4" y="-10" width="12" height="30" fill="rgba(255,26,107,.45)"/>
+                <text x="0" y="30" text-anchor="middle" font-family="JetBrains Mono" font-size="7.5" letter-spacing=".22em" fill="rgba(251,247,235,.6)" font-weight="700">LENDING</text>
+              </g>
+              <g transform="translate(180,200)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay:2s; transform-box:fill-box; transform-origin:center">
+                <rect x="-22" y="-10" width="44" height="7" fill="rgba(200,255,30,.4)"/>
+                <rect x="-22" y="3" width="44" height="7" fill="rgba(255,26,107,.55)"/>
+                <text x="0" y="26" text-anchor="middle" font-family="JetBrains Mono" font-size="7.5" letter-spacing=".22em" fill="rgba(251,247,235,.6)" font-weight="700">MOBILITY</text>
+              </g>
+              <g transform="translate(180,108)" style="animation: csaPulse 4s ease-in-out infinite; animation-delay:2.5s; transform-box:fill-box; transform-origin:center">
+                <circle r="20" fill="none" stroke="rgba(168,162,152,.35)" stroke-width=".8"/>
+                <circle r="12" fill="none" stroke="rgba(168,162,152,.2)" stroke-width=".4"/>
+                <line x1="0" y1="0" x2="5" y2="-15" stroke="#ff1a6b" stroke-width="1.6"/>
+                <circle r="2.2" fill="#ff1a6b"/>
+                <text x="0" y="34" text-anchor="middle" font-family="JetBrains Mono" font-size="7.5" letter-spacing=".22em" fill="rgba(251,247,235,.6)" font-weight="700">INSURANCE</text>
+              </g>
+              <g fill="none" stroke="rgba(200,255,30,.45)" stroke-width=".8" stroke-dasharray="800">
+                <path d="M360,40 L540,108 L540,200 L360,210 L180,200 L180,108 Z" style="animation: csaDrawLine 12s ease-in-out infinite"/>
+                <path d="M360,40 L360,210 M180,108 L540,200 M540,108 L180,200" style="animation: csaDrawLine 12s ease-in-out infinite; animation-delay: 3s"/>
+              </g>
+            </svg>
+          </div>
         </div>
       </div>
 
