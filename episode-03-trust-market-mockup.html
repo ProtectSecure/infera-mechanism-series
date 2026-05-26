@@ -472,6 +472,53 @@ a,button{color:inherit;text-decoration:none;background:none;border:none;cursor:p
 .viz-merge .merge-line{stroke:var(--yellow);stroke-width:1.5;stroke-dasharray:3 5;opacity:0;transition:.6s}
 .viz-merge .merge-line.flow{opacity:.8;animation:linkDraw 1.5s linear infinite}
 .viz-merge .ghost-marker{fill:rgba(255,26,107,.4);transition:.6s}
+/* CASE 03 · spouse merge — more active idle motion across both circles + chaotic pink-dot jitter */
+.viz-merge .comp-circle{animation:mergeCircleBreathe 5.6s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+.viz-merge #c3Theo{animation-duration:5.1s;animation-delay:-1.4s}
+@keyframes mergeCircleBreathe{
+  0%,100%{transform:translateZ(0) scale(1) translate(0,0)}
+  25%   {transform:scale(1.018) translate(2px,-2px)}
+  50%   {transform:scale(1.008) translate(-3px,3px)}
+  75%   {transform:scale(1.022) translate(3px,2px)}
+}
+/* Generic markers (lime · Lena + Theo-positive) get a more active sporadic drift */
+.viz-merge .marker{transform-box:fill-box;transform-origin:center;animation:markerSporadic 4.4s cubic-bezier(.4,0,.6,1) infinite}
+.viz-merge .marker:nth-child(3n){animation-duration:3.9s;animation-delay:-.7s}
+.viz-merge .marker:nth-child(3n+1){animation-duration:5.1s;animation-delay:-1.6s}
+.viz-merge .marker:nth-child(3n+2){animation-duration:4.6s;animation-delay:-2.4s}
+@keyframes markerSporadic{
+  0%,100%{transform:translate(0,0)}
+  18%   {transform:translate(4px,-3px)}
+  36%   {transform:translate(-3px,4px)}
+  54%   {transform:translate(5px,2px)}
+  72%   {transform:translate(-2px,-5px)}
+  90%   {transform:translate(3px,3px)}
+}
+/* Pink Theo-flag dots — much more chaotic, jittery cadence, occasionally jolt + flash */
+.viz-merge .theo-flag{
+  filter:drop-shadow(0 0 4px rgba(255,26,107,.45));
+  animation:theoJitter 1.4s steps(8,end) infinite, theoFlash 5s ease-in-out infinite;
+}
+.viz-merge .theo-flag:nth-of-type(odd){animation-delay:-.4s,-1.7s}
+.viz-merge .theo-flag:nth-of-type(even){animation-delay:-.9s,-3.1s}
+@keyframes theoJitter{
+  0%  {transform:translate(0,0)}
+  12% {transform:translate(3px,-2px)}
+  25% {transform:translate(-4px,3px)}
+  37% {transform:translate(5px,1px)}
+  50% {transform:translate(-2px,-4px)}
+  62% {transform:translate(4px,4px)}
+  75% {transform:translate(-5px,-2px)}
+  87% {transform:translate(2px,3px)}
+  100%{transform:translate(0,0)}
+}
+@keyframes theoFlash{
+  0%,82%,100%{filter:drop-shadow(0 0 4px rgba(255,26,107,.45))}
+  85%       {filter:drop-shadow(0 0 12px rgba(255,26,107,.95)) brightness(1.4)}
+  88%       {filter:drop-shadow(0 0 4px rgba(255,26,107,.45))}
+  91%       {filter:drop-shadow(0 0 14px rgba(255,26,107,1)) brightness(1.6)}
+  94%       {filter:drop-shadow(0 0 4px rgba(255,26,107,.45))}
+}
 .viz-merge .household-label{position:absolute;left:50%;top:14px;transform:translateX(-50%);font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);font-weight:700;opacity:0;transition:.5s}
 .viz-merge .household-label.show{opacity:1}
 .viz-merge-legend{display:flex;justify-content:center;gap:24px;padding:6px 12px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:700}
@@ -614,66 +661,78 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
           </div>
         </div>
         <div class="right">
-          <div class="cs-motion mo-rain">
-            <!-- backdrop + stock-down chart -->
-            <svg class="mo-rain-bg" viewBox="0 0 360 460" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <div class="cs-motion mo-swarm">
+            <!-- DATING · abstract dot-swarm · 4 lit matches drift up, 36 dim rejects jitter down, you're the pulsing pink dot beneath the ELO median -->
+            <svg viewBox="0 0 360 460" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
               <defs>
-                <linearGradient id="rainBg" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#1a0a20"/>
-                  <stop offset="55%" stop-color="#0a0510"/>
-                  <stop offset="100%" stop-color="#020208"/>
+                <linearGradient id="s1bg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#1c0a26"/>
+                  <stop offset="55%" stop-color="#0a0414"/>
+                  <stop offset="100%" stop-color="#01010a"/>
                 </linearGradient>
-                <pattern id="rainDots" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
-                  <circle cx="7" cy="7" r=".5" fill="rgba(255,26,107,.10)"/>
-                </pattern>
-                <linearGradient id="trendLine" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="rgba(255,26,107,.4)"/>
-                  <stop offset="100%" stop-color="rgba(255,26,107,1)"/>
-                </linearGradient>
-                <filter id="rainGlow" x="-100%" y="-100%" width="300%" height="300%">
-                  <feGaussianBlur stdDeviation="3"/>
-                </filter>
+                <radialGradient id="s1halo"><stop offset="0%" stop-color="rgba(255,26,107,.22)"/><stop offset="100%" stop-color="rgba(255,26,107,0)"/></radialGradient>
+                <radialGradient id="s1limeHalo"><stop offset="0%" stop-color="rgba(200,255,30,.7)"/><stop offset="100%" stop-color="rgba(200,255,30,0)"/></radialGradient>
+                <radialGradient id="s1pinkDot"><stop offset="0%" stop-color="#ffa0c0"/><stop offset="100%" stop-color="rgba(255,26,107,.2)"/></radialGradient>
               </defs>
-              <rect width="360" height="460" fill="url(#rainBg)"/>
-              <rect width="360" height="460" fill="url(#rainDots)"/>
+              <rect width="360" height="460" fill="url(#s1bg)"/>
+              <ellipse cx="180" cy="380" rx="240" ry="150" fill="url(#s1halo)"/>
 
               <!-- editorial top labels -->
-              <text x="30" y="34" font-family="JetBrains Mono" font-size="9" letter-spacing=".28em" fill="rgba(255,26,107,.85)" font-weight="700">MATCH GROUP · CLUSTER F</text>
-              <text x="30" y="64" font-family="Instrument Serif" font-style="italic" font-size="22" fill="var(--cream)">40 saw you.</text>
-              <text x="30" y="88" font-family="Instrument Serif" font-style="italic" font-size="22" fill="var(--cream)"><tspan fill="#ff1a6b">4</tspan> said yes.</text>
+              <text x="28" y="34" font-family="JetBrains Mono" font-size="9" letter-spacing=".28em" fill="rgba(255,26,107,.9)" font-weight="700">MATCH GROUP · CLUSTER F</text>
+              <text x="28" y="60" font-family="Instrument Serif" font-style="italic" font-size="20" fill="var(--cream)">40 saw you. <tspan fill="#ff1a6b" font-weight="700">4 said yes.</tspan></text>
 
-              <!-- STOCK-MARKET DOWN trending line · jagged, drawn-in -->
-              <g class="mo-rain-chart" transform="translate(0,0)">
-                <!-- grid baseline -->
-                <line x1="20" y1="200" x2="340" y2="200" stroke="rgba(255,26,107,.12)" stroke-width=".5" stroke-dasharray="2 4"/>
-                <line x1="20" y1="260" x2="340" y2="260" stroke="rgba(255,26,107,.12)" stroke-width=".5" stroke-dasharray="2 4"/>
-                <line x1="20" y1="320" x2="340" y2="320" stroke="rgba(255,26,107,.12)" stroke-width=".5" stroke-dasharray="2 4"/>
-                <!-- under-fill area (pink decay) -->
-                <path d="M 26 170 L 60 200 L 100 188 L 140 232 L 180 222 L 220 268 L 260 290 L 300 332 L 332 360 L 332 410 L 26 410 Z" fill="rgba(255,26,107,.10)" opacity="0">
-                  <animate attributeName="opacity" values="0;1" dur="1.4s" begin=".8s" fill="freeze"/>
-                </path>
-                <!-- jagged trending-down line · drawn-in -->
-                <polyline class="mo-rain-trend" points="26,170 60,200 100,188 140,232 180,222 220,268 260,290 300,332 332,360" fill="none" stroke="url(#trendLine)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" filter="url(#rainGlow)"/>
-                <polyline points="26,170 60,200 100,188 140,232 180,222 220,268 260,290 300,332 332,360" fill="none" stroke="var(--pink)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
-                <!-- arrow head pointing down-right -->
-                <g transform="translate(332,360) rotate(36)">
-                  <polygon points="0,0 -14,-7 -14,7" fill="var(--pink)"/>
-                </g>
-                <!-- chart labels -->
-                <text x="26" y="158" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".18em" fill="rgba(255,26,107,.7)" font-weight="700">YOUR RANK</text>
-                <text x="332" y="354" text-anchor="end" font-family="JetBrains Mono" font-size="8.5" letter-spacing=".18em" fill="var(--pink)" font-weight="700">↓ BOTTOM 30%</text>
-                <!-- score data point dots along the line -->
-                <g fill="var(--pink)">
-                  <circle cx="60" cy="200" r="2"/>
-                  <circle cx="140" cy="232" r="2"/>
-                  <circle cx="220" cy="268" r="2"/>
-                  <circle cx="300" cy="332" r="2"/>
-                </g>
+              <!-- ELO median line · the cluster average -->
+              <g>
+                <line x1="20" y1="252" x2="340" y2="252" stroke="rgba(200,255,30,.45)" stroke-width="1" stroke-dasharray="5 4"/>
+                <text x="338" y="246" text-anchor="end" font-family="JetBrains Mono" font-size="8" letter-spacing=".22em" fill="rgba(200,255,30,.85)" font-weight="700">CLUSTER ELO MEDIAN</text>
+              </g>
+
+              <!-- the four MATCHED dots — bright lime, drift up sporadically -->
+              <g class="s1-matched">
+                <g><circle r="14" fill="url(#s1limeHalo)" opacity=".55"/><circle r="5" fill="#c8ff1e"><animate attributeName="r" values="5;7;5" dur="2.4s" repeatCount="indefinite"/></circle><animateTransform attributeName="transform" type="translate" values="64,200;72,160;58,180;64,200" dur="9s" repeatCount="indefinite"/></g>
+                <g><circle r="14" fill="url(#s1limeHalo)" opacity=".55"/><circle r="5" fill="#c8ff1e"><animate attributeName="r" values="5;7;5" dur="2.9s" begin="-1s" repeatCount="indefinite"/></circle><animateTransform attributeName="transform" type="translate" values="140,190;148,150;132,168;140,190" dur="8s" begin="-1.2s" repeatCount="indefinite"/></g>
+                <g><circle r="14" fill="url(#s1limeHalo)" opacity=".55"/><circle r="5" fill="#c8ff1e"><animate attributeName="r" values="5;7;5" dur="2.6s" begin="-1.6s" repeatCount="indefinite"/></circle><animateTransform attributeName="transform" type="translate" values="216,210;208,170;226,188;216,210" dur="10s" begin="-2.4s" repeatCount="indefinite"/></g>
+                <g><circle r="14" fill="url(#s1limeHalo)" opacity=".55"/><circle r="5" fill="#c8ff1e"><animate attributeName="r" values="5;7;5" dur="3.1s" begin="-2.2s" repeatCount="indefinite"/></circle><animateTransform attributeName="transform" type="translate" values="290,200;282,158;298,180;290,200" dur="9.5s" begin="-3.4s" repeatCount="indefinite"/></g>
+              </g>
+
+              <!-- the 36 REJECTED dots — small pink/dim, jittery, sinking gradually below the median -->
+              <g class="s1-rejected" fill="url(#s1pinkDot)">
+                <circle cx="34"  cy="280" r="2.8"><animate attributeName="cx" values="34;38;30;34" dur="1.6s" repeatCount="indefinite"/><animate attributeName="cy" values="280;292;276;280" dur="2.1s" repeatCount="indefinite"/></circle>
+                <circle cx="60"  cy="304" r="2.6"><animate attributeName="cx" values="60;56;64;60" dur="1.8s" begin="-.3s" repeatCount="indefinite"/><animate attributeName="cy" values="304;318;298;304" dur="2.4s" begin="-.5s" repeatCount="indefinite"/></circle>
+                <circle cx="90"  cy="286" r="3"  ><animate attributeName="cx" values="90;94;86;90" dur="1.7s" begin="-.7s" repeatCount="indefinite"/><animate attributeName="cy" values="286;300;282;286" dur="2.0s" begin="-.8s" repeatCount="indefinite"/></circle>
+                <circle cx="118" cy="320" r="2.4"><animate attributeName="cx" values="118;122;114;118" dur="1.5s" begin="-1.1s" repeatCount="indefinite"/><animate attributeName="cy" values="320;336;314;320" dur="2.3s" begin="-.4s" repeatCount="indefinite"/></circle>
+                <circle cx="146" cy="298" r="2.8"><animate attributeName="cx" values="146;142;150;146" dur="1.9s" begin="-1.4s" repeatCount="indefinite"/><animate attributeName="cy" values="298;314;292;298" dur="2.2s" begin="-1.1s" repeatCount="indefinite"/></circle>
+                <circle cx="170" cy="332" r="2.6"><animate attributeName="cx" values="170;174;166;170" dur="1.4s" begin="-1.8s" repeatCount="indefinite"/><animate attributeName="cy" values="332;346;326;332" dur="2.5s" begin="-1.3s" repeatCount="indefinite"/></circle>
+                <circle cx="200" cy="312" r="3"  ><animate attributeName="cx" values="200;204;196;200" dur="1.7s" begin="-2.1s" repeatCount="indefinite"/><animate attributeName="cy" values="312;328;306;312" dur="2.0s" begin="-1.7s" repeatCount="indefinite"/></circle>
+                <circle cx="228" cy="340" r="2.4"><animate attributeName="cx" values="228;232;224;228" dur="1.6s" begin="-2.4s" repeatCount="indefinite"/><animate attributeName="cy" values="340;356;334;340" dur="2.3s" begin="-1.9s" repeatCount="indefinite"/></circle>
+                <circle cx="256" cy="296" r="2.8"><animate attributeName="cx" values="256;252;260;256" dur="1.8s" begin="-2.7s" repeatCount="indefinite"/><animate attributeName="cy" values="296;312;290;296" dur="2.1s" begin="-2.2s" repeatCount="indefinite"/></circle>
+                <circle cx="284" cy="328" r="2.6"><animate attributeName="cx" values="284;288;280;284" dur="1.5s" begin="-3.1s" repeatCount="indefinite"/><animate attributeName="cy" values="328;344;322;328" dur="2.4s" begin="-2.6s" repeatCount="indefinite"/></circle>
+                <circle cx="310" cy="306" r="3"  ><animate attributeName="cx" values="310;314;306;310" dur="1.7s" begin="-3.4s" repeatCount="indefinite"/><animate attributeName="cy" values="306;320;300;306" dur="2.2s" begin="-2.9s" repeatCount="indefinite"/></circle>
+                <circle cx="334" cy="336" r="2.4"><animate attributeName="cx" values="334;330;338;334" dur="1.6s" begin="-3.7s" repeatCount="indefinite"/><animate attributeName="cy" values="336;352;330;336" dur="2.5s" begin="-3.2s" repeatCount="indefinite"/></circle>
+                <!-- second waterline · denser bottom field -->
+                <circle cx="44"  cy="362" r="2.6"><animate attributeName="cx" values="44;48;40;44" dur="1.5s" begin="-.2s" repeatCount="indefinite"/><animate attributeName="cy" values="362;376;356;362" dur="2.3s" begin="-1.4s" repeatCount="indefinite"/></circle>
+                <circle cx="74"  cy="386" r="2.4"><animate attributeName="cx" values="74;78;70;74" dur="1.8s" begin="-.6s" repeatCount="indefinite"/><animate attributeName="cy" values="386;400;380;386" dur="2.0s" begin="-1.7s" repeatCount="indefinite"/></circle>
+                <circle cx="102" cy="368" r="2.8"><animate attributeName="cx" values="102;106;98;102" dur="1.7s" begin="-1.0s" repeatCount="indefinite"/><animate attributeName="cy" values="368;382;362;368" dur="2.2s" begin="-2.0s" repeatCount="indefinite"/></circle>
+                <circle cx="134" cy="394" r="2.4"><animate attributeName="cx" values="134;138;130;134" dur="1.6s" begin="-1.3s" repeatCount="indefinite"/><animate attributeName="cy" values="394;408;388;394" dur="2.4s" begin="-2.3s" repeatCount="indefinite"/></circle>
+                <circle cx="162" cy="376" r="2.6"><animate attributeName="cx" values="162;158;166;162" dur="1.9s" begin="-1.6s" repeatCount="indefinite"/><animate attributeName="cy" values="376;390;370;376" dur="2.1s" begin="-2.6s" repeatCount="indefinite"/></circle>
+                <circle cx="194" cy="402" r="2.4"><animate attributeName="cx" values="194;198;190;194" dur="1.4s" begin="-2.0s" repeatCount="indefinite"/><animate attributeName="cy" values="402;416;396;402" dur="2.3s" begin="-2.9s" repeatCount="indefinite"/></circle>
+                <circle cx="220" cy="384" r="2.8"><animate attributeName="cx" values="220;224;216;220" dur="1.7s" begin="-2.4s" repeatCount="indefinite"/><animate attributeName="cy" values="384;398;378;384" dur="2.0s" begin="-3.1s" repeatCount="indefinite"/></circle>
+                <circle cx="252" cy="412" r="2.6"><animate attributeName="cx" values="252;256;248;252" dur="1.6s" begin="-2.7s" repeatCount="indefinite"/><animate attributeName="cy" values="412;426;406;412" dur="2.4s" begin="-3.4s" repeatCount="indefinite"/></circle>
+                <circle cx="282" cy="390" r="2.4"><animate attributeName="cx" values="282;278;286;282" dur="1.8s" begin="-3.0s" repeatCount="indefinite"/><animate attributeName="cy" values="390;404;384;390" dur="2.2s" begin="-3.7s" repeatCount="indefinite"/></circle>
+                <circle cx="310" cy="416" r="2.8"><animate attributeName="cx" values="310;314;306;310" dur="1.5s" begin="-3.3s" repeatCount="indefinite"/><animate attributeName="cy" values="416;430;410;416" dur="2.3s" begin="-4.0s" repeatCount="indefinite"/></circle>
+                <circle cx="338" cy="398" r="2.6"><animate attributeName="cx" values="338;334;342;338" dur="1.7s" begin="-3.6s" repeatCount="indefinite"/><animate attributeName="cy" values="398;412;392;398" dur="2.1s" begin="-4.3s" repeatCount="indefinite"/></circle>
+              </g>
+
+              <!-- YOU marker · pulsing pink dot below the median with an arrow callout -->
+              <g transform="translate(180,360)">
+                <circle r="22" fill="rgba(255,26,107,.18)"><animate attributeName="r" values="22;30;22" dur="2.2s" repeatCount="indefinite"/></circle>
+                <circle r="9" fill="#ff1a6b" filter="drop-shadow(0 0 14px rgba(255,26,107,.9))"><animate attributeName="r" values="9;12;9" dur="1.8s" repeatCount="indefinite"/></circle>
+                <line x1="0" y1="-13" x2="0" y2="-28" stroke="var(--pink)" stroke-width="1.5"/>
+                <polygon points="0,-32 -4,-26 4,-26" fill="var(--pink)"/>
+                <text y="40" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing=".22em" fill="var(--pink)" font-weight="700">YOU · 0.31 ELO</text>
+                <text y="54" text-anchor="middle" font-family="Instrument Serif" font-style="italic" font-size="12" fill="rgba(255,255,255,.65)">bottom of the cluster</text>
               </g>
             </svg>
-
-            <!-- floating emoji rain layer · HTML overlay for clean transform/opacity -->
-            <div class="mo-rain-emojis" id="csEmojiRain"></div>
 
             <!-- editorial overlay: big "4 / 40" + bottom score -->
             <div class="mo-rain-stat">
@@ -1331,188 +1390,6 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
 <!-- ============================================================ -->
 <!-- STAGE 04 · CASE-STUDY NARRATIVES (cousin DNA · spouse merge)    -->
 <!-- ============================================================ -->
-<section class="story-stage">
-  <div class="story-shead">
-    <div class="lbl">04 · THE PEOPLE WHO PAY · TWO TRUE-SHAPE STORIES</div>
-    <h2>The composite is <em>not abstract.</em><br/>It costs particular people particular money.</h2>
-    <p class="dek">Two composite case studies. A second cousin's DNA. A spouse's old credit file. Each one shows how a <b style="font-style:normal;font-family:var(--sans);font-weight:700;background:var(--lime);color:var(--ink);padding:0 6px">single signal you didn't authorize</b> can re-shape a life.</p>
-  </div>
-
-  <div class="story-cases">
-
-    <!-- ============ CASE 1 · COUSIN DNA · FAMILY TREE VIZ ============ -->
-    <div class="story-case" id="case1" style="--case-color:var(--pink)">
-      <div class="sc-side">
-        <div class="case-l">CASE 01 · THE COUSIN'S DNA</div>
-        <h3>She never spit in the tube.<br/><em>Her premium went up anyway.</em></h3>
-        <div class="protagonist">
-          <div class="av">M</div>
-          <div>
-            <div class="nm">MARA · age 41</div>
-            <div class="blr">DESIGNER · NEVER TESTED · MAINE</div>
-          </div>
-        </div>
-        <div class="sc-narration" id="case1Nar">"Mara is one of <b>thirteen extended family members</b> the model can identify with confidence — without her ever submitting a sample. Press play to watch the schedule unfold, or <b>click any relative</b> to toggle them tested / untested and see how the model's confidence + her premium re-compute live."</div>
-        <div class="sc-stat-row">
-          <div class="sc-stat"><div class="l">RELATIVES TESTED</div><div class="v" id="c1Tested">0</div></div>
-          <div class="sc-stat"><div class="l">MODEL CONFIDENCE</div><div class="v" id="c1Conf">0%</div></div>
-          <div class="sc-stat"><div class="l">PREMIUM MULT.</div><div class="v" id="c1Mult">1.00×</div></div>
-        </div>
-        <div class="sc-reveal">
-          <div class="rev-text">
-            <div class="rev-l">CONSEQUENCE · 30 YR</div>
-            <div class="rev-v" id="c1Reveal">+$48,600</div>
-            <div class="rev-sub">Estimated additional life + LTC + disability premium <b>from data she never authorized.</b></div>
-          </div>
-          <div class="rev-src">Sweeney et al. 2018<br/>GINA §201–§215<br/>42 USC §2000ff</div>
-        </div>
-      </div>
-      <div class="sc-viz">
-        <div class="viz-h">
-          <span class="vh-l">FAMILY · LIVE</span>
-          <span class="vh-yr">YEAR <em id="c1Year">2021</em></span>
-        </div>
-        <div class="sc-viz-canvas viz-tree" id="c1Viz">
-          <svg viewBox="0 0 460 320" preserveAspectRatio="xMidYMid meet">
-            <g class="links" id="c1Links">
-              <!-- links generated by JS -->
-            </g>
-            <g class="nodes" id="c1Nodes">
-              <!-- nodes generated by JS -->
-            </g>
-          </svg>
-          <div class="you-multiplier" id="c1YouMult">1.00×</div>
-        </div>
-        <div class="sc-viz-controls">
-          <button class="ctl play" id="c1Play">▶ PLAY 2021 → 2030</button>
-          <div class="scrub" id="c1Scrub"><div class="scrub-fill" id="c1ScrubFill"></div><div class="scrub-thumb" id="c1ScrubThumb"></div></div>
-          <button class="ctl" id="c1Reset">↻</button>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- ============ CASE 3 · SPOUSE COMPOSITE MERGE · COLLISION ============ -->
-    <div class="story-case" id="case3" style="--case-color:var(--yellow)">
-      <div class="sc-side">
-        <div class="case-l">CASE 02 · THE SPOUSE COMPOSITE MERGE</div>
-        <h3>She kept her credit clean.<br/><em>Her wedding cost her 0.3%.</em></h3>
-        <div class="protagonist">
-          <div class="av">L</div>
-          <div>
-            <div class="nm">LENA · age 29</div>
-            <div class="blr">NURSE · NEWLY MARRIED · CHICAGO</div>
-          </div>
-        </div>
-        <div class="sc-narration" id="case3Nar">"Lena had a 790 FICO. Theo had a 651. They didn't merge bank accounts. <b>The system merged them anyway</b> within 90 days — and Theo's 2018 late-payment markers transferred onto Lena's household composite. Press play."</div>
-        <div class="sc-stat-row">
-          <div class="sc-stat"><div class="l">MARRIAGE STATUS</div><div class="v" id="c3Stat">SOLO</div></div>
-          <div class="sc-stat"><div class="l">EXTRA PREMIUM</div><div class="v" id="c3Premium">$0/mo</div></div>
-          <div class="sc-stat"><div class="l">GHOST MARKERS</div><div class="v" id="c3Ghost">0</div></div>
-        </div>
-        <div class="sc-reveal" style="background:var(--yellow);color:var(--ink)">
-          <div class="rev-text">
-            <div class="rev-l">CONSEQUENCE · 5 YR</div>
-            <div class="rev-v" id="c3Reveal">+$8,940</div>
-            <div class="rev-sub">Extra in insurance + lending <b>from a spouse's history she never agreed to share.</b></div>
-          </div>
-          <div class="rev-src">CFPB 2023 household-scoring<br/>LexisNexis CLUE<br/>Markup 2024</div>
-        </div>
-      </div>
-      <div class="sc-viz">
-        <div class="viz-h">
-          <span class="vh-l">COMPOSITE COLLISION · LIVE</span>
-          <span class="vh-yr">YEAR <em id="c3Year">2024</em></span>
-        </div>
-        <div class="sc-viz-canvas viz-merge" id="c3Viz">
-          <span class="household-label" id="c3House">HOUSEHOLD COMPOSITE · ACTIVE</span>
-          <svg viewBox="0 0 460 280" preserveAspectRatio="xMidYMid meet">
-            <!-- Lena (left) -->
-            <g class="comp-circle" id="c3Lena" style="--ring-color:var(--lime);--ring-fill:rgba(200,255,30,.16)" transform="translate(115,140)">
-              <circle class="ring" r="60"/>
-              <text class="name" y="-72">LENA</text>
-              <text class="meta" y="80">FICO 790 · CLEAN</text>
-              <!-- positive markers · slow subtle drift via SMIL · each on its own rhythm -->
-              <circle class="marker" cx="-22" cy="-12" r="3" fill="rgba(200,255,30,.85)">
-                <animate attributeName="cx" values="-22;-20;-24;-22" dur="7s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="-12;-10;-14;-12" dur="9s" repeatCount="indefinite"/>
-              </circle>
-              <circle class="marker" cx="14" cy="-22" r="3" fill="rgba(200,255,30,.85)">
-                <animate attributeName="cx" values="14;16;12;14" dur="8s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="-22;-24;-20;-22" dur="10s" repeatCount="indefinite"/>
-              </circle>
-              <circle class="marker" cx="22" cy="8" r="3" fill="rgba(200,255,30,.85)">
-                <animate attributeName="cx" values="22;20;24;22" dur="11s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="8;10;6;8" dur="8.5s" repeatCount="indefinite"/>
-              </circle>
-              <circle class="marker" cx="-8" cy="18" r="3" fill="rgba(200,255,30,.85)">
-                <animate attributeName="cx" values="-8;-6;-10;-8" dur="9.5s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="18;20;16;18" dur="7.5s" repeatCount="indefinite"/>
-              </circle>
-              <circle class="marker" cx="-26" cy="22" r="3" fill="rgba(200,255,30,.85)">
-                <animate attributeName="cx" values="-26;-24;-28;-26" dur="10.5s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="22;24;20;22" dur="8s" repeatCount="indefinite"/>
-              </circle>
-              <circle class="marker" cx="6" cy="28" r="3" fill="rgba(200,255,30,.85)">
-                <animate attributeName="cx" values="6;8;4;6" dur="11.5s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="28;30;26;28" dur="9s" repeatCount="indefinite"/>
-              </circle>
-            </g>
-            <!-- Theo (right) -->
-            <g class="comp-circle" id="c3Theo" style="--ring-color:var(--pink);--ring-fill:rgba(255,26,107,.12)" transform="translate(345,140)">
-              <circle class="ring" r="60"/>
-              <text class="name" y="-72">THEO</text>
-              <text class="meta" y="80">FICO 651 · 3 LATES (2018)</text>
-              <!-- markers — mix of positive and flag (pink) · subtle drift on each -->
-              <circle class="marker" cx="-22" cy="-12" r="3" fill="rgba(200,255,30,.85)">
-                <animate attributeName="cx" values="-22;-20;-24;-22" dur="8s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="-12;-14;-10;-12" dur="10s" repeatCount="indefinite"/>
-              </circle>
-              <circle class="marker" cx="14" cy="-22" r="3" fill="rgba(200,255,30,.85)">
-                <animate attributeName="cx" values="14;12;16;14" dur="9.5s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="-22;-20;-24;-22" dur="7s" repeatCount="indefinite"/>
-              </circle>
-              <circle class="marker theo-flag" cx="22" cy="8" r="3" fill="rgba(255,26,107,.85)">
-                <animate attributeName="cx" values="22;24;20;22" dur="9s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="8;6;10;8" dur="11s" repeatCount="indefinite"/>
-              </circle>
-              <circle class="marker theo-flag" cx="-8" cy="18" r="3" fill="rgba(255,26,107,.85)">
-                <animate attributeName="cx" values="-8;-10;-6;-8" dur="10s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="18;16;20;18" dur="8.5s" repeatCount="indefinite"/>
-              </circle>
-              <circle class="marker theo-flag" cx="-26" cy="22" r="3" fill="rgba(255,26,107,.85)">
-                <animate attributeName="cx" values="-26;-28;-24;-26" dur="11s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="22;20;24;22" dur="9.5s" repeatCount="indefinite"/>
-              </circle>
-              <circle class="marker" cx="6" cy="28" r="3" fill="rgba(200,255,30,.85)">
-                <animate attributeName="cx" values="6;4;8;6" dur="8s" repeatCount="indefinite"/>
-                <animate attributeName="cy" values="28;26;30;28" dur="10.5s" repeatCount="indefinite"/>
-              </circle>
-            </g>
-            <!-- merge connector (initially hidden) -->
-            <line class="merge-line" id="c3MergeLine" x1="175" y1="140" x2="285" y2="140"/>
-          </svg>
-        </div>
-        <div class="viz-merge-legend">
-          <span class="sw lena">Lena marker</span>
-          <span class="sw theo">Theo flag</span>
-          <span class="sw house">Household merge</span>
-        </div>
-        <div class="sc-viz-controls">
-          <button class="ctl play" id="c3Play">▶ PLAY 2024 → 2029</button>
-          <div class="scrub" id="c3Scrub"><div class="scrub-fill" id="c3ScrubFill"></div><div class="scrub-thumb" id="c3ScrubThumb"></div></div>
-          <button class="ctl" id="c3Reset">↻</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-</section>
-
-<!-- ============================================================ -->
-<!-- STAGE 02 · THE GATEKEEPERS — sectors + composite ownership + scope -->
-<!-- ============================================================ -->
 <section class="gk-stage">
   <div class="gk-head">
     <div class="lbl">02 · WHO RANKS YOU · WHO OWNS YOU · WHAT THEY SEE</div>
@@ -1695,6 +1572,188 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
 
 <!-- ============================================================ -->
 <!-- STAGE 05 · PROTECTION · ACTION-ORIENTED                        -->
+<!-- ============================================================ -->
+<section class="story-stage">
+  <div class="story-shead">
+    <div class="lbl">04 · THE PEOPLE WHO PAY · TWO TRUE-SHAPE STORIES</div>
+    <h2>The composite is <em>not abstract.</em><br/>It costs particular people particular money.</h2>
+    <p class="dek">Two composite case studies. A second cousin's DNA. A spouse's old credit file. Each one shows how a <b style="font-style:normal;font-family:var(--sans);font-weight:700;background:var(--lime);color:var(--ink);padding:0 6px">single signal you didn't authorize</b> can re-shape a life.</p>
+  </div>
+
+  <div class="story-cases">
+
+    <!-- ============ CASE 1 · COUSIN DNA · FAMILY TREE VIZ ============ -->
+    <div class="story-case" id="case1" style="--case-color:var(--pink)">
+      <div class="sc-side">
+        <div class="case-l">CASE 01 · THE COUSIN'S DNA</div>
+        <h3>She never spit in the tube.<br/><em>Her premium went up anyway.</em></h3>
+        <div class="protagonist">
+          <div class="av">M</div>
+          <div>
+            <div class="nm">MARA · age 41</div>
+            <div class="blr">DESIGNER · NEVER TESTED · MAINE</div>
+          </div>
+        </div>
+        <div class="sc-narration" id="case1Nar">"Mara is one of <b>thirteen extended family members</b> the model can identify with confidence — without her ever submitting a sample. Press play to watch the schedule unfold, or <b>click any relative</b> to toggle them tested / untested and see how the model's confidence + her premium re-compute live."</div>
+        <div class="sc-stat-row">
+          <div class="sc-stat"><div class="l">RELATIVES TESTED</div><div class="v" id="c1Tested">0</div></div>
+          <div class="sc-stat"><div class="l">MODEL CONFIDENCE</div><div class="v" id="c1Conf">0%</div></div>
+          <div class="sc-stat"><div class="l">PREMIUM MULT.</div><div class="v" id="c1Mult">1.00×</div></div>
+        </div>
+        <div class="sc-reveal">
+          <div class="rev-text">
+            <div class="rev-l">CONSEQUENCE · 30 YR</div>
+            <div class="rev-v" id="c1Reveal">+$48,600</div>
+            <div class="rev-sub">Estimated additional life + LTC + disability premium <b>from data she never authorized.</b></div>
+          </div>
+          <div class="rev-src">Sweeney et al. 2018<br/>GINA §201–§215<br/>42 USC §2000ff</div>
+        </div>
+      </div>
+      <div class="sc-viz">
+        <div class="viz-h">
+          <span class="vh-l">FAMILY · LIVE</span>
+          <span class="vh-yr">YEAR <em id="c1Year">2021</em></span>
+        </div>
+        <div class="sc-viz-canvas viz-tree" id="c1Viz">
+          <svg viewBox="0 0 460 320" preserveAspectRatio="xMidYMid meet">
+            <g class="links" id="c1Links">
+              <!-- links generated by JS -->
+            </g>
+            <g class="nodes" id="c1Nodes">
+              <!-- nodes generated by JS -->
+            </g>
+          </svg>
+          <div class="you-multiplier" id="c1YouMult">1.00×</div>
+        </div>
+        <div class="sc-viz-controls">
+          <button class="ctl play" id="c1Play">▶ PLAY 2021 → 2030</button>
+          <div class="scrub" id="c1Scrub"><div class="scrub-fill" id="c1ScrubFill"></div><div class="scrub-thumb" id="c1ScrubThumb"></div></div>
+          <button class="ctl" id="c1Reset">↻</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============ CASE 3 · SPOUSE COMPOSITE MERGE · COLLISION ============ -->
+    <div class="story-case" id="case3" style="--case-color:var(--yellow)">
+      <div class="sc-side">
+        <div class="case-l">CASE 02 · THE SPOUSE COMPOSITE MERGE</div>
+        <h3>She kept her credit clean.<br/><em>Her wedding cost her 0.3%.</em></h3>
+        <div class="protagonist">
+          <div class="av">L</div>
+          <div>
+            <div class="nm">LENA · age 29</div>
+            <div class="blr">NURSE · NEWLY MARRIED · CHICAGO</div>
+          </div>
+        </div>
+        <div class="sc-narration" id="case3Nar">"Lena had a 790 FICO. Theo had a 651. They didn't merge bank accounts. <b>The system merged them anyway</b> within 90 days — and Theo's 2018 late-payment markers transferred onto Lena's household composite. Press play."</div>
+        <div class="sc-stat-row">
+          <div class="sc-stat"><div class="l">MARRIAGE STATUS</div><div class="v" id="c3Stat">SOLO</div></div>
+          <div class="sc-stat"><div class="l">EXTRA PREMIUM</div><div class="v" id="c3Premium">$0/mo</div></div>
+          <div class="sc-stat"><div class="l">GHOST MARKERS</div><div class="v" id="c3Ghost">0</div></div>
+        </div>
+        <div class="sc-reveal" style="background:var(--yellow);color:var(--ink)">
+          <div class="rev-text">
+            <div class="rev-l">CONSEQUENCE · 5 YR</div>
+            <div class="rev-v" id="c3Reveal">+$8,940</div>
+            <div class="rev-sub">Extra in insurance + lending <b>from a spouse's history she never agreed to share.</b></div>
+          </div>
+          <div class="rev-src">CFPB 2023 household-scoring<br/>LexisNexis CLUE<br/>Markup 2024</div>
+        </div>
+      </div>
+      <div class="sc-viz">
+        <div class="viz-h">
+          <span class="vh-l">COMPOSITE COLLISION · LIVE</span>
+          <span class="vh-yr">YEAR <em id="c3Year">2024</em></span>
+        </div>
+        <div class="sc-viz-canvas viz-merge" id="c3Viz">
+          <span class="household-label" id="c3House">HOUSEHOLD COMPOSITE · ACTIVE</span>
+          <svg viewBox="0 0 460 280" preserveAspectRatio="xMidYMid meet">
+            <!-- Lena (left) -->
+            <g class="comp-circle" id="c3Lena" style="--ring-color:var(--lime);--ring-fill:rgba(200,255,30,.16)" transform="translate(115,140)">
+              <circle class="ring" r="60"/>
+              <text class="name" y="-72">LENA</text>
+              <text class="meta" y="80">FICO 790 · CLEAN</text>
+              <!-- positive markers · slow subtle drift via SMIL · each on its own rhythm -->
+              <circle class="marker" cx="-22" cy="-12" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="-22;-20;-24;-22" dur="7s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="-12;-10;-14;-12" dur="9s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="14" cy="-22" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="14;16;12;14" dur="8s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="-22;-24;-20;-22" dur="10s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="22" cy="8" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="22;20;24;22" dur="11s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="8;10;6;8" dur="8.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="-8" cy="18" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="-8;-6;-10;-8" dur="9.5s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="18;20;16;18" dur="7.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="-26" cy="22" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="-26;-24;-28;-26" dur="10.5s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="22;24;20;22" dur="8s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="6" cy="28" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="6;8;4;6" dur="11.5s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="28;30;26;28" dur="9s" repeatCount="indefinite"/>
+              </circle>
+            </g>
+            <!-- Theo (right) -->
+            <g class="comp-circle" id="c3Theo" style="--ring-color:var(--pink);--ring-fill:rgba(255,26,107,.12)" transform="translate(345,140)">
+              <circle class="ring" r="60"/>
+              <text class="name" y="-72">THEO</text>
+              <text class="meta" y="80">FICO 651 · 3 LATES (2018)</text>
+              <!-- markers — mix of positive and flag (pink) · subtle drift on each -->
+              <circle class="marker" cx="-22" cy="-12" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="-22;-20;-24;-22" dur="8s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="-12;-14;-10;-12" dur="10s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="14" cy="-22" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="14;12;16;14" dur="9.5s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="-22;-20;-24;-22" dur="7s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker theo-flag" cx="22" cy="8" r="3" fill="rgba(255,26,107,.85)">
+                <animate attributeName="cx" values="22;24;20;22" dur="9s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="8;6;10;8" dur="11s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker theo-flag" cx="-8" cy="18" r="3" fill="rgba(255,26,107,.85)">
+                <animate attributeName="cx" values="-8;-10;-6;-8" dur="10s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="18;16;20;18" dur="8.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker theo-flag" cx="-26" cy="22" r="3" fill="rgba(255,26,107,.85)">
+                <animate attributeName="cx" values="-26;-28;-24;-26" dur="11s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="22;20;24;22" dur="9.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle class="marker" cx="6" cy="28" r="3" fill="rgba(200,255,30,.85)">
+                <animate attributeName="cx" values="6;4;8;6" dur="8s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="28;26;30;28" dur="10.5s" repeatCount="indefinite"/>
+              </circle>
+            </g>
+            <!-- merge connector (initially hidden) -->
+            <line class="merge-line" id="c3MergeLine" x1="175" y1="140" x2="285" y2="140"/>
+          </svg>
+        </div>
+        <div class="viz-merge-legend">
+          <span class="sw lena">Lena marker</span>
+          <span class="sw theo">Theo flag</span>
+          <span class="sw house">Household merge</span>
+        </div>
+        <div class="sc-viz-controls">
+          <button class="ctl play" id="c3Play">▶ PLAY 2024 → 2029</button>
+          <div class="scrub" id="c3Scrub"><div class="scrub-fill" id="c3ScrubFill"></div><div class="scrub-thumb" id="c3ScrubThumb"></div></div>
+          <button class="ctl" id="c3Reset">↻</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- STAGE 02 · THE GATEKEEPERS — sectors + composite ownership + scope -->
 <!-- ============================================================ -->
 <section class="prot-stage">
   <div class="prot-shead">
