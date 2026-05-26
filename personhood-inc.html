@@ -309,11 +309,30 @@ body[data-picked="true"] .arch-prompt .post{display:flex;align-items:center;gap:
 .bar .f.pay{background:repeating-linear-gradient(45deg,var(--pink) 0 8px,#d91458 8px 16px)}
 .bar .f.gen{background:repeating-linear-gradient(45deg,var(--persona-color) 0 8px,rgba(0,0,0,.2) 8px 16px);transition:background .4s,width .5s}
 .bar .lbl{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:10px;color:var(--ink);font-weight:700;z-index:2;text-transform:uppercase;letter-spacing:.1em}
-.bar .val{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--display);font-size:14px;color:var(--ink);z-index:2;letter-spacing:-.02em}
-.net{margin-top:auto;padding:18px;background:var(--pink);color:var(--cream);text-align:center}
-.net .l{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:5px}
-.net .big{font-family:var(--display);font-size:42px;line-height:.85;letter-spacing:-.04em}
-.net .big .u{font-family:var(--mono);font-size:10px;letter-spacing:.14em;display:block;margin-top:5px;font-weight:400}
+.bar .val{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  font-family:var(--display);font-size:16px;letter-spacing:-.02em;z-index:2;
+  color:#f5ff3a;
+  text-shadow:
+    0 0 8px rgba(245,255,58,.85),
+    0 0 18px rgba(245,255,58,.55),
+    0 0 32px rgba(245,255,58,.35);
+  font-variant-numeric:tabular-nums;
+}
+.net{margin-top:auto;padding:22px 18px;background:linear-gradient(180deg, var(--pink) 0%, #c81259 100%);color:var(--cream);text-align:center;position:relative;overflow:hidden}
+.net::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%, rgba(245,255,58,.12), transparent 70%);pointer-events:none}
+.net .l{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px;position:relative;color:rgba(255,255,255,.85)}
+.net .big{
+  font-family:var(--display);font-size:46px;line-height:.85;letter-spacing:-.04em;position:relative;
+  color:#f5ff3a;
+  text-shadow:
+    0 0 14px rgba(245,255,58,.95),
+    0 0 28px rgba(245,255,58,.7),
+    0 0 48px rgba(245,255,58,.45),
+    0 0 80px rgba(245,255,58,.25);
+  font-variant-numeric:tabular-nums;
+}
+.net .big .u{font-family:var(--mono);font-size:10px;letter-spacing:.14em;display:block;margin-top:8px;font-weight:400;color:rgba(255,255,255,.85);text-shadow:none}
 
 /* =========================================================== STAGE 8 — RECEIPTS (NEW · proof layer) */
 .receipts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:3px solid var(--ink);border-left:3px solid var(--ink)}
@@ -767,7 +786,90 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
   </div>
 </section>
 
-<!-- =========================================================== STAGE 6 — PERCEPTION LOOP -->
+<!-- =========================================================== STAGE 6 — PHONE PERCEPTION (interactive iPhone) -->
+<style>
+  /* IPHONE INTERACTIVE — bespoke to Stage 6, scoped */
+  .phn-wrap{display:grid; grid-template-columns:minmax(260px,1fr) minmax(280px,360px); gap:48px; align-items:start; margin-top:12px}
+  .phn-side h4{font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--persona-color); font-weight:700; margin-bottom:10px; display:inline-flex; align-items:center; gap:10px}
+  .phn-side h4::before{content:""; width:24px; height:1.5px; background:var(--persona-color)}
+  .phn-side .lead{font-family:var(--italic); font-style:italic; font-size:17px; line-height:1.45; color:var(--ink-soft); max-width:48ch; margin-bottom:24px}
+  .phn-pick{display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:rgba(0,0,0,.12); padding:1px; margin-bottom:22px}
+  .phn-pick button{font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:11px 6px; background:var(--cream); color:var(--ink); border:none; cursor:pointer; transition:.18s; font-weight:700}
+  .phn-pick button:hover{background:rgba(255,255,255,.6)}
+  .phn-pick button.act{background:var(--ink); color:var(--cream)}
+  .phn-pick button.act[data-p="curator"]{background:#2e5e9c; color:#fff}
+  .phn-pick button.act[data-p="hustler"]{background:#c45a2e; color:#fff}
+  .phn-pick button.act[data-p="caretaker"]{background:#6a9c5e; color:#fff}
+  .phn-pick button.act[data-p="drifter"]{background:#9b6dd4; color:#fff}
+  .phn-pick button.act[data-p="apprentice"]{background:#d4a04a; color:#fff}
+  .phn-pick button.act[data-p="believer"]{background:#1a1a1a; color:var(--lime)}
+  .phn-stats{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(0,0,0,.1); padding:1px; margin-top:18px}
+  .phn-stats > div{padding:14px 16px; background:var(--cream); display:flex; flex-direction:column; gap:4px}
+  .phn-stats b{font-family:var(--display); font-size:26px; letter-spacing:-.025em; color:var(--persona-color); font-variant-numeric:tabular-nums; line-height:1}
+  .phn-stats span{font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#666}
+
+  .phn-stage{position:relative; padding:30px 0; min-height:600px; display:flex; align-items:flex-start; justify-content:center}
+  .iphone{
+    width:100%; max-width:300px; aspect-ratio:1/2.06;
+    background:#0a0a0a; border-radius:42px; padding:8px;
+    box-shadow:inset 0 0 0 2px #1f1f23, inset 0 0 0 4px #0a0a0a, 0 18px 50px -18px rgba(0,0,0,.7), 0 8px 18px -8px rgba(0,0,0,.4);
+    position:relative;
+  }
+  .iphone::before{content:""; position:absolute; left:-3px; top:18%; width:4px; height:22%; background:linear-gradient(180deg,#1a1a1f,#2a2a30 30%,#2a2a30 70%,#1a1a1f); border-radius:2px; box-shadow:0 64px 0 #2a2a30}
+  .iphone::after{content:""; position:absolute; right:-3px; top:24%; width:4px; height:12%; background:linear-gradient(180deg,#1a1a1f,#2a2a30 50%,#1a1a1f); border-radius:2px}
+  .iphone-screen{background:var(--cream); border-radius:34px; overflow:hidden; height:100%; display:flex; flex-direction:column; position:relative}
+  .iphone-island{position:absolute; top:8px; left:50%; transform:translateX(-50%); width:108px; height:30px; background:#000; border-radius:15px; z-index:10}
+  .iphone-status{display:flex; justify-content:space-between; align-items:center; padding:13px 22px 6px; font-family:-apple-system,'SF Pro Display',system-ui,sans-serif; font-size:14px; font-weight:600; color:#000; position:relative; z-index:11}
+  .iphone-status .t{font-variant-numeric:tabular-nums}
+  .iphone-status .i{font-size:10px; letter-spacing:.05em; opacity:.85}
+  .iphone-feed{flex:1; overflow:hidden; position:relative; padding:8px 12px 70px; display:flex; flex-direction:column; gap:8px; transition:transform .8s ease}
+  .iphone-feed.scroll{transform:translateY(-180px)}
+  .iphone-feed .ifc{
+    background:#fff; padding:10px 12px; border-radius:14px; box-shadow:0 1px 3px rgba(0,0,0,.06);
+    display:flex; flex-direction:column; gap:4px; opacity:0; transform:translateY(8px);
+    animation:ifcIn .45s ease forwards;
+  }
+  @keyframes ifcIn{to{opacity:1; transform:translateY(0)}}
+  .iphone-feed .ifc .src{font-family:'SF Pro Text','Helvetica Neue',system-ui,sans-serif; font-size:8.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--persona-color); font-weight:700; display:flex; justify-content:space-between}
+  .iphone-feed .ifc .src .ts{color:#999; letter-spacing:.04em}
+  .iphone-feed .ifc h6{font-family:'Charter','Georgia',serif; font-size:13px; line-height:1.18; color:#111; font-weight:600; letter-spacing:-.01em; margin:0}
+  .iphone-feed .ifc p{font-family:'SF Pro Text','Helvetica Neue',system-ui,sans-serif; font-size:10.5px; line-height:1.35; color:#555; margin:0}
+  .iphone-feed .ifc.ad{background:linear-gradient(135deg, var(--persona-color), rgba(0,0,0,.85)); color:#fff; padding:14px 14px}
+  .iphone-feed .ifc.ad .src{color:rgba(255,255,255,.7); justify-content:space-between}
+  .iphone-feed .ifc.ad .src .badge{background:rgba(255,255,255,.18); padding:1px 6px; border-radius:3px; font-size:8px}
+  .iphone-feed .ifc.ad h6{color:#fff; font-family:'SF Pro Display','Helvetica Neue',system-ui,sans-serif; font-size:14px}
+  .iphone-feed .ifc.ad p{color:rgba(255,255,255,.85); font-size:10.5px}
+  .iphone-feed .ifc.ad .cta{margin-top:6px; font-family:'SF Pro Text',sans-serif; font-size:10.5px; font-weight:600; color:#fff; opacity:.95}
+  .iphone-feed .ifc.thumb{padding:0; overflow:hidden; background:transparent; box-shadow:none}
+  .iphone-feed .ifc.thumb .img{height:74px; background:linear-gradient(135deg, var(--persona-color), #444); border-radius:14px 14px 0 0; position:relative; overflow:hidden}
+  .iphone-feed .ifc.thumb .img::after{content:""; position:absolute; inset:0; background:radial-gradient(ellipse at 30% 40%, rgba(255,255,255,.18), transparent 60%)}
+  .iphone-feed .ifc.thumb .b{background:#fff; padding:10px 12px; border-radius:0 0 14px 14px; display:flex; flex-direction:column; gap:4px}
+
+  .iphone-notifs{position:absolute; top:46px; left:8px; right:8px; pointer-events:none; z-index:20; display:flex; flex-direction:column; gap:6px}
+  .iphone-notif{
+    background:rgba(255,255,255,.92); backdrop-filter:blur(8px);
+    padding:9px 11px; border-radius:14px; box-shadow:0 4px 16px rgba(0,0,0,.18);
+    display:flex; gap:8px; align-items:flex-start;
+    opacity:0; transform:translateY(-12px) scale(.96);
+    animation:notifIn .35s ease forwards, notifOut .4s ease 4.2s forwards;
+  }
+  @keyframes notifIn{to{opacity:1; transform:translateY(0) scale(1)}}
+  @keyframes notifOut{to{opacity:0; transform:translateY(-12px) scale(.96)}}
+  .iphone-notif .icon{width:24px; height:24px; border-radius:6px; background:var(--persona-color); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; color:#fff; font-family:'SF Pro Display',sans-serif; font-weight:700}
+  .iphone-notif .body{flex:1; min-width:0}
+  .iphone-notif .ap{font-family:'SF Pro Text',sans-serif; font-size:9px; font-weight:700; color:#000; letter-spacing:.04em; text-transform:uppercase; display:flex; justify-content:space-between}
+  .iphone-notif .ap .t{font-weight:400; opacity:.5}
+  .iphone-notif .ti{font-family:'SF Pro Text',sans-serif; font-size:11px; font-weight:600; color:#000; line-height:1.2; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .iphone-notif .ms{font-family:'SF Pro Text',sans-serif; font-size:10.5px; color:#444; line-height:1.25; margin-top:1px; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical}
+
+  .iphone-dock{position:absolute; bottom:14px; left:14px; right:14px; height:54px; background:rgba(255,255,255,.42); backdrop-filter:blur(12px); border-radius:18px; display:flex; align-items:center; justify-content:space-around; padding:0 8px; z-index:5}
+  .iphone-dock span{font-size:24px; line-height:1; opacity:.85}
+
+  @media (max-width:820px){
+    .phn-wrap{grid-template-columns:1fr; gap:24px}
+    .iphone{max-width:280px}
+  }
+</style>
 <section class="stage" id="s6" data-stage="6">
   <div class="head">
     <div class="num">06<span class="lbl">FEED</span></div>
@@ -775,26 +877,39 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
       <h2>The <em>world</em> you<br/>are actually <em>shown.</em></h2>
     </div>
   </div>
-  <div class="perception">
-    <div class="p-ctrl">
+  <div class="phn-wrap">
+    <div class="phn-side">
       <h4>FEED FOR · <span id="pCurrentName">CURATOR</span></h4>
-      <div class="lead">This is the feed your persona's cluster is most likely served. Toggle polish and activity to see how the algorithm responds.</div>
-      <h4>POLISH</h4>
-      <div class="p-slide">
-        <input type="range" id="pPolish" min="0" max="4" value="3" />
-        <div class="lbl"><span>raw</span><b id="pPolishVal">sharp</b><span>polished</span></div>
+      <div class="lead">This is the actual phone your persona is most likely holding right now. Watch the news cards scroll. Notifications and texts arrive. Ads slip into the feed when the cluster predicts you'll click. Tap a different persona — the whole device re-skins.</div>
+
+      <div class="phn-pick" id="phnPick">
+        <button class="act" data-p="curator">Curator</button>
+        <button data-p="hustler">Hustler</button>
+        <button data-p="caretaker">Caretaker</button>
+        <button data-p="drifter">Drifter</button>
+        <button data-p="apprentice">Apprentice</button>
+        <button data-p="believer">Believer</button>
       </div>
-      <h4>ACTIVITY</h4>
-      <div class="p-slide">
-        <input type="range" id="pActivity" min="0" max="4" value="3" />
-        <div class="lbl"><span>quiet</span><b id="pActivityVal">heavy</b><span>always-on</span></div>
-      </div>
-      <div class="p-stat">
-        <b>LIVE SURVEILLANCE</b>
-        <span id="pSessionLog">47</span> micro-behaviors logged this session · <span id="pSessionAds">3</span> ads served · cluster confidence rising.
+
+      <div class="phn-stats">
+        <div><b id="phnNotif">0</b><span>notifications this session</span></div>
+        <div><b id="phnAds">0</b><span>ads slid into feed</span></div>
+        <div><b id="phnTrack">23</b><span>trackers active right now</span></div>
+        <div><b id="phnScroll">0</b><span>auto-scrolls performed</span></div>
       </div>
     </div>
-    <div class="p-feed" id="pFeed"></div>
+
+    <div class="phn-stage">
+      <div class="iphone" id="phnPhone">
+        <div class="iphone-screen">
+          <div class="iphone-island"></div>
+          <div class="iphone-status"><span class="t" id="phnTime">9:41</span><span class="i">⌁ 100%</span></div>
+          <div class="iphone-feed" id="phnFeed"></div>
+          <div class="iphone-notifs" id="phnNotifs"></div>
+          <div class="iphone-dock"><span>💬</span><span>📰</span><span>📷</span><span>🔍</span></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -908,26 +1023,6 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
     </article>
 
   </div>
-</section>
-
-<!-- =========================================================== STAGE 9 — CLASS SYSTEM REVEAL -->
-<section class="stage cream" id="s9" data-stage="9">
-  <div class="head">
-    <div class="num">09<span class="lbl">CLASS</span></div>
-    <div>
-      <h2>You are not on the<br/><span class="ink-bg">same internet</span> as them.</h2>
-    </div>
-  </div>
-
-  <div class="class-intro">
-    <div class="pull">Six personas. <b>Four classes.</b> Different prices, different content, different lifestyle options offered — all decided by signals you didn't know you were giving.</div>
-    <div class="note">
-      Your class<b id="classTier">CLASS 02 · ASPIRATIONAL</b>
-      Calculated from<b id="classBasis">Curator pattern</b>
-    </div>
-  </div>
-
-  <div class="class-grid" id="classGrid"></div>
 </section>
 
 <!-- =========================================================== STAGE 9 — SHIELD INTERACTIVE -->
@@ -1047,14 +1142,18 @@ function setPersona(id) {
   document.documentElement.style.setProperty('--persona-color', p.color);
   document.body.dataset.persona = id;
   document.body.dataset.picked = 'true';
-  document.getElementById('hudPersona').textContent = p.name;
-  document.getElementById('picked-name').textContent = p.name;
-  document.getElementById('classTier').textContent = p.tierName;
-  document.getElementById('classBasis').textContent = p.basis;
-  document.getElementById('compName').textContent = p.name;
-  document.getElementById('mfPersonaTag').textContent = p.name;
-  document.getElementById('ceArchLabel').textContent = p.name;
-  document.getElementById('pCurrentName').textContent = p.name;
+  const setText = (sel, val) => { const el = document.getElementById(sel); if(el) el.textContent = val; };
+  setText('hudPersona', p.name);
+  setText('picked-name', p.name);
+  // classTier/classBasis live in the deleted Stage 9 — guard so the rest of setPersona still runs
+  setText('classTier', p.tierName);
+  setText('classBasis', p.basis);
+  setText('compName', p.name);
+  setText('mfPersonaTag', p.name);
+  setText('ceArchLabel', p.name);
+  setText('pCurrentName', p.name);
+  // sync the new iPhone scene with the picked persona
+  if(window._phn_setPersona) window._phn_setPersona(id);
 
   // archetype cards visual
   document.querySelectorAll('#archGrid .card').forEach(c => {
@@ -1453,36 +1552,293 @@ const FEEDS = {
   ]}
 };
 
-function renderPerception(){
-  const polish = parseInt(document.getElementById('pPolish').value);
-  const activity = parseInt(document.getElementById('pActivity').value);
-  const f = FEEDS[STATE.persona];
-  const adKeep = Math.max(1, Math.round(activity * 0.6));
-  let adsKept = 0;
-  let posts = f.posts.filter(p => { if(p.ad){ if(adsKept<adKeep){ adsKept++; return true; } return false; } return true; });
-  const polishLabels=['raw','soft','clean','sharp','polished'];
-  const activityLabels=['quiet','low','steady','heavy','always-on'];
-  document.getElementById('pPolishVal').textContent = polishLabels[polish];
-  document.getElementById('pActivityVal').textContent = activityLabels[activity];
-  document.getElementById('pSessionLog').textContent = (12 + activity*11 + polish*4);
-  document.getElementById('pSessionAds').textContent = adsKept;
-  const feed = document.getElementById('pFeed');
-  let html = `<div class="p-feed-head"><span>YOUR PERSONALIZED FEED</span><span>${PERSONAS[STATE.persona].name} · MAY 2026</span></div>`;
-  html += posts.map(p=>{
-    const showVisual = polish >= 2;
-    const truncated = polish < 2 ? p.b.split('.').slice(0,1).join('.') + '.' : p.b;
-    return `<div class="p-post ${p.ad?'ad':''}" style="--c1:${p.c1};--c2:${p.c2}">
-      <div class="p-meta"><span class="tag ${p.ad?'ad':''}">${p.tag}</span><span>0x4E7C · MAY 2026</span></div>
-      <h5>${p.h}</h5>
-      <div class="body">${truncated}</div>
-      ${showVisual ? '<div class="visual"></div>' : ''}
-      <div class="cta">${p.cta}</div>
-    </div>`;
-  }).join('');
-  feed.innerHTML = html;
-}
-document.getElementById('pPolish').addEventListener('input', renderPerception);
-document.getElementById('pActivity').addEventListener('input', renderPerception);
+// ============================================================ STAGE 6 · IPHONE FEED INTERACTIVE
+// Per-persona feed cards (news + ads + notifications). Auto-scrolls the feed every ~3s.
+// Notifications pop in/out every ~5-7s. New feed cards drop in (including ads) every ~4s.
+// When the user picks a different persona, the whole device re-skins.
+const PHN_CONTENT = {
+  curator: {
+    color:'#2e5e9c',
+    feed: [
+      { src:'NYT MORNING', ts:'42m', h:'Inside the bipartisan group rewriting AI transparency rules.', p:'A long-form on the institutional process, with named senators and a 3-month timeline.' },
+      { src:'THE ATLANTIC', ts:'1h', thumb:true, h:'The argument every museum trustee is quietly having.', p:'Cultural stewardship, repatriation, and the discomfort of holding the wrong thing.' },
+      { src:'NYRB · LONGREAD', ts:'2h', h:'Reading Tocqueville in an algorithmic year.', p:'10,000 words. Worth all of them.' },
+      { src:'WSJ MARKETS', ts:'3h', h:'Why municipal bond yields just flipped a 30-year pattern.', p:'Quiet shift in the rate complex; institutional desks notice first.' },
+    ],
+    ads: [
+      { src:'SPONSORED · LE LABO', badge:'AD', h:'Santal 33 · the autumn refill', p:'Hand-blended in NYC. Free shipping over $150.', cta:'shop the season →' },
+      { src:'SPONSORED · STRAND', badge:'AD', h:'The 80-year-old bookstore that built itself a search engine.', p:'New rare-finds vertical. Yours first to browse.', cta:'enter the catalog →' },
+      { src:'SPONSORED · NYT COOKING', badge:'AD', h:'You make pasta. We have 4,200 recipes for that.', p:'$50/yr. Cancel any time.', cta:'taste the archive →' },
+    ],
+    notifs: [
+      { ic:'BC', ap:'BOOK CLUB', t:'now', ti:'Sara · Cassandra at the Wedding', ms:'Don\'t forget — meeting tonight at 7pm. Same wine bar.' },
+      { ic:'NY', ap:'NYT', t:'2m', ti:'Breaking · Senate vote scheduled', ms:'Bipartisan AI bill moving to floor vote tomorrow morning.' },
+      { ic:'CA', ap:'CALENDAR', t:'5m', ti:'Gallery opening · 7:30pm', ms:'Saunders show at Gagosian — RSVP confirmed' },
+      { ic:'MS', ap:'MESSAGES · M', t:'now', ti:'Marisol', ms:'You have to read the piece on the museum trustees. Wild.' },
+    ]
+  },
+  hustler: {
+    color:'#c45a2e',
+    feed: [
+      { src:'THE INFORMATION', ts:'14m', h:'How three solo founders turned consulting into $30M ARR.', p:'Playbooks, take rates, and the AI-tooling stack each one runs.' },
+      { src:'STRIPE PRESS', ts:'1h', thumb:true, h:'The new payments primitive nobody is talking about yet.', p:'Why merchant-of-record platforms are quietly eating cross-border SaaS.' },
+      { src:'HACKERNEWS', ts:'2h', h:'Show HN: I built a $400/mo SaaS in a weekend with one prompt.', p:'257 comments. Mostly skeptical. Some envious.' },
+      { src:'BLOOMBERG', ts:'3h', h:'Fed minutes hint at September pivot. Equities front-run.', p:'10-yr yield gives back 14 bps; SPX up 1.1%.' },
+    ],
+    ads: [
+      { src:'SPONSORED · STRIPE', badge:'AD', h:'Atlas · Launch your LLC in 8 minutes.', p:'$500 incorporation. Bank account included. Ships globally.', cta:'launch your company →' },
+      { src:'SPONSORED · NOTION', badge:'AD', h:'The OS for one-person companies.', p:'Built so a single founder can run sales, ops, and finance.', cta:'start free →' },
+      { src:'SPONSORED · BREX', badge:'AD', h:'The corporate card that gives you 7× on AI spend.', p:'No personal guarantee. Approved in minutes.', cta:'get the card →' },
+    ],
+    notifs: [
+      { ic:'ST', ap:'STRIPE', t:'now', ti:'Payment received · $4,820.00', ms:'From Atlas Pro · invoice #INV-0247. Settled to your account.' },
+      { ic:'SL', ap:'SLACK · GROWTH', t:'1m', ti:'@channel', ms:'Q3 board deck draft uploaded — eyes by EOD if possible.' },
+      { ic:'LI', ap:'LINKEDIN', t:'3m', ti:'5 new connection requests', ms:'Founder · CEO · Head of Growth · Operator · Investor' },
+      { ic:'CA', ap:'CALENDLY', t:'5m', ti:'New booking · Sarah K (Sequoia)', ms:'Friday 3pm — 30 min discovery call confirmed.' },
+    ]
+  },
+  caretaker: {
+    color:'#6a9c5e',
+    feed: [
+      { src:'COMMON SENSE MEDIA', ts:'24m', h:'Why pediatricians are quietly worried about smart-watch use in 8-year-olds.', p:'Sleep, attention, and the dopamine-loop concern parents weren\'t briefed on.' },
+      { src:'PTA · DEKALB', ts:'1h', thumb:true, h:'School board redistricting · public comment opens Tuesday.', p:'Affects three elementary schools in the south corridor.' },
+      { src:'NPR FAMILY', ts:'2h', h:'The grandparent visit science says actually matters.', p:'Not the duration. The depth.' },
+      { src:'PEDIATRICS WEEKLY', ts:'3h', h:'A pediatrician\'s open letter on screen time, 2026 edition.', p:'What changed. What didn\'t. What to do about it on a Tuesday night.' },
+    ],
+    ads: [
+      { src:'SPONSORED · BLUE APRON', badge:'AD', h:'Dinner solved. 4 nights this week, no thinking required.', p:'Family plan · 4 servings · $11.49/serving.', cta:'cook the week →' },
+      { src:'SPONSORED · ALLSTATE', badge:'AD', h:'Bundle home + auto, save up to $720.', p:'Your DeKalb neighbors saved an average of $612.', cta:'get the quote →' },
+      { src:'SPONSORED · CARTER\'S', badge:'AD', h:'Fall layering · 40% off the whole basics line.', p:'Free shipping over $50. Easy returns.', cta:'shop the drop →' },
+    ],
+    notifs: [
+      { ic:'SC', ap:'SCHOOL · BAGCHECK', t:'now', ti:'Bag-check today — early dismissal 1pm', ms:'Pickup line opens at 12:45. Please bring photo ID.' },
+      { ic:'MS', ap:'MESSAGES · MOM', t:'2m', ti:'Mom', ms:'Don\'t forget Sunday dinner. Bring the green salad you made last time.' },
+      { ic:'CA', ap:'CALENDAR', t:'5m', ti:'Soccer practice · 5:30pm', ms:'Field 4 · cleats + water bottle' },
+      { ic:'KP', ap:'KAISER', t:'8m', ti:'Appointment reminder · pediatrician', ms:'Friday 10:30am — Dr. Chen · annual checkup confirmed' },
+    ]
+  },
+  drifter: {
+    color:'#9b6dd4',
+    feed: [
+      { src:'TIKTOK · FYP', ts:'now', h:'This is the side hustle nobody is talking about yet.', p:'287K likes · 14K shares · the discourse is wild' },
+      { src:'BUZZFEED', ts:'4m', thumb:true, h:'Quiz: Which 2007 indie sleaze archetype are you really?', p:'15 questions. Most people get The Hayley.' },
+      { src:'X · FYP', ts:'12m', h:'they\'re actually selling vibes now and people are buying them', p:'1.2M views · 14K replies · this is the timeline' },
+      { src:'REDDIT · ANTIWORK', ts:'22m', h:'I quit my job today and immediately felt like a different person', p:'4.8K upvotes · top comment: same' },
+    ],
+    ads: [
+      { src:'SPONSORED · KLARNA', badge:'AD', h:'Split it in 4. Pay no interest.', p:'10K+ stores · soft credit check · works at checkout', cta:'split it →' },
+      { src:'SPONSORED · UBER', badge:'AD', h:'Surge ends in 4 minutes. Lock in the ride.', p:'Avg fare to Midtown · $14.20', cta:'book the ride →' },
+      { src:'SPONSORED · BETTERHELP', badge:'AD', h:'Talk to someone tonight. 12,000+ therapists.', p:'Match in under 24 hours. Cancel anytime.', cta:'start the matching →' },
+    ],
+    notifs: [
+      { ic:'KL', ap:'KLARNA', t:'now', ti:'$48.20 due in 3 days', ms:'Forever 21 · pay now or split into 4 more' },
+      { ic:'TT', ap:'TIKTOK', t:'1m', ti:'@xochil posted a story', ms:'tap to see what they\'re doing right now' },
+      { ic:'UB', ap:'UBER', t:'3m', ti:'Surge pricing active in your area', ms:'1.4× until 11pm — book now to lock the fare' },
+      { ic:'IG', ap:'INSTAGRAM', t:'5m', ti:'someone you might know joined', ms:'tap to follow back · 7 mutual friends' },
+    ]
+  },
+  apprentice: {
+    color:'#d4a04a',
+    feed: [
+      { src:'LINKEDIN NEWS', ts:'12m', h:'The 5 skills hiring managers say nobody is teaching anymore.', p:'Communication. Structured writing. Showing your work. Three others nobody guesses.' },
+      { src:'CODING SCHOOL', ts:'1h', thumb:true, h:'You can learn Python in 9 weeks. Here\'s the syllabus that works.', p:'Free until you get hired. Then 17% of first-year salary, capped at $30K.' },
+      { src:'INDEED', ts:'2h', h:'12 companies in Atlanta hiring junior engineers right now.', p:'Average starting comp · $87K. Remote-optional on 7 of them.' },
+      { src:'INVESTOPEDIA', ts:'3h', h:'The 60/30/10 rule that actually works at $52K/year.', p:'Most budgeting advice is written for $150K. This one isn\'t.' },
+    ],
+    ads: [
+      { src:'SPONSORED · CHASE', badge:'AD', h:'Build credit fast with Sapphire Preferred.', p:'$95 annual fee · waived first year · 60K-point bonus', cta:'see if you qualify →' },
+      { src:'SPONSORED · UDEMY', badge:'AD', h:'Master AI in 6 hours. $9.99 today only.', p:'47K students enrolled this week. 4.8 stars.', cta:'start the course →' },
+      { src:'SPONSORED · DOORDASH', badge:'AD', h:'Make $25/hr in your spare time.', p:'Top earners in Atlanta cleared $1,400 last weekend.', cta:'start dashing →' },
+    ],
+    notifs: [
+      { ic:'LI', ap:'LINKEDIN', t:'now', ti:'3 recruiters viewed your profile', ms:'A senior recruiter at Mailchimp just looked at your projects' },
+      { ic:'MN', ap:'MINT', t:'2m', ti:'Bill due in 2 days · $87', ms:'Auto-pay scheduled — your balance will be $213 after' },
+      { ic:'GH', ap:'GITHUB', t:'4m', ti:'Your PR was merged 🎉', ms:'open-source/awesome-list · main · 247 lines + / 12 -' },
+      { ic:'DD', ap:'DOORDASH', t:'7m', ti:'$23.40 from your dash tonight', ms:'5 deliveries · 1h 42m · tip avg $5.20' },
+    ]
+  },
+  believer: {
+    color:'#c8ff1e',
+    feed: [
+      { src:'WSJ OPINION', ts:'14m', h:'Why the Fed\'s soft landing case is more credible than the consensus thinks.', p:'Curve dynamics, services inflation, and the part the bear-case keeps eliding.' },
+      { src:'BARRON\'S', ts:'1h', thumb:true, h:'The dividend aristocrats that quietly raised their distributions last quarter.', p:'14 names with 25+ years of consecutive hikes. Three are at compelling multiples.' },
+      { src:'FT MARKETS', ts:'2h', h:'European banks are about to outperform US peers. Here\'s why.', p:'Net interest margin durability + capital returns at peak.' },
+      { src:'ECONOMIST', ts:'3h', h:'The most important regulator in finance you\'ve never read about.', p:'A profile of the BIS — and the next move it is quietly preparing.' },
+    ],
+    ads: [
+      { src:'SPONSORED · SCHWAB', badge:'AD', h:'A wealth advisor who works for you, not the bank.', p:'Fiduciary-only · $0 account fees · $500K+ accounts', cta:'schedule the call →' },
+      { src:'SPONSORED · MORGAN', badge:'AD', h:'Private banking for clients who want the call answered.', p:'Dedicated banker · personalized credit · invitation-only events', cta:'see if you qualify →' },
+      { src:'SPONSORED · CITI', badge:'AD', h:'The Aviator Reserve. 75K bonus points.', p:'$595 annual fee · Centurion-tier travel benefits', cta:'apply now →' },
+    ],
+    notifs: [
+      { ic:'VG', ap:'VANGUARD', t:'now', ti:'Your portfolio is up $4,820 today', ms:'VTI · VXUS · BND · view your allocation' },
+      { ic:'BR', ap:'BOARD', t:'2m', ti:'Q3 board meeting · materials uploaded', ms:'Strategic review + capital allocation memo · please review' },
+      { ic:'BL', ap:'BLOOMBERG', t:'4m', ti:'Alert · Fed meeting outcome', ms:'25bp cut · forward guidance hawkish · 10-yr +6bps' },
+      { ic:'CA', ap:'CALENDAR', t:'8m', ti:'Lunch · Tom (UBS)', ms:'12:30pm at The Sun Dial · discussion: tax-loss harvesting' },
+    ]
+  }
+};
+
+(function(){
+  const phone = document.getElementById('phnPhone');
+  const feed  = document.getElementById('phnFeed');
+  const notifsHost = document.getElementById('phnNotifs');
+  const pickerHost = document.getElementById('phnPick');
+  const personaName = document.getElementById('pCurrentName');
+  const statNotif = document.getElementById('phnNotif');
+  const statAds   = document.getElementById('phnAds');
+  const statTrack = document.getElementById('phnTrack');
+  const statScroll= document.getElementById('phnScroll');
+  const timeEl    = document.getElementById('phnTime');
+  if(!phone || !feed || !pickerHost) return;
+
+  let currentPersona = 'curator';
+  let notifCount = 0, adCount = 0, scrollCount = 0;
+  let feedTimer, notifTimer, scrollTimer, clockTimer;
+  let feedQueue = [], adQueue = [], notifQueue = [];
+  let nextIdx = { feed:0, ad:0, notif:0 };
+
+  function clearTimers(){
+    [feedTimer, notifTimer, scrollTimer].forEach(t => t && clearTimeout(t));
+    feedTimer = notifTimer = scrollTimer = null;
+  }
+
+  function setActiveButton(p){
+    pickerHost.querySelectorAll('button').forEach(b => b.classList.toggle('act', b.dataset.p === p));
+  }
+
+  function setPhonePersona(p){
+    const data = PHN_CONTENT[p]; if(!data) return;
+    currentPersona = p;
+    document.documentElement.style.setProperty('--persona-color', data.color);
+    if(personaName) personaName.textContent = (window.PERSONAS && window.PERSONAS[p]) ? window.PERSONAS[p].name : p.toUpperCase();
+    setActiveButton(p);
+    feed.innerHTML = '';
+    notifsHost.innerHTML = '';
+    feedQueue = [...data.feed];
+    adQueue = [...data.ads];
+    notifQueue = [...data.notifs];
+    nextIdx = { feed:0, ad:0, notif:0 };
+    // seed feed with first 3 cards
+    dropFeedCard(); dropFeedCard(); dropFeedCard();
+    clearTimers();
+    scheduleNextFeed();
+    scheduleNextNotif();
+    scheduleNextScroll();
+  }
+
+  function dropFeedCard(forceAd){
+    const data = PHN_CONTENT[currentPersona];
+    let card;
+    // every 4th drop is an ad
+    if(forceAd || (nextIdx.feed > 0 && nextIdx.feed % 3 === 0)){
+      card = data.ads[nextIdx.ad % data.ads.length];
+      nextIdx.ad++;
+      adCount++;
+      if(statAds) statAds.textContent = adCount;
+      buildCard(card, true);
+    } else {
+      card = data.feed[nextIdx.feed % data.feed.length];
+      nextIdx.feed++;
+      buildCard(card, false);
+    }
+  }
+
+  function buildCard(c, isAd){
+    const el = document.createElement('div');
+    el.className = 'ifc' + (isAd ? ' ad' : (c.thumb ? ' thumb' : ''));
+    if(c.thumb && !isAd){
+      el.innerHTML = `
+        <div class="img"></div>
+        <div class="b">
+          <div class="src"><span>${c.src}</span><span class="ts">${c.ts}</span></div>
+          <h6>${c.h}</h6>
+          <p>${c.p}</p>
+        </div>`;
+    } else if(isAd){
+      el.innerHTML = `
+        <div class="src"><span>${c.src}</span><span class="badge">${c.badge}</span></div>
+        <h6>${c.h}</h6>
+        <p>${c.p}</p>
+        <div class="cta">${c.cta}</div>`;
+    } else {
+      el.innerHTML = `
+        <div class="src"><span>${c.src}</span><span class="ts">${c.ts}</span></div>
+        <h6>${c.h}</h6>
+        <p>${c.p}</p>`;
+    }
+    feed.appendChild(el);
+    // trim if too long
+    while(feed.children.length > 14) feed.removeChild(feed.firstChild);
+  }
+
+  function popNotif(){
+    const data = PHN_CONTENT[currentPersona];
+    const n = data.notifs[nextIdx.notif % data.notifs.length];
+    nextIdx.notif++;
+    const el = document.createElement('div');
+    el.className = 'iphone-notif';
+    el.style.setProperty('--persona-color', data.color);
+    el.innerHTML = `
+      <div class="icon" style="background:${data.color}">${n.ic}</div>
+      <div class="body">
+        <div class="ap">${n.ap}<span class="t">${n.t}</span></div>
+        <div class="ti">${n.ti}</div>
+        <div class="ms">${n.ms}</div>
+      </div>`;
+    notifsHost.appendChild(el);
+    notifCount++;
+    if(statNotif) statNotif.textContent = notifCount;
+    setTimeout(() => { if(el.parentNode) el.parentNode.removeChild(el); }, 4800);
+  }
+
+  function autoScrollFeed(){
+    feed.classList.add('scroll');
+    setTimeout(() => {
+      // when transition ends, snap back and drop a card
+      feed.classList.remove('scroll');
+      feed.style.transition = 'none';
+      // drop a new card at end → simulates feed advancing
+      dropFeedCard();
+      requestAnimationFrame(() => { feed.style.transition = ''; });
+      scrollCount++;
+      if(statScroll) statScroll.textContent = scrollCount;
+    }, 820);
+  }
+
+  function scheduleNextFeed(){
+    feedTimer = setTimeout(() => { dropFeedCard(); scheduleNextFeed(); }, 3800 + Math.random()*900);
+  }
+  function scheduleNextNotif(){
+    notifTimer = setTimeout(() => { popNotif(); scheduleNextNotif(); }, 5200 + Math.random()*2200);
+  }
+  function scheduleNextScroll(){
+    scrollTimer = setTimeout(() => { autoScrollFeed(); scheduleNextScroll(); }, 6400 + Math.random()*1600);
+  }
+
+  // live clock
+  function tickClock(){
+    if(!timeEl) return;
+    const d = new Date();
+    let h = d.getHours();
+    const m = d.getMinutes();
+    h = h % 12; if(h === 0) h = 12;
+    timeEl.textContent = `${h}:${String(m).padStart(2,'0')}`;
+  }
+  tickClock();
+  clockTimer = setInterval(tickClock, 20000);
+
+  // wire picker
+  pickerHost.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => setPhonePersona(b.dataset.p));
+  });
+
+  // expose for setPersona() at line 1057
+  window._phn_setPersona = setPhonePersona;
+
+  // init
+  setPhonePersona('curator');
+})();
 
 // ============================================================ MONEY FLOW
 const MF_NODES = {
@@ -1732,6 +2088,7 @@ const CLASS_DATA = {
 
 function renderClassGrid(){
   const grid = document.getElementById('classGrid');
+  if(!grid) return; // Stage 9 (CLASS REVEAL) was removed in v0.16
   grid.innerHTML = Object.entries(CLASS_DATA).map(([id, c])=>{
     const p = PERSONAS[id];
     return `<div class="class-cell t${c.tier} ${id===STATE.persona?'is-you':''}" data-persona="${id}" style="--persona-color-fixed:${p.color}">
