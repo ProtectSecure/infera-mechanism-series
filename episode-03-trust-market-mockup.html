@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>EPISODE 03 · THE TRUST MARKET — Design Mockup v0.9</title>
+<title>The Trust Market · Episode 03 · The Mechanism Series</title>
 <meta name="description" content="Episode 03 of the Machine-Readable series. Reputation becomes currency. A composite of you, built from data you didn't authorize, decides outcomes you'll never know happened.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -105,8 +105,41 @@ a,button{color:inherit;text-decoration:none;background:none;border:none;cursor:p
 @keyframes bobDown{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 
 /* ============ CINEMATIC MOTION GRAPHICS · v0.9 ============ */
-.cs-motion{position:relative;width:100%;max-width:560px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;transform:scale(.96);transition:1.2s .5s cubic-bezier(.3,.7,.3,1)}
+.cs-motion{position:relative;width:100%;max-width:560px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;transform:scale(.96);transition:1.2s .5s cubic-bezier(.3,.7,.3,1);overflow:hidden;border-radius:6px}
 .carousel-slide.active .cs-motion{opacity:1;transform:scale(1)}
+/* CINEMATIC PAN-ZOOM · slides 1-4 get a slow ken-burns camera so the vector art reads as cinema */
+.carousel-slide.active .cs-motion svg{animation:csKenBurns 14s ease-in-out infinite alternate;transform-origin:50% 55%;will-change:transform}
+.carousel-slide[data-i="1"].active .cs-motion svg{animation-duration:13s;transform-origin:50% 50%}
+.carousel-slide[data-i="2"].active .cs-motion svg{animation-duration:15s;transform-origin:42% 38%}
+.carousel-slide[data-i="3"].active .cs-motion svg{animation-duration:12s;transform-origin:58% 50%}
+@keyframes csKenBurns{
+  0%   { transform:scale(1.02) translate(0px, 0px); }
+  35%  { transform:scale(1.08) translate(-6px, -4px); }
+  70%  { transform:scale(1.10) translate(4px, -8px); }
+  100% { transform:scale(1.04) translate(0px, 2px); }
+}
+/* ambient grain + soft vignette overlays — pure CSS, no extra DOM */
+.cs-motion::before{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:3;
+  background:radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,.45) 100%);
+  mix-blend-mode:multiply;
+}
+.cs-motion::after{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:4;
+  background:repeating-radial-gradient(circle at 30% 40%, rgba(255,255,255,.025) 0 1px, transparent 1px 5px),
+             repeating-radial-gradient(circle at 70% 60%, rgba(255,255,255,.018) 0 1px, transparent 1px 7px);
+  mix-blend-mode:screen; opacity:.9;
+}
+/* the mo-rain-stat / mo-rain-foot HTML overlays sit above the SVG, so they shouldn't pan with the camera */
+.cs-motion .mo-rain-stat,
+.cs-motion .mo-rain-foot,
+.cs-motion .mo-rain-emojis{position:absolute;z-index:5}
+.cs-motion .mo-rain-stat{top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.cs-motion .mo-rain-stat .mr-num{font-family:var(--display);font-size:96px;letter-spacing:-.06em;line-height:.85;color:var(--cream);text-shadow:0 0 28px rgba(255,26,107,.4)}
+.cs-motion .mo-rain-stat .mr-num b{color:var(--pink)}
+.cs-motion .mo-rain-stat .mr-num i{font-family:var(--italic);font-style:italic;font-weight:400;font-size:.42em;color:rgba(251,247,235,.55);letter-spacing:-.01em;margin-left:4px}
+.cs-motion .mo-rain-stat .mr-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,26,107,.85);margin-top:8px;font-weight:700}
+.cs-motion .mo-rain-foot{bottom:14px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--pink);font-weight:700}
 
 /* ===== Slide 1 · EMOJI RAIN · 👍×36 + ❤×4 floating up · stock-down chart ===== */
 .mo-rain{position:relative;width:100%;max-width:540px;aspect-ratio:360/460;overflow:hidden}
@@ -471,116 +504,6 @@ a,button{color:inherit;text-decoration:none;background:none;border:none;cursor:p
 .viz-merge-legend .sw.lena::before{background:rgba(200,255,30,.7)}
 .viz-merge-legend .sw.theo::before{background:rgba(255,26,107,.55)}
 .viz-merge-legend .sw.house::before{background:var(--yellow)}
-
-/* ============ STAGE 05 · PROTECTION FIELD MANUAL (largely unchanged, restyled headers) ============ */
-.prot-stage{background:var(--cream);padding:100px 28px;border-bottom:3px solid var(--ink)}
-.prot-shead{max-width:1320px;margin:0 auto 32px}
-.prot-shead .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--cobalt);font-weight:700;margin-bottom:8px;display:inline-flex;align-items:center;gap:10px}
-.prot-shead .lbl::before{content:"";width:24px;height:1.5px;background:var(--cobalt)}
-.prot-shead h2{font-family:var(--display);font-size:clamp(36px,5.2vw,76px);line-height:.92;letter-spacing:-.035em}
-.prot-shead h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--cobalt)}
-.prot-shead .dek{font-family:var(--italic);font-style:italic;font-size:clamp(17px,1.9vw,22px);line-height:1.45;color:var(--ink-soft);max-width:64ch;margin-top:14px}
-
-.protection{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:3px solid var(--ink)}
-.prot-group{padding:24px;background:var(--cream);border-right:3px solid var(--ink);border-bottom:3px solid var(--ink)}
-.prot-group:nth-child(3n){border-right:none}
-.prot-group:nth-last-child(-n+3){border-bottom:none}
-.prot-group .pg-h{font-family:var(--display);font-size:14px;letter-spacing:-.005em;color:var(--pink);text-transform:uppercase;margin-bottom:14px;border-bottom:2px solid var(--ink);padding-bottom:8px}
-.prot-action{padding:10px 0;border-bottom:1px dashed var(--rule);display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}
-.prot-action:last-child{border-bottom:none}
-.prot-action .nm{font-family:var(--sans);font-size:13px;line-height:1.4;font-weight:500;color:var(--ink)}
-.prot-action .nm b{font-weight:700;font-family:var(--display);font-size:13px;letter-spacing:-.005em}
-.prot-action .nm em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--pink)}
-.prot-action .meta{display:flex;gap:5px;align-items:center;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
-.prot-action .meta .tag{padding:2px 6px;background:var(--bg);font-weight:700;color:var(--ink-soft)}
-.prot-action .meta .star{color:var(--pink);font-family:var(--display);font-size:11px;letter-spacing:0}
-
-/* ============ STAGE 06 · BRIDGE ============ */
-.bridge{padding:80px 28px;background:var(--pink);color:var(--cream);text-align:center;border-bottom:3px solid var(--ink)}
-.bridge .up-next{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.78);margin-bottom:18px;font-weight:700}
-.bridge h2{font-family:var(--display);font-size:clamp(48px,7vw,108px);line-height:.88;letter-spacing:-.045em;margin-bottom:24px}
-.bridge h2 em{font-family:var(--italic);font-style:italic;font-weight:400}
-.bridge .closer{font-family:var(--italic);font-style:italic;font-size:clamp(18px,2vw,24px);line-height:1.45;max-width:48ch;margin:0 auto;color:rgba(255,255,255,.92)}
-.bridge .closer b{font-style:normal;background:var(--ink);color:var(--cream);padding:0 6px;font-family:var(--sans);font-weight:700}
-
-/* ============ DESIGN QUESTIONS + BUILD ORDER + SOURCES (kept from v0.1, restyled) ============ */
-.design-q{max-width:1320px;margin:48px auto 0;padding:32px;background:var(--yellow);color:var(--ink);border:3px solid var(--ink)}
-.design-q .l{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;margin-bottom:14px;display:inline-flex;align-items:center;gap:10px}
-.design-q .l::before{content:"";width:24px;height:2px;background:var(--ink)}
-.design-q h4{font-family:var(--display);font-size:clamp(24px,3vw,38px);letter-spacing:-.025em;line-height:.98;margin-bottom:24px;max-width:30ch}
-.design-q h4 em{font-family:var(--italic);font-style:italic;font-weight:400}
-.dq-list{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-.dq{padding:16px 18px;background:var(--cream);border-left:3px solid var(--ink)}
-.dq .qn{font-family:var(--display);font-size:12px;letter-spacing:-.005em;color:var(--pink);margin-bottom:4px}
-.dq h5{font-family:var(--display);font-size:15px;letter-spacing:-.015em;line-height:1.2;margin-bottom:6px;color:var(--ink)}
-.dq p{font-family:var(--italic);font-style:italic;font-size:13px;line-height:1.45;color:var(--ink);opacity:.85}
-.dq p b{font-style:normal;font-weight:700}
-
-.build-section{padding:80px 28px;background:var(--ink);color:var(--cream)}
-.build-phases{max-width:1320px;margin:24px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;border:3px solid var(--cream)}
-.bp{padding:22px 20px;background:var(--bg-mid);color:var(--cream);border-right:3px solid var(--cream);display:flex;flex-direction:column;gap:6px;position:relative}
-.bp:last-child{border-right:none}
-.bp .phase{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);font-weight:700}
-.bp h5{font-family:var(--display);font-size:16px;letter-spacing:-.015em;line-height:1.15}
-.bp h5 em{font-family:var(--italic);font-style:italic;font-weight:400}
-.bp .ph-list{margin-top:8px;font-family:var(--sans);font-size:12.5px;line-height:1.55;color:rgba(255,255,255,.78)}
-.bp .ph-list b{font-weight:700}
-
-.sources{max-width:1320px;margin:32px auto 0;padding:32px;background:var(--ink);color:var(--cream);border:3px solid var(--ink)}
-.sources .l{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:14px;display:inline-flex;align-items:center;gap:10px}
-.sources .l::before{content:"";width:24px;height:2px;background:var(--lime)}
-.sources h4{font-family:var(--display);font-size:clamp(24px,3vw,36px);letter-spacing:-.025em;line-height:1;margin-bottom:20px}
-.sources h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
-.src-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.src-col h5{font-family:var(--display);font-size:14px;letter-spacing:-.005em;color:var(--lime);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(200,255,30,.3)}
-.src-col ul{list-style:none;padding:0}
-.src-col li{font-family:var(--mono);font-size:11px;letter-spacing:.02em;line-height:1.7;color:rgba(255,255,255,.85);padding-left:12px;position:relative}
-.src-col li::before{content:"·";position:absolute;left:0;color:var(--lime)}
-.src-col li em{font-family:var(--italic);font-style:italic;color:var(--cream)}
-
-footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
-
-/* ============ RESPONSIVE ============ */
-@media (max-width:1100px){
-  .build-lab{grid-template-columns:1fr}
-  .story-case{grid-template-columns:1fr}
-  .sc-viz{min-height:380px}
-  .protection{grid-template-columns:1fr 1fr}
-  .dq-list{grid-template-columns:1fr 1fr}
-  .src-grid{grid-template-columns:1fr}
-  .carousel-slide{grid-template-columns:1fr;gap:24px;padding:48px 32px 96px}
-  .carousel-slide .right{order:-1;justify-content:flex-start;min-height:240px}
-  .cs-motion{max-width:280px}
-}
-@media (max-width:700px){
-  .protection,.dq-list,.bl-events,.bl-comp-grid,.bl-kids-stats{grid-template-columns:1fr 1fr}
-  .bl-scores{grid-template-columns:1fr 1fr}
-  .carousel-slide h2{font-size:48px}
-  .silh-header h2,.build-shead h2,.story-shead h2,.prot-shead h2{font-size:36px}
-}
-</style>
-</head>
-<body>
-
-<!-- SERIES NAV -->
-<nav class="seriesnav">
-  <div class="seriesnav-inner">
-    <a class="brand" href="index.html"><span class="dot"></span>INFERA · MECHANISM SERIES</a>
-    <div class="tabs">
-      <a class="tab" href="index.html"><span class="tab-num">◉</span>Home</a>
-      <a class="tab" href="personhood-inc.html"><span class="tab-num">01</span>Personhood</a>
-      <a class="tab" href="the-feed-engine.html"><span class="tab-num">02</span>The Feed</a>
-      <a class="tab active" href="episode-03-trust-market-mockup.html"><span class="tab-num">03</span>Trust Market</a>
-    </div>
-  </div>
-</nav>
-
-<!-- DOC FLAG -->
-<div class="docflag">
-  <span>DESIGN DOC · INTERNAL · v0.9 · MAY 2026</span>
-  <span class="right">Cinematic carousel art · mortgage case removed · scaffold sections trimmed</span>
-</div>
-
 <!-- ============================================================ -->
 <!-- STAGE 01 · CINEMATIC CAROUSEL                                -->
 <!-- ============================================================ -->
@@ -1204,189 +1127,6 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
 
 
 <!-- ============================================================ -->
-<!-- STAGE 02 · THE GATEKEEPERS — sectors + composite ownership + scope -->
-<!-- ============================================================ -->
-<section class="gk-stage">
-  <div class="gk-head">
-    <div class="lbl">02 · WHO RANKS YOU · WHO OWNS YOU · WHAT THEY SEE</div>
-    <h2>The architecture of the <em>quiet ranking.</em></h2>
-    <p class="dek">Before we play with the composite, see the gatekeepers. Six sectors already score you. Four companies own most of the picture. Different gatekeepers see different slices — together they see everything.</p>
-  </div>
-
-  <div class="gk-body">
-
-    <p class="tb-intro">If your news, ads, prices, and social proof are <b>all different</b> from the person next to you — your <em>opportunities</em> are already diverging. The next layer takes those signals and turns them into <em>scores</em> attached to your name. You don't get told. You just stop getting the call back.</p>
-
-    <!-- SECTOR GRID — what's already scoring you -->
-    <div class="tb-sectors">
-      <div class="tb-sector">
-        <div class="tb-l">HIRING</div>
-        <h5>Resume-ranking <em>AI</em> in 99% of Fortune 500</h5>
-        <div class="tb-stat"><div class="v">75%</div><div class="l">of resumes filtered before a human reads</div></div>
-        <div class="tb-body">Applicant-tracking systems score keyword fit, prior-employer prestige, and social-graph proxies. Some cross-check broker-supplied attributes silently.</div>
-        <div class="tb-who"><b>WHO RANKS YOU · </b>Workday · iCIMS · LinkedIn Talent Insights · HireVue · Eightfold.</div>
-      </div>
-      <div class="tb-sector">
-        <div class="tb-l">INSURANCE</div>
-        <h5>Underwriting <em>by composite</em></h5>
-        <div class="tb-stat"><div class="v">700+</div><div class="l">attributes per quote</div></div>
-        <div class="tb-body">Credit-based insurance scoring is legal in 47 states. Auto + home + life + health insurers buy from the same broker layer that prices your ads. <b>Same data, different decision.</b></div>
-        <div class="tb-who"><b>WHO RANKS YOU · </b>LexisNexis Risk Solutions · TransUnion · Verisk · Milliman.</div>
-      </div>
-      <div class="tb-sector">
-        <div class="tb-l">CREDIT + LENDING</div>
-        <h5>FICO + <em>alternative</em> scoring</h5>
-        <div class="tb-stat"><div class="v">~1,200</div><div class="l">alt-score inputs per applicant</div></div>
-        <div class="tb-body">Traditional FICO is just the front door. Behind it: utility payments, rental history, BNPL patterns, social-graph stability, even smartphone model. Sub-prime lenders score most aggressively.</div>
-        <div class="tb-who"><b>WHO RANKS YOU · </b>FICO · VantageScore · Experian Boost · ZestAI · Upstart.</div>
-      </div>
-      <div class="tb-sector">
-        <div class="tb-l">DATING</div>
-        <h5>Desirability scoring is <em>real</em></h5>
-        <div class="tb-stat"><div class="v">internal</div><div class="l">"elo" rankings per user</div></div>
-        <div class="tb-body">Major apps assign each user an internal attractiveness/engagement score that decides who sees you and who you're shown. They don't publish it. They do match against it.</div>
-        <div class="tb-who"><b>WHO RANKS YOU · </b>Match Group (Tinder, Hinge, OkCupid) · Bumble · Grindr.</div>
-      </div>
-      <div class="tb-sector">
-        <div class="tb-l">DNA + GENEALOGY</div>
-        <h5>Your <em>and your family's</em> genome</h5>
-        <div class="tb-stat"><div class="v">30M+</div><div class="l">US samples in commercial databases</div></div>
-        <div class="tb-body">23andMe, AncestryDNA, MyHeritage. Once one cousin tests, ~60% of US adults of European descent can be identified by triangulation — whether they opted in or not.</div>
-        <div class="tb-who"><b>WHO RANKS YOU · </b>23andMe · AncestryDNA · MyHeritage · GEDmatch (law-enforcement accessible).</div>
-      </div>
-      <div class="tb-sector">
-        <div class="tb-l">BACKGROUND + RENTAL</div>
-        <h5>Eviction scoring · <em>tenant blacklists</em></h5>
-        <div class="tb-stat"><div class="v">90%</div><div class="l">of landlords use a scoring service</div></div>
-        <div class="tb-body">Tenant scoring layers eviction records, credit pulls, and predictive models that estimate "future eviction risk." Errors are common, appeals are rare, and the score follows you across cities.</div>
-        <div class="tb-who"><b>WHO RANKS YOU · </b>CoreLogic · TransUnion SmartMove · RealPage · Yardi.</div>
-      </div>
-    </div>
-
-    <!-- COMPOSITE OWNERSHIP TREEMAP -->
-    <div class="tb-composite">
-      <div class="tb-l">WHO OWNS THE MOST COMPLETE COMPOSITE OF YOU</div>
-      <h4>Not the company you signed up with.<br/><em>The four that bought the rest.</em></h4>
-      <p class="sub">Block size = approximate share of total US adult digital-personhood data under each operator's roof. Tier-1 owns the substrate (platforms + ad networks + cloud). Tier-2 brokers fuse cross-source. Tier-3 sector specialists own deep verticals. Tier-4 is fragmented.</p>
-      <div class="tb-treemap">
-        <div class="tb-block tier1"><div class="nm">META / GOOGLE / APPLE / AMAZON</div><div class="ct">Substrate + ads + cloud<b>~62% of total signal</b></div></div>
-        <div class="tb-block tier1b"><div class="nm">MICROSOFT</div><div class="ct">Cloud + LinkedIn + ads<b>~12% of total signal</b></div></div>
-        <div class="tb-block tier2"><div class="nm">ACXIOM / LIVERAMP</div><div class="ct">Consumer data broker<b>~6%</b></div></div>
-        <div class="tb-block tier2b"><div class="nm">EXPERIAN</div><div class="ct">Credit + marketing<b>~4%</b></div></div>
-        <div class="tb-block tier2c"><div class="nm">LEXISNEXIS</div><div class="ct">Risk + insurance<b>~3%</b></div></div>
-        <div class="tb-block tier3"><div class="nm">CORELOGIC</div><div class="ct">Housing<b>~2%</b></div></div>
-        <div class="tb-block tier3b"><div class="nm">23ANDME</div><div class="ct">Genomics<b>~1.5%</b></div></div>
-        <div class="tb-block tier3c"><div class="nm">PALANTIR</div><div class="ct">Gov + enterprise<b>~1.5%</b></div></div>
-        <div class="tb-block tier4"><div class="nm">EVERYONE ELSE</div><div class="ct">Long-tail brokers + sector tools<b>~8%</b></div></div>
-      </div>
-    </div>
-
-    <!-- SCOPE OVERLAP TABLE — what each tier can collect -->
-    <div class="tb-scope">
-      <div class="tb-scope-head">
-        <div class="tb-l">SCOPE · WHAT EACH TIER CAN SEE</div>
-        <h4>Different gatekeepers see <em>different slices.</em> Together they see <em>everything.</em></h4>
-      </div>
-      <div class="tb-scope-grid">
-        <div class="row">
-          <div class="cell h"></div>
-          <div class="cell h">Platforms</div>
-          <div class="cell h">Brokers</div>
-          <div class="cell h">Insurers</div>
-          <div class="cell h">Banks</div>
-          <div class="cell h">DNA / Health</div>
-        </div>
-        <div class="row">
-          <div class="cell lbl dim">Browsing + clicks</div>
-          <div class="cell full dim">FULL</div>
-          <div class="cell partial dim">PARTIAL</div>
-          <div class="cell none dim">—</div>
-          <div class="cell none dim">—</div>
-          <div class="cell none dim">—</div>
-        </div>
-        <div class="row">
-          <div class="cell lbl">Location history</div>
-          <div class="cell full">FULL</div>
-          <div class="cell full">FULL</div>
-          <div class="cell partial">PARTIAL</div>
-          <div class="cell partial">PARTIAL</div>
-          <div class="cell none">—</div>
-        </div>
-        <div class="row">
-          <div class="cell lbl dim">Purchase + transactions</div>
-          <div class="cell partial dim">PARTIAL</div>
-          <div class="cell full dim">FULL</div>
-          <div class="cell partial dim">PARTIAL</div>
-          <div class="cell full dim">FULL</div>
-          <div class="cell none dim">—</div>
-        </div>
-        <div class="row">
-          <div class="cell lbl">Social graph + DMs</div>
-          <div class="cell full">FULL</div>
-          <div class="cell none">—</div>
-          <div class="cell none">—</div>
-          <div class="cell none">—</div>
-          <div class="cell none">—</div>
-        </div>
-        <div class="row">
-          <div class="cell lbl dim">Medical claims + Rx</div>
-          <div class="cell none dim">—</div>
-          <div class="cell partial dim">PARTIAL</div>
-          <div class="cell full dim">FULL</div>
-          <div class="cell none dim">—</div>
-          <div class="cell full dim">FULL</div>
-        </div>
-        <div class="row">
-          <div class="cell lbl">Income + assets</div>
-          <div class="cell partial">PARTIAL</div>
-          <div class="cell full">FULL</div>
-          <div class="cell partial">PARTIAL</div>
-          <div class="cell full">FULL</div>
-          <div class="cell none">—</div>
-        </div>
-        <div class="row">
-          <div class="cell lbl dim">Genetic + family history</div>
-          <div class="cell none dim">—</div>
-          <div class="cell none dim">—</div>
-          <div class="cell partial dim">PARTIAL</div>
-          <div class="cell none dim">—</div>
-          <div class="cell full dim">FULL</div>
-        </div>
-        <div class="row">
-          <div class="cell lbl">Photos + face IDs</div>
-          <div class="cell full">FULL</div>
-          <div class="cell partial">PARTIAL</div>
-          <div class="cell none">—</div>
-          <div class="cell none">—</div>
-          <div class="cell partial">PARTIAL</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- WHERE IT'S HEADING -->
-    <div class="tb-future">
-      <div class="tb-l">WHERE THIS IS HEADING · THE END GOAL</div>
-      <h4>The next decade isn't about <em>more data.</em><br/>It's about <em>fewer humans</em> in the decision.</h4>
-      <div class="tb-future-points">
-        <div class="tb-fp">
-          <div class="n">A single <em>composite score</em></div>
-          <div class="d">Hiring + insurance + lending + housing + dating fuse into one cross-sector reputation token. Privately held, opaque, mostly accurate, occasionally devastating.</div>
-        </div>
-        <div class="tb-fp">
-          <div class="n">Autonomous <em>decision agents</em></div>
-          <div class="d">Bidders, recommenders, underwriters, recruiters — all AI agents transacting on your composite without any human in the chain until it's already locked in.</div>
-        </div>
-        <div class="tb-fp">
-          <div class="n">The <em>quiet denial</em></div>
-          <div class="d">You won't be told no. The interview just doesn't come. The rate is slightly higher. The match never shows up. The credit is approved but at a different number than your neighbor.</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ============================================================ -->
 <!-- STAGE 03 · INTERACTIVE COMPOSITE BUILDER + KIDS PANEL          -->
 <!-- ============================================================ -->
 <section class="build-stage">
@@ -1685,6 +1425,299 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
 </section>
 
 <!-- ============================================================ -->
+<!-- STAGE 02 · THE GATEKEEPERS — sectors + composite ownership + scope -->
+<!-- ============================================================ -->
+<section class="gk-stage">
+  <div class="gk-head">
+    <div class="lbl">02 · WHO RANKS YOU · WHO OWNS YOU · WHAT THEY SEE</div>
+    <h2>The architecture of the <em>quiet ranking.</em></h2>
+    <p class="dek">Before we play with the composite, see the gatekeepers. Six sectors already score you. Four companies own most of the picture. Different gatekeepers see different slices — together they see everything.</p>
+  </div>
+
+  <div class="gk-body">
+
+    <p class="tb-intro">If your news, ads, prices, and social proof are <b>all different</b> from the person next to you — your <em>opportunities</em> are already diverging. The next layer takes those signals and turns them into <em>scores</em> attached to your name. You don't get told. You just stop getting the call back.</p>
+
+    <!-- SECTOR GRID — what's already scoring you -->
+    <div class="tb-sectors">
+      <div class="tb-sector">
+        <div class="tb-l">HIRING</div>
+        <h5>Resume-ranking <em>AI</em> in 99% of Fortune 500</h5>
+        <div class="tb-stat"><div class="v">75%</div><div class="l">of resumes filtered before a human reads</div></div>
+        <div class="tb-body">Applicant-tracking systems score keyword fit, prior-employer prestige, and social-graph proxies. Some cross-check broker-supplied attributes silently.</div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>Workday · iCIMS · LinkedIn Talent Insights · HireVue · Eightfold.</div>
+      </div>
+      <div class="tb-sector">
+        <div class="tb-l">INSURANCE</div>
+        <h5>Underwriting <em>by composite</em></h5>
+        <div class="tb-stat"><div class="v">700+</div><div class="l">attributes per quote</div></div>
+        <div class="tb-body">Credit-based insurance scoring is legal in 47 states. Auto + home + life + health insurers buy from the same broker layer that prices your ads. <b>Same data, different decision.</b></div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>LexisNexis Risk Solutions · TransUnion · Verisk · Milliman.</div>
+      </div>
+      <div class="tb-sector">
+        <div class="tb-l">CREDIT + LENDING</div>
+        <h5>FICO + <em>alternative</em> scoring</h5>
+        <div class="tb-stat"><div class="v">~1,200</div><div class="l">alt-score inputs per applicant</div></div>
+        <div class="tb-body">Traditional FICO is just the front door. Behind it: utility payments, rental history, BNPL patterns, social-graph stability, even smartphone model. Sub-prime lenders score most aggressively.</div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>FICO · VantageScore · Experian Boost · ZestAI · Upstart.</div>
+      </div>
+      <div class="tb-sector">
+        <div class="tb-l">DATING</div>
+        <h5>Desirability scoring is <em>real</em></h5>
+        <div class="tb-stat"><div class="v">internal</div><div class="l">"elo" rankings per user</div></div>
+        <div class="tb-body">Major apps assign each user an internal attractiveness/engagement score that decides who sees you and who you're shown. They don't publish it. They do match against it.</div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>Match Group (Tinder, Hinge, OkCupid) · Bumble · Grindr.</div>
+      </div>
+      <div class="tb-sector">
+        <div class="tb-l">DNA + GENEALOGY</div>
+        <h5>Your <em>and your family's</em> genome</h5>
+        <div class="tb-stat"><div class="v">30M+</div><div class="l">US samples in commercial databases</div></div>
+        <div class="tb-body">23andMe, AncestryDNA, MyHeritage. Once one cousin tests, ~60% of US adults of European descent can be identified by triangulation — whether they opted in or not.</div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>23andMe · AncestryDNA · MyHeritage · GEDmatch (law-enforcement accessible).</div>
+      </div>
+      <div class="tb-sector">
+        <div class="tb-l">BACKGROUND + RENTAL</div>
+        <h5>Eviction scoring · <em>tenant blacklists</em></h5>
+        <div class="tb-stat"><div class="v">90%</div><div class="l">of landlords use a scoring service</div></div>
+        <div class="tb-body">Tenant scoring layers eviction records, credit pulls, and predictive models that estimate "future eviction risk." Errors are common, appeals are rare, and the score follows you across cities.</div>
+        <div class="tb-who"><b>WHO RANKS YOU · </b>CoreLogic · TransUnion SmartMove · RealPage · Yardi.</div>
+      </div>
+    </div>
+
+    <!-- COMPOSITE OWNERSHIP TREEMAP -->
+    <div class="tb-composite">
+      <div class="tb-l">WHO OWNS THE MOST COMPLETE COMPOSITE OF YOU</div>
+      <h4>Not the company you signed up with.<br/><em>The four that bought the rest.</em></h4>
+      <p class="sub">Block size = approximate share of total US adult digital-personhood data under each operator's roof. Tier-1 owns the substrate (platforms + ad networks + cloud). Tier-2 brokers fuse cross-source. Tier-3 sector specialists own deep verticals. Tier-4 is fragmented.</p>
+      <div class="tb-treemap">
+        <div class="tb-block tier1"><div class="nm">META / GOOGLE / APPLE / AMAZON</div><div class="ct">Substrate + ads + cloud<b>~62% of total signal</b></div></div>
+        <div class="tb-block tier1b"><div class="nm">MICROSOFT</div><div class="ct">Cloud + LinkedIn + ads<b>~12% of total signal</b></div></div>
+        <div class="tb-block tier2"><div class="nm">ACXIOM / LIVERAMP</div><div class="ct">Consumer data broker<b>~6%</b></div></div>
+        <div class="tb-block tier2b"><div class="nm">EXPERIAN</div><div class="ct">Credit + marketing<b>~4%</b></div></div>
+        <div class="tb-block tier2c"><div class="nm">LEXISNEXIS</div><div class="ct">Risk + insurance<b>~3%</b></div></div>
+        <div class="tb-block tier3"><div class="nm">CORELOGIC</div><div class="ct">Housing<b>~2%</b></div></div>
+        <div class="tb-block tier3b"><div class="nm">23ANDME</div><div class="ct">Genomics<b>~1.5%</b></div></div>
+        <div class="tb-block tier3c"><div class="nm">PALANTIR</div><div class="ct">Gov + enterprise<b>~1.5%</b></div></div>
+        <div class="tb-block tier4"><div class="nm">EVERYONE ELSE</div><div class="ct">Long-tail brokers + sector tools<b>~8%</b></div></div>
+      </div>
+    </div>
+
+    <!-- SCOPE OVERLAP TABLE — what each tier can collect -->
+    <div class="tb-scope">
+      <div class="tb-scope-head">
+        <div class="tb-l">SCOPE · WHAT EACH TIER CAN SEE</div>
+        <h4>Different gatekeepers see <em>different slices.</em> Together they see <em>everything.</em></h4>
+      </div>
+      <div class="tb-scope-grid">
+        <div class="row">
+          <div class="cell h"></div>
+          <div class="cell h">Platforms</div>
+          <div class="cell h">Brokers</div>
+          <div class="cell h">Insurers</div>
+          <div class="cell h">Banks</div>
+          <div class="cell h">DNA / Health</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl dim">Browsing + clicks</div>
+          <div class="cell full dim">FULL</div>
+          <div class="cell partial dim">PARTIAL</div>
+          <div class="cell none dim">—</div>
+          <div class="cell none dim">—</div>
+          <div class="cell none dim">—</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl">Location history</div>
+          <div class="cell full">FULL</div>
+          <div class="cell full">FULL</div>
+          <div class="cell partial">PARTIAL</div>
+          <div class="cell partial">PARTIAL</div>
+          <div class="cell none">—</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl dim">Purchase + transactions</div>
+          <div class="cell partial dim">PARTIAL</div>
+          <div class="cell full dim">FULL</div>
+          <div class="cell partial dim">PARTIAL</div>
+          <div class="cell full dim">FULL</div>
+          <div class="cell none dim">—</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl">Social graph + DMs</div>
+          <div class="cell full">FULL</div>
+          <div class="cell none">—</div>
+          <div class="cell none">—</div>
+          <div class="cell none">—</div>
+          <div class="cell none">—</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl dim">Medical claims + Rx</div>
+          <div class="cell none dim">—</div>
+          <div class="cell partial dim">PARTIAL</div>
+          <div class="cell full dim">FULL</div>
+          <div class="cell none dim">—</div>
+          <div class="cell full dim">FULL</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl">Income + assets</div>
+          <div class="cell partial">PARTIAL</div>
+          <div class="cell full">FULL</div>
+          <div class="cell partial">PARTIAL</div>
+          <div class="cell full">FULL</div>
+          <div class="cell none">—</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl dim">Genetic + family history</div>
+          <div class="cell none dim">—</div>
+          <div class="cell none dim">—</div>
+          <div class="cell partial dim">PARTIAL</div>
+          <div class="cell none dim">—</div>
+          <div class="cell full dim">FULL</div>
+        </div>
+        <div class="row">
+          <div class="cell lbl">Photos + face IDs</div>
+          <div class="cell full">FULL</div>
+          <div class="cell partial">PARTIAL</div>
+          <div class="cell none">—</div>
+          <div class="cell none">—</div>
+          <div class="cell partial">PARTIAL</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHERE IT'S HEADING -->
+    <div class="tb-future">
+      <div class="tb-l">WHERE THIS IS HEADING · THE END GOAL</div>
+      <h4>The next decade isn't about <em>more data.</em><br/>It's about <em>fewer humans</em> in the decision.</h4>
+      <div class="tb-future-points">
+        <div class="tb-fp">
+          <div class="n">A single <em>composite score</em></div>
+          <div class="d">Hiring + insurance + lending + housing + dating fuse into one cross-sector reputation token. Privately held, opaque, mostly accurate, occasionally devastating.</div>
+        </div>
+        <div class="tb-fp">
+          <div class="n">Autonomous <em>decision agents</em></div>
+          <div class="d">Bidders, recommenders, underwriters, recruiters — all AI agents transacting on your composite without any human in the chain until it's already locked in.</div>
+        </div>
+        <div class="tb-fp">
+          <div class="n">The <em>quiet denial</em></div>
+          <div class="d">You won't be told no. The interview just doesn't come. The rate is slightly higher. The match never shows up. The credit is approved but at a different number than your neighbor.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+/* ============ STAGE 05 · PROTECTION FIELD MANUAL (largely unchanged, restyled headers) ============ */
+.prot-stage{background:var(--cream);padding:100px 28px;border-bottom:3px solid var(--ink)}
+.prot-shead{max-width:1320px;margin:0 auto 32px}
+.prot-shead .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--cobalt);font-weight:700;margin-bottom:8px;display:inline-flex;align-items:center;gap:10px}
+.prot-shead .lbl::before{content:"";width:24px;height:1.5px;background:var(--cobalt)}
+.prot-shead h2{font-family:var(--display);font-size:clamp(36px,5.2vw,76px);line-height:.92;letter-spacing:-.035em}
+.prot-shead h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--cobalt)}
+.prot-shead .dek{font-family:var(--italic);font-style:italic;font-size:clamp(17px,1.9vw,22px);line-height:1.45;color:var(--ink-soft);max-width:64ch;margin-top:14px}
+
+.protection{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:3px solid var(--ink)}
+.prot-group{padding:24px;background:var(--cream);border-right:3px solid var(--ink);border-bottom:3px solid var(--ink)}
+.prot-group:nth-child(3n){border-right:none}
+.prot-group:nth-last-child(-n+3){border-bottom:none}
+.prot-group .pg-h{font-family:var(--display);font-size:14px;letter-spacing:-.005em;color:var(--pink);text-transform:uppercase;margin-bottom:14px;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.prot-action{padding:10px 0;border-bottom:1px dashed var(--rule);display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}
+.prot-action:last-child{border-bottom:none}
+.prot-action .nm{font-family:var(--sans);font-size:13px;line-height:1.4;font-weight:500;color:var(--ink)}
+.prot-action .nm b{font-weight:700;font-family:var(--display);font-size:13px;letter-spacing:-.005em}
+.prot-action .nm em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--pink)}
+.prot-action .meta{display:flex;gap:5px;align-items:center;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.prot-action .meta .tag{padding:2px 6px;background:var(--bg);font-weight:700;color:var(--ink-soft)}
+.prot-action .meta .star{color:var(--pink);font-family:var(--display);font-size:11px;letter-spacing:0}
+
+/* ============ STAGE 06 · BRIDGE ============ */
+.bridge{padding:80px 28px;background:var(--pink);color:var(--cream);text-align:center;border-bottom:3px solid var(--ink)}
+.bridge .up-next{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.78);margin-bottom:18px;font-weight:700}
+.bridge h2{font-family:var(--display);font-size:clamp(48px,7vw,108px);line-height:.88;letter-spacing:-.045em;margin-bottom:24px}
+.bridge h2 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.bridge .closer{font-family:var(--italic);font-style:italic;font-size:clamp(18px,2vw,24px);line-height:1.45;max-width:48ch;margin:0 auto;color:rgba(255,255,255,.92)}
+.bridge .closer b{font-style:normal;background:var(--ink);color:var(--cream);padding:0 6px;font-family:var(--sans);font-weight:700}
+
+/* ============ DESIGN QUESTIONS + BUILD ORDER + SOURCES (kept from v0.1, restyled) ============ */
+.design-q{max-width:1320px;margin:48px auto 0;padding:32px;background:var(--yellow);color:var(--ink);border:3px solid var(--ink)}
+.design-q .l{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;margin-bottom:14px;display:inline-flex;align-items:center;gap:10px}
+.design-q .l::before{content:"";width:24px;height:2px;background:var(--ink)}
+.design-q h4{font-family:var(--display);font-size:clamp(24px,3vw,38px);letter-spacing:-.025em;line-height:.98;margin-bottom:24px;max-width:30ch}
+.design-q h4 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.dq-list{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.dq{padding:16px 18px;background:var(--cream);border-left:3px solid var(--ink)}
+.dq .qn{font-family:var(--display);font-size:12px;letter-spacing:-.005em;color:var(--pink);margin-bottom:4px}
+.dq h5{font-family:var(--display);font-size:15px;letter-spacing:-.015em;line-height:1.2;margin-bottom:6px;color:var(--ink)}
+.dq p{font-family:var(--italic);font-style:italic;font-size:13px;line-height:1.45;color:var(--ink);opacity:.85}
+.dq p b{font-style:normal;font-weight:700}
+
+.build-section{padding:80px 28px;background:var(--ink);color:var(--cream)}
+.build-phases{max-width:1320px;margin:24px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;border:3px solid var(--cream)}
+.bp{padding:22px 20px;background:var(--bg-mid);color:var(--cream);border-right:3px solid var(--cream);display:flex;flex-direction:column;gap:6px;position:relative}
+.bp:last-child{border-right:none}
+.bp .phase{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);font-weight:700}
+.bp h5{font-family:var(--display);font-size:16px;letter-spacing:-.015em;line-height:1.15}
+.bp h5 em{font-family:var(--italic);font-style:italic;font-weight:400}
+.bp .ph-list{margin-top:8px;font-family:var(--sans);font-size:12.5px;line-height:1.55;color:rgba(255,255,255,.78)}
+.bp .ph-list b{font-weight:700}
+
+.sources{max-width:1320px;margin:32px auto 0;padding:32px;background:var(--ink);color:var(--cream);border:3px solid var(--ink)}
+.sources .l{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:14px;display:inline-flex;align-items:center;gap:10px}
+.sources .l::before{content:"";width:24px;height:2px;background:var(--lime)}
+.sources h4{font-family:var(--display);font-size:clamp(24px,3vw,36px);letter-spacing:-.025em;line-height:1;margin-bottom:20px}
+.sources h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.src-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.src-col h5{font-family:var(--display);font-size:14px;letter-spacing:-.005em;color:var(--lime);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(200,255,30,.3)}
+.src-col ul{list-style:none;padding:0}
+.src-col li{font-family:var(--mono);font-size:11px;letter-spacing:.02em;line-height:1.7;color:rgba(255,255,255,.85);padding-left:12px;position:relative}
+.src-col li::before{content:"·";position:absolute;left:0;color:var(--lime)}
+.src-col li em{font-family:var(--italic);font-style:italic;color:var(--cream)}
+
+footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1100px){
+  .build-lab{grid-template-columns:1fr}
+  .story-case{grid-template-columns:1fr}
+  .sc-viz{min-height:380px}
+  .protection{grid-template-columns:1fr 1fr}
+  .dq-list{grid-template-columns:1fr 1fr}
+  .src-grid{grid-template-columns:1fr}
+  .carousel-slide{grid-template-columns:1fr;gap:24px;padding:48px 32px 96px}
+  .carousel-slide .right{order:-1;justify-content:flex-start;min-height:240px}
+  .cs-motion{max-width:280px}
+}
+@media (max-width:700px){
+  .protection,.dq-list,.bl-events,.bl-comp-grid,.bl-kids-stats{grid-template-columns:1fr 1fr}
+  .bl-scores{grid-template-columns:1fr 1fr}
+  .carousel-slide h2{font-size:48px}
+  .silh-header h2,.build-shead h2,.story-shead h2,.prot-shead h2{font-size:36px}
+}
+</style>
+</head>
+<body>
+
+<!-- SERIES NAV -->
+<nav class="seriesnav">
+  <div class="seriesnav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>INFERA · MECHANISM SERIES</a>
+    <div class="tabs">
+      <a class="tab" href="index.html"><span class="tab-num">◉</span>Home</a>
+      <a class="tab" href="personhood-inc.html"><span class="tab-num">01</span>Personhood</a>
+      <a class="tab" href="the-feed-engine.html"><span class="tab-num">02</span>The Feed</a>
+      <a class="tab active" href="episode-03-trust-market-mockup.html"><span class="tab-num">03</span>Trust Market</a>
+    </div>
+  </div>
+</nav>
+
+<!-- DOC FLAG -->
+<div class="docflag">
+  <span>● LIVE · EPISODE 03 · MAY 2026</span>
+  <span class="right">The Trust Market · interactive systems journalism</span>
+</div>
+
+<!-- ============================================================ -->
 <!-- STAGE 05 · PROTECTION · ACTION-ORIENTED                        -->
 <!-- ============================================================ -->
 <section class="prot-stage">
@@ -1787,7 +1820,7 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
 
 
 <footer>
-  <div>INFERA · MACHINE-READABLE · EPISODE 03 · MOCKUP v0.9</div>
+  <div>INFERA · MACHINE-READABLE · EPISODE 03 · THE TRUST MARKET</div>
   <div>DESIGN PHASE · MAY 2026</div>
   <div>ARCHIVO BLACK · SPACE GROTESK · JETBRAINS MONO · INSTRUMENT SERIF</div>
 </footer>
