@@ -869,6 +869,56 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
     .phn-wrap{grid-template-columns:1fr; gap:24px}
     .iphone{max-width:280px}
   }
+
+/* ============================================================ ECHO PATTERN — cross-episode bridge indicators */
+.echo-dot{position:absolute;top:18px;right:20px;background:none;border:0;padding:6px 0 6px 22px;cursor:pointer;font:inherit;z-index:10;display:inline-flex;align-items:center;gap:8px}
+.echo-dot-core{position:absolute;left:0;top:50%;transform:translateY(-50%);width:13px;height:13px;background:var(--yellow);border-radius:50%;box-shadow:0 0 10px rgba(255,213,0,.85),0 0 22px rgba(255,213,0,.45);transition:background .3s,box-shadow .3s,transform .2s}
+.echo-dot-ring{position:absolute;left:0;top:50%;width:13px;height:13px;margin-top:-6.5px;border-radius:50%;border:1.5px solid var(--yellow);animation:echoRadiate 2.4s cubic-bezier(.2,.7,.4,1) infinite;pointer-events:none;opacity:.85}
+.echo-dot-ring:nth-of-type(2){animation-delay:.8s}
+.echo-dot-ring:nth-of-type(3){animation-delay:1.6s}
+.echo-dot-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);font-weight:700;text-shadow:0 0 6px rgba(0,0,0,.6)}
+.echo-dot:hover .echo-dot-ring{animation-duration:1.4s}
+.echo-dot:hover .echo-dot-core{transform:translateY(-50%) scale(1.18)}
+.echo-dot[aria-expanded="true"] .echo-dot-core{background:var(--lime);box-shadow:0 0 10px rgba(200,255,30,.85),0 0 22px rgba(200,255,30,.4)}
+.echo-dot[aria-expanded="true"] .echo-dot-ring{animation:none;opacity:0}
+.echo-dot[aria-expanded="true"] .echo-dot-label{color:var(--lime)}
+.echo-dot[aria-expanded="true"] .echo-dot-label::after{content:" · open"}
+@keyframes echoRadiate{0%{transform:scale(1);opacity:.85}80%{opacity:0}100%{transform:scale(4.2);opacity:0}}
+
+/* collapsible echo card */
+.echo-card{max-height:0;opacity:0;overflow:hidden;transition:max-height .7s cubic-bezier(.3,.7,.4,1),opacity .45s ease,margin-top .45s ease,padding .45s ease;margin-top:0;padding-top:0;padding-bottom:0;border-top-width:0;background:var(--ink);color:var(--cream)}
+.echo-card.open{max-height:1400px;opacity:1;margin-top:14px}
+.echo-card.open.phn-echo{padding:34px 32px 36px;border-top:1px dashed rgba(255,213,0,.45)}
+.phn-echo{position:relative}
+.phn-echo-tag{position:absolute;top:14px;right:16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);font-weight:700;display:inline-flex;align-items:center;gap:8px}
+.phn-echo-tag::before{content:"";width:14px;height:1px;background:var(--yellow)}
+.phn-echo-head{max-width:64ch;margin-bottom:22px}
+.phn-echo-head .phn-echo-l{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--yellow);font-weight:700;margin-bottom:10px;display:inline-flex;align-items:center;gap:10px}
+.phn-echo-head .phn-echo-l::before{content:"";width:24px;height:1px;background:var(--yellow)}
+.phn-echo-head h4{font-family:var(--display);font-size:clamp(24px,2.6vw,34px);letter-spacing:-.025em;line-height:1;margin-bottom:12px;color:var(--cream)}
+.phn-echo-head h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--yellow)}
+.phn-echo-sub{font-family:var(--italic);font-style:italic;font-size:16px;line-height:1.4;color:rgba(251,247,235,.8);max-width:62ch}
+.phn-echo-sub em{color:var(--yellow);font-style:italic}
+.phn-echo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+.phn-echo-cell{position:relative;padding:16px 18px 14px;background:rgba(251,247,235,.04);border:1px solid rgba(251,247,235,.18);border-left:3px solid var(--yellow);opacity:0;transform:translateY(8px);transition:opacity .55s cubic-bezier(.3,.7,.4,1),transform .55s cubic-bezier(.3,.7,.4,1)}
+.echo-card.open .phn-echo-cell{opacity:1;transform:translateY(0)}
+.echo-card.open .phn-echo-cell:nth-child(2){transition-delay:.12s}
+.echo-card.open .phn-echo-cell:nth-child(3){transition-delay:.24s}
+.echo-card.open .phn-echo-cell:nth-child(4){transition-delay:.36s}
+.phn-echo-cell .phn-echo-sector{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);font-weight:700;margin-bottom:8px}
+.phn-echo-cell .phn-echo-actor{font-family:var(--display);font-size:18px;letter-spacing:-.02em;color:var(--cream);line-height:1.05;margin-bottom:6px}
+.phn-echo-cell .phn-echo-action{font-family:var(--italic);font-style:italic;font-size:14px;color:rgba(251,247,235,.78);line-height:1.35}
+.phn-echo-cell .phn-echo-line{margin-top:10px;padding-top:8px;border-top:1px dashed rgba(255,213,0,.3);font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);font-weight:700;line-height:1.4;display:flex;align-items:flex-start;gap:5px}
+.phn-echo-cell .phn-echo-line::before{content:"→";color:var(--yellow);font-size:13px;line-height:1}
+.phn-echo-foot{margin-top:16px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(251,247,235,.5);font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.phn-echo-foot a{color:var(--yellow);text-decoration:underline;text-underline-offset:3px}
+.phn-echo-foot .dot{width:5px;height:5px;background:var(--yellow);border-radius:50%}
+@media (max-width:980px){.phn-echo-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.phn-echo-grid{grid-template-columns:1fr}}
+
+/* echo pulse for the broker node in the money-flow diagram */
+.mf-node.echo-pulse{box-shadow:inset 0 0 0 2px var(--yellow),0 0 0 1px var(--yellow),0 0 24px 6px rgba(255,213,0,.55);animation:phnNodePulse 1.5s cubic-bezier(.3,.7,.4,1) 2}
+@keyframes phnNodePulse{0%,100%{box-shadow:inset 0 0 0 2px var(--yellow),0 0 0 1px var(--yellow),0 0 12px 2px rgba(255,213,0,.3)}50%{box-shadow:inset 0 0 0 2px var(--yellow),0 0 0 1px var(--yellow),0 0 38px 12px rgba(255,213,0,.7)}}
 </style>
 <section class="stage" id="s6" data-stage="6">
   <div class="head">
@@ -921,7 +971,14 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
       <h2 style="color:var(--cream)">Follow the <em>money.</em><br/>Notice how it<br/>comes back to <span class="pink">you.</span></h2>
     </div>
   </div>
-  <div class="mf-wrap">
+  <div class="mf-wrap" style="position:relative">
+    <button class="echo-dot" type="button" aria-expanded="false" aria-controls="phnEcho" data-echo-target="phnEcho" data-echo-pulse="mfNodeBroker">
+      <span class="echo-dot-core"></span>
+      <span class="echo-dot-ring"></span>
+      <span class="echo-dot-ring"></span>
+      <span class="echo-dot-ring"></span>
+      <span class="echo-dot-label">Echo · Ep 03</span>
+    </button>
     <div class="mf-ctrls">
       <div class="ctrl">STATE
         <select id="mfState">
@@ -949,6 +1006,44 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
       </div>
     </div>
   </div>
+
+  <!-- ECHO · the brokers become the gatekeepers — cross-episode bridge to Episode 03 · The Trust Market -->
+  <div class="phn-echo echo-card" id="phnEcho" aria-hidden="true">
+    <div class="phn-echo-tag">Echo · Ep 03 · The Trust Market</div>
+    <div class="phn-echo-head">
+      <div class="phn-echo-l">The brokers become the gatekeepers</div>
+      <h4>The same brokers buying your data <em>also decide</em> your housing, lending, insurance, and employment outcomes.</h4>
+      <p class="phn-echo-sub">Acxiom, Experian, LexisNexis, CoreLogic. In this money flow they look like a middle tier — buying signal from platforms and reselling it to advertisers. In the next episode <em>they reappear as the scoring layer</em> that ranks you for the apartment, prices the mortgage, sets the insurance premium, and decides whether the applicant tracking system shows your résumé to a human.</p>
+    </div>
+    <div class="phn-echo-grid">
+      <div class="phn-echo-cell">
+        <div class="phn-echo-sector">Housing</div>
+        <div class="phn-echo-actor">CoreLogic · RealPage</div>
+        <div class="phn-echo-action">Tenant scoring, eviction history, predictive risk. 90% of landlords use a scoring service.</div>
+        <div class="phn-echo-line">Same broker tier as the money-flow diagram above</div>
+      </div>
+      <div class="phn-echo-cell">
+        <div class="phn-echo-sector">Lending</div>
+        <div class="phn-echo-actor">Experian · TransUnion · Equifax</div>
+        <div class="phn-echo-action">Credit scoring, alternative-data underwriting, mortgage pricing. Determines APR.</div>
+        <div class="phn-echo-line">Same broker tier as the money-flow diagram above</div>
+      </div>
+      <div class="phn-echo-cell">
+        <div class="phn-echo-sector">Insurance</div>
+        <div class="phn-echo-actor">LexisNexis Risk · Verisk</div>
+        <div class="phn-echo-action">Auto, home, and life premium scoring. Reads your purchase history, your address risk, your network.</div>
+        <div class="phn-echo-line">Same broker tier as the money-flow diagram above</div>
+      </div>
+      <div class="phn-echo-cell">
+        <div class="phn-echo-sector">Employment</div>
+        <div class="phn-echo-actor">HireVue · Workday ATS · Checkr</div>
+        <div class="phn-echo-action">Applicant tracking, background screening, video interview scoring. Filters before a human looks.</div>
+        <div class="phn-echo-line">Powered by the same broker layer</div>
+      </div>
+    </div>
+    <div class="phn-echo-foot"><span class="dot"></span>Full sector breakdown in <a href="episode-03-trust-market-mockup.html#tbEcho">Episode 03 · The Trust Market</a></div>
+  </div>
+
 </section>
 
 <!-- =========================================================== STAGE 8 — RECEIPTS (proof layer) -->
@@ -1890,7 +1985,7 @@ let MF_GEOM = [];
 function renderMoneyStage(){
   const stage = document.getElementById('mfStage');
   const nodeHtml = Object.entries(MF_NODES).map(([k,n])=>{
-    return `<div class="mf-node ${n.cls||''}" data-id="${k}" style="left:${n.x}%;top:${n.y}%">${n.label}<span class="sub">${n.sub}</span></div>`;
+    return `<div class="mf-node ${n.cls||''}" id="mfNode${k.charAt(0).toUpperCase()+k.slice(1)}" data-id="${k}" style="left:${n.x}%;top:${n.y}%">${n.label}<span class="sub">${n.sub}</span></div>`;
   }).join('');
   const persona = PERSONAS[STATE.persona];
   let svgDefs = `<defs>
@@ -2164,6 +2259,35 @@ renderMoneyStage();
 showMfDetail('you1');
 document.querySelector('[data-id="you1"]')?.classList.add('act');
 applyShield(25);
+
+// ============================================================ ECHO PATTERN — click-to-open dropdown bridges
+(function(){
+  const dots = document.querySelectorAll('.echo-dot[data-echo-target]');
+  if(!dots.length) return;
+  dots.forEach(dot => {
+    const targetId = dot.dataset.echoTarget;
+    const pulseId  = dot.dataset.echoPulse;
+    const card     = document.getElementById(targetId);
+    if(!card) return;
+    const resolvePulse = () => pulseId ? document.getElementById(pulseId) : null;
+    dot.addEventListener('click', () => {
+      const isOpen = dot.getAttribute('aria-expanded') === 'true';
+      dot.setAttribute('aria-expanded', String(!isOpen));
+      card.classList.toggle('open', !isOpen);
+      card.setAttribute('aria-hidden', String(isOpen));
+      const pulseEl = resolvePulse();
+      if(!isOpen){
+        if(pulseEl) pulseEl.classList.add('echo-pulse');
+        setTimeout(() => {
+          const r = card.getBoundingClientRect();
+          if(r.bottom > window.innerHeight) card.scrollIntoView({behavior:'smooth', block:'nearest'});
+        }, 380);
+      } else {
+        if(pulseEl) pulseEl.classList.remove('echo-pulse');
+      }
+    });
+  });
+})();
 </script>
 
 </body>

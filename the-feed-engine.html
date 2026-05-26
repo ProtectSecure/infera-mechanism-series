@@ -1284,6 +1284,55 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
   .value-side.right .vs-row{justify-content:flex-start}
   .value-divider{writing-mode:horizontal-tb;padding:14px}
 }
+
+/* ============================================================ ECHO PATTERN — cross-episode bridge indicators */
+.echo-dot{position:absolute;top:16px;right:18px;background:none;border:0;padding:6px 0 6px 22px;cursor:pointer;font:inherit;z-index:10;display:inline-flex;align-items:center;gap:8px}
+.echo-dot-core{position:absolute;left:0;top:50%;transform:translateY(-50%);width:13px;height:13px;background:var(--yellow);border-radius:50%;box-shadow:0 0 10px rgba(255,213,0,.85),0 0 22px rgba(255,213,0,.45);transition:background .3s,box-shadow .3s,transform .2s}
+.echo-dot-ring{position:absolute;left:0;top:50%;width:13px;height:13px;margin-top:-6.5px;border-radius:50%;border:1.5px solid var(--yellow);animation:echoRadiate 2.4s cubic-bezier(.2,.7,.4,1) infinite;pointer-events:none;opacity:.85}
+.echo-dot-ring:nth-of-type(2){animation-delay:.8s}
+.echo-dot-ring:nth-of-type(3){animation-delay:1.6s}
+.echo-dot-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);font-weight:700;text-shadow:0 0 6px rgba(0,0,0,.6)}
+.echo-dot:hover .echo-dot-ring{animation-duration:1.4s}
+.echo-dot:hover .echo-dot-core{transform:translateY(-50%) scale(1.18)}
+.echo-dot[aria-expanded="true"] .echo-dot-core{background:var(--lime);box-shadow:0 0 10px rgba(200,255,30,.85),0 0 22px rgba(200,255,30,.4)}
+.echo-dot[aria-expanded="true"] .echo-dot-ring{animation:none;opacity:0}
+.echo-dot[aria-expanded="true"] .echo-dot-label{color:var(--lime)}
+.echo-dot[aria-expanded="true"] .echo-dot-label::after{content:" · open"}
+@keyframes echoRadiate{0%{transform:scale(1);opacity:.85}80%{opacity:0}100%{transform:scale(4.2);opacity:0}}
+
+/* collapsible echo card */
+.echo-card{max-height:0;opacity:0;overflow:hidden;transition:max-height .7s cubic-bezier(.3,.7,.4,1),opacity .45s ease,margin-top .45s ease,padding .45s ease;margin-top:0;padding-top:0;padding-bottom:0;border-top-width:0;background:var(--ink);color:var(--cream)}
+.echo-card.open{max-height:1200px;opacity:1;margin-top:0}
+.echo-card.open.fe-echo{padding:34px 32px 36px;border-top:1px dashed rgba(255,213,0,.45)}
+.fe-echo{position:relative}
+.fe-echo-tag{position:absolute;top:14px;right:16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);font-weight:700;display:inline-flex;align-items:center;gap:8px}
+.fe-echo-tag::before{content:"";width:14px;height:1px;background:var(--yellow)}
+.fe-echo-head{max-width:62ch;margin-bottom:22px}
+.fe-echo-head .fe-echo-l{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--yellow);font-weight:700;margin-bottom:10px;display:inline-flex;align-items:center;gap:10px}
+.fe-echo-head .fe-echo-l::before{content:"";width:24px;height:1px;background:var(--yellow)}
+.fe-echo-head h4{font-family:var(--display);font-size:clamp(24px,2.6vw,34px);letter-spacing:-.025em;line-height:1;margin-bottom:12px}
+.fe-echo-head h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--yellow)}
+.fe-echo-sub{font-family:var(--italic);font-style:italic;font-size:16px;line-height:1.4;color:rgba(251,247,235,.78);max-width:60ch}
+.fe-echo-sub em{color:var(--yellow);font-style:italic}
+.fe-echo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:8px}
+.fe-echo-cell{position:relative;padding:18px 20px 16px;background:rgba(251,247,235,.04);border:1px solid rgba(251,247,235,.18);border-left:3px solid var(--yellow);opacity:0;transform:translateY(8px);transition:opacity .6s cubic-bezier(.3,.7,.4,1),transform .6s cubic-bezier(.3,.7,.4,1)}
+.echo-card.open .fe-echo-cell{opacity:1;transform:translateY(0)}
+.echo-card.open .fe-echo-cell:nth-child(2){transition-delay:.14s}
+.echo-card.open .fe-echo-cell:nth-child(3){transition-delay:.28s}
+.fe-echo-cell .fe-echo-rank{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);font-weight:700;margin-bottom:8px}
+.fe-echo-cell .fe-echo-name{font-family:var(--display);font-size:22px;letter-spacing:-.02em;color:var(--cream);margin-bottom:8px}
+.fe-echo-cell .fe-echo-stat{font-family:var(--display);font-size:28px;letter-spacing:-.03em;color:var(--cream);line-height:1;font-variant-numeric:tabular-nums;margin-bottom:6px}
+.fe-echo-cell .fe-echo-stat span{display:block;margin-top:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(251,247,235,.55);font-weight:700}
+.fe-echo-cell .fe-echo-also{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,213,0,.3);font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);font-weight:700;line-height:1.4;display:flex;align-items:flex-start;gap:6px}
+.fe-echo-cell .fe-echo-also::before{content:"→";color:var(--yellow);font-size:13px;line-height:1}
+.fe-echo-foot{margin-top:16px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(251,247,235,.5);font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fe-echo-foot a{color:var(--yellow);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:780px){
+  .fe-echo-grid{grid-template-columns:1fr}
+}
+/* yellow pulse for the SVG treemap cell (Amazon block) */
+.tm-cell.echo-pulse rect{stroke:var(--yellow);stroke-width:4;animation:tmPulse 1.4s cubic-bezier(.3,.7,.4,1) 2}
+@keyframes tmPulse{0%,100%{filter:drop-shadow(0 0 0 rgba(255,213,0,0))}50%{filter:drop-shadow(0 0 22px rgba(255,213,0,.7))}}
 </style>
 </head>
 <body>
@@ -1670,7 +1719,14 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
     </div>
 
     <!-- ============================================== ACT 5 · GLOBAL BRAND TRANSLATION ============================================== -->
-    <div class="thesis-act act-brand flip dark">
+    <div class="thesis-act act-brand flip dark" id="advertisers" style="position:relative">
+      <button class="echo-dot" type="button" aria-expanded="false" aria-controls="feEcho" data-echo-target="feEcho" data-echo-pulse="tmAmazonCell">
+        <span class="echo-dot-core"></span>
+        <span class="echo-dot-ring"></span>
+        <span class="echo-dot-ring"></span>
+        <span class="echo-dot-ring"></span>
+        <span class="echo-dot-label">Echo · Ep 03</span>
+      </button>
       <div class="ta-grid">
         <div class="ta-viz">
           <svg viewBox="0 0 800 540" preserveAspectRatio="xMidYMid meet" aria-label="Treemap of top US digital advertisers · 2024 estimated US digital ad spend">
@@ -1680,7 +1736,7 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
             <text class="tv-lbl" x="780" y="22" text-anchor="end" fill="var(--cream)" opacity=".55" font-size="9">eMarketer / SMI / Comvergence estimates</text>
 
             <!-- AMAZON $30B — biggest cell · top-left, large -->
-            <g class="tm-cell">
+            <g class="tm-cell" id="tmAmazonCell">
               <rect x="20" y="40" width="320" height="280" fill="rgba(255,200,40,.92)" stroke="var(--ink)" stroke-width="2"/>
               <text class="tm-label" x="40" y="80" font-size="32" fill="var(--ink)">AMAZON</text>
               <text class="tm-spend" x="40" y="115" font-size="40" fill="var(--ink)">$30B</text>
@@ -1774,6 +1830,37 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
           <div class="ta-source">Source · eMarketer 2024 US Digital Ad Spending forecast · Standard Media Index 2024 advertiser rankings · Comvergence US digital top-100 list 2024 · company 10-K disclosures. All figures are public-source estimates; actual confidential advertiser spend varies.</div>
         </div>
       </div>
+    </div>
+
+    <!-- ECHO · the other side of the desk — cross-episode bridge to Episode 03 · The Trust Market -->
+    <div class="fe-echo echo-card" id="feEcho" aria-hidden="true">
+      <div class="fe-echo-tag">Echo · Ep 03 · The Trust Market</div>
+      <div class="fe-echo-head">
+        <div class="fe-echo-l">The other side of the desk</div>
+        <h4>The companies buying your attention <em>also hold</em> your composite.</h4>
+        <p class="fe-echo-sub">The same Amazon, Alphabet, Meta, and Apple that spend the most on advertising <em>also sit inside the four-company substrate</em> that holds roughly 62% of US adult digital-personhood data. They are both the largest buyer of attention and the largest holder of audience. Supply side equals demand side. The market has no second side.</p>
+      </div>
+      <div class="fe-echo-grid">
+        <div class="fe-echo-cell">
+          <div class="fe-echo-rank">Substrate · Tier 1</div>
+          <div class="fe-echo-name">META · GOOGLE · APPLE · AMAZON</div>
+          <div class="fe-echo-stat">~62%<span>of total US composite signal</span></div>
+          <div class="fe-echo-also">Same four companies sit at the top of this ad-spend list</div>
+        </div>
+        <div class="fe-echo-cell">
+          <div class="fe-echo-rank">Substrate · Tier 1b</div>
+          <div class="fe-echo-name">MICROSOFT</div>
+          <div class="fe-echo-stat">~12%<span>of total US composite signal</span></div>
+          <div class="fe-echo-also">Cloud + LinkedIn + advertising — second-largest substrate holder</div>
+        </div>
+        <div class="fe-echo-cell">
+          <div class="fe-echo-rank">Brokers · Tier 2</div>
+          <div class="fe-echo-name">ACXIOM · EXPERIAN · LEXISNEXIS</div>
+          <div class="fe-echo-stat">~13%<span>fused cross-source profiles</span></div>
+          <div class="fe-echo-also">Sell the audience back to the same advertisers — closed loop</div>
+        </div>
+      </div>
+      <div class="fe-echo-foot"><span style="width:5px;height:5px;background:var(--yellow);border-radius:50%;display:inline-block"></span>Source · See full composite ownership treemap in <a href="episode-03-trust-market-mockup.html#tbEcho">Episode 03 · The Trust Market</a></div>
     </div>
 
   </div>
@@ -4499,6 +4586,34 @@ function drawPossibility(canvas, personaId, persona, timeIdx){
 }
 
 END_DEAD_CODE_TO_REMOVE */
+
+// ============================================================ ECHO PATTERN — click-to-open dropdown bridges
+(function(){
+  const dots = document.querySelectorAll('.echo-dot[data-echo-target]');
+  if(!dots.length) return;
+  dots.forEach(dot => {
+    const targetId = dot.dataset.echoTarget;
+    const pulseId  = dot.dataset.echoPulse;
+    const card     = document.getElementById(targetId);
+    const pulseEl  = pulseId ? document.getElementById(pulseId) : null;
+    if(!card) return;
+    dot.addEventListener('click', () => {
+      const isOpen = dot.getAttribute('aria-expanded') === 'true';
+      dot.setAttribute('aria-expanded', String(!isOpen));
+      card.classList.toggle('open', !isOpen);
+      card.setAttribute('aria-hidden', String(isOpen));
+      if(!isOpen){
+        if(pulseEl) pulseEl.classList.add('echo-pulse');
+        setTimeout(() => {
+          const r = card.getBoundingClientRect();
+          if(r.bottom > window.innerHeight) card.scrollIntoView({behavior:'smooth', block:'nearest'});
+        }, 380);
+      } else {
+        if(pulseEl) pulseEl.classList.remove('echo-pulse');
+      }
+    });
+  });
+})();
 </script>
 
 </body>

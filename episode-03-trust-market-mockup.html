@@ -246,14 +246,34 @@ a,button{color:inherit;text-decoration:none;background:none;border:none;cursor:p
 .tb-block.tier3c{--blk-color:#a08600;color:var(--cream);grid-column:span 2;grid-row:span 2}
 .tb-block.tier4{--blk-color:rgba(251,247,235,.16);grid-column:span 2;grid-row:span 1}
 
-/* echo pulse: lights up the targeted treemap cell when the echo section enters view */
+/* ============================================================ ECHO PATTERN — cross-episode bridge indicators */
+.echo-dot{position:absolute;top:14px;right:16px;background:none;border:0;padding:6px 0 6px 22px;cursor:pointer;font:inherit;z-index:5;display:inline-flex;align-items:center;gap:8px}
+.echo-dot-core{position:absolute;left:0;top:50%;transform:translateY(-50%);width:13px;height:13px;background:var(--yellow);border-radius:50%;box-shadow:0 0 10px rgba(255,213,0,.85),0 0 22px rgba(255,213,0,.45);transition:background .3s,box-shadow .3s}
+.echo-dot-ring{position:absolute;left:0;top:50%;width:13px;height:13px;margin-top:-6.5px;border-radius:50%;border:1.5px solid var(--yellow);animation:echoRadiate 2.4s cubic-bezier(.2,.7,.4,1) infinite;pointer-events:none;opacity:.85}
+.echo-dot-ring:nth-of-type(2){animation-delay:.8s}
+.echo-dot-ring:nth-of-type(3){animation-delay:1.6s}
+.echo-dot-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);font-weight:700;text-shadow:0 0 6px rgba(0,0,0,.6)}
+.echo-dot:hover .echo-dot-ring{animation-duration:1.4s}
+.echo-dot:hover .echo-dot-core{transform:translateY(-50%) scale(1.18)}
+.echo-dot[aria-expanded="true"] .echo-dot-core{background:var(--lime);box-shadow:0 0 10px rgba(200,255,30,.85),0 0 22px rgba(200,255,30,.4)}
+.echo-dot[aria-expanded="true"] .echo-dot-ring{animation:none;opacity:0}
+.echo-dot[aria-expanded="true"] .echo-dot-label{color:var(--lime)}
+.echo-dot[aria-expanded="true"] .echo-dot-label::after{content:" · open"}
+@keyframes echoRadiate{0%{transform:scale(1);opacity:.85}80%{opacity:0}100%{transform:scale(4.2);opacity:0}}
+
+/* collapsible echo card */
+.echo-card{max-height:0;opacity:0;overflow:hidden;transition:max-height .7s cubic-bezier(.3,.7,.4,1),opacity .45s ease,margin-top .45s ease,padding .45s ease;margin-top:0;padding-top:0;padding-bottom:0;border-top-width:0}
+.echo-card.open{max-height:1200px;opacity:1;margin-top:14px}
+
+/* echo pulse: lights up the targeted treemap cell when the echo card opens */
 .tb-block.echo-pulse{box-shadow:inset 0 0 0 2px var(--lime),0 0 0 1px var(--lime),0 0 24px 4px rgba(200,255,30,.45);animation:echoPulse 1.6s cubic-bezier(.3,.7,.4,1) 2}
 .tb-block.echo-pulse::after{content:"ECHO ↓";position:absolute;top:8px;right:10px;font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;font-weight:700;color:var(--ink);background:var(--lime);padding:3px 6px;animation:echoTagIn .5s ease both}
 @keyframes echoPulse{0%{box-shadow:inset 0 0 0 2px var(--lime),0 0 0 1px var(--lime),0 0 0 0 rgba(200,255,30,0)}50%{box-shadow:inset 0 0 0 2px var(--lime),0 0 0 1px var(--lime),0 0 36px 10px rgba(200,255,30,.55)}100%{box-shadow:inset 0 0 0 2px var(--lime),0 0 0 1px var(--lime),0 0 18px 2px rgba(200,255,30,.3)}}
 @keyframes echoTagIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 
 /* BOTH SIDES OF THE DESK — cross-episode echo to Feed Engine */
-.tb-echo{margin-top:0;padding:34px 32px 36px;background:var(--ink);color:var(--cream);border:3px solid var(--ink);border-top:1px dashed rgba(200,255,30,.35);position:relative;overflow:hidden}
+.tb-echo{background:var(--ink);color:var(--cream);border:3px solid var(--ink);border-top:1px dashed rgba(255,213,0,.45);position:relative}
+.tb-echo.open{padding:34px 32px 36px}
 .tb-echo-tag{position:absolute;top:14px;right:16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);font-weight:700;display:inline-flex;align-items:center;gap:8px}
 .tb-echo-tag::before{content:"";width:14px;height:1px;background:var(--lime)}
 .tb-echo-head{max-width:62ch;margin-bottom:22px}
@@ -1389,6 +1409,13 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
 
     <!-- COMPOSITE OWNERSHIP TREEMAP -->
     <div class="tb-composite">
+      <button class="echo-dot" type="button" aria-expanded="false" aria-controls="tbEcho" data-echo-target="tbEcho" data-echo-pulse="tbTier1Substrate">
+        <span class="echo-dot-core"></span>
+        <span class="echo-dot-ring"></span>
+        <span class="echo-dot-ring"></span>
+        <span class="echo-dot-ring"></span>
+        <span class="echo-dot-label">Echo · Ep 02</span>
+      </button>
       <div class="tb-l">WHO OWNS THE MOST COMPLETE COMPOSITE OF YOU</div>
       <h4>Not the company you signed up with.<br/><em>The four that bought the rest.</em></h4>
       <p class="sub">Block size = approximate share of total US adult digital-personhood data under each operator's roof. Tier-1 owns the substrate (platforms + ad networks + cloud). Tier-2 brokers fuse cross-source. Tier-3 sector specialists own deep verticals. Tier-4 is fragmented.</p>
@@ -1406,7 +1433,7 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
     </div>
 
     <!-- BOTH SIDES OF THE DESK — cross-episode echo to Episode 02 · The Feed Engine -->
-    <div class="tb-echo" id="tbEcho">
+    <div class="tb-echo echo-card" id="tbEcho" aria-hidden="true">
       <div class="tb-echo-tag">Echo · Ep 02 · The Feed Engine</div>
       <div class="tb-echo-head">
         <div class="tb-l">Both sides of the desk</div>
@@ -2724,27 +2751,37 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
   update();
 })();
 
-// ============================================================ ECHO MOMENT (cross-episode bridge to Feed Engine)
+// ============================================================ ECHO PATTERN — click-to-open dropdown bridges
 (function(){
-  const echo = document.getElementById('tbEcho');
-  const tier1 = document.getElementById('tbTier1Substrate');
-  if(!echo || !tier1) return;
-  const fire = () => {
-    echo.classList.add('in');
-    // pulse the Tier-1 substrate cell up in the treemap
-    tier1.classList.add('echo-pulse');
-    // remove the badge after the animation finishes, but leave the lime ring as a persistent marker
-    setTimeout(() => {
-      tier1.style.setProperty('--echo-after-display','none');
-      const badge = tier1.querySelector('::after'); // can't query pseudo, drop class instead
-    }, 3600);
-  };
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if(e.isIntersecting){ fire(); io.unobserve(e.target); }
+  const dots = document.querySelectorAll('.echo-dot[data-echo-target]');
+  if(!dots.length) return;
+  dots.forEach(dot => {
+    const targetId = dot.dataset.echoTarget;
+    const pulseId  = dot.dataset.echoPulse;
+    const card     = document.getElementById(targetId);
+    const pulseEl  = pulseId ? document.getElementById(pulseId) : null;
+    if(!card) return;
+    dot.addEventListener('click', () => {
+      const isOpen = dot.getAttribute('aria-expanded') === 'true';
+      dot.setAttribute('aria-expanded', String(!isOpen));
+      card.classList.toggle('open', !isOpen);
+      card.setAttribute('aria-hidden', String(isOpen));
+      if(!isOpen){
+        // opening: trigger reveal + pulse
+        requestAnimationFrame(() => card.classList.add('in'));
+        if(pulseEl) pulseEl.classList.add('echo-pulse');
+        // scroll the opened card into view if it's partially below the fold
+        setTimeout(() => {
+          const r = card.getBoundingClientRect();
+          if(r.bottom > window.innerHeight) card.scrollIntoView({behavior:'smooth', block:'nearest'});
+        }, 380);
+      } else {
+        // closing: drop reveal/pulse so it can re-fire on next open
+        card.classList.remove('in');
+        if(pulseEl) pulseEl.classList.remove('echo-pulse');
+      }
     });
-  }, { threshold: 0.35, rootMargin: '0px 0px -10% 0px' });
-  io.observe(echo);
+  });
 })();
 </script>
 
