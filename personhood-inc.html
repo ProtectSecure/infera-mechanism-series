@@ -450,6 +450,55 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
   .guide.hide{transform:translateY(12px)}
 }
 </style>
+
+<!-- ============================================================ MOTION DEFENSE — reduced-motion + small-viewport hardening (P7) -->
+<style id="infera-motion-defense">
+/* Honor user's OS-level motion preference everywhere */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  canvas { animation: none !important; }
+  /* Keep echo dot static rings invisible */
+  .echo-dot-ring { display: none !important; }
+}
+
+/* Small-viewport hardening: shut down heavy canvas/particle motion on phones */
+@media (max-width: 640px) {
+  canvas { animation: none !important; }
+  /* Stop infinite SVG SMIL animation drift on small screens by hiding animate elements without removing them */
+  svg animate, svg animateTransform, svg animateMotion { display: none; }
+  /* If a page has a sticky cinematic stage, allow it to flow naturally on mobile */
+  .stage-section .stage-sticky,
+  .pinned-stage,
+  .hero-canvas,
+  .stage-canvas {
+    position: static !important;
+  }
+  /* Pinned scrollytelling canvases shouldn't take full viewport height on mobile */
+  .hero-canvas, .stage-canvas, .algo-core, .eco-schema {
+    max-height: 60vh !important;
+  }
+  /* Hide the floating chapter rail */
+  .chapter-rail { display: none !important; }
+  /* Reduce body of large hero text */
+  .hero h1, .hero h2 { letter-spacing: -.02em !important; }
+}
+
+/* Print: strip animation, keep editorial */
+@media print {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    background-attachment: scroll !important;
+  }
+  canvas, .echo-dot, .chapter-rail, .ep-stayclose, .brand-spine { display: none !important; }
+}
+</style>
+
 </head>
 <body data-persona="curator" data-picked="false">
 
@@ -490,6 +539,20 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
   <div class="txt" id="guideTxt"><b>Begin the experiment.</b> Scroll into Stage 01.</div>
   <div class="step" id="guideStep">00 / 09</div>
 </div>
+
+<!-- =========================================================== CHAPTER RAIL -->
+<nav class="chapter-rail" id="chapterRail" aria-label="Chapter navigation">
+  <div class="ch-meta">~25 min · 9 stages<b>Personhood Inc.</b></div>
+  <a class="ch-item" href="#s1" data-target="s1"><span class="ch-label"><span class="ch-num">01</span>Pipeline</span><span class="ch-dot"></span></a>
+  <a class="ch-item" href="#s2" data-target="s2"><span class="ch-label"><span class="ch-num">02</span>Composite builder</span><span class="ch-dot"></span></a>
+  <a class="ch-item" href="#s3" data-target="s3"><span class="ch-label"><span class="ch-num">03</span>System learned</span><span class="ch-dot"></span></a>
+  <a class="ch-item" href="#s4" data-target="s4"><span class="ch-label"><span class="ch-num">04</span>Class engine</span><span class="ch-dot"></span></a>
+  <a class="ch-item" href="#s5" data-target="s5"><span class="ch-label"><span class="ch-num">05</span>Trajectory</span><span class="ch-dot"></span></a>
+  <a class="ch-item" href="#s6" data-target="s6"><span class="ch-label"><span class="ch-num">06</span>Perception loop</span><span class="ch-dot"></span></a>
+  <a class="ch-item" href="#s7" data-target="s7"><span class="ch-label"><span class="ch-num">07</span>Money flow</span><span class="ch-dot"></span></a>
+  <a class="ch-item" href="#s8" data-target="s8"><span class="ch-label"><span class="ch-num">08</span>Receipts</span><span class="ch-dot"></span></a>
+  <a class="ch-item" href="#s10" data-target="s10"><span class="ch-label"><span class="ch-num">09</span>Protection · next</span><span class="ch-dot"></span></a>
+</nav>
 
 <!-- =========================================================== HERO -->
 <header class="hero noise" data-stage="0">
@@ -916,6 +979,20 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
 @media (max-width:980px){.phn-echo-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.phn-echo-grid{grid-template-columns:1fr}}
 
+/* ============================================================ CHAPTER RAIL — progress affordance for long-form */
+.chapter-rail{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:4px;z-index:80;opacity:0;transition:opacity .4s ease;pointer-events:none}
+.chapter-rail.show{opacity:1;pointer-events:auto}
+.chapter-rail .ch-item{display:flex;align-items:center;gap:10px;cursor:pointer;padding:5px 4px;text-decoration:none;color:var(--cream);flex-direction:row-reverse}
+.chapter-rail .ch-dot{width:8px;height:8px;border:1.5px solid var(--cream);border-radius:50%;opacity:.42;transition:transform .25s,opacity .25s,background .25s,box-shadow .25s;background:transparent;flex-shrink:0}
+.chapter-rail .ch-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--cream);max-width:0;overflow:hidden;opacity:0;white-space:nowrap;transition:max-width .3s ease,opacity .25s ease,padding .3s ease;padding-right:0;text-align:right;text-shadow:0 0 6px rgba(0,0,0,.7)}
+.chapter-rail .ch-num{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;opacity:.6;margin-right:4px}
+.chapter-rail .ch-item:hover .ch-dot,.chapter-rail .ch-item.act .ch-dot{opacity:1;transform:scale(1.4);background:var(--lime);border-color:var(--lime);box-shadow:0 0 10px rgba(200,255,30,.7)}
+.chapter-rail .ch-item:hover .ch-label,.chapter-rail .ch-item.act .ch-label{max-width:240px;opacity:1;padding-right:6px}
+.chapter-rail .ch-meta{font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--cream);opacity:.55;margin-bottom:14px;padding:6px 8px;border:1px solid rgba(251,247,235,.25);text-align:center;white-space:nowrap;background:rgba(0,0,0,.4)}
+.chapter-rail .ch-meta b{color:var(--lime);font-family:var(--display);font-weight:400;letter-spacing:-.005em;font-size:11px;display:block;margin-top:2px}
+@media (max-width:980px){.chapter-rail{display:none}}
+@media (prefers-reduced-motion:reduce){.chapter-rail *{transition:none}}
+
 /* echo pulse for the broker node in the money-flow diagram */
 .mf-node.echo-pulse{box-shadow:inset 0 0 0 2px var(--yellow),0 0 0 1px var(--yellow),0 0 24px 6px rgba(255,213,0,.55);animation:phnNodePulse 1.5s cubic-bezier(.3,.7,.4,1) 2}
 @keyframes phnNodePulse{0%,100%{box-shadow:inset 0 0 0 2px var(--yellow),0 0 0 1px var(--yellow),0 0 12px 2px rgba(255,213,0,.3)}50%{box-shadow:inset 0 0 0 2px var(--yellow),0 0 0 1px var(--yellow),0 0 38px 12px rgba(255,213,0,.7)}}
@@ -1203,6 +1280,67 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.5);border-top:3
 </section>
 
 </main>
+
+
+<!-- ============================================================ STAY CLOSE — episode-end CTA -->
+<style>
+.ep-stayclose{margin:0;padding:80px 6vw 60px;background:#0a0a0a;color:#fbf7eb;border-top:1px solid rgba(200,255,30,.22)}
+.ep-stayclose .esc-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:48px;align-items:center}
+.ep-stayclose .esc-l{display:flex;flex-direction:column;gap:10px}
+.ep-stayclose .esc-lbl{font:700 10.5px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.22em;text-transform:uppercase;color:#c8ff1e}
+.ep-stayclose .esc-l h4{font-family:'Archivo Black','Helvetica Neue',sans-serif;font-size:clamp(26px,2.6vw,38px);letter-spacing:-.025em;line-height:1;color:#fbf7eb;margin:0}
+.ep-stayclose .esc-l h4 em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;color:#c8ff1e}
+.ep-stayclose .esc-l p{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:16px;line-height:1.45;color:rgba(251,247,235,.7);margin:4px 0 0;max-width:48ch}
+.ep-stayclose .esc-form{display:flex;align-items:stretch;width:100%}
+.ep-stayclose .esc-form input{flex:1;min-width:0;background:transparent;border:1.5px solid rgba(200,255,30,.45);border-right:0;color:#fbf7eb;padding:14px 16px;font:13px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.04em;outline:none}
+.ep-stayclose .esc-form input:focus{border-color:#c8ff1e;background:rgba(200,255,30,.06)}
+.ep-stayclose .esc-form input::placeholder{color:rgba(251,247,235,.35);font-style:italic}
+.ep-stayclose .esc-form button{background:#c8ff1e;color:#0a0a0a;border:1.5px solid #c8ff1e;padding:0 22px;font:700 11px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s}
+.ep-stayclose .esc-form button:hover{background:#daff4a}
+.ep-stayclose .esc-form.thanks input{color:#c8ff1e;background:rgba(200,255,30,.08)}
+.ep-stayclose .esc-form.thanks button{background:transparent;color:#c8ff1e}
+.ep-stayclose .esc-foot{max-width:1100px;margin:30px auto 0;font:700 10px/1.4 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(251,247,235,.45)}
+.ep-stayclose .esc-foot a{color:#c8ff1e;text-decoration:underline;text-underline-offset:3px}
+@media (max-width:780px){.ep-stayclose .esc-inner{grid-template-columns:1fr;gap:24px}}
+@media (prefers-reduced-motion:reduce){.ep-stayclose .esc-form button{transition:none}}
+</style>
+<aside class="ep-stayclose">
+  <div class="esc-inner">
+    <div class="esc-l">
+      <span class="esc-lbl">● Stay close</span>
+      <h4>You found this one. <em>Find the next.</em></h4>
+      <p>The Mechanism Series publishes one investigation at a time. One short email per drop, no tracking pixels, one-click unsubscribe.</p>
+    </div>
+    <form class="esc-form" data-stayclose autocomplete="off" action="#" method="post">
+      <input type="email" required placeholder="your@email.com" aria-label="Your email address"/>
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+  <div class="esc-foot">More mechanisms → <a href="index.html#season-1">Season I</a> · <a href="index.html#season-2">Season II</a> · <a href="index.html#about">About Infera</a></div>
+</aside>
+<script>
+(function(){
+  document.querySelectorAll('form[data-stayclose]').forEach(function(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var input = form.querySelector('input[type=email]');
+      var btn = form.querySelector('button');
+      var email = (input.value||'').trim();
+      if(!email || !/.+@.+\..+/.test(email)) return;
+      try {
+        var q = JSON.parse(localStorage.getItem('infera.signup.queue') || '[]');
+        q.push({ email: email, at: new Date().toISOString(), src: location.pathname });
+        localStorage.setItem('infera.signup.queue', JSON.stringify(q));
+      } catch(_) {}
+      form.classList.add('thanks');
+      input.value = "Thanks — we'll be in touch.";
+      input.disabled = true;
+      btn.textContent = '✓ Subscribed';
+      btn.disabled = true;
+    });
+  });
+})();
+</script>
 
 <footer>
   <div>INFERA · MECHANISM SERIES · ISSUE 08-B · CLASS ENGINE</div>
@@ -2259,6 +2397,40 @@ renderMoneyStage();
 showMfDetail('you1');
 document.querySelector('[data-id="you1"]')?.classList.add('act');
 applyShield(25);
+
+// ============================================================ CHAPTER RAIL — progress affordance
+(function(){
+  const rail = document.getElementById('chapterRail');
+  if(!rail) return;
+  const items = [...rail.querySelectorAll('.ch-item')];
+  const sections = items.map(i => document.getElementById(i.dataset.target)).filter(Boolean);
+  // smooth scroll on click
+  items.forEach(i => i.addEventListener('click', (e) => {
+    e.preventDefault();
+    const t = document.getElementById(i.dataset.target);
+    if(t) t.scrollIntoView({ behavior:'smooth', block:'start' });
+  }));
+  // show after scrolling past hero
+  const hero = document.querySelector('.hero');
+  if(hero){
+    const heroObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => rail.classList.toggle('show', !e.isIntersecting));
+    }, { threshold: 0 });
+    heroObs.observe(hero);
+  } else {
+    rail.classList.add('show');
+  }
+  // highlight current section in view
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const id = e.target.id;
+        items.forEach(i => i.classList.toggle('act', i.dataset.target === id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+  sections.forEach(s => obs.observe(s));
+})();
 
 // ============================================================ ECHO PATTERN — click-to-open dropdown bridges
 (function(){

@@ -1334,6 +1334,55 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
 .tm-cell.echo-pulse rect{stroke:var(--yellow);stroke-width:4;animation:tmPulse 1.4s cubic-bezier(.3,.7,.4,1) 2}
 @keyframes tmPulse{0%,100%{filter:drop-shadow(0 0 0 rgba(255,213,0,0))}50%{filter:drop-shadow(0 0 22px rgba(255,213,0,.7))}}
 </style>
+
+<!-- ============================================================ MOTION DEFENSE — reduced-motion + small-viewport hardening (P7) -->
+<style id="infera-motion-defense">
+/* Honor user's OS-level motion preference everywhere */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  canvas { animation: none !important; }
+  /* Keep echo dot static rings invisible */
+  .echo-dot-ring { display: none !important; }
+}
+
+/* Small-viewport hardening: shut down heavy canvas/particle motion on phones */
+@media (max-width: 640px) {
+  canvas { animation: none !important; }
+  /* Stop infinite SVG SMIL animation drift on small screens by hiding animate elements without removing them */
+  svg animate, svg animateTransform, svg animateMotion { display: none; }
+  /* If a page has a sticky cinematic stage, allow it to flow naturally on mobile */
+  .stage-section .stage-sticky,
+  .pinned-stage,
+  .hero-canvas,
+  .stage-canvas {
+    position: static !important;
+  }
+  /* Pinned scrollytelling canvases shouldn't take full viewport height on mobile */
+  .hero-canvas, .stage-canvas, .algo-core, .eco-schema {
+    max-height: 60vh !important;
+  }
+  /* Hide the floating chapter rail */
+  .chapter-rail { display: none !important; }
+  /* Reduce body of large hero text */
+  .hero h1, .hero h2 { letter-spacing: -.02em !important; }
+}
+
+/* Print: strip animation, keep editorial */
+@media print {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    background-attachment: scroll !important;
+  }
+  canvas, .echo-dot, .chapter-rail, .ep-stayclose, .brand-spine { display: none !important; }
+}
+</style>
+
 </head>
 <body>
 
@@ -2255,6 +2304,67 @@ footer{padding:60px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
   </div>
   <a class="next-up" href="episode-03-trust-market-mockup.html" style="display:block;text-decoration:none;cursor:pointer">CONTINUE · EPISODE 03 · THE TRUST MARKET →</a>
 </section>
+
+
+<!-- ============================================================ STAY CLOSE — episode-end CTA -->
+<style>
+.ep-stayclose{margin:0;padding:80px 6vw 60px;background:#0a0a0a;color:#fbf7eb;border-top:1px solid rgba(200,255,30,.22)}
+.ep-stayclose .esc-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:48px;align-items:center}
+.ep-stayclose .esc-l{display:flex;flex-direction:column;gap:10px}
+.ep-stayclose .esc-lbl{font:700 10.5px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.22em;text-transform:uppercase;color:#c8ff1e}
+.ep-stayclose .esc-l h4{font-family:'Archivo Black','Helvetica Neue',sans-serif;font-size:clamp(26px,2.6vw,38px);letter-spacing:-.025em;line-height:1;color:#fbf7eb;margin:0}
+.ep-stayclose .esc-l h4 em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;color:#c8ff1e}
+.ep-stayclose .esc-l p{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:16px;line-height:1.45;color:rgba(251,247,235,.7);margin:4px 0 0;max-width:48ch}
+.ep-stayclose .esc-form{display:flex;align-items:stretch;width:100%}
+.ep-stayclose .esc-form input{flex:1;min-width:0;background:transparent;border:1.5px solid rgba(200,255,30,.45);border-right:0;color:#fbf7eb;padding:14px 16px;font:13px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.04em;outline:none}
+.ep-stayclose .esc-form input:focus{border-color:#c8ff1e;background:rgba(200,255,30,.06)}
+.ep-stayclose .esc-form input::placeholder{color:rgba(251,247,235,.35);font-style:italic}
+.ep-stayclose .esc-form button{background:#c8ff1e;color:#0a0a0a;border:1.5px solid #c8ff1e;padding:0 22px;font:700 11px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s}
+.ep-stayclose .esc-form button:hover{background:#daff4a}
+.ep-stayclose .esc-form.thanks input{color:#c8ff1e;background:rgba(200,255,30,.08)}
+.ep-stayclose .esc-form.thanks button{background:transparent;color:#c8ff1e}
+.ep-stayclose .esc-foot{max-width:1100px;margin:30px auto 0;font:700 10px/1.4 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(251,247,235,.45)}
+.ep-stayclose .esc-foot a{color:#c8ff1e;text-decoration:underline;text-underline-offset:3px}
+@media (max-width:780px){.ep-stayclose .esc-inner{grid-template-columns:1fr;gap:24px}}
+@media (prefers-reduced-motion:reduce){.ep-stayclose .esc-form button{transition:none}}
+</style>
+<aside class="ep-stayclose">
+  <div class="esc-inner">
+    <div class="esc-l">
+      <span class="esc-lbl">● Stay close</span>
+      <h4>You found this one. <em>Find the next.</em></h4>
+      <p>The Mechanism Series publishes one investigation at a time. One short email per drop, no tracking pixels, one-click unsubscribe.</p>
+    </div>
+    <form class="esc-form" data-stayclose autocomplete="off" action="#" method="post">
+      <input type="email" required placeholder="your@email.com" aria-label="Your email address"/>
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+  <div class="esc-foot">More mechanisms → <a href="index.html#season-1">Season I</a> · <a href="index.html#season-2">Season II</a> · <a href="index.html#about">About Infera</a></div>
+</aside>
+<script>
+(function(){
+  document.querySelectorAll('form[data-stayclose]').forEach(function(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var input = form.querySelector('input[type=email]');
+      var btn = form.querySelector('button');
+      var email = (input.value||'').trim();
+      if(!email || !/.+@.+\..+/.test(email)) return;
+      try {
+        var q = JSON.parse(localStorage.getItem('infera.signup.queue') || '[]');
+        q.push({ email: email, at: new Date().toISOString(), src: location.pathname });
+        localStorage.setItem('infera.signup.queue', JSON.stringify(q));
+      } catch(_) {}
+      form.classList.add('thanks');
+      input.value = "Thanks — we'll be in touch.";
+      input.disabled = true;
+      btn.textContent = '✓ Subscribed';
+      btn.disabled = true;
+    });
+  });
+})();
+</script>
 
 <footer>
   <div>INFERA · MACHINE-READABLE · EPISODE 02 · THE FEED ENGINE</div>
