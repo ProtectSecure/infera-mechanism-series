@@ -246,6 +246,36 @@ a,button{color:inherit;text-decoration:none;background:none;border:none;cursor:p
 .tb-block.tier3c{--blk-color:#a08600;color:var(--cream);grid-column:span 2;grid-row:span 2}
 .tb-block.tier4{--blk-color:rgba(251,247,235,.16);grid-column:span 2;grid-row:span 1}
 
+/* echo pulse: lights up the targeted treemap cell when the echo section enters view */
+.tb-block.echo-pulse{box-shadow:inset 0 0 0 2px var(--lime),0 0 0 1px var(--lime),0 0 24px 4px rgba(200,255,30,.45);animation:echoPulse 1.6s cubic-bezier(.3,.7,.4,1) 2}
+.tb-block.echo-pulse::after{content:"ECHO ↓";position:absolute;top:8px;right:10px;font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;font-weight:700;color:var(--ink);background:var(--lime);padding:3px 6px;animation:echoTagIn .5s ease both}
+@keyframes echoPulse{0%{box-shadow:inset 0 0 0 2px var(--lime),0 0 0 1px var(--lime),0 0 0 0 rgba(200,255,30,0)}50%{box-shadow:inset 0 0 0 2px var(--lime),0 0 0 1px var(--lime),0 0 36px 10px rgba(200,255,30,.55)}100%{box-shadow:inset 0 0 0 2px var(--lime),0 0 0 1px var(--lime),0 0 18px 2px rgba(200,255,30,.3)}}
+@keyframes echoTagIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+/* BOTH SIDES OF THE DESK — cross-episode echo to Feed Engine */
+.tb-echo{margin-top:0;padding:34px 32px 36px;background:var(--ink);color:var(--cream);border:3px solid var(--ink);border-top:1px dashed rgba(200,255,30,.35);position:relative;overflow:hidden}
+.tb-echo-tag{position:absolute;top:14px;right:16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);font-weight:700;display:inline-flex;align-items:center;gap:8px}
+.tb-echo-tag::before{content:"";width:14px;height:1px;background:var(--lime)}
+.tb-echo-head{max-width:62ch;margin-bottom:22px}
+.tb-echo-head .tb-l{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:10px;display:inline-flex;align-items:center;gap:10px}
+.tb-echo-head .tb-l::before{content:"";width:24px;height:1px;background:var(--lime)}
+.tb-echo-head h4{font-family:var(--display);font-size:clamp(24px,2.6vw,34px);letter-spacing:-.025em;line-height:1;margin-bottom:12px}
+.tb-echo-head h4 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--lime)}
+.tb-echo-sub{font-family:var(--italic);font-style:italic;font-size:16px;line-height:1.4;color:rgba(251,247,235,.78);max-width:60ch}
+.tb-echo-sub em{color:var(--lime);font-style:italic}
+.tb-echo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+.tb-echo-cell{position:relative;padding:18px 20px 16px;background:rgba(251,247,235,.04);border:1px solid rgba(251,247,235,.18);border-left:3px solid var(--lime);display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto auto;column-gap:14px;row-gap:6px;align-items:baseline;opacity:0;transform:translateY(8px);transition:opacity .6s cubic-bezier(.3,.7,.4,1),transform .6s cubic-bezier(.3,.7,.4,1)}
+.tb-echo.in .tb-echo-cell{opacity:1;transform:translateY(0)}
+.tb-echo.in .tb-echo-cell:nth-child(2){transition-delay:.18s}
+.tb-echo-cell .tb-echo-rank{grid-row:1 / span 2;grid-column:1;font-family:var(--display);font-size:46px;letter-spacing:-.04em;color:var(--lime);line-height:.9;align-self:start}
+.tb-echo-cell .tb-echo-name{grid-row:1;grid-column:2;font-family:var(--display);font-size:22px;letter-spacing:-.02em;color:var(--cream)}
+.tb-echo-cell .tb-echo-stat{grid-row:2;grid-column:2;font-family:var(--display);font-size:30px;letter-spacing:-.03em;color:var(--cream);line-height:1;font-variant-numeric:tabular-nums}
+.tb-echo-cell .tb-echo-stat span{display:block;margin-top:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(251,247,235,.55);font-weight:700}
+.tb-echo-cell .tb-echo-also{grid-row:3;grid-column:1 / -1;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(200,255,30,.3);font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--lime);font-weight:700;display:flex;align-items:center;gap:8px}
+.tb-echo-cell .tb-echo-also::before{content:"↑";color:var(--lime);font-size:13px;line-height:1}
+.tb-echo-foot{margin-top:16px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(251,247,235,.5);font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tb-echo-foot .dot{width:5px;height:5px;background:var(--lime);border-radius:50%}
+
 .tb-scope{margin-top:32px;padding:0;background:var(--cream);border:3px solid var(--ink);overflow:hidden}
 .tb-scope-head{padding:24px 28px 18px;border-bottom:3px solid var(--ink)}
 .tb-scope-head .tb-l{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--cobalt);font-weight:700;margin-bottom:8px;display:inline-flex;align-items:center;gap:10px}
@@ -1363,7 +1393,7 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
       <h4>Not the company you signed up with.<br/><em>The four that bought the rest.</em></h4>
       <p class="sub">Block size = approximate share of total US adult digital-personhood data under each operator's roof. Tier-1 owns the substrate (platforms + ad networks + cloud). Tier-2 brokers fuse cross-source. Tier-3 sector specialists own deep verticals. Tier-4 is fragmented.</p>
       <div class="tb-treemap">
-        <div class="tb-block tier1"><div class="nm">META / GOOGLE / APPLE / AMAZON</div><div class="ct">Substrate + ads + cloud<b>~62% of total signal</b></div></div>
+        <div class="tb-block tier1" id="tbTier1Substrate"><div class="nm">META / GOOGLE / APPLE / AMAZON</div><div class="ct">Substrate + ads + cloud<b>~62% of total signal</b></div></div>
         <div class="tb-block tier1b"><div class="nm">MICROSOFT</div><div class="ct">Cloud + LinkedIn + ads<b>~12% of total signal</b></div></div>
         <div class="tb-block tier2"><div class="nm">ACXIOM / LIVERAMP</div><div class="ct">Consumer data broker<b>~6%</b></div></div>
         <div class="tb-block tier2b"><div class="nm">EXPERIAN</div><div class="ct">Credit + marketing<b>~4%</b></div></div>
@@ -1373,6 +1403,31 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
         <div class="tb-block tier3c"><div class="nm">PALANTIR</div><div class="ct">Gov + enterprise<b>~1.5%</b></div></div>
         <div class="tb-block tier4"><div class="nm">EVERYONE ELSE</div><div class="ct">Long-tail brokers + sector tools<b>~8%</b></div></div>
       </div>
+    </div>
+
+    <!-- BOTH SIDES OF THE DESK — cross-episode echo to Episode 02 · The Feed Engine -->
+    <div class="tb-echo" id="tbEcho">
+      <div class="tb-echo-tag">Echo · Ep 02 · The Feed Engine</div>
+      <div class="tb-echo-head">
+        <div class="tb-l">Both sides of the desk</div>
+        <h4>Two of those four <em>are also</em> the two largest advertisers in the country.</h4>
+        <p class="tb-echo-sub">The companies that hold your composite are also the largest buyers of your attention. Supply side and demand side <em>are the same companies.</em> There is no second side of this market.</p>
+      </div>
+      <div class="tb-echo-grid">
+        <div class="tb-echo-cell" data-co="amazon">
+          <div class="tb-echo-rank">#1</div>
+          <div class="tb-echo-name">AMAZON</div>
+          <div class="tb-echo-stat">$30.0B<span>US digital ad spend · 2024</span></div>
+          <div class="tb-echo-also">Also inside the Tier-1 substrate above · ~62% of composite</div>
+        </div>
+        <div class="tb-echo-cell" data-co="alphabet">
+          <div class="tb-echo-rank">#2</div>
+          <div class="tb-echo-name">ALPHABET</div>
+          <div class="tb-echo-stat">$8.0B<span>US digital ad spend · 2024</span></div>
+          <div class="tb-echo-also">Also inside the Tier-1 substrate above · ~62% of composite</div>
+        </div>
+      </div>
+      <div class="tb-echo-foot"><span class="dot"></span>Source · eMarketer / SMI 2024 top-advertiser estimates · cross-referenced in <a href="the-feed-engine.html#advertisers" style="color:var(--lime);text-decoration:underline;text-underline-offset:3px">Episode 02 · The Feed Engine</a></div>
     </div>
 
     <!-- SCOPE OVERLAP TABLE — what each tier can collect -->
@@ -2667,6 +2722,29 @@ footer{padding:48px 28px;background:#000;color:rgba(251,247,235,.55);display:fle
     update();
   });
   update();
+})();
+
+// ============================================================ ECHO MOMENT (cross-episode bridge to Feed Engine)
+(function(){
+  const echo = document.getElementById('tbEcho');
+  const tier1 = document.getElementById('tbTier1Substrate');
+  if(!echo || !tier1) return;
+  const fire = () => {
+    echo.classList.add('in');
+    // pulse the Tier-1 substrate cell up in the treemap
+    tier1.classList.add('echo-pulse');
+    // remove the badge after the animation finishes, but leave the lime ring as a persistent marker
+    setTimeout(() => {
+      tier1.style.setProperty('--echo-after-display','none');
+      const badge = tier1.querySelector('::after'); // can't query pseudo, drop class instead
+    }, 3600);
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ fire(); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.35, rootMargin: '0px 0px -10% 0px' });
+  io.observe(echo);
 })();
 </script>
 
