@@ -171,7 +171,7 @@ def main():
     baseline_mode = '--baseline' in args
     args = [a for a in args if not a.startswith('--')]
 
-    files = [Path(a) for a in args] if args else all_html_files()
+    files = [Path(a).resolve() for a in args] if args else all_html_files()
     baseline = {} if baseline_mode else load_baseline()
 
     if baseline_mode:
