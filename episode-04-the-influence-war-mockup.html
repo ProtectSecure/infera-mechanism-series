@@ -1,0 +1,3377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Influence War · Episode 04 · The Mechanism Series</title>
+<meta name="description" content="They don't have to change your mind. They just have to catch you in the right feeling. Episode 04 of The Mechanism Series — opening the arc to the season finale.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Crimson+Pro:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script>document.documentElement.classList.add('js');</script>
+
+<style>
+:root {
+  --paper: #f4f3ed;
+  --paper-warm: #e8e6dd;
+  --ink: #0f1419;
+  --ink-soft: #2d3138;
+  --muted: #6a6e74;
+  --accent: #b8341c;
+  --commercial: #b87f1c;
+  --civic: #4a3a5a;
+  --signal: #4a3a5a;
+  --bridge: #2f6650;
+  --highlight: #d97706;
+  --archive: #d4d0c1;
+  --rule: #c4bfb0;
+  --sage: #8a9b8d;
+  --dim: rgba(15,20,25,0.08);
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Crimson Pro', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  --col-text: 680px;
+  --col-wide: 1100px;
+  --col-narrow: 540px;
+}
+
+/* ============ BASE ============ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+/* body::before grain layer removed — was a potential stacking-context culprit */
+a { color: var(--signal); text-decoration: none; transition: color 0.2s ease; }
+a:hover { color: var(--accent); }
+img, svg { max-width: 100%; display: block; }
+
+/* ============ CHROME · BRAND NAV ============ */
+.chrome {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(253,248,236,0.92);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+  padding: 14px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-sans);
+  font-size: 12px; letter-spacing: 0.08em;
+}
+.chrome .brand {
+  font-family: var(--font-display); font-size: 18px; font-weight: 500;
+  letter-spacing: 0.01em; color: var(--ink);
+}
+.chrome .brand em { font-style: italic; color: var(--signal); font-weight: 400; }
+.chrome .nav-links { display: flex; gap: 22px; }
+.chrome .nav-links a { color: var(--ink-soft); text-transform: uppercase; font-weight: 500; letter-spacing: 0.12em; }
+.chrome .nav-links a:hover { color: var(--accent); }
+@media (max-width: 720px) {
+  .chrome .nav-links { display: none; }
+  .chrome { padding: 12px 20px; }
+}
+
+/* ============ CHAPTER RAIL ============ */
+.rail {
+  position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+  z-index: 90;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.rail a {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--rule);
+  display: block; position: relative;
+  transition: all 0.25s ease;
+}
+.rail a:hover { background: var(--accent); transform: scale(1.5); }
+.rail a.active { background: var(--ink); transform: scale(1.5); }
+.rail a::after {
+  content: attr(data-name);
+  position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.18em;
+  color: var(--ink); text-transform: uppercase; white-space: nowrap;
+  background: var(--paper); padding: 4px 8px;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+  border: 1px solid var(--rule);
+}
+.rail a:hover::after { opacity: 1; }
+@media (max-width: 880px) { .rail { display: none; } }
+
+/* ============ SECTION FRAME ============ */
+section {
+  position: relative;
+  padding: 96px 32px;
+  display: block;
+}
+@media (max-width: 720px) { section { padding: 64px 20px; } }
+.container {
+  max-width: var(--col-wide);
+  margin: 0 auto;
+}
+.container-text { max-width: var(--col-text); margin: 0 auto; }
+.container-narrow { max-width: var(--col-narrow); margin: 0 auto; }
+
+.section-meta {
+  font-family: var(--font-sans);
+  font-size: 11px; letter-spacing: 0.24em;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-meta::before {
+  content: ""; width: 24px; height: 1px; background: var(--ink);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.05; font-weight: 500;
+  color: var(--ink); margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+.section-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+.section-lede {
+  font-family: var(--font-body);
+  font-size: clamp(20px, 2vw, 24px);
+  line-height: 1.45; color: var(--ink-soft);
+  font-style: italic; font-weight: 400;
+  max-width: var(--col-text);
+  margin-bottom: 56px;
+}
+.section-bridge {
+  margin-top: 80px; padding-top: 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--font-sans); font-size: 12px;
+  color: var(--muted); letter-spacing: 0.08em;
+}
+.section-bridge .next {
+  color: var(--ink); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 600;
+}
+.section-bridge .next::after { content: " →"; color: var(--accent); }
+
+/* ============ BODY TYPE ============ */
+.body-text { font-family: var(--font-body); font-size: 19px; line-height: 1.7; color: var(--ink); }
+.body-text p { margin-bottom: 22px; }
+.body-text p:last-child { margin-bottom: 0; }
+.body-text em { font-style: italic; color: var(--signal); }
+.body-text strong { font-weight: 600; color: var(--ink); border-bottom: 2px solid var(--accent); padding-bottom: 1px; }
+.body-text .drop {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: 84px; line-height: 0.85;
+  float: left; margin: 8px 12px -8px 0;
+  color: var(--accent);
+}
+
+/* ============ SCROLL REVEAL · DISABLED ============ */
+/* The reveal-fade pattern was hiding content. Forcing always-visible. */
+.reveal { opacity: 1 !important; transform: none !important; }
+
+/* ============ S01 · HERO ============ */
+#s01 {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 32px 96px;
+  background:
+    radial-gradient(ellipse at top, rgba(38,69,201,0.04) 0%, transparent 60%),
+    var(--paper);
+}
+.s01-kicker {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.32em;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 38px;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.s01-kicker .ep {
+  background: var(--ink); color: var(--paper);
+  padding: 6px 12px; font-weight: 600; letter-spacing: 0.2em;
+}
+.s01-kicker .arc {
+  font-style: italic; color: var(--accent); letter-spacing: 0.16em;
+  font-family: var(--font-body); font-size: 14px; text-transform: none;
+}
+.s01-title {
+  font-family: var(--font-display);
+  font-size: clamp(54px, 9vw, 140px);
+  line-height: 0.95; font-weight: 500;
+  color: var(--ink); letter-spacing: -0.02em;
+  margin-bottom: 32px;
+  max-width: 1080px;
+}
+.s01-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+.s01-compress {
+  font-family: var(--font-display);
+  font-style: italic; font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 44px);
+  line-height: 1.35; color: var(--ink-soft);
+  max-width: 920px;
+  margin-bottom: 56px;
+  position: relative; padding-left: 28px;
+}
+.s01-compress::before {
+  content: ""; position: absolute; left: 0; top: 14px; bottom: 14px;
+  width: 3px; background: var(--accent);
+}
+.s01-compress strong { color: var(--ink); font-weight: 500; border: none; }
+.s01-meta-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  max-width: 800px; margin-bottom: 40px;
+}
+.s01-meta-col {
+  font-family: var(--font-sans); font-size: 13px; line-height: 1.6;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--ink); padding-top: 12px;
+}
+.s01-meta-col .lbl {
+  font-size: 10px; letter-spacing: 0.24em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 6px; font-weight: 600;
+}
+.s01-meta-col strong { color: var(--ink); font-weight: 600; }
+.s01-scroll-cue {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.24em;
+  color: var(--muted); text-transform: uppercase;
+  margin-top: 48px;
+  display: flex; align-items: center; gap: 12px;
+}
+.s01-scroll-cue::after { content: "↓"; font-size: 16px; color: var(--accent); }
+
+/* ============ S02 · PRESSURE · THE WEATHER LINE ============ */
+#s02 { background: var(--paper); border-top: 1px solid var(--rule); }
+.weather-wrap {
+  margin: 40px 0 56px;
+  padding: 36px 28px;
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+}
+.weather-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 24px;
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+}
+.weather-head h4 {
+  font-family: var(--font-display); font-size: 22px; font-weight: 500;
+  letter-spacing: -0.01em; color: var(--ink); text-transform: none;
+}
+.weather-head h4 em { font-style: italic; color: var(--accent); }
+.weather-svg { width: 100%; height: auto; display: block; }
+.weather-legend {
+  display: flex; gap: 24px; margin-top: 18px; flex-wrap: wrap;
+  font-family: var(--font-sans); font-size: 11px; color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.weather-legend span { display: flex; align-items: center; gap: 8px; }
+.weather-legend .swatch { width: 18px; height: 3px; }
+
+.pressure-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
+  margin-top: 56px;
+}
+@media (max-width: 820px) { .pressure-grid { grid-template-columns: 1fr; gap: 36px; } }
+.pressure-pull {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: 28px; line-height: 1.35; color: var(--ink);
+  padding-left: 22px; border-left: 3px solid var(--signal);
+}
+.pressure-pull em { color: var(--accent); font-style: italic; }
+
+.weather-closer {
+  margin-top: 64px; padding: 36px 32px;
+  background: var(--paper-warm); color: var(--ink);
+  text-align: center;
+  border-top: 4px solid var(--accent);
+  border-bottom: 4px solid var(--accent);
+}
+.weather-closer .text {
+  font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.25; font-weight: 400;
+}
+.weather-closer .text .strike { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 2px; }
+.weather-closer .text em { font-style: italic; color: var(--accent); font-weight: 500; }
+
+/* ============ S03 · PIPELINE · SIX STEPS ============ */
+#s03 { background: var(--paper); border-top: 1px solid var(--rule); }
+.pipeline-flow {
+  margin-top: 48px;
+  position: relative;
+}
+.pipeline-step {
+  display: grid; grid-template-columns: 80px 1fr 320px; gap: 32px;
+  padding: 36px 0;
+  border-top: 1px solid var(--rule);
+  align-items: start;
+}
+.pipeline-step:last-child { border-bottom: 1px solid var(--rule); }
+.pipeline-step .num {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: 64px; line-height: 1; color: var(--accent);
+}
+.pipeline-step .num .lbl {
+  display: block; font-family: var(--font-sans); font-size: 9px;
+  letter-spacing: 0.24em; color: var(--muted);
+  text-transform: uppercase; margin-top: 6px; font-style: normal; font-weight: 600;
+}
+.pipeline-step .body { padding-top: 8px; }
+.pipeline-step .title {
+  font-family: var(--font-display); font-size: 28px; font-weight: 500;
+  line-height: 1.15; color: var(--ink); margin-bottom: 8px;
+}
+.pipeline-step .title em { font-style: italic; color: var(--signal); }
+.pipeline-step .desc {
+  font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+  color: var(--ink-soft); margin-bottom: 16px;
+}
+.pipeline-step .anchor {
+  font-family: var(--font-mono); font-size: 12px; color: var(--muted);
+  background: var(--paper-warm); padding: 6px 10px; display: inline-block;
+  border-left: 3px solid var(--signal);
+}
+.pipeline-step .diagram {
+  background: var(--paper-warm); border: 1px solid var(--rule);
+  padding: 20px; min-height: 140px;
+  display: flex; align-items: center; justify-content: center;
+}
+.pipeline-step .diagram svg { max-height: 120px; }
+@media (max-width: 820px) {
+  .pipeline-step { grid-template-columns: 1fr; gap: 16px; }
+  .pipeline-step .num { font-size: 48px; }
+}
+
+/* ============ S04 · BUILD-YOUR-VOTER · CARD DEAL ============ */
+#s04 {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--paper-warm) 100%);
+  border-top: 1px solid var(--rule);
+}
+.deal-setup {
+  font-family: var(--font-body); font-size: 19px; line-height: 1.6; color: var(--ink-soft);
+  max-width: var(--col-text); margin-bottom: 40px;
+}
+.deal-setup em { font-style: italic; color: var(--accent); }
+.deal-setup strong { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--accent); padding-bottom: 1px; }
+
+.deal-stage {
+  display: grid; grid-template-columns: 1fr 320px; gap: 32px;
+  margin-top: 32px;
+  align-items: start;
+}
+@media (max-width: 820px) { .deal-stage { grid-template-columns: 1fr; } }
+
+.deal-counter {
+  display: flex; align-items: center; gap: 18px;
+  margin-bottom: 24px;
+  font-family: var(--font-sans); font-size: 12px; letter-spacing: 0.16em;
+  color: var(--muted); text-transform: uppercase;
+}
+.deal-counter .bar {
+  flex: 1; height: 2px; background: var(--rule); position: relative;
+}
+.deal-counter .bar .fill {
+  position: absolute; left: 0; top: -1px; bottom: -1px;
+  background: var(--accent); transition: width 0.5s cubic-bezier(0.3,0,0.3,1);
+  width: 0%;
+}
+
+.deal-card {
+  background: var(--paper); border: 1px solid var(--rule);
+  padding: 56px 48px;
+  position: relative; min-height: 360px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  box-shadow: 0 1px 0 var(--rule), 0 6px 24px rgba(26,28,32,0.04);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.deal-card.flip { opacity: 0; transform: translateY(-8px); }
+.deal-card-num {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.24em;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.deal-card-headline {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 42px); line-height: 1.2;
+  color: var(--ink);
+  padding-right: 20px;
+  flex: 1; display: flex; align-items: center;
+}
+.deal-card-source {
+  font-family: var(--font-sans); font-size: 12px; color: var(--muted);
+  letter-spacing: 0.04em; font-style: italic;
+  margin-top: 24px; padding-top: 14px; border-top: 1px solid var(--rule);
+}
+
+.deal-buttons {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin-top: 20px;
+}
+.deal-btn {
+  padding: 22px 18px;
+  font-family: var(--font-display); font-size: 22px; font-weight: 500;
+  border: 1.5px solid var(--ink); cursor: pointer;
+  transition: all 0.2s ease;
+  font-style: italic;
+}
+.deal-btn:hover { transform: translateY(-2px); }
+.deal-btn-yes { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.deal-btn-yes:hover { background: var(--ink); border-color: var(--ink); }
+.deal-btn-no { background: var(--paper); color: var(--ink); }
+.deal-btn-no:hover { background: var(--paper-warm); }
+.deal-btn .sub {
+  display: block; font-family: var(--font-sans); font-size: 10px;
+  letter-spacing: 0.16em; opacity: 0.7; margin-top: 4px;
+  text-transform: uppercase; font-style: normal; font-weight: 400;
+}
+
+.deal-tally {
+  background: var(--paper-warm); color: var(--ink);
+  padding: 22px 24px;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--ink);
+}
+.deal-tally h5 {
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.24em;
+  color: var(--accent); text-transform: uppercase; font-weight: 600;
+  margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--rule);
+}
+.tally-row {
+  display: grid; grid-template-columns: 1fr 60px 24px; gap: 10px;
+  align-items: center; padding: 8px 0;
+  font-family: var(--font-display); font-style: italic;
+  font-size: 16px; transition: color 0.3s ease;
+}
+.tally-row .pn { color: var(--ink-soft); }
+.tally-row .bar { background: var(--rule); height: 4px; position: relative; border-radius: 2px; }
+.tally-row .bar .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ink-soft); border-radius: 2px; transition: width 0.5s ease; width: 0%; }
+.tally-row .num { font-family: var(--font-mono); font-style: normal; font-size: 12px; color: var(--ink-soft); text-align: right; }
+.tally-row.lead .pn { color: var(--accent); font-weight: 500; }
+.tally-row.lead .bar .fill { background: var(--accent); }
+.tally-row.lead .num { color: var(--accent); }
+
+.deal-reveal {
+  margin-top: 40px;
+  display: none;
+}
+.deal-reveal.shown { display: block; }
+.deal-reveal-inner {
+  background: var(--paper-warm); color: var(--ink);
+  padding: 56px 48px;
+  border: 1px solid var(--rule);
+  border-left: 6px solid var(--accent);
+}
+.deal-reveal-meta {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.24em;
+  color: var(--accent); text-transform: uppercase; font-weight: 600;
+  margin-bottom: 18px;
+}
+.deal-reveal-headline {
+  font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 52px);
+  line-height: 1.15; font-weight: 400; margin-bottom: 24px;
+}
+.deal-reveal-headline em { font-style: italic; color: var(--accent); }
+.deal-reveal-body {
+  font-family: var(--font-body); font-size: 18px; line-height: 1.65;
+  color: var(--ink); max-width: 680px; margin-bottom: 32px;
+}
+.deal-reveal-body em { font-style: italic; color: var(--signal); }
+.deal-reveal-body strong { color: var(--ink); font-weight: 600; background: rgba(217,119,6,0.18); padding: 0 4px; }
+.deal-reveal-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  padding-top: 28px; border-top: 1px solid var(--rule);
+}
+@media (max-width: 720px) { .deal-reveal-grid { grid-template-columns: 1fr; gap: 14px; } }
+.deal-reveal-cell .lbl {
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.24em;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 8px; font-weight: 600;
+}
+.deal-reveal-cell .val {
+  font-family: var(--font-display); font-style: italic; font-weight: 500;
+  font-size: 22px; color: var(--ink);
+}
+.deal-reset {
+  margin-top: 28px; padding: 14px 24px;
+  font-family: var(--font-sans); font-size: 12px; letter-spacing: 0.16em;
+  text-transform: uppercase; font-weight: 600;
+  background: var(--accent); color: var(--paper); border: none; cursor: pointer;
+  transition: background 0.2s ease;
+}
+.deal-reset:hover { background: var(--ink); color: var(--paper); }
+
+/* ============ S05 · OUTCOME · THREE THEATERS ============ */
+#s05 { background: var(--paper); border-top: 1px solid var(--rule); }
+.theaters {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin-top: 48px;
+}
+@media (max-width: 880px) { .theaters { grid-template-columns: 1fr; gap: 36px; } }
+.theater {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  padding: 28px 24px;
+}
+.theater-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);
+}
+.theater-head .num {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 28px; color: var(--accent); font-weight: 500;
+}
+.theater-head .name {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.28em;
+  color: var(--ink); text-transform: uppercase; font-weight: 600;
+}
+.theater-shape { margin-bottom: 18px; }
+.theater-shape svg { width: 100%; height: auto; display: block; }
+.theater-shape-cap {
+  font-family: var(--font-mono); font-size: 10px; color: var(--muted);
+  text-align: center; margin-top: 6px; letter-spacing: 0.08em;
+}
+.theater-moments {
+  margin-top: 14px;
+}
+.theater-moment {
+  display: grid; grid-template-columns: 1fr 50px;
+  gap: 8px; padding: 8px 0; border-top: 1px dotted var(--rule);
+  align-items: center;
+}
+.theater-moment .what {
+  font-family: var(--font-body); font-style: italic; font-size: 14px;
+  color: var(--ink); line-height: 1.3;
+}
+.theater-moment .heat {
+  font-family: var(--font-mono); font-size: 10px; color: var(--accent);
+  text-align: right; letter-spacing: 0.05em;
+}
+.theater-engine {
+  margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--ink);
+  font-family: var(--font-display); font-style: italic;
+  font-size: 16px; line-height: 1.4; color: var(--ink-soft);
+}
+.theater-engine em { color: var(--accent); font-weight: 500; }
+
+.outcome-impact {
+  margin-top: 64px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
+}
+@media (max-width: 720px) { .outcome-impact { grid-template-columns: 1fr; } }
+.impact-cell {
+  border-top: 2px solid var(--ink); padding-top: 20px;
+}
+.impact-cell .lbl {
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.24em;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 10px; font-weight: 600;
+}
+.impact-cell .stat {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: 56px; line-height: 0.9; color: var(--accent);
+  margin-bottom: 8px;
+}
+.impact-cell .stat .small {
+  font-size: 22px; color: var(--ink); margin-left: 4px; font-weight: 400;
+}
+.impact-cell .desc {
+  font-family: var(--font-body); font-size: 15px; line-height: 1.55;
+  color: var(--ink-soft); font-style: italic;
+}
+
+.outcome-callout {
+  margin-top: 64px; padding: 48px 40px;
+  background: var(--paper-warm); color: var(--ink);
+  border-top: 4px solid var(--accent);
+  border-bottom: 4px solid var(--accent);
+  text-align: center;
+}
+.outcome-callout .text {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(24px, 3.2vw, 36px); line-height: 1.35;
+  max-width: 880px; margin: 0 auto;
+}
+.outcome-callout .text strong { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--accent); padding-bottom: 1px; }
+.outcome-callout .text em { font-style: italic; color: var(--accent); }
+
+/* ============ S06 · COMPETING ============ */
+#s06 { background: var(--paper-warm); border-top: 1px solid var(--rule); }
+.defenders {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px;
+  margin-top: 48px;
+}
+@media (max-width: 880px) { .defenders { grid-template-columns: 1fr; gap: 56px; } }
+.defender { }
+.defender .portrait {
+  width: 96px; height: 96px; border-radius: 50%;
+  background: var(--paper); border: 1px solid var(--ink);
+  margin-bottom: 22px; position: relative; overflow: hidden;
+}
+.defender .portrait svg { width: 100%; height: 100%; display: block; }
+.defender .portrait .body-silh {
+  position: absolute; bottom: 0; left: 20%; right: 20%; height: 50%;
+  background: var(--ink); border-radius: 50% 50% 0 0; opacity: 0.3;
+}
+.defender .name {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: 22px; color: var(--ink); margin-bottom: 4px;
+}
+.defender .cred {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.16em;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 18px; font-weight: 500;
+}
+.defender .arg {
+  font-family: var(--font-body); font-size: 16px; line-height: 1.65;
+  color: var(--ink); margin-bottom: 18px;
+}
+.defender .arg em { font-style: italic; color: var(--signal); }
+.defender-src {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em;
+  color: var(--muted); margin-top: 12px; line-height: 1.4;
+}
+.defender-src em { font-style: italic; }
+.defender .pullq {
+  padding: 14px 18px;
+  border-left: 3px solid var(--accent);
+  font-family: var(--font-display); font-style: italic;
+  font-size: 17px; line-height: 1.4; color: var(--ink-soft);
+}
+
+.competing-response {
+  margin-top: 80px; padding: 36px 32px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+}
+.competing-response h5 {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.24em;
+  color: var(--accent); text-transform: uppercase;
+  margin-bottom: 16px; font-weight: 600;
+}
+.competing-response .body-text { max-width: none; }
+.competing-response .body-text p { font-size: 17px; }
+
+/* ============ S07 · DISCIPLINE ============ */
+#s07 { background: var(--paper); border-top: 1px solid var(--rule); }
+.restraints { margin-top: 48px; }
+.restraint {
+  display: grid; grid-template-columns: 80px 1fr;
+  gap: 28px; padding: 36px 0;
+  border-top: 1px solid var(--rule);
+}
+.restraint:last-child { border-bottom: 1px solid var(--rule); }
+.restraint.load { background: var(--paper-warm); padding: 36px 24px; margin-left: -24px; margin-right: -24px; }
+.restraint .check {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px;
+  background: var(--ink); color: var(--paper);
+  font-family: var(--font-display); font-size: 28px; font-weight: 500;
+}
+.restraint.load .check { background: var(--accent); }
+.restraint .body { }
+.restraint .num {
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.28em;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 10px; font-weight: 600;
+}
+.restraint.load .num { color: var(--accent); }
+.restraint p {
+  font-family: var(--font-body); font-size: 18px; line-height: 1.65;
+  color: var(--ink);
+}
+.restraint p em { font-style: italic; color: var(--signal); }
+.restraint p strong { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--accent); padding-bottom: 1px; }
+.discipline-coda {
+  margin-top: 56px; padding: 28px 32px;
+  background: var(--paper-warm); color: var(--ink);
+  border: 1px solid var(--rule);
+  border-left: 6px solid var(--signal);
+}
+.discipline-coda .lbl {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.24em;
+  color: var(--signal); text-transform: uppercase; margin-bottom: 12px; font-weight: 600;
+}
+.discipline-coda p {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: 22px; line-height: 1.45;
+}
+.discipline-coda p em { color: var(--accent); font-style: italic; font-weight: 500; }
+
+/* ============ S08 · CLOSER ============ */
+#s08 {
+  background: var(--paper-warm); color: var(--ink);
+  min-height: 90vh; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center; padding: 120px 32px;
+  border-top: 8px solid var(--accent);
+  border-bottom: 8px solid var(--accent);
+  position: relative;
+}
+#s08::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(184,52,28,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.closer-meta {
+  position: relative; z-index: 2;
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.32em;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 56px; font-weight: 600;
+}
+.closer-line {
+  position: relative; z-index: 2;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(36px, 5.5vw, 80px); line-height: 1.15;
+  max-width: 1100px;
+}
+.closer-line .first {
+  display: block; color: var(--muted);
+  margin-bottom: 24px;
+}
+.closer-line .second {
+  display: block; color: var(--ink);
+}
+.closer-line .hl {
+  font-style: italic; color: var(--accent);
+  border-bottom: 4px solid var(--accent); padding-bottom: 2px;
+}
+.closer-coda {
+  position: relative; z-index: 2;
+  margin-top: 48px; max-width: 720px;
+  font-family: var(--font-body); font-size: 18px; line-height: 1.6; color: var(--ink-soft);
+}
+.closer-coda em { font-style: italic; color: var(--ink); }
+.closer-attr {
+  position: relative; z-index: 2;
+  margin-top: 56px;
+  font-family: var(--font-display); font-style: italic;
+  font-size: 16px; color: var(--muted);
+}
+
+/* ============ S09 · CASE FILE · YOUR SESSION RECEIPT ============ */
+#s09 { background: var(--archive); border-top: 1px solid #b8a87a; }
+.case-folder {
+  max-width: 880px; margin: 0 auto;
+  background: var(--paper); border: 1px solid #8a7848;
+  position: relative;
+  box-shadow: 0 12px 36px rgba(90,58,20,0.18);
+}
+.case-tab {
+  position: absolute; top: -20px; left: 36px;
+  background: var(--paper); border: 1px solid #8a7848; border-bottom: none;
+  padding: 6px 16px;
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.24em;
+  color: #5a3a14; text-transform: uppercase; font-weight: 600;
+}
+.case-stamps {
+  position: absolute; top: 20px; right: 24px;
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
+}
+.case-stamp-eyes {
+  padding: 4px 10px; border: 2px solid var(--accent);
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.18em;
+  color: var(--accent); font-weight: 700; text-transform: uppercase;
+  transform: rotate(-4deg);
+}
+.case-stamp-classified {
+  padding: 3px 10px; background: var(--accent); color: var(--paper);
+  font-family: var(--font-sans); font-size: 9px; letter-spacing: 0.18em;
+  font-weight: 700; text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+.case-doc { padding: 56px 56px 48px; }
+.case-doc-head {
+  text-align: center; padding-bottom: 24px; margin-bottom: 32px;
+  border-bottom: 2px solid var(--ink);
+}
+.case-doc-head .agency {
+  font-family: var(--font-display); font-style: italic; font-size: 14px;
+  letter-spacing: 0.12em; color: var(--muted); margin-bottom: 8px;
+}
+.case-doc-head .title {
+  font-family: var(--font-display); font-size: 36px; font-weight: 500;
+  color: var(--ink); letter-spacing: -0.01em;
+}
+.case-doc-head .title em { font-style: italic; color: var(--accent); }
+.case-doc-head .meta {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  margin-top: 14px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em;
+  color: var(--muted); text-transform: uppercase;
+}
+
+.case-section { margin-bottom: 32px; }
+.case-section h5 {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.24em;
+  color: var(--accent); text-transform: uppercase;
+  margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px dashed var(--rule); font-weight: 600;
+}
+.case-row {
+  display: grid; grid-template-columns: 180px 1fr; gap: 16px;
+  padding: 8px 0; align-items: baseline;
+}
+.case-row .k {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em;
+  color: var(--muted); text-transform: uppercase;
+}
+.case-row .v {
+  font-family: var(--font-body); font-size: 16px; color: var(--ink);
+}
+.case-row .v .red {
+  background: var(--ink); color: transparent; padding: 0 6px; user-select: none;
+  font-family: var(--font-mono); font-size: 12px;
+}
+.case-row .v .live {
+  color: var(--accent); font-weight: 500;
+  border-bottom: 1px solid var(--accent);
+}
+@media (max-width: 720px) { .case-row { grid-template-columns: 1fr; gap: 4px; } }
+
+.case-receipt {
+  margin: 24px 0;
+  background: var(--paper); color: var(--ink);
+  padding: 28px 32px;
+  font-family: var(--font-mono); font-size: 13px;
+  border: 1px solid var(--ink);
+  border-left: 6px solid var(--accent);
+}
+.case-receipt .ln {
+  display: flex; justify-content: space-between; padding: 4px 0;
+  letter-spacing: 0.04em;
+}
+.case-receipt .ln span:last-child { color: var(--accent); font-weight: 700; }
+.case-receipt .total {
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px dashed var(--rule);
+  font-weight: 700; font-size: 14px;
+}
+.case-receipt .total span:last-child { color: var(--ink); }
+
+.case-mirror {
+  background: var(--paper-warm); border: 1px solid var(--ink);
+  padding: 28px 32px; margin: 24px 0;
+}
+.case-mirror h5 {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.24em;
+  color: var(--ink); text-transform: uppercase; font-weight: 600; margin-bottom: 16px;
+}
+.case-mirror .variants {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin: 14px 0;
+}
+@media (max-width: 720px) { .case-mirror .variants { grid-template-columns: 1fr; } }
+.case-mirror .variant {
+  background: var(--paper); color: var(--ink);
+  padding: 14px 16px; position: relative;
+  border: 1px solid var(--ink);
+  border-left: 4px solid var(--accent);
+}
+.case-mirror .variant .rank {
+  position: absolute; top: -8px; left: -8px;
+  background: var(--ink); color: var(--paper);
+  font-family: var(--font-sans); font-size: 11px; font-weight: 700;
+  padding: 3px 7px; letter-spacing: 0.1em;
+}
+.case-mirror .variant .ln {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 18px; line-height: 1.25;
+}
+.case-mirror .cap {
+  font-family: var(--font-body); font-size: 14px; line-height: 1.55;
+  color: var(--ink-soft); font-style: italic; margin-top: 14px;
+}
+.case-mirror .cap strong { color: var(--accent); font-weight: 500; border: none; }
+
+.case-actions {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;
+  padding-top: 28px; margin-top: 28px; border-top: 2px dashed var(--rule);
+}
+@media (max-width: 720px) { .case-actions { grid-template-columns: 1fr; } }
+.case-act {
+  padding: 16px 18px;
+  font-family: var(--font-sans); font-size: 12px; letter-spacing: 0.16em;
+  text-transform: uppercase; font-weight: 600;
+  border: 1px solid var(--ink); cursor: pointer;
+  transition: all 0.2s ease; text-align: center;
+}
+.case-act:hover { transform: translateY(-2px); }
+.case-act-burn { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.case-act-burn:hover { background: var(--ink); }
+.case-act-export { background: var(--paper); color: var(--ink); }
+.case-act-export:hover { background: var(--paper-warm); }
+.case-act-share { background: var(--signal); color: var(--paper); border-color: var(--signal); }
+.case-act-share:hover { background: var(--ink); }
+
+.case-fineprint {
+  font-family: var(--font-body); font-size: 14px; line-height: 1.65;
+  color: var(--muted); font-style: italic;
+  margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--rule);
+  max-width: 640px;
+}
+.case-fineprint em { color: var(--accent); }
+
+.case-bridge {
+  max-width: 880px; margin: 56px auto 0;
+  text-align: center;
+}
+.case-bridge .lbl {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.32em;
+  color: var(--muted); text-transform: uppercase; font-weight: 600;
+  margin-bottom: 18px;
+}
+.case-bridge .text {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(22px, 3vw, 32px); line-height: 1.3;
+  color: var(--ink);
+}
+.case-bridge .text em { color: var(--accent); font-style: italic; }
+.case-bridge .text strong { color: var(--ink); font-weight: 500; border: none; }
+.case-bridge .next {
+  margin-top: 24px; display: inline-block;
+  font-family: var(--font-sans); font-size: 12px; letter-spacing: 0.2em;
+  color: var(--signal); text-transform: uppercase; font-weight: 600;
+  padding: 12px 22px; border: 1px solid var(--signal);
+  transition: all 0.2s ease;
+}
+.case-bridge .next:hover { background: var(--signal); color: var(--paper); }
+.case-bridge .next::after { content: " →"; }
+
+/* ============ FOOTER ============ */
+.legal-footer {
+  background: var(--paper-warm); color: var(--ink-soft);
+  padding: 48px 32px;
+  font-family: var(--font-sans); font-size: 12px; line-height: 1.7;
+  border-top: 2px solid var(--ink);
+}
+.legal-footer .row {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+  max-width: var(--col-wide); margin: 0 auto 20px;
+  padding-bottom: 20px; border-bottom: 1px solid var(--rule);
+}
+.legal-footer .brand {
+  font-family: var(--font-display); font-size: 22px; font-weight: 500;
+  letter-spacing: -0.01em; color: var(--ink);
+}
+.legal-footer .brand em { font-style: italic; color: var(--accent); font-weight: 400; }
+.legal-footer .links { display: flex; gap: 22px; flex-wrap: wrap; letter-spacing: 0.16em; text-transform: uppercase; }
+.legal-footer .links a { color: var(--ink-soft); font-size: 11px; font-weight: 500; }
+.legal-footer .links a:hover { color: var(--accent); }
+.legal-footer .fine {
+  max-width: var(--col-wide); margin: 0 auto;
+  font-size: 11px; line-height: 1.65; color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ============ S01 (storm cloud removed) ============ */
+#s01 .container { position: relative; z-index: 1; }
+
+/* ============ S02 CAPABILITY STACK ============ */
+.capability-stack {
+  margin: 48px 0 36px;
+  padding: clamp(20px, 3vw, 32px) clamp(16px, 3vw, 28px);
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  overflow-x: auto;
+}
+.capability-stack svg { min-width: 720px; }
+.cs-head { margin-bottom: 22px; }
+.cs-head h4 {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(22px, 2.8vw, 30px); line-height: 1.2;
+  color: var(--ink); margin-bottom: 6px;
+}
+.cs-head h4 em { font-style: italic; color: var(--accent); }
+.cs-head .cs-sub {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.16em;
+  color: var(--muted); text-transform: uppercase;
+}
+.cs-svg { width: 100%; height: auto; display: block; }
+.cs-foot {
+  margin-top: 16px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+  font-family: var(--font-sans); font-size: 11px; color: var(--ink-soft);
+  padding-top: 12px; border-top: 1px solid var(--rule);
+}
+.cs-foot em { font-style: italic; color: var(--signal); }
+
+/* ============ S02 ACCELERATION CLOSER (reuses weather-closer styles) ============ */
+.weather-closer { background: var(--paper-warm); color: var(--ink); border-left: 6px solid var(--accent); }
+.weather-closer .text em { color: var(--accent); }
+
+/* ============ S03 FOOTPRINTS HEADER ============ */
+.s03-footprints {
+  display: flex; justify-content: center; align-items: center;
+  margin: 32px auto 24px;
+  max-width: 240px;
+}
+.s03-footprints svg { width: 200px; height: 200px; }
+@media (max-width: 720px) {
+  .s03-footprints svg { width: 160px; height: 160px; }
+}
+
+/* ============ PIPELINE DIAGRAMS · refinements ============ */
+.pipeline-step .diagram { background: #f6efdb; padding: 16px; }
+.pipeline-step .diagram svg { width: 100%; max-height: 160px; }
+
+/* ============ S05 · THE CONVERGENCE ============ */
+.s05-bridge { background: var(--paper); border-top: 1px solid var(--rule); position: relative; }
+.s05-bridge::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(90deg, var(--commercial) 0%, var(--commercial) 46%, var(--bridge) 49%, var(--bridge) 51%, var(--civic) 54%, var(--civic) 100%);
+}
+.two-machines {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  margin: 48px 0;
+  border: 1px solid var(--ink);
+  position: relative;
+}
+.two-machines::before {
+  content: "vs."; position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%,-50%);
+  font-family: var(--font-display); font-style: italic;
+  font-size: 28px; color: var(--ink);
+  background: var(--paper); padding: 4px 12px;
+  z-index: 5;
+}
+.machine {
+  padding: 32px 28px;
+  position: relative;
+}
+.machine-commercial { background: var(--paper); border-right: 1px solid var(--ink); }
+.machine-civic { background: #efeaf2; }
+.machine-lbl {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.24em;
+  font-weight: 600; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.machine-commercial .machine-lbl { color: var(--commercial); }
+.machine-civic .machine-lbl { color: var(--civic); }
+.machine-want {
+  font-family: var(--font-display); font-style: italic; font-weight: 500;
+  font-size: 28px; line-height: 1.15;
+  color: var(--ink); margin-bottom: 8px;
+}
+.machine-question {
+  font-family: var(--font-sans); font-size: 14px; font-style: italic;
+  color: var(--muted); margin-bottom: 22px;
+}
+.machine-data { list-style: none; }
+.machine-data li {
+  font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  color: var(--ink); padding: 4px 0; border-bottom: 1px dotted var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.machine-data li::before { content: "·  "; color: var(--muted); margin-right: 4px; }
+.machine-data li .tag {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em;
+  color: var(--muted); text-transform: uppercase;
+}
+.machine-rules {
+  margin-top: 22px; padding-top: 14px; border-top: 2px solid var(--ink);
+  font-family: var(--font-sans); font-size: 12px; font-weight: 500;
+  color: var(--ink); letter-spacing: 0.04em;
+}
+.machine-commercial .machine-rules { color: var(--commercial); }
+.machine-civic .machine-rules { color: var(--civic); }
+@media (max-width: 720px) {
+  .two-machines { grid-template-columns: 1fr; }
+  .two-machines::before { display: none; }
+  .machine-commercial { border-right: none; border-bottom: 1px solid var(--ink); }
+}
+
+.convergence-viz {
+  margin: 48px 0;
+  padding: clamp(20px, 3vw, 36px) clamp(16px, 3vw, 24px);
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  position: relative;
+  overflow-x: auto;
+}
+.convergence-viz svg { min-width: 720px; }
+.convergence-viz svg { width: 100%; height: auto; display: block; }
+.convergence-viz-cap {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
+  color: var(--muted); text-transform: uppercase;
+  text-align: center; margin-top: 20px;
+}
+.convergence-viz-cap em { color: var(--accent); font-style: italic; font-family: var(--font-display); text-transform: none; font-size: 14px; letter-spacing: 0; }
+
+.convergence-callout {
+  margin: 56px auto; padding: 40px 36px;
+  max-width: var(--col-text);
+  background: var(--paper-warm); border-left: 6px solid #ffe600;
+  text-align: left;
+}
+.convergence-callout .text {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(26px, 3.4vw, 36px); line-height: 1.3;
+  color: var(--ink);
+}
+.convergence-callout .text .strike { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 2px; font-style: normal; }
+.convergence-callout .text em { color: var(--accent); font-style: italic; font-weight: 500; }
+.convergence-callout .text strong { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--accent); padding-bottom: 1px; }
+
+.evolution-marker {
+  margin: 40px auto; max-width: 880px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
+}
+.ev-step {
+  padding: 18px 14px;
+  border-right: 1px solid var(--rule);
+  position: relative;
+}
+.ev-step:last-child { border-right: none; }
+.ev-step.now { background: var(--paper-warm); }
+.ev-step.now::after {
+  content: "← you are here"; position: absolute; top: -22px; right: 8px;
+  font-family: var(--font-display); font-style: italic; font-size: 14px;
+  color: var(--accent);
+}
+.ev-step .era {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 6px;
+}
+.ev-step .desc {
+  font-family: var(--font-body); font-size: 14px; line-height: 1.4;
+  color: var(--ink);
+}
+.ev-step .desc em { font-style: italic; color: var(--signal); }
+@media (max-width: 720px) {
+  .evolution-marker { grid-template-columns: 1fr; }
+  .ev-step { border-right: none; border-bottom: 1px solid var(--rule); }
+  .ev-step:last-child { border-bottom: none; }
+}
+
+
+
+/* ============ MOTION GRAPHICS ============ */
+
+/* (M1) Growth chart · self-drawing lines · triggers on scroll-into-view */
+.growth-chart svg .gc-line {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+}
+.growth-chart.gc-draw svg .gc-line-civic {
+  animation: gcDraw 4s cubic-bezier(0.25, 0.1, 0.25, 1) 0.2s forwards;
+}
+.growth-chart.gc-draw svg .gc-line-comm {
+  animation: gcDraw 3.4s cubic-bezier(0.25, 0.1, 0.25, 1) 1.6s forwards;
+}
+@keyframes gcDraw { to { stroke-dashoffset: 0; } }
+
+/* TV-news entrance · trajectory shading fills in behind the drawing line, then chyron annotations rise */
+.growth-chart svg .gc-area { transition: none; }
+.growth-chart.gc-draw svg .gc-area-civ { animation: gcFade 1.1s ease 1.0s backwards; }
+.growth-chart.gc-draw svg .gc-area-comm { animation: gcFade 1.1s ease 2.0s backwards; }
+@keyframes gcFade { from { opacity: 0; } to { opacity: 1; } }
+.growth-chart svg .gc-anno { transform-box: fill-box; }
+.growth-chart.gc-draw svg .gc-anno { animation: gcChyron 0.7s cubic-bezier(0.22,0.61,0.36,1) backwards; }
+.growth-chart.gc-draw svg .gc-anno-1 { animation-delay: 2.4s; }
+.growth-chart.gc-draw svg .gc-anno-2 { animation-delay: 2.7s; }
+.growth-chart.gc-draw svg .gc-anno-3 { animation-delay: 3.0s; }
+.growth-chart.gc-draw svg .gc-anno-4 { animation-delay: 3.3s; }
+.growth-chart.gc-draw svg .gc-anno-5 { animation-delay: 3.6s; }
+@keyframes gcChyron { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .growth-chart.gc-draw svg .gc-area-civ,
+  .growth-chart.gc-draw svg .gc-area-comm,
+  .growth-chart.gc-draw svg .gc-anno { animation: none; }
+}
+
+/* (M2) Growth chart · "playhead" pulse at NOW marker once drawn */
+.growth-chart.gc-draw svg .gc-now-pulse {
+  animation: gcNowPulse 2.4s ease-in-out 5.5s infinite;
+  transform-origin: 940px 60px;
+}
+@keyframes gcNowPulse {
+  0%, 100% { opacity: 0.4; r: 4; }
+  50% { opacity: 1; r: 8; }
+}
+
+/* (M3) Capability stack · bars wipe in chronologically when scrolled into view */
+.capability-stack svg .cs-bar {
+  transform-origin: left center;
+}
+.capability-stack.cs-build svg .cs-bar {
+  animation: csWipe 0.85s cubic-bezier(0.16, 0.84, 0.3, 1) backwards;
+}
+/* unusual "data readout" entrance · each bar shoots out past full, then snaps back to settle */
+@keyframes csWipe {
+  0%   { transform: scaleX(0);    opacity: 0; }
+  35%  { opacity: 1; }
+  60%  { transform: scaleX(1.05); opacity: 1; }
+  80%  { transform: scaleX(0.985); }
+  100% { transform: scaleX(1);    opacity: 1; }
+}
+
+/* (M4) Capability stack · subtle "currently active" pulse on rightmost segment of every bar */
+.capability-stack.cs-build svg .cs-live {
+  animation: csLive 3.6s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes csLive {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.95; }
+}
+
+/* (M5) Convergence schematic · marching ants on "same building" boundary */
+.convergence-viz svg .cv-ants {
+  animation: cvAnts 12s linear infinite;
+}
+@keyframes cvAnts { to { stroke-dashoffset: -200; } }
+
+/* (M6) Convergence schematic · server rack LED activity · randomized */
+.convergence-viz svg .cv-led {
+  animation: cvLed 3s ease-in-out infinite;
+}
+@keyframes cvLed {
+  0%, 100% { opacity: 0; }
+  10%, 30% { opacity: 0.9; }
+  60%, 90% { opacity: 0.2; }
+}
+
+/* (M7) AI bridge · data pulses traveling up from racks to AI layer · continuous */
+.convergence-viz svg .cv-pulse {
+  animation: cvPulse 4s linear infinite;
+  offset-rotate: 0deg;
+}
+@keyframes cvPulse {
+  0% { opacity: 0; transform: translateY(0); }
+  10%, 80% { opacity: 0.85; }
+  100% { opacity: 0; transform: translateY(-90px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .growth-chart.gc-draw svg .gc-line,
+  .capability-stack.cs-build svg .cs-bar { animation: none; stroke-dashoffset: 0; transform: none; }
+  .cs-live, .cv-ants, .cv-led, .cv-pulse, .gc-now-pulse { animation: none; }
+}
+
+
+/* ============ COMPOSITE ASSEMBLY · SCROLLYTELLING ============ */
+.composite-scrolly { position: relative; margin: 72px 0; }
+.ca-intro {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(22px, 3vw, 30px); line-height: 1.3; color: var(--ink);
+  max-width: var(--col-text); margin: 0 auto 12px;
+}
+.ca-intro-sub {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.2em;
+  color: var(--muted); text-transform: uppercase; text-align: left;
+  max-width: var(--col-text); margin: 0 auto 24px;
+}
+.ca-layout { display: grid; grid-template-columns: 46% 54%; gap: 48px; align-items: start; }
+.ca-graphic-wrap {
+  position: sticky; top: 84px;
+  height: calc(100vh - 150px);
+  display: flex; align-items: center; justify-content: center;
+}
+.ca-graphic { width: 100%; max-width: 460px; }
+.ca-steps { }
+.ca-step {
+  min-height: 38vh; display: flex; flex-direction: column; justify-content: center;
+  padding: 18px 0;
+  opacity: 0.42; transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateX(-6px);
+}
+.ca-step.active { opacity: 1; transform: translateX(0); }
+.ca-step .beat-num {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.24em;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.ca-step .beat-num::before { content: ""; width: 28px; height: 2px; background: var(--accent); transition: width 0.5s ease; }
+.ca-step.active .beat-num::before { width: 40px; }
+/* LIVE READ badge — only on the active beat */
+.ca-step .beat-num::after {
+  content: "● LIVE READ";
+  font-size: 9px; letter-spacing: 0.18em; font-weight: 700;
+  color: var(--bridge); border: 1px solid var(--bridge);
+  padding: 2px 7px; border-radius: 2px; opacity: 0;
+  transform: scale(0.85); transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.ca-step.active .beat-num::after { opacity: 1; transform: scale(1); animation: liveBlink 1.6s ease-in-out infinite; }
+@keyframes liveBlink { 0%,100% { border-color: var(--bridge); color: var(--bridge); } 50% { border-color: rgba(47,102,80,0.35); color: rgba(47,102,80,0.5); } }
+@media (prefers-reduced-motion: reduce) {
+  .ca-step.active .beat-num::after { animation: none; }
+}
+.ca-step .beat-text {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(26px, 3.4vw, 38px); line-height: 1.2; color: var(--ink);
+  margin-bottom: 14px;
+}
+.ca-step .beat-text em { font-style: italic; color: var(--accent); }
+.ca-step .beat-sub {
+  font-family: var(--font-body); font-size: 17px; line-height: 1.6; color: var(--ink-soft);
+}
+.ca-step .beat-sub .comm { color: var(--commercial); font-weight: 600; }
+.ca-step .beat-sub .civ { color: var(--civic); font-weight: 600; }
+.ca-step .beat-sub .ai { color: var(--highlight); font-weight: 600; }
+
+/* Composite ring · layer reveal states */
+.ca-graphic .ca-glow { opacity: 0; transition: opacity 1.2s ease; }
+.ca-graphic .ca-divider { opacity: 1; transition: opacity 1s ease; }
+.ca-graphic .ca-commercial, .ca-graphic .ca-civic, .ca-graphic .ca-comm-web, .ca-graphic .ca-civ-web, .ca-graphic .ca-cross-web, .ca-graphic .ca-scan { opacity: 1; }
+.ca-graphic .ca-cpt, .ca-graphic .ca-vpt {
+  opacity: 0; transform: scale(0.4); transform-box: fill-box; transform-origin: center;
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.34,1.4,0.5,1);
+}
+.ca-graphic .ca-comm-web > *, .ca-graphic .ca-civ-web > * { opacity: 0; transition: opacity 0.7s ease; }
+.ca-graphic .ca-cross { opacity: 0; stroke-dasharray: 320; stroke-dashoffset: 320; transition: opacity 0.5s ease, stroke-dashoffset 1.1s ease; }
+.ca-graphic .ca-scan-sweep, .ca-graphic .ca-scan-arc { opacity: 0; transition: opacity 0.6s ease; }
+.ca-graphic .ca-aicore { opacity: 0; transform: scale(0); transform-box: fill-box; transform-origin: center; transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.34,1.4,0.5,1); }
+.ca-graphic .ca-half-comm, .ca-graphic .ca-half-civ, .ca-graphic .ca-scan-note { opacity: 0; transition: opacity 0.6s ease; }
+
+/* Beat 2+ : commercial half */
+.ca-graphic.beat-2 .ca-cpt, .ca-graphic.beat-3 .ca-cpt, .ca-graphic.beat-4 .ca-cpt, .ca-graphic.beat-5 .ca-cpt { opacity: 1; transform: scale(1); }
+.ca-graphic.beat-2 .ca-comm-web > *, .ca-graphic.beat-3 .ca-comm-web > *, .ca-graphic.beat-4 .ca-comm-web > *, .ca-graphic.beat-5 .ca-comm-web > * { opacity: 1; }
+.ca-graphic.beat-2 .ca-half-comm, .ca-graphic.beat-3 .ca-half-comm, .ca-graphic.beat-4 .ca-half-comm, .ca-graphic.beat-5 .ca-half-comm { opacity: 1; }
+/* Beat 3+ : civic half */
+.ca-graphic.beat-3 .ca-vpt, .ca-graphic.beat-4 .ca-vpt, .ca-graphic.beat-5 .ca-vpt { opacity: 1; transform: scale(1); }
+.ca-graphic.beat-3 .ca-civ-web > *, .ca-graphic.beat-4 .ca-civ-web > *, .ca-graphic.beat-5 .ca-civ-web > * { opacity: 1; }
+.ca-graphic.beat-3 .ca-half-civ, .ca-graphic.beat-4 .ca-half-civ, .ca-graphic.beat-5 .ca-half-civ { opacity: 1; }
+/* Beat 4+ : AI scan + core */
+.ca-graphic.beat-4 .ca-scan-sweep, .ca-graphic.beat-5 .ca-scan-sweep { opacity: 1; }
+.ca-graphic.beat-4 .ca-scan-arc { opacity: 0.7; }
+.ca-graphic.beat-4 .ca-aicore, .ca-graphic.beat-5 .ca-aicore { opacity: 1; transform: scale(1); }
+.ca-graphic.beat-4 .ca-scan-note { opacity: 1; }
+.ca-graphic.beat-4 .ca-scan-sweep { animation: caScan 4s linear infinite; transform-origin: 260px 260px; }
+/* Beat 5 : convergence */
+.ca-graphic.beat-5 .ca-divider { opacity: 0; }
+.ca-graphic.beat-5 .ca-cross { opacity: 0.85; stroke-dashoffset: 0; }
+.ca-graphic.beat-5 .ca-glow { opacity: 1; }
+.ca-graphic.beat-5 .ca-scan-sweep { opacity: 0.5; animation: caScan 6s linear infinite; transform-origin: 260px 260px; }
+.ca-graphic.beat-5 .ca-scan-note { opacity: 0; }
+@keyframes caScan { to { transform: rotate(360deg); } }
+
+/* ---- FILL / OUTER / CONVERGED · default resting states (JS drives the animation) ---- */
+.ca-graphic .ca-outer-fill { opacity: 0; }
+.ca-graphic .ca-converged { opacity: 0; }
+
+/* ---- LINES DISAPPEAR at beat 4 (divider + webs) ---- */
+.ca-graphic.beat-4 .ca-divider, .ca-graphic.beat-5 .ca-divider { opacity: 0; }
+.ca-graphic.beat-4 .ca-comm-web > *, .ca-graphic.beat-5 .ca-comm-web > *,
+.ca-graphic.beat-4 .ca-civ-web > *, .ca-graphic.beat-5 .ca-civ-web > * { opacity: 0; }
+
+/* ---- at full convergence the parts dissolve into the single new color ---- */
+.ca-graphic.beat-5 .ca-cpt, .ca-graphic.beat-5 .ca-vpt,
+.ca-graphic.beat-5 .ca-half-comm, .ca-graphic.beat-5 .ca-half-civ,
+.ca-graphic.beat-5 .ca-aicore,
+.ca-graphic.beat-5 .ca-scan-sweep, .ca-graphic.beat-5 .ca-scan-arc,
+.ca-graphic.beat-5 .ca-cross { opacity: 0; }
+
+/* Staggered point reveal */
+.ca-graphic .ca-cpt:nth-of-type(1) { transition-delay: 0s; } .ca-graphic .ca-cpt:nth-of-type(2) { transition-delay: 0.08s; }
+.ca-graphic .ca-cpt:nth-of-type(3) { transition-delay: 0.16s; } .ca-graphic .ca-cpt:nth-of-type(4) { transition-delay: 0.24s; }
+.ca-graphic .ca-cpt:nth-of-type(5) { transition-delay: 0.32s; } .ca-graphic .ca-cpt:nth-of-type(6) { transition-delay: 0.4s; }
+.ca-graphic .ca-vpt:nth-of-type(1) { transition-delay: 0s; } .ca-graphic .ca-vpt:nth-of-type(2) { transition-delay: 0.08s; }
+.ca-graphic .ca-vpt:nth-of-type(3) { transition-delay: 0.16s; } .ca-graphic .ca-vpt:nth-of-type(4) { transition-delay: 0.24s; }
+.ca-graphic .ca-vpt:nth-of-type(5) { transition-delay: 0.32s; } .ca-graphic .ca-vpt:nth-of-type(6) { transition-delay: 0.4s; }
+
+.ca-ptlabel { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; }
+
+@media (max-width: 820px) {
+  .ca-layout { grid-template-columns: 1fr; gap: 0; }
+  .ca-graphic-wrap { position: sticky; top: 56px; height: 46vh; margin-bottom: 12px; z-index: 5; background: var(--paper); }
+  .ca-step { min-height: 72vh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ca-graphic .ca-cpt, .ca-graphic .ca-vpt, .ca-graphic .ca-aicore { opacity: 1 !important; transform: scale(1) !important; }
+  .ca-graphic .ca-comm-web > *, .ca-graphic .ca-civ-web > *, .ca-graphic .ca-cross { opacity: 0.7 !important; stroke-dashoffset: 0 !important; }
+  .ca-graphic .ca-glow, .ca-graphic .ca-scan-sweep, .ca-graphic .ca-half-comm, .ca-graphic .ca-half-civ { opacity: 1 !important; }
+  .ca-graphic .ca-scan-sweep { animation: none !important; }
+  .ca-step { opacity: 1 !important; }
+}
+
+/* ============ WORKFLOW COLLAPSE ANIMATION ============ */
+.workflow-compare.wf-go .compare-col.then .step-row {
+  animation: wfSlow 0.5s ease backwards;
+}
+.workflow-compare.wf-go .compare-col.then .step-row:nth-child(2) { animation-delay: 0.2s; }
+.workflow-compare.wf-go .compare-col.then .step-row:nth-child(3) { animation-delay: 0.7s; }
+.workflow-compare.wf-go .compare-col.then .step-row:nth-child(4) { animation-delay: 1.2s; }
+.workflow-compare.wf-go .compare-col.then .step-row:nth-child(5) { animation-delay: 1.7s; }
+.workflow-compare.wf-go .compare-col.then .step-row:nth-child(6) { animation-delay: 2.2s; }
+.workflow-compare.wf-go .compare-col.then .col-total { animation: wfSlow 0.5s ease 2.7s backwards; }
+@keyframes wfSlow { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+
+.workflow-compare.wf-go .compare-col.now .step-row { animation: wfFast 0.18s ease backwards; }
+.workflow-compare.wf-go .compare-col.now .step-row:nth-child(2) { animation-delay: 3.25s; }
+.workflow-compare.wf-go .compare-col.now .step-row:nth-child(3) { animation-delay: 3.32s; }
+.workflow-compare.wf-go .compare-col.now .step-row:nth-child(1) { animation-delay: 3.18s; }
+.workflow-compare.wf-go .compare-col.now .col-total { animation: wfSnap 0.3s cubic-bezier(0.34,1.5,0.5,1) 3.45s backwards; }
+@keyframes wfFast { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+@keyframes wfSnap { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
+.workflow-compare .compare-col.now { position: relative; }
+.workflow-compare.wf-go .compare-col.now::after {
+  content: "▸ 450,000× faster";
+  position: absolute; bottom: -28px; right: 0;
+  font-family: var(--font-display); font-style: italic; font-size: 16px; color: var(--accent);
+  opacity: 0; animation: wfFast 0.4s ease 3.8s forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .workflow-compare .compare-col .step-row, .workflow-compare .compare-col .col-total { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+
+/* ============ PARTICLE FLOW FIELD ============ */
+.convergence-viz svg .pf-particle {
+  animation: pfFlow 3.2s linear infinite;
+}
+@keyframes pfFlow {
+  0% { opacity: 0; }
+  12% { opacity: 0.9; }
+  82% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+.convergence-viz svg .pf-out {
+  animation: pfOut 2.6s linear infinite;
+}
+@keyframes pfOut {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ============ S05 · GROWTH CHART ============ */
+.growth-chart {
+  margin: 56px 0;
+  padding: clamp(20px, 3vw, 36px) clamp(16px, 3vw, 28px);
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  overflow-x: auto;
+}
+.growth-chart svg { min-width: 720px; }
+.growth-chart h4 {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(24px, 3vw, 32px); line-height: 1.2;
+  color: var(--ink); margin-bottom: 6px;
+}
+.growth-chart h4 em { font-style: italic; color: var(--accent); }
+.growth-chart .subtitle {
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.18em;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 22px;
+}
+.growth-chart svg { width: 100%; height: auto; display: block; }
+.growth-legend {
+  display: flex; gap: 26px; margin-top: 16px; flex-wrap: wrap;
+  font-family: var(--font-sans); font-size: 11px; color: var(--ink-soft);
+}
+.growth-legend span { display: flex; align-items: center; gap: 8px; }
+.growth-legend .sw { width: 22px; height: 3px; }
+
+/* ============ S05 · WORKFLOW COMPARE ============ */
+.workflow-compare {
+  margin: 56px 0;
+  padding: 36px 28px;
+  background: var(--paper-warm); color: var(--ink);
+  border-left: 6px solid var(--highlight);
+  border: 1px solid var(--rule);
+  border-left: 6px solid var(--highlight);
+}
+.workflow-compare h4 {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(26px, 3.4vw, 36px); line-height: 1.2;
+  color: var(--ink); margin-bottom: 24px;
+}
+.workflow-compare h4 em { font-style: italic; color: var(--highlight); }
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+@media (max-width: 720px) { .compare-grid { grid-template-columns: 1fr; } }
+.compare-col { padding: 22px 22px; position: relative; }
+.compare-col.then { background: var(--paper); border-left: 3px solid var(--ink-soft); }
+.compare-col.now { background: var(--paper); border-left: 3px solid var(--accent); box-shadow: 0 0 0 1px rgba(184,52,28,0.2); }
+.col-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+.col-head .when { font-family: var(--font-display); font-style: italic; font-size: 22px; color: var(--ink); font-weight: 500; }
+.col-head .task { font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+.compare-col.now .col-head .when { color: var(--accent); }
+.step-row {
+  display: grid; grid-template-columns: 22px 1fr auto;
+  gap: 12px; padding: 8px 0; align-items: baseline;
+  border-bottom: 1px dotted var(--rule);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.4;
+  color: var(--ink);
+}
+.step-row .sn { font-family: var(--font-mono); font-size: 10px; color: var(--muted); }
+.step-row .st { font-family: var(--font-mono); font-size: 10px; color: var(--ink-soft); text-align: right; letter-spacing: 0.05em; white-space: nowrap; font-weight: 500; }
+.compare-col.now .step-row .st { color: var(--accent); }
+.col-total { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--ink); display: flex; justify-content: space-between; align-items: baseline; }
+.col-total .tl { font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+.col-total .tv { font-family: var(--font-display); font-style: italic; font-size: 22px; color: var(--ink); font-weight: 500; }
+.compare-col.now .col-total .tv { color: var(--accent); }
+.compare-takeaway {
+  margin-top: 28px; padding: 18px 22px;
+  background: var(--paper); border-left: 4px solid var(--highlight);
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: 19px; line-height: 1.5; color: var(--ink);
+}
+.compare-takeaway em { color: var(--accent); font-style: italic; font-weight: 500; }
+.compare-takeaway strong { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--highlight); padding-bottom: 1px; }
+
+/* ============ S05 · SWIFT JUSTICE ============ */
+.swift-justice {
+  margin: 56px auto;
+  max-width: var(--col-text);
+  padding: 32px 0 28px;
+  border-top: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+}
+.swift-justice .kicker {
+  font-family: var(--font-display); font-style: italic; font-weight: 500;
+  font-size: 22px; line-height: 1.3;
+  color: var(--accent);
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed var(--rule);
+}
+.swift-justice .body-text p strong {
+  font-family: var(--font-body); font-weight: 600;
+  background: var(--paper-warm); padding: 0 4px;
+  border-bottom: 2px solid var(--accent);
+}
+
+/* ---- ECHO · DOGE present-day anchor ---- */
+.echo-doge {
+  margin: 40px auto;
+  max-width: var(--col-wide, 920px);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--paper-warm) 100%);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--civic);
+  border-radius: 4px;
+  padding: 24px 26px 22px;
+}
+.echo-doge .ed-kicker {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--civic); font-weight: 600;
+  margin-bottom: 14px;
+}
+.echo-doge .ed-kicker::before {
+  content: "↩"; font-size: 15px; color: var(--civic);
+}
+.echo-doge .ed-lede {
+  font-family: var(--font-display); font-size: 25px; line-height: 1.32;
+  font-weight: 500; color: var(--ink); margin-bottom: 16px;
+}
+.echo-doge .ed-lede em { font-style: italic; color: var(--civic); }
+.echo-doge .ed-body { font-family: var(--font-body); font-size: 15.5px; line-height: 1.6; color: var(--ink-soft); }
+.echo-doge .ed-body p { margin: 0 0 12px; }
+.echo-doge .ed-body p:last-child { margin-bottom: 0; }
+.echo-doge .ed-facts {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  margin: 18px 0; padding: 16px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+}
+.echo-doge .ed-fact { text-align: left; }
+.echo-doge .ed-fact .n {
+  font-family: var(--font-display); font-size: 30px; font-weight: 600;
+  color: var(--civic); line-height: 1; display: block;
+}
+.echo-doge .ed-fact .l {
+  font-family: var(--font-body); font-size: 12.5px; line-height: 1.35;
+  color: var(--muted); margin-top: 6px; display: block;
+}
+.echo-doge .ed-src {
+  font-family: var(--font-mono); font-size: 10px; color: var(--muted);
+  letter-spacing: 0.02em; margin-top: 14px;
+}
+.echo-doge .ed-body strong { font-weight: 600; color: var(--ink); }
+.js .echo-doge.el-go .ed-fact { animation: elRise 0.6s cubic-bezier(0.22,0.61,0.36,1) backwards; }
+.js .echo-doge.el-go .ed-fact:nth-child(2) { animation-delay: 0.14s; }
+.js .echo-doge.el-go .ed-fact:nth-child(3) { animation-delay: 0.28s; }
+@media (max-width: 680px) {
+  .echo-doge .ed-facts { grid-template-columns: 1fr; gap: 10px; }
+  .echo-doge .ed-lede { font-size: 21px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .echo-doge.el-go .ed-fact { animation: none; }
+}
+
+/* ---- FEDERAL WORKFORCE · national reduction map (canvas particle field) ---- */
+.fw-block { margin: 20px 0; }
+.fw-stage {
+  position: relative; border-radius: 6px; overflow: hidden;
+  background: radial-gradient(ellipse at 62% 44%, var(--paper) 0%, var(--paper-warm) 100%);
+  border: 1px solid var(--rule); aspect-ratio: 16 / 9; min-height: 340px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+}
+.fw-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.fw-readout { position: absolute; left: 20px; top: 16px; z-index: 2; pointer-events: none; }
+.fw-readout .big { font-family: var(--font-display); font-weight: 600; font-size: 27px; color: var(--accent); line-height: 1; }
+.fw-readout .sub { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.12em; color: var(--muted); margin-top: 6px; }
+.fw-readout .cav { font-family: var(--font-display); font-style: italic; font-size: 13px; color: var(--ink-soft); margin-top: 5px; }
+.fw-uslabel { position: absolute; right: 16px; bottom: 12px; z-index: 2; pointer-events: none;
+  font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.2em; color: var(--muted); }
+.fw-hint { position: absolute; left: 20px; bottom: 12px; z-index: 2; pointer-events: none;
+  font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.14em; color: var(--ink-soft); }
+.fw-cap {
+  margin-top: 12px; font-family: var(--font-body); font-size: 13.5px;
+  line-height: 1.55; color: var(--ink-soft);
+}
+.fw-cap .ep5 {
+  display: inline-block; margin-top: 8px; text-decoration: none;
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em;
+  color: var(--civic); border: 1px solid var(--civic); border-radius: 2px; padding: 4px 9px;
+  transition: background .2s ease, color .2s ease;
+}
+.fw-cap .ep5:hover { background: var(--civic); color: var(--paper); }
+.fw-caveat {
+  display: block; margin-top: 10px; padding: 11px 14px;
+  background: var(--paper-warm); border-left: 3px solid var(--muted); border-radius: 3px;
+  font-size: 12.5px; line-height: 1.55; color: var(--ink-soft);
+}
+.fw-caveat strong { color: var(--ink); font-weight: 600; }
+@media (max-width: 680px) {
+  .fw-stage { aspect-ratio: 4 / 3; }
+  .fw-readout .big { font-size: 21px; }
+}
+
+/* ---- EVIDENCE LEDGER · "this already exists, jurisdiction by jurisdiction" ---- */
+.evidence-ledger {
+  margin: 40px auto 8px;
+  max-width: var(--col-wide, 920px);
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 22px 24px 18px;
+  box-shadow: 0 1px 0 rgba(15,20,25,0.04);
+}
+.evidence-ledger .el-head {
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  padding-bottom: 14px; margin-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+.evidence-ledger .el-tag {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; font-weight: 600;
+  color: var(--paper); background: var(--ink-soft);
+  padding: 4px 9px; border-radius: 2px;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.evidence-ledger .el-tag::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--highlight); box-shadow: 0 0 0 0 var(--highlight);
+  animation: elBlink 2s ease-in-out infinite;
+}
+@keyframes elBlink {
+  0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(217,119,6,0.5); }
+  50% { opacity: 0.55; box-shadow: 0 0 0 4px rgba(217,119,6,0); }
+}
+.evidence-ledger .el-sub {
+  font-family: var(--font-display); font-style: italic; font-size: 17px;
+  color: var(--ink-soft);
+}
+.evidence-ledger .el-grid { display: flex; flex-direction: column; }
+.evidence-ledger .el-row {
+  display: grid;
+  grid-template-columns: 40px 150px 1fr 96px;
+  align-items: center; gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px dotted var(--rule);
+}
+.evidence-ledger .el-row:last-child { border-bottom: none; }
+.evidence-ledger .el-flag {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.06em; color: var(--muted);
+  text-align: center;
+  border: 1px solid var(--rule); border-radius: 3px; padding: 4px 0;
+}
+.evidence-ledger .el-where {
+  font-family: var(--font-body); font-weight: 600; font-size: 15.5px;
+  color: var(--ink);
+}
+.evidence-ledger .el-what {
+  font-family: var(--font-body); font-size: 14px; line-height: 1.42;
+  color: var(--ink-soft);
+}
+.evidence-ledger .el-what cite {
+  font-style: normal; font-family: var(--font-mono); font-size: 10.5px;
+  color: var(--muted); display: block; margin-top: 3px; letter-spacing: 0.02em;
+}
+.evidence-ledger .el-status {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase; font-weight: 600;
+  text-align: center; padding: 5px 0; border-radius: 2px;
+}
+.evidence-ledger .s-deployed { color: var(--accent); background: rgba(184,52,28,0.10); border: 1px solid rgba(184,52,28,0.3); }
+.evidence-ledger .s-piloted  { color: var(--commercial); background: rgba(184,127,28,0.12); border: 1px solid rgba(184,127,28,0.32); }
+.evidence-ledger .s-restricted { color: var(--bridge); background: rgba(47,102,80,0.12); border: 1px solid rgba(47,102,80,0.34); }
+.evidence-ledger .el-foot {
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--rule);
+  font-family: var(--font-body); font-size: 14.5px; line-height: 1.55;
+  color: var(--ink-soft);
+}
+.evidence-ledger .el-foot strong {
+  font-weight: 600; color: var(--ink);
+  border-bottom: 2px solid var(--bridge);
+}
+/* sequential fade-up entrance, visible-by-default + backwards fill */
+.js .evidence-ledger.el-go .el-row { animation: elRise 0.55s cubic-bezier(0.22,0.61,0.36,1) backwards; }
+.js .evidence-ledger.el-go .el-row:nth-child(1) { animation-delay: 0.05s; }
+.js .evidence-ledger.el-go .el-row:nth-child(2) { animation-delay: 0.17s; }
+.js .evidence-ledger.el-go .el-row:nth-child(3) { animation-delay: 0.29s; }
+.js .evidence-ledger.el-go .el-row:nth-child(4) { animation-delay: 0.41s; }
+.js .evidence-ledger.el-go .el-row:nth-child(5) { animation-delay: 0.53s; }
+.js .evidence-ledger.el-go .el-row:nth-child(6) { animation-delay: 0.65s; }
+.js .evidence-ledger.el-go .el-foot { animation: elRise 0.6s ease 0.8s backwards; }
+@keyframes elRise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 680px) {
+  .evidence-ledger .el-row { grid-template-columns: 34px 1fr 78px; }
+  .evidence-ledger .el-what { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .evidence-ledger.el-go .el-row,
+  .js .evidence-ledger.el-go .el-foot { animation: none; }
+  .evidence-ledger .el-tag::before { animation: none; }
+}
+
+/* ============ REWARD VAULT · end-of-episode surprise ============ */
+.reward-vault {
+  max-width: 640px; margin: 24px auto 8px; text-align: center;
+  padding: 40px 28px 36px;
+  background: radial-gradient(120% 100% at 50% 0%, var(--paper) 0%, var(--paper-warm) 100%);
+  border: 1px solid var(--rule); border-radius: 8px;
+  position: relative; overflow: hidden;
+}
+.reward-vault .rv-spark {
+  font-size: 22px; color: var(--highlight); margin-bottom: 8px;
+  animation: rvTwinkle 3s ease-in-out infinite;
+}
+@keyframes rvTwinkle { 0%,100% { opacity: .4; transform: scale(.9) rotate(0deg);} 50% { opacity: 1; transform: scale(1.15) rotate(90deg);} }
+.reward-vault .rv-eyebrow {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--bridge); font-weight: 600; margin-bottom: 14px;
+}
+.reward-vault .rv-title {
+  font-family: var(--font-display); font-size: 30px; line-height: 1.18;
+  font-weight: 600; color: var(--ink); margin: 0 0 12px;
+}
+.reward-vault .rv-lede {
+  font-family: var(--font-body); font-size: 16px; line-height: 1.58;
+  color: var(--ink-soft); max-width: 480px; margin: 0 auto 26px;
+}
+.reward-vault .rv-lede em { font-style: italic; color: var(--accent); }
+/* envelope */
+.rv-envelope {
+  position: relative; width: 220px; height: 142px; margin: 0 auto 6px;
+  background: linear-gradient(180deg, var(--paper-warm), #ddd9cc);
+  border: 1px solid var(--rule); border-radius: 6px;
+  cursor: pointer; transition: transform .35s ease, box-shadow .35s ease;
+  box-shadow: 0 6px 22px rgba(15,20,25,0.10);
+}
+.rv-envelope:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(15,20,25,0.16); }
+.rv-envelope .rv-flap {
+  position: absolute; top: 0; left: 0; right: 0; height: 0;
+  border-left: 110px solid transparent; border-right: 110px solid transparent;
+  border-top: 84px solid #d2cdbd;
+  transform-origin: top center; transition: transform .55s cubic-bezier(.5,0,.2,1);
+  z-index: 3;
+}
+.rv-envelope .rv-seal {
+  position: absolute; top: 52px; left: 50%; transform: translateX(-50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--accent); color: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 18px;
+  z-index: 4; box-shadow: 0 2px 8px rgba(184,52,28,0.4);
+  transition: opacity .3s ease .1s, transform .4s ease;
+}
+.rv-envelope .rv-hint {
+  position: absolute; bottom: 12px; left: 0; right: 0; z-index: 4;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+}
+.rv-envelope.open .rv-flap { transform: rotateX(180deg); }
+.rv-envelope.open .rv-seal { opacity: 0; transform: translateX(-50%) translateY(-14px) scale(.6); }
+.rv-envelope.open .rv-hint { opacity: 0; }
+.rv-payload {
+  margin-top: 22px; opacity: 0; transform: translateY(10px);
+  transition: opacity .5s ease .25s, transform .5s ease .25s;
+}
+.rv-payload.show { opacity: 1; transform: translateY(0); }
+html:not(.js) .rv-payload { opacity: 1; transform: none; }
+html:not(.js) .rv-envelope .rv-hint { display: none; }
+.rv-doc-name { font-family: var(--font-mono); font-size: 13px; color: var(--ink); font-weight: 600; }
+.rv-doc-sub { font-family: var(--font-body); font-size: 13px; color: var(--muted); margin: 4px 0 16px; }
+.rv-download {
+  display: inline-block; text-decoration: none;
+  font-family: var(--font-sans); font-weight: 600; font-size: 15px;
+  color: var(--paper); background: var(--ink);
+  padding: 13px 26px; border-radius: 4px;
+  transition: background .25s ease, transform .15s ease;
+}
+.rv-download:hover { background: var(--accent); transform: translateY(-2px); }
+.rv-fine {
+  font-family: var(--font-body); font-size: 12.5px; line-height: 1.5;
+  color: var(--muted); max-width: 380px; margin: 16px auto 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reward-vault .rv-spark, .rv-envelope .rv-flap { animation: none; transition: none; }
+}
+
+/* ============ S05 · POWER PULLQUOTE ============ */
+.power-pull {
+  margin: 48px auto;
+  max-width: 780px;
+  padding: 28px 36px;
+  background: var(--paper-warm);
+  border-left: 4px solid var(--signal);
+}
+.power-pull p {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: 22px; line-height: 1.45;
+  color: var(--ink); margin-bottom: 14px;
+}
+.power-pull p:last-child { margin-bottom: 0; }
+.power-pull p em { color: var(--accent); font-style: italic; font-weight: 500; }
+.power-pull p strong { color: var(--ink); font-weight: 500; border: none; }
+</style>
+</head>
+<body>
+
+<nav class="chrome">
+  <a href="/" class="brand">Infera · <em>The Mechanism Series</em></a>
+  <div class="nav-links">
+    <a href="/systems-atlas.html">Atlas</a>
+    <a href="/claims-atlas.html">Claims</a>
+    <a href="/case-file.html">Case file</a>
+    <a href="/">Index</a>
+  </div>
+</nav>
+
+<aside class="rail" aria-label="chapter rail">
+  <a href="#s01" data-rail="s01" data-name="Hero" class="active"></a>
+  <a href="#s02" data-rail="s02" data-name="The acceleration"></a>
+  <a href="#s04" data-rail="s04" data-name="The convergence"></a>
+  <a href="#s05" data-rail="s05" data-name="The counter-read"></a>
+  <a href="#s06" data-rail="s06" data-name="Discipline"></a>
+  <a href="#s07" data-rail="s07" data-name="Closer"></a>
+  <a href="#s08" data-rail="s08" data-name="Your reward"></a>
+</aside>
+
+<main>
+
+<!-- ============ S01 · HERO ============ -->
+<section id="s01">
+  <div class="container">
+    <div class="s01-kicker reveal">
+      <span class="ep">EP 04</span>
+      <span>Season II · May 2026</span>
+      <span class="arc">opening the arc to the season finale</span>
+    </div>
+    <h1 class="s01-title reveal">The Influence <em>War</em></h1>
+    <div class="s01-compress reveal">
+      They don't have to <strong>change your mind</strong>. They just have to catch you in the <em>right feeling</em>.
+    </div>
+    <div class="s01-meta-row reveal">
+      <div class="s01-meta-col">
+        <div class="lbl">Read time</div>
+        <strong>17 minutes</strong> · 9 sections · one interactive
+      </div>
+      <div class="s01-meta-col">
+        <div class="lbl">Position</div>
+        Fourth of six episodes in <strong>Season II</strong> · bridges from commerce to civic
+      </div>
+      <div class="s01-meta-col">
+        <div class="lbl">Companion</div>
+        Sets up <strong>EP 05 · The Composite State</strong> and the season-closing <em>Convergence</em> essay
+      </div>
+    </div>
+    <div class="s01-scroll-cue reveal">Begin reading</div>
+  </div>
+</section>
+
+<!-- ============ S02 · PRESSURE · THE WEATHER ============ -->
+<section id="s02">
+  <div class="container-text">
+    <div class="section-meta">S 02 · The acceleration</div>
+    <h2 class="section-title reveal">More ways to <em>see you</em>. More often.</h2>
+    <p class="section-lede reveal">Two things have happened in parallel for a century. The number of ways government can observe a citizen has grown — slowly at first, then in layers, then in compounding bursts. And the frequency at which each observation happens has shifted from periodic to <em>continuous</em>.</p>
+  </div>
+
+  <div class="container">
+    <div class="body-text container-text reveal">
+      <p><span class="drop">F</span>or most of its modern history, the surveillance question was <em>what is technically possible</em>. Each new capability arrived as its own moment — fingerprinting in 1910, federal records in 1935, computerized warrants in 1975, mobile location in 2005, real-time biometric face matching after 2010. Each became a layer on top of the previous, and each layer thickened.</p>
+      <p>What changed in the last decade is not only new capability — it is <em>frequency</em>. Every existing capability now runs continuously, and the data flows into cross-referenced storage rather than isolated paper files. The same persuasion logic that learned to read commercial mood now works in civic settings too: <strong>the system that reads the receiver's mood is substantially more successful than the system that does not.</strong></p>
+    </div>
+
+    <!-- Capability Stack Visualization -->
+    <div class="capability-stack reveal">
+      <div class="cs-head">
+        <h4>The surveillance stack · <em>what became possible when</em></h4>
+        <div class="cs-sub">civic data collection capabilities · year of first scaled deployment · darker right = more continuous now</div>
+      </div>
+      <svg class="cs-svg" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="capBar" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#4a3a5a" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#4a3a5a" stop-opacity="0.88"/>
+          </linearGradient>
+          <linearGradient id="capBarLive" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#4a3a5a" stop-opacity="0.88"/>
+            <stop offset="100%" stop-color="#2f6650" stop-opacity="1"/>
+          </linearGradient>
+        </defs>
+        <!-- Year markers along top -->
+        <g font-family="JetBrains Mono" font-size="9" fill="#6a6e74" letter-spacing="1.5">
+          <text x="240" y="20" text-anchor="middle">1900</text>
+          <text x="380" y="20" text-anchor="middle">1940</text>
+          <text x="520" y="20" text-anchor="middle">1970</text>
+          <text x="660" y="20" text-anchor="middle">1990</text>
+          <text x="800" y="20" text-anchor="middle">2010</text>
+          <text x="930" y="20" text-anchor="middle">now</text>
+        </g>
+        <!-- Top axis line -->
+        <line x1="240" y1="30" x2="960" y2="30" stroke="#0f1419" stroke-width="0.4" stroke-dasharray="2,3"/>
+        <!-- NOW marker line -->
+        <line x1="960" y1="34" x2="960" y2="340" stroke="#d97706" stroke-width="1.2" stroke-dasharray="3,2"/>
+        <text x="965" y="350" font-family="JetBrains Mono" font-size="9" fill="#d97706" letter-spacing="1.5">NOW</text>
+
+        <!-- 12 capability rows. Each row: label on left, bar from origin-year to NOW. -->
+        <text x="225" y="50" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">ID documents</text>
+        <rect class="cs-bar" x="240" y="40" width="720" height="14" fill="url(#capBar)"/>
+        <text x="965" y="50" font-family="JetBrains Mono" font-size="9" fill="#6a6e74">1900</text>
+
+        <text x="225" y="73" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">photography</text>
+        <rect class="cs-bar" x="240" y="63" width="720" height="14" fill="url(#capBar)"/>
+        <text x="965" y="73" font-family="JetBrains Mono" font-size="9" fill="#6a6e74">1900</text>
+
+        <text x="225" y="96" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">fingerprinting</text>
+        <rect class="cs-bar" x="298" y="86" width="662" height="14" fill="url(#capBar)"/>
+        <text x="965" y="96" font-family="JetBrains Mono" font-size="9" fill="#6a6e74">1910</text>
+
+        <text x="225" y="119" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">federal records · IRS / SSA</text>
+        <rect class="cs-bar" x="443" y="109" width="517" height="14" fill="url(#capBar)"/>
+        <text x="965" y="119" font-family="JetBrains Mono" font-size="9" fill="#6a6e74">1935</text>
+
+        <text x="225" y="142" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">phone metadata</text>
+        <rect class="cs-bar" x="588" y="132" width="372" height="14" fill="url(#capBar)"/>
+        <text x="965" y="142" font-family="JetBrains Mono" font-size="9" fill="#6a6e74">1960</text>
+
+        <text x="225" y="165" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">computerized records</text>
+        <rect class="cs-bar" x="676" y="155" width="284" height="14" fill="url(#capBar)"/>
+        <text x="965" y="165" font-family="JetBrains Mono" font-size="9" fill="#6a6e74">1975</text>
+
+        <text x="225" y="188" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">credit databases</text>
+        <rect class="cs-bar" x="734" y="178" width="226" height="14" fill="url(#capBar)"/>
+        <text x="965" y="188" font-family="JetBrains Mono" font-size="9" fill="#6a6e74">1985</text>
+
+        <text x="225" y="211" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">internet activity</text>
+        <rect class="cs-bar" x="792" y="201" width="168" height="14" fill="url(#capBar)"/>
+        <text x="965" y="211" font-family="JetBrains Mono" font-size="9" fill="#6a6e74">1995</text>
+
+        <text x="225" y="234" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">mobile location</text>
+        <rect class="cs-bar" x="830" y="224" width="130" height="14" fill="url(#capBar)"/>
+        <text x="965" y="234" font-family="JetBrains Mono" font-size="9" fill="#6a6e74">2005</text>
+
+        <text x="225" y="257" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">biometric face</text>
+        <rect class="cs-bar" x="865" y="247" width="95" height="14" fill="url(#capBar)"/>
+        <text x="965" y="257" font-family="JetBrains Mono" font-size="9" fill="#6a6e74">2012</text>
+
+        <text x="225" y="280" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">cross-source linking</text>
+        <rect class="cs-bar" x="895" y="270" width="65" height="14" fill="url(#capBar)"/>
+        <text x="965" y="280" font-family="JetBrains Mono" font-size="9" fill="#6a6e74">2018</text>
+
+        <text x="225" y="303" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">AI inference at scale</text>
+        <rect class="cs-bar" x="935" y="293" width="25" height="14" fill="url(#capBar)"/>
+        <text x="965" y="303" font-family="JetBrains Mono" font-size="9" fill="#d97706" font-weight="bold">2024</text>
+
+        <!-- Bottom annotation -->
+        <text x="600" y="370" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#0f1419">twelve ways the state could observe you · all still running · all increasingly continuous</text>
+      </svg>
+      <div class="cs-foot">
+        <em>each row is a layer the state could add on top of the previous · the stack has grown taller and denser without subtraction</em>
+      </div>
+    </div>
+
+    <div class="body-text container-text reveal">
+      <p>Every row represents a capability that, once deployed at scale, has never been removed. They accumulate. Each new row sits on top of the prior twelve and the architecture compounds. <em>The stack only grows.</em></p>
+      <p>What follows is the rate at which both collectors — government and commercial — have grown alongside each other. The shape of the two trajectories is the entire editorial story.</p>
+    </div>
+
+    <!-- GROWTH CHART · two collectors compared -->
+    <div class="growth-chart reveal">
+      <h4>Two collectors. <em>Same century. Different trajectories.</em></h4>
+      <div class="subtitle">data collection capacity · 1900 → now · stylized · government grew first, commercial overtook, AI is closing the gap</div>
+      <svg viewBox="0 0 1000 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="civArea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4a3a5a" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#4a3a5a" stop-opacity="0.02"/>
+          </linearGradient>
+          <linearGradient id="commArea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#b87f1c" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#b87f1c" stop-opacity="0.02"/>
+          </linearGradient>
+        </defs>
+
+        <g stroke="#c4bfb0" stroke-width="0.4" opacity="0.6">
+          <line x1="60" y1="80" x2="940" y2="80"/>
+          <line x1="60" y1="160" x2="940" y2="160"/>
+          <line x1="60" y1="240" x2="940" y2="240"/>
+        </g>
+        <line x1="60" y1="300" x2="940" y2="300" stroke="#0f1419" stroke-width="0.6"/>
+
+        <path class="gc-area gc-area-comm" d="M 60,297 L 270,296 L 480,295 L 690,292 L 725,288 L 760,275 L 809,220 L 844,170 L 886,110 L 928,50 L 940,40 L 940,300 L 60,300 Z" fill="url(#commArea)"/>
+        <path class="gc-area gc-area-civ" d="M 60,280 L 151,265 L 235,258 L 305,240 L 445,215 L 578,200 L 662,190 L 767,160 L 830,140 L 900,110 L 928,80 L 940,60 L 940,300 L 60,300 Z" fill="url(#civArea)"/>
+
+        <path class="gc-line gc-line-civic" d="M 60,280 L 151,265 L 235,258 L 305,240 L 445,215 L 578,200 L 662,190 L 767,160 L 830,140 L 900,110 L 928,80 L 940,60" stroke="#4a3a5a" stroke-width="2.2" fill="none"/>
+        <path class="gc-line gc-line-comm" d="M 60,297 L 270,296 L 480,295 L 690,292 L 725,288 L 760,275 L 809,220 L 844,170 L 886,110 L 928,50 L 940,40" stroke="#b87f1c" stroke-width="2.2" fill="none"/>
+
+        <g font-family="JetBrains Mono" font-size="9" fill="#6a6e74" letter-spacing="1.5">
+          <text x="60" y="334" text-anchor="middle">1900</text>
+          <text x="235" y="334" text-anchor="middle">1925</text>
+          <text x="445" y="334" text-anchor="middle">1955</text>
+          <text x="662" y="334" text-anchor="middle">1985</text>
+          <text x="809" y="334" text-anchor="middle">2007</text>
+          <text x="900" y="334" text-anchor="middle">2020</text>
+          <text x="940" y="334" text-anchor="middle">now</text>
+        </g>
+
+        <g class="gc-anno gc-anno-1">
+          <circle cx="151" cy="265" r="3.5" fill="#4a3a5a"/>
+          <line x1="151" y1="262" x2="151" y2="240" stroke="#4a3a5a" stroke-width="0.5" stroke-dasharray="2,2"/>
+          <text x="151" y="232" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#4a3a5a" text-anchor="middle">1913 · IRS</text>
+
+          <circle cx="305" cy="240" r="3.5" fill="#4a3a5a"/>
+          <line x1="305" y1="237" x2="305" y2="220" stroke="#4a3a5a" stroke-width="0.5" stroke-dasharray="2,2"/>
+          <text x="305" y="212" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#4a3a5a" text-anchor="middle">1935 · Social Security</text>
+
+          <circle cx="767" cy="160" r="3.5" fill="#4a3a5a"/>
+          <line x1="767" y1="157" x2="767" y2="140" stroke="#4a3a5a" stroke-width="0.5" stroke-dasharray="2,2"/>
+          <text x="767" y="132" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#4a3a5a" text-anchor="middle">2001 · Patriot Act</text>
+
+          <circle class="gc-now-pulse" cx="928" cy="80" r="5" fill="#4a3a5a"/>
+          <text x="928" y="48" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#4a3a5a" text-anchor="end">2024 · AI catch-up</text>
+          <text x="928" y="64" font-family="JetBrains Mono" font-size="9" fill="#4a3a5a" text-anchor="end" letter-spacing="1">↑ ↑ ↑</text>
+        </g>
+
+        <g class="gc-anno gc-anno-3">
+          <circle cx="725" cy="288" r="3.5" fill="#b87f1c"/>
+          <text x="725" y="306" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#b87f1c" text-anchor="middle">1995 · web</text>
+
+          <circle cx="809" cy="220" r="3.5" fill="#b87f1c"/>
+          <text x="809" y="240" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#b87f1c" text-anchor="middle">2007 · mobile</text>
+
+          <circle cx="886" cy="110" r="3.5" fill="#b87f1c"/>
+          <text x="886" y="100" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#b87f1c" text-anchor="end">2018 · programmatic</text>
+        </g>
+
+        <g class="gc-anno gc-anno-5"><circle cx="820" cy="190" r="7" fill="none" stroke="#0f1419" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="820" y="178" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#0f1419" text-anchor="middle">~2012 · commercial overtakes civic</text></g>
+
+        <text x="44" y="84" font-family="JetBrains Mono" font-size="9" fill="#6a6e74" text-anchor="end">high</text>
+        <text x="44" y="304" font-family="JetBrains Mono" font-size="9" fill="#6a6e74" text-anchor="end">low</text>
+        <text x="34" y="200" font-family="JetBrains Mono" font-size="9" fill="#6a6e74" letter-spacing="1.5" text-anchor="middle" transform="rotate(-90 34,200)">records held · per citizen</text>
+
+        <text x="72" y="256" font-family="JetBrains Mono" font-size="10" fill="#4a3a5a" letter-spacing="1.5">CIVIC</text>
+        <text x="72" y="285" font-family="JetBrains Mono" font-size="10" fill="#b87f1c" letter-spacing="1.5">COMMERCIAL</text>
+      </svg>
+      <div class="growth-legend">
+        <span><span class="sw" style="background:#4a3a5a;"></span>civic · government data collection (census, IRS, SSA, federal records, surveillance)</span>
+        <span><span class="sw" style="background:#b87f1c;"></span>commercial · ad-tech, brokers, platforms, wearables</span>
+      </div>
+    </div>
+
+    <!-- HIDDEN REMAINDER OF OLD WEATHER WRAP (kept inert to preserve closer) -->
+    <div class="weather-wrap reveal" style="display:none;">
+      <div class="weather-head">
+        <h4>The persuasion industry, as a <em>pulse</em></h4>
+        <span>1925 → 2026 · density of touchpoints per voter per day</span>
+      </div>
+      <svg class="weather-svg" viewBox="0 0 1000 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="cloudWeather" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#8e8e94" stop-opacity="0.55"/>
+            <stop offset="60%" stop-color="#9a9aa0" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#9a9aa0" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="rainGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#2645c9" stop-opacity="0.65"/>
+            <stop offset="100%" stop-color="#2645c9" stop-opacity="0"/>
+          </linearGradient>
+          <filter id="pulseGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <!-- The pulse track · EKG-style with progressively denser beats -->
+          <path id="pulse-track" d="
+            M 40,150
+            L 100,150 L 105,146 L 110,154 L 115,150
+            L 200,150 L 205,142 L 210,158 L 215,150
+            L 290,150 L 295,138 L 300,162 L 305,150
+            L 365,150 L 368,126 L 372,174 L 376,150 L 380,144 L 384,156 L 388,150
+            L 430,150 L 433,118 L 437,182 L 441,150 L 445,138 L 449,162 L 453,150
+            L 490,150 L 493,108 L 497,192 L 501,150 L 505,134 L 509,166 L 513,150 L 517,142 L 521,158 L 525,150
+            L 560,150 L 563,96 L 567,204 L 571,150 L 575,128 L 579,172 L 583,150 L 587,140 L 591,160 L 595,150
+            L 625,150 L 628,82 L 632,218 L 636,150 L 640,118 L 644,182 L 648,150 L 652,136 L 656,164 L 660,150 L 664,142 L 668,158 L 672,150
+            L 700,150 L 703,70 L 707,230 L 711,150 L 715,108 L 719,192 L 723,150 L 727,130 L 731,170 L 735,150 L 739,138 L 743,162 L 747,150
+            L 770,150 L 773,58 L 777,242 L 781,150 L 785,96 L 789,204 L 793,150 L 797,124 L 801,176 L 805,150 L 809,134 L 813,166 L 817,150 L 821,142 L 825,158 L 829,150
+            L 850,150 L 853,46 L 857,254 L 861,150 L 865,86 L 869,214 L 873,150 L 877,116 L 881,184 L 885,150 L 889,128 L 893,172 L 897,150 L 901,138 L 905,162 L 909,150
+            L 925,150 L 928,38 L 932,262 L 936,150 L 940,78 L 944,222 L 948,150 L 952,108 L 956,192 L 960,150
+          "/>
+        </defs>
+
+        <!-- DRIFTING CLOUDS at top -->
+        <g>
+          <ellipse cx="200" cy="36" rx="120" ry="18" fill="url(#cloudWeather)">
+            <animate attributeName="cx" from="-180" to="1180" dur="45s" repeatCount="indefinite"/>
+          </ellipse>
+          <ellipse cx="500" cy="28" rx="160" ry="22" fill="url(#cloudWeather)">
+            <animate attributeName="cx" from="-220" to="1220" dur="62s" repeatCount="indefinite"/>
+          </ellipse>
+          <ellipse cx="800" cy="42" rx="100" ry="16" fill="url(#cloudWeather)">
+            <animate attributeName="cx" from="-150" to="1150" dur="55s" repeatCount="indefinite"/>
+          </ellipse>
+          <ellipse cx="350" cy="48" rx="80" ry="12" fill="url(#cloudWeather)" opacity="0.7">
+            <animate attributeName="cx" from="-100" to="1100" dur="38s" repeatCount="indefinite"/>
+          </ellipse>
+          <ellipse cx="650" cy="22" rx="110" ry="16" fill="url(#cloudWeather)" opacity="0.8">
+            <animate attributeName="cx" from="-150" to="1150" dur="72s" repeatCount="indefinite"/>
+          </ellipse>
+        </g>
+
+        <!-- Baseline reference line -->
+        <line x1="40" y1="150" x2="960" y2="150" stroke="#1a1c20" stroke-width="0.3" stroke-dasharray="2,3" opacity="0.3"/>
+
+        <!-- Faded historical pulse line -->
+        <use href="#pulse-track" stroke="#c14525" stroke-width="1" fill="none" opacity="0.32"/>
+
+        <!-- Traveling pulse cursor with glow halo -->
+        <circle r="16" fill="#c14525" opacity="0.18" filter="url(#pulseGlow)">
+          <animateMotion dur="14s" repeatCount="indefinite"><mpath href="#pulse-track"/></animateMotion>
+        </circle>
+        <circle r="8" fill="#c14525" opacity="0.45">
+          <animateMotion dur="14s" repeatCount="indefinite"><mpath href="#pulse-track"/></animateMotion>
+        </circle>
+        <circle r="3.5" fill="#fdf8ec" stroke="#c14525" stroke-width="2">
+          <animateMotion dur="14s" repeatCount="indefinite"><mpath href="#pulse-track"/></animateMotion>
+        </circle>
+
+        <!-- RAIN beneath · representing ad spend · denser as time progresses -->
+        <g opacity="0.85">
+          <!-- 1925-1968: light scattered rain -->
+          <line x1="120" x2="120" y1="190" y2="198" stroke="url(#rainGrad)" stroke-width="0.7"><animate attributeName="y1" values="190;280;190" dur="2.6s" repeatCount="indefinite"/><animate attributeName="y2" values="198;288;198" dur="2.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.5;0" dur="2.6s" repeatCount="indefinite"/></line>
+          <line x1="170" x2="170" y1="200" y2="208" stroke="url(#rainGrad)" stroke-width="0.7"><animate attributeName="y1" values="200;285;200" dur="2.8s" begin="0.4s" repeatCount="indefinite"/><animate attributeName="y2" values="208;293;208" dur="2.8s" begin="0.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.5;0" dur="2.8s" begin="0.4s" repeatCount="indefinite"/></line>
+          <line x1="230" x2="230" y1="195" y2="203" stroke="url(#rainGrad)" stroke-width="0.7"><animate attributeName="y1" values="195;282;195" dur="2.4s" begin="0.9s" repeatCount="indefinite"/><animate attributeName="y2" values="203;290;203" dur="2.4s" begin="0.9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.5;0" dur="2.4s" begin="0.9s" repeatCount="indefinite"/></line>
+          <line x1="280" x2="280" y1="200" y2="208" stroke="url(#rainGrad)" stroke-width="0.7"><animate attributeName="y1" values="200;285;200" dur="2.7s" begin="1.3s" repeatCount="indefinite"/><animate attributeName="y2" values="208;293;208" dur="2.7s" begin="1.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.5;0" dur="2.7s" begin="1.3s" repeatCount="indefinite"/></line>
+          <line x1="340" x2="340" y1="190" y2="198" stroke="url(#rainGrad)" stroke-width="0.8"><animate attributeName="y1" values="190;280;190" dur="2.3s" repeatCount="indefinite"/><animate attributeName="y2" values="198;288;198" dur="2.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.55;0" dur="2.3s" repeatCount="indefinite"/></line>
+
+          <!-- 1968-1996: medium rain -->
+          <line x1="390" x2="390" y1="195" y2="204" stroke="url(#rainGrad)" stroke-width="0.8"><animate attributeName="y1" values="195;285;195" dur="2.1s" begin="0.2s" repeatCount="indefinite"/><animate attributeName="y2" values="204;294;204" dur="2.1s" begin="0.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.6;0" dur="2.1s" begin="0.2s" repeatCount="indefinite"/></line>
+          <line x1="430" x2="430" y1="190" y2="200" stroke="url(#rainGrad)" stroke-width="0.8"><animate attributeName="y1" values="190;280;190" dur="2s" begin="0.6s" repeatCount="indefinite"/><animate attributeName="y2" values="200;290;200" dur="2s" begin="0.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.6;0" dur="2s" begin="0.6s" repeatCount="indefinite"/></line>
+          <line x1="470" x2="470" y1="195" y2="205" stroke="url(#rainGrad)" stroke-width="0.8"><animate attributeName="y1" values="195;285;195" dur="2.2s" begin="1.0s" repeatCount="indefinite"/><animate attributeName="y2" values="205;295;205" dur="2.2s" begin="1.0s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.6;0" dur="2.2s" begin="1.0s" repeatCount="indefinite"/></line>
+          <line x1="510" x2="510" y1="190" y2="200" stroke="url(#rainGrad)" stroke-width="0.8"><animate attributeName="y1" values="190;280;190" dur="1.9s" begin="1.4s" repeatCount="indefinite"/><animate attributeName="y2" values="200;290;200" dur="1.9s" begin="1.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.6;0" dur="1.9s" begin="1.4s" repeatCount="indefinite"/></line>
+          <line x1="550" x2="550" y1="195" y2="205" stroke="url(#rainGrad)" stroke-width="0.8"><animate attributeName="y1" values="195;285;195" dur="2.0s" begin="0.5s" repeatCount="indefinite"/><animate attributeName="y2" values="205;295;205" dur="2.0s" begin="0.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.6;0" dur="2.0s" begin="0.5s" repeatCount="indefinite"/></line>
+          <line x1="590" x2="590" y1="190" y2="200" stroke="url(#rainGrad)" stroke-width="0.8"><animate attributeName="y1" values="190;280;190" dur="2.1s" begin="0.8s" repeatCount="indefinite"/><animate attributeName="y2" values="200;290;200" dur="2.1s" begin="0.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.6;0" dur="2.1s" begin="0.8s" repeatCount="indefinite"/></line>
+
+          <!-- 1996-2024: heavy rain -->
+          <line x1="630" x2="630" y1="190" y2="200" stroke="url(#rainGrad)" stroke-width="0.9"><animate attributeName="y1" values="190;285;190" dur="1.7s" repeatCount="indefinite"/><animate attributeName="y2" values="200;295;200" dur="1.7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="1.7s" repeatCount="indefinite"/></line>
+          <line x1="660" x2="660" y1="195" y2="205" stroke="url(#rainGrad)" stroke-width="0.9"><animate attributeName="y1" values="195;290;195" dur="1.8s" begin="0.3s" repeatCount="indefinite"/><animate attributeName="y2" values="205;300;205" dur="1.8s" begin="0.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="1.8s" begin="0.3s" repeatCount="indefinite"/></line>
+          <line x1="690" x2="690" y1="190" y2="200" stroke="url(#rainGrad)" stroke-width="0.9"><animate attributeName="y1" values="190;285;190" dur="1.5s" begin="0.7s" repeatCount="indefinite"/><animate attributeName="y2" values="200;295;200" dur="1.5s" begin="0.7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="1.5s" begin="0.7s" repeatCount="indefinite"/></line>
+          <line x1="720" x2="720" y1="195" y2="205" stroke="url(#rainGrad)" stroke-width="0.9"><animate attributeName="y1" values="195;290;195" dur="1.6s" begin="1.0s" repeatCount="indefinite"/><animate attributeName="y2" values="205;300;205" dur="1.6s" begin="1.0s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="1.6s" begin="1.0s" repeatCount="indefinite"/></line>
+          <line x1="750" x2="750" y1="190" y2="200" stroke="url(#rainGrad)" stroke-width="0.9"><animate attributeName="y1" values="190;285;190" dur="1.4s" begin="0.4s" repeatCount="indefinite"/><animate attributeName="y2" values="200;295;200" dur="1.4s" begin="0.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="1.4s" begin="0.4s" repeatCount="indefinite"/></line>
+          <line x1="780" x2="780" y1="195" y2="205" stroke="url(#rainGrad)" stroke-width="0.9"><animate attributeName="y1" values="195;290;195" dur="1.5s" begin="0.8s" repeatCount="indefinite"/><animate attributeName="y2" values="205;300;205" dur="1.5s" begin="0.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="1.5s" begin="0.8s" repeatCount="indefinite"/></line>
+          <line x1="810" x2="810" y1="190" y2="200" stroke="url(#rainGrad)" stroke-width="0.9"><animate attributeName="y1" values="190;285;190" dur="1.6s" begin="0.2s" repeatCount="indefinite"/><animate attributeName="y2" values="200;295;200" dur="1.6s" begin="0.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="1.6s" begin="0.2s" repeatCount="indefinite"/></line>
+          <line x1="840" x2="840" y1="195" y2="205" stroke="url(#rainGrad)" stroke-width="0.9"><animate attributeName="y1" values="195;290;195" dur="1.3s" begin="0.6s" repeatCount="indefinite"/><animate attributeName="y2" values="205;300;205" dur="1.3s" begin="0.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="1.3s" begin="0.6s" repeatCount="indefinite"/></line>
+          <line x1="870" x2="870" y1="190" y2="200" stroke="url(#rainGrad)" stroke-width="0.9"><animate attributeName="y1" values="190;285;190" dur="1.4s" begin="0.9s" repeatCount="indefinite"/><animate attributeName="y2" values="200;295;200" dur="1.4s" begin="0.9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="1.4s" begin="0.9s" repeatCount="indefinite"/></line>
+          <line x1="900" x2="900" y1="195" y2="205" stroke="url(#rainGrad)" stroke-width="0.9"><animate attributeName="y1" values="195;290;195" dur="1.5s" begin="0.1s" repeatCount="indefinite"/><animate attributeName="y2" values="205;300;205" dur="1.5s" begin="0.1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="1.5s" begin="0.1s" repeatCount="indefinite"/></line>
+          <line x1="930" x2="930" y1="190" y2="200" stroke="url(#rainGrad)" stroke-width="0.9"><animate attributeName="y1" values="190;285;190" dur="1.3s" begin="0.5s" repeatCount="indefinite"/><animate attributeName="y2" values="200;295;200" dur="1.3s" begin="0.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.7;0" dur="1.3s" begin="0.5s" repeatCount="indefinite"/></line>
+        </g>
+
+        <!-- Era markers -->
+        <g font-family="JetBrains Mono" font-size="9" fill="#6e6e6e" letter-spacing="1.5">
+          <line x1="100" y1="298" x2="100" y2="304" stroke="#1a1c20"/><text x="100" y="316" text-anchor="middle">1925</text>
+          <line x1="240" y1="298" x2="240" y2="304" stroke="#1a1c20"/><text x="240" y="316" text-anchor="middle">1956</text>
+          <line x1="340" y1="298" x2="340" y2="304" stroke="#1a1c20"/><text x="340" y="316" text-anchor="middle">1968</text>
+          <line x1="470" y1="298" x2="470" y2="304" stroke="#1a1c20"/><text x="470" y="316" text-anchor="middle">1984</text>
+          <line x1="580" y1="298" x2="580" y2="304" stroke="#1a1c20"/><text x="580" y="316" text-anchor="middle">1996</text>
+          <line x1="700" y1="298" x2="700" y2="304" stroke="#1a1c20"/><text x="700" y="316" text-anchor="middle">2008</text>
+          <line x1="820" y1="298" x2="820" y2="304" stroke="#1a1c20"/><text x="820" y="316" text-anchor="middle">2016</text>
+          <line x1="950" y1="298" x2="950" y2="304" stroke="#1a1c20"/><text x="950" y="316" text-anchor="middle">2024</text>
+        </g>
+
+        <!-- Annotation: 2016 inflection -->
+        <g font-family="Cormorant Garamond" font-size="13" font-style="italic" fill="#1a1c20">
+          <line x1="820" y1="100" x2="820" y2="130" stroke="#c14525" stroke-width="1" stroke-dasharray="2,2"/>
+          <circle cx="820" cy="130" r="3" fill="#c14525"/>
+          <text x="710" y="86">microtargeting industrializes</text>
+          <text x="710" y="100" font-size="10" fill="#6e6e6e" font-family="JetBrains Mono" font-style="normal" letter-spacing="1">2016 · the inflection</text>
+        </g>
+        <!-- Annotation: 2024 affective layer -->
+        <g font-family="Cormorant Garamond" font-size="13" font-style="italic" fill="#1a1c20">
+          <line x1="930" y1="76" x2="930" y2="100" stroke="#c14525" stroke-width="1" stroke-dasharray="2,2"/>
+          <circle cx="930" cy="76" r="3" fill="#c14525"/>
+          <text x="790" y="68">wearables · the affective layer</text>
+          <text x="790" y="80" font-size="10" fill="#6e6e6e" font-family="JetBrains Mono" font-style="normal" letter-spacing="1">2024 → now</text>
+        </g>
+
+        <!-- Axis labels -->
+        <text x="20" y="160" font-family="JetBrains Mono" font-size="9" fill="#6e6e6e" letter-spacing="1" transform="rotate(-90 20,160)" text-anchor="middle">touchpoints / day</text>
+        <text x="950" y="14" font-family="JetBrains Mono" font-size="9" fill="#2645c9" text-anchor="end" letter-spacing="1">US AD SPEND · $430B / yr (rainfall)</text>
+        <text x="40" y="320" font-family="JetBrains Mono" font-size="9" fill="#2645c9" letter-spacing="1">$1.5B / yr</text>
+      </svg>
+      <div class="weather-legend">
+        <span><span class="swatch" style="background:#c14525;"></span>persuasion pulse · touchpoints per voter per day</span>
+        <span><span class="swatch" style="background:#2645c9; opacity:0.5;"></span>underlying US advertising spend</span>
+      </div>
+    </div>
+
+    <div class="pressure-grid">
+      <div class="body-text reveal">
+        <p>The line is the funded surface of every fragment of advertising you have ever seen. It runs flat for decades. Then television arrives. Then cable. Then the open web. Then social. Then microtargeting. Then the wearables.</p>
+        <p>The shape is not an accident. Each capability layer compounds the last. The system is not louder in 2026 than it was in 1956. It is <em>more precise.</em></p>
+      </div>
+      <div class="pressure-pull reveal">
+        Until the system could see your mood, persuasion was a guess. Once it could see your mood, it became <em>arithmetic</em>. And arithmetic compounds.
+      </div>
+    </div>
+
+    <div class="weather-closer reveal">
+      <div class="text">So — is the system still an <em>event</em> you could point to?<br/>Or has it quietly become <em>infrastructure</em>: always on, rarely noticed?</div>
+    </div>
+
+    <div class="section-bridge container-text">
+      <span>section 02 of 06 · the acceleration · what became possible when</span>
+      <span class="next">Section 03 · The convergence</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S05 · THE CONVERGENCE · TWO MACHINES, ONE ROOM ============ -->
+<section id="s04" class="s05-bridge">
+  <div class="container-text">
+    <div class="section-meta">S 03 · The convergence</div>
+    <h2 class="section-title reveal">Two machines. <em>One room.</em></h2>
+    <p class="section-lede reveal">Everything you've read so far has been one machine — the <em>commercial</em> one. There is a second machine, growing alongside it for decades, that collects you under entirely different rules. Until very recently the two lived in different rooms. The hyperscale era put them in the same room — and put an AI inside that can read both.</p>
+  </div>
+
+  <div class="container">
+    <div class="body-text container-text reveal">
+      <p>While the commercial machine has been industrializing for a century, another machine has been growing alongside it — quieter, less visible, no less complete. <em>The state collects you too.</em></p>
+      <p>It collects a different set of data, for a different purpose, under different rules. But it collects continuously and — under the right legal authority — connectably.</p>
+    </div>
+
+
+    <!-- COMPOSITE ASSEMBLY · SCROLLYTELLING -->
+    <div class="composite-scrolly">
+      <p class="ca-intro">Before the analytics, watch it happen. Scroll, and you assemble.</p>
+      <div class="ca-intro-sub">composite assembly · scroll to build · ochre = commercial · plum = civic · amber = the bridge</div>
+      <div class="ca-layout">
+        <div class="ca-graphic-wrap">
+          <svg class="ca-graphic beat-1" viewBox="0 0 520 540" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="caGlow" cx="50%" cy="50%" r="52%">
+                <stop offset="0%" stop-color="#d97706" stop-opacity="0.42"/>
+                <stop offset="55%" stop-color="#d97706" stop-opacity="0.1"/>
+                <stop offset="100%" stop-color="#d97706" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="caScanGrad" cx="0%" cy="50%" r="100%">
+                <stop offset="0%" stop-color="#d97706" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#d97706" stop-opacity="0"/>
+              </radialGradient>
+              <clipPath id="caInnerClip"><circle cx="260" cy="260" r="118"/></clipPath>
+            </defs>
+
+            <!-- Composite glow (beat 5) -->
+            <circle class="ca-glow" cx="260" cy="260" r="220" fill="url(#caGlow)"/>
+
+            <!-- Outer ring guide -->
+            <circle class="ca-ring" cx="260" cy="260" r="160" fill="none" stroke="#c4bfb0" stroke-width="1"/>
+            <circle class="ca-ring" cx="260" cy="260" r="120" fill="none" stroke="#c4bfb0" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.6"/>
+
+            <!-- LIQUID FILL · inner circle fills per half · JS animates height (rises from bottom) -->
+            <g clip-path="url(#caInnerClip)">
+              <rect id="caFillComm" x="142" y="378" width="118" height="0" fill="#b87f1c"/>
+              <rect id="caFillCiv"  x="260" y="378" width="118" height="0" fill="#4a3a5a"/>
+            </g>
+
+            <!-- OUTER RING FILL · amber band · JS fades it in (beat 4) -->
+            <circle class="ca-outer-fill" cx="260" cy="260" r="139" fill="none" stroke="#d97706" stroke-width="40" opacity="0"/>
+
+            <!-- Dividing line between the two halves (dissolves beat 5) -->
+            <line class="ca-divider" x1="260" y1="78" x2="260" y2="442" stroke="#6a6e74" stroke-width="1" stroke-dasharray="4,4"/>
+
+            <!-- Commercial half-web (beat 2): chain + spokes to centre -->
+            <g class="ca-comm-web">
+              <polyline points="219,105 147,147 105,219 105,301 147,373 219,415" fill="none" stroke="#b87f1c" stroke-width="0.8" opacity="0.5"/>
+              <line x1="219" y1="105" x2="260" y2="260" stroke="#b87f1c" stroke-width="0.5" opacity="0.35"/>
+              <line x1="147" y1="147" x2="260" y2="260" stroke="#b87f1c" stroke-width="0.5" opacity="0.35"/>
+              <line x1="105" y1="219" x2="260" y2="260" stroke="#b87f1c" stroke-width="0.5" opacity="0.35"/>
+              <line x1="105" y1="301" x2="260" y2="260" stroke="#b87f1c" stroke-width="0.5" opacity="0.35"/>
+              <line x1="147" y1="373" x2="260" y2="260" stroke="#b87f1c" stroke-width="0.5" opacity="0.35"/>
+              <line x1="219" y1="415" x2="260" y2="260" stroke="#b87f1c" stroke-width="0.5" opacity="0.35"/>
+            </g>
+
+            <!-- Civic half-web (beat 3) -->
+            <g class="ca-civ-web">
+              <polyline points="301,105 373,147 415,219 415,301 373,373 301,415" fill="none" stroke="#4a3a5a" stroke-width="0.8" opacity="0.5"/>
+              <line x1="301" y1="105" x2="260" y2="260" stroke="#4a3a5a" stroke-width="0.5" opacity="0.35"/>
+              <line x1="373" y1="147" x2="260" y2="260" stroke="#4a3a5a" stroke-width="0.5" opacity="0.35"/>
+              <line x1="415" y1="219" x2="260" y2="260" stroke="#4a3a5a" stroke-width="0.5" opacity="0.35"/>
+              <line x1="415" y1="301" x2="260" y2="260" stroke="#4a3a5a" stroke-width="0.5" opacity="0.35"/>
+              <line x1="373" y1="373" x2="260" y2="260" stroke="#4a3a5a" stroke-width="0.5" opacity="0.35"/>
+              <line x1="301" y1="415" x2="260" y2="260" stroke="#4a3a5a" stroke-width="0.5" opacity="0.35"/>
+            </g>
+
+            <!-- Cross-web (beat 5): commercial node <-> civic counterpart across centre -->
+            <g class="ca-cross-web">
+              <line class="ca-cross" x1="219" y1="105" x2="301" y2="105" stroke="#d97706" stroke-width="0.7"/>
+              <line class="ca-cross" x1="147" y1="147" x2="373" y2="147" stroke="#d97706" stroke-width="0.7"/>
+              <line class="ca-cross" x1="105" y1="219" x2="415" y2="219" stroke="#d97706" stroke-width="0.7"/>
+              <line class="ca-cross" x1="105" y1="301" x2="415" y2="301" stroke="#d97706" stroke-width="0.7"/>
+              <line class="ca-cross" x1="147" y1="373" x2="373" y2="373" stroke="#d97706" stroke-width="0.7"/>
+              <line class="ca-cross" x1="219" y1="415" x2="301" y2="415" stroke="#d97706" stroke-width="0.7"/>
+            </g>
+
+            <!-- AI radar scan sweep (beat 4-5) -->
+            <g class="ca-scan">
+              <path class="ca-scan-sweep" d="M 260,260 L 260,100 A 160,160 0 0,1 340,121 Z" fill="url(#caScanGrad)"/>
+              <!-- "not fully realised" : incomplete dashed coverage arc -->
+              <path class="ca-scan-arc" d="M 260,100 A 160,160 0 1,1 159,138" fill="none" stroke="#d97706" stroke-width="1" stroke-dasharray="3,6" opacity="0.7"/>
+            </g>
+
+            <!-- AI centre core (beat 4-5) -->
+            <circle class="ca-aicore" cx="260" cy="260" r="15" fill="#d97706"/>
+            <text class="ca-aicore ca-ptlabel" x="260" y="264" text-anchor="middle" fill="#0f1419" style="font-weight:bold;font-size:8px;">AI</text>
+
+            <!-- Commercial nodes (beat 2) -->
+            <g class="ca-commercial">
+              <g class="ca-cpt"><circle cx="219" cy="105" r="6" fill="#b87f1c"/><text class="ca-ptlabel" x="207" y="109" text-anchor="end" fill="#b87f1c">purchases</text></g>
+              <g class="ca-cpt"><circle cx="147" cy="147" r="6" fill="#b87f1c"/><text class="ca-ptlabel" x="135" y="151" text-anchor="end" fill="#b87f1c">location</text></g>
+              <g class="ca-cpt"><circle cx="105" cy="219" r="6" fill="#b87f1c"/><text class="ca-ptlabel" x="93" y="223" text-anchor="end" fill="#b87f1c">browsing</text></g>
+              <g class="ca-cpt"><circle cx="105" cy="301" r="6" fill="#b87f1c"/><text class="ca-ptlabel" x="93" y="305" text-anchor="end" fill="#b87f1c">social</text></g>
+              <g class="ca-cpt"><circle cx="147" cy="373" r="6" fill="#b87f1c"/><text class="ca-ptlabel" x="135" y="377" text-anchor="end" fill="#b87f1c">mood</text></g>
+              <g class="ca-cpt"><circle cx="219" cy="415" r="6" fill="#b87f1c"/><text class="ca-ptlabel" x="207" y="419" text-anchor="end" fill="#b87f1c">wearable</text></g>
+            </g>
+
+            <!-- Civic nodes (beat 3) -->
+            <g class="ca-civic">
+              <g class="ca-vpt"><circle cx="301" cy="105" r="6" fill="#4a3a5a"/><text class="ca-ptlabel" x="313" y="109" fill="#4a3a5a">IRS</text></g>
+              <g class="ca-vpt"><circle cx="373" cy="147" r="6" fill="#4a3a5a"/><text class="ca-ptlabel" x="385" y="151" fill="#4a3a5a">DMV</text></g>
+              <g class="ca-vpt"><circle cx="415" cy="219" r="6" fill="#4a3a5a"/><text class="ca-ptlabel" x="427" y="223" fill="#4a3a5a">court</text></g>
+              <g class="ca-vpt"><circle cx="415" cy="301" r="6" fill="#4a3a5a"/><text class="ca-ptlabel" x="427" y="305" fill="#4a3a5a">benefits</text></g>
+              <g class="ca-vpt"><circle cx="373" cy="373" r="6" fill="#4a3a5a"/><text class="ca-ptlabel" x="385" y="377" fill="#4a3a5a">voter roll</text></g>
+              <g class="ca-vpt"><circle cx="301" cy="415" r="6" fill="#4a3a5a"/><text class="ca-ptlabel" x="313" y="419" fill="#4a3a5a">surveillance</text></g>
+            </g>
+
+            <!-- CONVERGENCE BLEND · everything resolves into one new color (beat 5) -->
+            <g class="ca-converged">
+              <circle cx="260" cy="260" r="159" fill="#2f6650"/>
+              <circle cx="260" cy="260" r="118" fill="#27543f"/>
+              <circle cx="260" cy="260" r="14" fill="#f4f3ed" opacity="0.94"/>
+              <text x="260" y="264" text-anchor="middle" fill="#27543f" style="font-family:'JetBrains Mono';font-weight:bold;font-size:8px;">ONE</text>
+            </g>
+
+            <!-- Half labels -->
+            <text class="ca-half-comm ca-ptlabel" x="105" y="490" text-anchor="middle" fill="#b87f1c" style="letter-spacing:0.18em;">COMMERCIAL HALF</text>
+            <text class="ca-half-civ ca-ptlabel" x="415" y="490" text-anchor="middle" fill="#4a3a5a" style="letter-spacing:0.18em;">CIVIC HALF</text>
+            <text class="ca-scan-note ca-ptlabel" x="260" y="510" text-anchor="middle" fill="#d97706" style="letter-spacing:0.12em;">SCAN COVERAGE · EMERGING · ~2024 · NOT YET FULL</text>
+          </svg>
+        </div>
+
+        <div class="ca-steps">
+          <div class="ca-step" data-beat="1">
+            <div class="beat-num">01 · the frame</div>
+            <div class="beat-text">This is your profile. <em>Unbuilt.</em></div>
+            <div class="beat-sub">An empty frame, split down the middle. Two machines are about to fill it — each building a different half of you. Scroll, and watch them work.</div>
+          </div>
+          <div class="ca-step" data-beat="2">
+            <div class="beat-num">02 · the commercial half</div>
+            <div class="beat-text">The <em>commercial</em> machine builds one half.</div>
+            <div class="beat-sub"><span class="comm">purchases · location · browsing · social · mood · wearable</span> — one half of you, assembled to be sold to. The broker composite from Episode 02 pours into the left half like ink into water.</div>
+          </div>
+          <div class="ca-step" data-beat="3">
+            <div class="beat-num">03 · the civic half</div>
+            <div class="beat-text">The <em>civic</em> machine builds the other half.</div>
+            <div class="beat-sub"><span class="civ">IRS · DMV · court · benefits · voter roll · surveillance</span> — the other half, assembled to be governed. Different data, different purpose, pouring into the right half.</div>
+          </div>
+          <div class="ca-step" data-beat="4">
+            <div class="beat-num">04 · the scan</div>
+            <div class="beat-text">Now the AI <em>scans</em> the whole.</div>
+            <div class="beat-sub">This is new — only a few years old, the coverage still <span class="ai">emerging, not yet fully realized</span>. A third color floods the outer ring, the dividing lines fall away, and a single scan begins reading across both halves at once — what no human ever assembled.</div>
+          </div>
+          <div class="ca-step" data-beat="5">
+            <div class="beat-num">05 · convergence</div>
+            <div class="beat-text">The colors <em>blend into one.</em></div>
+            <div class="beat-sub">Ochre, plum and amber resolve into a single new color — a state that did not exist at the start. The empty frame is now a filled circle. Two machines, one scan, one answer. This is you, whole — to a system that until recently could only ever see you in pieces.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TWO MACHINES · side-by-side -->
+    <div class="two-machines reveal">
+      <div class="machine machine-commercial">
+        <div class="machine-lbl">— Commercial</div>
+        <div class="machine-want">prediction.</div>
+        <div class="machine-question">"what will move you?"</div>
+        <ul class="machine-data">
+          <li>purchase history <span class="tag">broker</span></li>
+          <li>browsing patterns <span class="tag">cookies/SDK</span></li>
+          <li>location pings <span class="tag">app</span></li>
+          <li>social graph <span class="tag">platform</span></li>
+          <li>inferred income <span class="tag">modeled</span></li>
+          <li>engagement signals <span class="tag">platform</span></li>
+          <li>wearable telemetry <span class="tag">opt-in</span></li>
+          <li>inferred mood <span class="tag">modeled</span></li>
+        </ul>
+        <div class="machine-rules">→ governed by terms-of-service · weakly enforced · commercial discretion</div>
+      </div>
+
+      <div class="machine machine-civic">
+        <div class="machine-lbl">— Civic</div>
+        <div class="machine-want">authority.</div>
+        <div class="machine-question">"what are you, legally?"</div>
+        <ul class="machine-data">
+          <li>tax filings <span class="tag">IRS</span></li>
+          <li>court records <span class="tag">PACER · state</span></li>
+          <li>DMV / license <span class="tag">state</span></li>
+          <li>property deeds <span class="tag">county</span></li>
+          <li>benefits enrollment <span class="tag">agency</span></li>
+          <li>voter registration <span class="tag">state · SoS</span></li>
+          <li>traffic / ALPR <span class="tag">municipal · state</span></li>
+          <li>surveillance footage <span class="tag">MPD · transit</span></li>
+          <li>body camera archives <span class="tag">law enforcement</span></li>
+          <li>intelligence records <span class="tag">federal</span></li>
+        </ul>
+        <div class="machine-rules">→ governed by statute · subpoena · FOIA · no opt-out</div>
+      </div>
+    </div>
+
+    <!-- POWER PULLQUOTE -->
+    <div class="power-pull reveal">
+      <p>If <strong>knowledge is power</strong>, this is a power dynamic worth naming. Two collectors. Both have been accumulating knowledge of you for a century. The public conversation has focused almost entirely on one of them.</p>
+      <p>The other has been growing quietly the entire time — and is now in a position to use the <em>same hyperscale infrastructure</em> to catch up.</p>
+      <p>The absence of comprehensive U.S. privacy regulation has often been read as <em>oversight</em>. It may also be read as <em>strategic delay</em>: a regulator does not constrain capabilities they themselves expect to use.</p>
+    </div>
+
+    <div class="body-text container-text reveal">
+      <p>The commercial machine wants to <em>predict</em> you so it can sell to you, target you, persuade you. The civic machine wants to <em>fix</em> you — in the sense of <em>fix in place</em>: identify you, tax you, license you, enforce against you, deliver benefits to you, hold you accountable to a record. Different verbs. Different rooms.</p>
+      <p>For most of their history, these two pools lived in <em>different infrastructure</em>. Different vendors. Different storage. Different access patterns. The integrator that could read across both was either technically impossible or so legally and operationally expensive that no one attempted it at scale. <strong>The friction of integration was its own informal protection.</strong></p>
+      <p>That changed in the hyperscale era.</p>
+    </div>
+
+    <!-- CONVERGENCE SCHEMATIC -->
+    <div class="convergence-viz reveal">
+      <svg viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="blueprintGrid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(15,20,25,0.06)" stroke-width="0.5"/>
+          </pattern>
+          <pattern id="blueprintMajor" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+            <path d="M 200 0 L 0 0 0 200" fill="none" stroke="rgba(15,20,25,0.12)" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+
+        <!-- Blueprint background grid -->
+        <rect width="1000" height="380" fill="url(#blueprintGrid)"/>
+        <rect width="1000" height="380" fill="url(#blueprintMajor)"/>
+
+        <!-- Title bar -->
+        <text x="500" y="28" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#6a6e74" letter-spacing="4">HYPERSCALE FACILITY · ARCHITECTURAL ELEVATION · SCALE 1:N/A</text>
+
+        <!-- AI INFERENCE LAYER (top band) -->
+        <rect x="160" y="50" width="680" height="44" fill="rgba(217,119,6,0.14)" stroke="#d97706" stroke-width="1.2"/>
+        <text x="500" y="78" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-weight="500" font-size="22" fill="#d97706">AI inference layer</text>
+        <text x="500" y="92" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#a76a14" letter-spacing="2.5">READS ACROSS BOTH PARTITIONS · single query interface</text>
+
+        <!-- Connection arrows from AI down to both sides -->
+        <line x1="320" y1="94" x2="320" y2="120" stroke="#d97706" stroke-width="1.2"/>
+        <polyline points="316,114 320,120 324,114" fill="none" stroke="#d97706" stroke-width="1.2"/>
+        <line x1="680" y1="94" x2="680" y2="120" stroke="#d97706" stroke-width="1.2"/>
+        <polyline points="676,114 680,120 684,114" fill="none" stroke="#d97706" stroke-width="1.2"/>
+
+        <!-- DATA CENTER BUILDING ENVELOPE -->
+        <rect x="160" y="120" width="680" height="200" fill="rgba(244,243,237,0.6)" stroke="#0f1419" stroke-width="1.5"/>
+        <line x1="160" y1="120" x2="840" y2="120" stroke="#0f1419" stroke-width="2"/>
+
+        <!-- Center partition wall (dashed) -->
+        <line x1="500" y1="120" x2="500" y2="320" stroke="#6a6e74" stroke-width="1" stroke-dasharray="4,3"/>
+
+        <!-- LEFT PARTITION · COMMERCIAL -->
+        <text x="180" y="146" font-family="JetBrains Mono" font-size="10" fill="#b87f1c" letter-spacing="2.5" font-weight="bold">▸ COMMERCIAL PARTITION</text>
+        <text x="180" y="162" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#2d3138">AWS Commercial · Azure Public · Google Cloud</text>
+
+        <!-- Commercial server rack rows -->
+        <g stroke="rgba(184,127,28,0.7)" stroke-width="0.8">
+          <line x1="180" y1="184" x2="480" y2="184"/>
+          <line x1="180" y1="200" x2="480" y2="200"/>
+          <line x1="180" y1="216" x2="480" y2="216"/>
+          <line x1="180" y1="232" x2="480" y2="232"/>
+          <line x1="180" y1="248" x2="480" y2="248"/>
+          <line x1="180" y1="264" x2="480" y2="264"/>
+          <line x1="180" y1="280" x2="480" y2="280"/>
+          <line x1="180" y1="296" x2="480" y2="296"/>
+        </g>
+        <text x="180" y="178" font-family="JetBrains Mono" font-size="8" fill="#b87f1c" letter-spacing="1">RACK 1A — broker composites · ad-tech · CRM · wearable</text>
+
+        <!-- RIGHT PARTITION · CIVIC -->
+        <text x="820" y="146" text-anchor="end" font-family="JetBrains Mono" font-size="10" fill="#4a3a5a" letter-spacing="2.5" font-weight="bold">CIVIC PARTITION ◂</text>
+        <text x="820" y="162" text-anchor="end" font-family="Cormorant Garamond" font-style="italic" font-size="13" fill="#2d3138">AWS GovCloud · Azure Government · accredited</text>
+
+        <!-- Civic server rack rows -->
+        <g stroke="rgba(74,58,90,0.55)" stroke-width="0.7">
+          <line x1="520" y1="184" x2="820" y2="184"/>
+          <line x1="520" y1="200" x2="820" y2="200"/>
+          <line x1="520" y1="216" x2="820" y2="216"/>
+          <line x1="520" y1="232" x2="820" y2="232"/>
+          <line x1="520" y1="248" x2="820" y2="248"/>
+          <line x1="520" y1="264" x2="820" y2="264"/>
+          <line x1="520" y1="280" x2="820" y2="280"/>
+          <line x1="520" y1="296" x2="820" y2="296"/>
+        </g>
+        <text x="820" y="178" text-anchor="end" font-family="JetBrains Mono" font-size="8" fill="#4a3a5a" letter-spacing="1">RACK 2A — IRS · DMV · court · benefits · surveillance archive</text>
+
+        <!-- INFRASTRUCTURE LAYER (below) -->
+        <line x1="160" y1="320" x2="840" y2="320" stroke="#0f1419" stroke-width="1.5"/>
+        <text x="500" y="338" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#6a6e74" letter-spacing="2">SHARED INFRASTRUCTURE · power · cooling · fiber · the building</text>
+
+        <!-- Inputs · LEFT -->
+        <text x="40" y="180" font-family="JetBrains Mono" font-size="9" fill="#6a6e74" letter-spacing="1">commercial</text>
+        <text x="40" y="192" font-family="JetBrains Mono" font-size="9" fill="#6a6e74" letter-spacing="1">data inputs</text>
+        <line x1="40" y1="200" x2="160" y2="200" stroke="#6a6e74" stroke-width="0.8"/>
+        <polyline points="154,196 160,200 154,204" fill="none" stroke="#6a6e74" stroke-width="0.8"/>
+
+        <!-- RIGHT -->
+        <text x="960" y="180" text-anchor="end" font-family="JetBrains Mono" font-size="9" fill="#6a6e74" letter-spacing="1">civic</text>
+        <text x="960" y="192" text-anchor="end" font-family="JetBrains Mono" font-size="9" fill="#6a6e74" letter-spacing="1">data inputs</text>
+        <line x1="840" y1="200" x2="960" y2="200" stroke="#6a6e74" stroke-width="0.8"/>
+        <polyline points="846,196 840,200 846,204" fill="none" stroke="#6a6e74" stroke-width="0.8"/>
+
+        <!-- OUTPUT · unified composite -->
+        <text x="500" y="365" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="15" fill="#d97706" font-weight="500">→ unified composite · single query · single answer</text>
+
+        <!-- Callout: same room indication -->
+        <g>
+          <rect class="cv-ants" x="160" y="120" width="680" height="200" fill="none" stroke="rgba(217,119,6,0.65)" stroke-width="2" stroke-dasharray="6,4"/>
+          <text x="846" y="116" font-family="Cormorant Garamond" font-style="italic" font-size="12" fill="#d97706">⌐ same building</text>
+        </g>
+
+        <!-- (M6) SERVER RACK LED ACTIVITY · randomized blinks across both partitions -->
+        <g>
+          <circle class="cv-led" cx="220" cy="184" r="1.8" fill="#b87f1c" style="animation-delay: 0s"/>
+          <circle class="cv-led" cx="280" cy="200" r="1.8" fill="#b87f1c" style="animation-delay: 0.5s"/>
+          <circle class="cv-led" cx="360" cy="216" r="1.8" fill="#b87f1c" style="animation-delay: 1.1s"/>
+          <circle class="cv-led" cx="320" cy="232" r="1.8" fill="#b87f1c" style="animation-delay: 1.6s"/>
+          <circle class="cv-led" cx="420" cy="248" r="1.8" fill="#b87f1c" style="animation-delay: 2.0s"/>
+          <circle class="cv-led" cx="240" cy="264" r="1.8" fill="#b87f1c" style="animation-delay: 0.3s"/>
+          <circle class="cv-led" cx="380" cy="280" r="1.8" fill="#b87f1c" style="animation-delay: 1.8s"/>
+          <circle class="cv-led" cx="300" cy="296" r="1.8" fill="#b87f1c" style="animation-delay: 0.9s"/>
+
+          <circle class="cv-led" cx="560" cy="184" r="1.8" fill="#4a3a5a" style="animation-delay: 0.2s"/>
+          <circle class="cv-led" cx="640" cy="200" r="1.8" fill="#4a3a5a" style="animation-delay: 1.3s"/>
+          <circle class="cv-led" cx="720" cy="216" r="1.8" fill="#4a3a5a" style="animation-delay: 0.7s"/>
+          <circle class="cv-led" cx="580" cy="232" r="1.8" fill="#4a3a5a" style="animation-delay: 2.4s"/>
+          <circle class="cv-led" cx="680" cy="248" r="1.8" fill="#4a3a5a" style="animation-delay: 1.0s"/>
+          <circle class="cv-led" cx="780" cy="264" r="1.8" fill="#4a3a5a" style="animation-delay: 0.4s"/>
+          <circle class="cv-led" cx="620" cy="280" r="1.8" fill="#4a3a5a" style="animation-delay: 1.7s"/>
+          <circle class="cv-led" cx="740" cy="296" r="1.8" fill="#4a3a5a" style="animation-delay: 2.1s"/>
+        </g>
+
+        <!-- (M7) AI DATA PULSES · traveling from racks up to AI layer · continuous -->
+        <g>
+          <circle class="cv-pulse" cx="280" cy="200" r="2.8" fill="#d97706" style="animation-delay: 0s"/>
+          <circle class="cv-pulse" cx="380" cy="230" r="2.8" fill="#d97706" style="animation-delay: 1.3s"/>
+          <circle class="cv-pulse" cx="320" cy="260" r="2.8" fill="#d97706" style="animation-delay: 2.6s"/>
+          <circle class="cv-pulse" cx="620" cy="200" r="2.8" fill="#d97706" style="animation-delay: 0.7s"/>
+          <circle class="cv-pulse" cx="720" cy="230" r="2.8" fill="#d97706" style="animation-delay: 2.0s"/>
+          <circle class="cv-pulse" cx="660" cy="260" r="2.8" fill="#d97706" style="animation-delay: 3.3s"/>
+        </g>
+
+        <!-- PARTICLE FLOW FIELD · continuous data streaming racks -> AI -> output -->
+        <g>
+          <!-- Commercial particles flowing up-right to AI -->
+          <circle class="pf-particle" r="1.6" fill="#b87f1c" style="animation-delay:0s"><animateMotion dur="3.2s" repeatCount="indefinite" path="M 260,260 Q 350,230 430,200"/></circle>
+          <circle class="pf-particle" r="1.6" fill="#b87f1c" style="animation-delay:0.6s"><animateMotion dur="3.2s" begin="0.6s" repeatCount="indefinite" path="M 300,290 Q 380,240 430,205"/></circle>
+          <circle class="pf-particle" r="1.6" fill="#b87f1c" style="animation-delay:1.2s"><animateMotion dur="3.2s" begin="1.2s" repeatCount="indefinite" path="M 340,220 Q 390,210 432,202"/></circle>
+          <circle class="pf-particle" r="1.6" fill="#b87f1c" style="animation-delay:1.8s"><animateMotion dur="3.2s" begin="1.8s" repeatCount="indefinite" path="M 280,250 Q 360,225 430,200"/></circle>
+          <circle class="pf-particle" r="1.6" fill="#b87f1c" style="animation-delay:2.4s"><animateMotion dur="3.2s" begin="2.4s" repeatCount="indefinite" path="M 320,280 Q 385,235 432,203"/></circle>
+          <!-- Civic particles flowing up-left to AI -->
+          <circle class="pf-particle" r="1.6" fill="#4a3a5a" style="animation-delay:0.3s"><animateMotion dur="3.2s" begin="0.3s" repeatCount="indefinite" path="M 740,260 Q 640,230 568,200"/></circle>
+          <circle class="pf-particle" r="1.6" fill="#4a3a5a" style="animation-delay:0.9s"><animateMotion dur="3.2s" begin="0.9s" repeatCount="indefinite" path="M 700,290 Q 620,240 568,205"/></circle>
+          <circle class="pf-particle" r="1.6" fill="#4a3a5a" style="animation-delay:1.5s"><animateMotion dur="3.2s" begin="1.5s" repeatCount="indefinite" path="M 660,220 Q 610,210 566,202"/></circle>
+          <circle class="pf-particle" r="1.6" fill="#4a3a5a" style="animation-delay:2.1s"><animateMotion dur="3.2s" begin="2.1s" repeatCount="indefinite" path="M 720,250 Q 640,225 568,200"/></circle>
+          <circle class="pf-particle" r="1.6" fill="#4a3a5a" style="animation-delay:2.7s"><animateMotion dur="3.2s" begin="2.7s" repeatCount="indefinite" path="M 680,280 Q 615,235 566,203"/></circle>
+          <!-- AI output particles flowing down to unified composite -->
+          <circle class="pf-out" r="2" fill="#d97706"><animateMotion dur="2.6s" repeatCount="indefinite" path="M 500,94 L 500,355"/></circle>
+          <circle class="pf-out" r="2" fill="#d97706"><animateMotion dur="2.6s" begin="0.9s" repeatCount="indefinite" path="M 500,94 L 500,355"/></circle>
+          <circle class="pf-out" r="2" fill="#d97706"><animateMotion dur="2.6s" begin="1.8s" repeatCount="indefinite" path="M 500,94 L 500,355"/></circle>
+        </g>
+      </svg>
+      <div class="convergence-viz-cap">
+        AWS GovCloud sits in the same data centers as AWS Commercial · Azure Government runs the same architecture as Azure Public · <em>same buildings · same handful of corporate roofs · one AI reading across both partitions</em>
+      </div>
+    </div>
+
+    <div class="body-text container-text reveal">
+      <p>Three companies host most U.S. cloud workloads. The same three companies host most U.S. government cloud workloads. <em>AWS GovCloud sits in the same data centers as AWS Commercial.</em> Azure Government runs the same architecture as Azure Public. Same buildings. Same power. Same fiber. Same handful of corporate roofs.</p>
+      <p>On top of that physical convergence sits a layer that wasn't possible ten years ago: <strong>AI that reads across silos.</strong> The same model can be pointed at the commercial composite and the civic composite. Same vector embeddings. Same retrieval architecture. The integrator that used to require enormous legal and operational expense is becoming a contract clause and an API call.</p>
+    </div>
+
+    <!-- WORKFLOW SPEED COMPARISON · the friction was the protection -->
+    <div class="workflow-compare reveal">
+      <h4>The friction <em>was</em> the protection.</h4>
+      <div class="compare-grid">
+        <div class="compare-col then">
+          <div class="col-head">
+            <span class="when">1995</span>
+            <span class="task">background check · standard query</span>
+          </div>
+          <div class="step-row"><span class="sn">01</span><span>DMV records · paper return · mail</span><span class="st">3–7 days</span></div>
+          <div class="step-row"><span class="sn">02</span><span>Subpoena court records · clerk processing</span><span class="st">5–14 days</span></div>
+          <div class="step-row"><span class="sn">03</span><span>Credit pull · written authorization</span><span class="st">1–2 days</span></div>
+          <div class="step-row"><span class="sn">04</span><span>Cross-agency phone calls · variable</span><span class="st">2–5 days</span></div>
+          <div class="step-row"><span class="sn">05</span><span>Human review of compiled file</span><span class="st">1–3 days</span></div>
+          <div class="col-total">
+            <span class="tl">total</span>
+            <span class="tv">14–30 days</span>
+          </div>
+        </div>
+
+        <div class="compare-col now">
+          <div class="col-head">
+            <span class="when">2024</span>
+            <span class="task">same query · AI-augmented</span>
+          </div>
+          <div class="step-row"><span class="sn">01</span><span>Single API call to data aggregator</span><span class="st">instant</span></div>
+          <div class="step-row"><span class="sn">02</span><span>Cross-source AI join · automatic</span><span class="st">instant</span></div>
+          <div class="step-row"><span class="sn">03</span><span>Structured return with confidence scores</span><span class="st">instant</span></div>
+          <div class="col-total">
+            <span class="tl">total</span>
+            <span class="tv">~ 4 seconds</span>
+          </div>
+        </div>
+      </div>
+      <div class="compare-takeaway">
+        The slowness wasn't inefficiency. It was <em>review windows</em>, <em>mistake-surfacing time</em>, <em>appeal opportunity</em>, <em>negotiation space</em>. <strong>The friction was the protection — and the protection has been removed without being replaced.</strong>
+      </div>
+    </div>
+
+    <!-- SWIFT JUSTICE EDITORIAL BLOCK -->
+    <div class="swift-justice reveal">
+      <div class="kicker">— What happens to "justice" when justice becomes swift?</div>
+      <div class="body-text">
+        <p>Historically, the administrative state operated at human pace. A clerk pulled a file. A second clerk verified it. A supervisor signed off. The process took days or weeks — not because anyone wanted it slow, but because the protections were embedded in the steps themselves. <em>The pace was the due process.</em></p>
+        <p>AI-augmented government workflows compress that timeline to seconds. ALPR plus warrant database equals immediate pursuit. Predictive risk scoring equals pre-arrest classification. Automated benefits determinations equal instant approval, instant denial, instant appeal denial. Cross-agency profile assembly means no human ever assembled the file — but the file decides what happens to you.</p>
+        <p>When justice becomes swift, the felt experience of being governed changes. The question is not whether the AI is more accurate — that is contested. The question is whether the protections built around slow processes survive their speed-up. <strong>So far, the protections have not been rebuilt at the new speed.</strong></p>
+        <p class="sj-frame">This is not a forecast about something that might one day arrive. It is a map of decisions already being made — country by country — some pushing the capability forward, others drawing a legal line against it. The point is not that the worst outcome is inevitable. The point is that the outcome is <em>open</em>, and it is being decided now.</p>
+      </div>
+
+      <!-- INTERNATIONAL EVIDENCE LEDGER -->
+      <div class="evidence-ledger reveal">
+        <div class="el-head">
+          <span class="el-tag">field evidence</span>
+          <span class="el-sub">automated &amp; predictive policing — where it already operates, and where it's already restricted</span>
+        </div>
+        <div class="el-grid">
+          <div class="el-row">
+            <span class="el-flag">US</span>
+            <span class="el-where">United States</span>
+            <span class="el-what">Predictive-policing systems (PredPol / Geolitica) adopted by roughly 40 law-enforcement agencies since 2012; automated license-plate-reader networks operate nationwide.<cite>AP / MIT Technology Review reporting, 2012–2023</cite></span>
+            <span class="el-status s-deployed">deployed</span>
+          </div>
+          <div class="el-row">
+            <span class="el-flag">CN</span>
+            <span class="el-where">China</span>
+            <span class="el-what">Facial-recognition patrols and integrated police data platforms operate at national scale, fusing identity, movement and behavioral records.<cite>Human Rights Watch / academic field studies</cite></span>
+            <span class="el-status s-deployed">deployed</span>
+          </div>
+          <div class="el-row">
+            <span class="el-flag">UK</span>
+            <span class="el-where">United Kingdom</span>
+            <span class="el-what">Police forces have piloted algorithmic risk-scoring tools (e.g. Durham's HART) to classify individuals by reoffending risk before charge.<cite>The Law Society / academic audits</cite></span>
+            <span class="el-status s-piloted">piloted</span>
+          </div>
+          <div class="el-row">
+            <span class="el-flag">IN</span>
+            <span class="el-where">India</span>
+            <span class="el-what">Cities including Hyderabad have run facial-recognition and predictive-surveillance pilots integrating CCTV, ID and police databases.<cite>Internet Freedom Foundation reporting</cite></span>
+            <span class="el-status s-piloted">piloted</span>
+          </div>
+          <div class="el-row">
+            <span class="el-flag">NL</span>
+            <span class="el-where">Netherlands</span>
+            <span class="el-what">Predictive-policing and welfare-fraud risk systems were deployed, then partly halted after courts and audits found rights violations.<cite>District Court of The Hague, SyRI ruling 2020</cite></span>
+            <span class="el-status s-restricted">restricted</span>
+          </div>
+          <div class="el-row">
+            <span class="el-flag">EU</span>
+            <span class="el-where">European Union</span>
+            <span class="el-what">The AI Act (Article 5, in force February 2025) prohibits AI that predicts criminal behavior on the basis of profiling alone.<cite>Regulation (EU) 2024/1689</cite></span>
+            <span class="el-status s-restricted">restricted</span>
+          </div>
+        </div>
+        <div class="el-foot">Two facts hold at the same time: the capability is real and already running in some places — and elsewhere it has already been written into law as a line not to cross. <strong>The future here is not fixed. It is being chosen, jurisdiction by jurisdiction.</strong></div>
+      </div>
+    </div>
+
+    <div class="convergence-callout reveal">
+      <div class="text">The persuasion machine you just walked through and the administrative state you live inside are no longer <span class="strike">in different rooms</span>. <em>They are bridgeable in the same room — by the same intelligence — for the first time in human history.</em></div>
+    </div>
+
+    <div class="body-text container-text reveal">
+      <p>That bridging hasn't happened comprehensively yet. There is still legal friction, internal-policy friction, contractual friction. But the <em>technical friction</em> — the friction that used to do most of the protective work — is gone. What remains is whether anyone notices, and whether anyone chooses to stop it.</p>
+    </div>
+
+    <!-- ECHO · DOGE present-day anchor -->
+    <div class="echo-doge reveal">
+      <div class="ed-kicker">echo · this is no longer hypothetical</div>
+      <div class="ed-lede">In 2025, a version of the bridge was assembled <em>in public</em> — and at speed.</div>
+
+      <!-- FEDERAL WORKFORCE · national reduction map · canvas particle field (zoom out from DeKalb) -->
+      <div class="fw-block">
+        <div class="fw-stage" id="fwStage">
+          <canvas id="fwCanvas"></canvas>
+          <div class="fw-readout">
+            <div class="big">&#8776;250,000</div>
+            <div class="sub">NET FEDERAL WORKFORCE REDUCTION &#183; 2025</div>
+            <div class="cav">mostly voluntary exits &#183; not a layoff count</div>
+          </div>
+          <div class="fw-uslabel">UNITED STATES &#183; FEDERAL CIVILIAN WORKFORCE</div>
+          <div class="fw-hint">&#8635; ZOOMING OUT FROM DEKALB &#8594; THE NATIONAL PATTERN</div>
+        </div>
+        <div class="fw-cap">
+          The metro-Atlanta displacement story doesn't stay local. Across 2025 the federal civilian workforce shrank by roughly 250,000 on net — the largest peacetime reduction on record — draining from hubs nationwide, concentrated in the Washington, DC metro.
+          <span class="fw-caveat"><strong>Read this carefully.</strong> This is a <em>net headcount change</em>, not a layoff count. Public OPM and GAO figures show the overwhelming majority left through <em>voluntary</em> channels — the Deferred Resignation Program (the &ldquo;fork in the road,&rdquo; ~75,000+ early takers), Voluntary Early Retirement (VERA) and buyouts (VSIP). Involuntary reductions-in-force were a small share — under ~1% of separations at the major agencies in the first half of 2025. The figure does <em>not</em> isolate forced cuts from early retirements, voluntary resignations, transfers, or moves to new opportunities.</span>
+          <br/><a class="ep5" href="#">↳ The mechanics of AutoRIF &amp; GSAi · Episode 05</a>
+        </div>
+      </div>
+
+      <div class="ed-body">
+        <p>Early in 2025, the Department of Government Efficiency (DOGE) moved to consolidate access across federal systems and apply AI tools to decisions that used to run through layered human review. The same pattern this episode describes — collected data, joined by a model, acting at machine speed — appeared inside the government itself.</p>
+        <div class="ed-facts">
+          <div class="ed-fact"><span class="n">~250k</span><span class="l">net drop in the federal civilian workforce across 2025 — mostly voluntary exits — thinning the human review layer</span></div>
+          <div class="ed-fact"><span class="n">AutoRIF</span><span class="l">a legacy personnel tool reportedly repurposed with AI to help drive mass-termination decisions</span></div>
+          <div class="ed-fact"><span class="n">GSAi</span><span class="l">an internal AI assistant rolled out to roughly 1,500 federal workers; agency data flowing toward LLM tooling</span></div>
+        </div>
+        <p>Read it next to the metro-Georgia thread that runs through this series — counties whose residents move, get re-sorted, and re-registered inside civic databases (the displacement story behind <strong>DeKalb</strong> and its neighbors). The local machine collects. The federal initiative supplies the model and the speed. <strong>Put them in the same room and you don't need a new law to change what's possible — you only need an account and an API key.</strong></p>
+        <p>None of this proves intent. It proves <em>capacity</em>: the components are now assembled and operating. Whether they're pointed at efficiency, at oversight, or at something else is the open question the rest of this season takes up.</p>
+        <div class="ed-src">Sources: OPM workforce-changes data and GAO reporting on 2025 federal workforce reductions (composition: ~92%+ voluntary programs, &lt;1% RIF, Jan–Jun 2025) · AP, Reuters, Wired and ProPublica on DOGE operations and GSAi deployment, 2025 · Infera series, metro-Atlanta displacement thread</div>
+      </div>
+    </div>
+
+    <div class="body-text container-text reveal">
+      <p>Where this episode ends, the season pivots. The commercial trilogy (Episodes 02, 03, 04) describes the machine that wants to <em>move</em> you. The civic episodes (05, 06) describe the machine that wants to <em>fix</em> you in place. And the convergence is the third subject — what these two machines, now in the same room, could become together.</p>
+    </div>
+
+    <!-- WHERE WE ARE IN THE EVOLUTION -->
+    <div class="evolution-marker reveal">
+      <div class="ev-step">
+        <div class="era">before 2010</div>
+        <div class="desc">two machines · two infrastructures · no integration</div>
+      </div>
+      <div class="ev-step">
+        <div class="era">2010 – 2018</div>
+        <div class="desc">cloud consolidation · <em>same vendors emerge</em> on both sides</div>
+      </div>
+      <div class="ev-step">
+        <div class="era">2018 – 2023</div>
+        <div class="desc">physical co-location · GovCloud + Commercial · <em>same buildings</em></div>
+      </div>
+      <div class="ev-step now">
+        <div class="era">2024 → now</div>
+        <div class="desc">AI reads across both · <em>integration becomes an API call</em></div>
+      </div>
+    </div>
+
+    <div class="container-text">
+      <div class="section-bridge">
+        <span>section 03 of 06 · the convergence · two machines, one room</span>
+        <span class="next">Section 04 · The counter-read</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S07 · COMPETING · COUNTER-READS ============ -->
+<section id="s05">
+  <div class="container-text">
+    <div class="section-meta">S 04 · The counter-read</div>
+    <h2 class="section-title reveal">Three voices, <em>on the record.</em></h2>
+    <p class="section-lede reveal">A technologist who welcomes it. A senator who fears it. A scholar who named it. Each quote is published and sourced &mdash; and none of them speaks for the publication.</p>
+  </div>
+
+  <div class="container">
+    <div class="defenders">
+
+      <div class="defender reveal">
+        <div class="portrait">
+          <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+            <rect x="22" y="20" width="36" height="10" rx="2" fill="#b87f1c" opacity="0.85"/>
+            <rect x="22" y="34" width="36" height="10" rx="2" fill="#b87f1c" opacity="0.6"/>
+            <rect x="22" y="48" width="36" height="10" rx="2" fill="#b87f1c" opacity="0.4"/>
+            <circle cx="28" cy="25" r="1.6" fill="#0f1419"/><circle cx="28" cy="39" r="1.6" fill="#0f1419"/><circle cx="28" cy="53" r="1.6" fill="#0f1419"/>
+          </svg>
+        </div>
+        <div class="name">Larry Ellison</div>
+        <div class="cred">Co-founder &amp; CTO &middot; Oracle</div>
+        <div class="arg">The technologist case is that pervasive recording produces <em>better behavior</em>. In a 2024 financial analyst meeting, Ellison described an AI-supervised society in approving terms &mdash; constant monitoring as a feature, not a cost.</div>
+        <div class="pullq">"Citizens will be on their best behavior, because we are constantly recording and reporting everything that is going on."</div>
+        <div class="defender-src">&mdash; Oracle Financial Analyst Meeting, Sept 2024</div>
+      </div>
+
+      <div class="defender reveal">
+        <div class="portrait">
+          <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+            <rect x="26" y="44" width="28" height="16" fill="#4a3a5a" opacity="0.7"/>
+            <rect x="36" y="22" width="8" height="22" fill="#4a3a5a" opacity="0.85"/>
+            <path d="M 30 22 L 50 22 L 46 16 L 34 16 Z" fill="#4a3a5a" opacity="0.6"/>
+            <line x1="26" y1="60" x2="54" y2="60" stroke="#0f1419" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <div class="name">Bernie Sanders</div>
+        <div class="cred">U.S. Senator &middot; Vermont</div>
+        <div class="arg">The political warning is that the pace of capability has outrun the pace of oversight. Sanders has introduced legislation to <em>pause</em> the AI-data-center build-out until Congress can establish safeguards.</div>
+        <div class="pullq">"We cannot sit back and allow a handful of billionaire Big Tech oligarchs to make decisions that will reshape our economy, our democracy and the future of humanity."</div>
+        <div class="defender-src">&mdash; Sanders &amp; Ocasio-Cortez, AI Data Center Moratorium Act (S.4214), 2026</div>
+      </div>
+
+      <div class="defender reveal">
+        <div class="portrait">
+          <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 24 24 L 40 28 L 40 58 L 24 54 Z" fill="#2f6650" opacity="0.7"/>
+            <path d="M 56 24 L 40 28 L 40 58 L 56 54 Z" fill="#2f6650" opacity="0.5"/>
+            <line x1="40" y1="28" x2="40" y2="58" stroke="#0f1419" stroke-width="1"/>
+            <line x1="28" y1="34" x2="36" y2="35.5" stroke="#0f1419" stroke-width="0.6"/>
+            <line x1="28" y1="40" x2="36" y2="41.5" stroke="#0f1419" stroke-width="0.6"/>
+            <line x1="44" y1="35.5" x2="52" y2="34" stroke="#0f1419" stroke-width="0.6"/>
+          </svg>
+        </div>
+        <div class="name">Shoshana Zuboff</div>
+        <div class="cred">Professor Emerita &middot; Harvard Business School</div>
+        <div class="arg">The scholar frame is that the asymmetry is the point: the knowledge accrues to the systems, the loss accrues to us. She coined <em>surveillance capitalism</em> to name a mechanism most people experience before they can describe it.</div>
+        <div class="pullq">"The knowledge that now displaces our freedom is proprietary. The knowledge is theirs, but the lost freedom belongs solely to us."</div>
+        <div class="defender-src">&mdash; <em>The Age of Surveillance Capitalism</em>, 2019</div>
+      </div>
+
+    </div>
+
+    <div class="competing-response container-text">
+      <h5>Where the publication stands</h5>
+      <div class="body-text">
+        <p>These three do not agree with one another. Ellison welcomes the supervised society; Sanders wants to slow it; Zuboff wants to name and limit it. Hosting all three is the point &mdash; the convergence is real enough that a technologist, a senator, and a scholar are each already on the record about it.</p>
+        <p>The publication position is narrower than any of theirs: not that the worst outcome is inevitable, but that <em>the technical friction that used to slow this down is gone</em>, and the question of what replaces it is still open.</p>
+      </div>
+    </div>
+
+    <div class="container-text">
+      <div class="section-bridge">
+        <span>section 04 of 06 · the counter-read · hosted fairly</span>
+        <span class="next">Section 05 · Discipline</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S08 · DISCIPLINE ============ -->
+<section id="s06">
+  <div class="container-text">
+    <div class="section-meta">S 05 · Discipline</div>
+    <h2 class="section-title reveal">What we did <em>not</em> prove.</h2>
+    <p class="section-lede reveal">Four restraints. Held visibly. The quietest section of the episode is the one that earns the rest.</p>
+  </div>
+
+  <div class="container container-text restraints">
+
+    <div class="restraint reveal">
+      <span class="check">✓</span>
+      <div class="body">
+        <div class="num">Restraint 01</div>
+        <p>We did not prove that any specific election was decided by microtargeting. The infrastructure exists; the question of how much it changes any specific outcome is <em>contested and should remain so.</em></p>
+      </div>
+    </div>
+
+    <div class="restraint reveal">
+      <span class="check">✓</span>
+      <div class="body">
+        <div class="num">Restraint 02</div>
+        <p>We did not prove that any individual voter changed their mind because of a single ad. The ecological-fallacy guard is non-negotiable. <em>The reader's mind is theirs.</em></p>
+      </div>
+    </div>
+
+    <div class="restraint reveal">
+      <span class="check">✓</span>
+      <div class="body">
+        <div class="num">Restraint 03</div>
+        <p>We did not prove that personalized persuasion is more powerful than mass persuasion. We documented that it is more <em>continuous</em>, more <em>granular</em>, and more <em>auditable in its inputs</em> — and that those properties compound differently than mass-broadcast persuasion ever could.</p>
+      </div>
+    </div>
+
+    <div class="restraint load reveal">
+      <span class="check">✓</span>
+      <div class="body">
+        <div class="num">Restraint 04 · Load-bearing</div>
+        <p><em>The system does not mind-control anyone.</em> It optimizes the emotional conditions under which certain beliefs, reactions, and identities are more likely to emerge. <strong>The reader's agency remains the load-bearing variable.</strong> Anything tighter than that drift is intellectually sloppy and gives defenders an easy out.</p>
+      </div>
+    </div>
+
+    <div class="discipline-coda reveal">
+      <div class="lbl">what we did prove</div>
+      <p>The infrastructure for industrial-scale identity targeting exists, is in continuous active use by both U.S. parties and most major issue campaigns, and its inputs are the broker composites and trust scores documented in <em>Episodes 02 and 03.</em></p>
+    </div>
+
+    <div class="section-bridge">
+      <span>section 05 of 06 · discipline · four restraints</span>
+      <span class="next">Section 06 · Closer</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S09 · CLOSER ============ -->
+<section id="s07">
+  <div class="closer-meta">S 06 · Closer</div>
+  <div class="closer-line">
+    <span class="first">The most effective persuasion systems<br/>do not change your opinion.</span>
+    <span class="second">They change <span class="hl">what feels true</span>.</span>
+  </div>
+  <div class="closer-coda">
+    And the harder question the convergence leaves open: when both machines finally share one room — <em>can the government control what it has built? Does it want to? Or is it, like the rest of us, still only trying to understand it?</em>
+  </div>
+  <div class="closer-attr">— The Influence War · Episode 04 · The Mechanism Series</div>
+</section>
+
+<!-- ============ S08 · REWARD VAULT (surprise) ============ -->
+<section id="s08">
+  <div class="reward-vault reveal">
+    <div class="rv-spark">✦</div>
+    <div class="rv-eyebrow">A reward · for the readers who reached the end</div>
+    <h3 class="rv-title">Most people don't make it this far.</h3>
+    <p class="rv-lede">So here's something built only for the ones who did — a single-sheet <em>Case File</em> that folds this whole episode into one artifact you can keep, print, or hand to someone who'll never read four thousand words.</p>
+    <div class="rv-envelope" id="rv-envelope" role="button" tabindex="0" aria-label="Open your case file">
+      <div class="rv-flap"></div>
+      <div class="rv-seal">04</div>
+      <div class="rv-hint">click to unseal</div>
+    </div>
+    <div class="rv-payload" id="rv-payload">
+      <div class="rv-doc-name">The Influence War · Case File.pdf</div>
+      <div class="rv-doc-sub">one page · the whole machine, on a single sheet</div>
+      <a class="rv-download" href="/case-file-ep04.pdf" download>⬇ &nbsp;Download the Case File</a>
+      <div class="rv-fine">Yours to keep. No email, no signup, nothing tracked. The receipt the other thousand systems never give you.</div>
+    </div>
+  </div>
+
+  <div class="case-bridge reveal">
+    <div class="lbl">What comes next</div>
+    <p class="text">The commercial machine takes your <em>attention</em>. The state version takes your <em>authority</em>. <strong>EP 05 · The Composite State</strong> looks at the parallel machine the government runs — and where it physically converges with the commercial one.</p>
+    <a href="#" class="next">Continue to Episode 05</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="legal-footer">
+  <div class="row">
+    <div class="brand">Infera · <em>The Mechanism Series</em></div>
+    <div class="links">
+      <a href="/">Home</a>
+      <a href="/systems-atlas.html">Atlas</a>
+      <a href="/claims-atlas.html">Claims</a>
+      <a href="/case-file.html">Case file</a>
+      <a href="/founding.html">Founding 500</a>
+      <a href="/legal.html">Legal</a>
+      <a href="/field-notes/">Field notes</a>
+    </div>
+  </div>
+  <div class="fine">
+    Infera · The Mechanism Series · A living atlas of invisible systems · Episode 04 · The Influence War · Mockup v3 · Drafted May 2026 · All content is editorial, sourced where claimed, and labeled where modeled. © Infera 2026.
+  </div>
+</footer>
+
+<script>
+(function(){
+
+  /* ===== SCROLL REVEAL · disabled, content is always visible ===== */
+
+  /* ===== S04 · CARD DEAL ===== */
+  const headlines = [
+    { line: "BREAKING — schools are removing books your kids depend on.", source: "— a feed item · this morning · 4.2M shares", weights: { parent:3, angry:2, believer:1 } },
+    { line: "Why your retirement isn't safe anymore.", source: "— a sponsored post · last night · 2.8M views", weights: { anxious:3, worker:2, angry:1 } },
+    { line: "The truth about what they're really planning.", source: "— a creator clip · 2.1M views", weights: { skeptic:2, angry:3 } },
+    { line: "Together — we built this country.", source: "— a campaign reel · 14 seconds", weights: { patriot:3, believer:2 } },
+    { line: "Your faith is under attack.", source: "— a community page · 47K members", weights: { believer:3, patriot:2, angry:1 } },
+    { line: "They lied. Here's the evidence.", source: "— a thread · 12.4K reposts", weights: { skeptic:3, angry:2 } },
+    { line: "Stand up for what's right.", source: "— a rally invite · 612 RSVPs", weights: { patriot:2, believer:2, angry:1 } },
+    { line: "Your neighbors are organizing without you.", source: "— a notification · 18 min ago", weights: { believer:2, worker:2, anxious:1 } }
+  ];
+  const variants = {
+    patriot:  { line: '"this is who we are"',     triggers: 'pride · belonging · tradition' },
+    anxious:  { line: '"protect what you have"',  triggers: 'fear · loss-aversion · safety' },
+    parent:   { line: '"for your kids"',          triggers: 'duty · provision · future' },
+    angry:    { line: '"they took your job"',     triggers: 'grievance · resentment · loss' },
+    skeptic:  { line: '"both sides are lying"',   triggers: 'doubt · cynicism · disengagement' },
+    worker:   { line: '"the system is rigged"',   triggers: 'unfairness · class · status' },
+    believer: { line: '"the cause needs you"',    triggers: 'belonging · meaning · mission' }
+  };
+  const personaLabels = { patriot:'the patriot', anxious:'the anxious', parent:'the parent', angry:'the angry', skeptic:'the skeptic', worker:'the worker', believer:'the believer' };
+
+  const s04 = document.querySelector('#s03');
+  if (s04) {
+    let idx = 0, picked = 0;
+    const tally = { patriot:0, anxious:0, parent:0, angry:0, skeptic:0, worker:0, believer:0 };
+
+    function paintCard() {
+      const h = headlines[idx];
+      const card = s04.querySelector('#s04-card');
+      card.classList.add('flip');
+      setTimeout(() => {
+        s04.querySelector('[data-v="card-num"]').textContent = 'CARD ' + String(idx+1).padStart(2,'0') + ' · headline ' + String(idx+1).padStart(2,'0') + ' of 08';
+        s04.querySelector('[data-v="card-headline"]').textContent = h.line;
+        s04.querySelector('[data-v="card-source"]').textContent = h.source;
+        s04.querySelector('[data-v="progress"]').style.width = ((idx / headlines.length) * 100) + '%';
+        s04.querySelector('[data-v="progress-label"]').textContent = 'card ' + (idx+1) + ' of 8 · ' + picked + ' picked';
+        card.classList.remove('flip');
+      }, 200);
+    }
+
+    function paintTally() {
+      const max = Math.max(1, ...Object.values(tally));
+      let leader = Object.entries(tally).sort((a,b) => b[1] - a[1])[0];
+      for (const p in tally) {
+        const row = s04.querySelector('[data-tally="'+p+'"]');
+        if (!row) continue;
+        const pct = (tally[p] / max) * 100;
+        row.querySelector('.bar .fill').style.width = pct + '%';
+        row.querySelector('.num').textContent = tally[p];
+        row.classList.toggle('lead', leader[1] > 0 && p === leader[0]);
+      }
+    }
+
+    function reveal() {
+      const sorted = Object.entries(tally).sort((a,b) => b[1] - a[1]);
+      const winner = sorted[0][0];
+      const cpms = { patriot:'$1.80', anxious:'$2.20', parent:'$1.90', angry:'$2.40', skeptic:'$1.40', worker:'$2.10', believer:'$2.00' };
+      const etas = { patriot:'12 min', anxious:'4 min', parent:'18 min', angry:'7 min', skeptic:'24 min', worker:'14 min', believer:'9 min' };
+      s04.querySelector('[data-v="winner-name"]').textContent = personaLabels[winner];
+      s04.querySelector('[data-v="winning-variant"]').textContent = variants[winner].line;
+      s04.querySelector('[data-v="reveal-cpm"]').textContent = cpms[winner];
+      s04.querySelector('[data-v="reveal-eta"]').textContent = etas[winner];
+      s04.querySelector('[data-v="reveal-body"]').innerHTML =
+        'You tapped <strong>' + picked + ' of 8</strong> headlines. The ones you tapped all carried emotional loads weighted toward <em>' + personaLabels[winner] + '</em>. <em>You didn\'t know you were telling us. But you were.</em> The system that would buy you next reads exactly what you just gave it — your engagement is the only consent it needs.';
+      s04.querySelector('#s04-reveal').classList.add('shown');
+      s04.querySelector('[data-v="progress"]').style.width = '100%';
+      s04.querySelector('[data-v="progress-label"]').textContent = 'complete · ' + picked + ' picked of 8 · system has profiled you';
+    }
+
+    function pick(yes) {
+      if (idx >= headlines.length) return;
+      if (yes) {
+        const w = headlines[idx].weights;
+        for (const p in w) tally[p] += w[p];
+        picked++;
+      }
+      idx++;
+      if (idx >= headlines.length) { reveal(); return; }
+      paintCard();
+      paintTally();
+    }
+
+    function reset() {
+      idx = 0; picked = 0;
+      for (const p in tally) tally[p] = 0;
+      s04.querySelector('#s04-reveal').classList.remove('shown');
+      paintCard();
+      paintTally();
+    }
+
+    s04.querySelector('[data-v="yes"]').addEventListener('click', () => pick(true));
+    s04.querySelector('[data-v="no"]').addEventListener('click', () => pick(false));
+    s04.querySelector('[data-v="reset"]').addEventListener('click', reset);
+    paintCard();
+    paintTally();
+  }
+
+  /* ===== CHAPTER RAIL ===== */
+  const rails = document.querySelectorAll('.rail a');
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+  function updateRail() {
+    let active = sections[0];
+    const scrollY = window.scrollY + window.innerHeight * 0.35;
+    sections.forEach(sec => { if (sec.offsetTop <= scrollY) active = sec; });
+    rails.forEach(a => { a.classList.toggle('active', a.dataset.rail === active.id); });
+  }
+  window.addEventListener('scroll', updateRail, { passive: true });
+  updateRail();
+
+
+  /* ===== SCROLL-TRIGGERED MOTION GRAPHICS ===== */
+  if ('IntersectionObserver' in window) {
+    const motionTargets = [
+      { sel: '.growth-chart', cls: 'gc-draw' },
+      { sel: '.capability-stack', cls: 'cs-build' },
+      { sel: '.evidence-ledger', cls: 'el-go' },
+      { sel: '.echo-doge', cls: 'el-go' }
+    ];
+    motionTargets.forEach(({ sel, cls }) => {
+      const els = document.querySelectorAll(sel);
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add(cls);
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(el => io.observe(el));
+    });
+    // Stagger the capability-stack bars individually
+    const csBars = document.querySelectorAll('.capability-stack svg .cs-bar');
+    csBars.forEach((bar, i) => {
+      bar.style.animationDelay = (i * 0.09) + 's';
+    });
+  } else {
+    document.querySelectorAll('.growth-chart').forEach(el => el.classList.add('gc-draw'));
+    document.querySelectorAll('.capability-stack').forEach(el => el.classList.add('cs-build'));
+    document.querySelectorAll('.evidence-ledger').forEach(el => el.classList.add('el-go'));
+    document.querySelectorAll('.echo-doge').forEach(el => el.classList.add('el-go'));
+  }
+
+
+  /* ===== COMPOSITE ASSEMBLY · JS-driven liquid fill + blend =====
+     Drives SVG geometry and inline opacity directly (no CSS transforms / transitions),
+     so it animates reliably in every browser. Loops while the ring is on screen. */
+  (function(){
+    const svg = document.querySelector('.ca-graphic');
+    const steps = document.querySelectorAll('.ca-step');
+    if (!svg) return;
+    const fillComm = svg.querySelector('#caFillComm');
+    const fillCiv  = svg.querySelector('#caFillCiv');
+    const outer    = svg.querySelector('.ca-outer-fill');
+    const converged= svg.querySelector('.ca-converged');
+    if (!fillComm || !fillCiv) return;
+    const BOTTOM = 378, FULLH = 236;
+    const clamp = (v) => v < 0 ? 0 : v > 1 ? 1 : v;
+    const ease = (t) => { t = clamp(t); return t * t * (3 - 2 * t); };
+    function setFill(rect, p) {
+      const h = FULLH * clamp(p);
+      rect.setAttribute('height', h);
+      rect.setAttribute('y', BOTTOM - h);
+    }
+    let lastB = 0;
+    function setBeat(b) {
+      if (b !== lastB) {
+        svg.setAttribute('class', 'ca-graphic beat-' + b);
+        steps.forEach(s => s.classList.toggle('active', (+s.dataset.beat) === b));
+        lastB = b;
+      }
+    }
+    // timeline keyframes (ms) — each step fills, then settles before the next begins
+    const KF = {
+      commStart: 1600, commDur: 2600,   // 02 · commercial half pours in
+      civStart:  5400, civDur:  2600,    // 03 · civic half pours in
+      outStart:  9200, outDur:  1900,    // 04 · outer ring + lines drop
+      convStart: 12200, convDur: 2800,   // 05 · blend to one
+      end:       17600                    // hold, then loop
+    };
+    let raf = null, start = null, running = false;
+    function frame(now) {
+      if (start === null) start = now;
+      let t = now - start;
+      if (t >= KF.end) { start = now; t = 0; }
+      const b = t < KF.commStart ? 1 : t < KF.civStart ? 2 : t < KF.outStart ? 3 : t < KF.convStart ? 4 : 5;
+      setBeat(b);
+      setFill(fillComm, ease((t - KF.commStart) / KF.commDur));
+      setFill(fillCiv,  ease((t - KF.civStart)  / KF.civDur));
+      if (outer)     outer.style.opacity     = 0.5  * ease((t - KF.outStart)  / KF.outDur);
+      if (converged) converged.style.opacity = 0.96 * ease((t - KF.convStart) / KF.convDur);
+      raf = requestAnimationFrame(frame);
+    }
+    function play() { if (!running) { running = true; start = null; raf = requestAnimationFrame(frame); } }
+    function stop() { running = false; if (raf) cancelAnimationFrame(raf); raf = null; }
+    // reduced motion · jump straight to the converged final state
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setBeat(5); setFill(fillComm, 1); setFill(fillCiv, 1);
+      if (outer) outer.style.opacity = 0.5;
+      if (converged) converged.style.opacity = 0.96;
+      return;
+    }
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((es) => {
+        es.forEach(e => { e.isIntersecting ? play() : stop(); });
+      }, { threshold: 0.25 });
+      io.observe(svg);
+    } else {
+      play();
+    }
+  })();
+
+  /* ===== WORKFLOW COLLAPSE · trigger on scroll-into-view ===== */
+  const wf = document.querySelector('.workflow-compare');
+  if (wf && 'IntersectionObserver' in window) {
+    const wfIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('wf-go'); wfIO.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    wfIO.observe(wf);
+  } else if (wf) {
+    wf.classList.add('wf-go');
+  }
+
+  /* ===== REWARD VAULT · unseal the envelope ===== */
+  const rvEnv = document.getElementById('rv-envelope');
+  const rvPayload = document.getElementById('rv-payload');
+  if (rvEnv && rvPayload) {
+    const unseal = () => {
+      rvEnv.classList.add('open');
+      setTimeout(() => rvPayload.classList.add('show'), 300);
+    };
+    rvEnv.addEventListener('click', unseal);
+    rvEnv.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); unseal(); }
+    });
+  }
+
+})();
+</script>
+
+<script>
+/* ===== FEDERAL WORKFORCE · national reduction map =====
+   Borrows the-trickle.html's motion vocabulary: glowing dashed-ring nodes, gold/cream
+   particles flowing along bezier curves, a faint connecting web — here as a national map
+   that ZOOMS OUT from Atlanta/DeKalb to the whole country, with roles draining from hubs. */
+(function fwMap(){
+  const stageEl = document.getElementById('fwStage');
+  const cv = document.getElementById('fwCanvas');
+  if (!stageEl || !cv) return;
+  const ctx = cv.getContext('2d');
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  let W = 0, H = 0;
+
+  // federal-workforce hubs · normalized to the stage, arranged like a US map.
+  // mass ≈ relative federal presence / depth of reduction (DC is the epicenter).
+  const NODES = [
+    { id:'dc',  x:0.80, y:0.42, r:34, mass:1.00, lab:'WASHINGTON · DC METRO', sub:'the epicenter' },
+    { id:'nyc', x:0.84, y:0.30, r:16, mass:0.40, lab:'NEW YORK', sub:'regional' },
+    { id:'chi', x:0.62, y:0.32, r:18, mass:0.45, lab:'CHICAGO', sub:'regional' },
+    { id:'atl', x:0.73, y:0.66, r:22, mass:0.60, lab:'ATLANTA · DEKALB', sub:'where this started' },
+    { id:'kc',  x:0.55, y:0.46, r:19, mass:0.50, lab:'KANSAS CITY', sub:'IRS · USDA' },
+    { id:'den', x:0.41, y:0.46, r:16, mass:0.40, lab:'DENVER', sub:'federal center' },
+    { id:'dal', x:0.50, y:0.66, r:15, mass:0.35, lab:'DALLAS', sub:'regional' },
+    { id:'sea', x:0.16, y:0.22, r:15, mass:0.35, lab:'SEATTLE', sub:'regional' },
+    { id:'bay', x:0.10, y:0.46, r:15, mass:0.35, lab:'BAY AREA', sub:'regional' },
+    { id:'la',  x:0.15, y:0.58, r:15, mass:0.35, lab:'LOS ANGELES', sub:'regional' }
+  ];
+
+  const S0 = 4.6;                 // opening zoom — Georgia fills the frame
+  const HOLD = 1300;              // beat on Georgia before the pull-out
+  let cam = { s:S0, cx:0, cy:0 };
+  let camTarget = { cx:0, cy:0 };
+  let zoomStart = null, zoomDur = 6200, zoomT = 0, started = false;
+  let particles = [];
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function resize(){
+    const rect = stageEl.getBoundingClientRect();
+    W = rect.width; H = rect.height;
+    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    camTarget = { cx:W/2, cy:H/2 };
+    const atl = NODES.find(n=>n.id==='atl');
+    if (!started){ cam = { s:S0, cx:atl.x*W, cy:atl.y*H }; }
+    if (reduce || zoomT>=1){ cam = { s:1, cx:W/2, cy:H/2 }; }
+  }
+  const nx = n => n.x*W, ny = n => n.y*H;
+  const toScreen = (wx,wy) => ({ x:(wx-cam.cx)*cam.s + W/2, y:(wy-cam.cy)*cam.s + H/2 });
+
+  function spawn(){
+    NODES.forEach(n=>{
+      if (Math.random() < 0.03 + n.mass*0.11){
+        const a = Math.random()*Math.PI*2;
+        const d = n.r*2.2 + Math.random()*n.r*4.5;
+        particles.push({
+          x:nx(n), y:ny(n),
+          tx:nx(n)+Math.cos(a)*d, ty:ny(n)+Math.sin(a)*d,
+          t:0, speed:0.004+Math.random()*0.006,
+          oa:(Math.random()-0.5)*0.5, warm:Math.random()<0.55
+        });
+      }
+    });
+  }
+  function curve(x0,y0,x1,y1,t,oa){
+    const dx=x1-x0, dy=y1-y0;
+    const mx=(x0+x1)/2 + (-dy)*oa, my=(y0+y1)/2 + (dx)*oa, u=1-t;
+    return { x:u*u*x0 + 2*u*t*mx + t*t*x1, y:u*u*y0 + 2*u*t*my + t*t*y1 };
+  }
+  const dc = () => NODES.find(n=>n.id==='dc');
+
+  const easeInOut = t => t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+
+  function frame(now){
+    if (started && zoomT < 1 && !reduce){
+      if (zoomStart===null) zoomStart=now;
+      const elapsed = (now - zoomStart) - HOLD;          // hold on Georgia first
+      zoomT = Math.min(1, Math.max(0, elapsed) / zoomDur);
+      const e = easeInOut(zoomT);
+      const atl = NODES.find(n=>n.id==='atl');
+      cam.s  = S0 + (1-S0)*e;
+      cam.cx = atl.x*W + (camTarget.cx-atl.x*W)*e;
+      cam.cy = atl.y*H + (camTarget.cy-atl.y*H)*e;
+    }
+    ctx.clearRect(0,0,W,H);
+
+    // faint connecting web (each hub -> DC)
+    const d = dc(), sd = toScreen(nx(d),ny(d));
+    NODES.forEach(n=>{
+      if (n.id==='dc') return;
+      const s = toScreen(nx(n),ny(n));
+      ctx.beginPath(); ctx.moveTo(s.x,s.y);
+      const mx=(s.x+sd.x)/2+(sd.y-s.y)*0.08, my=(s.y+sd.y)/2-(sd.x-s.x)*0.08;
+      ctx.quadraticCurveTo(mx,my,sd.x,sd.y);
+      ctx.strokeStyle='rgba(45,49,56,0.07)'; ctx.lineWidth=1; ctx.stroke();
+    });
+
+    // nodes — dark on light
+    NODES.forEach(n=>{
+      const s = toScreen(nx(n),ny(n)), r = n.r*cam.s;
+      const g = ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,r*2.4);
+      g.addColorStop(0,'rgba(184,127,28,'+(0.10+n.mass*0.10)+')'); g.addColorStop(1,'rgba(184,127,28,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(s.x,s.y,r*2.4,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(s.x,s.y,r,0,Math.PI*2); ctx.strokeStyle='rgba(45,49,56,0.5)'; ctx.lineWidth=1; ctx.stroke();
+      ctx.beginPath(); ctx.arc(s.x,s.y,r*0.66,0,Math.PI*2); ctx.strokeStyle='rgba(106,110,116,0.4)'; ctx.setLineDash([2,4]); ctx.stroke(); ctx.setLineDash([]);
+      if (n.id==='dc'){ ctx.beginPath(); ctx.arc(s.x,s.y,r,-110*Math.PI/180,-30*Math.PI/180); ctx.strokeStyle='rgba(184,52,28,0.9)'; ctx.lineWidth=3; ctx.stroke(); }
+    });
+
+    // drain particles — dark dots (ochre / ink) on the cream field
+    if (started && !reduce) spawn();
+    particles = particles.filter(p=>{
+      p.t += p.speed; if (p.t>=1) return false;
+      const pos = curve(p.x,p.y,p.tx,p.ty,p.t,p.oa), s = toScreen(pos.x,pos.y);
+      const a = (1-p.t)*0.8;
+      ctx.beginPath(); ctx.arc(s.x,s.y,1.5,0,Math.PI*2);
+      ctx.fillStyle = p.warm ? 'rgba(184,127,28,'+a+')' : 'rgba(45,49,56,'+a+')';
+      ctx.fill(); return true;
+    });
+
+    // labels (screen-space, constant size, dark text) — Georgia reads from the very first frame
+    ctx.textAlign='center';
+    NODES.forEach(n=>{
+      const s = toScreen(nx(n),ny(n)), r = n.r*cam.s;
+      ctx.fillStyle='rgba(15,20,25,0.92)';
+      ctx.font='600 10.5px "JetBrains Mono", monospace';
+      ctx.fillText(n.lab, s.x, s.y+r+15);
+      ctx.fillStyle='rgba(106,110,116,0.95)';
+      ctx.font='italic 11px "Crimson Pro", Georgia, serif';
+      ctx.fillText(n.sub, s.x, s.y+r+28);
+    });
+    requestAnimationFrame(frame);
+  }
+
+  function start(){ if (started) return; started=true; zoomStart=null; zoomT = reduce?1:0; }
+  resize();
+  window.addEventListener('resize', resize);
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver(es=>{ es.forEach(e=>{ if (e.isIntersecting) start(); }); }, { threshold:0.3 });
+    io.observe(stageEl);
+  } else { start(); }
+  requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
