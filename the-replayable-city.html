@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Replayable City · How DC sees you on the way to work · The Mechanism Series</title>
+<meta name="description" content="Pick a forty-minute commute from any side of Washington, DC. Watch the city see you. A live editorial atlas about how the capital is recoverable from fragments.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800;900&family=Inter+Tight:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script>document.documentElement.classList.add('js');</script>
+
+<style>
+:root {
+  --paper: #fafaf2;
+  --paper-warm: #f5f0e0;
+  --paper-card: #ffffff;
+  --ink: #0a0a0a;
+  --ink-soft: #2a2a2a;
+  --muted: #5a5a5a;
+  --faint: #9a9a9a;
+  --rule: #e6e2d4;
+  --rule-dark: #cdc8b8;
+  /* pop palette */
+  --pop-red: #ff4a2b;
+  --pop-yellow: #ffd83d;
+  --pop-mint: #2bd9a8;
+  --pop-cobalt: #2b6cb0;
+  --pop-magenta: #ff3c8b;
+  --pop-purple: #7a4cff;
+  --pop-orange: #ff8a1a;
+  --highlight: #fff062;
+  /* route colors per cardinal */
+  --r-north: #ff4a2b;    /* vermilion */
+  --r-south: #2bd9a8;    /* mint */
+  --r-east:  #2b6cb0;    /* cobalt */
+  --r-west:  #ff3c8b;    /* hot pink */
+  /* map base */
+  --map-bg: #f4f1e6;
+  --map-park: #d5e6c8;
+  --map-water: #c5dcef;
+  --map-water-edge: #6a9ec5;
+  --map-road: #1a1a1a;
+  --map-road-thin: #444;
+  --map-hwy: #3a3a3a;
+  --map-arterial: #2a2a2a;
+  --map-dc-fill: #fff8e1;
+  --map-nbhd-blush: #ffe1d6;
+  --map-nbhd-mint: #d4f0e1;
+  --map-nbhd-sun: #fff2bf;
+  --map-nbhd-lav: #e8dcff;
+  --map-nbhd-sky: #d4e8f5;
+  --map-nbhd-peach: #ffe7c2;
+  /* capture classes */
+  --cap-pub: #2bd97a;
+  --cap-inf: #ffa033;
+  --cap-priv: #ff3c8b;
+  --cap-cls: #7a4cff;
+  /* layers */
+  --lyr-frz: rgba(255, 74, 43, 0.10);
+  --lyr-frz-edge: rgba(255, 74, 43, 0.65);
+  --lyr-sfra: rgba(255, 138, 26, 0.06);
+  --lyr-sfra-edge: rgba(255, 138, 26, 0.55);
+  --lyr-mpd: rgba(43, 108, 176, 0.10);
+  --lyr-mpd-edge: rgba(43, 108, 176, 0.65);
+  --lyr-wmata: rgba(43, 217, 168, 0.10);
+  --lyr-wmata-edge: rgba(43, 217, 168, 0.65);
+  --lyr-county: rgba(122, 76, 255, 0.45);
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Crimson Pro', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-headline: 'Inter Tight', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  --col-text: 720px;
+  --col-wide: 1240px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+a { color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--pop-red); transition: color 0.15s ease; }
+a:hover { color: var(--pop-red); }
+img, svg { max-width: 100%; display: block; }
+em { font-style: italic; }
+strong { font-weight: 700; color: var(--ink); }
+
+::selection { background: var(--highlight); color: var(--ink); }
+
+/* ================ CHROME ================ */
+.chrome {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,250,242,0.95);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 14px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-sans);
+  font-size: 12px; letter-spacing: 0.06em;
+}
+.chrome .brand { font-family: var(--font-headline); font-size: 17px; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; border: none; }
+.chrome .brand em { font-family: var(--font-display); font-style: italic; color: var(--pop-red); font-weight: 600; }
+.chrome .nav-links { display: flex; gap: 14px; flex-wrap: nowrap; }
+.chrome .nav-links a { color: var(--muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; white-space: nowrap; border: none; padding: 4px 0; }
+.chrome .nav-links a:hover { color: var(--ink); }
+.chrome .nav-links a.cur { color: var(--pop-red); border-bottom: 2px solid var(--pop-red); }
+.chrome .nav-links .tn { font-family: var(--font-display); font-style: italic; text-transform: none; letter-spacing: 0; opacity: 0.55; margin-right: 4px; color: var(--ink); font-weight: 500; }
+@media (max-width: 820px) { .chrome .nav-links { display: none; } .chrome { padding: 12px 18px; } }
+
+/* ================ LAYOUT ================ */
+.wrap { max-width: var(--col-text); margin: 0 auto; padding: 0 24px; }
+.wrap-wide { max-width: var(--col-wide); margin: 0 auto; padding: 0 24px; }
+section { padding: 100px 0; position: relative; }
+section.tight { padding: 64px 0; }
+.kicker {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--pop-red);
+  margin-bottom: 24px; display: inline-block;
+}
+.kicker.alt { color: var(--pop-cobalt); }
+.kicker.mint { color: var(--pop-mint); }
+.kicker.magenta { color: var(--pop-magenta); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(56px, 10vw, 132px); line-height: 0.94; letter-spacing: -0.025em; color: var(--ink); }
+h1 em { font-style: italic; font-weight: 500; }
+h1 .high { background: var(--highlight); padding: 0 8px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(34px, 5.2vw, 60px); line-height: 1.02; letter-spacing: -0.015em; margin-bottom: 22px; color: var(--ink); }
+h2 em { font-style: italic; }
+h3 { font-family: var(--font-headline); font-weight: 800; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); margin-bottom: 16px; }
+p { margin-bottom: 20px; color: var(--ink-soft); }
+.lead { font-size: 22px; line-height: 1.55; color: var(--ink); }
+.deck { font-family: var(--font-display); font-style: italic; font-size: clamp(22px, 3vw, 30px); color: var(--muted); line-height: 1.28; margin-top: 22px; }
+
+.rule-dotted { border: none; border-top: 2px dotted var(--rule-dark); margin: 50px 0; }
+
+/* ================ HERO ================ */
+.hero { padding: 90px 0 60px; position: relative; overflow: hidden; }
+.hero .strap {
+  display: flex; gap: 14px; align-items: center;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 36px;
+}
+.hero .strap .pill { background: var(--ink); color: var(--paper); padding: 4px 10px; font-weight: 700; letter-spacing: 0.12em; }
+.hero .strap .dot { width: 5px; height: 5px; background: var(--pop-red); border-radius: 50%; }
+.hero .meta {
+  display: flex; gap: 36px; flex-wrap: wrap; margin-top: 50px; padding-top: 28px;
+  border-top: 1px solid var(--rule); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+}
+.hero .meta b { color: var(--ink); }
+
+/* big pop "ribbon" treatment */
+.ribbon {
+  display: inline-block; padding: 6px 14px 4px;
+  background: var(--ink); color: var(--paper); font-family: var(--font-headline);
+  font-weight: 800; letter-spacing: 0.04em;
+}
+.tag-cluster { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 36px; }
+.chip { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 7px 11px; border: 1.5px solid var(--ink); border-radius: 999px; color: var(--ink); background: var(--paper); }
+.chip.red { background: var(--pop-red); color: #fff; border-color: var(--pop-red); }
+.chip.mint { background: var(--pop-mint); color: var(--ink); border-color: var(--pop-mint); }
+.chip.yellow { background: var(--pop-yellow); color: var(--ink); border-color: var(--pop-yellow); }
+
+/* ================ MARQUEE QUOTE ================ */
+.marquee {
+  max-width: 980px; margin: 0 auto; padding: 50px 60px 56px;
+  background: var(--paper-card); border: 2px solid var(--ink);
+  position: relative;
+  box-shadow: 10px 10px 0 var(--pop-yellow);
+}
+.marquee::before {
+  content: "QUOTE / I"; position: absolute; top: -14px; left: 30px;
+  background: var(--ink); color: var(--paper-card);
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.22em; padding: 5px 12px;
+}
+.marquee .q {
+  font-family: var(--font-display); font-style: italic; font-weight: 500;
+  font-size: clamp(28px, 4.4vw, 46px); line-height: 1.16; color: var(--ink);
+}
+.marquee .q::before { content: "“"; color: var(--pop-red); font-size: 1.2em; margin-right: 4px; }
+.marquee .q::after { content: "”"; color: var(--pop-red); font-size: 1.2em; margin-left: 4px; }
+.marquee .attr { margin-top: 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+
+/* ================ ATLAS ================ */
+.atlas-section { padding: 70px 0 90px; background: var(--paper-warm); position: relative; }
+.atlas-section::before {
+  content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 1px; background: var(--rule);
+}
+.atlas-intro { max-width: 820px; margin: 0 auto 44px; padding: 0 24px; text-align: center; }
+
+.atlas-frame { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+.atlas-stage {
+  position: relative;
+  background: var(--map-bg);
+  border: 2px solid var(--ink);
+  box-shadow: 12px 12px 0 var(--ink);
+  overflow: hidden;
+}
+#mapSvg { display: block; width: 100%; height: auto; background: transparent; }
+
+/* atlas drawing */
+.water-fill { fill: var(--map-water); }
+.water-edge { fill: none; stroke: var(--map-water-edge); stroke-width: 1; opacity: 0.7; }
+.park { fill: var(--map-park); stroke: #9bbf8a; stroke-width: 0.6; }
+.nbhd { stroke: rgba(0,0,0,0.05); stroke-width: 0.5; }
+.dc-diamond { fill: var(--map-dc-fill); stroke: var(--ink); stroke-width: 1.6; stroke-dasharray: 6 4; }
+
+.beltway { fill: none; stroke: var(--map-hwy); stroke-width: 3.4; stroke-linecap: round; }
+.hwy { fill: none; stroke: var(--map-hwy); stroke-width: 2.6; stroke-linecap: round; }
+.arterial { fill: none; stroke: var(--map-arterial); stroke-width: 1.6; stroke-linecap: round; }
+.minor { fill: none; stroke: var(--map-road-thin); stroke-width: 0.6; stroke-linecap: round; opacity: 0.7; }
+
+/* metro */
+.metro { fill: none; stroke-width: 2.4; stroke-linecap: round; opacity: 0.85; }
+.m-red    { stroke: #C8102E; }
+.m-orange { stroke: #ED8B00; }
+.m-blue   { stroke: #0072CE; }
+.m-green  { stroke: #00B140; }
+.m-yellow { stroke: #FFD200; }
+.m-silver { stroke: #919D9D; }
+
+/* landmarks */
+.lm { fill: var(--ink); }
+.lm-glow { fill: var(--pop-yellow); stroke: var(--ink); stroke-width: 1; }
+
+/* labels — Atlantic-meets-VICE typography */
+.street-label { font-family: var(--font-mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; fill: var(--ink); }
+.street-label.sm { font-size: 7.5px; letter-spacing: 0.18em; opacity: 0.7; }
+.street-label.hwy { font-size: 9px; fill: var(--paper); }
+.street-label.hwy-bg { fill: var(--ink); }
+.area-label { font-family: var(--font-headline); font-weight: 900; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; fill: var(--ink); }
+.area-label.sm { font-size: 9.5px; letter-spacing: 0.24em; fill: var(--muted); }
+.area-label.big { font-size: 18px; letter-spacing: 0.3em; }
+.nbhd-label { font-family: var(--font-mono); font-size: 8px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; fill: var(--muted); }
+.river-label { font-family: var(--font-display); font-style: italic; fill: var(--map-water-edge); font-size: 14px; letter-spacing: 0.4em; }
+
+/* highway shield (interstate) */
+.hwy-shield { fill: var(--ink); }
+.hwy-num { font-family: var(--font-headline); font-weight: 900; font-size: 10px; fill: var(--paper); text-anchor: middle; }
+
+/* jurisdiction layers (toggleable) */
+.lyr { opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
+.lyr.on { opacity: 1; }
+.lyr-frz   { fill: var(--lyr-frz); stroke: var(--lyr-frz-edge); stroke-width: 1.4; stroke-dasharray: 6 4; }
+.lyr-sfra  { fill: var(--lyr-sfra); stroke: var(--lyr-sfra-edge); stroke-width: 1.4; stroke-dasharray: 12 6; }
+.lyr-mpd   { fill: var(--lyr-mpd); stroke: var(--lyr-mpd-edge); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.lyr-wmata { fill: var(--lyr-wmata); stroke: var(--lyr-wmata-edge); stroke-width: 1.2; stroke-dasharray: 4 3; }
+.lyr-county{ fill: none; stroke: var(--lyr-county); stroke-width: 1.4; stroke-dasharray: 8 6; }
+
+/* user route, alt, trail */
+.alt-route { fill: none; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 9 6; opacity: 0; transition: opacity 0.4s ease; }
+.alt-route.live { opacity: 0.55; }
+.user-route { fill: none; stroke-width: 7; stroke-linecap: round; opacity: 0; transition: opacity 0.4s ease; }
+.user-route.live { opacity: 0.42; }
+.user-trail { fill: none; stroke-width: 7; stroke-linecap: round; opacity: 0.95; }
+
+/* per-route palette */
+.route-r1 { stroke: var(--r-north); }
+.route-r2 { stroke: var(--r-south); }
+.route-r3 { stroke: var(--r-east); }
+.route-r4 { stroke: var(--r-west); }
+.alt-r1   { stroke: var(--r-north); }
+.alt-r2   { stroke: var(--r-south); }
+.alt-r3   { stroke: var(--r-east); }
+.alt-r4   { stroke: var(--r-west); }
+
+/* capture pins */
+.cap { opacity: 0; transition: opacity 0.4s ease; transform-origin: center; transform-box: fill-box; }
+.cap.lit { opacity: 1; animation: capDrop 0.45s ease-out 1; }
+@keyframes capDrop { 0% { transform: translateY(-12px) scale(0.5); opacity: 0; } 60% { transform: translateY(2px) scale(1.05); opacity: 1; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
+.pin-body { stroke: var(--ink); stroke-width: 1.4; }
+.pin-dot { fill: var(--paper-card); }
+
+/* classified */
+.cls-pin { opacity: 0; transition: opacity 0.4s ease; }
+.atlas-stage.classified .cls-pin { opacity: 1; }
+.cls-hex { stroke: var(--ink); stroke-width: 1.2; }
+
+/* user vehicle */
+.me-vehicle { fill: var(--ink); stroke: var(--paper-card); stroke-width: 2; }
+.me-vehicle.r1 { fill: var(--r-north); }
+.me-vehicle.r2 { fill: var(--r-south); }
+.me-vehicle.r3 { fill: var(--r-east); }
+.me-vehicle.r4 { fill: var(--r-west); }
+
+/* alert bubbles (waze) */
+.alert-pin { opacity: 0; pointer-events: none; transform-origin: center bottom; transform-box: fill-box; }
+.alert-pin.live { opacity: 1; animation: alertPop 0.5s ease-out 1; }
+@keyframes alertPop { 0% { transform: translateY(-8px) scale(0.4); opacity: 0; } 60% { transform: translateY(0) scale(1.1); opacity: 1; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
+.alert-bub { stroke: var(--ink); stroke-width: 1.4; }
+.alert-text { font-family: var(--font-headline); font-weight: 800; font-size: 9px; fill: #fff; text-anchor: middle; letter-spacing: 0.08em; }
+
+/* ================ ATLAS OVERLAY UI ================ */
+.atlas-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 40; }
+.overlay-card {
+  position: absolute; pointer-events: auto;
+  background: var(--paper-card); color: var(--ink); border: 2px solid var(--ink);
+  padding: 14px 16px;
+  box-shadow: 6px 6px 0 var(--ink);
+  font-family: var(--font-sans);
+}
+.eta-card { top: 22px; left: 22px; min-width: 240px; }
+.eta-card .row1 { display: flex; align-items: baseline; gap: 10px; }
+.eta-card .min { font-size: 34px; font-weight: 900; line-height: 1; font-family: var(--font-headline); }
+.eta-card .unit { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; }
+.eta-card .dest { font-size: 11px; color: var(--ink); margin-top: 6px; letter-spacing: 0.06em; font-family: var(--font-mono); font-weight: 600; }
+.cap-card { top: 22px; right: 22px; min-width: 220px; text-align: right; }
+.cap-card .num { font-size: 42px; font-weight: 900; line-height: 1; font-family: var(--font-headline); color: var(--ink); }
+.cap-card .lbl { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-top: 6px; }
+.cap-card .jur { font-size: 11px; color: var(--pop-cobalt); margin-top: 6px; font-family: var(--font-mono); font-weight: 700; }
+.cap-card .cls { display: none; font-size: 11px; color: var(--pop-purple); margin-top: 4px; font-family: var(--font-mono); font-weight: 700; }
+.atlas-stage.classified .cap-card .cls { display: block; }
+
+.layer-panel {
+  position: absolute; left: 22px; bottom: 22px; pointer-events: auto;
+  background: var(--paper-card); border: 2px solid var(--ink);
+  padding: 14px 14px 12px;
+  box-shadow: 6px 6px 0 var(--ink);
+  min-width: 210px; z-index: 41;
+}
+.layer-panel h5 { font-family: var(--font-headline); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink); margin-bottom: 10px; font-weight: 800; }
+.layer-panel .lyr-btn { display: flex; align-items: center; gap: 9px; width: 100%; padding: 5px 4px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); background: none; border: none; cursor: pointer; text-align: left; transition: color 0.15s ease; font-weight: 600; }
+.layer-panel .lyr-btn:hover { color: var(--ink); }
+.layer-panel .lyr-btn .sw { width: 24px; height: 14px; background: var(--rule); border: 1.5px solid var(--ink); position: relative; flex: none; border-radius: 8px; transition: all 0.18s ease; }
+.layer-panel .lyr-btn .sw::after { content: ""; position: absolute; top: 1px; left: 1px; width: 10px; height: 10px; border-radius: 50%; background: var(--ink); transition: all 0.18s ease; }
+.layer-panel .lyr-btn.on { color: var(--ink); }
+.layer-panel .lyr-btn.on .sw { background: var(--pop-cobalt); }
+.layer-panel .lyr-btn.on .sw::after { left: 11px; background: #fff; }
+.layer-panel .lyr-btn[data-layer="frz"].on .sw { background: var(--pop-red); }
+.layer-panel .lyr-btn[data-layer="sfra"].on .sw { background: var(--pop-orange); }
+.layer-panel .lyr-btn[data-layer="wmata"].on .sw { background: var(--pop-mint); }
+.layer-panel .lyr-btn[data-layer="county"].on .sw { background: var(--pop-purple); }
+
+.dir-strip {
+  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); pointer-events: auto;
+  background: var(--ink); color: var(--paper-card); padding: 12px 22px;
+  font-family: var(--font-headline); font-weight: 800;
+  box-shadow: 6px 6px 0 var(--pop-yellow);
+  display: flex; align-items: center; gap: 14px; z-index: 41;
+  opacity: 0; transition: opacity 0.35s ease;
+}
+.dir-strip.live { opacity: 1; }
+.dir-strip .glyph { font-size: 22px; }
+.dir-strip .txt { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+.dir-strip .dist { background: var(--paper-card); color: var(--ink); padding: 4px 9px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; font-weight: 700; }
+
+.info-cards { position: absolute; inset: 0; pointer-events: none; z-index: 42; }
+.info-card {
+  position: absolute; max-width: 260px;
+  background: var(--paper-card); color: var(--ink);
+  border: 2px solid var(--ink); border-left-width: 8px;
+  padding: 14px 16px; font-family: var(--font-sans);
+  box-shadow: 6px 6px 0 var(--ink);
+  opacity: 0; transform: translateX(-16px);
+  transition: opacity 0.4s ease, transform 0.5s ease;
+}
+.info-card.live { opacity: 1; transform: translateX(0); pointer-events: auto; }
+.info-card.right { right: 30px; transform: translateX(16px); }
+.info-card.right.live { transform: translateX(0); }
+.info-card.red { border-left-color: var(--pop-red); }
+.info-card.mint { border-left-color: var(--pop-mint); }
+.info-card.cobalt { border-left-color: var(--pop-cobalt); }
+.info-card.magenta { border-left-color: var(--pop-magenta); }
+.info-card h4 { font-family: var(--font-headline); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; font-weight: 800; }
+.info-card p { font-size: 13px; line-height: 1.45; color: var(--ink-soft); margin: 0; font-family: var(--font-body); }
+
+/* ================ CONTROLS BAY ================ */
+.controls-bay { max-width: 1280px; margin: 32px auto 0; padding: 0 16px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+@media (max-width: 880px) { .controls-bay { grid-template-columns: 1fr; } }
+
+.bay-card { background: var(--paper-card); border: 2px solid var(--ink); padding: 22px 24px; box-shadow: 8px 8px 0 var(--ink); }
+.bay-card h3 { color: var(--ink); }
+
+.route-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.route-btn {
+  display: grid; grid-template-columns: 80px 1fr; gap: 16px; align-items: center;
+  padding: 14px 16px; background: var(--paper); border: 1.5px solid var(--rule-dark);
+  cursor: pointer; transition: all 0.18s ease; font-family: var(--font-sans); text-align: left;
+}
+.route-btn:hover { border-color: var(--ink); transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--ink); }
+.route-btn.active { border-color: var(--ink); background: var(--paper-card); box-shadow: 4px 4px 0 var(--ink); }
+.route-btn[data-route="r1"].active { background: var(--map-nbhd-blush); }
+.route-btn[data-route="r2"].active { background: var(--map-nbhd-mint); }
+.route-btn[data-route="r3"].active { background: var(--map-nbhd-sky); }
+.route-btn[data-route="r4"].active { background: #fde2ec; }
+.route-btn .dir-badge { font-family: var(--font-headline); font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase;
+  text-align: center; padding: 8px 6px; border: 2px solid var(--ink); background: var(--paper-card); color: var(--ink); }
+.route-btn[data-route="r1"] .dir-badge { background: var(--r-north); color: #fff; border-color: var(--ink); }
+.route-btn[data-route="r2"] .dir-badge { background: var(--r-south); color: var(--ink); border-color: var(--ink); }
+.route-btn[data-route="r3"] .dir-badge { background: var(--r-east); color: #fff; border-color: var(--ink); }
+.route-btn[data-route="r4"] .dir-badge { background: var(--r-west); color: #fff; border-color: var(--ink); }
+.route-btn .info .from-to { font-weight: 700; color: var(--ink); font-size: 14px; letter-spacing: 0.01em; line-height: 1.2; }
+.route-btn .info .from-to .arr { color: var(--pop-red); font-weight: 800; margin: 0 4px; }
+.route-btn .info .meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; font-weight: 600; }
+
+.mode-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+.mode-btn { padding: 12px 6px; background: var(--paper); border: 1.5px solid var(--rule-dark);
+  cursor: pointer; transition: all 0.18s ease; font-family: var(--font-sans); text-align: center; }
+.mode-btn:hover { border-color: var(--ink); transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
+.mode-btn.active { border-color: var(--ink); background: var(--pop-yellow); box-shadow: 3px 3px 0 var(--ink); }
+.mode-btn .glyph { display: block; height: 28px; margin: 0 auto 6px; }
+.mode-btn .lbl { font-family: var(--font-headline); font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
+.mode-btn .est { font-family: var(--font-mono); font-size: 10px; color: var(--ink); margin-top: 4px; font-weight: 700; }
+
+.transport-controls { display: flex; align-items: center; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+.play-btn { font-family: var(--font-headline); font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--paper-card); background: var(--ink); border: none; padding: 14px 24px; cursor: pointer; border-radius: 0;
+  box-shadow: 5px 5px 0 var(--pop-red); transition: transform 0.1s ease, box-shadow 0.1s ease; }
+.play-btn:hover { transform: translate(-1px,-1px); box-shadow: 6px 6px 0 var(--pop-red); }
+.play-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--pop-red); }
+.scrub { flex: 1; min-width: 200px; accent-color: var(--pop-red); height: 5px; }
+.cls-toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 11px 14px; background: var(--paper); border: 2px dashed var(--pop-purple); color: var(--pop-purple); }
+.cls-toggle .sw { width: 24px; height: 14px; background: var(--paper-card); border: 1.5px solid var(--pop-purple); position: relative; border-radius: 8px; }
+.cls-toggle .sw::after { content: ""; position: absolute; top: 1px; left: 1px; width: 10px; height: 10px; background: var(--pop-purple); transition: left 0.2s ease; border-radius: 50%; }
+.cls-toggle.on .sw::after { left: 11px; }
+.cls-toggle.on { background: rgba(122,76,255,0.10); }
+
+.atlas-legend { max-width: 1280px; margin: 24px auto 0; padding: 0 16px;
+  display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+.atlas-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.lg-dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; border: 1.5px solid var(--ink); }
+.lg-dot.pub { background: var(--cap-pub); } .lg-dot.inf { background: var(--cap-inf); } .lg-dot.priv { background: var(--cap-priv); } .lg-dot.cls { background: var(--cap-cls); }
+.lg-line { width: 26px; height: 5px; display: inline-block; border: 1px solid var(--ink); }
+.lg-line.n { background: var(--r-north); }
+.lg-line.s { background: var(--r-south); }
+.lg-line.e { background: var(--r-east); }
+.lg-line.w { background: var(--r-west); }
+
+/* ================ JURISDICTION LEGEND ================ */
+.legend-panel { max-width: 1080px; margin: 0 auto;
+  background: var(--paper-card); color: var(--ink); padding: 56px 60px;
+  border: 2px solid var(--ink);
+  box-shadow: 12px 12px 0 var(--pop-mint); position: relative; }
+.legend-panel::before { content: "MAP KEY · LEGEND · 4½"; position: absolute; top: -14px; left: 32px;
+  background: var(--paper); color: var(--ink); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.32em;
+  padding: 5px 14px; border: 2px solid var(--ink); font-weight: 700; }
+.legend-panel h2 { color: var(--ink); margin-bottom: 18px; }
+.jlist { list-style: none; margin: 18px 0; columns: 2; column-gap: 36px; }
+.jlist li { font-family: var(--font-sans); font-size: 14px; line-height: 1.5; color: var(--ink-soft);
+  padding: 10px 0 10px 30px; position: relative; break-inside: avoid;
+  border-bottom: 1px dotted var(--rule-dark); font-weight: 500; }
+.jlist li::before { content: ""; position: absolute; left: 0; top: 16px; width: 14px; height: 14px;
+  background: var(--pop-yellow); border: 2px solid var(--ink); }
+.jlist li:nth-child(2)::before { background: var(--pop-red); }
+.jlist li:nth-child(3)::before { background: var(--pop-mint); }
+.jlist li:nth-child(4)::before { background: var(--pop-cobalt); }
+.jlist li:nth-child(5)::before { background: var(--pop-magenta); }
+.jlist li:nth-child(6)::before { background: var(--pop-purple); }
+.jlist li:nth-child(7)::before { background: var(--pop-orange); }
+@media (max-width: 620px) { .jlist { columns: 1; } }
+
+.pull-quote { margin: 44px auto 0; max-width: 760px; padding: 26px 0;
+  font-family: var(--font-display); font-style: italic; font-size: clamp(24px, 3.4vw, 34px);
+  line-height: 1.22; color: var(--ink); text-align: center;
+  border-top: 4px double var(--ink); border-bottom: 4px double var(--ink); }
+.pull-quote em { font-weight: 600; font-style: italic; }
+
+/* ================ FIELD NOTES (ledger) ================ */
+.field-section { background: var(--paper-warm); }
+.ledger { max-width: 1080px; margin: 0 auto;
+  background: var(--paper-card); color: var(--ink); padding: 56px 56px 50px; position: relative;
+  border: 2px solid var(--ink); box-shadow: 12px 12px 0 var(--pop-cobalt); }
+.ledger h2 { margin-bottom: 10px; }
+.ledger .ledger-deck { font-family: var(--font-display); font-style: italic; color: var(--muted); margin-bottom: 30px; font-size: 19px; }
+.matrix { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 13px; margin-top: 10px; }
+.matrix th, .matrix td { text-align: left; padding: 12px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--ink-soft); }
+.matrix th { font-family: var(--font-headline); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); font-weight: 800; }
+.tier { font-family: var(--font-mono); font-weight: 800; font-size: 10px; padding: 3px 8px; border-radius: 0; white-space: nowrap; border: 1.5px solid currentColor; text-transform: uppercase; letter-spacing: 0.06em; }
+.tier.t1 { background: var(--pop-mint); color: var(--ink); border-color: var(--ink); }
+.tier.t2 { background: var(--pop-yellow); color: var(--ink); border-color: var(--ink); }
+.tier.t3 { background: var(--map-nbhd-lav); color: var(--ink); border-color: var(--ink); }
+
+/* ================ REFUSES (warning labels) ================ */
+.refuse-grid { max-width: 1180px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+.warn-tag { position: relative; padding: 28px 26px;
+  background: var(--paper-card); border: 2px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--pop-yellow); }
+.warn-tag.refuse { box-shadow: 8px 8px 0 var(--pop-red); }
+.warn-tag.honor { box-shadow: 8px 8px 0 var(--pop-mint); }
+.warn-tag::before {
+  content: ""; position: absolute; top: -2px; left: -2px; right: -2px; height: 6px;
+  background: repeating-linear-gradient(45deg, var(--ink) 0 10px, var(--pop-yellow) 10px 20px);
+}
+.warn-tag.refuse::before { background: repeating-linear-gradient(45deg, var(--ink) 0 10px, var(--pop-red) 10px 20px); }
+.warn-tag.honor::before { background: repeating-linear-gradient(45deg, var(--ink) 0 10px, var(--pop-mint) 10px 20px); }
+.warn-tag .stamp { display: inline-block; padding: 4px 10px; margin-bottom: 14px; margin-top: 10px;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink); border: 1.5px solid var(--ink); border-radius: 3px; }
+.warn-tag h4 { font-family: var(--font-display); font-weight: 600; font-size: 26px; color: var(--ink); margin-bottom: 10px; line-height: 1.1; }
+.warn-tag p { color: var(--ink-soft); font-size: 15px; margin: 0; }
+
+/* ================ COUNTER-READ ================ */
+.chart-grid { max-width: 1240px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; }
+.chart-card { background: var(--paper-card); color: var(--ink); padding: 28px 28px; border: 2px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink); position: relative; }
+.chart-card .num { font-family: var(--font-headline); font-size: 38px; font-weight: 900; line-height: 1; color: var(--pop-red); margin-bottom: 8px; }
+.chart-card:nth-child(2) .num { color: var(--pop-mint); }
+.chart-card:nth-child(3) .num { color: var(--pop-cobalt); }
+.chart-card:nth-child(4) .num { color: var(--pop-magenta); }
+.chart-card h4 { font-family: var(--font-display); font-size: 24px; color: var(--ink); margin-bottom: 10px; font-weight: 600; }
+.chart-card p { color: var(--ink-soft); font-size: 15px; margin-bottom: 12px; }
+.chart-card .resp { margin-top: 14px; padding-top: 14px; border-top: 2px solid var(--ink);
+  font-style: italic; font-family: var(--font-display); font-size: 17px; color: var(--ink); }
+
+/* ================ CLOSER ================ */
+.closer { padding: 130px 0; text-align: center; position: relative; background: var(--paper); }
+.closer-band { display: inline-block; padding: 50px 70px; max-width: 940px;
+  background: var(--paper-card); border: 3px solid var(--ink); position: relative;
+  box-shadow: 14px 14px 0 var(--pop-magenta); }
+.closer-line { font-family: var(--font-display); font-style: italic; font-weight: 500;
+  font-size: clamp(36px, 6.4vw, 72px); line-height: 1.06; color: var(--ink); letter-spacing: -0.01em; }
+.closer-line .high { background: var(--highlight); padding: 0 6px; }
+.closer-attr { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); margin-top: 30px; }
+
+/* ================ ECHOES ================ */
+.echoes { max-width: 780px; margin: 0 auto; }
+.echo { display: flex; gap: 18px; align-items: flex-start; padding: 22px 0; border-bottom: 1px solid var(--rule); }
+.echo .e-mark { flex: none; width: 44px; height: 44px; background: var(--ink); color: var(--paper-card);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-headline); font-size: 16px; font-weight: 800; }
+.echo .e-to { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pop-red); }
+.echo .e-body { font-family: var(--font-display); font-style: italic; font-size: 20px; color: var(--ink); margin-top: 4px; line-height: 1.3; }
+
+/* ================ BRIDGE NAV ================ */
+.bridge { border-top: 1px solid var(--rule); padding: 50px 0; background: var(--paper-warm); }
+.bridge-nav { display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.bridge-nav a { font-family: var(--font-headline); font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; padding: 14px 24px; border: 2px solid var(--ink); color: var(--ink); background: var(--paper-card); border-radius: 0; transition: transform 0.1s ease, box-shadow 0.1s ease; }
+.bridge-nav a.prev::before { content: "\2190  "; color: var(--pop-red); }
+.bridge-nav a.next { background: var(--ink); color: var(--paper-card); }
+.bridge-nav a.next::after { content: "  \2192"; }
+.bridge-nav a:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }
+.bridge-nav a.next:hover { box-shadow: 4px 4px 0 var(--pop-red); }
+
+/* ================ FOOTER ================ */
+.legal-footer { background: var(--ink); color: var(--paper); padding: 60px 32px 50px; font-family: var(--font-sans); font-size: 12px; line-height: 1.7; }
+.legal-footer .row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 22px; max-width: var(--col-wide); margin: 0 auto 22px; padding-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.15); align-items: center; }
+.legal-footer .brand { font-family: var(--font-headline); font-size: 22px; font-weight: 800; color: var(--paper); }
+.legal-footer .brand em { font-family: var(--font-display); font-style: italic; color: var(--pop-yellow); font-weight: 500; }
+.legal-footer .links { display: flex; gap: 22px; flex-wrap: wrap; letter-spacing: 0.16em; text-transform: uppercase; }
+.legal-footer .links a { color: rgba(255,255,255,0.7); font-size: 11px; font-weight: 700; border: none; }
+.legal-footer .links a:hover { color: var(--pop-yellow); }
+.legal-footer .fine { max-width: var(--col-wide); margin: 0 auto; font-size: 11px; line-height: 1.65; color: rgba(255,255,255,0.6); }
+
+/* ================ REVEAL ================ */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.js .reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .cap { opacity: 1 !important; animation: none !important; }
+  .alert-pin { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<nav class="chrome">
+  <a href="/" class="brand">Infera <em>·</em> The Mechanism Series</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/personhood-inc.html"><span class="tn">01</span>Personhood</a>
+    <a href="/the-feed-engine.html"><span class="tn">02</span>The Feed</a>
+    <a href="/episode-03-trust-market-mockup.html"><span class="tn">03</span>Trust Market</a>
+    <a href="/episode-04-the-influence-war-mockup.html"><span class="tn">04</span>Influence War</a>
+    <a class="cur" href="/the-replayable-city.html"><span class="tn">4&frac12;</span>Replayable City</a>
+  </div>
+</nav>
+
+<!-- ================ HERO ================ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="strap reveal">
+      <span class="pill">FIELD DISPATCH 4½</span>
+      <span class="dot"></span><span>The Mechanism Series</span>
+      <span class="dot"></span><span>May 2026</span>
+    </div>
+
+    <h1 class="reveal">How <em>DC</em> sees you on the way <span class="high">to work</span>.</h1>
+
+    <p class="deck reveal" style="margin-top:36px; max-width:760px">A forty-minute commute from any side of the capital crosses a dozen separate watchers, none of which see the whole route. Stitched together, the day is replayable.</p>
+
+    <div class="tag-cluster reveal">
+      <span class="chip red">DC Metro</span>
+      <span class="chip">live atlas</span>
+      <span class="chip mint">five modes</span>
+      <span class="chip yellow">four routes</span>
+      <span class="chip">interactive</span>
+      <span class="chip">~6 min read</span>
+    </div>
+
+    <div class="meta reveal">
+      <span><b>BYLINE</b> &nbsp; Infera Editorial</span>
+      <span><b>BETWEEN</b> &nbsp; EP 04 → EP 05</span>
+      <span><b>EXHIBIT</b> &nbsp; Live cartograph</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================ MARQUEE QUOTE ================ -->
+<section class="tight">
+  <div class="wrap-wide">
+    <div class="marquee reveal">
+      <div class="q">You were not followed. You were recoverable.</div>
+      <div class="attr">Compression point · Field Dispatch 4½</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ ATLAS ================ -->
+<section class="atlas-section">
+  <div class="atlas-intro reveal">
+    <div class="kicker">Exhibit A · Pick a Commute</div>
+    <h2>Four routes. <em>Forty minutes each.</em> Four sides of the city.</h2>
+    <p class="lead">North, south, east, west. A real Washington commute from each corner. Pick a mode. Toggle the jurisdictional layers. Watch how the city sees you, block by block, in actual street names you would recognize from the morning drive.</p>
+  </div>
+
+  <div class="atlas-frame">
+    <div class="atlas-stage" id="atlasStage">
+      <svg id="mapSvg" viewBox="0 0 1200 720" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Head-on classic map of Washington DC and the inner metro with real street names and four selectable commute routes">
+        <defs>
+          <pattern id="paper-tx" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+            <rect width="60" height="60" fill="var(--map-bg)"/>
+            <circle cx="20" cy="20" r="0.5" fill="rgba(0,0,0,0.05)"/>
+            <circle cx="40" cy="40" r="0.5" fill="rgba(0,0,0,0.05)"/>
+          </pattern>
+        </defs>
+
+        <!-- paper backing -->
+        <rect x="0" y="0" width="1200" height="720" fill="url(#paper-tx)"/>
+
+        <!-- =========== JURISDICTION LAYERS =========== -->
+        <!-- FAA SFRA ~30mi ring (centered on DCA ~623,477) -->
+        <circle class="lyr lyr-sfra" id="lyr-sfra" cx="623" cy="477" r="640"/>
+        <!-- FAA FRZ ~15mi ring -->
+        <circle class="lyr lyr-frz" id="lyr-frz" cx="623" cy="477" r="320"/>
+        <!-- county lines -->
+        <g class="lyr lyr-county" id="lyr-county">
+          <!-- Montgomery (north) -->
+          <path d="M 270 0 L 1000 0 L 1000 180 C 800 195 500 195 270 180 Z" fill="rgba(122,76,255,0.06)"/>
+          <!-- Prince George's (east/NE) -->
+          <path d="M 970 180 L 1200 180 L 1200 600 L 920 620 C 880 540 880 380 940 250 Z" fill="rgba(122,76,255,0.06)"/>
+          <!-- Arlington (west of Potomac, small) -->
+          <path d="M 470 290 L 580 280 L 600 420 L 510 460 L 470 380 Z" fill="rgba(122,76,255,0.06)"/>
+          <!-- Fairfax (broad west) -->
+          <path d="M 0 250 L 470 240 L 510 460 L 540 540 L 0 540 Z" fill="rgba(122,76,255,0.06)"/>
+          <!-- Alexandria (small SE) -->
+          <path d="M 560 530 L 660 530 L 660 620 L 560 620 Z" fill="rgba(122,76,255,0.06)"/>
+        </g>
+        <text class="nbhd-label lyr" id="lyr-lbl-county" x="600" y="60" text-anchor="middle">MONTGOMERY COUNTY · MD</text>
+        <text class="nbhd-label lyr" id="lyr-lbl-county2" x="1080" y="380" text-anchor="middle">PRINCE GEORGE'S · MD</text>
+
+        <!-- MPD CCTV zone = DC diamond -->
+        <polygon class="lyr lyr-mpd" id="lyr-mpd" points="632,131 937,377 614,620 384,377"/>
+
+        <!-- WMATA pseudo-hull -->
+        <path class="lyr lyr-wmata" id="lyr-wmata" d="M 130 110 L 1110 130 L 1180 300 L 1100 530 L 850 620 L 480 620 L 230 540 L 90 360 Z"/>
+
+        <!-- =========== HYDROLOGY =========== -->
+        <!-- Potomac main stem (real bends approximated) -->
+        <path d="M 100 130 C 200 180 280 240 360 280 C 430 320 510 360 570 370 C 600 374 615 384 622 405 C 626 425 640 440 650 460 C 660 478 670 492 685 510 C 700 528 700 552 685 580 C 660 615 600 625 480 625 C 380 625 280 625 130 625"
+              fill="var(--map-water)" stroke="none"/>
+        <path d="M 100 130 C 200 180 280 240 360 280 C 430 320 510 360 570 370 C 600 374 615 384 622 405 C 626 425 640 440 650 460 C 660 478 670 492 685 510 C 700 528 700 552 685 580 C 660 615 600 625 480 625" class="water-edge"/>
+        <!-- Anacostia -->
+        <path d="M 1100 270 C 1020 290 950 320 880 360 C 820 390 770 420 740 450 C 720 470 700 480 685 510" stroke="var(--map-water)" stroke-width="22" fill="none" stroke-linecap="round"/>
+        <path d="M 1100 270 C 1020 290 950 320 880 360 C 820 390 770 420 740 450 C 720 470 700 480 685 510" class="water-edge"/>
+
+        <!-- =========== NEIGHBORHOOD FILLS =========== -->
+        <!-- Downtown / Federal Triangle -->
+        <polygon class="nbhd" points="580,340 740,340 740,420 580,420" fill="var(--map-nbhd-sun)" opacity="0.55"/>
+        <!-- Georgetown -->
+        <polygon class="nbhd" points="500,330 580,340 580,380 510,380" fill="var(--map-nbhd-blush)" opacity="0.6"/>
+        <!-- Capitol Hill -->
+        <polygon class="nbhd" points="700,360 800,360 800,430 700,430" fill="var(--map-nbhd-peach)" opacity="0.5"/>
+        <!-- H Street / NoMa -->
+        <polygon class="nbhd" points="700,300 850,300 850,360 700,360" fill="var(--map-nbhd-mint)" opacity="0.45"/>
+        <!-- Brookland / Hyattsville -->
+        <polygon class="nbhd" points="700,230 880,230 880,300 700,300" fill="var(--map-nbhd-lav)" opacity="0.45"/>
+        <!-- Adams Morgan / Dupont -->
+        <polygon class="nbhd" points="580,260 680,260 680,340 580,340" fill="var(--map-nbhd-sky)" opacity="0.5"/>
+        <!-- U Street -->
+        <polygon class="nbhd" points="560,290 700,290 700,320 560,320" fill="#ffe1ec" opacity="0.55"/>
+
+        <!-- =========== MALL PARK + ROCK CREEK =========== -->
+        <rect class="park" x="580" y="384" width="180" height="18" rx="2"/>
+        <path class="park" d="M 540 220 C 550 280 555 340 545 380 L 560 380 C 568 340 565 280 558 215 Z"/>
+        <path class="park" d="M 590 430 C 605 470 610 510 615 540 L 630 540 C 625 500 615 460 605 430 Z"/>
+
+        <!-- =========== DC DIAMOND =========== -->
+        <polygon class="dc-diamond" points="632,131 937,377 614,620 384,377"/>
+
+        <!-- =========== HIGHWAYS =========== -->
+        <!-- Capital Beltway (visible portions) -->
+        <path id="rd-belt" class="beltway" d="M 280 130 C 450 110 700 110 900 130 C 1060 150 1180 250 1190 370 C 1180 480 1080 580 900 600 C 700 615 480 605 320 580 C 180 555 90 460 80 340 C 80 250 150 170 280 130 Z"/>
+        <!-- I-66 (west into DC) -->
+        <path id="rd-i66" class="hwy" d="M 0 380 C 100 380 200 385 308 398 C 400 400 500 395 580 395 C 600 395 615 396 630 393"/>
+        <!-- I-395 / 14th St Br -->
+        <path id="rd-i395" class="hwy" d="M 605 600 C 605 540 610 500 615 460 C 618 430 620 410 615 395"/>
+        <!-- I-295 / Anacostia Fwy -->
+        <path id="rd-i295" class="hwy" d="M 1100 270 C 1020 320 940 380 880 430 C 830 470 790 510 770 540"/>
+        <!-- Suitland Pkwy -->
+        <path id="rd-suitland" class="hwy" d="M 908 485 C 850 470 790 450 760 440 C 730 430 715 420 705 405"/>
+        <!-- GW Pkwy -->
+        <path id="rd-gwp" class="hwy" d="M 540 360 L 560 395 L 580 430 L 580 540"/>
+        <!-- US-50 / NY Ave NE -->
+        <path id="rd-nyave" class="hwy" d="M 660 385 L 720 365 L 800 340 L 870 320 L 950 305"/>
+
+        <!-- =========== DC ARTERIALS (real street names below) =========== -->
+        <!-- Pennsylvania Ave NW (White House → Capitol) -->
+        <path id="rd-pa" class="arterial" d="M 632 366 L 698 384"/>
+        <!-- Pennsylvania Ave SE (Capitol → Anacostia) -->
+        <path class="arterial" d="M 698 384 L 760 410 L 820 440 L 870 465"/>
+        <!-- Constitution Ave -->
+        <path class="arterial" d="M 540 385 L 700 385"/>
+        <!-- Independence Ave -->
+        <path class="arterial" d="M 540 400 L 700 400"/>
+        <!-- K Street NW -->
+        <path id="rd-kst" class="arterial" d="M 540 358 L 740 358"/>
+        <!-- M Street NW -->
+        <path class="arterial" d="M 540 340 L 740 340"/>
+        <!-- 14th Street NW -->
+        <path id="rd-14th" class="arterial" d="M 614 200 L 614 395"/>
+        <!-- 16th Street NW -->
+        <path id="rd-16th" class="arterial" d="M 632 170 L 632 366"/>
+        <!-- 7th Street NW -->
+        <path class="arterial" d="M 680 275 L 680 395"/>
+        <!-- North Capitol St -->
+        <path class="arterial" d="M 698 250 L 698 384"/>
+        <!-- South Capitol St -->
+        <path class="arterial" d="M 698 384 L 698 540"/>
+        <!-- Connecticut Ave NW (diagonal) -->
+        <path id="rd-conn" class="arterial" d="M 550 200 L 590 280 L 632 365"/>
+        <!-- Massachusetts Ave NW/NE (diagonal) -->
+        <path id="rd-mass" class="arterial" d="M 460 295 L 590 340 L 698 384 L 750 395"/>
+        <!-- Wisconsin Ave NW (Georgetown spine) -->
+        <path id="rd-wisc" class="arterial" d="M 480 200 L 520 280 L 555 350"/>
+        <!-- Georgia Ave NW -->
+        <path id="rd-georgia" class="arterial" d="M 657 142 C 655 200 660 280 670 360"/>
+        <!-- Florida Ave (arc) -->
+        <path id="rd-florida" class="arterial" d="M 540 300 C 600 290 680 295 770 305"/>
+        <!-- U Street NW -->
+        <path id="rd-ust" class="arterial" d="M 555 305 L 700 305"/>
+        <!-- H Street NE -->
+        <path id="rd-hst" class="arterial" d="M 700 365 L 850 360"/>
+        <!-- Rhode Island Ave NE -->
+        <path id="rd-riave" class="arterial" d="M 698 384 C 740 360 800 340 870 320"/>
+        <!-- Foxhall Rd NW -->
+        <path id="rd-foxhall" class="arterial" d="M 497 290 L 500 350"/>
+        <!-- East Capitol Street -->
+        <path id="rd-ecap" class="arterial" d="M 698 384 L 900 380"/>
+        <!-- Whitehurst Fwy -->
+        <path id="rd-whitehurst" class="arterial" d="M 530 360 L 580 366"/>
+        <!-- Central Ave (PG) -->
+        <path id="rd-central" class="arterial" d="M 900 380 L 1000 370 L 1144 339"/>
+
+        <!-- minor street grid -->
+        <g>
+          <path class="minor" d="M 580 320 L 760 320"/>
+          <path class="minor" d="M 580 380 L 760 380"/>
+          <path class="minor" d="M 580 420 L 760 420"/>
+          <path class="minor" d="M 600 280 L 600 420"/>
+          <path class="minor" d="M 660 280 L 660 420"/>
+          <path class="minor" d="M 720 280 L 720 420"/>
+          <path class="minor" d="M 740 280 L 740 420"/>
+        </g>
+
+        <!-- =========== METRO LINES =========== -->
+        <path class="metro m-red" d="M 595 25 L 620 50 L 657 110 L 670 180 L 700 240 L 720 280 L 730 320 L 698 360 L 720 360 L 740 360 L 760 365 L 800 320 L 815 290 L 870 220 L 853 180 L 830 130 L 800 80"/>
+        <path class="metro m-orange" d="M 230 350 L 350 365 L 460 372 L 580 380 L 632 380 L 698 384 L 770 385 L 850 365 L 950 340 L 1050 320"/>
+        <path class="metro m-blue" d="M 460 580 L 560 510 L 580 460 L 615 395 L 698 384 L 800 395 L 900 410 L 1050 420"/>
+        <path class="metro m-silver" d="M 0 250 L 130 250 L 240 290 L 350 340 L 460 372 L 580 380 L 698 384 L 800 395 L 900 410 L 1050 420"/>
+        <path class="metro m-yellow" d="M 605 600 L 605 540 L 605 460 L 615 395 L 630 360 L 640 330"/>
+        <path class="metro m-green" d="M 770 580 L 780 510 L 770 450 L 740 395 L 700 360 L 680 320 L 660 270 L 670 200 L 720 160"/>
+
+        <!-- =========== LANDMARKS =========== -->
+        <g transform="translate(698,384)"><circle r="5" class="lm-glow"/></g>
+        <g transform="translate(632,366)"><circle r="4" class="lm"/></g>
+        <polygon points="635,378 631,388 639,388" class="lm"/>
+        <rect x="599" y="384" width="6" height="4" class="lm"/>
+        <polygon points="582,425 590,420 595,428 592,436 585,436" class="lm"/>
+        <g transform="translate(623,477)"><polygon points="0,-5 5,5 -5,5" class="lm"/></g>
+        <rect x="704" y="362" width="6" height="6" class="lm"/>
+
+        <!-- =========== STREET NAME LABELS (the bold typographic move) =========== -->
+        <!-- Highway labels in shields -->
+        <g transform="translate(160,378)"><rect class="hwy-shield" x="-12" y="-9" width="24" height="14"/><text class="hwy-num" y="2">66</text></g>
+        <g transform="translate(615,545)"><rect class="hwy-shield" x="-12" y="-9" width="24" height="14"/><text class="hwy-num" y="2">395</text></g>
+        <g transform="translate(950,440)"><rect class="hwy-shield" x="-12" y="-9" width="24" height="14"/><text class="hwy-num" y="2">295</text></g>
+        <g transform="translate(120,260)"><rect class="hwy-shield" x="-14" y="-9" width="28" height="14"/><text class="hwy-num" y="2">495</text></g>
+        <g transform="translate(1090,440)"><rect class="hwy-shield" x="-14" y="-9" width="28" height="14"/><text class="hwy-num" y="2">495</text></g>
+
+        <!-- arterial street labels -->
+        <text class="street-label" x="540" y="354" text-anchor="end">K ST NW</text>
+        <text class="street-label" x="540" y="336" text-anchor="end">M ST NW</text>
+        <text class="street-label" x="540" y="381" text-anchor="end">CONSTITUTION AVE</text>
+        <text class="street-label" x="540" y="396" text-anchor="end">INDEPENDENCE AVE</text>
+        <text class="street-label sm" x="630" y="195" text-anchor="middle">16TH ST NW</text>
+        <text class="street-label sm" x="612" y="220" text-anchor="middle">14TH ST NW</text>
+        <text class="street-label sm" x="678" y="270" text-anchor="middle">7TH ST NW</text>
+        <text class="street-label sm" x="696" y="245" text-anchor="middle">N CAPITOL</text>
+        <text class="street-label sm" x="696" y="555" text-anchor="middle">S CAPITOL</text>
+        <text class="street-label" x="660" y="375" text-anchor="middle" transform="rotate(15 660 375)">PENNSYLVANIA AVE NW</text>
+        <text class="street-label" x="780" y="430" text-anchor="middle" transform="rotate(25 780 430)">PENNSYLVANIA AVE SE</text>
+        <text class="street-label sm" x="565" y="270" text-anchor="middle" transform="rotate(50 565 270)">CONNECTICUT AVE NW</text>
+        <text class="street-label sm" x="500" y="325" text-anchor="middle" transform="rotate(60 500 325)">WISCONSIN AVE NW</text>
+        <text class="street-label sm" x="500" y="320" text-anchor="middle" transform="rotate(20 500 320)">MASSACHUSETTS AVE</text>
+        <text class="street-label sm" x="660" y="155" text-anchor="middle">GEORGIA AVE NW</text>
+        <text class="street-label" x="775" y="362" text-anchor="middle">H ST NE</text>
+        <text class="street-label" x="630" y="302" text-anchor="middle">U ST NW</text>
+        <text class="street-label sm" x="700" y="295" text-anchor="middle">FLORIDA AVE</text>
+        <text class="street-label sm" x="810" y="335" text-anchor="middle">RHODE ISLAND AVE NE</text>
+        <text class="street-label sm" x="840" y="318" text-anchor="middle">NEW YORK AVE NE</text>
+        <text class="street-label sm" x="503" y="320" text-anchor="middle">FOXHALL</text>
+        <text class="street-label sm" x="820" y="380" text-anchor="middle">EAST CAPITOL ST</text>
+        <text class="street-label sm" x="780" y="430" fill="rgba(0,0,0,0.55)"></text>
+        <text class="street-label sm" x="780" y="450" text-anchor="middle">SUITLAND PKWY</text>
+        <text class="street-label sm" x="555" y="450" text-anchor="middle" transform="rotate(75 555 450)">GW PKWY</text>
+        <text class="street-label sm" x="1060" y="365" text-anchor="middle">CENTRAL AVE</text>
+
+        <!-- DC label -->
+        <text class="area-label big" x="660" y="478" text-anchor="middle" opacity="0.5">DC</text>
+        <text class="area-label sm" x="660" y="494" text-anchor="middle" opacity="0.5">DISTRICT OF COLUMBIA</text>
+
+        <!-- =========== AREA LABELS =========== -->
+        <text class="area-label" x="657" y="138" text-anchor="middle">SILVER SPRING</text>
+        <text class="area-label sm" x="657" y="151" text-anchor="middle">MARYLAND · NORTH</text>
+        <text class="area-label" x="607" y="585" text-anchor="middle">ALEXANDRIA</text>
+        <text class="area-label sm" x="607" y="598" text-anchor="middle">VIRGINIA · SOUTH</text>
+        <text class="area-label" x="1144" y="335" text-anchor="middle">LARGO</text>
+        <text class="area-label sm" x="1144" y="348" text-anchor="middle">MARYLAND · EAST</text>
+        <text class="area-label" x="308" y="395" text-anchor="middle">FALLS CHURCH</text>
+        <text class="area-label sm" x="308" y="408" text-anchor="middle">VIRGINIA · WEST</text>
+
+        <!-- arrival labels -->
+        <text class="nbhd-label" x="708" y="416" text-anchor="middle" fill="var(--ink)" font-weight="700">NAVY YARD</text>
+        <text class="nbhd-label" x="775" y="354" text-anchor="middle" fill="var(--ink)" font-weight="700">H ST CORRIDOR</text>
+        <text class="nbhd-label" x="555" y="345" text-anchor="middle" fill="var(--ink)" font-weight="700">GEORGETOWN</text>
+        <text class="nbhd-label" x="725" y="270" text-anchor="middle" fill="var(--ink)" font-weight="700">BROOKLAND</text>
+
+        <!-- neighborhood / small place labels -->
+        <text class="nbhd-label" x="495" y="178" text-anchor="middle">BETHESDA</text>
+        <text class="nbhd-label" x="853" y="140" text-anchor="middle">COLLEGE PARK</text>
+        <text class="nbhd-label" x="908" y="490" text-anchor="middle">SUITLAND</text>
+        <text class="nbhd-label" x="295" y="280" text-anchor="middle">McLEAN · TYSONS</text>
+        <text class="nbhd-label" x="640" y="288" text-anchor="middle">DUPONT</text>
+        <text class="nbhd-label" x="630" y="263" text-anchor="middle">ADAMS MORGAN</text>
+        <text class="nbhd-label" x="660" y="450" text-anchor="middle">ANACOSTIA</text>
+        <text class="nbhd-label" x="595" y="430" text-anchor="middle">FEDERAL TRI.</text>
+        <text class="nbhd-label" x="710" y="395" text-anchor="middle">CAPITOL HILL</text>
+        <text class="nbhd-label" x="565" y="395" text-anchor="middle">MALL</text>
+        <text class="nbhd-label" x="831" y="240" text-anchor="middle">HYATTSVILLE</text>
+
+        <!-- key landmark labels -->
+        <text class="nbhd-label" x="715" y="380" text-anchor="start" fill="var(--ink)" font-weight="700">CAPITOL</text>
+        <text class="nbhd-label" x="620" y="362" text-anchor="end" fill="var(--ink)" font-weight="700">WHITE HOUSE</text>
+        <text class="nbhd-label" x="600" y="416" text-anchor="end">PENTAGON</text>
+        <text class="nbhd-label" x="612" y="494" text-anchor="middle">DCA</text>
+        <text class="nbhd-label" x="720" y="358" text-anchor="middle" fill="var(--ink)" font-weight="700">UNION STN</text>
+
+        <!-- river labels -->
+        <text class="river-label" x="420" y="350" transform="rotate(-22 420 350)">P O T O M A C</text>
+        <text class="river-label" x="900" y="380" transform="rotate(38 900 380)" font-size="11">ANACOSTIA</text>
+
+        <!-- compass + scale (corner) -->
+        <g transform="translate(80,80)">
+          <circle r="22" fill="var(--paper-card)" stroke="var(--ink)" stroke-width="1.5"/>
+          <polygon points="0,-18 -3,0 0,-3 3,0" fill="var(--ink)"/>
+          <polygon points="0,18 -3,0 0,3 3,0" fill="var(--muted)"/>
+          <text font-family="Inter Tight" font-weight="900" font-size="9" fill="var(--ink)" x="0" y="-26" text-anchor="middle">N</text>
+        </g>
+        <g transform="translate(60,670)">
+          <text font-family="JetBrains Mono" font-size="8" letter-spacing="0.18em" fill="var(--ink)" x="0" y="-12" font-weight="700">0    2    4 MI</text>
+          <line x1="0" y1="0" x2="60" y2="0" stroke="var(--ink)" stroke-width="2"/>
+          <line x1="0" y1="-3" x2="0" y2="3" stroke="var(--ink)" stroke-width="1.5"/>
+          <line x1="30" y1="-3" x2="30" y2="3" stroke="var(--ink)" stroke-width="1"/>
+          <line x1="60" y1="-3" x2="60" y2="3" stroke="var(--ink)" stroke-width="1.5"/>
+        </g>
+
+        <!-- =========== DYNAMIC LAYERS =========== -->
+        <path id="altRoute" class="alt-route" d=""/>
+        <path id="userRoute" class="user-route" d=""/>
+        <path id="userTrail" class="user-trail" d="" stroke-dasharray="0 99999"/>
+
+        <g id="clsLayer"></g>
+        <g id="capLayer"></g>
+        <g id="alertLayer"></g>
+
+        <g id="meGroup">
+          <rect class="me-vehicle r1" id="meVehicle" x="-5" y="-9" width="10" height="18" rx="2"/>
+        </g>
+      </svg>
+
+      <div class="atlas-overlay">
+        <div class="overlay-card eta-card" id="etaCard">
+          <div class="row1"><div class="min" id="etaMin">--</div><div class="unit" id="etaUnit">min</div></div>
+          <div class="dest" id="etaDest">Pick a commute</div>
+        </div>
+        <div class="overlay-card cap-card">
+          <div class="num" id="capNum">0</div>
+          <div class="lbl">capture points</div>
+          <div class="jur" id="capJur">0 jurisdictions</div>
+          <div class="cls" id="capCls">+ ? classified presence</div>
+        </div>
+        <div class="layer-panel" aria-label="Jurisdiction layers">
+          <h5>Layers</h5>
+          <button class="lyr-btn" data-layer="county"><span class="sw"></span>County boundaries</button>
+          <button class="lyr-btn" data-layer="mpd"><span class="sw"></span>MPD CCTV district</button>
+          <button class="lyr-btn" data-layer="wmata"><span class="sw"></span>WMATA transit zone</button>
+          <button class="lyr-btn" data-layer="frz"><span class="sw"></span>FAA FRZ · 15 mi</button>
+          <button class="lyr-btn" data-layer="sfra"><span class="sw"></span>FAA SFRA · 30 mi</button>
+        </div>
+      </div>
+
+      <div class="dir-strip" id="dirStrip">
+        <span class="glyph" id="dirGlyph">⬈</span>
+        <span class="txt" id="dirTxt">Pick a route to begin</span>
+        <span class="dist" id="dirDist">0.0 mi</span>
+      </div>
+
+      <div class="info-cards" id="infoCards">
+        <div class="info-card mint" id="info1" style="top: 26%; left: 22px;">
+          <h4>Capture · MPD CCTV</h4>
+          <p>Block-level coverage. Footage retained roughly 90 days. Longer if held for evidence or training.</p>
+        </div>
+        <div class="info-card cobalt right" id="info2" style="top: 44%;">
+          <h4>Capture · Flock LPR</h4>
+          <p>Your plate enters a vendor network with default 30-day retention, stored in AWS GovCloud.</p>
+        </div>
+        <div class="info-card magenta" id="info3" style="top: 62%; left: 22px;">
+          <h4>Capture · WMATA cameras</h4>
+          <p>Roughly 30,000 cameras across trains, buses, stations, and power systems. Plus body-worn cameras on transit police.</p>
+        </div>
+        <div class="info-card red right" id="info4" style="top: 76%;">
+          <h4>Capture · Federal security</h4>
+          <p>DHS / FPS coverage on GSA-managed federal facilities. Retention varies by building.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTROLS BAY ===== -->
+  <div class="controls-bay">
+    <div class="bay-card">
+      <h3>Choose a commute · 40 min each</h3>
+      <div class="route-list" role="tablist" aria-label="Commute route">
+        <button class="route-btn active" data-route="r1" role="tab" aria-selected="true">
+          <span class="dir-badge">FROM<br/>THE<br/>NORTH</span>
+          <span class="info"><span class="from-to">Silver Spring, MD<span class="arr">→</span>Navy Yard, SE DC</span>
+            <span class="meta">Georgia Ave · 14th St · S Capitol · ~10 mi</span></span>
+        </button>
+        <button class="route-btn" data-route="r2" role="tab">
+          <span class="dir-badge">FROM<br/>THE<br/>SOUTH</span>
+          <span class="info"><span class="from-to">Alexandria, VA<span class="arr">→</span>H Street NE</span>
+            <span class="meta">GW Pkwy · 14th St Br · NoMa · ~9 mi</span></span>
+        </button>
+        <button class="route-btn" data-route="r3" role="tab">
+          <span class="dir-badge">FROM<br/>THE<br/>EAST</span>
+          <span class="info"><span class="from-to">Largo, MD<span class="arr">→</span>Georgetown, NW DC</span>
+            <span class="meta">Central Ave · East Capitol · M St · ~12 mi</span></span>
+        </button>
+        <button class="route-btn" data-route="r4" role="tab">
+          <span class="dir-badge">FROM<br/>THE<br/>WEST</span>
+          <span class="info"><span class="from-to">Falls Church, VA<span class="arr">→</span>Brookland, NE DC</span>
+            <span class="meta">I-66 · Constitution · N Capitol · ~12 mi</span></span>
+        </button>
+      </div>
+    </div>
+    <div class="bay-card">
+      <h3>Choose a mode</h3>
+      <div class="mode-grid" role="tablist" aria-label="Transport mode">
+        <button class="mode-btn active" data-mode="drive" role="tab" aria-selected="true">
+          <svg class="glyph" viewBox="0 0 28 28"><rect x="6" y="4" width="16" height="20" rx="3" fill="#ffd83d" stroke="#0a0a0a" stroke-width="1.5"/><rect x="8" y="7" width="12" height="8" fill="#0a0a0a" opacity="0.3"/><circle cx="10" cy="22" r="2" fill="#0a0a0a"/><circle cx="18" cy="22" r="2" fill="#0a0a0a"/></svg>
+          <div class="lbl">Drive</div><div class="est" data-eta-drive>--</div>
+        </button>
+        <button class="mode-btn" data-mode="rideshare" role="tab">
+          <svg class="glyph" viewBox="0 0 28 28"><rect x="6" y="4" width="16" height="20" rx="3" fill="#0a0a0a" stroke="#0a0a0a" stroke-width="1"/><rect x="9" y="2" width="10" height="3" fill="#fff"/><text x="14" y="5" text-anchor="middle" font-family="JetBrains Mono" font-size="2.6" fill="#0a0a0a" font-weight="700">UBER</text><circle cx="10" cy="22" r="2" fill="#fff"/><circle cx="18" cy="22" r="2" fill="#fff"/></svg>
+          <div class="lbl">Rideshare</div><div class="est" data-eta-rideshare>--</div>
+        </button>
+        <button class="mode-btn" data-mode="metro" role="tab">
+          <svg class="glyph" viewBox="0 0 28 28"><rect x="5" y="4" width="18" height="18" rx="3" fill="#0072CE" stroke="#0a0a0a" stroke-width="1.5"/><circle cx="14" cy="13" r="6" fill="none" stroke="#fff" stroke-width="2"/><text x="14" y="16" text-anchor="middle" font-family="Inter" font-weight="800" font-size="7" fill="#fff">M</text></svg>
+          <div class="lbl">Metro</div><div class="est" data-eta-metro>--</div>
+        </button>
+        <button class="mode-btn" data-mode="bus" role="tab">
+          <svg class="glyph" viewBox="0 0 28 28"><rect x="4" y="6" width="20" height="14" rx="2" fill="#ff4a2b" stroke="#0a0a0a" stroke-width="1.5"/><rect x="6" y="8" width="16" height="5" fill="#fff" opacity="0.85"/><circle cx="9" cy="22" r="2" fill="#0a0a0a"/><circle cx="19" cy="22" r="2" fill="#0a0a0a"/></svg>
+          <div class="lbl">Bus</div><div class="est" data-eta-bus>--</div>
+        </button>
+        <button class="mode-btn" data-mode="bike" role="tab">
+          <svg class="glyph" viewBox="0 0 28 28"><circle cx="8" cy="20" r="5" fill="none" stroke="#0a0a0a" stroke-width="1.6"/><circle cx="20" cy="20" r="5" fill="none" stroke="#0a0a0a" stroke-width="1.6"/><path d="M8 20 L14 8 L20 20" stroke="#2bd9a8" stroke-width="2.5" fill="none"/><circle cx="14" cy="8" r="1.6" fill="#0a0a0a"/></svg>
+          <div class="lbl">Bike</div><div class="est" data-eta-bike>--</div>
+        </button>
+      </div>
+
+      <div class="transport-controls">
+        <button class="play-btn" id="playBtn">▶ Start journey</button>
+        <input type="range" class="scrub" id="scrub" min="0" max="1000" value="0" aria-label="Scrub journey progress">
+        <button class="cls-toggle" id="clsToggle" aria-pressed="false"><span class="sw"></span>Classified layer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="atlas-legend">
+    <span><i class="lg-line n"></i>NORTH route</span>
+    <span><i class="lg-line s"></i>SOUTH route</span>
+    <span><i class="lg-line e"></i>EAST route</span>
+    <span><i class="lg-line w"></i>WEST route</span>
+    <span><i class="lg-dot pub"></i>Public capture</span>
+    <span><i class="lg-dot inf"></i>Inferred capture</span>
+    <span><i class="lg-dot priv"></i>Private (doorbell, building)</span>
+    <span><i class="lg-dot cls"></i>Classified presence</span>
+  </div>
+</section>
+
+<!-- ================ LEGEND / THESIS ================ -->
+<section>
+  <div class="wrap-wide">
+    <div class="legend-panel reveal">
+      <div class="kicker">Map key</div>
+      <h2>Surveillance here is not one system. <em>It is overlapping jurisdictions</em> watching the same person for different reasons.</h2>
+      <p>A normal commute in the DC metro passes through data environments owned or operated by separate agencies, vendors, and private participants. Each collects for its own purpose, under its own rules, on its own retention clock.</p>
+      <ul class="jlist">
+        <li>Metropolitan Police Department CCTV</li>
+        <li>District Department of Transportation traffic and speed cameras</li>
+        <li>WMATA transit cameras and body-worn cameras</li>
+        <li>U.S. Park Police monument-zone systems and aviation unit</li>
+        <li>U.S. Secret Service security perimeters</li>
+        <li>Federal building security (DHS / FPS / GSA)</li>
+        <li>Private property cameras (CameraConnect / Capital Shield)</li>
+        <li>Residential doorbell networks (Ring, Nest, others)</li>
+        <li>Automated license-plate readers (vendor networks)</li>
+        <li>School and transit fleet camera systems</li>
+        <li>Toll and traffic-enforcement systems</li>
+        <li>Federal and military installations (presence documented; capabilities not)</li>
+      </ul>
+      <div class="pull-quote">None of this becomes one clean composite file every morning. It becomes <em>reconstructable</em>. If something happens, pieces can be pulled from different systems and stitched into a timeline.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ FIELD NOTES ================ -->
+<section class="field-section">
+  <div class="wrap-wide">
+    <div class="ledger reveal">
+      <div class="kicker alt">Field notes</div>
+      <h2>Every claim, sourced and tier-tagged.</h2>
+      <p class="ledger-deck">T1 is a primary record. T2 is well-supported reporting. T3 is civil-liberties or investigative interpretation.</p>
+      <table class="matrix">
+        <thead><tr><th>Tier</th><th>Claim</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tier t1">T1</span></td><td>WMATA operates roughly 30,000 cameras across trains, buses, stations, and power systems.</td><td>WMATA public statements; transit-safety reporting</td></tr>
+          <tr><td><span class="tier t1">T1</span></td><td>MPD CCTV is generally retained 90 days, unless held for evidence, liability, internal review, or training.</td><td>MPD CCTV policy</td></tr>
+          <tr><td><span class="tier t1">T1</span></td><td>D.C. CameraConnect / Capital Shield lets private participants share camera access with MPD via Kastle Systems.</td><td>D.C. program documentation</td></tr>
+          <tr><td><span class="tier t1">T1</span></td><td>D.C. private-camera rebate rules require systems to retain footage at least 48 hours.</td><td>D.C. rebate program rules</td></tr>
+          <tr><td><span class="tier t1">T1</span></td><td>Flock Safety LPR data is retained 30 days by default, stored in AWS GovCloud.</td><td>Flock Safety published policy</td></tr>
+          <tr><td><span class="tier t1">T1</span></td><td>U.S. Park Police operates an aviation unit (three Bell helicopters) for law-enforcement support, search and rescue, and dignitary security.</td><td>National Park Service</td></tr>
+          <tr><td><span class="tier t1">T1</span></td><td>The FAA Special Flight Rules Area / Flight-Restricted Zone covers the National Capital Region; D.C. is a No Drone Zone.</td><td>FAA</td></tr>
+          <tr><td><span class="tier t2">T2</span></td><td>National Mall temporary security-camera plans described a system "not to exceed five years."</td><td>NPS planning documents</td></tr>
+          <tr><td><span class="tier t2">T2</span></td><td>A WMATA security upgrade funded by an $11.5M DHS grant integrated cameras into video-management and physical-security systems.</td><td>WMATA board materials</td></tr>
+          <tr><td><span class="tier t2">T2</span></td><td>CCTV reduces overall crime by a small but significant amount, concentrated in car parks and property crime; weaker effect on violent crime.</td><td>Welsh &amp; Farrington, Campbell Collaboration</td></tr>
+          <tr><td><span class="tier t2">T2</span></td><td>Urban Institute evaluation of DC, Baltimore, Chicago cameras found impact significant only where coverage was concentrated and actively monitored.</td><td>Urban Institute, 2011</td></tr>
+          <tr><td><span class="tier t2">T2</span></td><td>D.C. missed its 2024 Vision Zero target; traffic fatalities rose despite automated photo enforcement.</td><td>Technical.ly and DDOT reporting</td></tr>
+          <tr><td><span class="tier t3">T3</span></td><td>Networked LPR systems allow broad interagency searches.</td><td>EFF, ACLU analysis</td></tr>
+          <tr><td><span class="tier t3">T3</span></td><td>Capabilities of intelligence-agency surveillance in the National Capital Region are not publicly documented by design.</td><td>Editorial interpretation</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================ REFUSES ================ -->
+<section>
+  <div class="wrap-wide">
+    <div class="reveal" style="text-align:center; max-width:760px; margin:0 auto 44px">
+      <div class="kicker magenta">Marginalia · what the cartograph refuses</div>
+      <h2>Two failure modes, marked on the margin.</h2>
+    </div>
+    <div class="refuse-grid">
+      <div class="warn-tag refuse reveal">
+        <div class="stamp">refused · 01</div>
+        <h4>Not paranoid surveillance panic.</h4>
+        <p>"Big Brother is watching you live" is wrong, and it weakens the piece. The accurate frame is recoverability, not live tracking. Most footage is reviewed by no one unless an event triggers retrieval.</p>
+      </div>
+      <div class="warn-tag refuse reveal">
+        <div class="stamp">refused · 02</div>
+        <h4>Not government conspiracy.</h4>
+        <p>No agency coordinated this. The architecture is the product of decades of independent procurement, vendor consolidation, federal grant programs, and ad-hoc public-private partnerships. The accidental nature of the assemblage is part of the story.</p>
+      </div>
+      <div class="warn-tag honor reveal">
+        <div class="stamp">honored</div>
+        <h4>The watched keep their agency.</h4>
+        <p>The commuter chose the mode. The commuter chose the route. The surveillance is conditional on lawful activity in public space. That conditionality is what makes the reconstructability question civically serious rather than merely lurid.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ COUNTER-READ ================ -->
+<section>
+  <div class="wrap-wide">
+    <div class="reveal" style="text-align:center; max-width:760px; margin:0 auto 44px">
+      <div class="kicker">The other side</div>
+      <h2>The strongest defense of the architecture, <em>hosted fairly.</em></h2>
+      <p class="lead">Defenders argue four things, each true in part. The point is not to refute them. It is to show that a defense calibrated to one system at a time misses the architecture of a system of systems.</p>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-card reveal"><div class="num">01</div><h4>Public safety</h4><p>Cameras enable faster emergency response, suspect identification, crash reconstruction, missing-person searches, counterterrorism, transit safety, and event protection.</p><div class="resp">True. The response and identification value is real, and transit-security reporting documents it.</div></div>
+      <div class="chart-card reveal"><div class="num">02</div><h4>Public-space expectation</h4><p>Courts have largely held that observation in public space is not a Fourth Amendment violation. The architecture operates within existing doctrine.</p><div class="resp">Public-space doctrine assumes the watched can identify the watcher and adjust behavior. An unmarked LPR network defeats that assumption.</div></div>
+      <div class="chart-card reveal"><div class="num">03</div><h4>Retention limits</h4><p>Most systems retain footage for finite windows: MPD 90 days, Flock 30 days by default, private rebate minimum 48 hours.</p><div class="resp">Limits are circumventable when footage is preserved for litigation, investigation, or "training" purposes.</div></div>
+      <div class="chart-card reveal"><div class="num">04</div><h4>Oversight exists</h4><p>Body-camera programs, internal-affairs reviews, audit logs, and in some cases public-records requests provide accountability.</p><div class="resp">Oversight operates per system. The integration across systems has no equivalent integrated oversight.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CLOSER ================ -->
+<section class="closer">
+  <div class="closer-band">
+    <div class="closer-line">"You were not followed.<br/><span class="high">You were recoverable.</span>"</div>
+    <div class="closer-attr">The Replayable City · Field Dispatch · The Mechanism Series</div>
+  </div>
+</section>
+
+<!-- ================ ECHOES ================ -->
+<section class="tight">
+  <div class="wrap">
+    <div class="kicker reveal">Connective scaffolding</div>
+    <h2 class="reveal">Where this sits in the series.</h2>
+    <div class="echoes">
+      <div class="echo reveal"><div class="e-mark">04</div><div><div class="e-to">→ The Influence War</div><div class="e-body">The data the persuasion machine bids on is collected by infrastructure like this.</div></div></div>
+      <div class="echo reveal"><div class="e-mark">05</div><div><div class="e-to">→ The Composite State</div><div class="e-body">What follows is what the state does with footage like this when an event triggers retrieval.</div></div></div>
+      <div class="echo reveal"><div class="e-mark">01</div><div><div class="e-to">→ Personhood Inc.</div><div class="e-body">This is the physical surface that contributes to your composite.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ BRIDGE NAV ================ -->
+<div class="bridge">
+  <div class="bridge-nav">
+    <a href="/episode-04-the-influence-war-mockup.html" class="prev">Episode 04 · The Influence War</a>
+    <a href="/" class="next">Episode 05 · coming soon</a>
+  </div>
+</div>
+
+<!-- ================ FOOTER ================ -->
+<footer class="legal-footer">
+  <div class="row">
+    <div class="brand">Infera <em>·</em> The Mechanism Series</div>
+    <div class="links">
+      <a href="/">Home</a>
+      <a href="/systems-atlas.html">Atlas</a>
+      <a href="/claims-atlas.html">Claims</a>
+      <a href="/case-file.html">Case file</a>
+      <a href="/founding.html">Founding 500</a>
+      <a href="/legal.html">Legal</a>
+    </div>
+  </div>
+  <div class="fine">
+    Infera · The Mechanism Series · A living atlas of invisible systems · Field Dispatch 4½ · The Replayable City · Drafted May 2026. The atlas is a head-on cartograph of the DC metro projected from real coordinates; road and metro geometries are simplified from open data and are not survey-accurate. Capture counts are illustrative of pattern, anchored to documented infrastructure, not measured for any specific individual route. © Infera 2026.
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  var NS = 'http://www.w3.org/2000/svg';
+  var stage = document.getElementById('atlasStage');
+  var userRoute = document.getElementById('userRoute');
+  var userTrail = document.getElementById('userTrail');
+  var altRoute  = document.getElementById('altRoute');
+  var meGroup   = document.getElementById('meGroup');
+  var meVehicle = document.getElementById('meVehicle');
+  var capLayer  = document.getElementById('capLayer');
+  var clsLayer  = document.getElementById('clsLayer');
+  var alertLayer= document.getElementById('alertLayer');
+
+  var capNum = document.getElementById('capNum');
+  var capJur = document.getElementById('capJur');
+  var etaMin = document.getElementById('etaMin');
+  var etaDest = document.getElementById('etaDest');
+  var dirStrip = document.getElementById('dirStrip');
+  var dirGlyph = document.getElementById('dirGlyph');
+  var dirTxt = document.getElementById('dirTxt');
+  var dirDist = document.getElementById('dirDist');
+
+  var scrub = document.getElementById('scrub');
+  var playBtn = document.getElementById('playBtn');
+  var clsToggle = document.getElementById('clsToggle');
+
+  /* ===== ROUTES — four 40-minute commutes from each cardinal side ===== */
+  var ROUTES = {
+    r1: { /* NORTH: Silver Spring → Navy Yard */
+      label: 'Silver Spring → Navy Yard',
+      key: 'NORTH · 40 MIN',
+      path: 'M 657 142 L 657 200 L 645 260 L 632 320 L 632 366 L 614 395 L 698 395 L 698 420',
+      alt:  'M 657 142 C 660 200 670 280 690 340 C 700 370 700 395 698 420',
+      etas: { drive: 40, rideshare: 36, metro: 45, bus: 65, bike: 78 },
+      captures: {
+        drive:     [['priv',0.05,'Doorbell','RING'],['inf',0.14,'LPR','LPR'],['pub',0.22,'MoCo','MoCo'],['inf',0.32,'LPR','LPR'],['pub',0.42,'DDOT','SPD'],['pub',0.52,'MPD','MPD'],['inf',0.62,'LPR','LPR'],['pub',0.72,'DDOT','DDOT'],['priv',0.80,'CapShield','CS'],['pub',0.88,'MPD','MPD'],['pub',0.95,'Federal','FPS']],
+        rideshare: [['priv',0.06,'Doorbell','RING'],['inf',0.16,'LPR','LPR'],['pub',0.28,'DDOT','DDOT'],['pub',0.42,'MPD','MPD'],['inf',0.55,'LPR','LPR'],['pub',0.66,'DDOT','SPD'],['priv',0.78,'CapShield','CS'],['pub',0.90,'MPD','MPD']],
+        metro:     [['priv',0.05,'Doorbell','RING'],['pub',0.16,'WMATA','RED'],['pub',0.28,'WMATA','RED'],['pub',0.40,'WMATA','BWC'],['pub',0.52,'WMATA','WMTA'],['pub',0.64,'WMATA','WMTA'],['pub',0.76,'MPD','MPD'],['pub',0.88,'WMATA','GRN'],['pub',0.96,'MPD','MPD']],
+        bus:       [['priv',0.06,'Doorbell','RING'],['pub',0.14,'WMATA','BUS'],['pub',0.26,'MoCo','MoCo'],['pub',0.38,'WMATA','BUS'],['pub',0.50,'MPD','MPD'],['pub',0.62,'WMATA','BUS'],['pub',0.74,'DDOT','SPD'],['priv',0.86,'CapShield','CS'],['pub',0.96,'MPD','MPD']],
+        bike:      [['priv',0.08,'Doorbell','RING'],['pub',0.22,'MoCo','MoCo'],['priv',0.36,'Doorbell','RING'],['pub',0.50,'MPD','MPD'],['pub',0.64,'DDOT','DDOT'],['priv',0.78,'CapShield','CS'],['pub',0.92,'MPD','MPD']]
+      },
+      turns: [
+        {t:0.0, glyph:'⬇', txt:'Head S on Georgia Ave NW', dist:'3.4 mi'},
+        {t:0.35,glyph:'➔', txt:'Continue on 16th St NW',    dist:'2.8 mi'},
+        {t:0.65,glyph:'↰', txt:'Left on K St NW',           dist:'0.9 mi'},
+        {t:0.82,glyph:'↱', txt:'Right onto S Capitol St',    dist:'1.4 mi'},
+        {t:0.94,glyph:'⌖', txt:'Arrive · Navy Yard',         dist:'0.2 mi'}
+      ],
+      alerts: [{t:0.20,type:'police'},{t:0.45,type:'accident'},{t:0.78,type:'roadwork'}]
+    },
+    r2: { /* SOUTH: Alexandria → H Street NE */
+      label: 'Alexandria → H Street NE',
+      key: 'SOUTH · 40 MIN',
+      path: 'M 607 588 L 600 510 L 595 460 L 600 420 L 615 395 L 660 380 L 730 370 L 800 360',
+      alt:  'M 607 588 C 600 520 605 470 615 420 C 625 395 660 380 740 372 C 770 368 790 365 800 360',
+      etas: { drive: 38, rideshare: 34, metro: 42, bus: 60, bike: 70 },
+      captures: {
+        drive:     [['priv',0.04,'Doorbell','RING'],['inf',0.12,'LPR','LPR'],['pub',0.22,'VDOT','VDOT'],['pub',0.34,'NPS','NPS'],['inf',0.44,'LPR','LPR'],['pub',0.54,'MPD','MPD'],['inf',0.64,'LPR','LPR'],['pub',0.74,'DDOT','DDOT'],['priv',0.82,'CapShield','CS'],['pub',0.90,'MPD','MPD']],
+        rideshare: [['priv',0.05,'Doorbell','RING'],['inf',0.16,'LPR','LPR'],['pub',0.28,'NPS','NPS'],['pub',0.42,'MPD','MPD'],['inf',0.55,'LPR','LPR'],['pub',0.68,'DDOT','DDOT'],['priv',0.80,'CapShield','CS'],['pub',0.92,'MPD','MPD']],
+        metro:     [['priv',0.05,'Doorbell','RING'],['pub',0.18,'WMATA','YEL'],['pub',0.30,'WMATA','BLU'],['pub',0.42,'WMATA','BWC'],['pub',0.55,'WMATA','WMTA'],['pub',0.68,'MPD','MPD'],['pub',0.80,'WMATA','WMTA'],['pub',0.92,'MPD','MPD']],
+        bus:       [['priv',0.06,'Doorbell','RING'],['pub',0.16,'WMATA','BUS'],['pub',0.30,'DASH','VDOT'],['pub',0.42,'WMATA','BUS'],['pub',0.54,'MPD','MPD'],['pub',0.66,'WMATA','BUS'],['pub',0.80,'DDOT','DDOT'],['priv',0.92,'CapShield','CS']],
+        bike:      [['priv',0.08,'Doorbell','RING'],['pub',0.22,'NPS','NPS'],['pub',0.36,'NPS','NPS'],['priv',0.52,'Doorbell','RING'],['pub',0.66,'MPD','MPD'],['priv',0.82,'CapShield','CS']]
+      },
+      turns: [
+        {t:0.0, glyph:'⬆', txt:'Head N on GW Pkwy',          dist:'3.6 mi'},
+        {t:0.32,glyph:'➔', txt:'Take 14th St Bridge',         dist:'0.9 mi'},
+        {t:0.55,glyph:'↰', txt:'Left on Constitution Ave',    dist:'1.1 mi'},
+        {t:0.78,glyph:'↱', txt:'Right onto H St NE',          dist:'1.4 mi'},
+        {t:0.94,glyph:'⌖', txt:'Arrive · H Street Corridor',   dist:'0.1 mi'}
+      ],
+      alerts: [{t:0.25,type:'accident'},{t:0.50,type:'slowdown'},{t:0.82,type:'police'}]
+    },
+    r3: { /* EAST: Largo → Georgetown */
+      label: 'Largo → Georgetown M St',
+      key: 'EAST · 40 MIN',
+      path: 'M 1144 339 L 1050 360 L 950 372 L 870 380 L 780 384 L 700 384 L 632 365 L 580 355 L 555 350',
+      alt:  'M 1144 339 C 1080 350 1000 365 920 375 C 850 382 800 384 760 385 C 700 385 660 370 620 355 C 580 350 565 350 555 350',
+      etas: { drive: 42, rideshare: 38, metro: 48, bus: 70, bike: 95 },
+      captures: {
+        drive:     [['priv',0.04,'Doorbell','RING'],['inf',0.12,'LPR','LPR'],['pub',0.22,'PG','PG'],['inf',0.32,'LPR','LPR'],['pub',0.42,'MPD','MPD'],['pub',0.52,'NPS','NPS'],['inf',0.62,'LPR','LPR'],['pub',0.72,'DDOT','SPD'],['priv',0.82,'CapShield','CS'],['pub',0.92,'MPD','MPD']],
+        rideshare: [['priv',0.05,'Doorbell','RING'],['inf',0.16,'LPR','LPR'],['pub',0.28,'PG','PG'],['pub',0.42,'MPD','MPD'],['pub',0.54,'NPS','NPS'],['inf',0.66,'LPR','LPR'],['pub',0.78,'DDOT','DDOT'],['priv',0.90,'CapShield','CS']],
+        metro:     [['priv',0.06,'Doorbell','RING'],['pub',0.18,'WMATA','SLV'],['pub',0.30,'WMATA','BLU'],['pub',0.42,'WMATA','BWC'],['pub',0.54,'WMATA','ORG'],['pub',0.66,'MPD','MPD'],['pub',0.78,'WMATA','WMTA'],['pub',0.90,'MPD','MPD']],
+        bus:       [['priv',0.06,'Doorbell','RING'],['pub',0.16,'WMATA','BUS'],['pub',0.28,'PG','PG'],['pub',0.40,'WMATA','BUS'],['pub',0.52,'MPD','MPD'],['pub',0.64,'WMATA','BUS'],['pub',0.76,'DDOT','DDOT'],['priv',0.88,'CapShield','CS']],
+        bike:      [['priv',0.10,'Doorbell','RING'],['pub',0.26,'PG','PG'],['priv',0.40,'Doorbell','RING'],['pub',0.54,'MPD','MPD'],['priv',0.70,'CapShield','CS'],['pub',0.86,'MPD','MPD']]
+      },
+      turns: [
+        {t:0.0, glyph:'⬅', txt:'Head W on Central Ave',       dist:'4.8 mi'},
+        {t:0.32,glyph:'➔', txt:'Continue on E Capitol St',     dist:'2.6 mi'},
+        {t:0.55,glyph:'↱', txt:'Pass the Capitol',             dist:'0.7 mi'},
+        {t:0.72,glyph:'↰', txt:'Left on Pennsylvania Ave NW',  dist:'1.2 mi'},
+        {t:0.85,glyph:'➔', txt:'Right on M St NW',             dist:'1.4 mi'},
+        {t:0.95,glyph:'⌖', txt:'Arrive · Georgetown',           dist:'0.2 mi'}
+      ],
+      alerts: [{t:0.18,type:'roadwork'},{t:0.42,type:'accident'},{t:0.62,type:'police'},{t:0.85,type:'slowdown'}]
+    },
+    r4: { /* WEST: Falls Church → Brookland */
+      label: 'Falls Church → Brookland',
+      key: 'WEST · 40 MIN',
+      path: 'M 308 398 L 400 395 L 500 392 L 580 388 L 632 380 L 660 320 L 698 270 L 720 250',
+      alt:  'M 308 398 C 400 395 500 385 580 375 C 640 365 680 350 710 310 C 720 290 722 260 720 250',
+      etas: { drive: 40, rideshare: 36, metro: 44, bus: 62, bike: 80 },
+      captures: {
+        drive:     [['priv',0.04,'Doorbell','RING'],['inf',0.12,'LPR','LPR'],['pub',0.22,'VDOT','VDOT'],['inf',0.32,'LPR','LPR'],['pub',0.42,'NPS','NPS'],['pub',0.52,'MPD','MPD'],['inf',0.62,'LPR','LPR'],['pub',0.72,'DDOT','DDOT'],['priv',0.82,'CapShield','CS'],['pub',0.92,'MPD','MPD']],
+        rideshare: [['priv',0.05,'Doorbell','RING'],['inf',0.16,'LPR','LPR'],['pub',0.28,'VDOT','VDOT'],['pub',0.42,'NPS','NPS'],['pub',0.55,'MPD','MPD'],['inf',0.66,'LPR','LPR'],['pub',0.78,'DDOT','DDOT'],['priv',0.90,'CapShield','CS']],
+        metro:     [['priv',0.06,'Doorbell','RING'],['pub',0.18,'WMATA','ORG'],['pub',0.30,'WMATA','SLV'],['pub',0.42,'WMATA','BWC'],['pub',0.54,'WMATA','WMTA'],['pub',0.66,'MPD','MPD'],['pub',0.78,'WMATA','RED'],['pub',0.90,'MPD','MPD']],
+        bus:       [['priv',0.06,'Doorbell','RING'],['pub',0.16,'WMATA','BUS'],['pub',0.28,'VDOT','VDOT'],['pub',0.40,'WMATA','BUS'],['pub',0.52,'MPD','MPD'],['pub',0.64,'WMATA','BUS'],['pub',0.76,'DDOT','DDOT'],['priv',0.88,'CapShield','CS']],
+        bike:      [['priv',0.10,'Doorbell','RING'],['pub',0.26,'VDOT','VDOT'],['priv',0.40,'Doorbell','RING'],['pub',0.54,'MPD','MPD'],['priv',0.70,'CapShield','CS'],['pub',0.86,'MPD','MPD']]
+      },
+      turns: [
+        {t:0.0, glyph:'➔', txt:'Head E on I-66',              dist:'5.2 mi'},
+        {t:0.32,glyph:'↱', txt:'Take Roosevelt Bridge',         dist:'1.0 mi'},
+        {t:0.50,glyph:'➔', txt:'Continue on Constitution',     dist:'1.3 mi'},
+        {t:0.70,glyph:'↰', txt:'Left on N Capitol St',          dist:'1.8 mi'},
+        {t:0.85,glyph:'↱', txt:'Right on Michigan Ave NE',      dist:'1.1 mi'},
+        {t:0.95,glyph:'⌖', txt:'Arrive · Brookland',             dist:'0.2 mi'}
+      ],
+      alerts: [{t:0.22,type:'slowdown'},{t:0.48,type:'accident'},{t:0.72,type:'police'},{t:0.88,type:'hazard'}]
+    }
+  };
+
+  var CLASSIFIED = [
+    {t:0.10,off:38,tag:'JBAB'},
+    {t:0.26,off:-42,tag:'USPP'},
+    {t:0.44,off:40,tag:'FBI'},
+    {t:0.60,off:-42,tag:'SS'},
+    {t:0.78,off:40,tag:'CAPITOL'},
+    {t:0.94,off:-38,tag:'SFRA'}
+  ];
+
+  var ALERT_TYPES = {
+    accident: {color:'#ff4a2b',label:'ACCIDENT'},
+    police:   {color:'#2b6cb0',label:'POLICE'},
+    hazard:   {color:'#ffd83d',label:'HAZARD',fg:'#0a0a0a'},
+    roadwork: {color:'#ff8a1a',label:'WORK'},
+    slowdown: {color:'#7a4cff',label:'SLOW'}
+  };
+
+  var COLORS = { pub:'#2bd97a', inf:'#ffa033', priv:'#ff3c8b', cls:'#7a4cff' };
+
+  var routeKey = 'r1', modeKey = 'drive', progress = 0, raf = null;
+  var pathLen = 0, current = null, currentTurns = [], currentAlerts = [];
+
+  function setActive(parentSel, btn){
+    document.querySelectorAll(parentSel + ' .active').forEach(function(b){
+      b.classList.remove('active'); b.setAttribute('aria-selected','false');
+    });
+    btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+  }
+  function hexPoints(cx, cy, r){
+    var pts = [];
+    for(var i=0;i<6;i++){ var a = Math.PI/2 + i*Math.PI/3; pts.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1)); }
+    return pts.join(' ');
+  }
+  function pointAt(t, off){
+    var len = t * pathLen;
+    var p = userRoute.getPointAtLength(len);
+    var p2 = userRoute.getPointAtLength(Math.min(pathLen, len + 1));
+    var dx = p2.x - p.x, dy = p2.y - p.y;
+    var m = Math.hypot(dx,dy) || 1;
+    return { x: p.x + (-dy/m)*(off||0), y: p.y + (dx/m)*(off||0), ang: Math.atan2(dy,dx)*180/Math.PI };
+  }
+
+  function mkPin(c, off){
+    var pos = pointAt(c[1], off || 0);
+    var anchor = pointAt(c[1], 0);
+    var color = COLORS[c[0]];
+    var g = document.createElementNS(NS,'g'); g.setAttribute('class','cap');
+    var ln = document.createElementNS(NS,'line');
+    ln.setAttribute('x1',anchor.x); ln.setAttribute('y1',anchor.y); ln.setAttribute('x2',pos.x); ln.setAttribute('y2',pos.y);
+    ln.setAttribute('stroke','#0a0a0a'); ln.setAttribute('stroke-width','0.8'); ln.setAttribute('opacity','0.6');
+    g.appendChild(ln);
+    var pin = document.createElementNS(NS,'path');
+    var px=pos.x, py=pos.y;
+    pin.setAttribute('d','M '+px+' '+(py-12)+' a 7 7 0 1 1 0 0.01 z M '+(px-3)+' '+(py-5)+' L '+px+' '+(py+2)+' L '+(px+3)+' '+(py-5)+' Z');
+    pin.setAttribute('class','pin-body'); pin.setAttribute('fill',color);
+    g.appendChild(pin);
+    var dot = document.createElementNS(NS,'circle');
+    dot.setAttribute('cx',px); dot.setAttribute('cy',py-12); dot.setAttribute('r','2.5'); dot.setAttribute('class','pin-dot');
+    g.appendChild(dot);
+    var t = document.createElementNS(NS,'text');
+    t.setAttribute('x',px); t.setAttribute('y',py-24); t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-family','JetBrains Mono'); t.setAttribute('font-size','7.5'); t.setAttribute('font-weight','800');
+    t.setAttribute('fill','#0a0a0a'); t.textContent = c[3] || '';
+    g.appendChild(t);
+    return g;
+  }
+  function mkAlert(a){
+    var pos = pointAt(a.t, 0);
+    var meta = ALERT_TYPES[a.type] || ALERT_TYPES.hazard;
+    var g = document.createElementNS(NS,'g'); g.setAttribute('class','alert-pin');
+    var x=pos.x, y=pos.y-22, w=60, h=20;
+    var bub = document.createElementNS(NS,'path');
+    bub.setAttribute('d','M '+(x-w/2)+' '+(y-h/2)+' h '+w+' v '+h+' h -'+(w/2-5)+' l -5 6 l -5 -6 h -'+(w/2-5)+' z');
+    bub.setAttribute('class','alert-bub'); bub.setAttribute('fill',meta.color);
+    g.appendChild(bub);
+    var t = document.createElementNS(NS,'text');
+    t.setAttribute('class','alert-text'); t.setAttribute('x',x); t.setAttribute('y',y+3.5);
+    if(meta.fg) t.setAttribute('fill', meta.fg);
+    t.textContent = meta.label;
+    g.appendChild(t);
+    return g;
+  }
+
+  function buildRoute(rk, mk){
+    routeKey = rk; modeKey = mk;
+    current = ROUTES[rk];
+    userRoute.setAttribute('d', current.path);
+    altRoute.setAttribute('d', current.alt);
+    userTrail.setAttribute('d', current.path);
+    pathLen = userRoute.getTotalLength();
+    userTrail.style.strokeDasharray = pathLen + ' ' + pathLen;
+    userTrail.style.strokeDashoffset = pathLen;
+
+    // recolor route + trail + vehicle based on cardinal
+    ['r1','r2','r3','r4'].forEach(function(k){
+      userRoute.classList.remove('route-'+k);
+      userTrail.classList.remove('route-'+k);
+      altRoute.classList.remove('alt-'+k);
+      meVehicle.classList.remove(k);
+    });
+    userRoute.classList.add('route-'+rk); userRoute.classList.add('live');
+    userTrail.classList.add('route-'+rk);
+    altRoute.classList.add('alt-'+rk); altRoute.classList.add('live');
+    meVehicle.classList.add(rk);
+
+    var caps = current.captures[mk] || current.captures.drive;
+    capLayer.innerHTML = '';
+    caps.forEach(function(c, i){
+      var off = (i % 2 === 0 ? 22 : -22) + (i % 3 === 0 ? 5 : 0);
+      var g = mkPin(c, off); g.setAttribute('data-i', i); g.setAttribute('data-t', c[1]); g.setAttribute('data-j', c[2]);
+      capLayer.appendChild(g);
+    });
+
+    clsLayer.innerHTML = '';
+    CLASSIFIED.forEach(function(c){
+      var pos = pointAt(c.t, c.off);
+      var anchor = pointAt(c.t, 0);
+      var g = document.createElementNS(NS,'g'); g.setAttribute('class','cls-pin');
+      var ln = document.createElementNS(NS,'line');
+      ln.setAttribute('x1',anchor.x); ln.setAttribute('y1',anchor.y); ln.setAttribute('x2',pos.x); ln.setAttribute('y2',pos.y);
+      ln.setAttribute('stroke',COLORS.cls); ln.setAttribute('stroke-width','1'); ln.setAttribute('opacity','0.7'); ln.setAttribute('stroke-dasharray','3 3');
+      g.appendChild(ln);
+      var hex = document.createElementNS(NS,'polygon');
+      hex.setAttribute('points', hexPoints(pos.x, pos.y, 9));
+      hex.setAttribute('fill', COLORS.cls); hex.setAttribute('class','cls-hex');
+      g.appendChild(hex);
+      var t = document.createElementNS(NS,'text');
+      t.setAttribute('x',pos.x); t.setAttribute('y',pos.y+3); t.setAttribute('text-anchor','middle');
+      t.setAttribute('font-family','JetBrains Mono'); t.setAttribute('font-size','6.5'); t.setAttribute('font-weight','800');
+      t.setAttribute('fill','#fff'); t.textContent = c.tag;
+      g.appendChild(t);
+      clsLayer.appendChild(g);
+    });
+
+    alertLayer.innerHTML = '';
+    currentAlerts = (current.alerts || []).map(function(a){
+      var g = mkAlert(a); alertLayer.appendChild(g);
+      return { el: g, t: a.t, shown: false, hideAt: null };
+    });
+
+    currentTurns = current.turns || [];
+    etaMin.textContent = current.etas[mk] || '--';
+    etaDest.textContent = current.key + ' · ' + current.label;
+    document.querySelectorAll('[data-eta-drive]').forEach(function(el){ el.textContent = current.etas.drive + ' min'; });
+    document.querySelectorAll('[data-eta-rideshare]').forEach(function(el){ el.textContent = current.etas.rideshare + ' min'; });
+    document.querySelectorAll('[data-eta-metro]').forEach(function(el){ el.textContent = current.etas.metro + ' min'; });
+    document.querySelectorAll('[data-eta-bus]').forEach(function(el){ el.textContent = current.etas.bus + ' min'; });
+    document.querySelectorAll('[data-eta-bike]').forEach(function(el){ el.textContent = current.etas.bike + ' min'; });
+    document.querySelectorAll('.info-card').forEach(function(el){ el.classList.remove('live'); });
+
+    setProgress(0);
+  }
+
+  function setProgress(p){
+    progress = Math.max(0, Math.min(1, p));
+    var pt = pointAt(progress, 0);
+    meGroup.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ') rotate(' + (pt.ang + 90).toFixed(1) + ')');
+    userTrail.style.strokeDashoffset = pathLen - (progress * pathLen);
+
+    var lit = 0, jset = {};
+    capLayer.querySelectorAll('.cap').forEach(function(g){
+      var t = parseFloat(g.getAttribute('data-t'));
+      if(progress >= t){ if(!g.classList.contains('lit')) g.classList.add('lit'); lit++; jset[g.getAttribute('data-j')] = 1; }
+      else { g.classList.remove('lit'); }
+    });
+    var jc = Object.keys(jset).length;
+    capNum.textContent = lit;
+    capJur.textContent = jc + (jc === 1 ? ' jurisdiction' : ' jurisdictions');
+
+    currentAlerts.forEach(function(a){
+      if(!a.shown && progress >= a.t){ a.el.classList.add('live'); a.shown = true; a.hideAt = performance.now() + 3500; }
+      if(a.shown && a.hideAt && performance.now() > a.hideAt){ a.el.classList.remove('live'); a.shown = false; a.hideAt = null; }
+    });
+
+    var thresholds = [0.18, 0.40, 0.62, 0.82];
+    ['info1','info2','info3','info4'].forEach(function(id, i){
+      var el = document.getElementById(id);
+      if(progress >= thresholds[i]) el.classList.add('live'); else el.classList.remove('live');
+    });
+
+    if(currentTurns && currentTurns.length){
+      var cur = currentTurns[0];
+      for(var i=0;i<currentTurns.length;i++){ if(progress >= currentTurns[i].t) cur = currentTurns[i]; }
+      dirGlyph.textContent = cur.glyph; dirTxt.textContent = cur.txt; dirDist.textContent = cur.dist;
+      dirStrip.classList.add('live');
+    }
+
+    var totalEta = current.etas[modeKey] || 0;
+    var remain = Math.max(1, Math.round(totalEta * (1 - progress)));
+    etaMin.textContent = remain;
+    scrub.value = Math.round(progress * 1000);
+  }
+
+  function play(){
+    if(raf){ cancelAnimationFrame(raf); raf = null; playBtn.textContent = '▶ Start journey'; return; }
+    if(progress >= 0.999) setProgress(0);
+    playBtn.textContent = '❚❚ Pause';
+    var start = null, dur = 14000, from = progress;
+    function step(ts){
+      if(!start) start = ts;
+      var k = (ts - start) / dur;
+      var p = from + k * (1 - from);
+      if(p >= 1){ setProgress(1); raf = null; playBtn.textContent = '↻ Replay journey'; return; }
+      setProgress(p);
+      raf = requestAnimationFrame(step);
+    }
+    raf = requestAnimationFrame(step);
+  }
+  playBtn.addEventListener('click', play);
+  scrub.addEventListener('input', function(){
+    if(raf){ cancelAnimationFrame(raf); raf = null; playBtn.textContent = '▶ Start journey'; }
+    setProgress(scrub.value / 1000);
+  });
+
+  document.querySelectorAll('.route-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      setActive('.route-list', b);
+      if(raf){ cancelAnimationFrame(raf); raf = null; playBtn.textContent = '▶ Start journey'; }
+      buildRoute(b.getAttribute('data-route'), modeKey);
+    });
+  });
+  document.querySelectorAll('.mode-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      setActive('.mode-grid', b);
+      if(raf){ cancelAnimationFrame(raf); raf = null; playBtn.textContent = '▶ Start journey'; }
+      buildRoute(routeKey, b.getAttribute('data-mode'));
+    });
+  });
+
+  document.querySelectorAll('.lyr-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      var key = b.getAttribute('data-layer');
+      var on = !b.classList.contains('on');
+      b.classList.toggle('on', on);
+      var el = document.getElementById('lyr-' + key); if(el) el.classList.toggle('on', on);
+      if(key === 'county'){
+        var l1 = document.getElementById('lyr-lbl-county'); if(l1) l1.classList.toggle('on', on);
+        var l2 = document.getElementById('lyr-lbl-county2'); if(l2) l2.classList.toggle('on', on);
+      }
+    });
+  });
+
+  clsToggle.addEventListener('click', function(){
+    var on = !clsToggle.classList.contains('on');
+    clsToggle.classList.toggle('on', on);
+    clsToggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+    stage.classList.toggle('classified', on);
+  });
+
+  buildRoute('r1', 'drive');
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ setProgress(1); }
+})();
+</script>
+</body>
+</html>
