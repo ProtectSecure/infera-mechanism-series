@@ -1,9 +1,11 @@
-# Field Report · The Shadow Market — Brief
+# Field Dispatch · The Shadow Market — Brief
 
-**Type:** Field dispatch (Season II side quest, bridges to Season III)
-**Status:** Brief drafted — awaiting research consolidation
-**Length target:** 2,000-2,600 words + interactive "what flows through the shadow market" simulator
-**Date drafted:** 27 May 2026
+**Type:** FIELD DISPATCH — companion to EP 11 The Afterlife of Your Data (the criminal market for data that outlives the person). Sits OUTSIDE the numbered Season II spine.
+**Status:** Brief drafted May 2026 · reframed as Field Dispatch 2 June 2026 · awaiting research consolidation
+**Role in publication:** Tighter, more reported piece focused on specific named breaches and named ransomware groups. EP 11 frames the systemic question of postmortem and orphan data; this dispatch surfaces the criminal market that operates on it.
+**Numbering convention:** Field Dispatch (no episode number) — appears in the "Field Dispatches" lane on the homepage alongside the original 4½ slot now occupied by promoted episodes.
+**Length target:** 2,000–2,600 words + interactive "what flows through the shadow market" simulator
+**Date drafted:** 27 May 2026 · framing updated 2 June 2026
 
 ---
 

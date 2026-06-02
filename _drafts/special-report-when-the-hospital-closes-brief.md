@@ -1,9 +1,10 @@
-# Field Report · When the Hospital Closes — Brief
+# Special Report · When the Hospital Closes — Brief
 
-**Type:** Field dispatch (Season II side quest)
-**Status:** Brief drafted — awaiting research consolidation
-**Length target:** 1,800-2,400 words + interactive "what happens to your file" simulator
-**Date drafted:** 27 May 2026
+**Type:** SPECIAL REPORT — reported feature, distinct chassis from the numbered episode spine
+**Status:** Brief drafted May 2026 · promoted to Special Report 2 June 2026 · awaiting research consolidation
+**Role in publication:** Deep-cut reported companion to EP 08 The Class Engine (healthcare chapter) and EP 06 The Composite State. Sits OUTSIDE the numbered Season II spine; appears in its own "Special Reports" lane on the homepage.
+**Length target:** 2,200–3,000 words + interactive "what happens to your file" simulator
+**Date drafted:** 27 May 2026 · framing updated 2 June 2026
 
 ---
 
