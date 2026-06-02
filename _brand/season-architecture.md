@@ -18,6 +18,34 @@ This document is the map of that hidden spine.
 
 ---
 
+## Reader-Experience Principle · *the protective rule*
+
+> **Every episode is a standalone read. Every connection is optional surface area. The architecture rewards depth without requiring it.**
+
+This is the rule that protects readers from the architecture. The publication is structurally complex by design — the six-degrees layer, the breadcrumbs, the foreshadow inserts, the bowtie convergence — but the reader experience must read as simple on the surface and infinite on the dig. Otherwise the cleverness becomes a barrier.
+
+**Three guarantees this principle enforces:**
+
+1. **Standalone integrity.** A reader who finds a single episode via a search result, a social share, or a friend's link must get a complete piece. No required prior reading. No "you should have started at EP 01." Every episode opens with the *"where you are"* anchor so a cold-landed reader knows their position immediately, but the anchor orients without demanding.
+
+2. **Optional surface area.** Echo dots back, breadcrumbs to Season I, foreshadow dots forward, atlas connections — all of these are visible but never blocking. The reader who chases threads gets the whole web. The reader who reads one piece gets one piece. Both paths are legitimate. The architecture is invitation, not gate.
+
+3. **Editorial seam is a feature, not a flaw.** The dated Editorial Desk inserts on older episodes (the foreshadow injections returning to Season I stories with new understanding) visibly show their seam. The reader sees we returned with the benefit of later reporting. That dated, marked, restrained format is part of the publication's honesty — and a retention signal that the work continues.
+
+**Three risks this principle exists to police:**
+
+- **Cross-linking spam.** Foreshadow inserts must read in the voice of a returning editor (*"a note from the editorial desk"*), not a marketing department (*"related content you might enjoy"*). One sentence. One or two named episodes. Restrained visual treatment. If a future contributor proposes a wall of "see also" links, this principle vetoes it.
+
+- **Required-reading creep.** No episode may assume the reader has read another. If a writer finds themselves writing *"as we explained in EP 03,"* they must either explain it again briefly in-place OR restructure so the assumption is unnecessary. The breadcrumb is the offer, never the prerequisite.
+
+- **Intimidation framing.** Homepage and masthead language must invite, not announce scope. *"Twelve-part investigation that can be read in any order"* over *"twelve-episode series."* *"Read one, read them all, or follow the threads"* over *"comprehensive twelve-episode arc."* The architecture is real; the *invitation* to enter at any point is what keeps it accessible.
+
+**The deeper standard:** the publications that do this best — long-form investigative journalism that earns its weight — use this exact architecture. Standalone pieces that reward deeper reading. The casual reader leaves satisfied. The engaged reader leaves with a vocabulary, an atlas, and a political stake. Both readings are first-class.
+
+If a future design decision creates a conflict between *"the architecture wants this"* and *"the standalone reader can't navigate it,"* the standalone reader wins. Always. This principle has precedence over every other architectural rule in this document.
+
+---
+
 ## Lineup · canonical
 
 ### Season I · *Reported field stories — the documented harm*
