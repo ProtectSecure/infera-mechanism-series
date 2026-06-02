@@ -59,9 +59,9 @@ If a future design decision creates a conflict between *"the architecture wants 
 | S1·05 | The Provisional Ballot | `the-provisional-ballot.html` | Voter-roll algorithmic challenges |
 | S1·06 | The Vogtle Bill | `the-vogtle-bill.html` | Nuclear-plant cost socialization |
 | S1·07 | The Data Center Load | `the-data-center-load.html` | Rate-payer subsidy of data-center grid buildout |
-| S1·08 | The Settlement Shrinkage | `the-settlement-shrinkage.html` | Toxic-tort + opioid disbursement (on disk; not yet linked on homepage) |
-| S1·09 | The Capital Stack | `the-capital-stack.html` | Financial-instrument layering (unlinked; on disk) |
-| S1·10 | The Runoff Tells | `the-runoff-tells.html` | Down-ballot election anomalies (unlinked; on disk) |
+| S1·08 | The Settlement Shrinkage | `the-settlement-shrinkage.html` | Algorithmic disbursement tiering + audit-trail decay |
+| S1·09 | The Capital Stack | `the-capital-stack.html` | Three financial instruments stacked on one ratepayer |
+| S1·10 | The Runoff Tells | `the-runoff-tells.html` | Down-ballot anomalies as targeting-infrastructure surface |
 
 ### Season II · *The mechanisms — Machine-Readable*
 
