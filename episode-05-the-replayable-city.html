@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Replayable City · EP 05 · The Mechanism Series</title>
+<meta name="description" content="Episode 05 of The Mechanism Series. A real forty-minute Washington commute, instant-replayed over a camera-density heat map. Then the part nobody photographs: retention math and the data debt many Americans have but very few could account for.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800;900&family=Inter+Tight:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script>document.documentElement.classList.add('js');</script>
+
+<style>
+:root {
+  --paper: #fafaf2;
+  --paper-warm: #f5f0e0;
+  --paper-card: #ffffff;
+  --ink: #0a0a0a;
+  --ink-soft: #2a2a2a;
+  --muted: #5a5a5a;
+  --faint: #9a9a9a;
+  --rule: #e6e2d4;
+  --rule-dark: #cdc8b8;
+  --pop-red: #ff4a2b;
+  --pop-yellow: #ffd83d;
+  --pop-mint: #2bd9a8;
+  --pop-cobalt: #2b6cb0;
+  --pop-magenta: #ff3c8b;
+  --pop-purple: #7a4cff;
+  --pop-orange: #ff8a1a;
+  --highlight: #fff062;
+  --r-north: #ff4a2b;
+  --r-south: #2bd9a8;
+  --r-east:  #2b6cb0;
+  --r-west:  #ff3c8b;
+  --map-bg: #f4f1e6;
+  --map-water: #c5dcef;
+  --map-water-edge: #6a9ec5;
+  --map-park: #d5e6c8;
+  --map-road: #1a1a1a;
+  --map-road-thin: #444;
+  --map-hwy: #3a3a3a;
+  --map-arterial: #2a2a2a;
+  --map-dc-fill: #fff8e1;
+  /* density gradient (warm, translucent — only fills in after vehicle passes) */
+  --d1: rgba(255, 242, 191, 0.22);
+  --d2: rgba(255, 226, 131, 0.26);
+  --d3: rgba(255, 200, 61,  0.32);
+  --d4: rgba(255, 138, 26,  0.38);
+  --d5: rgba(255, 74,  43,  0.42);
+  --d6: rgba(200, 32,  13,  0.46);
+  /* retention timeline */
+  --rt-official: #2bd9a8;
+  --rt-residual: #ff4a2b;
+  --cap-pub: #2bd97a;
+  --cap-inf: #ffa033;
+  --cap-priv: #ff3c8b;
+  --cap-cls: #7a4cff;
+  --lyr-frz: rgba(255, 74, 43, 0.10);
+  --lyr-frz-edge: rgba(255, 74, 43, 0.65);
+  --lyr-sfra: rgba(255, 138, 26, 0.06);
+  --lyr-sfra-edge: rgba(255, 138, 26, 0.55);
+  --lyr-mpd: rgba(43, 108, 176, 0.10);
+  --lyr-mpd-edge: rgba(43, 108, 176, 0.65);
+  --lyr-wmata: rgba(43, 217, 168, 0.10);
+  --lyr-wmata-edge: rgba(43, 217, 168, 0.65);
+  --lyr-county: rgba(122, 76, 255, 0.45);
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Crimson Pro', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-headline: 'Inter Tight', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  --col-text: 720px;
+  --col-wide: 1240px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 18px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; }
+a { color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--pop-red); transition: color 0.15s ease; }
+a:hover { color: var(--pop-red); }
+img, svg { max-width: 100%; display: block; }
+em { font-style: italic; }
+strong { font-weight: 700; color: var(--ink); }
+::selection { background: var(--highlight); color: var(--ink); }
+
+/* ================ CHROME ================ */
+.chrome { position: sticky; top: 0; z-index: 100;
+  background: rgba(250,250,242,0.95);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 14px 32px; display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-sans); font-size: 12px; letter-spacing: 0.06em; }
+.chrome .brand { font-family: var(--font-headline); font-size: 17px; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; border: none; }
+.chrome .brand em { font-family: var(--font-display); font-style: italic; color: var(--pop-red); font-weight: 600; }
+.chrome .nav-links { display: flex; gap: 14px; flex-wrap: nowrap; }
+.chrome .nav-links a { color: var(--muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; white-space: nowrap; border: none; padding: 4px 0; }
+.chrome .nav-links a:hover { color: var(--ink); }
+.chrome .nav-links a.cur { color: var(--pop-red); border-bottom: 2px solid var(--pop-red); }
+.chrome .nav-links .tn { font-family: var(--font-display); font-style: italic; text-transform: none; letter-spacing: 0; opacity: 0.55; margin-right: 4px; color: var(--ink); font-weight: 500; }
+@media (max-width: 820px) { .chrome .nav-links { display: none; } .chrome { padding: 12px 18px; } }
+
+/* ================ LAYOUT ================ */
+.wrap { max-width: var(--col-text); margin: 0 auto; padding: 0 24px; }
+.wrap-wide { max-width: var(--col-wide); margin: 0 auto; padding: 0 24px; }
+section { padding: 100px 0; position: relative; }
+section.tight { padding: 64px 0; }
+.kicker { font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--pop-red);
+  margin-bottom: 24px; display: inline-block; }
+.kicker.cobalt { color: var(--pop-cobalt); }
+.kicker.mint { color: var(--pop-mint); }
+.kicker.magenta { color: var(--pop-magenta); }
+.kicker.purple { color: var(--pop-purple); }
+.kicker.orange { color: var(--pop-orange); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(56px, 10vw, 132px); line-height: 0.94; letter-spacing: -0.025em; color: var(--ink); }
+h1 em { font-style: italic; font-weight: 500; }
+h1 .high { background: var(--highlight); padding: 0 8px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(34px, 5.2vw, 60px); line-height: 1.02; letter-spacing: -0.015em; margin-bottom: 22px; color: var(--ink); }
+h2 em { font-style: italic; }
+h3 { font-family: var(--font-headline); font-weight: 800; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); margin-bottom: 16px; }
+p { margin-bottom: 20px; color: var(--ink-soft); }
+.lead { font-size: 22px; line-height: 1.55; color: var(--ink); }
+.deck { font-family: var(--font-display); font-style: italic; font-size: clamp(22px, 3vw, 30px); color: var(--muted); line-height: 1.28; margin-top: 22px; }
+
+/* ================ HERO ================ */
+.hero { padding: 90px 0 60px; position: relative; overflow: hidden; }
+.hero .strap { display: flex; gap: 14px; align-items: center;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 36px; }
+.hero .strap .pill { background: var(--ink); color: var(--paper); padding: 4px 10px; font-weight: 700; letter-spacing: 0.12em; }
+.hero .strap .dot { width: 5px; height: 5px; background: var(--pop-red); border-radius: 50%; }
+.hero .meta { display: flex; gap: 36px; flex-wrap: wrap; margin-top: 50px; padding-top: 28px;
+  border-top: 1px solid var(--rule); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted); }
+.hero .meta b { color: var(--ink); }
+.tag-cluster { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 36px; }
+.chip { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 7px 11px; border: 1.5px solid var(--ink); border-radius: 999px; color: var(--ink); background: var(--paper); }
+.chip.red { background: var(--pop-red); color: #fff; border-color: var(--pop-red); }
+.chip.mint { background: var(--pop-mint); color: var(--ink); border-color: var(--pop-mint); }
+.chip.yellow { background: var(--pop-yellow); color: var(--ink); border-color: var(--pop-yellow); }
+.chip.purple { background: var(--pop-purple); color: #fff; border-color: var(--pop-purple); }
+
+/* ================ MARQUEE QUOTE ================ */
+.marquee { max-width: 980px; margin: 0 auto; padding: 50px 60px 56px;
+  background: var(--paper-card); border: 2px solid var(--ink); position: relative;
+  box-shadow: 10px 10px 0 var(--pop-yellow); }
+.marquee.purple { box-shadow: 10px 10px 0 var(--pop-purple); }
+.marquee::before { content: "QUOTE / I"; position: absolute; top: -14px; left: 30px;
+  background: var(--ink); color: var(--paper-card);
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.22em; padding: 5px 12px; }
+.marquee.purple::before { content: "QUOTE / II"; }
+.marquee .q { font-family: var(--font-display); font-style: italic; font-weight: 500;
+  font-size: clamp(28px, 4.4vw, 46px); line-height: 1.16; color: var(--ink); }
+.marquee .q::before { content: "“"; color: var(--pop-red); font-size: 1.2em; margin-right: 4px; }
+.marquee .q::after { content: "”"; color: var(--pop-red); font-size: 1.2em; margin-left: 4px; }
+.marquee.purple .q::before, .marquee.purple .q::after { color: var(--pop-purple); }
+.marquee .attr { margin-top: 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+
+/* ================ COMBINED EXHIBIT (Instant Replay + Density) ================ */
+.atlas-section { padding: 70px 0 90px; background: var(--paper-warm); position: relative; }
+.atlas-section::before { content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 1px; background: var(--rule); }
+.atlas-intro { max-width: 820px; margin: 0 auto 44px; padding: 0 24px; text-align: center; }
+.atlas-frame { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+.atlas-stage { position: relative; background: var(--map-bg); border: 2px solid var(--ink);
+  box-shadow: 12px 12px 0 var(--ink); overflow: hidden; }
+#mapSvg { display: block; width: 100%; height: auto; background: transparent; }
+
+/* hex underlay — invisible until vehicle passes through, then fade in (translucent) */
+.hex { fill: transparent !important; stroke: rgba(0,0,0,0); stroke-width: 0; transition: fill 0.55s ease, stroke 0.3s ease, stroke-width 0.2s ease; }
+.hex.passed { fill: var(--hex-color, transparent) !important; stroke: rgba(0,0,0,0.07); stroke-width: 0.5; }
+.hex.lit-edge { stroke: rgba(10,10,10,0.92); stroke-width: 2.5; }
+.hex.lit-edge-glow { animation: hexEdgePulse 1.6s ease-out 1; }
+@keyframes hexEdgePulse {
+  0%   { stroke: #fff; stroke-width: 3.5; }
+  100% { stroke: rgba(10,10,10,0.07); stroke-width: 0.5; }
+}
+
+/* atlas drawing (Part 1 map) */
+.water-fill { fill: var(--map-water); }
+.water-edge { fill: none; stroke: var(--map-water-edge); stroke-width: 1; opacity: 0.7; }
+.park { fill: var(--map-park); stroke: #9bbf8a; stroke-width: 0.6; opacity: 0.85; }
+.dc-diamond-fill { fill: var(--map-dc-fill); }
+.dc-diamond { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-dasharray: 6 4; }
+.beltway { fill: none; stroke: var(--map-hwy); stroke-width: 3.4; stroke-linecap: round; }
+.hwy { fill: none; stroke: var(--map-hwy); stroke-width: 2.6; stroke-linecap: round; }
+.arterial { fill: none; stroke: var(--map-arterial); stroke-width: 1.6; stroke-linecap: round; }
+.minor { fill: none; stroke: var(--map-road-thin); stroke-width: 0.6; stroke-linecap: round; opacity: 0.7; }
+.metro { fill: none; stroke-width: 2.4; stroke-linecap: round; opacity: 0.85; }
+.m-red { stroke: #C8102E; } .m-orange { stroke: #ED8B00; } .m-blue { stroke: #0072CE; } .m-green { stroke: #00B140; } .m-yellow { stroke: #FFD200; } .m-silver { stroke: #919D9D; }
+.lm { fill: var(--ink); }
+.lm-glow { fill: var(--pop-yellow); stroke: var(--ink); stroke-width: 1; }
+.street-label { font-family: var(--font-mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; fill: var(--ink); }
+.street-label.sm { font-size: 7.5px; letter-spacing: 0.18em; opacity: 0.7; }
+.area-label { font-family: var(--font-headline); font-weight: 900; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; fill: var(--ink); }
+.area-label.sm { font-size: 9.5px; letter-spacing: 0.24em; fill: var(--muted); }
+.area-label.big { font-size: 18px; letter-spacing: 0.3em; }
+.nbhd-label { font-family: var(--font-mono); font-size: 8px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; fill: var(--muted); }
+.river-label { font-family: var(--font-display); font-style: italic; fill: var(--map-water-edge); font-size: 14px; letter-spacing: 0.4em; }
+.hwy-shield { fill: var(--ink); }
+.hwy-num { font-family: var(--font-headline); font-weight: 900; font-size: 10px; fill: var(--paper); text-anchor: middle; }
+
+/* jurisdiction layers (toggleable) */
+.lyr { opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
+.lyr.on { opacity: 1; }
+.lyr-frz   { fill: var(--lyr-frz); stroke: var(--lyr-frz-edge); stroke-width: 1.4; stroke-dasharray: 6 4; }
+.lyr-sfra  { fill: var(--lyr-sfra); stroke: var(--lyr-sfra-edge); stroke-width: 1.4; stroke-dasharray: 12 6; }
+.lyr-mpd   { fill: var(--lyr-mpd); stroke: var(--lyr-mpd-edge); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.lyr-wmata { fill: var(--lyr-wmata); stroke: var(--lyr-wmata-edge); stroke-width: 1.2; stroke-dasharray: 4 3; }
+.lyr-county{ fill: none; stroke: var(--lyr-county); stroke-width: 1.4; stroke-dasharray: 8 6; }
+
+/* route + trail */
+.alt-route { fill: none; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 9 6; opacity: 0; transition: opacity 0.4s ease; }
+.alt-route.live { opacity: 0.55; }
+.user-route { fill: none; stroke-width: 7; stroke-linecap: round; opacity: 0; transition: opacity 0.4s ease; }
+.user-route.live { opacity: 0.42; }
+.user-trail { fill: none; stroke-width: 7; stroke-linecap: round; opacity: 0.95; }
+.route-r1, .alt-r1 { stroke: var(--r-north); }
+.route-r2, .alt-r2 { stroke: var(--r-south); }
+.route-r3, .alt-r3 { stroke: var(--r-east); }
+.route-r4, .alt-r4 { stroke: var(--r-west); }
+
+/* capture pins (sparse) + classified */
+.cap { opacity: 0; transition: opacity 0.4s ease; transform-origin: center; transform-box: fill-box; }
+.cap.lit { opacity: 1; animation: capDrop 0.45s ease-out 1; }
+@keyframes capDrop { 0% { transform: translateY(-12px) scale(0.5); opacity: 0; } 60% { transform: translateY(2px) scale(1.05); opacity: 1; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
+.pin-body { stroke: var(--ink); stroke-width: 1.4; }
+.pin-dot { fill: var(--paper-card); }
+.cls-pin { opacity: 0; transition: opacity 0.4s ease; }
+.atlas-stage.classified .cls-pin { opacity: 1; }
+.cls-hex { stroke: var(--ink); stroke-width: 1.2; }
+
+/* user vehicle */
+.me-vehicle { fill: var(--ink); stroke: var(--paper-card); stroke-width: 2; }
+.me-vehicle.r1 { fill: var(--r-north); } .me-vehicle.r2 { fill: var(--r-south); } .me-vehicle.r3 { fill: var(--r-east); } .me-vehicle.r4 { fill: var(--r-west); }
+
+/* alerts */
+.alert-pin { opacity: 0; pointer-events: none; transform-origin: center bottom; transform-box: fill-box; }
+.alert-pin.live { opacity: 1; animation: alertPop 0.5s ease-out 1; }
+@keyframes alertPop { 0% { transform: translateY(-8px) scale(0.4); opacity: 0; } 60% { transform: translateY(0) scale(1.1); opacity: 1; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
+.alert-bub { stroke: var(--ink); stroke-width: 1.4; }
+.alert-text { font-family: var(--font-headline); font-weight: 800; font-size: 9px; fill: #fff; text-anchor: middle; letter-spacing: 0.08em; }
+
+/* hex-callout popup (the NEW box that fires when the car crosses into a hex) */
+.hex-callout { pointer-events: none; opacity: 0; transition: opacity 0.25s ease; }
+.hex-callout.live { opacity: 1; }
+.hex-callout-bg { fill: var(--ink); stroke: var(--paper-card); stroke-width: 1; }
+.hex-callout-num { font-family: var(--font-headline); font-weight: 900; font-size: 18px; fill: var(--pop-yellow); text-anchor: middle; }
+.hex-callout-lbl { font-family: var(--font-mono); font-size: 7.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; fill: var(--paper); text-anchor: middle; }
+.hex-callout-brk { font-family: var(--font-mono); font-size: 7px; letter-spacing: 0.05em; fill: rgba(255,255,255,0.7); text-anchor: middle; }
+.hex-callout-tip { fill: var(--ink); }
+
+/* HUD overlays */
+.atlas-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 40; }
+.overlay-card { position: absolute; pointer-events: auto;
+  background: var(--paper-card); color: var(--ink); border: 2px solid var(--ink);
+  padding: 14px 16px; box-shadow: 6px 6px 0 var(--ink); font-family: var(--font-sans); }
+.eta-card { top: 22px; left: 22px; min-width: 240px; }
+.eta-card .row1 { display: flex; align-items: baseline; gap: 10px; }
+.eta-card .min { font-size: 30px; font-weight: 900; line-height: 1; font-family: var(--font-headline); }
+.eta-card .unit { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; }
+.eta-card .dest { font-size: 11px; color: var(--ink); margin-top: 6px; letter-spacing: 0.06em; font-family: var(--font-mono); font-weight: 600; }
+
+/* big multi-counter (the running tally) */
+.tally-card { top: 22px; right: 22px; min-width: 260px; padding: 16px 18px; }
+.tally-card .tag { font-family: var(--font-headline); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; font-weight: 800; }
+.tally-card .total { font-family: var(--font-headline); font-weight: 900; font-size: 42px; line-height: 1; color: var(--ink); }
+.tally-card .total .unit { font-size: 0.32em; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-left: 4px; vertical-align: top; padding-top: 18px; display: inline-block; font-weight: 700; }
+.tally-card .row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px dotted var(--rule-dark); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; font-weight: 600; text-transform: uppercase; color: var(--muted); }
+.tally-card .row:first-of-type { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--rule); }
+.tally-card .row:last-child { border-bottom: none; }
+.tally-card .row .v { color: var(--ink); font-weight: 800; }
+.tally-card .cls { display: none; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--pop-purple); margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--pop-purple); letter-spacing: 0.06em; }
+.atlas-stage.classified .tally-card .cls { display: block; }
+
+.layer-panel { position: absolute; left: 22px; bottom: 22px; pointer-events: auto;
+  background: var(--paper-card); border: 2px solid var(--ink); padding: 14px 14px 12px; box-shadow: 6px 6px 0 var(--ink);
+  min-width: 210px; z-index: 41; }
+.layer-panel h5 { font-family: var(--font-headline); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink); margin-bottom: 10px; font-weight: 800; }
+.layer-panel .lyr-btn { display: flex; align-items: center; gap: 9px; width: 100%; padding: 5px 4px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); background: none; border: none; cursor: pointer; text-align: left; transition: color 0.15s ease; font-weight: 600; }
+.layer-panel .lyr-btn:hover { color: var(--ink); }
+.layer-panel .lyr-btn .sw { width: 24px; height: 14px; background: var(--rule); border: 1.5px solid var(--ink); position: relative; flex: none; border-radius: 8px; transition: all 0.18s ease; }
+.layer-panel .lyr-btn .sw::after { content: ""; position: absolute; top: 1px; left: 1px; width: 10px; height: 10px; border-radius: 50%; background: var(--ink); transition: all 0.18s ease; }
+.layer-panel .lyr-btn.on { color: var(--ink); }
+.layer-panel .lyr-btn.on .sw { background: var(--pop-cobalt); }
+.layer-panel .lyr-btn.on .sw::after { left: 11px; background: #fff; }
+.layer-panel .lyr-btn[data-layer="frz"].on .sw { background: var(--pop-red); }
+.layer-panel .lyr-btn[data-layer="sfra"].on .sw { background: var(--pop-orange); }
+.layer-panel .lyr-btn[data-layer="wmata"].on .sw { background: var(--pop-mint); }
+.layer-panel .lyr-btn[data-layer="county"].on .sw { background: var(--pop-purple); }
+.layer-panel .lyr-btn[data-layer="hex"].on .sw { background: var(--pop-orange); }
+
+.dir-strip { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); pointer-events: auto;
+  background: var(--ink); color: var(--paper-card); padding: 12px 22px;
+  font-family: var(--font-headline); font-weight: 800;
+  box-shadow: 6px 6px 0 var(--pop-yellow);
+  display: flex; align-items: center; gap: 14px; z-index: 41;
+  opacity: 0; transition: opacity 0.35s ease; }
+.dir-strip.live { opacity: 1; }
+.dir-strip .glyph { font-size: 22px; }
+.dir-strip .txt { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+.dir-strip .dist { background: var(--paper-card); color: var(--ink); padding: 4px 9px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; font-weight: 700; }
+
+/* ================ CONTROLS BAY ================ */
+.controls-bay { max-width: 1280px; margin: 32px auto 0; padding: 0 16px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+@media (max-width: 880px) { .controls-bay { grid-template-columns: 1fr; } }
+.bay-card { background: var(--paper-card); border: 2px solid var(--ink); padding: 22px 24px; box-shadow: 8px 8px 0 var(--ink); }
+.bay-card h3 { color: var(--ink); }
+.route-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.route-btn { display: grid; grid-template-columns: 80px 1fr; gap: 16px; align-items: center;
+  padding: 14px 16px; background: var(--paper); border: 1.5px solid var(--rule-dark);
+  cursor: pointer; transition: all 0.18s ease; font-family: var(--font-sans); text-align: left; }
+.route-btn:hover { border-color: var(--ink); transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--ink); }
+.route-btn.active { border-color: var(--ink); background: var(--paper-card); box-shadow: 4px 4px 0 var(--ink); }
+.route-btn[data-route="r1"].active { background: #ffe1d6; }
+.route-btn[data-route="r2"].active { background: #d4f0e1; }
+.route-btn[data-route="r3"].active { background: #d4e8f5; }
+.route-btn[data-route="r4"].active { background: #fde2ec; }
+.route-btn .dir-badge { font-family: var(--font-headline); font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase;
+  text-align: center; padding: 8px 6px; border: 2px solid var(--ink); background: var(--paper-card); color: var(--ink); }
+.route-btn[data-route="r1"] .dir-badge { background: var(--r-north); color: #fff; }
+.route-btn[data-route="r2"] .dir-badge { background: var(--r-south); color: var(--ink); }
+.route-btn[data-route="r3"] .dir-badge { background: var(--r-east); color: #fff; }
+.route-btn[data-route="r4"] .dir-badge { background: var(--r-west); color: #fff; }
+.route-btn .info .from-to { font-weight: 700; color: var(--ink); font-size: 14px; letter-spacing: 0.01em; line-height: 1.2; }
+.route-btn .info .from-to .arr { color: var(--pop-red); font-weight: 800; margin: 0 4px; }
+.route-btn .info .meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; font-weight: 600; }
+
+.mode-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+.mode-btn { padding: 12px 6px; background: var(--paper); border: 1.5px solid var(--rule-dark);
+  cursor: pointer; transition: all 0.18s ease; font-family: var(--font-sans); text-align: center; }
+.mode-btn:hover { border-color: var(--ink); transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
+.mode-btn.active { border-color: var(--ink); background: var(--pop-yellow); box-shadow: 3px 3px 0 var(--ink); }
+.mode-btn .glyph { display: block; height: 28px; margin: 0 auto 6px; }
+.mode-btn .lbl { font-family: var(--font-headline); font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
+.mode-btn .est { font-family: var(--font-mono); font-size: 10px; color: var(--ink); margin-top: 4px; font-weight: 700; }
+
+.transport-controls { display: flex; align-items: center; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+.play-btn { font-family: var(--font-headline); font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--paper-card); background: var(--ink); border: none; padding: 14px 24px; cursor: pointer;
+  box-shadow: 5px 5px 0 var(--pop-red); transition: transform 0.1s ease, box-shadow 0.1s ease; }
+.play-btn:hover { transform: translate(-1px,-1px); box-shadow: 6px 6px 0 var(--pop-red); }
+.play-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--pop-red); }
+.scrub { flex: 1; min-width: 200px; accent-color: var(--pop-red); height: 5px; }
+.cls-toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 11px 14px; background: var(--paper); border: 2px dashed var(--pop-purple); color: var(--pop-purple); }
+.cls-toggle .sw { width: 24px; height: 14px; background: var(--paper-card); border: 1.5px solid var(--pop-purple); position: relative; border-radius: 8px; }
+.cls-toggle .sw::after { content: ""; position: absolute; top: 1px; left: 1px; width: 10px; height: 10px; background: var(--pop-purple); transition: left 0.2s ease; border-radius: 50%; }
+.cls-toggle.on .sw::after { left: 11px; }
+.cls-toggle.on { background: rgba(122,76,255,0.10); }
+
+.atlas-legend { max-width: 1280px; margin: 24px auto 0; padding: 0 16px;
+  display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+.atlas-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.lg-dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; border: 1.5px solid var(--ink); }
+.lg-dot.pub { background: var(--cap-pub); } .lg-dot.inf { background: var(--cap-inf); } .lg-dot.priv { background: var(--cap-priv); } .lg-dot.cls { background: var(--cap-cls); }
+.lg-hex { width: 14px; height: 12px; display: inline-block; background: var(--pop-orange); clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%); border: 1px solid var(--ink); }
+.lg-line { width: 26px; height: 5px; display: inline-block; border: 1px solid var(--ink); }
+.lg-line.n { background: var(--r-north); } .lg-line.s { background: var(--r-south); } .lg-line.e { background: var(--r-east); } .lg-line.w { background: var(--r-west); }
+
+/* ================ STATS STRIP (cinematic) ================ */
+.stats-strip { padding: 100px 0 110px; background: var(--ink); color: var(--paper); overflow: hidden; position: relative;
+  background-image: radial-gradient(900px 500px at 50% 30%, rgba(255,216,61,0.04), transparent 70%); }
+.stats-grid { max-width: 1240px; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 36px;
+  transform: scale(0.96); transition: transform 1.4s cubic-bezier(0.2,0.8,0.2,1); }
+.stats-strip.cin-in .stats-grid { transform: scale(1); }
+.stat-card { opacity: 0; transform: translateY(50px) scale(0.92); filter: blur(10px);
+  transition: opacity 1.1s ease, transform 1.3s cubic-bezier(0.2,0.8,0.2,1), filter 0.9s ease; }
+.stats-strip.cin-in .stat-card { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+.stats-strip.cin-in .stat-card:nth-child(1) { transition-delay: 0.05s; }
+.stats-strip.cin-in .stat-card:nth-child(2) { transition-delay: 0.18s; }
+.stats-strip.cin-in .stat-card:nth-child(3) { transition-delay: 0.31s; }
+.stats-strip.cin-in .stat-card:nth-child(4) { transition-delay: 0.44s; }
+.stats-strip.cin-in .stat-card:nth-child(5) { transition-delay: 0.57s; }
+.stats-strip.cin-in .stat-card:nth-child(6) { transition-delay: 0.70s; }
+.stat-card .n { font-family: var(--font-headline); font-weight: 900; font-size: clamp(56px, 6vw, 92px); line-height: 0.92; letter-spacing: -0.025em; color: var(--pop-yellow);
+  display: inline-block; transform: translateY(28px); opacity: 0; filter: blur(6px);
+  transition: opacity 1s ease 0.35s, transform 1.1s cubic-bezier(0.2,0.8,0.2,1) 0.35s, filter 0.8s ease 0.35s; }
+.stats-strip.cin-in .stat-card .n { opacity: 1; transform: translateY(0); filter: blur(0); }
+.stat-card .n .small { font-size: 0.40em; letter-spacing: 0; color: var(--paper); display: inline-block; margin-left: 6px; vertical-align: top; padding-top: 16px; font-weight: 700; }
+.stat-card .l { font-family: var(--font-sans); font-size: 14px; font-weight: 500; color: rgba(250,250,242,0.85); margin-top: 16px; line-height: 1.45;
+  opacity: 0; transform: translateY(12px); transition: opacity 0.9s ease 0.6s, transform 0.9s ease 0.6s; }
+.stats-strip.cin-in .stat-card .l { opacity: 1; transform: translateY(0); }
+.stat-card.red .n { color: var(--pop-red); }
+.stat-card.mint .n { color: var(--pop-mint); }
+.stat-card.cobalt .n { color: #6aa8ee; }
+.stat-card.magenta .n { color: var(--pop-magenta); }
+.stat-card.orange .n { color: var(--pop-orange); }
+.stat-card.purple .n { color: var(--pop-purple); }
+
+/* ================ RETENTION TIMELINE ================ */
+.retention-section { padding: 70px 0 90px; background: var(--paper-warm); }
+.retention-intro { max-width: 820px; margin: 0 auto 36px; padding: 0 24px; text-align: center; }
+.mode-bar { max-width: 1240px; margin: 0 auto 18px; padding: 0 16px;
+  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.mode-pill { font-family: var(--font-headline); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 11px 18px; background: var(--paper-card); border: 2px solid var(--ink); cursor: pointer; transition: transform 0.12s, box-shadow 0.12s;
+  color: var(--ink); }
+.mode-pill:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
+.mode-pill.active { box-shadow: 4px 4px 0 var(--ink); background: var(--pop-yellow); }
+.timeline-frame { max-width: 1240px; margin: 0 auto; padding: 0 16px;
+  display: grid; grid-template-columns: 1fr 320px; gap: 22px; align-items: start; }
+@media (max-width: 980px) { .timeline-frame { grid-template-columns: 1fr; } }
+.tl-stage { background: var(--paper-card); border: 2px solid var(--ink); padding: 22px 24px 28px; box-shadow: 10px 10px 0 var(--ink); }
+#tlSvg { display: block; width: 100%; height: auto; }
+.tl-axis { stroke: var(--ink); stroke-width: 1.2; }
+.tl-tick { stroke: var(--ink); stroke-width: 1; }
+.tl-tick-lbl { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; fill: var(--muted); text-anchor: middle; text-transform: uppercase; font-weight: 700; }
+.tl-grid { stroke: rgba(0,0,0,0.08); stroke-width: 0.8; }
+.tl-lane-lbl { font-family: var(--font-headline); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; fill: var(--ink); }
+.tl-lane-sub { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.12em; fill: var(--muted); text-transform: uppercase; }
+.tl-bar-off { fill: var(--rt-official); }
+.tl-bar-res { fill: url(#stripes); }
+.tl-lane { cursor: pointer; transition: opacity 0.18s ease; }
+.tl-lane.dim { opacity: 0.32; }
+.tl-lane.sel .tl-lane-lbl { fill: var(--pop-red); }
+.tl-info { display: flex; flex-direction: column; gap: 16px; }
+.tl-info-card { background: var(--paper-card); border: 2px solid var(--ink); padding: 22px 22px 24px; box-shadow: 8px 8px 0 var(--pop-purple); }
+.tl-info-card .ttl { font-family: var(--font-headline); font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.tl-info-card .hd { font-family: var(--font-display); font-weight: 600; font-size: 26px; color: var(--ink); margin-bottom: 6px; line-height: 1.05; }
+.tl-info-card .sub { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pop-red); margin-top: 4px; font-weight: 700; }
+.tl-info-card .rows { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--rule); }
+.tl-info-card .row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-bottom: 1px dotted var(--rule-dark); font-family: var(--font-sans); font-size: 13px; }
+.tl-info-card .row:last-child { border: none; }
+.tl-info-card .row .lbl { color: var(--muted); font-weight: 500; }
+.tl-info-card .row .val { font-family: var(--font-mono); font-weight: 700; color: var(--ink); }
+.tl-info-card .why { font-family: var(--font-display); font-style: italic; font-size: 14px; color: var(--muted); margin-top: 14px; line-height: 1.4; }
+.tl-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 18px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase; }
+.tl-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.tl-swatch { width: 22px; height: 12px; border: 1px solid var(--ink); display: inline-block; }
+.tl-swatch.off { background: var(--rt-official); }
+.tl-swatch.res { background: var(--rt-residual); }
+
+/* ================ GUTHRIE ANCHOR ================ */
+.anchor-section { padding: 110px 0; background: var(--paper); }
+.anchor-card { max-width: 980px; margin: 0 auto;
+  background: var(--paper-card); border: 3px solid var(--ink);
+  padding: 60px 60px 56px; position: relative; box-shadow: 16px 16px 0 var(--pop-red); }
+.anchor-card::before { content: "VERIFIED ANCHOR · CASE FILE"; position: absolute; top: -16px; left: 36px;
+  background: var(--pop-red); color: #fff; padding: 6px 14px; font-family: var(--font-mono); font-size: 10px; font-weight: 800; letter-spacing: 0.22em; }
+.anchor-card .topline { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 24px; }
+.anchor-card h2 { color: var(--ink); margin-bottom: 14px; }
+.anchor-card .key { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(22px, 3vw, 30px); line-height: 1.18;
+  color: var(--ink); padding: 24px 28px; margin: 28px 0; border-left: 6px solid var(--pop-red); background: #fff8f5; }
+.anchor-card .key b { font-style: normal; font-weight: 700; background: var(--highlight); padding: 0 4px; }
+.anchor-card p { font-size: 17px; }
+.anchor-card .sources { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--rule); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.anchor-card .sources b { color: var(--ink); }
+
+/* ================ JAN 6 FUNNEL ================ */
+.j6-section { padding: 100px 0; background: var(--ink); color: var(--paper); }
+.j6-section h2 { color: var(--paper); }
+.j6-section .kicker { color: var(--pop-yellow); }
+.j6-section .lead { color: rgba(250,250,242,0.86); }
+.j6-frame { max-width: 1180px; margin: 40px auto 0; padding: 0 24px;
+  display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: start; }
+@media (max-width: 880px) { .j6-frame { grid-template-columns: 1fr; } }
+.j6-funnel { background: rgba(255,255,255,0.03); padding: 30px 26px; border: 1px solid rgba(255,255,255,0.14); }
+#j6Svg { display: block; width: 100%; height: auto; }
+.fn-bar { fill: var(--pop-yellow); }
+.fn-bar.s2 { fill: var(--pop-orange); }
+.fn-bar.s3 { fill: var(--pop-red); }
+.fn-num { font-family: var(--font-headline); font-weight: 900; font-size: 34px; fill: var(--paper); }
+.fn-lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; fill: rgba(250,250,242,0.7); text-transform: uppercase; font-weight: 700; }
+.fn-arrow { fill: rgba(250,250,242,0.4); }
+.j6-text p { color: rgba(250,250,242,0.85); font-size: 17px; }
+.j6-text .src { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pop-yellow); font-weight: 700; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.16); }
+
+/* ================ FOIA FLOWCHART ================ */
+.foia-section { padding: 100px 0; background: var(--paper-warm); }
+.foia-frame { max-width: 1180px; margin: 40px auto 0; padding: 0 24px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start; }
+@media (max-width: 880px) { .foia-frame { grid-template-columns: 1fr; } }
+.foia-flow { background: var(--paper-card); padding: 28px 26px 30px; border: 2px solid var(--ink); box-shadow: 10px 10px 0 var(--pop-cobalt); }
+.foia-step { display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; padding: 14px 0; border-bottom: 1px dotted var(--rule-dark); }
+.foia-step:last-child { border-bottom: none; }
+.foia-step .n { width: 36px; height: 36px; background: var(--ink); color: var(--paper-card);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-headline); font-weight: 900; font-size: 16px; }
+.foia-step .body h5 { font-family: var(--font-headline); font-size: 14px; color: var(--ink); margin-bottom: 3px; font-weight: 800; letter-spacing: -0.01em; }
+.foia-step .body p { font-family: var(--font-sans); font-size: 13px; color: var(--muted); margin: 0; line-height: 1.4; }
+.foia-step .tag { font-family: var(--font-mono); font-size: 9px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 3px 8px; border: 1.5px solid var(--ink); background: var(--paper); color: var(--ink); }
+.foia-step.deny .tag { background: var(--pop-red); color: #fff; border-color: var(--pop-red); }
+.foia-step.maybe .tag { background: var(--pop-yellow); color: var(--ink); }
+.foia-step.win .tag { background: var(--pop-mint); color: var(--ink); }
+.foia-text p { font-size: 17px; }
+.foia-text .src { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pop-cobalt); font-weight: 700; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--rule); }
+
+/* ================ DATA DEBT ================ */
+.debt-section { padding: 100px 0; background: var(--paper); }
+.debt-frame { max-width: 1180px; margin: 40px auto 0; padding: 0 24px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; }
+@media (max-width: 880px) { .debt-frame { grid-template-columns: 1fr; } }
+.debt-chart { background: var(--paper-card); padding: 28px 30px; border: 2px solid var(--ink); box-shadow: 10px 10px 0 var(--pop-magenta); }
+#debtSvg { display: block; width: 100%; height: auto; }
+.debt-axis { stroke: var(--ink); stroke-width: 1.2; }
+.debt-tick { stroke: var(--ink); stroke-width: 0.8; }
+.debt-tick-lbl { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em; fill: var(--muted); text-transform: uppercase; font-weight: 700; }
+.debt-line-official { fill: none; stroke: var(--pop-cobalt); stroke-width: 3.5; stroke-linecap: round; }
+.debt-line-actual { fill: none; stroke: var(--pop-red); stroke-width: 3.5; stroke-linecap: round; }
+.debt-fill { fill: rgba(255, 74, 43, 0.18); }
+.debt-axis-lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; fill: var(--ink); text-transform: uppercase; font-weight: 700; }
+.debt-callout { font-family: var(--font-display); font-style: italic; font-size: 13px; fill: var(--ink); }
+.debt-key { display: flex; gap: 20px; margin-top: 18px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
+.debt-key .swatch { width: 22px; height: 4px; display: inline-block; margin-right: 6px; vertical-align: middle; }
+
+/* ================ COUNTER-READ (blended) ================ */
+.chart-grid { max-width: 1240px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
+.chart-card { background: var(--paper-card); color: var(--ink); padding: 28px 28px; border: 2px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink); position: relative; }
+.chart-card .num { font-family: var(--font-headline); font-size: 38px; font-weight: 900; line-height: 1; color: var(--pop-red); margin-bottom: 8px; }
+.chart-card:nth-child(2) .num { color: var(--pop-mint); }
+.chart-card:nth-child(3) .num { color: var(--pop-cobalt); }
+.chart-card:nth-child(4) .num { color: var(--pop-magenta); }
+.chart-card:nth-child(5) .num { color: var(--pop-orange); }
+.chart-card:nth-child(6) .num { color: var(--pop-purple); }
+.chart-card h4 { font-family: var(--font-display); font-size: 22px; color: var(--ink); margin-bottom: 10px; font-weight: 600; line-height: 1.15; }
+.chart-card p { color: var(--ink-soft); font-size: 14.5px; margin-bottom: 12px; line-height: 1.55; }
+.chart-card .resp { margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--ink);
+  font-style: italic; font-family: var(--font-display); font-size: 16px; color: var(--ink); }
+.chart-card .src { margin-top: 10px; padding-top: 10px; border-top: 1px dotted var(--rule-dark); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+
+/* ================ BONUS · YOUR OWN ROUTE ================ */
+.bonus-section { padding: 110px 0; background: var(--paper-warm); position: relative; }
+.bonus-section::before { content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 1px; background: var(--rule); }
+.bonus-intro { max-width: 820px; margin: 0 auto 36px; padding: 0 24px; text-align: center; }
+.bonus-stage { max-width: 1180px; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: stretch; }
+@media (max-width: 880px) { .bonus-stage { grid-template-columns: 1fr; } }
+.bonus-form { background: var(--paper-card); border: 2px solid var(--ink); box-shadow: 12px 12px 0 var(--pop-magenta);
+  padding: 36px 38px 32px; display: flex; flex-direction: column; gap: 18px; position: relative; }
+.bonus-form::before { content: "EXHIBIT F · YOUR ROUTE"; position: absolute; top: -14px; left: 28px;
+  background: var(--ink); color: var(--paper-card); padding: 5px 14px;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 800; letter-spacing: 0.22em; }
+.bonus-form h3 { color: var(--ink); font-size: 13px; }
+.bonus-form .lede { font-family: var(--font-display); font-style: italic; font-size: 20px; color: var(--ink); line-height: 1.3; margin: 4px 0 6px; }
+.bonus-form .field { display: flex; flex-direction: column; gap: 6px; }
+.bonus-form .field label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.bonus-form .field input { font-family: var(--font-sans); font-size: 15px; padding: 14px 14px; background: var(--paper); border: 2px solid var(--ink); border-radius: 0; color: var(--ink); transition: background 0.12s ease; }
+.bonus-form .field input:focus { outline: none; background: #fffdf2; box-shadow: 4px 4px 0 var(--pop-yellow); }
+.bonus-form .submit { font-family: var(--font-headline); font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--paper-card); background: var(--ink); border: none; padding: 16px 24px; cursor: pointer;
+  box-shadow: 5px 5px 0 var(--pop-magenta); transition: transform 0.1s, box-shadow 0.1s; margin-top: 8px; align-self: flex-start; }
+.bonus-form .submit:hover { transform: translate(-1px,-1px); box-shadow: 6px 6px 0 var(--pop-magenta); }
+.bonus-form .submit:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--pop-magenta); }
+.bonus-form .submit:disabled { opacity: 0.4; cursor: not-allowed; }
+.bonus-form .disc { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; line-height: 1.55; margin-top: 8px; }
+
+.bonus-view { position: relative; background: var(--map-bg); border: 2px solid var(--ink); box-shadow: 12px 12px 0 var(--ink);
+  min-height: 360px; overflow: hidden; opacity: 0.35; transition: opacity 0.6s ease; }
+.bonus-view.live { opacity: 1; }
+.bonus-view .ghost { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; transition: opacity 0.6s ease; }
+.bonus-view.live .ghost { opacity: 0; }
+.bonus-view .ghost span { font-family: var(--font-display); font-style: italic; font-size: 22px; color: var(--muted); padding: 16px 24px; background: rgba(255,255,255,0.7); border: 1px dashed var(--rule-dark); }
+#bonusSvg { display: block; width: 100%; height: auto; background: transparent; }
+.bonus-trail { fill: none; stroke: var(--pop-magenta); stroke-width: 6; stroke-linecap: round; filter: drop-shadow(0 0 6px rgba(255,60,139,0.5)); }
+.bonus-route { fill: none; stroke: var(--pop-magenta); stroke-width: 5; stroke-linecap: round; opacity: 0.42; }
+.bonus-hex { fill: transparent; transition: fill 0.55s ease, stroke 0.25s ease; }
+.bonus-hex.passed { fill: var(--hex-color, transparent); stroke: rgba(0,0,0,0.07); stroke-width: 0.5; }
+.bonus-hex.lit-edge-b { stroke: #0a0a0a; stroke-width: 2.5; }
+.bonus-endpoint { fill: var(--ink); stroke: var(--pop-magenta); stroke-width: 2; }
+.bonus-endpoint-lbl { font-family: var(--font-headline); font-weight: 900; font-size: 10px; fill: var(--paper); letter-spacing: 0.16em; }
+.bonus-endpoint-lbl-bg { fill: var(--ink); }
+
+.bonus-result { padding: 24px 28px; background: var(--ink); color: var(--paper); margin-top: 22px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 18px; box-shadow: 8px 8px 0 var(--ink);
+  border: 2px solid var(--ink);
+  opacity: 0; transform: translateY(20px) scale(0.96); filter: blur(8px);
+  transition: opacity 1s ease 0.5s, transform 1.1s cubic-bezier(0.2,0.8,0.2,1) 0.5s, filter 0.8s ease 0.5s; }
+.bonus-result.live { opacity: 1; transform: none; filter: blur(0); }
+@media (max-width: 720px) { .bonus-result { grid-template-columns: 1fr; } }
+.bonus-result .big { font-family: var(--font-headline); font-weight: 900; font-size: clamp(64px, 8vw, 110px); line-height: 0.92; color: var(--pop-yellow); letter-spacing: -0.025em; }
+.bonus-result .big .small { font-size: 0.34em; letter-spacing: 0; color: var(--paper); display: inline-block; margin-left: 6px; vertical-align: top; padding-top: 16px; font-weight: 700; }
+.bonus-result .tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(250,250,242,0.7); margin-bottom: 6px; font-weight: 700; }
+.bonus-result .sub { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--pop-mint); margin-top: 6px; font-weight: 700; }
+.bonus-result .why { font-family: var(--font-display); font-style: italic; font-size: 17px; color: var(--paper); line-height: 1.42; }
+.bonus-result .why b { font-family: var(--font-headline); font-style: normal; font-weight: 800; background: var(--pop-yellow); color: var(--ink); padding: 0 4px; }
+
+/* ================ CLOSER ================ */
+.closer { padding: 130px 0; text-align: center; position: relative; background: var(--paper); }
+.closer-band { display: inline-block; padding: 50px 70px; max-width: 960px;
+  background: var(--paper-card); border: 3px solid var(--ink); position: relative;
+  box-shadow: 14px 14px 0 var(--pop-magenta); }
+.closer-line { font-family: var(--font-display); font-style: italic; font-weight: 500;
+  font-size: clamp(30px, 5.4vw, 58px); line-height: 1.1; color: var(--ink); letter-spacing: -0.01em; }
+.closer-line .high { background: var(--highlight); padding: 0 6px; }
+.closer-stanza-rule { height: 2px; background: var(--ink); width: 100px; margin: 30px auto; }
+.closer-attr { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); margin-top: 30px; }
+
+/* ================ ECHOES + NAV + FOOTER ================ */
+.echoes { max-width: 780px; margin: 0 auto; }
+.echo { display: flex; gap: 18px; align-items: flex-start; padding: 22px 0; border-bottom: 1px solid var(--rule); }
+.echo .e-mark { flex: none; width: 44px; height: 44px; background: var(--ink); color: var(--paper-card);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-headline); font-size: 16px; font-weight: 800; }
+.echo .e-to { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pop-red); }
+.echo .e-body { font-family: var(--font-display); font-style: italic; font-size: 20px; color: var(--ink); margin-top: 4px; line-height: 1.3; }
+.bridge { border-top: 1px solid var(--rule); padding: 50px 0; background: var(--paper-warm); }
+.bridge-nav { display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.bridge-nav a { font-family: var(--font-headline); font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; padding: 14px 24px; border: 2px solid var(--ink); color: var(--ink); background: var(--paper-card); transition: transform 0.1s ease, box-shadow 0.1s ease; }
+.bridge-nav a.prev::before { content: "\2190  "; color: var(--pop-red); }
+.bridge-nav a.next { background: var(--ink); color: var(--paper-card); }
+.bridge-nav a.next::after { content: "  \2192"; }
+.bridge-nav a:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }
+.bridge-nav a.next:hover { box-shadow: 4px 4px 0 var(--pop-red); }
+.legal-footer { background: var(--ink); color: var(--paper); padding: 60px 32px 50px; font-family: var(--font-sans); font-size: 12px; line-height: 1.7; }
+.legal-footer .row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 22px; max-width: var(--col-wide); margin: 0 auto 22px; padding-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.15); align-items: center; }
+.legal-footer .brand { font-family: var(--font-headline); font-size: 22px; font-weight: 800; color: var(--paper); }
+.legal-footer .brand em { font-family: var(--font-display); font-style: italic; color: var(--pop-yellow); font-weight: 500; }
+.legal-footer .links { display: flex; gap: 22px; flex-wrap: wrap; letter-spacing: 0.16em; text-transform: uppercase; }
+.legal-footer .links a { color: rgba(255,255,255,0.7); font-size: 11px; font-weight: 700; border: none; }
+.legal-footer .links a:hover { color: var(--pop-yellow); }
+.legal-footer .fine { max-width: var(--col-wide); margin: 0 auto; font-size: 11px; line-height: 1.65; color: rgba(255,255,255,0.6); }
+
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.js .reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .cap, .hex-callout { opacity: 1 !important; transition: none !important; }
+  .alert-pin, .cap.lit { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<nav class="chrome">
+  <a href="/" class="brand">Infera <em>·</em> The Mechanism Series</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/personhood-inc.html"><span class="tn">01</span>Personhood</a>
+    <a href="/the-feed-engine.html"><span class="tn">02</span>The Feed</a>
+    <a href="/episode-03-trust-market.html"><span class="tn">03</span>Trust Market</a>
+    <a href="/episode-04-the-influence-war.html"><span class="tn">04</span>Influence War</a>
+    <a class="cur" href="/episode-05-the-replayable-city.html"><span class="tn">05</span>Replayable City</a>
+    <a href="/episode-06-composite-state.html"><span class="tn">06</span>Composite State</a>
+  </div>
+</nav>
+
+<!-- ================ HERO ================ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="strap reveal">
+      <span class="pill">EPISODE 05</span>
+      <span class="dot"></span><span>The Mechanism Series</span>
+      <span class="dot"></span><span>May 2026</span>
+    </div>
+    <h1 class="reveal">How <em>DC</em> sees you on the way <span class="high">to work</span>, and what happens after.</h1>
+    <p class="deck reveal" style="margin-top:36px; max-width:780px">A real forty-minute Washington commute, instant-replayed over a camera-density heat map. Then the part nobody photographs: retention math, the data debt many Americans have but very few could account for until now.</p>
+    <div class="tag-cluster reveal">
+      <span class="chip red">DC Metro</span>
+      <span class="chip">live atlas</span>
+      <span class="chip mint">five modes</span>
+      <span class="chip yellow">four routes</span>
+      <span class="chip purple">data debt</span>
+      <span class="chip">~12 min read</span>
+    </div>
+    <div class="meta reveal">
+      <span><b>BYLINE</b> &nbsp; Infera Editorial</span>
+      <span><b>BETWEEN</b> &nbsp; EP 04 → EP 06</span>
+      <span><b>EXHIBIT</b> &nbsp; Live cartograph + retention</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================ COMPRESSION QUOTE ================ -->
+<section class="tight">
+  <div class="wrap-wide">
+    <div class="marquee reveal">
+      <div class="q">You were not followed. You were recoverable.</div>
+      <div class="attr">Compression point · I</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ COMBINED EXHIBIT · INSTANT REPLAY + DENSITY ================ -->
+<section class="atlas-section">
+  <div class="atlas-intro reveal">
+    <div class="kicker">Exhibit A · The Instant Replay</div>
+    <h2>Pick a commute. <em>Watch the city see you.</em></h2>
+    <p class="lead">A real Washington commute laid over a hex-grid camera-density heat map. Press play. Each hex you cross lights up; a callout shows how many cameras are in that block; a running tally counts every kind of read the architecture takes from you, in real time. Cameras. Location. Movement. Speed. Patterns.</p>
+  </div>
+
+  <div class="atlas-frame">
+    <div class="atlas-stage" id="atlasStage">
+      <svg id="mapSvg" viewBox="0 0 1200 720" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Head-on classic map of Washington DC with hex density overlay and an instant-replay route">
+        <defs>
+          <pattern id="paper-tx" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+            <rect width="60" height="60" fill="var(--map-bg)"/>
+            <circle cx="20" cy="20" r="0.5" fill="rgba(0,0,0,0.05)"/>
+            <circle cx="40" cy="40" r="0.5" fill="rgba(0,0,0,0.05)"/>
+          </pattern>
+        </defs>
+
+        <rect x="0" y="0" width="1200" height="720" fill="url(#paper-tx)"/>
+
+        <!-- jurisdiction layers (toggleable) -->
+        <circle class="lyr lyr-sfra" id="lyr-sfra" cx="623" cy="477" r="640"/>
+        <circle class="lyr lyr-frz"  id="lyr-frz"  cx="623" cy="477" r="320"/>
+        <g class="lyr lyr-county" id="lyr-county">
+          <path d="M 270 0 L 1000 0 L 1000 180 C 800 195 500 195 270 180 Z" fill="rgba(122,76,255,0.06)"/>
+          <path d="M 970 180 L 1200 180 L 1200 600 L 920 620 C 880 540 880 380 940 250 Z" fill="rgba(122,76,255,0.06)"/>
+          <path d="M 470 290 L 580 280 L 600 420 L 510 460 L 470 380 Z" fill="rgba(122,76,255,0.06)"/>
+          <path d="M 0 250 L 470 240 L 510 460 L 540 540 L 0 540 Z" fill="rgba(122,76,255,0.06)"/>
+          <path d="M 560 530 L 660 530 L 660 620 L 560 620 Z" fill="rgba(122,76,255,0.06)"/>
+        </g>
+        <polygon class="lyr lyr-mpd" id="lyr-mpd" points="632,131 937,377 614,620 384,377"/>
+        <path class="lyr lyr-wmata" id="lyr-wmata" d="M 130 110 L 1110 130 L 1180 300 L 1100 530 L 850 620 L 480 620 L 230 540 L 90 360 Z"/>
+
+        <!-- Potomac + Anacostia -->
+        <path d="M 100 130 C 200 180 280 240 360 280 C 430 320 510 360 570 370 C 600 374 615 384 622 405 C 626 425 640 440 650 460 C 660 478 670 492 685 510 C 700 528 700 552 685 580 C 660 615 600 625 480 625 C 380 625 280 625 130 625" fill="var(--map-water)" stroke="none"/>
+        <path d="M 100 130 C 200 180 280 240 360 280 C 430 320 510 360 570 370 C 600 374 615 384 622 405 C 626 425 640 440 650 460 C 660 478 670 492 685 510 C 700 528 700 552 685 580 C 660 615 600 625 480 625" class="water-edge"/>
+        <path d="M 1100 270 C 1020 290 950 320 880 360 C 820 390 770 420 740 450 C 720 470 700 480 685 510" stroke="var(--map-water)" stroke-width="22" fill="none" stroke-linecap="round"/>
+        <path d="M 1100 270 C 1020 290 950 320 880 360 C 820 390 770 420 740 450 C 720 470 700 480 685 510" class="water-edge"/>
+
+        <rect class="park" x="580" y="384" width="180" height="18" rx="2"/>
+
+        <!-- DC diamond fill (under hex) -->
+        <polygon class="dc-diamond-fill" points="632,131 937,377 614,620 384,377"/>
+
+        <!-- ============ DENSITY HEX LAYER (under streets) ============ -->
+        <g id="hexLayer"></g>
+
+        <!-- DC diamond outline (on top of hex) -->
+        <polygon class="dc-diamond" points="632,131 937,377 614,620 384,377"/>
+
+        <!-- highways -->
+        <path id="rd-belt" class="beltway" d="M 280 130 C 450 110 700 110 900 130 C 1060 150 1180 250 1190 370 C 1180 480 1080 580 900 600 C 700 615 480 605 320 580 C 180 555 90 460 80 340 C 80 250 150 170 280 130 Z"/>
+        <path id="rd-i66" class="hwy" d="M 0 380 C 100 380 200 385 308 398 C 400 400 500 395 580 395 C 600 395 615 396 630 393"/>
+        <path id="rd-i395" class="hwy" d="M 605 600 C 605 540 610 500 615 460 C 618 430 620 410 615 395"/>
+        <path id="rd-i295" class="hwy" d="M 1100 270 C 1020 320 940 380 880 430 C 830 470 790 510 770 540"/>
+        <path id="rd-suitland" class="hwy" d="M 908 485 C 850 470 790 450 760 440 C 730 430 715 420 705 405"/>
+        <path id="rd-gwp" class="hwy" d="M 540 360 L 560 395 L 580 430 L 580 540"/>
+        <path id="rd-nyave" class="hwy" d="M 660 385 L 720 365 L 800 340 L 870 320 L 950 305"/>
+
+        <!-- arterials (real DC streets) -->
+        <path id="rd-pa" class="arterial" d="M 632 366 L 698 384"/>
+        <path class="arterial" d="M 698 384 L 760 410 L 820 440 L 870 465"/>
+        <path class="arterial" d="M 540 385 L 700 385"/>
+        <path class="arterial" d="M 540 400 L 700 400"/>
+        <path id="rd-kst" class="arterial" d="M 540 358 L 740 358"/>
+        <path class="arterial" d="M 540 340 L 740 340"/>
+        <path id="rd-14th" class="arterial" d="M 614 200 L 614 395"/>
+        <path id="rd-16th" class="arterial" d="M 632 170 L 632 366"/>
+        <path class="arterial" d="M 680 275 L 680 395"/>
+        <path class="arterial" d="M 698 250 L 698 384"/>
+        <path class="arterial" d="M 698 384 L 698 540"/>
+        <path id="rd-conn" class="arterial" d="M 550 200 L 590 280 L 632 365"/>
+        <path id="rd-mass" class="arterial" d="M 460 295 L 590 340 L 698 384 L 750 395"/>
+        <path id="rd-wisc" class="arterial" d="M 480 200 L 520 280 L 555 350"/>
+        <path id="rd-georgia" class="arterial" d="M 657 142 C 655 200 660 280 670 360"/>
+        <path id="rd-florida" class="arterial" d="M 540 300 C 600 290 680 295 770 305"/>
+        <path id="rd-ust" class="arterial" d="M 555 305 L 700 305"/>
+        <path id="rd-hst" class="arterial" d="M 700 365 L 850 360"/>
+        <path id="rd-riave" class="arterial" d="M 698 384 C 740 360 800 340 870 320"/>
+        <path id="rd-foxhall" class="arterial" d="M 497 290 L 500 350"/>
+        <path id="rd-ecap" class="arterial" d="M 698 384 L 900 380"/>
+        <path id="rd-central" class="arterial" d="M 900 380 L 1000 370 L 1144 339"/>
+
+        <!-- minor street grid -->
+        <g>
+          <path class="minor" d="M 580 320 L 760 320"/>
+          <path class="minor" d="M 580 380 L 760 380"/>
+          <path class="minor" d="M 580 420 L 760 420"/>
+          <path class="minor" d="M 600 280 L 600 420"/>
+          <path class="minor" d="M 660 280 L 660 420"/>
+          <path class="minor" d="M 720 280 L 720 420"/>
+          <path class="minor" d="M 740 280 L 740 420"/>
+        </g>
+
+        <!-- metro lines -->
+        <path class="metro m-red"    d="M 595 25 L 620 50 L 657 110 L 670 180 L 700 240 L 720 280 L 730 320 L 698 360 L 720 360 L 740 360 L 760 365 L 800 320 L 815 290 L 870 220 L 853 180 L 830 130 L 800 80"/>
+        <path class="metro m-orange" d="M 230 350 L 350 365 L 460 372 L 580 380 L 632 380 L 698 384 L 770 385 L 850 365 L 950 340 L 1050 320"/>
+        <path class="metro m-blue"   d="M 460 580 L 560 510 L 580 460 L 615 395 L 698 384 L 800 395 L 900 410 L 1050 420"/>
+        <path class="metro m-silver" d="M 0 250 L 130 250 L 240 290 L 350 340 L 460 372 L 580 380 L 698 384 L 800 395 L 900 410 L 1050 420"/>
+        <path class="metro m-yellow" d="M 605 600 L 605 540 L 605 460 L 615 395 L 630 360 L 640 330"/>
+        <path class="metro m-green"  d="M 770 580 L 780 510 L 770 450 L 740 395 L 700 360 L 680 320 L 660 270 L 670 200 L 720 160"/>
+
+        <!-- landmarks -->
+        <g transform="translate(698,384)"><circle r="5" class="lm-glow"/></g>
+        <g transform="translate(632,366)"><circle r="4" class="lm"/></g>
+        <polygon points="635,378 631,388 639,388" class="lm"/>
+        <rect x="599" y="384" width="6" height="4" class="lm"/>
+        <polygon points="582,425 590,420 595,428 592,436 585,436" class="lm"/>
+        <g transform="translate(623,477)"><polygon points="0,-5 5,5 -5,5" class="lm"/></g>
+        <rect x="704" y="362" width="6" height="6" class="lm"/>
+
+        <!-- highway shields -->
+        <g transform="translate(160,378)"><rect class="hwy-shield" x="-12" y="-9" width="24" height="14"/><text class="hwy-num" y="2">66</text></g>
+        <g transform="translate(615,545)"><rect class="hwy-shield" x="-12" y="-9" width="24" height="14"/><text class="hwy-num" y="2">395</text></g>
+        <g transform="translate(950,440)"><rect class="hwy-shield" x="-12" y="-9" width="24" height="14"/><text class="hwy-num" y="2">295</text></g>
+        <g transform="translate(120,260)"><rect class="hwy-shield" x="-14" y="-9" width="28" height="14"/><text class="hwy-num" y="2">495</text></g>
+        <g transform="translate(1090,440)"><rect class="hwy-shield" x="-14" y="-9" width="28" height="14"/><text class="hwy-num" y="2">495</text></g>
+
+        <!-- street labels (sparse) -->
+        <text class="street-label sm" x="630" y="195" text-anchor="middle">16TH ST NW</text>
+        <text class="street-label sm" x="612" y="220" text-anchor="middle">14TH ST NW</text>
+        <text class="street-label sm" x="660" y="155" text-anchor="middle">GEORGIA AVE NW</text>
+        <text class="street-label sm" x="775" y="362" text-anchor="middle">H ST NE</text>
+        <text class="street-label" x="540" y="354" text-anchor="end">K ST NW</text>
+        <text class="street-label" x="540" y="381" text-anchor="end">CONSTITUTION</text>
+        <text class="street-label" x="660" y="375" text-anchor="middle" transform="rotate(15 660 375)">PENNSYLVANIA AVE NW</text>
+        <text class="street-label sm" x="503" y="320" text-anchor="middle">FOXHALL</text>
+        <text class="street-label sm" x="780" y="450" text-anchor="middle">SUITLAND PKWY</text>
+        <text class="street-label sm" x="555" y="450" text-anchor="middle" transform="rotate(75 555 450)">GW PKWY</text>
+        <text class="street-label sm" x="1060" y="365" text-anchor="middle">CENTRAL AVE</text>
+
+        <!-- area labels -->
+        <text class="area-label big" x="660" y="478" text-anchor="middle" opacity="0.5">DC</text>
+        <text class="area-label sm" x="657" y="140" text-anchor="middle">SILVER SPRING</text>
+        <text class="area-label sm" x="607" y="585" text-anchor="middle">ALEXANDRIA</text>
+        <text class="area-label sm" x="1144" y="335" text-anchor="middle">LARGO</text>
+        <text class="area-label sm" x="308" y="395" text-anchor="middle">FALLS CHURCH</text>
+        <text class="nbhd-label" x="708" y="416" text-anchor="middle" fill="var(--ink)" font-weight="700">NAVY YARD</text>
+        <text class="nbhd-label" x="775" y="354" text-anchor="middle" fill="var(--ink)" font-weight="700">H ST CORRIDOR</text>
+        <text class="nbhd-label" x="555" y="345" text-anchor="middle" fill="var(--ink)" font-weight="700">GEORGETOWN</text>
+        <text class="nbhd-label" x="725" y="270" text-anchor="middle" fill="var(--ink)" font-weight="700">BROOKLAND</text>
+        <text class="nbhd-label" x="715" y="380" text-anchor="start" fill="var(--ink)" font-weight="700">CAPITOL</text>
+        <text class="nbhd-label" x="620" y="362" text-anchor="end" fill="var(--ink)" font-weight="700">WHITE HOUSE</text>
+        <text class="nbhd-label" x="600" y="416" text-anchor="end">PENTAGON</text>
+        <text class="nbhd-label" x="612" y="494" text-anchor="middle">DCA</text>
+
+        <text class="river-label" x="420" y="350" transform="rotate(-22 420 350)">P O T O M A C</text>
+        <text class="river-label" x="900" y="380" transform="rotate(38 900 380)" font-size="11">ANACOSTIA</text>
+
+        <!-- compass + scale -->
+        <g transform="translate(80,80)">
+          <circle r="22" fill="var(--paper-card)" stroke="var(--ink)" stroke-width="1.5"/>
+          <polygon points="0,-18 -3,0 0,-3 3,0" fill="var(--ink)"/>
+          <polygon points="0,18 -3,0 0,3 3,0" fill="var(--muted)"/>
+          <text font-family="Inter Tight" font-weight="900" font-size="9" fill="var(--ink)" x="0" y="-26" text-anchor="middle">N</text>
+        </g>
+
+        <!-- DYNAMIC LAYERS -->
+        <path id="altRoute" class="alt-route" d=""/>
+        <path id="userRoute" class="user-route" d=""/>
+        <path id="userTrail" class="user-trail" d="" stroke-dasharray="0 99999"/>
+        <g id="clsLayer"></g>
+        <g id="capLayer"></g>
+        <g id="alertLayer"></g>
+        <g id="hexCalloutGroup">
+          <g id="hexCallout" class="hex-callout">
+            <polygon class="hex-callout-tip" id="hcTip" points="0,0 8,12 -8,12"/>
+            <rect class="hex-callout-bg" x="-80" y="-50" width="160" height="50" rx="3"/>
+            <text class="hex-callout-num" id="hcNum" x="0" y="-26">--</text>
+            <text class="hex-callout-lbl" x="0" y="-14">cameras in this block</text>
+            <text class="hex-callout-brk" id="hcBrk" x="0" y="-2">--</text>
+          </g>
+        </g>
+        <g id="meGroup">
+          <rect class="me-vehicle r1" id="meVehicle" x="-5" y="-9" width="10" height="18" rx="2"/>
+        </g>
+      </svg>
+
+      <div class="atlas-overlay">
+        <div class="overlay-card eta-card" id="etaCard">
+          <div class="row1"><div class="min" id="etaMin">--</div><div class="unit" id="etaUnit">min</div></div>
+          <div class="dest" id="etaDest">Pick a commute</div>
+        </div>
+
+        <div class="overlay-card tally-card" id="tallyCard" aria-live="polite">
+          <div class="tag">Running tally · what was read</div>
+          <div class="total"><span id="tcCams">0</span><span class="unit">cams</span></div>
+          <div class="row"><span>Location reads</span><span class="v" id="tcLoc">0</span></div>
+          <div class="row"><span>Movement events</span><span class="v" id="tcMov">0</span></div>
+          <div class="row"><span>Speed reads</span><span class="v" id="tcSpd">0</span></div>
+          <div class="row"><span>Pattern points</span><span class="v" id="tcPat">0</span></div>
+          <div class="cls" id="tcCls">+ ? classified presence</div>
+        </div>
+
+        <div class="layer-panel" aria-label="Map layers">
+          <h5>Layers</h5>
+          <button class="lyr-btn on" data-layer="hex"><span class="sw"></span>Camera density grid</button>
+          <button class="lyr-btn" data-layer="county"><span class="sw"></span>County boundaries</button>
+          <button class="lyr-btn" data-layer="mpd"><span class="sw"></span>MPD CCTV district</button>
+          <button class="lyr-btn" data-layer="wmata"><span class="sw"></span>WMATA transit zone</button>
+          <button class="lyr-btn" data-layer="frz"><span class="sw"></span>FAA FRZ · 15 mi</button>
+          <button class="lyr-btn" data-layer="sfra"><span class="sw"></span>FAA SFRA · 30 mi</button>
+        </div>
+      </div>
+
+      <div class="dir-strip" id="dirStrip">
+        <span class="glyph" id="dirGlyph">⬈</span>
+        <span class="txt" id="dirTxt">Pick a route to begin</span>
+        <span class="dist" id="dirDist">0.0 mi</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTROLS BAY -->
+  <div class="controls-bay">
+    <div class="bay-card">
+      <h3>Choose a commute · 40 min each</h3>
+      <div class="route-list" role="tablist" aria-label="Commute route">
+        <button class="route-btn active" data-route="r1" role="tab" aria-selected="true">
+          <span class="dir-badge">FROM<br/>THE<br/>NORTH</span>
+          <span class="info"><span class="from-to">Silver Spring, MD<span class="arr">→</span>Navy Yard, SE DC</span>
+            <span class="meta">Georgia Ave · 14th St · S Capitol · ~10 mi</span></span>
+        </button>
+        <button class="route-btn" data-route="r2" role="tab">
+          <span class="dir-badge">FROM<br/>THE<br/>SOUTH</span>
+          <span class="info"><span class="from-to">Alexandria, VA<span class="arr">→</span>H Street NE</span>
+            <span class="meta">GW Pkwy · 14th St Br · NoMa · ~9 mi</span></span>
+        </button>
+        <button class="route-btn" data-route="r3" role="tab">
+          <span class="dir-badge">FROM<br/>THE<br/>EAST</span>
+          <span class="info"><span class="from-to">Largo, MD<span class="arr">→</span>Georgetown, NW DC</span>
+            <span class="meta">Central Ave · East Capitol · M St · ~12 mi</span></span>
+        </button>
+        <button class="route-btn" data-route="r4" role="tab">
+          <span class="dir-badge">FROM<br/>THE<br/>WEST</span>
+          <span class="info"><span class="from-to">Falls Church, VA<span class="arr">→</span>Brookland, NE DC</span>
+            <span class="meta">I-66 · Constitution · N Capitol · ~12 mi</span></span>
+        </button>
+      </div>
+    </div>
+    <div class="bay-card">
+      <h3>Choose a mode</h3>
+      <div class="mode-grid" role="tablist" aria-label="Transport mode">
+        <button class="mode-btn active" data-mode="drive" role="tab" aria-selected="true">
+          <svg class="glyph" viewBox="0 0 28 28"><rect x="6" y="4" width="16" height="20" rx="3" fill="#ffd83d" stroke="#0a0a0a" stroke-width="1.5"/><rect x="8" y="7" width="12" height="8" fill="#0a0a0a" opacity="0.3"/><circle cx="10" cy="22" r="2" fill="#0a0a0a"/><circle cx="18" cy="22" r="2" fill="#0a0a0a"/></svg>
+          <div class="lbl">Drive</div><div class="est" data-eta-drive>--</div>
+        </button>
+        <button class="mode-btn" data-mode="rideshare" role="tab">
+          <svg class="glyph" viewBox="0 0 28 28"><rect x="6" y="4" width="16" height="20" rx="3" fill="#0a0a0a" stroke="#0a0a0a" stroke-width="1"/><rect x="9" y="2" width="10" height="3" fill="#fff"/><text x="14" y="5" text-anchor="middle" font-family="JetBrains Mono" font-size="2.6" fill="#0a0a0a" font-weight="700">UBER</text><circle cx="10" cy="22" r="2" fill="#fff"/><circle cx="18" cy="22" r="2" fill="#fff"/></svg>
+          <div class="lbl">Rideshare</div><div class="est" data-eta-rideshare>--</div>
+        </button>
+        <button class="mode-btn" data-mode="metro" role="tab">
+          <svg class="glyph" viewBox="0 0 28 28"><rect x="5" y="4" width="18" height="18" rx="3" fill="#0072CE" stroke="#0a0a0a" stroke-width="1.5"/><circle cx="14" cy="13" r="6" fill="none" stroke="#fff" stroke-width="2"/><text x="14" y="16" text-anchor="middle" font-family="Inter" font-weight="800" font-size="7" fill="#fff">M</text></svg>
+          <div class="lbl">Metro</div><div class="est" data-eta-metro>--</div>
+        </button>
+        <button class="mode-btn" data-mode="bus" role="tab">
+          <svg class="glyph" viewBox="0 0 28 28"><rect x="4" y="6" width="20" height="14" rx="2" fill="#ff4a2b" stroke="#0a0a0a" stroke-width="1.5"/><rect x="6" y="8" width="16" height="5" fill="#fff" opacity="0.85"/><circle cx="9" cy="22" r="2" fill="#0a0a0a"/><circle cx="19" cy="22" r="2" fill="#0a0a0a"/></svg>
+          <div class="lbl">Bus</div><div class="est" data-eta-bus>--</div>
+        </button>
+        <button class="mode-btn" data-mode="bike" role="tab">
+          <svg class="glyph" viewBox="0 0 28 28"><circle cx="8" cy="20" r="5" fill="none" stroke="#0a0a0a" stroke-width="1.6"/><circle cx="20" cy="20" r="5" fill="none" stroke="#0a0a0a" stroke-width="1.6"/><path d="M8 20 L14 8 L20 20" stroke="#2bd9a8" stroke-width="2.5" fill="none"/><circle cx="14" cy="8" r="1.6" fill="#0a0a0a"/></svg>
+          <div class="lbl">Bike</div><div class="est" data-eta-bike>--</div>
+        </button>
+      </div>
+      <div class="transport-controls">
+        <button class="play-btn" id="playBtn">▶ Start journey</button>
+        <input type="range" class="scrub" id="scrub" min="0" max="1000" value="0" aria-label="Scrub journey progress">
+        <button class="cls-toggle" id="clsToggle" aria-pressed="false"><span class="sw"></span>Classified layer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="atlas-legend">
+    <span><i class="lg-line n"></i>NORTH</span>
+    <span><i class="lg-line s"></i>SOUTH</span>
+    <span><i class="lg-line e"></i>EAST</span>
+    <span><i class="lg-line w"></i>WEST</span>
+    <span><i class="lg-hex"></i>Density · cameras within ~500 ft</span>
+    <span><i class="lg-dot pub"></i>Public capture</span>
+    <span><i class="lg-dot inf"></i>Inferred capture</span>
+    <span><i class="lg-dot priv"></i>Private (doorbell)</span>
+    <span><i class="lg-dot cls"></i>Classified presence</span>
+  </div>
+</section>
+
+<!-- ================ STATS STRIP ================ -->
+<section class="stats-strip">
+  <div class="stats-grid">
+    <div class="stat-card mint reveal">
+      <div class="n">~30,000<span class="small">cams</span></div>
+      <div class="l">WMATA cameras across trains, buses, stations, and power systems</div>
+    </div>
+    <div class="stat-card cobalt reveal">
+      <div class="n">~1,300<span class="small">cams</span></div>
+      <div class="l">MPD CCTV cameras across the District, plus body-worn cameras on patrol</div>
+    </div>
+    <div class="stat-card magenta reveal">
+      <div class="n">~2,500<span class="small">sites</span></div>
+      <div class="l">private participants enrolled in CameraConnect / Capital Shield, shared to MPD via Kastle</div>
+    </div>
+    <div class="stat-card orange reveal">
+      <div class="n">30<span class="small">days</span></div>
+      <div class="l">default Flock Safety LPR retention, stored in AWS GovCloud</div>
+    </div>
+    <div class="stat-card red reveal">
+      <div class="n">9,000+<span class="small">bldgs</span></div>
+      <div class="l">federal facilities protected by DHS / FPS, many with continuous CCTV</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="n">90<span class="small">days</span></div>
+      <div class="l">standard MPD CCTV retention. Longer if held for evidence, liability, internal review, or training.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ PART III MARQUEE ================ -->
+<section class="tight">
+  <div class="wrap-wide">
+    <div class="marquee purple reveal">
+      <div class="q">Officially, the footage was deleted. In practice, the footage was archived.</div>
+      <div class="attr">Compression point · II · The afterlife</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ RETENTION TIMELINE ================ -->
+<section class="retention-section">
+  <div class="retention-intro reveal">
+    <div class="kicker purple">Exhibit B · The Retention Map</div>
+    <h2>How long does the footage <em>actually</em> live?</h2>
+    <p class="lead">Every camera class has two lifespans. Solid mint is the official policy retention. Vermilion stripes are the residual tail: the litigation hold, the criminal-investigation freeze, the training carve-out, the vendor backup, the contractor archive. Toggle between policy and practice. Hover any class to read the exceptions.</p>
+  </div>
+
+  <div class="mode-bar reveal" role="tablist" aria-label="Retention mode">
+    <button class="mode-pill" data-mode="policy" role="tab" aria-selected="false">Official policy only</button>
+    <button class="mode-pill active" data-mode="practice" role="tab" aria-selected="true">Policy + residual reality</button>
+  </div>
+
+  <div class="timeline-frame">
+    <div class="tl-stage">
+      <svg id="tlSvg" viewBox="0 0 920 480" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Retention timeline comparing official policy to residual reality">
+        <defs>
+          <pattern id="stripes" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(-45)">
+            <rect width="6" height="6" fill="#ffd0c2"/>
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#ff4a2b" stroke-width="2.5"/>
+          </pattern>
+        </defs>
+        <g id="tlAxis"></g>
+        <g id="tlLanes"></g>
+      </svg>
+      <div class="tl-legend">
+        <span><i class="tl-swatch off"></i>Official policy retention</span>
+        <span><i class="tl-swatch res"></i>Residual / exception window</span>
+      </div>
+    </div>
+    <div class="tl-info">
+      <div class="tl-info-card" id="tlInfo">
+        <div class="ttl">Hover a class</div>
+        <div class="hd" id="tli-hd">--</div>
+        <div class="sub" id="tli-sub">official + residual reality</div>
+        <div class="rows">
+          <div class="row"><span class="lbl">Official</span><span class="val" id="tli-off">--</span></div>
+          <div class="row"><span class="lbl">Residual tail</span><span class="val" id="tli-res">--</span></div>
+          <div class="row"><span class="lbl">Who can preserve</span><span class="val" id="tli-who">--</span></div>
+          <div class="row"><span class="lbl">FOIA-able</span><span class="val" id="tli-foia">--</span></div>
+        </div>
+        <div class="why" id="tli-why">Hover any camera class to read its retention math.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ NANCY GUTHRIE ANCHOR ================ -->
+<section class="anchor-section">
+  <div class="wrap-wide">
+    <div class="anchor-card reveal">
+      <div class="topline">Verified anchor · 2026 · Tucson, AZ · the proof that "residual" is real</div>
+      <h2>The Nest camera with <em>no subscription</em> still gave the footage up.</h2>
+      <p>In February 2026, the 84-year-old mother of NBC's Savannah Guthrie was reported missing from her Tucson home. Investigators canvassed neighborhood doorbell networks. That part is now routine. The unusual part came from her own house.</p>
+      <div class="key">A Google Nest camera at the residence <b>had no active paid subscription</b>. By the owner's understanding, nothing was being stored. The FBI nonetheless recovered footage, citing data preserved <b>"from residual data located in backend systems."</b></div>
+      <p>That is the single most important sentence in this dispatch. It is the difference between the retention policy on a vendor's website and the data that actually exists somewhere on the vendor's servers. Most readers think the first sentence describes the second. It does not.</p>
+      <p>The owner had not opted in. The owner had not paid. The owner believed the device had a documented behavior. The behavior was different. When the request came from law enforcement, the residual data was there to be returned.</p>
+      <div class="sources"><b>SOURCES</b> &nbsp; NPR · FBI affidavit reporting · February 2026 &nbsp;&middot;&nbsp; T1 (primary documentation; direct law-enforcement language quoted)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ JAN 6 FUNNEL ================ -->
+<section class="j6-section">
+  <div class="wrap-wide">
+    <div style="text-align:center; max-width:780px; margin:0 auto" class="reveal">
+      <div class="kicker">Exhibit C · The reconstruction precedent</div>
+      <h2>January 6, 2021. <em>The day was reassembled from fragments.</em></h2>
+      <p class="lead">The Capitol breach is the proof of concept for everything in the instant replay. The footage was never one composite file. The composite was built later, from device pings, cell-tower handshakes, geofence returns, facial-recognition matches, and crowd-sourced identifications. The funnel below is the shape that reconstruction takes.</p>
+    </div>
+    <div class="j6-frame">
+      <div class="j6-funnel">
+        <svg id="j6Svg" viewBox="0 0 520 380" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Funnel diagram of Jan 6 reconstruction from 5,723 devices to 1,535 named individuals">
+          <polygon class="fn-bar" points="20,40 500,40 470,120 50,120"/>
+          <text class="fn-num" x="260" y="84" text-anchor="middle" fill="#0a0a0a">5,723</text>
+          <text class="fn-lbl" x="260" y="104" text-anchor="middle" fill="#0a0a0a">device identifiers · geofence warrant return</text>
+          <polygon class="fn-arrow" points="240,135 280,135 260,155"/>
+          <polygon class="fn-bar s2" points="80,170 440,170 410,250 110,250"/>
+          <text class="fn-num" x="260" y="214" text-anchor="middle" fill="#0a0a0a">1,535</text>
+          <text class="fn-lbl" x="260" y="232" text-anchor="middle" fill="#0a0a0a">named individuals · cross-referenced</text>
+          <polygon class="fn-arrow" points="240,265 280,265 260,285"/>
+          <polygon class="fn-bar s3" points="140,300 380,300 360,360 160,360"/>
+          <text class="fn-num" x="260" y="338" text-anchor="middle" fill="#fff">1,300+</text>
+          <text class="fn-lbl" x="260" y="354" text-anchor="middle" fill="#fff">federal charges filed · multi-year basis</text>
+        </svg>
+      </div>
+      <div class="j6-text">
+        <p>The FBI's January 2021 geofence warrant required Google to identify every Android device inside a precise Capitol-grounds polygon during the breach window. The first return was about <strong>5,723 devices</strong>. Those identifiers were narrowed against subscriber data, cell-tower handshakes, social-media posts, facial-recognition matches against driver's-license photos, employer records, and a large volume of voluntarily submitted public tips.</p>
+        <p>Within about a year, roughly <strong>1,535 named individuals</strong> had been tied to specific conduct. As of multiple subsequent reporting points, more than <strong>1,300 federal charges</strong> had been filed off that foundation.</p>
+        <p>Nothing in that pipeline required a single dedicated surveillance system. The pieces were collected by different agencies, vendors, platforms, and private participants, each for its own purpose, on its own retention clock. When something happened, the architecture rendered the day replayable. That is the precedent.</p>
+        <div class="src">SOURCES &nbsp;·&nbsp; FBI affidavits &nbsp;·&nbsp; USAO-DC press releases &nbsp;·&nbsp; The Intercept &nbsp;·&nbsp; AP &nbsp;·&nbsp; Wired &nbsp;·&nbsp; T1/T2</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ FOIA FLOWCHART ================ -->
+<section class="foia-section">
+  <div class="wrap-wide">
+    <div style="text-align:center; max-width:780px; margin:0 auto" class="reveal">
+      <div class="kicker cobalt">Exhibit D · The discovery path</div>
+      <h2>Is the history of you going to be <em>FOIA-able?</em></h2>
+      <p class="lead">In theory, yes. In practice, the discovery path for surveillance footage is the longest, slowest, and most denied category of public-records request. The pipeline below is the one most requests actually travel.</p>
+    </div>
+    <div class="foia-frame">
+      <div class="foia-flow reveal">
+        <div class="foia-step"><div class="n">1</div><div class="body"><h5>You file a request.</h5><p>Specific block, specific date and time, specific camera, specific incident or no incident. Statutory clock starts at 20 working days.</p></div><span class="tag">filed</span></div>
+        <div class="foia-step"><div class="n">2</div><div class="body"><h5>Acknowledgment, then silence.</h5><p>The agency acknowledges within statute. Then a fee estimate appears, then a search-time waiver appeal, then a 30 to 120-day actual response.</p></div><span class="tag maybe">delayed</span></div>
+        <div class="foia-step deny"><div class="n">3</div><div class="body"><h5>Exemption 7 returns.</h5><p>"Records compiled for law enforcement purposes" lets the agency withhold or heavily redact under 7(A) through 7(F). Most surveillance-footage requests land here.</p></div><span class="tag">denied</span></div>
+        <div class="foia-step"><div class="n">4</div><div class="body"><h5>You appeal in writing.</h5><p>Within 90 days, you challenge the exemption. Appeal panel review takes another 20 to 60 working days. Most appeals affirm the original determination.</p></div><span class="tag maybe">appeal</span></div>
+        <div class="foia-step win"><div class="n">5</div><div class="body"><h5>You sue under § 552(a)(4)(B).</h5><p>Federal district court is the actual oversight. Lawsuits are expensive, slow, and the agency can still prevail. But it is also the path where most successful releases happen.</p></div><span class="tag">litigate</span></div>
+      </div>
+      <div class="foia-text">
+        <p>The footage your day produced is, in principle, a public record subject to disclosure. The path to actually getting it requires statutory standing, time to wait, money to pay, a willingness to litigate, and a reason the requesting party can articulate.</p>
+        <p>Most members of the public have none of those at the moment they would want their day back. The architecture that captured them was built without their participation. The architecture that would release it back to them requires substantially more.</p>
+        <p>Two consequences follow. First, the people most likely to retrieve footage about you are not you. Second, footage that "expires" under retention policy can still be summoned, after the fact, through litigation hold or law-enforcement preservation request, well past the date your privacy was supposed to begin again.</p>
+        <div class="src">SOURCES &nbsp;·&nbsp; 5 U.S.C. § 552 &nbsp;·&nbsp; DOJ Office of Information Policy reporting &nbsp;·&nbsp; Reporters Committee for Freedom of the Press &nbsp;·&nbsp; MPD FOIA practice</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ DATA DEBT CURVE ================ -->
+<section class="debt-section">
+  <div class="wrap-wide">
+    <div style="text-align:center; max-width:780px; margin:0 auto" class="reveal">
+      <div class="kicker magenta">Exhibit E · The data debt</div>
+      <h2>The footage that <em>should</em> be gone. The footage that <em>is.</em></h2>
+      <p class="lead">If retention worked the way the policies describe it, the curve would fall sharply and quickly. In practice, the curve has a long, fat tail. Every exception is a hold. Every hold extends the lifespan. Every extended lifespan accrues to the city's data debt.</p>
+    </div>
+    <div class="debt-frame">
+      <div class="debt-chart reveal">
+        <svg id="debtSvg" viewBox="0 0 720 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Official vs actual retention curves; the actual curve has a long tail accruing data debt">
+          <line class="debt-axis" x1="60" y1="40" x2="60" y2="300"/>
+          <line class="debt-axis" x1="60" y1="300" x2="690" y2="300"/>
+          <g>
+            <line class="debt-tick" x1="60" y1="300" x2="60" y2="306"/>
+            <line class="debt-tick" x1="160" y1="300" x2="160" y2="306"/>
+            <line class="debt-tick" x1="280" y1="300" x2="280" y2="306"/>
+            <line class="debt-tick" x1="420" y1="300" x2="420" y2="306"/>
+            <line class="debt-tick" x1="560" y1="300" x2="560" y2="306"/>
+            <line class="debt-tick" x1="680" y1="300" x2="680" y2="306"/>
+            <text class="debt-tick-lbl" x="60" y="324" text-anchor="middle">DAY 0</text>
+            <text class="debt-tick-lbl" x="160" y="324" text-anchor="middle">30 DAYS</text>
+            <text class="debt-tick-lbl" x="280" y="324" text-anchor="middle">90 DAYS</text>
+            <text class="debt-tick-lbl" x="420" y="324" text-anchor="middle">1 YEAR</text>
+            <text class="debt-tick-lbl" x="560" y="324" text-anchor="middle">3 YEARS</text>
+            <text class="debt-tick-lbl" x="680" y="324" text-anchor="middle">5+ YEARS</text>
+          </g>
+          <text class="debt-tick-lbl" x="52" y="48" text-anchor="end">100%</text>
+          <text class="debt-tick-lbl" x="52" y="174" text-anchor="end">50%</text>
+          <text class="debt-tick-lbl" x="52" y="300" text-anchor="end">0%</text>
+          <text class="debt-axis-lbl" x="375" y="350" text-anchor="middle">TIME SINCE CAPTURE</text>
+          <text class="debt-axis-lbl" x="36" y="170" text-anchor="middle" transform="rotate(-90 36 170)">SHARE STILL RETRIEVABLE</text>
+          <path class="debt-fill" d="M 60 50 L 100 70 L 130 110 L 160 145 L 220 195 L 280 240 L 350 268 L 420 280 L 500 287 L 600 292 L 680 294 L 680 300 L 60 300 Z"/>
+          <path class="debt-line-official" d="M 60 50 L 100 60 L 130 75 L 160 110 L 200 200 L 240 270 L 280 296 L 330 299 L 400 300 L 500 300 L 680 300"/>
+          <path class="debt-line-actual" d="M 60 50 L 100 70 L 130 110 L 160 145 L 220 195 L 280 240 L 350 268 L 420 280 L 500 287 L 600 292 L 680 294"/>
+          <text class="debt-callout" x="200" y="170" fill="var(--pop-cobalt)">official policy</text>
+          <text class="debt-callout" x="430" y="262" fill="var(--pop-red)">actual practice</text>
+          <text class="debt-callout" x="540" y="305" fill="var(--pop-magenta)" font-weight="700" font-style="italic">↑ data debt</text>
+        </svg>
+        <div class="debt-key">
+          <span><i class="swatch" style="background:var(--pop-cobalt)"></i>Official policy</span>
+          <span><i class="swatch" style="background:var(--pop-red)"></i>Actual practice</span>
+          <span><i class="swatch" style="background:rgba(255,74,43,0.4)"></i>Data debt</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="color:var(--pop-magenta)">Why the tail.</h3>
+        <p>The exceptions named on every retention policy are not edge cases. They are the architecture's pressure-release valves, and they all extend lifespan.</p>
+        <ul style="font-family:var(--font-sans); font-size:14.5px; color:var(--ink-soft); margin:14px 0 22px 22px; line-height:1.7">
+          <li><strong>Litigation hold.</strong> Any open case freezes related footage indefinitely.</li>
+          <li><strong>Criminal investigation.</strong> Preserved on request, no statutory ceiling.</li>
+          <li><strong>Internal review and training.</strong> Subset is carved out of the rolling delete.</li>
+          <li><strong>Vendor backups.</strong> Cloud providers retain on their own clocks, often distinct from contract.</li>
+          <li><strong>Contractor archives.</strong> Maintenance and integration vendors keep their own copies.</li>
+          <li><strong>Residual backend data.</strong> The Guthrie precedent. Footage believed deleted is recoverable from system logs.</li>
+        </ul>
+        <p>Each one is reasonable in isolation. Each one is necessary in isolation. In combination they describe the difference between a 90-day retention policy and a 5-year recoverable history.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ BLENDED COUNTER-READ ================ -->
+<section>
+  <div class="wrap-wide">
+    <div class="reveal" style="text-align:center; max-width:760px; margin:0 auto 44px">
+      <div class="kicker">The other side · the strongest defense, blended</div>
+      <h2>Why the architecture exists. <em>Hosted fairly.</em></h2>
+      <p class="lead">Six defenses, each true in part. The point is not to refute them. The point is to show that a defense calibrated to one system at a time misses the architecture of a system of systems.</p>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-card reveal">
+        <div class="num">01</div>
+        <h4>National security geography &amp; public safety</h4>
+        <p>The District is one of the most protected cities on earth. The Capitol, the White House, the Pentagon, hundreds of federal facilities, dozens of foreign embassies. Cameras enable response, identification, crash reconstruction, missing-person searches, counterterrorism, transit safety, and event protection.</p>
+        <div class="resp">True. The federal-core defense holds at the core. It travels less well to the residential wards, where the same dense capture follows the commuter home.</div>
+        <div class="src">P1 · public safety &nbsp;·&nbsp; P2 · national-security geography</div>
+      </div>
+      <div class="chart-card reveal">
+        <div class="num">02</div>
+        <h4>Public-space doctrine</h4>
+        <p>Courts have largely held that observation in public space is not a Fourth Amendment violation. The architecture operates within existing constitutional doctrine.</p>
+        <div class="resp">Public-space doctrine assumes the watched can identify the watcher and adjust behavior. An unmarked LPR network or a vendor-shared private camera defeats that assumption.</div>
+        <div class="src">P1 · public-space expectation</div>
+      </div>
+      <div class="chart-card reveal">
+        <div class="num">03</div>
+        <h4>Local consent &amp; vendor reliability</h4>
+        <p>D.C. residents opted into the Capital Shield program through a published rebate. Cloud and vendor backups exist for legitimate continuity reasons. A camera that loses footage during an outage is also a camera that lost a missing-child case.</p>
+        <div class="resp">Individual consent does not constitute aggregate consent. Continuity features also defeat the privacy guarantee the retention policy describes.</div>
+        <div class="src">P2 · local consent &nbsp;·&nbsp; P3 · vendor reliability</div>
+      </div>
+      <div class="chart-card reveal">
+        <div class="num">04</div>
+        <h4>Retention limits &amp; evidence preservation</h4>
+        <p>Most systems retain footage for finite windows: MPD 90 days, Flock 30 days, private rebate 48 hours. Footage held past those windows is usually held because it became evidence in an active matter. Premature deletion would destroy the public record.</p>
+        <div class="resp">The same mechanism that prevents cover-ups also extends the surveillance lifespan of every bystander caught in the frame. The exceptions are also the long tail of the data debt.</div>
+        <div class="src">P1 · retention limits &nbsp;·&nbsp; P3 · evidence preservation</div>
+      </div>
+      <div class="chart-card reveal">
+        <div class="num">05</div>
+        <h4>Transit safety</h4>
+        <p>WMATA's ~30,000 cameras have been cited in arrests, fare-evasion investigations, missing-person searches, and post-incident reviews. Body-worn cameras on transit police add accountability.</p>
+        <div class="resp">True. The system-of-systems still has no oversight body that maps across all 30,000 sources, or across the agencies that can pull from them.</div>
+        <div class="src">P2 · transit safety</div>
+      </div>
+      <div class="chart-card reveal">
+        <div class="num">06</div>
+        <h4>Oversight, FOIA, and the public record</h4>
+        <p>Body-camera programs, internal-affairs reviews, audit logs, and public-records requests provide accountability. FOIA Exemption 7 exists because public release of active-investigation material can compromise cases, endanger witnesses, and undermine prosecution.</p>
+        <div class="resp">Oversight operates per system. The integration across systems has no equivalent integrated oversight. Exemption 7 is also the reason the camera that watched you almost never produces a record you can review.</div>
+        <div class="src">P1 · oversight &nbsp;·&nbsp; P3 · FOIA limits are deliberate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ BONUS · YOUR OWN ROUTE ================ -->
+<section class="bonus-section">
+  <div class="bonus-intro reveal">
+    <div class="kicker magenta">Exhibit F · Your reward · Run your own commute</div>
+    <h2>Put your <em>home</em> and <em>work</em> in. <em>Press play.</em></h2>
+    <p class="lead">Type a home address and a work address. Press the button. We project both into the same DC-area map you just watched, run an instant replay of a route between them across the same hex density grid, and report back how many cameras the route would cross. Nothing leaves your browser.</p>
+  </div>
+
+  <div class="bonus-stage">
+    <form class="bonus-form" id="bonusForm" autocomplete="off">
+      <h3>Your route</h3>
+      <p class="lede">Two addresses. One replay. The same hex grid you've been watching.</p>
+
+      <div class="field">
+        <label for="bonus-home">Home address</label>
+        <input id="bonus-home" name="home" type="text" required placeholder="e.g. 1600 Pennsylvania Ave NW" />
+      </div>
+      <div class="field">
+        <label for="bonus-work">Work address</label>
+        <input id="bonus-work" name="work" type="text" required placeholder="e.g. 1 I St NE" />
+      </div>
+
+      <button type="submit" class="submit" id="bonusSubmit">▶ Run my replay</button>
+
+      <p class="disc">Illustrative simulation. The map is the same DC cartograph used above, but addresses are projected deterministically from the text you type rather than geocoded by a third party. Camera density is the real underlying grid. Nothing is uploaded; your input never leaves this tab.</p>
+    </form>
+
+    <div class="bonus-view" id="bonusView">
+      <div class="ghost"><span>Awaiting your two addresses…</span></div>
+      <svg id="bonusSvg" viewBox="0 0 1200 720" preserveAspectRatio="xMidYMid meet" aria-label="Your personalized DC commute replay">
+        <!-- shared DC base (rivers, diamond, simplified) -->
+        <rect x="0" y="0" width="1200" height="720" fill="#f4f1e6"/>
+        <path d="M 100 130 C 200 180 280 240 360 280 C 430 320 510 360 570 370 C 600 374 615 384 622 405 C 626 425 640 440 650 460 C 660 478 670 492 685 510 C 700 528 700 552 685 580 C 660 615 600 625 480 625 C 380 625 280 625 130 625" fill="#c5dcef" stroke="none"/>
+        <path d="M 1100 270 C 1020 290 950 320 880 360 C 820 390 770 420 740 450 C 720 470 700 480 685 510" stroke="#c5dcef" stroke-width="22" fill="none" stroke-linecap="round"/>
+        <polygon points="632,131 937,377 614,620 384,377" fill="#fff8e1" stroke="#0a0a0a" stroke-width="1.4" stroke-dasharray="6 4" opacity="0.7"/>
+        <!-- a hint of the road network for orientation -->
+        <path d="M 280 130 C 450 110 700 110 900 130 C 1060 150 1180 250 1190 370 C 1180 480 1080 580 900 600 C 700 615 480 605 320 580 C 180 555 90 460 80 340 C 80 250 150 170 280 130 Z" fill="none" stroke="#3a3a3a" stroke-width="2.2" opacity="0.35"/>
+
+        <g id="bonusHexLayer"></g>
+        <path id="bonusRoutePath" class="bonus-route" d=""/>
+        <path id="bonusTrailPath" class="bonus-trail" d="" stroke-dasharray="0 99999"/>
+        <g id="bonusEndpoints"></g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="bonus-result" id="bonusResult" aria-live="polite">
+    <div>
+      <div class="tag">Your route was observed by</div>
+      <div class="big"><span id="brCams">0</span><span class="small">cams</span></div>
+      <div class="sub" id="brBlocks">0 blocks crossed · 0 patterns logged</div>
+    </div>
+    <div>
+      <div class="tag">From → To</div>
+      <div class="why" id="brWhy">Your route used the same density grid the city actually has. <b>The numbers above are anchored to the real underlying infrastructure.</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CLOSER ================ -->
+<section class="closer">
+  <div class="closer-band">
+    <div class="closer-line">"You were not followed.<br/><span class="high">You were recoverable.</span>"</div>
+    <div class="closer-stanza-rule"></div>
+    <div class="closer-line">"The day was not preserved.<br/><span class="high">The day was preserved-from.</span>"</div>
+    <div class="closer-attr">Episode 05 · The Replayable City · The Mechanism Series</div>
+  </div>
+</section>
+
+<!-- ================ ECHOES ================ -->
+<section class="tight">
+  <div class="wrap">
+    <div class="kicker reveal">Connective scaffolding</div>
+    <h2 class="reveal">Where this exhibit sits in the series.</h2>
+    <div class="echoes">
+      <div class="echo reveal"><div class="e-mark">04</div><div><div class="e-to">← The Influence War</div><div class="e-body">The data the persuasion machine bids on is collected by infrastructure like this.</div></div></div>
+      <div class="echo reveal"><div class="e-mark">05</div><div><div class="e-to">→ The Composite State</div><div class="e-body">What follows is what the state does with footage like this when an event triggers retrieval.</div></div></div>
+      <div class="echo reveal"><div class="e-mark">01</div><div><div class="e-to">→ Personhood Inc.</div><div class="e-body">This is the physical surface that contributes to your composite.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ BRIDGE NAV ================ -->
+<div class="bridge">
+  <div class="bridge-nav">
+    <a href="/episode-04-the-influence-war.html" class="prev">Episode 04 · The Influence War</a>
+    <a href="/episode-06-composite-state.html" class="next">Episode 06 · The Composite State</a>
+  </div>
+</div>
+
+<!-- ================ FOOTER ================ -->
+<footer class="legal-footer">
+  <div class="row">
+    <div class="brand">Infera <em>·</em> The Mechanism Series</div>
+    <div class="links">
+      <a href="/">Home</a>
+      <a href="/systems-atlas.html">Atlas</a>
+      <a href="/claims-atlas.html">Claims</a>
+      <a href="/case-file.html">Case file</a>
+      <a href="/founding.html">Founding 500</a>
+      <a href="/legal.html">Legal</a>
+    </div>
+  </div>
+  <div class="fine">
+    Infera · The Mechanism Series · A living atlas of invisible systems · Episode 05 · The Replayable City · Drafted May 2026. The atlas is a head-on cartograph of the DC metro projected from real coordinates; road and metro geometries are simplified from open data and are not survey-accurate. Density cells are illustrative of pattern, anchored to documented infrastructure (MPD CCTV policy, WMATA reporting, Capital Shield documentation, Flock published policy, GSA/FPS records). Retention figures are anchored to published policy and public reporting. The Guthrie anchor is sourced to NPR and FBI affidavit reporting (February 2026). The January 6 funnel uses figures from FBI affidavits and USAO-DC reporting and rounds where exact totals shifted across reporting windows. © Infera 2026.
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  // Cinematic stats-strip observer (fades up from black + zoom + blur, staggered)
+  var cinIo = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('cin-in'); cinIo.unobserve(e.target); } });
+  }, { threshold: 0.18 });
+  document.querySelectorAll('.stats-strip').forEach(function(el){ cinIo.observe(el); });
+
+  var NS = 'http://www.w3.org/2000/svg';
+  var stage = document.getElementById('atlasStage');
+  var userRoute = document.getElementById('userRoute');
+  var userTrail = document.getElementById('userTrail');
+  var altRoute  = document.getElementById('altRoute');
+  var meGroup   = document.getElementById('meGroup');
+  var meVehicle = document.getElementById('meVehicle');
+  var capLayer  = document.getElementById('capLayer');
+  var clsLayer  = document.getElementById('clsLayer');
+  var alertLayer= document.getElementById('alertLayer');
+  var hexLayer  = document.getElementById('hexLayer');
+  var hexCallout= document.getElementById('hexCallout');
+  var hcNum  = document.getElementById('hcNum');
+  var hcBrk  = document.getElementById('hcBrk');
+
+  var etaMin = document.getElementById('etaMin');
+  var etaDest = document.getElementById('etaDest');
+  var dirStrip = document.getElementById('dirStrip');
+  var dirGlyph = document.getElementById('dirGlyph');
+  var dirTxt = document.getElementById('dirTxt');
+  var dirDist = document.getElementById('dirDist');
+
+  var tcCams = document.getElementById('tcCams');
+  var tcLoc = document.getElementById('tcLoc');
+  var tcMov = document.getElementById('tcMov');
+  var tcSpd = document.getElementById('tcSpd');
+  var tcPat = document.getElementById('tcPat');
+
+  var scrub = document.getElementById('scrub');
+  var playBtn = document.getElementById('playBtn');
+  var clsToggle = document.getElementById('clsToggle');
+
+  /* ===== ROUTES ===== */
+  var ROUTES = {
+    r1: { label:'Silver Spring → Navy Yard', key:'NORTH · 40 MIN',
+      path: 'M 657 142 L 657 200 L 645 260 L 632 320 L 632 366 L 614 395 L 698 395 L 698 420',
+      alt:  'M 657 142 C 660 200 670 280 690 340 C 700 370 700 395 698 420',
+      etas: { drive:40, rideshare:36, metro:45, bus:65, bike:78 },
+      captures: {
+        drive: [['priv',0.05,'Doorbell','RING'],['inf',0.14,'LPR','LPR'],['pub',0.22,'MoCo','MoCo'],['inf',0.32,'LPR','LPR'],['pub',0.42,'DDOT','SPD'],['pub',0.52,'MPD','MPD'],['inf',0.62,'LPR','LPR'],['pub',0.72,'DDOT','DDOT'],['priv',0.80,'CapShield','CS'],['pub',0.88,'MPD','MPD'],['pub',0.95,'Federal','FPS']],
+        rideshare: [['priv',0.06,'Doorbell','RING'],['inf',0.16,'LPR','LPR'],['pub',0.28,'DDOT','DDOT'],['pub',0.42,'MPD','MPD'],['inf',0.55,'LPR','LPR'],['pub',0.66,'DDOT','SPD'],['priv',0.78,'CapShield','CS'],['pub',0.90,'MPD','MPD']],
+        metro: [['priv',0.05,'Doorbell','RING'],['pub',0.16,'WMATA','RED'],['pub',0.28,'WMATA','RED'],['pub',0.40,'WMATA','BWC'],['pub',0.52,'WMATA','WMTA'],['pub',0.64,'WMATA','WMTA'],['pub',0.76,'MPD','MPD'],['pub',0.88,'WMATA','GRN'],['pub',0.96,'MPD','MPD']],
+        bus: [['priv',0.06,'Doorbell','RING'],['pub',0.14,'WMATA','BUS'],['pub',0.26,'MoCo','MoCo'],['pub',0.38,'WMATA','BUS'],['pub',0.50,'MPD','MPD'],['pub',0.62,'WMATA','BUS'],['pub',0.74,'DDOT','SPD'],['priv',0.86,'CapShield','CS'],['pub',0.96,'MPD','MPD']],
+        bike: [['priv',0.08,'Doorbell','RING'],['pub',0.22,'MoCo','MoCo'],['priv',0.36,'Doorbell','RING'],['pub',0.50,'MPD','MPD'],['pub',0.64,'DDOT','DDOT'],['priv',0.78,'CapShield','CS'],['pub',0.92,'MPD','MPD']]
+      },
+      turns: [{t:0.0,glyph:'⬇',txt:'Head S on Georgia Ave NW',dist:'3.4 mi'},{t:0.35,glyph:'➔',txt:'Continue on 16th St NW',dist:'2.8 mi'},{t:0.65,glyph:'↰',txt:'Left on K St NW',dist:'0.9 mi'},{t:0.82,glyph:'↱',txt:'Right onto S Capitol St',dist:'1.4 mi'},{t:0.94,glyph:'⌖',txt:'Arrive · Navy Yard',dist:'0.2 mi'}],
+      alerts: [{t:0.20,type:'police'},{t:0.45,type:'accident'},{t:0.78,type:'roadwork'}]
+    },
+    r2: { label:'Alexandria → H Street NE', key:'SOUTH · 40 MIN',
+      path: 'M 607 588 L 600 510 L 595 460 L 600 420 L 615 395 L 660 380 L 730 370 L 800 360',
+      alt:  'M 607 588 C 600 520 605 470 615 420 C 625 395 660 380 740 372 C 770 368 790 365 800 360',
+      etas: { drive:38, rideshare:34, metro:42, bus:60, bike:70 },
+      captures: {
+        drive: [['priv',0.04,'Doorbell','RING'],['inf',0.12,'LPR','LPR'],['pub',0.22,'VDOT','VDOT'],['pub',0.34,'NPS','NPS'],['inf',0.44,'LPR','LPR'],['pub',0.54,'MPD','MPD'],['inf',0.64,'LPR','LPR'],['pub',0.74,'DDOT','DDOT'],['priv',0.82,'CapShield','CS'],['pub',0.90,'MPD','MPD']],
+        rideshare: [['priv',0.05,'Doorbell','RING'],['inf',0.16,'LPR','LPR'],['pub',0.28,'NPS','NPS'],['pub',0.42,'MPD','MPD'],['inf',0.55,'LPR','LPR'],['pub',0.68,'DDOT','DDOT'],['priv',0.80,'CapShield','CS'],['pub',0.92,'MPD','MPD']],
+        metro: [['priv',0.05,'Doorbell','RING'],['pub',0.18,'WMATA','YEL'],['pub',0.30,'WMATA','BLU'],['pub',0.42,'WMATA','BWC'],['pub',0.55,'WMATA','WMTA'],['pub',0.68,'MPD','MPD'],['pub',0.80,'WMATA','WMTA'],['pub',0.92,'MPD','MPD']],
+        bus: [['priv',0.06,'Doorbell','RING'],['pub',0.16,'WMATA','BUS'],['pub',0.30,'DASH','VDOT'],['pub',0.42,'WMATA','BUS'],['pub',0.54,'MPD','MPD'],['pub',0.66,'WMATA','BUS'],['pub',0.80,'DDOT','DDOT'],['priv',0.92,'CapShield','CS']],
+        bike: [['priv',0.08,'Doorbell','RING'],['pub',0.22,'NPS','NPS'],['pub',0.36,'NPS','NPS'],['priv',0.52,'Doorbell','RING'],['pub',0.66,'MPD','MPD'],['priv',0.82,'CapShield','CS']]
+      },
+      turns: [{t:0.0,glyph:'⬆',txt:'Head N on GW Pkwy',dist:'3.6 mi'},{t:0.32,glyph:'➔',txt:'Take 14th St Bridge',dist:'0.9 mi'},{t:0.55,glyph:'↰',txt:'Left on Constitution Ave',dist:'1.1 mi'},{t:0.78,glyph:'↱',txt:'Right onto H St NE',dist:'1.4 mi'},{t:0.94,glyph:'⌖',txt:'Arrive · H Street Corridor',dist:'0.1 mi'}],
+      alerts: [{t:0.25,type:'accident'},{t:0.50,type:'slowdown'},{t:0.82,type:'police'}]
+    },
+    r3: { label:'Largo → Georgetown M St', key:'EAST · 40 MIN',
+      path: 'M 1144 339 L 1050 360 L 950 372 L 870 380 L 780 384 L 700 384 L 632 365 L 580 355 L 555 350',
+      alt:  'M 1144 339 C 1080 350 1000 365 920 375 C 850 382 800 384 760 385 C 700 385 660 370 620 355 C 580 350 565 350 555 350',
+      etas: { drive:42, rideshare:38, metro:48, bus:70, bike:95 },
+      captures: {
+        drive: [['priv',0.04,'Doorbell','RING'],['inf',0.12,'LPR','LPR'],['pub',0.22,'PG','PG'],['inf',0.32,'LPR','LPR'],['pub',0.42,'MPD','MPD'],['pub',0.52,'NPS','NPS'],['inf',0.62,'LPR','LPR'],['pub',0.72,'DDOT','SPD'],['priv',0.82,'CapShield','CS'],['pub',0.92,'MPD','MPD']],
+        rideshare: [['priv',0.05,'Doorbell','RING'],['inf',0.16,'LPR','LPR'],['pub',0.28,'PG','PG'],['pub',0.42,'MPD','MPD'],['pub',0.54,'NPS','NPS'],['inf',0.66,'LPR','LPR'],['pub',0.78,'DDOT','DDOT'],['priv',0.90,'CapShield','CS']],
+        metro: [['priv',0.06,'Doorbell','RING'],['pub',0.18,'WMATA','SLV'],['pub',0.30,'WMATA','BLU'],['pub',0.42,'WMATA','BWC'],['pub',0.54,'WMATA','ORG'],['pub',0.66,'MPD','MPD'],['pub',0.78,'WMATA','WMTA'],['pub',0.90,'MPD','MPD']],
+        bus: [['priv',0.06,'Doorbell','RING'],['pub',0.16,'WMATA','BUS'],['pub',0.28,'PG','PG'],['pub',0.40,'WMATA','BUS'],['pub',0.52,'MPD','MPD'],['pub',0.64,'WMATA','BUS'],['pub',0.76,'DDOT','DDOT'],['priv',0.88,'CapShield','CS']],
+        bike: [['priv',0.10,'Doorbell','RING'],['pub',0.26,'PG','PG'],['priv',0.40,'Doorbell','RING'],['pub',0.54,'MPD','MPD'],['priv',0.70,'CapShield','CS'],['pub',0.86,'MPD','MPD']]
+      },
+      turns: [{t:0.0,glyph:'⬅',txt:'Head W on Central Ave',dist:'4.8 mi'},{t:0.32,glyph:'➔',txt:'Continue on E Capitol St',dist:'2.6 mi'},{t:0.55,glyph:'↱',txt:'Pass the Capitol',dist:'0.7 mi'},{t:0.72,glyph:'↰',txt:'Left on Pennsylvania Ave NW',dist:'1.2 mi'},{t:0.85,glyph:'➔',txt:'Right on M St NW',dist:'1.4 mi'},{t:0.95,glyph:'⌖',txt:'Arrive · Georgetown',dist:'0.2 mi'}],
+      alerts: [{t:0.18,type:'roadwork'},{t:0.42,type:'accident'},{t:0.62,type:'police'},{t:0.85,type:'slowdown'}]
+    },
+    r4: { label:'Falls Church → Brookland', key:'WEST · 40 MIN',
+      path: 'M 308 398 L 400 395 L 500 392 L 580 388 L 632 380 L 660 320 L 698 270 L 720 250',
+      alt:  'M 308 398 C 400 395 500 385 580 375 C 640 365 680 350 710 310 C 720 290 722 260 720 250',
+      etas: { drive:40, rideshare:36, metro:44, bus:62, bike:80 },
+      captures: {
+        drive: [['priv',0.04,'Doorbell','RING'],['inf',0.12,'LPR','LPR'],['pub',0.22,'VDOT','VDOT'],['inf',0.32,'LPR','LPR'],['pub',0.42,'NPS','NPS'],['pub',0.52,'MPD','MPD'],['inf',0.62,'LPR','LPR'],['pub',0.72,'DDOT','DDOT'],['priv',0.82,'CapShield','CS'],['pub',0.92,'MPD','MPD']],
+        rideshare: [['priv',0.05,'Doorbell','RING'],['inf',0.16,'LPR','LPR'],['pub',0.28,'VDOT','VDOT'],['pub',0.42,'NPS','NPS'],['pub',0.55,'MPD','MPD'],['inf',0.66,'LPR','LPR'],['pub',0.78,'DDOT','DDOT'],['priv',0.90,'CapShield','CS']],
+        metro: [['priv',0.06,'Doorbell','RING'],['pub',0.18,'WMATA','ORG'],['pub',0.30,'WMATA','SLV'],['pub',0.42,'WMATA','BWC'],['pub',0.54,'WMATA','WMTA'],['pub',0.66,'MPD','MPD'],['pub',0.78,'WMATA','RED'],['pub',0.90,'MPD','MPD']],
+        bus: [['priv',0.06,'Doorbell','RING'],['pub',0.16,'WMATA','BUS'],['pub',0.28,'VDOT','VDOT'],['pub',0.40,'WMATA','BUS'],['pub',0.52,'MPD','MPD'],['pub',0.64,'WMATA','BUS'],['pub',0.76,'DDOT','DDOT'],['priv',0.88,'CapShield','CS']],
+        bike: [['priv',0.10,'Doorbell','RING'],['pub',0.26,'VDOT','VDOT'],['priv',0.40,'Doorbell','RING'],['pub',0.54,'MPD','MPD'],['priv',0.70,'CapShield','CS'],['pub',0.86,'MPD','MPD']]
+      },
+      turns: [{t:0.0,glyph:'➔',txt:'Head E on I-66',dist:'5.2 mi'},{t:0.32,glyph:'↱',txt:'Take Roosevelt Bridge',dist:'1.0 mi'},{t:0.50,glyph:'➔',txt:'Continue on Constitution',dist:'1.3 mi'},{t:0.70,glyph:'↰',txt:'Left on N Capitol St',dist:'1.8 mi'},{t:0.85,glyph:'↱',txt:'Right on Michigan Ave NE',dist:'1.1 mi'},{t:0.95,glyph:'⌖',txt:'Arrive · Brookland',dist:'0.2 mi'}],
+      alerts: [{t:0.22,type:'slowdown'},{t:0.48,type:'accident'},{t:0.72,type:'police'},{t:0.88,type:'hazard'}]
+    }
+  };
+
+  var CLASSIFIED = [
+    {t:0.10,off:38,tag:'JBAB'},{t:0.26,off:-42,tag:'USPP'},{t:0.44,off:40,tag:'FBI'},
+    {t:0.60,off:-42,tag:'SS'},{t:0.78,off:40,tag:'CAPITOL'},{t:0.94,off:-38,tag:'SFRA'}
+  ];
+
+  var ALERT_TYPES = {
+    accident:{color:'#ff4a2b',label:'ACCIDENT'}, police:{color:'#2b6cb0',label:'POLICE'},
+    hazard:{color:'#ffd83d',label:'HAZARD',fg:'#0a0a0a'}, roadwork:{color:'#ff8a1a',label:'WORK'}, slowdown:{color:'#7a4cff',label:'SLOW'}
+  };
+  var COLORS = { pub:'#2bd97a', inf:'#ffa033', priv:'#ff3c8b', cls:'#7a4cff' };
+
+  /* ===== HEX DENSITY GRID (from Part II) ===== */
+  // hot-zone seeds per source — distance-weighted contributions per cell
+  var HOT = {
+    mpd:   [{x:660,y:400,w:14,r:140},{x:700,y:395,w:12,r:130},{x:720,y:360,w:10,r:110},{x:632,y:366,w:10,r:120},{x:632,y:300,w:7,r:120},{x:660,y:290,w:6,r:120},{x:770,y:360,w:8,r:110},{x:660,y:480,w:5,r:140},{x:600,y:520,w:4,r:140},{x:560,y:350,w:5,r:130},{x:725,y:270,w:4,r:140}],
+    wmata: [{x:698,y:384,w:18,r:50},{x:720,y:360,w:14,r:50},{x:815,y:314,w:8,r:55},{x:632,y:300,w:8,r:55},{x:777,y:271,w:6,r:55},{x:560,y:355,w:6,r:55},{x:710,y:180,w:6,r:60},{x:817,y:169,w:9,r:55},{x:854,y:230,w:6,r:55},{x:864,y:280,w:6,r:55},{x:580,y:380,w:7,r:55},{x:870,y:322,w:6,r:55},{x:580,y:460,w:5,r:55},{x:700,y:460,w:5,r:55},{x:780,y:510,w:5,r:55},{x:945,y:540,w:5,r:60},{x:1050,y:420,w:5,r:60},{x:444,y:305,w:5,r:60},{x:230,y:350,w:5,r:60},{x:130,y:250,w:5,r:60}],
+    fed:   [{x:660,y:400,w:20,r:80},{x:632,y:366,w:18,r:90},{x:698,y:384,w:16,r:90},{x:585,y:430,w:14,r:90},{x:623,y:477,w:8,r:100},{x:828,y:382,w:6,r:100},{x:1066,y:451,w:5,r:120},{x:760,y:360,w:6,r:100},{x:780,y:340,w:4,r:120},{x:545,y:395,w:4,r:120}],
+    priv:  [{x:660,y:290,w:8,r:130},{x:632,y:280,w:8,r:130},{x:770,y:340,w:8,r:130},{x:710,y:240,w:6,r:140},{x:555,y:350,w:7,r:140},{x:600,y:430,w:5,r:140},{x:670,y:460,w:4,r:140},{x:500,y:330,w:5,r:140},{x:790,y:430,w:4,r:140},{x:725,y:300,w:5,r:140}],
+    lpr:   [{x:600,y:395,w:8,r:120},{x:870,y:330,w:8,r:130},{x:710,y:330,w:7,r:130},{x:920,y:290,w:7,r:140},{x:615,y:540,w:7,r:140},{x:790,y:460,w:6,r:140},{x:660,y:200,w:6,r:140},{x:308,y:398,w:6,r:160},{x:560,y:380,w:5,r:140},{x:1100,y:300,w:5,r:160},{x:907,y:485,w:6,r:140}]
+  };
+  var SRC_KEYS = ['mpd','wmata','fed','priv','lpr'];
+  var BOUNDS = { x0: 370, y0: 130, x1: 950, y1: 620 };
+  var HEX_R = 24;
+  var HEX_W = HEX_R * Math.sqrt(3);
+  var HEX_H = HEX_R * 1.5;
+  var DIAMOND = [[632,131],[937,377],[614,620],[384,377]];
+  function inDiamond(px, py){
+    var inside = false;
+    for(var i=0, j=DIAMOND.length-1; i<DIAMOND.length; j=i++){
+      var xi=DIAMOND[i][0], yi=DIAMOND[i][1], xj=DIAMOND[j][0], yj=DIAMOND[j][1];
+      var intersect = ((yi>py) !== (yj>py)) && (px < (xj-xi)*(py-yi)/(yj-yi+0.0001)+xi);
+      if(intersect) inside = !inside;
+    }
+    return inside;
+  }
+  function hexPathPts(cx, cy, r){
+    var pts = [];
+    for(var i=0;i<6;i++){
+      var a = Math.PI/6 + i*Math.PI/3;
+      pts.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1));
+    }
+    return pts.join(' ');
+  }
+  function computeAtCell(cx, cy){
+    var v = { mpd:0, wmata:0, fed:0, priv:0, lpr:0 };
+    SRC_KEYS.forEach(function(k){
+      var sum = 0;
+      HOT[k].forEach(function(h){
+        var dx = cx - h.x, dy = cy - h.y;
+        var d2 = dx*dx + dy*dy;
+        sum += h.w / (1 + d2 / (h.r * h.r));
+      });
+      v[k] = sum;
+    });
+    v.all = v.mpd + v.wmata + v.fed + v.priv + v.lpr;
+    return v;
+  }
+  function densityColor(t){
+    if(t <= 0) return 'rgba(255,255,255,0)';
+    if(t <= 0.10) return 'rgba(255, 242, 191, 0.55)';
+    if(t <= 0.25) return 'rgba(255, 226, 131, 0.6)';
+    if(t <= 0.45) return 'rgba(255, 200, 61,  0.65)';
+    if(t <= 0.65) return 'rgba(255, 138, 26,  0.7)';
+    if(t <= 0.85) return 'rgba(255, 74,  43,  0.7)';
+    return 'rgba(200, 32, 13, 0.7)';
+  }
+  var HEXES = []; // {el, cx, cy, v}
+  function buildHexes(){
+    var rows = Math.ceil((BOUNDS.y1 - BOUNDS.y0) / HEX_H) + 1;
+    var cols = Math.ceil((BOUNDS.x1 - BOUNDS.x0) / HEX_W) + 1;
+    var maxAll = 0; var raw = [];
+    for(var r=0; r<rows; r++){
+      for(var c=0; c<cols; c++){
+        var cx = BOUNDS.x0 + c * HEX_W + (r % 2 ? HEX_W/2 : 0);
+        var cy = BOUNDS.y0 + r * HEX_H;
+        var inEdge = inDiamond(cx, cy) || inDiamond(cx + 24, cy) || inDiamond(cx - 24, cy) || inDiamond(cx, cy + 20) || inDiamond(cx, cy - 20);
+        if(!inEdge) continue;
+        var v = computeAtCell(cx, cy);
+        raw.push({cx:cx, cy:cy, v:v});
+        if(v.all > maxAll) maxAll = v.all;
+      }
+    }
+    hexLayer.innerHTML = ''; HEXES = [];
+    raw.forEach(function(rec, i){
+      var poly = document.createElementNS(NS,'polygon');
+      poly.setAttribute('points', hexPathPts(rec.cx, rec.cy, HEX_R));
+      poly.setAttribute('class','hex');
+      var t = Math.min(1, rec.v.all / Math.max(1, maxAll));
+      // store the target density color as a CSS variable; hex stays invisible until .passed is added
+      poly.style.setProperty('--hex-color', densityColor(t));
+      poly.setAttribute('data-i', i);
+      hexLayer.appendChild(poly);
+      HEXES.push({el: poly, cx: rec.cx, cy: rec.cy, v: rec.v, t: t});
+    });
+  }
+
+  /* ===== STATE ===== */
+  var routeKey = 'r1', modeKey = 'drive', progress = 0, raf = null;
+  var pathLen = 0, current = null, currentTurns = [], currentAlerts = [];
+  var visitedHexes = {}; // hex index -> true
+  var totalCams = 0, totalLoc = 0, totalMov = 0, totalSpd = 0, totalPat = 0;
+  var passedTurns = {}; // turn index -> true
+  var passedCapsForCounting = {}; // cap index -> true
+
+  function setActive(parentSel, btn){
+    document.querySelectorAll(parentSel + ' .active').forEach(function(b){
+      b.classList.remove('active'); b.setAttribute('aria-selected','false');
+    });
+    btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+  }
+  function hexPoints6(cx, cy, r){
+    var pts = [];
+    for(var i=0;i<6;i++){ var a = Math.PI/2 + i*Math.PI/3; pts.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1)); }
+    return pts.join(' ');
+  }
+  function pointAt(t, off){
+    var len = t * pathLen;
+    var p = userRoute.getPointAtLength(len);
+    var p2 = userRoute.getPointAtLength(Math.min(pathLen, len + 1));
+    var dx = p2.x - p.x, dy = p2.y - p.y;
+    var m = Math.hypot(dx,dy) || 1;
+    return { x: p.x + (-dy/m)*(off||0), y: p.y + (dx/m)*(off||0), ang: Math.atan2(dy,dx)*180/Math.PI };
+  }
+
+  function mkPin(c, off){
+    var pos = pointAt(c[1], off || 0);
+    var anchor = pointAt(c[1], 0);
+    var color = COLORS[c[0]];
+    var g = document.createElementNS(NS,'g'); g.setAttribute('class','cap');
+    var ln = document.createElementNS(NS,'line');
+    ln.setAttribute('x1',anchor.x); ln.setAttribute('y1',anchor.y); ln.setAttribute('x2',pos.x); ln.setAttribute('y2',pos.y);
+    ln.setAttribute('stroke','#0a0a0a'); ln.setAttribute('stroke-width','0.8'); ln.setAttribute('opacity','0.6');
+    g.appendChild(ln);
+    var pin = document.createElementNS(NS,'path');
+    var px=pos.x, py=pos.y;
+    pin.setAttribute('d','M '+px+' '+(py-12)+' a 7 7 0 1 1 0 0.01 z M '+(px-3)+' '+(py-5)+' L '+px+' '+(py+2)+' L '+(px+3)+' '+(py-5)+' Z');
+    pin.setAttribute('class','pin-body'); pin.setAttribute('fill',color);
+    g.appendChild(pin);
+    var dot = document.createElementNS(NS,'circle');
+    dot.setAttribute('cx',px); dot.setAttribute('cy',py-12); dot.setAttribute('r','2.5'); dot.setAttribute('class','pin-dot');
+    g.appendChild(dot);
+    var t = document.createElementNS(NS,'text');
+    t.setAttribute('x',px); t.setAttribute('y',py-24); t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-family','JetBrains Mono'); t.setAttribute('font-size','7.5'); t.setAttribute('font-weight','800');
+    t.setAttribute('fill','#0a0a0a'); t.textContent = c[3] || '';
+    g.appendChild(t);
+    return g;
+  }
+  function mkAlert(a){
+    var pos = pointAt(a.t, 0);
+    var meta = ALERT_TYPES[a.type] || ALERT_TYPES.hazard;
+    var g = document.createElementNS(NS,'g'); g.setAttribute('class','alert-pin');
+    var x=pos.x, y=pos.y-22, w=60, h=20;
+    var bub = document.createElementNS(NS,'path');
+    bub.setAttribute('d','M '+(x-w/2)+' '+(y-h/2)+' h '+w+' v '+h+' h -'+(w/2-5)+' l -5 6 l -5 -6 h -'+(w/2-5)+' z');
+    bub.setAttribute('class','alert-bub'); bub.setAttribute('fill',meta.color);
+    g.appendChild(bub);
+    var t = document.createElementNS(NS,'text');
+    t.setAttribute('class','alert-text'); t.setAttribute('x',x); t.setAttribute('y',y+3.5);
+    if(meta.fg) t.setAttribute('fill', meta.fg);
+    t.textContent = meta.label;
+    g.appendChild(t);
+    return g;
+  }
+
+  function buildRoute(rk, mk){
+    routeKey = rk; modeKey = mk;
+    current = ROUTES[rk];
+    userRoute.setAttribute('d', current.path);
+    altRoute.setAttribute('d', current.alt);
+    userTrail.setAttribute('d', current.path);
+    pathLen = userRoute.getTotalLength();
+    userTrail.style.strokeDasharray = pathLen + ' ' + pathLen;
+    userTrail.style.strokeDashoffset = pathLen;
+
+    ['r1','r2','r3','r4'].forEach(function(k){
+      userRoute.classList.remove('route-'+k); userTrail.classList.remove('route-'+k);
+      altRoute.classList.remove('alt-'+k); meVehicle.classList.remove(k);
+    });
+    userRoute.classList.add('route-'+rk); userRoute.classList.add('live');
+    userTrail.classList.add('route-'+rk);
+    altRoute.classList.add('alt-'+rk); altRoute.classList.add('live');
+    meVehicle.classList.add(rk);
+
+    var caps = current.captures[mk] || current.captures.drive;
+    capLayer.innerHTML = '';
+    caps.forEach(function(c, i){
+      var off = (i % 2 === 0 ? 22 : -22) + (i % 3 === 0 ? 5 : 0);
+      var g = mkPin(c, off); g.setAttribute('data-i', i); g.setAttribute('data-t', c[1]); g.setAttribute('data-j', c[2]);
+      capLayer.appendChild(g);
+    });
+
+    clsLayer.innerHTML = '';
+    CLASSIFIED.forEach(function(c){
+      var pos = pointAt(c.t, c.off);
+      var anchor = pointAt(c.t, 0);
+      var g = document.createElementNS(NS,'g'); g.setAttribute('class','cls-pin');
+      var ln = document.createElementNS(NS,'line');
+      ln.setAttribute('x1',anchor.x); ln.setAttribute('y1',anchor.y); ln.setAttribute('x2',pos.x); ln.setAttribute('y2',pos.y);
+      ln.setAttribute('stroke',COLORS.cls); ln.setAttribute('stroke-width','1'); ln.setAttribute('opacity','0.7'); ln.setAttribute('stroke-dasharray','3 3');
+      g.appendChild(ln);
+      var hex = document.createElementNS(NS,'polygon');
+      hex.setAttribute('points', hexPoints6(pos.x, pos.y, 9));
+      hex.setAttribute('fill', COLORS.cls); hex.setAttribute('class','cls-hex');
+      g.appendChild(hex);
+      var t = document.createElementNS(NS,'text');
+      t.setAttribute('x',pos.x); t.setAttribute('y',pos.y+3); t.setAttribute('text-anchor','middle');
+      t.setAttribute('font-family','JetBrains Mono'); t.setAttribute('font-size','6.5'); t.setAttribute('font-weight','800');
+      t.setAttribute('fill','#fff'); t.textContent = c.tag;
+      g.appendChild(t);
+      clsLayer.appendChild(g);
+    });
+
+    alertLayer.innerHTML = '';
+    currentAlerts = (current.alerts || []).map(function(a){
+      var g = mkAlert(a); alertLayer.appendChild(g);
+      return { el: g, t: a.t, shown: false, hideAt: null };
+    });
+    currentTurns = current.turns || [];
+    etaMin.textContent = current.etas[mk] || '--';
+    etaDest.textContent = current.key + ' · ' + current.label;
+    document.querySelectorAll('[data-eta-drive]').forEach(function(el){ el.textContent = current.etas.drive + ' min'; });
+    document.querySelectorAll('[data-eta-rideshare]').forEach(function(el){ el.textContent = current.etas.rideshare + ' min'; });
+    document.querySelectorAll('[data-eta-metro]').forEach(function(el){ el.textContent = current.etas.metro + ' min'; });
+    document.querySelectorAll('[data-eta-bus]').forEach(function(el){ el.textContent = current.etas.bus + ' min'; });
+    document.querySelectorAll('[data-eta-bike]').forEach(function(el){ el.textContent = current.etas.bike + ' min'; });
+
+    // reset tally state
+    visitedHexes = {}; passedTurns = {}; passedCapsForCounting = {};
+    totalCams = 0; totalLoc = 0; totalMov = 0; totalSpd = 0; totalPat = 0;
+    HEXES.forEach(function(h){ h.el.classList.remove('passed'); h.el.classList.remove('lit-edge'); h.el.classList.remove('lit-edge-glow'); });
+    hexCallout.classList.remove('live');
+    paintTally();
+
+    setProgress(0);
+  }
+
+  function paintTally(){
+    tcCams.textContent = totalCams;
+    tcLoc.textContent  = totalLoc;
+    tcMov.textContent  = totalMov;
+    tcSpd.textContent  = totalSpd;
+    tcPat.textContent  = totalPat;
+  }
+
+  /* find which hex contains (x,y); approximate by nearest center within HEX_R */
+  function findHexAt(x, y){
+    var nearest = null; var nd = HEX_R * HEX_R * 1.2;
+    for(var i=0;i<HEXES.length;i++){
+      var dx = HEXES[i].cx - x, dy = HEXES[i].cy - y;
+      var d2 = dx*dx + dy*dy;
+      if(d2 < nd){ nd = d2; nearest = HEXES[i]; nearest._i = i; }
+    }
+    return nearest;
+  }
+
+  var hexCalloutHideTimer = null;
+  function fireHexCallout(hex){
+    var n = Math.round(hex.v.all);
+    var mpd = Math.round(hex.v.mpd), wm = Math.round(hex.v.wmata), fed = Math.round(hex.v.fed), pr = Math.round(hex.v.priv), lp = Math.round(hex.v.lpr);
+    hcNum.textContent = n;
+    hcBrk.textContent = 'MPD '+mpd+' · WMTA '+wm+' · FED '+fed+' · PRIV '+pr+' · LPR '+lp;
+    // position callout above the hex, biased away from edges
+    var x = hex.cx, y = hex.cy - HEX_R - 6;
+    if(y < 80) y = hex.cy + HEX_R + 50; // flip below if too high
+    hexCallout.setAttribute('transform','translate('+x+' '+y+')');
+    hexCallout.classList.add('live');
+    if(hexCalloutHideTimer) clearTimeout(hexCalloutHideTimer);
+    hexCalloutHideTimer = setTimeout(function(){ hexCallout.classList.remove('live'); }, 2200);
+  }
+
+  function setProgress(p){
+    progress = Math.max(0, Math.min(1, p));
+    var pt = pointAt(progress, 0);
+    meGroup.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ') rotate(' + (pt.ang + 90).toFixed(1) + ')');
+    userTrail.style.strokeDashoffset = pathLen - (progress * pathLen);
+
+    // detect hex enter (new hex this frame)
+    var h = findHexAt(pt.x, pt.y);
+    if(h){
+      var i = h._i;
+      if(!visitedHexes[i]){
+        visitedHexes[i] = true;
+        // accumulate counts
+        totalCams += Math.round(h.v.all);
+        totalLoc += 1; // location read = new block entered
+        totalPat += Math.max(1, Math.round(h.v.all / 4));
+        // reveal the hex (fill in at translucent density color) — permanent trail
+        h.el.classList.add('passed');
+        // brief edge pulse so the user sees WHICH hex just got entered
+        h.el.classList.add('lit-edge'); h.el.classList.add('lit-edge-glow');
+        setTimeout(function(){ h.el.classList.remove('lit-edge'); h.el.classList.remove('lit-edge-glow'); }, 1500);
+        fireHexCallout(h);
+        paintTally();
+      }
+    }
+
+    // capture pins (sparse) lit & speed-counter
+    var lit = 0;
+    capLayer.querySelectorAll('.cap').forEach(function(g, idx){
+      var t = parseFloat(g.getAttribute('data-t'));
+      if(progress >= t){
+        if(!g.classList.contains('lit')) g.classList.add('lit');
+        lit++;
+        if(!passedCapsForCounting[idx]){
+          passedCapsForCounting[idx] = true;
+          var j = g.getAttribute('data-j');
+          if(j === 'DDOT' || j === 'VDOT' || j === 'MoCo' || j === 'PG' || j === 'NPS'){
+            totalSpd += 1; // DDOT/VDOT/MoCo/PG/NPS are speed/traffic enforcement
+          }
+        }
+      } else { g.classList.remove('lit'); }
+    });
+
+    // movement events (turns)
+    currentTurns.forEach(function(turn, idx){
+      if(!passedTurns[idx] && progress >= turn.t){ passedTurns[idx] = true; totalMov += 1; paintTally(); }
+    });
+    paintTally();
+
+    // alerts
+    currentAlerts.forEach(function(a){
+      if(!a.shown && progress >= a.t){ a.el.classList.add('live'); a.shown = true; a.hideAt = performance.now() + 3500; }
+      if(a.shown && a.hideAt && performance.now() > a.hideAt){ a.el.classList.remove('live'); a.shown = false; a.hideAt = null; }
+    });
+
+    // direction strip
+    if(currentTurns && currentTurns.length){
+      var cur = currentTurns[0];
+      for(var i=0;i<currentTurns.length;i++){ if(progress >= currentTurns[i].t) cur = currentTurns[i]; }
+      dirGlyph.textContent = cur.glyph; dirTxt.textContent = cur.txt; dirDist.textContent = cur.dist;
+      dirStrip.classList.add('live');
+    }
+
+    var totalEta = current.etas[modeKey] || 0;
+    var remain = Math.max(1, Math.round(totalEta * (1 - progress)));
+    etaMin.textContent = remain;
+    scrub.value = Math.round(progress * 1000);
+  }
+
+  function play(){
+    if(raf){ cancelAnimationFrame(raf); raf = null; playBtn.textContent = '▶ Start journey'; return; }
+    if(progress >= 0.999) setProgress(0);
+    playBtn.textContent = '❚❚ Pause';
+    var start = null, dur = 18000, from = progress;
+    function step(ts){
+      if(!start) start = ts;
+      var k = (ts - start) / dur;
+      var p = from + k * (1 - from);
+      if(p >= 1){ setProgress(1); raf = null; playBtn.textContent = '↻ Replay journey'; return; }
+      setProgress(p);
+      raf = requestAnimationFrame(step);
+    }
+    raf = requestAnimationFrame(step);
+  }
+  playBtn.addEventListener('click', play);
+  scrub.addEventListener('input', function(){
+    if(raf){ cancelAnimationFrame(raf); raf = null; playBtn.textContent = '▶ Start journey'; }
+    setProgress(scrub.value / 1000);
+  });
+
+  document.querySelectorAll('.route-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      setActive('.route-list', b);
+      if(raf){ cancelAnimationFrame(raf); raf = null; playBtn.textContent = '▶ Start journey'; }
+      buildRoute(b.getAttribute('data-route'), modeKey);
+    });
+  });
+  document.querySelectorAll('.mode-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      setActive('.mode-grid', b);
+      if(raf){ cancelAnimationFrame(raf); raf = null; playBtn.textContent = '▶ Start journey'; }
+      buildRoute(routeKey, b.getAttribute('data-mode'));
+    });
+  });
+
+  document.querySelectorAll('.lyr-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      var key = b.getAttribute('data-layer');
+      var on = !b.classList.contains('on');
+      b.classList.toggle('on', on);
+      if(key === 'hex'){
+        hexLayer.style.display = on ? '' : 'none';
+      } else {
+        var el = document.getElementById('lyr-' + key);
+        if(el) el.classList.toggle('on', on);
+      }
+    });
+  });
+
+  clsToggle.addEventListener('click', function(){
+    var on = !clsToggle.classList.contains('on');
+    clsToggle.classList.toggle('on', on);
+    clsToggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+    stage.classList.toggle('classified', on);
+  });
+
+  /* ===== RETENTION TIMELINE (from Part III) ===== */
+  var tlAxis = document.getElementById('tlAxis');
+  var tlLanes = document.getElementById('tlLanes');
+  function xFromDays(d){
+    if(d <= 0) return 60;
+    if(d <= 2)    return 60 + (d/2) * 80;
+    if(d <= 7)    return 140 + ((d-2)/5) * 80;
+    if(d <= 30)   return 220 + ((d-7)/23) * 100;
+    if(d <= 90)   return 320 + ((d-30)/60) * 110;
+    if(d <= 365)  return 430 + ((d-90)/275) * 150;
+    if(d <= 1825) return 580 + ((d-365)/1460) * 300;
+    return 880;
+  }
+  var TICKS = [{d:0,lbl:'0d'},{d:2,lbl:'2d'},{d:7,lbl:'7d'},{d:30,lbl:'30d'},{d:90,lbl:'90d'},{d:365,lbl:'1yr'},{d:1825,lbl:'5yr'}];
+  var LANES = [
+    { key:'mpd',   name:'MPD CCTV',                 sub:'Metropolitan Police Department',     off:90,   res:1825, who:'MPD, federal subpoena, civil discovery, IAD review', foia:'Heavy Exemption 7 redactions', why:'90-day default. Held for evidence, civil liability, internal review, or training. In practice some footage persists for years through the litigation pipeline.' },
+    { key:'wmata', name:'WMATA cameras',            sub:'Transit, body-worn, station',        off:90,   res:730,  who:'WMATA, Metro Transit Police, contractor archives',     foia:'Limited release; safety-incident only', why:'~30,000 cameras. Retention varies by program. Body-camera footage held longer when associated with an incident or training case.' },
+    { key:'ddot',  name:'DDOT traffic / speed',     sub:'District Department of Transp.',     off:60,   res:540,  who:'DDOT, MPD, civil court',                                foia:'Often released for crash reconstruction', why:'Speed and red-light enforcement cameras. Retention depends on whether the capture became a citation.' },
+    { key:'flock', name:'Flock LPR',                sub:'Vendor network · AWS GovCloud',      off:30,   res:1095, who:'Any law-enforcement agency with vendor access',         foia:'Vendor not subject to FOIA directly', why:'Default 30-day retention. Preserved on legal request. Cross-agency search defeats per-agency oversight.' },
+    { key:'fps',   name:'Federal · DHS / FPS',      sub:'GSA-managed facilities',             off:120,  res:1825, who:'DHS, FPS, partner agencies',                            foia:'Heavy national-security redaction', why:'Varies by building. Continuous CCTV on most. Retention extended for any facility-security event.' },
+    { key:'uspp',  name:'U.S. Park Police',         sub:'Monument zones + aviation',          off:180,  res:1825, who:'NPS, USPP, federal investigators',                      foia:'Mostly denied as law-enforcement record', why:'Mall planning documents described a system "not to exceed five years." Aviation footage retained per case.' },
+    { key:'ss',    name:'U.S. Secret Service',      sub:'Protective perimeter',               off:0,    res:1825, who:'USSS, partner federal agencies',                        foia:'Categorically denied', why:'Protective-mission footage capabilities are not publicly documented by design. Treat as continuous, indefinite.' },
+    { key:'shield',name:'Capital Shield · private', sub:'CameraConnect / Kastle',             off:2,    res:90,   who:'Property owner, MPD on request',                        foia:'Not subject to FOIA (private)', why:'Rebate program requires at least 48-hour retention. Owner can hold longer. Sharing to MPD is voluntary or compelled.' },
+    { key:'ring',  name:'Doorbell network',         sub:'Ring, Nest, others',                 off:60,   res:1095, who:'Homeowner, platform legal team, law enforcement',       foia:'Not subject to FOIA (private)', why:'User-set retention. Footage believed deleted may persist in vendor backend (see Guthrie precedent).' }
+  ];
+  function buildTimeline(mode){
+    tlAxis.innerHTML = ''; tlLanes.innerHTML = '';
+    var topY = 30;
+    var ax = document.createElementNS(NS,'line');
+    ax.setAttribute('class','tl-axis'); ax.setAttribute('x1', xFromDays(0)); ax.setAttribute('y1', topY); ax.setAttribute('x2', xFromDays(1825)); ax.setAttribute('y2', topY);
+    tlAxis.appendChild(ax);
+    TICKS.forEach(function(t){
+      var x = xFromDays(t.d);
+      var tk = document.createElementNS(NS,'line'); tk.setAttribute('class','tl-tick'); tk.setAttribute('x1',x); tk.setAttribute('y1',topY-5); tk.setAttribute('x2',x); tk.setAttribute('y2',topY); tlAxis.appendChild(tk);
+      var tl = document.createElementNS(NS,'text'); tl.setAttribute('class','tl-tick-lbl'); tl.setAttribute('x',x); tl.setAttribute('y',topY-10); tl.textContent = t.lbl; tlAxis.appendChild(tl);
+      var gd = document.createElementNS(NS,'line'); gd.setAttribute('class','tl-grid'); gd.setAttribute('x1',x); gd.setAttribute('y1',topY+10); gd.setAttribute('x2',x); gd.setAttribute('y2', topY + 10 + LANES.length * 46); tlAxis.appendChild(gd);
+    });
+    LANES.forEach(function(l, i){
+      var y0 = topY + 20 + i * 46;
+      var g = document.createElementNS(NS,'g'); g.setAttribute('class','tl-lane'); g.setAttribute('data-key', l.key);
+      var lbl = document.createElementNS(NS,'text');
+      lbl.setAttribute('class','tl-lane-lbl'); lbl.setAttribute('x', 8); lbl.setAttribute('y', y0+14); lbl.textContent = l.name; g.appendChild(lbl);
+      var sub = document.createElementNS(NS,'text');
+      sub.setAttribute('class','tl-lane-sub'); sub.setAttribute('x', 8); sub.setAttribute('y', y0+25); sub.textContent = l.sub; g.appendChild(sub);
+      if(l.off > 0){
+        var x1 = xFromDays(0); var x2 = xFromDays(l.off);
+        var bo = document.createElementNS(NS,'rect');
+        bo.setAttribute('class','tl-bar-off'); bo.setAttribute('x', x1); bo.setAttribute('y', y0+8); bo.setAttribute('width', x2-x1); bo.setAttribute('height', 18);
+        g.appendChild(bo);
+      }
+      if(mode === 'practice' && l.res > l.off){
+        var rx1 = xFromDays(l.off); var rx2 = xFromDays(Math.min(l.res, 1825));
+        var br = document.createElementNS(NS,'rect');
+        br.setAttribute('class','tl-bar-res'); br.setAttribute('x', rx1); br.setAttribute('y', y0+8); br.setAttribute('width', rx2-rx1); br.setAttribute('height', 18);
+        g.appendChild(br);
+      }
+      var hit = document.createElementNS(NS,'rect');
+      hit.setAttribute('x', 0); hit.setAttribute('y', y0); hit.setAttribute('width', 920); hit.setAttribute('height', 36); hit.setAttribute('fill', 'transparent');
+      g.appendChild(hit);
+      g.addEventListener('mouseenter', function(){ paintTLInfo(l); selectLane(l.key); });
+      tlLanes.appendChild(g);
+    });
+  }
+  function selectLane(key){
+    document.querySelectorAll('.tl-lane').forEach(function(el){
+      el.classList.remove('sel');
+      if(el.getAttribute('data-key') !== key) el.classList.add('dim'); else el.classList.remove('dim');
+    });
+    var sel = document.querySelector('.tl-lane[data-key="'+key+'"]'); if(sel) sel.classList.add('sel');
+  }
+  function fmt(d){
+    if(d === 0) return 'not publicly documented';
+    if(d < 60) return d + ' days';
+    if(d < 365) return Math.round(d/30) + ' months';
+    return (d/365 % 1 === 0 ? (d/365) : (d/365).toFixed(1)) + ' years';
+  }
+  function paintTLInfo(l){
+    document.getElementById('tli-hd').textContent = l.name;
+    document.getElementById('tli-sub').textContent = l.sub;
+    document.getElementById('tli-off').textContent = l.off === 0 ? '—' : fmt(l.off);
+    document.getElementById('tli-res').textContent = l.res === l.off ? '—' : 'up to ' + fmt(l.res);
+    document.getElementById('tli-who').textContent = l.who;
+    document.getElementById('tli-foia').textContent = l.foia;
+    document.getElementById('tli-why').textContent = l.why;
+    document.querySelector('#tlInfo .ttl').textContent = 'Selected class';
+  }
+  document.querySelectorAll('.mode-pill').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.mode-pill').forEach(function(x){ x.classList.remove('active'); x.setAttribute('aria-selected','false'); });
+      b.classList.add('active'); b.setAttribute('aria-selected','true');
+      buildTimeline(b.getAttribute('data-mode'));
+    });
+  });
+
+  /* ===== BONUS · Your own route (deterministic text-hash → DC-area point) ===== */
+  var bonusForm = document.getElementById('bonusForm');
+  var bonusView = document.getElementById('bonusView');
+  var bonusHexLayer = document.getElementById('bonusHexLayer');
+  var bonusRoutePath = document.getElementById('bonusRoutePath');
+  var bonusTrailPath = document.getElementById('bonusTrailPath');
+  var bonusEndpoints = document.getElementById('bonusEndpoints');
+  var bonusResult = document.getElementById('bonusResult');
+  var brCams = document.getElementById('brCams');
+  var brBlocks = document.getElementById('brBlocks');
+  var brWhy = document.getElementById('brWhy');
+  var BONUS_HEXES = []; // {el, cx, cy, v}
+  var bonusRaf = null;
+
+  function buildBonusHexes(){
+    bonusHexLayer.innerHTML = ''; BONUS_HEXES = [];
+    // reuse same HOT/BOUNDS as primary
+    var rows = Math.ceil((BOUNDS.y1 - BOUNDS.y0) / HEX_H) + 1;
+    var cols = Math.ceil((BOUNDS.x1 - BOUNDS.x0) / HEX_W) + 1;
+    var maxAll = 0; var raw = [];
+    for(var r=0; r<rows; r++){
+      for(var c=0; c<cols; c++){
+        var cx = BOUNDS.x0 + c * HEX_W + (r % 2 ? HEX_W/2 : 0);
+        var cy = BOUNDS.y0 + r * HEX_H;
+        var inEdge = inDiamond(cx, cy) || inDiamond(cx + 24, cy) || inDiamond(cx - 24, cy) || inDiamond(cx, cy + 20) || inDiamond(cx, cy - 20);
+        if(!inEdge) continue;
+        var v = computeAtCell(cx, cy);
+        raw.push({cx:cx, cy:cy, v:v});
+        if(v.all > maxAll) maxAll = v.all;
+      }
+    }
+    raw.forEach(function(rec){
+      var poly = document.createElementNS(NS,'polygon');
+      poly.setAttribute('points', hexPathPts(rec.cx, rec.cy, HEX_R));
+      poly.setAttribute('class','bonus-hex');
+      var t = Math.min(1, rec.v.all / Math.max(1, maxAll));
+      poly.style.setProperty('--hex-color', densityColor(t));
+      bonusHexLayer.appendChild(poly);
+      BONUS_HEXES.push({el: poly, cx: rec.cx, cy: rec.cy, v: rec.v});
+    });
+  }
+
+  // deterministic string → [0,1] hash (xorshift-ish)
+  function strHash(s){
+    var h = 2166136261 >>> 0;
+    for(var i=0;i<s.length;i++){
+      h ^= s.charCodeAt(i);
+      h = Math.imul(h, 16777619) >>> 0;
+    }
+    return ((h >>> 0) % 100000) / 100000;
+  }
+  // project an address-string to a point inside the DC metro frame, biased toward street-y areas
+  function addrToPoint(s){
+    var a = strHash(s.toLowerCase().trim());
+    var b = strHash('y' + s.toLowerCase().trim() + 'y');
+    // bounds well inside the viewBox so endpoints feel local
+    var x = 200 + a * 880;
+    var y = 160 + b * 420;
+    return { x: x, y: y };
+  }
+
+  function bonusReset(){
+    if(bonusRaf){ cancelAnimationFrame(bonusRaf); bonusRaf = null; }
+    BONUS_HEXES.forEach(function(h){ h.el.classList.remove('passed'); h.el.classList.remove('lit-edge-b'); });
+    bonusRoutePath.setAttribute('d','');
+    bonusTrailPath.setAttribute('d','');
+    bonusEndpoints.innerHTML = '';
+    bonusResult.classList.remove('live');
+  }
+
+  function fmtNum(n){ return n.toLocaleString('en-US'); }
+
+  function runBonus(homeStr, workStr){
+    bonusReset();
+    var home = addrToPoint(homeStr);
+    var work = addrToPoint(workStr);
+    // build a smooth bezier with one control point biased toward the city center for plausibility
+    var midX = (home.x + work.x) / 2 + (strHash('c'+homeStr+workStr) - 0.5) * 140;
+    var midY = (home.y + work.y) / 2 + (strHash('d'+homeStr+workStr) - 0.5) * 140;
+    var d = 'M ' + home.x.toFixed(1) + ' ' + home.y.toFixed(1) +
+            ' Q ' + midX.toFixed(1) + ' ' + midY.toFixed(1) +
+            ' ' + work.x.toFixed(1) + ' ' + work.y.toFixed(1);
+    bonusRoutePath.setAttribute('d', d);
+    bonusTrailPath.setAttribute('d', d);
+    var L = bonusRoutePath.getTotalLength();
+    bonusTrailPath.style.strokeDasharray = L + ' ' + L;
+    bonusTrailPath.style.strokeDashoffset = L;
+
+    // endpoint pylons
+    function mkEnd(p, label){
+      var c = document.createElementNS(NS,'circle');
+      c.setAttribute('class','bonus-endpoint'); c.setAttribute('cx',p.x); c.setAttribute('cy',p.y); c.setAttribute('r','9');
+      bonusEndpoints.appendChild(c);
+      var bg = document.createElementNS(NS,'rect');
+      var w = label.length * 7 + 14;
+      bg.setAttribute('class','bonus-endpoint-lbl-bg'); bg.setAttribute('x', p.x - w/2); bg.setAttribute('y', p.y - 30); bg.setAttribute('width', w); bg.setAttribute('height', 16);
+      bonusEndpoints.appendChild(bg);
+      var t = document.createElementNS(NS,'text');
+      t.setAttribute('class','bonus-endpoint-lbl'); t.setAttribute('x', p.x); t.setAttribute('y', p.y - 18); t.setAttribute('text-anchor','middle'); t.textContent = label;
+      bonusEndpoints.appendChild(t);
+    }
+    mkEnd(home, 'HOME');
+    mkEnd(work, 'WORK');
+
+    bonusView.classList.add('live');
+
+    // animate
+    var totalCams = 0, blocks = 0, patterns = 0;
+    var visited = {};
+    function pointAtB(t){
+      var p = bonusRoutePath.getPointAtLength(t * L);
+      return { x: p.x, y: p.y };
+    }
+    function findBonusHexAt(x, y){
+      var nearest = null; var nd = HEX_R * HEX_R * 1.2; var idx = -1;
+      for(var i=0;i<BONUS_HEXES.length;i++){
+        var dx = BONUS_HEXES[i].cx - x, dy = BONUS_HEXES[i].cy - y;
+        var d2 = dx*dx + dy*dy;
+        if(d2 < nd){ nd = d2; nearest = BONUS_HEXES[i]; idx = i; }
+      }
+      return { hex: nearest, i: idx };
+    }
+    var start = null, dur = 7000;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min(1, (ts - start) / dur);
+      bonusTrailPath.style.strokeDashoffset = L - (p * L);
+      var pt = pointAtB(p);
+      var hit = findBonusHexAt(pt.x, pt.y);
+      if(hit.hex && !visited[hit.i]){
+        visited[hit.i] = true;
+        totalCams += Math.round(hit.hex.v.all);
+        blocks += 1;
+        patterns += Math.max(1, Math.round(hit.hex.v.all / 4));
+        hit.hex.el.classList.add('passed');
+        hit.hex.el.classList.add('lit-edge-b');
+        (function(el){ setTimeout(function(){ el.classList.remove('lit-edge-b'); }, 1300); })(hit.hex.el);
+        brCams.textContent = fmtNum(totalCams);
+        brBlocks.textContent = blocks + ' blocks crossed · ' + patterns + ' patterns logged';
+      }
+      if(p >= 1){
+        // final pass — update why card
+        brCams.textContent = fmtNum(totalCams);
+        brBlocks.textContent = blocks + ' blocks crossed · ' + patterns + ' patterns logged';
+        brWhy.innerHTML = 'Your route from <b>' + escapeHtml(homeStr) + '</b> to <b>' + escapeHtml(workStr) + '</b> would have been seen by roughly <b>' + fmtNum(totalCams) + ' cameras</b> across <b>' + blocks + ' blocks</b>. The route is illustrative; the density grid is anchored to documented infrastructure.';
+        bonusResult.classList.add('live');
+        bonusRaf = null;
+        return;
+      }
+      bonusRaf = requestAnimationFrame(step);
+    }
+    bonusRaf = requestAnimationFrame(step);
+  }
+
+  function escapeHtml(s){ return s.replace(/[&<>"]/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]; }); }
+
+  bonusForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var home = document.getElementById('bonus-home').value.trim();
+    var work = document.getElementById('bonus-work').value.trim();
+    if(!home || !work) return;
+    runBonus(home, work);
+  });
+
+  /* boot */
+  buildHexes();
+  buildRoute('r1', 'drive');
+  buildTimeline('practice');
+  buildBonusHexes();
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ setProgress(1); }
+})();
+</script>
+</body>
+</html>

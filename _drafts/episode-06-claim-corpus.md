@@ -2,7 +2,7 @@
 
 **Season II · Episode 05 · INVESTIGATE phase deliverable 1 of 3**
 **Status:** v0.1 draft · awaiting human review before INVESTIGATE phase advances
-**Pairs with:** `episode-05-composite-state-brief.md` (DISCOVER brief, approved)
+**Pairs with:** `episode-06-composite-state-brief.md` (DISCOVER brief, approved)
 **Target corpus size:** 30 load-bearing claims · this draft: 32
 **Date drafted:** 1 Jun 2026
 

@@ -9,8 +9,8 @@ Locked editorial concepts and DISCOVER-mode briefs awaiting INVESTIGATE / RENDER
 | File | Type | Status | Next step |
 |------|------|--------|-----------|
 | [episode-04-influence-war-brief.md](./episode-04-influence-war-brief.md) | Episode (Season II · 04) | **Locked** — chassis + interactive + Case File integration spec'd | INVESTIGATE — claim corpus assembly (target: 22 rows) |
-| [episode-04.5-replayable-city-brief.md](./episode-04.5-replayable-city-brief.md) | Field Dispatch (between EP 04 and 05) | Brief drafted | Research consolidation on DC empirical anchors |
-| [episode-05-composite-state-brief.md](./episode-05-composite-state-brief.md) | Episode (Season II · 05) | DISCOVER complete | INVESTIGATE — claim corpus assembly (target: 30 rows) |
+| [episode-05-replayable-city-brief.md](./episode-05-replayable-city-brief.md) | Field Dispatch (between EP 04 and 05) | Brief drafted | Research consolidation on DC empirical anchors |
+| [episode-06-composite-state-brief.md](./episode-06-composite-state-brief.md) | Episode (Season II · 05) | DISCOVER complete | INVESTIGATE — claim corpus assembly (target: 30 rows) |
 | [episode-06-physical-plant-brief.md](./episode-06-physical-plant-brief.md) | Episode (Season II · 06) | DISCOVER complete | INVESTIGATE — claim corpus assembly (target: 35 rows) |
 | *The Convergence* (season-closer essay) | Season essay (not episode) | Spec emerging in conversation | Draft brief |
 
