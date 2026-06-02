@@ -180,7 +180,7 @@ Footer block titled **The families this episode was secretly about**:
 - *Healthcare* — [S1·02 The Closed Hospital] · [Special Report: When the Hospital Closes]
 - *Credit + Settlement* — [S1·04 The Trickle] · [S1·06 The Settlement Shrinkage] · [S1·09 The Capital Stack]
 - *Civic Participation* — [S1·05 The Provisional Ballot] · [S1·10 The Runoff Tells]
-- *Cost compounding* — [S1·07 The Vogtle Bill] · [S1·08 The Data Center Tax]
+- *Cost compounding* — [S1·06 The Vogtle Bill] · [S1·07 The Data Center Load]
 
 This block is the single most important element of the episode's footer. It is the receipt for the bowtie thesis.
 

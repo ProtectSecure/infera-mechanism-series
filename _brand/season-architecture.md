@@ -57,11 +57,11 @@ If a future design decision creates a conflict between *"the architecture wants 
 | S1·03 | The Coast Is Moving | `the-coast-is-moving.html` | Climate-displaced housing + insurance |
 | S1·04 | The Trickle | `the-trickle.html` | Wage stagnation + credit access |
 | S1·05 | The Provisional Ballot | `the-provisional-ballot.html` | Voter-roll algorithmic challenges |
-| S1·06 | The Settlement Shrinkage | `the-settlement-shrinkage.html` | Toxic-tort + opioid disbursement |
-| S1·07 | The Vogtle Bill | `the-vogtle-bill.html` | Nuclear-plant cost socialization |
-| S1·08 | The Data Center Tax | `the-data-center-tax.html` (new) | Rate-payer subsidy of data-center grid load |
-| S1·09 | The Capital Stack | `the-capital-stack.html` | Financial-instrument layering |
-| S1·10 | The Runoff Tells | `the-runoff-tells.html` | Down-ballot election anomalies |
+| S1·06 | The Vogtle Bill | `the-vogtle-bill.html` | Nuclear-plant cost socialization |
+| S1·07 | The Data Center Load | `the-data-center-load.html` | Rate-payer subsidy of data-center grid buildout |
+| S1·08 | The Settlement Shrinkage | `the-settlement-shrinkage.html` | Toxic-tort + opioid disbursement (on disk; not yet linked on homepage) |
+| S1·09 | The Capital Stack | `the-capital-stack.html` | Financial-instrument layering (unlinked; on disk) |
+| S1·10 | The Runoff Tells | `the-runoff-tells.html` | Down-ballot election anomalies (unlinked; on disk) |
 
 ### Season II · *The mechanisms — Machine-Readable*
 
@@ -114,7 +114,7 @@ This is the architecture EP 08 (The Class Engine) is built to make legible. Ever
 | EP 04 Influence War (persuasion + civic) | Voter targeting, registration challenges | S1·05 The Provisional Ballot |
 | EP 05 Replayable City (surveillance substrate) | Geofence-based investigations, civic monitoring | (Capitol breach reconstruction · in-episode) |
 | EP 06 Composite State (civic composite) | Medical-record dispersal, benefit denial | S1·02 The Closed Hospital · Special Report Hospital Closes |
-| EP 07 Physical Plant (data-center cost) | Rate-payer subsidy, household pressure | **S1·07 The Vogtle Bill** · **S1·08 The Data Center Tax** |
+| EP 07 Physical Plant (data-center cost) | Rate-payer subsidy, household pressure | **S1·06 The Vogtle Bill** · **S1·07 The Data Center Load** |
 | EP 08 Class Engine (compounding stratification) | **Convergence node — touches all Season I stories** | All of S1 |
 | EP 09 Synthetic Self (extension past participation) | Posthumous account abuse, persona-impersonation fraud | S1·05 Provisional Ballot (dead-voter challenges) |
 | EP 10 Subscription Self (recurring cost of being you) | Household-budget pressure that compounds with EP 07 cost | S1·04 The Trickle |
@@ -186,7 +186,7 @@ Every Season I episode gets a forward-pointing foreshadow inserted into its clos
 | The Provisional Ballot | *"The challenges were not random. They were targeted by the same machine that targets ads. See: [EP 04 The Influence War] · [EP 11 The Afterlife of Your Data]."* |
 | The Settlement Shrinkage | *"The disbursement algorithm classified harm into tiers. The tiers were not statutory. See: [EP 03 The Trust Market] · [EP 12 The Governance Layer]."* |
 | The Vogtle Bill | *"You paid for a nuclear plant. The growth load on that plant is now data centers — for a machine you didn't ask for either. See: [EP 07 The Physical Plant]."* |
-| The Data Center Tax | *"The line on your electric bill funds the infrastructure of your own composite. See: [EP 07 The Physical Plant] · [EP 08 The Class Engine]."* |
+| The Data Center Load | *"The line on your electric bill funds the infrastructure of your own composite. See: [EP 07 The Physical Plant] · [EP 08 The Class Engine]."* |
 | The Capital Stack | *"The financial instruments described here are the same architecture used to securitize the composite itself. See: [EP 03 The Trust Market] · [EP 08 The Class Engine]."* |
 | The Runoff Tells | *"The patterns the data showed were not statistical noise. They were the surface of a targeting infrastructure. See: [EP 04 The Influence War]."* |
 

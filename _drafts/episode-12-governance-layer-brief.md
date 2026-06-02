@@ -63,7 +63,7 @@ This is the load-bearing organizational move of the episode. For each Season I h
 | S1·05 Provisional Ballot | NVRA enforcement; DOJ pre-clearance equivalents; state voter-protection statutes | Contested; varies by state |
 | S1·06 Settlement Shrinkage | Federal Rules of Civil Procedure on class-allocation transparency; state-AG settlement authority | Episodic |
 | S1·07 Vogtle Bill | State PUC reform; data-center-specific tariff rules (some states); ratepayer-advocate offices | Emerging; new state rules 2024–25 |
-| S1·08 Data Center Tax | Public-utility-commission rate-case scrutiny; legislative caps on socializing data-center costs | Very early stage |
+| S1·07 Data Center Load | Public-utility-commission rate-case scrutiny; legislative caps on socializing data-center costs | Very early stage |
 | S1·09 Capital Stack | SEC algorithmic-trading rules; CFPB securitization disclosure; state-AG consumer-finance enforcement | Mixed |
 | S1·10 Runoff Tells | FEC enforcement; state campaign-finance authority; FBI election-interference framework | Patchy |
 | EP 02 Personhood Inc. | Federal data-broker regulation (proposed); state data-broker registration (CA, VT, OR, TX); FTC unfairness authority | Building |
