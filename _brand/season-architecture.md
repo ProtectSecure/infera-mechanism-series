@@ -58,7 +58,7 @@ If a future design decision creates a conflict between *"the architecture wants 
 | S1·04 | The Trickle | `the-trickle.html` | Wage stagnation + credit access |
 | S1·05 | The Provisional Ballot | `the-provisional-ballot.html` | Voter-roll algorithmic challenges |
 | S1·06 | The Vogtle Bill | `the-vogtle-bill.html` | Nuclear-plant cost socialization |
-| S1·07 | The Data Center Load | `the-data-center-load.html` | Rate-payer subsidy of data-center grid buildout |
+| S1·07 | The Data Center Bill | `the-data-center-load.html` | Combined investigation — tax holidays, grid forecast, rate-payer mechanism (the-data-center-tax.html redirects here) |
 | S1·08 | The Settlement Shrinkage | `the-settlement-shrinkage.html` | Algorithmic disbursement tiering + audit-trail decay |
 | S1·09 | The Capital Stack | `the-capital-stack.html` | Three financial instruments stacked on one ratepayer |
 | S1·10 | The Runoff Tells | `the-runoff-tells.html` | Down-ballot anomalies as targeting-infrastructure surface |
@@ -186,7 +186,7 @@ Every Season I episode gets a forward-pointing foreshadow inserted into its clos
 | The Provisional Ballot | *"The challenges were not random. They were targeted by the same machine that targets ads. See: [EP 04 The Influence War] · [EP 11 The Afterlife of Your Data]."* |
 | The Settlement Shrinkage | *"The disbursement algorithm classified harm into tiers. The tiers were not statutory. See: [EP 03 The Trust Market] · [EP 12 The Governance Layer]."* |
 | The Vogtle Bill | *"You paid for a nuclear plant. The growth load on that plant is now data centers — for a machine you didn't ask for either. See: [EP 07 The Physical Plant]."* |
-| The Data Center Load | *"The line on your electric bill funds the infrastructure of your own composite. See: [EP 07 The Physical Plant] · [EP 08 The Class Engine]."* |
+| The Data Center Bill | *"The line on your electric bill funds the infrastructure of your own composite. The financial-substrate sub-arc this piece sits inside — Vogtle, Data Center Bill, Capital Stack — reads as one story across three readings. The buildings themselves are [EP 07 The Physical Plant]; the convergence is [EP 08 The Class Engine]."* |
 | The Capital Stack | *"The financial instruments described here are the same architecture used to securitize the composite itself. See: [EP 03 The Trust Market] · [EP 08 The Class Engine]."* |
 | The Runoff Tells | *"The patterns the data showed were not statistical noise. They were the surface of a targeting infrastructure. See: [EP 04 The Influence War]."* |
 
