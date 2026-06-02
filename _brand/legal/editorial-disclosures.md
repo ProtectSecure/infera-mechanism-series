@@ -24,7 +24,7 @@ We invented none of this. It's adapted from OCCRP, ICIJ, IRE, the Brennan Center
 
 We link to the most specific publicly accessible page we can find for every cited claim. When a primary filing requires navigation, login, or a records request from the linked landing page, we name the specific filing in the source label. If a link does not resolve directly to the exact document, this is a navigation limit, not a fabrication.
 
-We re-verify every cited URL on every site deploy. Broken or moved links are repaired within 48 hours of discovery. Our trust-audit log is published at infera.studio/trust (forthcoming).
+We re-verify every cited URL on every site deploy. Broken or moved links are repaired within 48 hours of discovery. Our trust-audit log is published at series.melophon.com/trust (forthcoming).
 
 We do not pay for sources. We do not grant anonymity to sources whose claims we cannot independently corroborate.
 
@@ -56,7 +56,7 @@ See the copyright section in the footer-legal page. Short version:
 
 - **Free reuse**: link, quote up to 250 words with attribution, embed in non-commercial education
 - **Requires permission** (usually granted free): full republication, translation, inclusion in paid products
-- Write to legal@infera.studio · we respond within 5 days
+- Write to infera@melophon.com · we respond within 5 days
 
 ---
 
@@ -68,7 +68,7 @@ No advertiser pays Infera. No platform deal exists. No political party, candidat
 
 Underwriters do not see episodes prior to publication. Editorial decisions are independent of underwriting decisions and the people who make each are different humans.
 
-If you want to underwrite future work: press@infera.studio.
+If you want to underwrite future work: infera@melophon.com.
 
 ---
 
@@ -76,7 +76,7 @@ If you want to underwrite future work: press@infera.studio.
 
 The Infera editorial desk is currently small and deliberately so. Bylines appear on each piece. Editorial roles, in order of seniority, follow standard journalism naming conventions: Editor → Senior Investigator → Research Lead → Visual Engineer → Fact-Check.
 
-We will publish a full masthead at infera.studio/about (forthcoming).
+We will publish a full masthead at series.melophon.com/about (forthcoming).
 
 ---
 

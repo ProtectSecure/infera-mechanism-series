@@ -1,6 +1,10 @@
 # Infera Agent Library
 
-The operating system of The Mechanism Series. Three primary agents that *make* the publication; sixteen support skills that keep it *consistent, dependable, and growing*.
+The operating system of The Mechanism Series. Three primary agents that *make* the publication; sixteen support skills that keep it *consistent, dependable, and growing*. One unified prompt for external invocation.
+
+**Genre:** *Experiential Systems Journalism* — the public-facing name for the discipline.
+**Production method:** *Mechanism Journalism* — the internal name for how episodes are made.
+**Platform reframe:** *A living atlas of invisible systems* — what the publication IS, not what it produces.
 
 ## Architecture
 
@@ -24,6 +28,7 @@ synergies.md    — Where new combinations of skills create
 - [`primary/editorial.md`](primary/editorial.md) — discovers mechanisms, investigates, drafts episodes
 - [`primary/visual.md`](primary/visual.md) — proposes grammars, enforces motion-as-meaning
 - [`primary/connective.md`](primary/connective.md) — maps connections, enforces atlas discipline
+- [`primary/unified.md`](primary/unified.md) — single-prompt invocation for external use (partners, syndication, academic citation, new-editor onboarding)
 
 ## Support skills · priority order
 

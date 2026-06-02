@@ -1,6 +1,6 @@
 # Welcome email · subscriber autoresponder
 
-Paste this into Buttondown → Settings → Welcome Email. Send-from address: `hello@infera.studio`.
+Paste this into Buttondown → Settings → Welcome Email. Send-from address: `infera@melophon.com`.
 
 ---
 
@@ -46,11 +46,11 @@ If you have ten minutes, the first one to read is **[The Trickle](https://infera
 
 If you have twenty-five minutes and want the personal one, **[Personhood Inc.](https://infera-mechanism-series.onrender.com/personhood-inc.html)** is what most readers come back to talk about.
 
-If you've ever wondered what the algorithm is actually selling, **[The Trust Market](https://infera-mechanism-series.onrender.com/episode-03-trust-market-mockup.html)** is the receipts.
+If you've ever wondered what the algorithm is actually selling, **[The Trust Market](https://infera-mechanism-series.onrender.com/episode-03-trust-market.html)** is the receipts.
 
 **Reply if you want to**
 
-This is a working inbox. Send notes, corrections, story ideas, or the question you couldn't quite answer after reading. If you're a reporter, foundation, or operator who wants to talk about underwriting an episode, write to **press@infera.studio** with your context. We respond to those within a day.
+This is a working inbox. Send notes, corrections, story ideas, or the question you couldn't quite answer after reading. If you're a reporter, foundation, or operator who wants to talk about underwriting an episode, write to **infera@melophon.com** with your context. We respond to those within a day.
 
 **A few practical things**
 
@@ -62,7 +62,7 @@ Welcome.
 We'll write again when the next mechanism lands.
 
 — *The Infera editorial desk*
-*infera.studio · independent · reader-supported*
+*series.melophon.com · independent · reader-supported*
 
 ---
 

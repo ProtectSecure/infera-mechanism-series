@@ -15,9 +15,29 @@ Codifies the three primary agents' shipping requirements into one runnable check
 
 **Editorial discipline:**
 - [ ] Hero · declarative line with italic accent present
+- [ ] Compression point declared in the draft frontmatter
+      (one-sentence felt-experience framing of the system)
+- [ ] Six-act chassis present (Hero · Pressure · Pipeline ·
+      Outcome · Competing · Discipline)
+- [ ] Each section assignable to one stage of the realization
+      arc (Familiarity → Unease → Recognition → Implication →
+      Systems Realization), in order
 - [ ] Discipline section present at the end of the episode
 - [ ] Banned words absent ("genuinely," "honestly," "straightforward")
 - [ ] No mid-sentence bolding, no exclamation marks, no ALL CAPS shouting
+- [ ] Voice posture passes: "invite, don't insist" — no sentence
+      uses imperative "believe" or "you must"
+- [ ] FOUR FOUNDING REFUSALS hold:
+      · no partisanship (no party/candidate as the unit of analysis)
+      · no conspiracy (no asserted intent without documented proof)
+      · no dystopia (every modeled or speculative claim labeled)
+      · no mind-control framing — banned constructions absent:
+        "mind control," "brainwashing," "the system makes you
+        believe," "manipulated into thinking," "programmed to,"
+        "controls what you think." The episode must describe the
+        system as optimizing emotional conditions, not implanting
+        beliefs. The reader's agency must remain visible in the
+        mechanism's description.
 
 **Visual discipline:**
 - [ ] All visual artifacts use library grammars OR have an EXPERIMENT proposal logged

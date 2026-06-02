@@ -1,14 +1,14 @@
-# Email addresses · @infera.studio
+# Email addresses · @series.melophon.com
 
 One real inbox. Five aliases that all forward to it. You read everything in one place; readers see a publication that knows what each address is for.
 
 | Address | Purpose | Setup |
 |---|---|---|
-| **hello@infera.studio** | The real inbox. Press, general, "I have a question." | Primary Google Workspace user |
-| **subscribe@infera.studio** | Newsletter receipts, subscription mgmt | Alias of hello |
-| **press@infera.studio** | Reporters, syndication, embargo requests | Alias of hello |
-| **corrections@infera.studio** | Factual corrections, dispute claims | Alias of hello |
-| **legal@infera.studio** | DMCA, takedown, formal legal | Alias of hello |
+| **infera@melophon.com** | The real inbox. Press, general, "I have a question." | Primary Google Workspace user |
+| **infera@melophon.com** | Newsletter receipts, subscription mgmt | Alias of hello |
+| **infera@melophon.com** | Reporters, syndication, embargo requests | Alias of hello |
+| **infera@melophon.com** | Factual corrections, dispute claims | Alias of hello |
+| **infera@melophon.com** | DMCA, takedown, formal legal | Alias of hello |
 
 You only pay for one user. Aliases are free.
 
@@ -20,13 +20,13 @@ Each address gets a different vacation-style autoresponder so the reader knows t
 
 ---
 
-### hello@infera.studio
+### infera@melophon.com
 
 > **Subject:** Received · The Mechanism Series
 >
 > Got it. We read everything that lands in this inbox, usually within two business days.
 >
-> If you wrote about a specific episode, name it in the subject line and we'll route faster. If you're a reporter on deadline, please use **press@infera.studio** — that one we triage same-day.
+> If you wrote about a specific episode, name it in the subject line and we'll route faster. If you're a reporter on deadline, please use **infera@melophon.com** — that one we triage same-day.
 >
 > Meanwhile, the latest investigation: <https://infera-mechanism-series.onrender.com>
 >
@@ -34,7 +34,7 @@ Each address gets a different vacation-style autoresponder so the reader knows t
 
 ---
 
-### subscribe@infera.studio
+### infera@melophon.com
 
 > **Subject:** You're in.
 >
@@ -48,7 +48,7 @@ Each address gets a different vacation-style autoresponder so the reader knows t
 
 ---
 
-### press@infera.studio
+### infera@melophon.com
 
 > **Subject:** Press inquiry received · response within 24h
 >
@@ -59,13 +59,13 @@ Each address gets a different vacation-style autoresponder so the reader knows t
 > 2. The specific episode or claim you want to reference
 > 3. Whether you need attribution as *Infera*, *The Mechanism Series*, or both
 >
-> Embargoed material on request. We do not paywall syndication of episode excerpts under fair use — see our reuse policy at infera.studio/legal#reuse.
+> Embargoed material on request. We do not paywall syndication of episode excerpts under fair use — see our reuse policy at series.melophon.com/legal#reuse.
 >
 > — *Infera Editorial*
 
 ---
 
-### corrections@infera.studio
+### infera@melophon.com
 
 > **Subject:** Correction logged · thank you
 >
@@ -73,17 +73,17 @@ Each address gets a different vacation-style autoresponder so the reader knows t
 >
 > If you sent supporting documentation, it's already with the desk that owns the original claim. Expect a follow-up either confirming the correction or explaining why we stand by the original — either way, with reasoning.
 >
-> Our full corrections policy: infera.studio/legal#corrections
+> Our full corrections policy: series.melophon.com/legal#corrections
 >
 > — *Infera Editorial*
 
 ---
 
-### legal@infera.studio
+### infera@melophon.com
 
 > **Subject:** Legal inquiry received
 >
-> Your message has been received and routed. For DMCA notices and takedown requests, we follow the procedure outlined at infera.studio/legal#dmca and respond within the statutory window.
+> Your message has been received and routed. For DMCA notices and takedown requests, we follow the procedure outlined at series.melophon.com/legal#dmca and respond within the statutory window.
 >
 > For all other legal correspondence, expect a substantive reply within five business days.
 >

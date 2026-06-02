@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Composite State · EP 05 · The Mechanism Series</title>
+<meta name="description" content="Episode 05. You are not stored in one file. You are reconstructed on demand. A 90s-zine investigation of the civic composite machine.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Bungee&family=Caveat:wght@400;700&family=Patrick+Hand&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script>document.documentElement.classList.add('js');</script>
+
+<style>
+:root {
+  /* paper + ink */
+  --paper:        #fff5e1;     /* warm cream, like a folded zine */
+  --paper-dot:    #f4ead0;
+  --paper-card:   #fffbe9;
+  --ink:          #181818;     /* warm near-black */
+  --ink-soft:     #2a2a2a;
+  --muted:        #6a6a6a;
+  --rule:         #1f1f1f;
+
+  /* peak-90s primaries */
+  --pop-pink:     #ff2d8b;     /* hot Lisa Frank pink */
+  --pop-blue:     #2cbef0;     /* electric pool blue */
+  --pop-yellow:   #ffe247;     /* sunshine yellow */
+  --pop-lime:     #b8eb3e;     /* slime green */
+  --pop-tang:     #ff8a32;     /* tangerine */
+  --pop-purple:   #8a4fff;     /* trapper-keeper violet */
+  --pop-red:      #ff3b3b;     /* SPLAT red */
+  --pop-mint:     #46e0c0;
+
+  /* sticker shadow */
+  --shadow-hard:  #181818;
+
+  --font-display: 'Bowlby One', 'Archivo Black', system-ui, sans-serif;
+  --font-pop:     'Bungee', 'Bowlby One', sans-serif;
+  --font-hand:    'Caveat', 'Patrick Hand', cursive;
+  --font-marker:  'Patrick Hand', 'Caveat', cursive;
+  --font-body:    'Space Grotesk', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --col-text:  720px;
+  --col-wide:  1240px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  background-image:
+    radial-gradient(circle at 20px 20px, var(--paper-dot) 1.2px, transparent 1.6px),
+    radial-gradient(circle at 60px 60px, var(--paper-dot) 1.2px, transparent 1.6px);
+  background-size: 80px 80px, 80px 80px;
+  background-position: 0 0, 40px 40px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+a { color: var(--ink); text-decoration: none; border-bottom: 2.5px solid var(--pop-pink); transition: all 0.12s ease; padding: 0 1px; }
+a:hover { background: var(--pop-yellow); border-bottom-color: var(--ink); }
+img, svg { max-width: 100%; display: block; }
+em { font-style: italic; }
+strong { font-weight: 800; color: var(--ink); }
+::selection { background: var(--pop-yellow); color: var(--ink); }
+
+/* ================ NAV ================ */
+.chrome {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--ink);
+  padding: 12px 28px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 0.10em; color: var(--paper);
+  border-bottom: 4px solid var(--pop-pink);
+}
+.chrome .brand { font-family: var(--font-pop); font-size: 13px; color: var(--pop-yellow); border: none; }
+.chrome .brand em { font-family: var(--font-hand); font-style: italic; color: var(--pop-mint); font-size: 22px; font-weight: 700; padding: 0 6px; }
+.chrome .nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+.chrome .nav-links a { color: var(--paper); text-transform: uppercase; font-weight: 600; letter-spacing: 0.14em; white-space: nowrap; border: none; padding: 5px 9px; background: none; }
+.chrome .nav-links a:hover { background: var(--pop-yellow); color: var(--ink); }
+.chrome .nav-links a.cur { background: var(--pop-pink); color: var(--paper); }
+.chrome .nav-links .tn { color: var(--pop-mint); font-style: italic; margin-right: 4px; }
+@media (max-width: 880px) { .chrome .nav-links { display: none; } .chrome { padding: 10px 16px; } }
+
+/* ================ LAYOUT ================ */
+.wrap { max-width: var(--col-text); margin: 0 auto; padding: 0 24px; }
+.wrap-wide { max-width: var(--col-wide); margin: 0 auto; padding: 0 24px; }
+section { padding: 110px 0; position: relative; }
+section.tight { padding: 70px 0; }
+
+/* ================ SHARED DOODADS ================ */
+/* hand-drawn squiggle divider */
+.squiggle { display: block; height: 28px; margin: 36px auto; }
+.squiggle path { stroke: var(--ink); stroke-width: 3; fill: none; stroke-linecap: round; }
+
+/* sticker (rotated rect) */
+.sticker {
+  display: inline-block; padding: 8px 14px;
+  font-family: var(--font-pop); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink); border: 2.5px solid var(--ink);
+  background: var(--pop-yellow);
+  box-shadow: 4px 4px 0 var(--shadow-hard);
+}
+.sticker.pink { background: var(--pop-pink); color: #fff; }
+.sticker.blue { background: var(--pop-blue); color: var(--ink); }
+.sticker.lime { background: var(--pop-lime); color: var(--ink); }
+.sticker.tang { background: var(--pop-tang); color: var(--ink); }
+.sticker.purple { background: var(--pop-purple); color: #fff; }
+.sticker.mint { background: var(--pop-mint); color: var(--ink); }
+.sticker.r-1 { transform: rotate(-2deg); }
+.sticker.r-2 { transform: rotate(2.5deg); }
+.sticker.r-3 { transform: rotate(-3.5deg); }
+.sticker.r-4 { transform: rotate(1.5deg); }
+
+/* burst label */
+.burst { display: inline-block; position: relative; padding: 18px 26px;
+  font-family: var(--font-pop); font-weight: 400; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink); }
+.burst::before {
+  content: ""; position: absolute; inset: 0; background: var(--pop-yellow);
+  clip-path: polygon(50% 0, 60% 8%, 70% 0, 75% 12%, 86% 6%, 88% 18%, 100% 18%, 92% 30%, 100% 42%, 88% 46%, 95% 60%, 84% 58%, 88% 72%, 76% 68%, 78% 82%, 66% 74%, 64% 88%, 54% 78%, 48% 92%, 42% 78%, 32% 88%, 30% 74%, 18% 80%, 22% 66%, 10% 70%, 14% 56%, 0 52%, 10% 42%, 0 30%, 14% 24%, 6% 14%, 18% 16%, 18% 4%, 30% 12%, 34% 0, 42% 12%);
+  border: 2px solid var(--ink); filter: drop-shadow(3px 3px 0 var(--shadow-hard));
+  z-index: -1;
+}
+.burst.pink::before { background: var(--pop-pink); color: #fff; }
+.burst.lime::before { background: var(--pop-lime); }
+.burst.blue::before { background: var(--pop-blue); }
+
+/* halftone backdrop */
+.halftone { background-image: radial-gradient(circle, var(--ink) 1.4px, transparent 1.6px);
+  background-size: 8px 8px; }
+
+/* hand-written annotation */
+.note-hand {
+  font-family: var(--font-hand); font-size: 24px; color: var(--pop-pink); line-height: 1.05;
+  display: inline-block; transform: rotate(-4deg);
+}
+
+/* ================ HERO ================ */
+.hero { padding: 80px 0 50px; position: relative; }
+.hero .strap {
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  margin-bottom: 36px;
+}
+.hero h1 {
+  font-family: var(--font-pop); font-weight: 400; font-size: clamp(56px, 11vw, 156px);
+  line-height: 0.92; letter-spacing: -0.01em; color: var(--ink);
+  text-transform: uppercase;
+}
+.hero h1 .hi { color: var(--pop-pink); }
+.hero h1 .lo { color: var(--pop-blue); display: inline-block; transform: rotate(-2deg); }
+.hero h1 .hand {
+  font-family: var(--font-hand); font-weight: 700; font-size: 0.62em; color: var(--pop-tang);
+  text-transform: none; letter-spacing: 0.01em; line-height: 0.95; display: inline-block; transform: rotate(-3deg);
+}
+.hero .deck {
+  font-family: var(--font-body); font-weight: 600; font-size: clamp(20px, 2.5vw, 28px);
+  line-height: 1.32; color: var(--ink); max-width: 680px; margin-top: 32px;
+}
+.hero .deck mark { background: var(--pop-yellow); padding: 0 6px; }
+
+/* hero corner doodles */
+.hero-doodle { position: absolute; pointer-events: none; z-index: -1; }
+.hero-doodle.tr { top: 70px; right: 4vw; transform: rotate(15deg); }
+.hero-doodle.bl { bottom: 0; left: 5vw; transform: rotate(-20deg); }
+
+.hero .meta-strap {
+  margin-top: 56px; padding-top: 22px; border-top: 3px dashed var(--ink);
+  display: flex; gap: 28px; flex-wrap: wrap;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+}
+.hero .meta-strap b { color: var(--pop-purple); }
+
+/* ================ COMPRESSION SPLAT ================ */
+.splat-section { padding: 70px 0 40px; }
+.splat-wrap { max-width: 900px; margin: 0 auto; padding: 0 24px; position: relative; }
+.splat-bg {
+  position: relative;
+  padding: 60px 48px 70px;
+  background: var(--pop-pink);
+  border: 3px solid var(--ink);
+  box-shadow: 12px 12px 0 var(--shadow-hard);
+  transform: rotate(-1deg);
+  clip-path: polygon(2% 0, 98% 4%, 100% 96%, 96% 100%, 0 98%, 4% 0);
+}
+.splat-bg .splat-tab {
+  position: absolute; top: -20px; left: 36px;
+  background: var(--ink); color: var(--pop-yellow);
+  padding: 6px 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  font-weight: 700; transform: rotate(-3deg);
+}
+.splat-bg .q {
+  font-family: var(--font-pop); font-size: clamp(28px, 5vw, 52px); line-height: 1.05; color: #fff;
+  text-transform: uppercase;
+}
+.splat-bg .q .y { color: var(--pop-yellow); }
+.splat-bg .attr {
+  margin-top: 24px; font-family: var(--font-hand); font-size: 24px; color: var(--paper); transform: rotate(-2deg); display: inline-block;
+}
+
+/* ================ PRESSURE · ONE FACE ELEVEN FILES ================ */
+.pressure-section {
+  background: var(--pop-blue);
+  border-top: 4px solid var(--ink);
+  border-bottom: 4px solid var(--ink);
+  position: relative; overflow: hidden;
+}
+.pressure-section .halftone-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.07) 1.4px, transparent 1.6px);
+  background-size: 16px 16px;
+}
+.pressure-section .wrap-wide { position: relative; }
+.pressure-section h2 {
+  font-family: var(--font-pop); font-weight: 400; font-size: clamp(40px, 6.5vw, 88px);
+  line-height: 0.94; letter-spacing: -0.005em; color: var(--ink); text-transform: uppercase;
+  text-align: center;
+}
+.pressure-section h2 em { font-family: var(--font-hand); font-style: italic; color: var(--pop-pink); font-size: 0.9em; }
+.pressure-section .lead {
+  max-width: 720px; margin: 28px auto 0; font-family: var(--font-body); font-size: 20px; font-weight: 500; text-align: center; color: var(--ink);
+}
+
+/* file folder doodle row */
+.folder-row {
+  margin: 60px auto 0; max-width: 1080px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 18px;
+}
+.folder {
+  position: relative; padding: 18px 14px 22px; min-height: 130px;
+  background: var(--pop-yellow); border: 2.5px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--shadow-hard);
+  transform: rotate(-1.5deg);
+}
+.folder:nth-child(2n) { background: var(--pop-tang); transform: rotate(1.5deg); }
+.folder:nth-child(3n) { background: var(--pop-lime); transform: rotate(-2.5deg); }
+.folder:nth-child(4n) { background: var(--pop-mint); transform: rotate(0.5deg); }
+.folder:nth-child(5n) { background: var(--paper-card); transform: rotate(-1deg); }
+.folder::before {
+  content: ""; position: absolute; top: -12px; left: 16px; width: 60px; height: 14px;
+  background: inherit; border: 2.5px solid var(--ink); border-bottom: none;
+  border-top-left-radius: 6px; border-top-right-radius: 6px;
+}
+.folder .lbl {
+  font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink);
+  margin-bottom: 8px;
+}
+.folder .name {
+  font-family: var(--font-pop); font-size: 16px; color: var(--ink); line-height: 1.05; text-transform: uppercase;
+}
+.folder .sub {
+  font-family: var(--font-hand); font-size: 18px; color: var(--ink); opacity: 0.65; margin-top: 6px;
+}
+
+/* ================ PIPELINE · THREE LAYERS ================ */
+.pipeline-section { padding: 110px 0; }
+.pipeline-intro {
+  max-width: 860px; margin: 0 auto 48px; padding: 0 24px; text-align: center;
+}
+.pipeline-intro h2 {
+  font-family: var(--font-pop); font-weight: 400; font-size: clamp(38px, 5.4vw, 72px);
+  line-height: 0.96; color: var(--ink); text-transform: uppercase;
+}
+.pipeline-intro h2 em { font-family: var(--font-hand); font-style: italic; color: var(--pop-purple); font-size: 0.92em; }
+.pipeline-intro p { font-size: 19px; max-width: 660px; margin: 18px auto 0; }
+
+.layer-stack {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px;
+}
+.layer-card {
+  position: relative; padding: 26px 26px 30px;
+  background: var(--paper-card); border: 3px solid var(--ink);
+  box-shadow: 10px 10px 0 var(--shadow-hard);
+}
+.layer-card.local   { background: var(--pop-lime); transform: rotate(-1.2deg); }
+.layer-card.state   { background: var(--pop-tang); transform: rotate(0.8deg); }
+.layer-card.federal { background: var(--pop-pink); transform: rotate(-0.5deg); color: #fff; }
+.layer-card.vendor  { background: var(--pop-purple); transform: rotate(1.3deg); color: #fff; box-shadow: 10px 10px 0 var(--pop-yellow), 10px 10px 0 2px var(--ink); }
+.layer-card .tab {
+  position: absolute; top: -16px; left: 22px;
+  background: var(--ink); color: var(--pop-yellow);
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  padding: 4px 11px;
+}
+.layer-card.federal .tab { color: var(--pop-pink); }
+.layer-card.vendor .tab { color: var(--pop-mint); }
+.layer-card h3 {
+  font-family: var(--font-pop); font-size: 26px; line-height: 1; margin-bottom: 14px; text-transform: uppercase; color: var(--ink);
+}
+.layer-card.federal h3, .layer-card.vendor h3 { color: #fff; }
+.layer-card ul { list-style: none; margin: 0; padding: 0; }
+.layer-card li {
+  font-family: var(--font-body); font-size: 14px; font-weight: 500; padding: 7px 0 7px 18px; position: relative;
+  border-bottom: 2px dashed rgba(24,24,24,0.25);
+}
+.layer-card.federal li, .layer-card.vendor li { border-bottom-color: rgba(255,255,255,0.35); color: rgba(255,255,255,0.95); }
+.layer-card li:last-child { border-bottom: none; }
+.layer-card li::before {
+  content: "★"; position: absolute; left: 0; top: 7px; color: var(--ink); font-size: 11px;
+}
+.layer-card.federal li::before, .layer-card.vendor li::before { color: var(--pop-yellow); }
+.layer-card .footnote {
+  font-family: var(--font-hand); font-size: 22px; line-height: 1.05; margin-top: 18px; transform: rotate(-2deg);
+}
+
+/* ================ BUILD THE PERSON · interactive ================ */
+.btp-section {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 110px 0;
+  position: relative;
+  overflow: hidden;
+}
+.btp-section::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.045) 1.4px, transparent 1.6px);
+  background-size: 22px 22px;
+}
+.btp-section .wrap-wide { position: relative; }
+.btp-intro h2 {
+  font-family: var(--font-pop); font-size: clamp(40px, 6vw, 80px); line-height: 0.96; color: var(--paper);
+  text-transform: uppercase; text-align: center;
+}
+.btp-intro h2 .splat { background: var(--pop-pink); color: #fff; padding: 0 12px; display: inline-block; transform: rotate(-2deg); }
+.btp-intro h2 em { font-family: var(--font-hand); font-style: italic; color: var(--pop-yellow); font-size: 0.92em; }
+.btp-intro p { max-width: 660px; margin: 20px auto 0; text-align: center; color: rgba(255,255,255,0.85); font-size: 18px; }
+
+.btp-grid { display: grid; grid-template-columns: 320px 1fr; gap: 32px; max-width: 1240px; margin: 56px auto 0; padding: 0 24px; align-items: start; }
+@media (max-width: 920px) { .btp-grid { grid-template-columns: 1fr; } }
+
+.btp-controls { display: flex; flex-direction: column; gap: 22px; }
+.btp-card {
+  background: var(--paper); color: var(--ink); border: 3px solid var(--paper);
+  padding: 22px 22px 24px; box-shadow: 8px 8px 0 var(--pop-pink);
+}
+.btp-card h4 {
+  font-family: var(--font-pop); font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); margin-bottom: 12px;
+}
+.btp-card .stage { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--pop-pink); font-weight: 700; margin-bottom: 8px; }
+
+/* event buttons */
+.event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.event-btn {
+  font-family: var(--font-body); font-size: 12.5px; font-weight: 600;
+  padding: 9px 10px; background: var(--paper-card); border: 2px solid var(--ink); color: var(--ink);
+  cursor: pointer; text-align: left; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.15;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.event-btn:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
+.event-btn.active { background: var(--pop-yellow); box-shadow: 3px 3px 0 var(--ink); transform: translate(-1px,-1px); }
+.event-btn .emoji { display: inline-block; margin-right: 4px; }
+
+/* authority chips */
+.auth-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.auth-chip {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 7px 10px; background: var(--paper-card); border: 2px solid var(--ink); color: var(--ink);
+  cursor: pointer; transition: all 0.1s ease;
+}
+.auth-chip:hover { background: var(--pop-yellow); }
+.auth-chip.active { background: var(--pop-pink); color: #fff; border-color: var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+
+/* canvas/stage */
+.btp-stage {
+  background: var(--paper); color: var(--ink); border: 3px solid var(--paper);
+  padding: 30px 32px 36px; box-shadow: 12px 12px 0 var(--pop-yellow); min-height: 480px;
+  position: relative; overflow: hidden;
+}
+.btp-stage .stage-hd {
+  display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 14px; border-bottom: 3px dashed var(--ink); margin-bottom: 22px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink);
+}
+.btp-stage .stage-hd .n { font-family: var(--font-pop); font-size: 28px; color: var(--pop-pink); }
+#btpSvg { width: 100%; height: auto; display: block; }
+
+/* fragment node */
+.frag {
+  cursor: default; transition: opacity 0.25s ease;
+}
+.frag.dim { opacity: 0.22; }
+.frag-bub {
+  stroke: var(--ink); stroke-width: 1.6;
+}
+.frag-bub.lime  { fill: var(--pop-lime); }
+.frag-bub.tang  { fill: var(--pop-tang); }
+.frag-bub.pink  { fill: var(--pop-pink); }
+.frag-bub.purple{ fill: var(--pop-purple); }
+.frag-bub.blue  { fill: var(--pop-blue); }
+.frag-bub.grey  { fill: rgba(0,0,0,0.18); stroke-dasharray: 3 3; }
+.frag-lbl { font-family: var(--font-mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.06em; fill: var(--ink); text-anchor: middle; text-transform: uppercase; }
+.frag-bub.pink + .frag-lbl, .frag-bub.purple + .frag-lbl { fill: #fff; }
+.event-spoke { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 3 3; opacity: 0.55; }
+.pool-ring { fill: none; stroke-width: 2; stroke-dasharray: 6 5; }
+.pool-ring.local { stroke: var(--pop-lime); }
+.pool-ring.state { stroke: var(--pop-tang); }
+.pool-ring.federal { stroke: var(--pop-pink); }
+.pool-ring.vendor { stroke: var(--pop-purple); }
+.pool-lbl { font-family: var(--font-pop); font-size: 12px; fill: var(--ink); text-transform: uppercase; }
+.center-person { fill: var(--ink); }
+.center-ring { fill: none; stroke: var(--ink); stroke-width: 2; }
+.center-lbl { font-family: var(--font-pop); font-size: 11px; fill: var(--ink); text-anchor: middle; text-transform: uppercase; }
+
+/* readout */
+.btp-readout {
+  margin-top: 22px; padding: 18px 20px; background: var(--ink); color: var(--paper);
+  border: 2px solid var(--pop-pink);
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
+}
+.btp-readout b { color: var(--pop-yellow); font-family: var(--font-pop); font-size: 22px; font-weight: 400; }
+.btp-readout .pill { display: inline-block; background: var(--pop-mint); color: var(--ink); padding: 2px 7px; margin: 0 4px; font-weight: 700; letter-spacing: 0.06em; }
+
+/* color key */
+.color-key { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+.color-key span { display: inline-flex; align-items: center; gap: 6px; }
+.swatch { width: 14px; height: 14px; border: 1.5px solid var(--ink); display: inline-block; }
+.swatch.lime { background: var(--pop-lime); }
+.swatch.tang { background: var(--pop-tang); }
+.swatch.pink { background: var(--pop-pink); }
+.swatch.grey { background: rgba(0,0,0,0.18); }
+
+/* ================ COUNTER-READ · WHATABOUTS ================ */
+.cr-section { padding: 110px 0; background: var(--pop-yellow); border-top: 4px solid var(--ink); border-bottom: 4px solid var(--ink); position: relative; }
+.cr-section .halftone-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.07) 1.5px, transparent 1.7px);
+  background-size: 18px 18px;
+}
+.cr-section .wrap-wide { position: relative; }
+.cr-section h2 { font-family: var(--font-pop); font-size: clamp(38px, 5.4vw, 72px); text-transform: uppercase; line-height: 0.96; color: var(--ink); text-align: center; }
+.cr-section h2 em { font-family: var(--font-hand); font-style: italic; color: var(--pop-pink); font-size: 0.92em; }
+.cr-section .lead { font-family: var(--font-body); font-size: 19px; max-width: 720px; margin: 22px auto 0; text-align: center; color: var(--ink); font-weight: 500; }
+
+.cr-grid { max-width: 1200px; margin: 56px auto 0; padding: 0 24px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+.cr-card {
+  position: relative; padding: 30px 28px 34px;
+  background: var(--paper-card); border: 3px solid var(--ink);
+  box-shadow: 10px 10px 0 var(--shadow-hard);
+}
+.cr-card:nth-child(1) { transform: rotate(-1.2deg); }
+.cr-card:nth-child(2) { transform: rotate(0.8deg); }
+.cr-card:nth-child(3) { transform: rotate(-0.6deg); }
+.cr-card .tag {
+  position: absolute; top: -16px; left: 20px;
+  background: var(--pop-purple); color: #fff;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  padding: 4px 11px; border: 2px solid var(--ink);
+}
+.cr-card:nth-child(2) .tag { background: var(--pop-pink); }
+.cr-card:nth-child(3) .tag { background: var(--pop-blue); color: var(--ink); }
+.cr-card h4 { font-family: var(--font-pop); font-size: 22px; line-height: 1.05; margin: 8px 0 6px; color: var(--ink); text-transform: uppercase; }
+.cr-card .voice { font-family: var(--font-hand); font-size: 22px; color: var(--pop-pink); margin-bottom: 12px; transform: rotate(-2deg); display: inline-block; }
+.cr-card p { font-family: var(--font-body); font-size: 14.5px; color: var(--ink-soft); margin-bottom: 12px; line-height: 1.55; }
+.cr-card .resp { margin-top: 14px; padding-top: 14px; border-top: 3px solid var(--ink); font-family: var(--font-body); font-style: italic; font-weight: 600; font-size: 15px; color: var(--ink); }
+.cr-card .resp::before { content: "OUR READ →  "; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--pop-pink); font-style: normal; font-weight: 700; }
+
+/* ================ DISCIPLINE STATEMENT ================ */
+.disc-section { padding: 100px 0; background: var(--pop-purple); color: #fff; border-bottom: 4px solid var(--ink); position: relative; overflow: hidden; }
+.disc-section::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1.5px, transparent 1.7px);
+  background-size: 20px 20px;
+}
+.disc-section .wrap { position: relative; }
+.disc-section h2 { font-family: var(--font-pop); font-size: clamp(34px, 5vw, 60px); text-transform: uppercase; line-height: 0.98; color: var(--pop-yellow); text-align: left; }
+.disc-section .deck { font-family: var(--font-hand); font-size: 30px; color: #fff; margin-top: 14px; transform: rotate(-1.5deg); display: inline-block; }
+.disc-list { list-style: none; padding: 0; margin: 36px 0 0; counter-reset: discline; }
+.disc-list li {
+  counter-increment: discline;
+  position: relative; padding: 18px 0 18px 70px; border-bottom: 2px dashed rgba(255,255,255,0.3);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.5;
+}
+.disc-list li::before {
+  content: "NO " counter(discline);
+  position: absolute; left: 0; top: 18px;
+  font-family: var(--font-pop); font-size: 18px; color: var(--pop-yellow);
+  background: var(--ink); padding: 4px 8px;
+  letter-spacing: 0.06em;
+}
+
+/* ================ CLOSER ================ */
+.closer { padding: 140px 0; text-align: center; position: relative; background: var(--paper); }
+.closer-band {
+  display: inline-block; padding: 60px 70px; max-width: 980px;
+  background: #fff; border: 4px solid var(--ink); position: relative;
+  box-shadow: 16px 16px 0 var(--pop-pink), 16px 16px 0 4px var(--ink);
+  transform: rotate(-0.7deg);
+}
+.closer-band .stamp {
+  position: absolute; top: -22px; right: -22px;
+  background: var(--pop-tang); border: 3px solid var(--ink); padding: 10px 14px;
+  font-family: var(--font-pop); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink);
+  transform: rotate(8deg); box-shadow: 4px 4px 0 var(--shadow-hard);
+}
+.closer-line {
+  font-family: var(--font-pop); font-weight: 400; font-size: clamp(32px, 5.5vw, 64px);
+  line-height: 1.05; color: var(--ink); text-transform: uppercase; letter-spacing: -0.005em;
+}
+.closer-line .hi { color: var(--pop-pink); }
+.closer-line .lo { color: var(--pop-blue); }
+.closer-line .hand { font-family: var(--font-hand); font-style: italic; color: var(--pop-purple); font-size: 0.78em; display: block; margin-top: 14px; transform: rotate(-1.5deg); }
+.closer-attr { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); margin-top: 34px; }
+
+/* ================ ECHOES + NAV + FOOTER ================ */
+.echoes-section { padding: 90px 0; background: var(--pop-mint); border-top: 4px solid var(--ink); }
+.echoes-section h2 { font-family: var(--font-pop); font-size: clamp(32px, 4.5vw, 56px); text-transform: uppercase; color: var(--ink); text-align: center; margin-bottom: 12px; }
+.echoes-section .lead { text-align: center; font-family: var(--font-hand); font-size: 26px; color: var(--ink); margin-bottom: 40px; }
+.echoes-grid { max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
+.echo-card {
+  background: var(--paper-card); border: 3px solid var(--ink); padding: 22px;
+  box-shadow: 8px 8px 0 var(--shadow-hard);
+}
+.echo-card:nth-child(1) { transform: rotate(-1.5deg); background: var(--pop-yellow); }
+.echo-card:nth-child(2) { transform: rotate(0.5deg); background: var(--pop-pink); color: #fff; }
+.echo-card:nth-child(3) { transform: rotate(-0.8deg); background: var(--pop-blue); }
+.echo-card:nth-child(4) { transform: rotate(1.2deg); background: var(--pop-tang); }
+.echo-card:nth-child(5) { transform: rotate(-0.4deg); background: var(--pop-lime); }
+.echo-card .ep { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
+.echo-card:nth-child(2) .ep { color: var(--pop-yellow); }
+.echo-card h5 { font-family: var(--font-pop); font-size: 18px; line-height: 1.05; margin-bottom: 8px; color: var(--ink); text-transform: uppercase; }
+.echo-card:nth-child(2) h5 { color: #fff; }
+.echo-card p { font-family: var(--font-hand); font-size: 20px; color: var(--ink); line-height: 1.2; }
+.echo-card:nth-child(2) p { color: rgba(255,255,255,0.95); }
+
+.bridge { border-top: 4px solid var(--ink); padding: 60px 0; background: var(--ink); }
+.bridge-nav { display: flex; gap: 16px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.bridge-nav a { font-family: var(--font-pop); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 26px; background: var(--paper); color: var(--ink); border: 3px solid var(--paper); }
+.bridge-nav a.prev { background: var(--paper); border-color: var(--paper); }
+.bridge-nav a.prev::before { content: "←  "; color: var(--pop-pink); }
+.bridge-nav a.next { background: var(--pop-pink); color: #fff; border-color: var(--pop-pink); box-shadow: 5px 5px 0 var(--pop-yellow); }
+.bridge-nav a.next::after { content: "  →"; }
+.bridge-nav a:hover { transform: translate(-1px,-1px); }
+
+.legal-footer { background: var(--ink); color: rgba(255,245,225,0.6); padding: 50px 32px 40px; font-family: var(--font-mono); font-size: 11px; line-height: 1.7; }
+.legal-footer .row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 22px; max-width: var(--col-wide); margin: 0 auto 22px; padding-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.12); align-items: center; }
+.legal-footer .brand { font-family: var(--font-pop); font-size: 18px; color: var(--pop-yellow); }
+.legal-footer .brand em { font-family: var(--font-hand); font-style: italic; color: var(--pop-mint); font-size: 26px; padding: 0 6px; }
+.legal-footer .links { display: flex; gap: 18px; flex-wrap: wrap; letter-spacing: 0.16em; text-transform: uppercase; }
+.legal-footer .links a { color: rgba(255,245,225,0.7); font-size: 10px; font-weight: 700; border: none; }
+.legal-footer .links a:hover { color: var(--pop-yellow); }
+.legal-footer .fine { max-width: var(--col-wide); margin: 0 auto; font-size: 10.5px; line-height: 1.65; color: rgba(255,245,225,0.55); }
+
+/* ================================================================ */
+/* v0.2 POLISH · echoes · motion · cinematic artifacts              */
+/* ================================================================ */
+
+/* ----- RISO GRAIN · invisible texture across the entire page ----- */
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 999;
+  opacity: 0.18; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.06 0 0 0 0.35 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+}
+
+/* ----- CMYK MISREGISTRATION · cinematic offset-print glitch ----- */
+.cmyk {
+  text-shadow:
+    -2.5px 0 0 rgba(44,190,240,0.6),
+    2.5px 0 0 rgba(255,45,139,0.6);
+}
+.cmyk-anim {
+  animation: cmykDrift 5s ease-in-out infinite;
+}
+@keyframes cmykDrift {
+  0%,100% { text-shadow: -2.5px 0 0 rgba(44,190,240,0.6), 2.5px 0 0 rgba(255,45,139,0.6); }
+  25%     { text-shadow: -3.5px 1px 0 rgba(44,190,240,0.55), 2px -1px 0 rgba(255,45,139,0.6); }
+  50%     { text-shadow: -1.5px 0 0 rgba(44,190,240,0.7), 3px 0 0 rgba(255,45,139,0.5); }
+  75%     { text-shadow: -3px -1px 0 rgba(44,190,240,0.6), 1.5px 1px 0 rgba(255,45,139,0.65); }
+}
+
+/* ----- HAND-DRAWN HIGHLIGHTER (replaces flat <mark>) ----- */
+.hl {
+  display: inline; position: relative;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30' preserveAspectRatio='none'><path d='M2 14 Q 8 8, 20 11 T 50 13 T 80 11 T 98 14 L 96 22 Q 80 26, 60 24 T 30 22 T 8 25 Z' fill='%23ffe247' opacity='0.85'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 80%;
+  background-position: 0 65%;
+  padding: 0 6px; color: var(--ink);
+}
+.hl.pink { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30' preserveAspectRatio='none'><path d='M2 14 Q 8 8, 20 11 T 50 13 T 80 11 T 98 14 L 96 22 Q 80 26, 60 24 T 30 22 T 8 25 Z' fill='%23ff2d8b' opacity='0.7'/></svg>"); color: var(--ink); }
+.hl.lime { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30' preserveAspectRatio='none'><path d='M2 14 Q 8 8, 20 11 T 50 13 T 80 11 T 98 14 L 96 22 Q 80 26, 60 24 T 30 22 T 8 25 Z' fill='%23b8eb3e' opacity='0.85'/></svg>"); }
+
+/* ----- TAPE STRIPS · washi-tape corners ----- */
+.tape { position: relative; }
+.tape::after {
+  content: ""; position: absolute; top: -10px; left: 28px;
+  width: 90px; height: 22px;
+  background: rgba(255,226,71,0.78);
+  background-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.05) 50%, transparent 100%);
+  transform: rotate(-4deg);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.12);
+  z-index: 5;
+}
+.tape.pink-tape::after { background: rgba(255,45,139,0.6); }
+.tape.right-tape::after { left: auto; right: 28px; transform: rotate(4deg); }
+
+/* ----- ECHO DOTS · the chassis pattern ----- */
+.echo-dot {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--pop-pink); border: 2px solid var(--ink);
+  margin: 0 4px -2px; vertical-align: baseline;
+  cursor: pointer; padding: 0; font-family: var(--font-pop); font-size: 9px; color: #fff;
+  position: relative;
+  animation: echoBreathe 2.6s ease-in-out infinite;
+  transition: transform 0.15s ease;
+}
+.echo-dot.purple { background: var(--pop-purple); }
+.echo-dot.blue { background: var(--pop-blue); color: var(--ink); }
+.echo-dot.tang { background: var(--pop-tang); color: var(--ink); }
+.echo-dot:hover { transform: scale(1.25); }
+@keyframes echoBreathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,45,139,0.55); }
+  60%      { box-shadow: 0 0 0 12px rgba(255,45,139,0); }
+}
+.echo-dot.purple { animation-name: echoBreathePurple; }
+@keyframes echoBreathePurple { 0%,100% { box-shadow: 0 0 0 0 rgba(138,79,255,0.55); } 60% { box-shadow: 0 0 0 12px rgba(138,79,255,0); } }
+.echo-dot.blue { animation-name: echoBreatheBlue; }
+@keyframes echoBreatheBlue { 0%,100% { box-shadow: 0 0 0 0 rgba(44,190,240,0.55); } 60% { box-shadow: 0 0 0 12px rgba(44,190,240,0); } }
+.echo-dot.tang { animation-name: echoBreatheTang; }
+@keyframes echoBreatheTang { 0%,100% { box-shadow: 0 0 0 0 rgba(255,138,50,0.55); } 60% { box-shadow: 0 0 0 12px rgba(255,138,50,0); } }
+
+.echo-panel {
+  display: none; margin: 18px 0;
+  background: var(--ink); color: var(--paper);
+  padding: 22px 26px 24px;
+  border-left: 5px solid var(--pop-pink);
+  position: relative;
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.15);
+  animation: echoExpand 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.echo-panel.purple { border-left-color: var(--pop-purple); }
+.echo-panel.blue { border-left-color: var(--pop-blue); }
+.echo-panel.tang { border-left-color: var(--pop-tang); }
+.echo-panel.open { display: block; }
+@keyframes echoExpand {
+  0% { opacity: 0; transform: scaleY(0.6) translateY(-20px); transform-origin: top center; }
+  100% { opacity: 1; transform: scaleY(1) translateY(0); }
+}
+.echo-panel .ep-tag {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--pop-yellow); font-weight: 700;
+}
+.echo-panel .ep-snip {
+  font-family: var(--font-hand); font-size: 26px; color: var(--paper);
+  line-height: 1.2; margin-top: 8px;
+}
+.echo-panel .ep-link {
+  display: inline-block; margin-top: 14px; color: var(--pop-pink);
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  border-bottom: 1.5px solid var(--pop-pink); padding-bottom: 2px;
+}
+.echo-panel.purple .ep-link { color: var(--pop-purple); border-color: var(--pop-purple); }
+.echo-panel.blue .ep-link { color: var(--pop-blue); border-color: var(--pop-blue); }
+.echo-panel.tang .ep-link { color: var(--pop-tang); border-color: var(--pop-tang); }
+.echo-panel .ep-close {
+  position: absolute; top: 10px; right: 12px; background: none; border: none;
+  color: var(--paper); font-family: var(--font-pop); font-size: 18px; cursor: pointer; opacity: 0.6;
+}
+.echo-panel .ep-close:hover { opacity: 1; }
+
+/* ----- HERO · count-up structure for ELEVEN FILES ----- */
+.count-stage {
+  display: inline-block; position: relative; min-width: 6.5ch;
+}
+.count-stage .n { color: var(--pop-blue); display: inline-block; transition: transform 0.3s; }
+.count-stage .n.bump { transform: scale(1.12); }
+.file-rotator {
+  display: block; font-family: var(--font-hand); font-size: 0.42em; color: var(--pop-tang);
+  text-transform: none; letter-spacing: 0.01em; line-height: 1; margin-top: 10px;
+  min-height: 1em;
+  font-weight: 700;
+}
+.file-rotator .name { display: inline-block; transition: opacity 0.18s; }
+.file-rotator .name.fade { opacity: 0; }
+
+/* ----- FOLDER FLY-IN STAGGER ----- */
+.folder-row { perspective: 1200px; }
+.folder {
+  opacity: 0;
+  transform: translateY(60px) rotate(0deg) scale(0.85);
+  transition: opacity 0.7s ease, transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.folder-row.in .folder { opacity: 1; }
+.folder-row.in .folder:nth-child(1)  { transform: translateY(0) rotate(-1.5deg) scale(1); transition-delay: 0.03s; }
+.folder-row.in .folder:nth-child(2)  { transform: translateY(0) rotate(1.5deg)  scale(1); transition-delay: 0.09s; }
+.folder-row.in .folder:nth-child(3)  { transform: translateY(0) rotate(-2.5deg) scale(1); transition-delay: 0.15s; }
+.folder-row.in .folder:nth-child(4)  { transform: translateY(0) rotate(0.5deg)  scale(1); transition-delay: 0.21s; }
+.folder-row.in .folder:nth-child(5)  { transform: translateY(0) rotate(-1deg)   scale(1); transition-delay: 0.27s; }
+.folder-row.in .folder:nth-child(6)  { transform: translateY(0) rotate(-1.5deg) scale(1); transition-delay: 0.33s; }
+.folder-row.in .folder:nth-child(7)  { transform: translateY(0) rotate(1.5deg)  scale(1); transition-delay: 0.39s; }
+.folder-row.in .folder:nth-child(8)  { transform: translateY(0) rotate(-2.5deg) scale(1); transition-delay: 0.45s; }
+.folder-row.in .folder:nth-child(9)  { transform: translateY(0) rotate(0.5deg)  scale(1); transition-delay: 0.51s; }
+.folder-row.in .folder:nth-child(10) { transform: translateY(0) rotate(-1deg)   scale(1); transition-delay: 0.57s; }
+.folder-row.in .folder:nth-child(11) { transform: translateY(0) rotate(-1.5deg) scale(1); transition-delay: 0.63s; }
+
+/* layer cards stagger entrance */
+.layer-stack { perspective: 1400px; }
+.layer-card { opacity: 0; transform: translateY(50px) rotate(0deg); transition: opacity 0.8s ease, transform 1s cubic-bezier(0.34, 1.5, 0.64, 1); }
+.layer-stack.in .layer-card:nth-child(1) { opacity: 1; transform: translateY(0) rotate(-1.2deg); transition-delay: 0.05s; }
+.layer-stack.in .layer-card:nth-child(2) { opacity: 1; transform: translateY(0) rotate(0.8deg);  transition-delay: 0.18s; }
+.layer-stack.in .layer-card:nth-child(3) { opacity: 1; transform: translateY(0) rotate(-0.5deg); transition-delay: 0.31s; }
+.layer-stack.in .layer-card:nth-child(4) { opacity: 1; transform: translateY(0) rotate(1.3deg);  transition-delay: 0.44s; }
+
+/* ----- BUILD THE PERSON · upgraded visuals ----- */
+/* fragment idle breathing when no authority selected */
+#btpSvg.idle .frag:not(.dim) { animation: fragBreathe 3.6s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes fragBreathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+.frag.entering { animation: fragLand 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); transform-origin: center; transform-box: fill-box; }
+@keyframes fragLand { 0% { transform: scale(0.1); opacity: 0; } 70% { transform: scale(1.18); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+
+/* spoke draw-in */
+.event-spoke {
+  stroke-dasharray: 200; stroke-dashoffset: 200;
+  animation: spokeDraw 0.6s ease-out forwards;
+}
+@keyframes spokeDraw { to { stroke-dashoffset: 0; } }
+
+/* authority lens overlay (giant translucent disk that slides in) */
+#btpLens { pointer-events: none; opacity: 0; transition: opacity 0.45s ease; }
+#btpLens.live { opacity: 1; }
+.lens-disk { fill: var(--pop-pink); opacity: 0.18; }
+.lens-disk.cobalt { fill: var(--pop-blue); }
+.lens-disk.purple { fill: var(--pop-purple); }
+.lens-disk.yellow { fill: var(--pop-yellow); }
+.lens-disk.lime   { fill: var(--pop-lime); }
+.lens-disk.tang   { fill: var(--pop-tang); }
+.lens-disk.mint   { fill: var(--pop-mint); }
+.lens-disk.red    { fill: var(--pop-red); }
+.lens-label-bg { fill: var(--ink); }
+.lens-label { font-family: var(--font-pop); fill: var(--paper); text-anchor: middle; }
+
+/* lens sweep line (animates across when authority changes) */
+#btpSweep { stroke: var(--pop-pink); stroke-width: 3; opacity: 0; }
+#btpSweep.go { animation: sweepGo 0.7s ease-out 1; }
+@keyframes sweepGo {
+  0%   { opacity: 0;   transform: translateX(-100%); }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0;   transform: translateX(100%); }
+}
+
+/* slot-machine count for #fragCount */
+#fragCount { transition: transform 0.18s ease; display: inline-block; }
+#fragCount.tick { animation: countTick 0.32s ease-out; }
+@keyframes countTick {
+  0%   { transform: translateY(0); }
+  40%  { transform: translateY(-14px); opacity: 0.4; }
+  60%  { transform: translateY(14px); opacity: 0.4; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* pool ring color recolors with authority active */
+.pool-ring { transition: stroke 0.5s ease, stroke-width 0.3s ease; }
+#btpStage.auth-on .pool-ring.access  { stroke-width: 4; }
+#btpStage.auth-on .pool-ring.noaccess { opacity: 0.25; }
+.pool-access-pct {
+  font-family: var(--font-pop); font-size: 10px; fill: var(--ink);
+  text-anchor: middle; opacity: 0; transition: opacity 0.4s ease;
+}
+#btpStage.auth-on .pool-access-pct { opacity: 1; }
+
+/* ----- COMPRESSION SPLAT cinematic glitch on hover ----- */
+.splat-bg:hover { animation: splatNudge 0.3s ease; }
+@keyframes splatNudge {
+  0% { transform: rotate(-1deg); }
+  30% { transform: rotate(-1.6deg) translate(-3px, 1px); }
+  60% { transform: rotate(-0.4deg) translate(2px, -1px); }
+  100% { transform: rotate(-1deg); }
+}
+
+/* ----- REVEAL helper for prose-level animations ----- */
+.fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.9s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.fade-up.in { opacity: 1; transform: none; }
+
+/* ================================================================ */
+/* v0.3 POLISH                                                      */
+/* ================================================================ */
+
+/* ----- FILE-NAME STICKER CAROUSEL ----- */
+.file-stk-stage {
+  display: block; min-height: 60px; margin-top: 16px;
+  font-family: var(--font-pop); font-size: 0.36em; line-height: 1;
+  text-transform: none; letter-spacing: 0;
+  position: relative; height: 60px;
+}
+.file-stk {
+  position: absolute; left: 0; top: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 12px 18px;
+  border: 2.5px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--shadow-hard);
+  opacity: 0; transform: translateY(8px) scale(0.92);
+  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-weight: 400;
+}
+.file-stk.live { opacity: 1; transform: translateY(0) scale(1); }
+.file-stk.exit { opacity: 0; transform: translateY(-8px) scale(0.92); transition: opacity 0.25s ease, transform 0.3s ease; }
+
+/* per-file styling (each one feels different) */
+.file-stk.dmv       { background: var(--pop-yellow); color: var(--ink); transform-origin: bottom left; }
+.file-stk.dmv.live  { transform: translateY(0) scale(1) rotate(-3deg); }
+
+.file-stk.court     { background: var(--pop-pink); color: #fff; font-family: var(--font-pop); }
+.file-stk.court.live{ transform: translateY(0) scale(1) rotate(2deg); }
+.file-stk.court::before {
+  content: ""; position: absolute; top: -7px; left: 14px; width: 56px; height: 14px;
+  background: rgba(255,226,71,0.78); transform: rotate(-3deg); box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+}
+
+.file-stk.police    { background: var(--ink); color: #fff; font-family: var(--font-mono); letter-spacing: 0.18em; font-weight: 700; padding: 12px 22px; border-color: var(--pop-blue); border-width: 3px; }
+.file-stk.police.live { transform: translateY(0) scale(1) rotate(-1deg); }
+.file-stk.police::after {
+  content: ""; position: absolute; left: 8px; right: 8px; bottom: 5px; height: 2px; background: var(--pop-blue);
+}
+
+.file-stk.vital     { background: var(--pop-lime); color: var(--ink); font-family: var(--font-hand); font-size: 1.4em; font-weight: 700;
+  clip-path: polygon(0 10%, 6% 0, 22% 8%, 38% 0, 56% 6%, 74% 0, 92% 8%, 100% 12%, 96% 92%, 78% 100%, 60% 92%, 40% 100%, 22% 92%, 8% 100%, 0 92%); }
+.file-stk.vital.live{ transform: translateY(0) scale(1) rotate(4deg); }
+
+.file-stk.license   { background: var(--pop-tang); color: var(--ink); font-family: var(--font-mono); border-radius: 8px; letter-spacing: 0.12em; font-weight: 700; padding: 10px 18px; }
+.file-stk.license.live { transform: translateY(0) scale(1) rotate(-2deg); }
+.file-stk.license::after {
+  content: ""; position: absolute; left: 8px; top: 5px; width: 14px; height: 14px; background: rgba(0,0,0,0.55); border-radius: 2px;
+}
+
+.file-stk.irs       { background: #4f9d4f; color: var(--paper); font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.18em; padding: 11px 20px; border-color: var(--ink); }
+.file-stk.irs.live  { transform: translateY(0) scale(1) rotate(1deg); }
+.file-stk.irs::before {
+  content: "§"; margin-right: 8px; font-family: var(--font-pop); font-size: 1.4em; color: var(--pop-yellow);
+}
+
+.file-stk.ssa       { background: var(--pop-mint); color: var(--ink); font-family: var(--font-pop); }
+.file-stk.ssa.live  { transform: translateY(0) scale(1) rotate(-4deg); }
+
+.file-stk.border    { background: var(--pop-red); color: #fff; font-family: var(--font-pop); padding: 12px 20px;
+  background-image: repeating-linear-gradient(45deg, var(--pop-red) 0 8px, #c40 8px 16px); }
+.file-stk.border.live { transform: translateY(0) scale(1) rotate(3deg); }
+
+.file-stk.biometric { background: var(--pop-purple); color: #fff; font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.15em; padding: 11px 18px;
+  background-image: repeating-linear-gradient(0deg, var(--pop-purple) 0 3px, rgba(255,255,255,0.08) 3px 4px); }
+.file-stk.biometric.live { transform: translateY(0) scale(1) rotate(-1deg); }
+
+.file-stk.opm       { background: var(--pop-blue); color: var(--ink); font-family: var(--font-pop); border-width: 3px; }
+.file-stk.opm.live  { transform: translateY(0) scale(1) rotate(2deg); }
+.file-stk.opm::before {
+  content: "★"; margin-right: 8px; color: var(--pop-yellow); font-size: 1.2em;
+}
+
+.file-stk.lpr       { background: var(--pop-pink); color: #fff; font-family: var(--font-pop);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.18) 1.5px, transparent 1.7px);
+  background-size: 8px 8px; }
+.file-stk.lpr.live  { transform: translateY(0) scale(1) rotate(-3deg); }
+
+/* ----- HERO sticker strap small settle on load ----- */
+.hero .strap .sticker {
+  animation: stickerSettle 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+.hero .strap .sticker:nth-child(1) { animation-delay: 0.08s; }
+.hero .strap .sticker:nth-child(2) { animation-delay: 0.18s; }
+.hero .strap .sticker:nth-child(3) { animation-delay: 0.28s; }
+.hero .strap .sticker:nth-child(4) { animation-delay: 0.38s; }
+.hero .strap .note-hand { animation: stickerSettle 0.7s ease-out 0.55s backwards; }
+@keyframes stickerSettle {
+  0%   { opacity: 0; transform: translateY(-22px) scale(0.7) rotate(0deg); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* ----- FOLDER GRAVITY DROP (overrides v0.2 fly-in to feel like real weight) ----- */
+.folder-row.in .folder {
+  /* override v0.2 transition with a keyframe drop+settle */
+  transition: none;
+  animation: folderDrop 0.95s cubic-bezier(0.33, 0, 0.5, 1) both;
+}
+@keyframes folderDrop {
+  0%   { opacity: 0; transform: translateY(-260px) rotate(12deg) scale(0.92); }
+  55%  { opacity: 1; transform: translateY(10px)  rotate(var(--rot, -1deg)) scale(1); }
+  72%  { transform: translateY(-6px) rotate(var(--rot, -1deg)) scale(1); }
+  85%  { transform: translateY(3px)  rotate(var(--rot, -1deg)) scale(1); }
+  100% { transform: translateY(0)    rotate(var(--rot, -1deg)) scale(1); }
+}
+.folder-row.in .folder:nth-child(1)  { --rot: -1.5deg; animation-delay: 0.04s; }
+.folder-row.in .folder:nth-child(2)  { --rot:  1.5deg; animation-delay: 0.11s; }
+.folder-row.in .folder:nth-child(3)  { --rot: -2.5deg; animation-delay: 0.18s; }
+.folder-row.in .folder:nth-child(4)  { --rot:  0.5deg; animation-delay: 0.25s; }
+.folder-row.in .folder:nth-child(5)  { --rot: -1deg;   animation-delay: 0.32s; }
+.folder-row.in .folder:nth-child(6)  { --rot: -1.5deg; animation-delay: 0.39s; }
+.folder-row.in .folder:nth-child(7)  { --rot:  1.5deg; animation-delay: 0.46s; }
+.folder-row.in .folder:nth-child(8)  { --rot: -2.5deg; animation-delay: 0.53s; }
+.folder-row.in .folder:nth-child(9)  { --rot:  0.5deg; animation-delay: 0.60s; }
+.folder-row.in .folder:nth-child(10) { --rot: -1deg;   animation-delay: 0.67s; }
+.folder-row.in .folder:nth-child(11) { --rot: -1.5deg; animation-delay: 0.74s; }
+
+/* ----- LAYER CARDS · STAR BURST DECORATION ----- */
+.layer-card { position: relative; }
+.layer-card .star-burst {
+  position: absolute; top: -36px; right: -28px; width: 110px; height: 110px;
+  pointer-events: none; z-index: 6;
+}
+.layer-card .star-burst .star {
+  opacity: 0; transform-origin: center;
+  transform: scale(0.2) translate(0, 0);
+}
+.layer-stack.in .layer-card .star-burst .star {
+  animation: starPop 1.4s cubic-bezier(0.4, 1.6, 0.5, 1) both;
+}
+.layer-stack.in .layer-card:nth-child(1) .star-burst .star { animation-delay: calc(0.45s + (var(--i, 0) * 0.07s)); }
+.layer-stack.in .layer-card:nth-child(2) .star-burst .star { animation-delay: calc(0.58s + (var(--i, 0) * 0.07s)); }
+.layer-stack.in .layer-card:nth-child(3) .star-burst .star { animation-delay: calc(0.71s + (var(--i, 0) * 0.07s)); }
+.layer-stack.in .layer-card:nth-child(4) .star-burst .star { animation-delay: calc(0.84s + (var(--i, 0) * 0.07s)); }
+@keyframes starPop {
+  0%   { opacity: 0; transform: scale(0.2) translate(0, 0) rotate(0deg); }
+  35%  { opacity: 1; transform: scale(1.15) translate(var(--tx, 20px), var(--ty, -20px)) rotate(45deg); }
+  60%  { opacity: 1; transform: scale(1) translate(var(--tx, 20px), var(--ty, -20px)) rotate(60deg); }
+  100% { opacity: 0; transform: scale(0.7) translate(calc(var(--tx, 20px) * 1.4), calc(var(--ty, -20px) * 1.4)) rotate(120deg); }
+}
+/* in-list stars (the ★ bullets) twinkle once on entrance */
+.layer-stack.in .layer-card li::before {
+  animation: liStarTwinkle 1.4s ease-out both;
+}
+.layer-stack.in .layer-card:nth-child(1) li:nth-child(1)::before { animation-delay: 0.55s; }
+.layer-stack.in .layer-card:nth-child(1) li:nth-child(2)::before { animation-delay: 0.62s; }
+.layer-stack.in .layer-card:nth-child(1) li:nth-child(3)::before { animation-delay: 0.69s; }
+.layer-stack.in .layer-card:nth-child(1) li:nth-child(4)::before { animation-delay: 0.76s; }
+.layer-stack.in .layer-card:nth-child(1) li:nth-child(5)::before { animation-delay: 0.83s; }
+.layer-stack.in .layer-card:nth-child(1) li:nth-child(6)::before { animation-delay: 0.90s; }
+.layer-stack.in .layer-card:nth-child(2) li:nth-child(1)::before { animation-delay: 0.68s; }
+.layer-stack.in .layer-card:nth-child(2) li:nth-child(2)::before { animation-delay: 0.75s; }
+.layer-stack.in .layer-card:nth-child(2) li:nth-child(3)::before { animation-delay: 0.82s; }
+.layer-stack.in .layer-card:nth-child(2) li:nth-child(4)::before { animation-delay: 0.89s; }
+.layer-stack.in .layer-card:nth-child(2) li:nth-child(5)::before { animation-delay: 0.96s; }
+.layer-stack.in .layer-card:nth-child(2) li:nth-child(6)::before { animation-delay: 1.03s; }
+.layer-stack.in .layer-card:nth-child(3) li::before { animation-delay: 0.82s; }
+.layer-stack.in .layer-card:nth-child(4) li::before { animation-delay: 0.96s; }
+@keyframes liStarTwinkle {
+  0%   { opacity: 0; transform: scale(0.4) rotate(-45deg); }
+  40%  { opacity: 1; transform: scale(1.4) rotate(10deg);  color: var(--pop-yellow); }
+  60%  { transform: scale(1) rotate(0deg); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ----- "RECORD SPLIT" PULSE-FADE-TO-BLACK ----- */
+.pulse-blackout {
+  animation: recordSplitPulse 3.6s ease-in-out infinite;
+}
+@keyframes recordSplitPulse {
+  0%, 80% { color: var(--pop-yellow); }
+  92%     { color: #0a0a0a; }
+  94%     { color: var(--pop-yellow); }
+  100%    { color: var(--pop-yellow); }
+}
+
+/* ----- ADDITIONAL POLISH ----- */
+
+/* compression splat: stamp-on-enter */
+.splat-bg {
+  animation: splatStamp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes splatStamp {
+  0%   { opacity: 0; transform: rotate(8deg) scale(1.35); filter: blur(4px); }
+  60%  { opacity: 1; transform: rotate(-2.2deg) scale(0.96); filter: blur(0); }
+  100% { opacity: 1; transform: rotate(-1deg) scale(1); }
+}
+
+/* authority chip hover: preview color halo */
+.auth-chip { position: relative; }
+.auth-chip:hover:not(.active)::before {
+  content: ""; position: absolute; inset: -3px;
+  border: 2px dashed var(--pop-pink); opacity: 0.7;
+  animation: chipPreview 0.35s ease forwards;
+}
+.auth-chip[data-auth="police"]:hover::before { border-color: var(--pop-blue); }
+.auth-chip[data-auth="irs"]:hover::before { border-color: var(--pop-red); }
+.auth-chip[data-auth="broker"]:hover::before { border-color: var(--pop-purple); }
+.auth-chip[data-auth="campaign"]:hover::before { border-color: var(--pop-mint); }
+.auth-chip[data-auth="divorce"]:hover::before { border-color: var(--pop-lime); }
+.auth-chip[data-auth="advertiser"]:hover::before { border-color: var(--pop-tang); }
+.auth-chip[data-auth="journalist"]:hover::before { border-color: var(--pop-yellow); }
+.auth-chip[data-auth="landlord"]:hover::before { border-color: var(--pop-tang); }
+.auth-chip[data-auth="insurer"]:hover::before { border-color: var(--pop-purple); }
+@keyframes chipPreview { from { opacity: 0; transform: scale(0.85); } to { opacity: 0.85; transform: scale(1); } }
+
+/* echo dot thread constellation (faint line connecting open dots) */
+.echo-thread { position: absolute; pointer-events: none; z-index: -1; opacity: 0; transition: opacity 0.45s ease; }
+.echo-thread.live { opacity: 0.4; }
+
+/* closer hot-pink shadow slowly hue-rotates (very subtle) */
+.closer-band {
+  animation: closerShadowDrift 14s ease-in-out infinite;
+}
+@keyframes closerShadowDrift {
+  0%, 100% { box-shadow: 16px 16px 0 var(--pop-pink), 16px 16px 0 4px var(--ink); }
+  25%      { box-shadow: 16px 16px 0 var(--pop-purple), 16px 16px 0 4px var(--ink); }
+  50%      { box-shadow: 16px 16px 0 var(--pop-tang), 16px 16px 0 4px var(--ink); }
+  75%      { box-shadow: 16px 16px 0 var(--pop-blue), 16px 16px 0 4px var(--ink); }
+}
+
+/* ----- REDUCED MOTION KILLS ALL OF THE ABOVE ----- */
+@media (prefers-reduced-motion: reduce) {
+  .folder-row.in .folder { animation: none !important; opacity: 1; transform: rotate(var(--rot, 0deg)) !important; }
+  .layer-card .star-burst .star, .layer-stack.in .layer-card li::before { animation: none !important; opacity: 1 !important; }
+  .pulse-blackout, .splat-bg, .closer-band { animation: none !important; }
+  .file-stk { transition: none !important; }
+}
+
+/* ----- RESPECT REDUCED MOTION (v0.2) ----- */
+@media (prefers-reduced-motion: reduce) {
+  .folder, .layer-card, .fade-up { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .echo-dot, #btpSvg.idle .frag { animation: none !important; }
+  .cmyk-anim { animation: none !important; }
+  body::after { opacity: 0.08; }
+}
+
+/* ================================================================ */
+/* v0.4 · A · Fragment hover tooltip                                */
+/* ================================================================ */
+.frag-tip { opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+.frag-tip.live { opacity: 1; }
+.frag-tip-bg { fill: var(--ink); stroke: var(--pop-yellow); stroke-width: 1.4; }
+.frag-tip-stem { fill: var(--ink); }
+.frag-tip-lbl { font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; fill: var(--pop-yellow); }
+.frag-tip-line { font-family: var(--font-mono); font-size: 8.5px; fill: var(--paper); letter-spacing: 0.04em; }
+
+/* ================================================================ */
+/* v0.4 · B · Chapter rail (right edge, scroll-driven)              */
+/* ================================================================ */
+.chapter-rail {
+  position: fixed; right: 26px; top: 50%; transform: translateY(-50%);
+  z-index: 80; pointer-events: none;
+  width: 32px; height: 360px;
+  display: flex; flex-direction: column; align-items: flex-end;
+}
+.chapter-rail svg { display: block; width: 100%; height: 100%; pointer-events: auto; }
+.cr-axis { stroke: var(--ink); stroke-width: 1.6; opacity: 0.18; fill: none; }
+.cr-progress { stroke: var(--pop-pink); stroke-width: 3; fill: none; stroke-linecap: round;
+  stroke-dasharray: 320; stroke-dashoffset: 320; transition: stroke-dashoffset 0.25s ease-out;
+  filter: drop-shadow(0 0 1px rgba(255,45,139,0.45));
+}
+.cr-tick {
+  cursor: pointer; pointer-events: auto;
+}
+.cr-tick-dot { fill: var(--paper-card); stroke: var(--ink); stroke-width: 1.8; transition: all 0.2s ease; }
+.cr-tick.lit .cr-tick-dot { fill: var(--pop-pink); stroke: var(--ink); transform-origin: center; transform-box: fill-box; animation: crPulse 1.6s ease-in-out infinite; }
+.cr-tick.done .cr-tick-dot { fill: var(--ink); }
+@keyframes crPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.35); } }
+.cr-tick-lbl {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em;
+  fill: var(--ink); text-anchor: end; text-transform: uppercase;
+  opacity: 0; transform-origin: right center; transform: translateX(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.cr-tick:hover .cr-tick-lbl,
+.cr-tick.lit .cr-tick-lbl { opacity: 1; transform: translateX(0); }
+.cr-tick.lit .cr-tick-lbl { fill: var(--pop-pink); }
+
+/* hand-drawn pen wiggle on the rail */
+.cr-axis-decoration { stroke: var(--ink); stroke-width: 1; fill: none; opacity: 0.12; }
+
+@media (max-width: 1024px) { .chapter-rail { display: none; } }
+
+/* ================================================================ */
+/* v0.4 · C · Composite Polaroid                                    */
+/* ================================================================ */
+.polaroid {
+  position: fixed; right: 24px; bottom: 24px; z-index: 81;
+  width: 200px;
+  background: var(--paper-card);
+  padding: 12px 12px 38px;
+  border: 2px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink), 0 0 0 1px rgba(0,0,0,0.06);
+  transform: rotate(-3deg);
+  font-family: var(--font-mono);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.polaroid:hover { transform: rotate(-1deg) scale(1.02); box-shadow: 10px 10px 0 var(--pop-pink), 11px 11px 0 1px var(--ink); }
+.polaroid .pol-strip {
+  background: var(--ink); color: var(--pop-yellow);
+  padding: 4px 8px; font-size: 8px; letter-spacing: 0.22em; font-weight: 700; text-transform: uppercase;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.polaroid .pol-strip .pol-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pop-pink); display: inline-block; animation: crPulse 1.6s ease-in-out infinite; }
+.polaroid .pol-window {
+  background: #f4ead0;
+  background-image:
+    radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1.2px);
+  background-size: 8px 8px;
+  padding: 10px 8px 12px; margin-top: 8px;
+  min-height: 124px; position: relative;
+  border: 1px solid var(--ink);
+  overflow: hidden;
+}
+.polaroid .pol-stamps {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+}
+.polaroid .pol-stamp {
+  font-family: var(--font-mono); font-size: 7.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 4px 6px; background: var(--paper-card); border: 1.4px solid var(--ink);
+  color: var(--ink); position: relative;
+  opacity: 0; transform: translateY(8px) scale(0.85) rotate(0deg);
+  transition: opacity 0.5s ease, transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.polaroid .pol-stamp.stamped { opacity: 1; transform: translateY(0) scale(1) rotate(-2deg); }
+.polaroid .pol-stamp:nth-child(2n).stamped { transform: translateY(0) scale(1) rotate(2deg); }
+.polaroid .pol-stamp:nth-child(3n).stamped { transform: translateY(0) scale(1) rotate(-1deg); }
+.polaroid .pol-stamp.stamped::after {
+  content: "✓"; position: absolute; right: 3px; top: 1px; color: var(--pop-pink); font-size: 9px; font-weight: 900;
+}
+.polaroid .pol-meta {
+  margin-top: 10px; font-size: 7.5px; letter-spacing: 0.16em; color: var(--muted); text-align: center;
+  padding-top: 6px; border-top: 1px dotted var(--rule);
+}
+.polaroid .pol-meta .pol-date { color: var(--ink); font-weight: 700; }
+.polaroid .pol-actions {
+  position: absolute; bottom: 6px; left: 8px; right: 8px;
+  display: flex; gap: 6px; justify-content: space-between; align-items: center;
+}
+.polaroid .pol-actions .pol-tag {
+  font-family: var(--font-hand); font-size: 14px; color: var(--ink); transform: rotate(-3deg);
+}
+.polaroid .pol-actions .pol-save {
+  font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700;
+  padding: 3px 8px; background: var(--pop-pink); color: #fff; border: 1.4px solid var(--ink); cursor: pointer;
+  transition: all 0.12s ease;
+}
+.polaroid .pol-actions .pol-save:hover { background: var(--pop-yellow); color: var(--ink); transform: translate(-1px,-1px); box-shadow: 2px 2px 0 var(--ink); }
+.polaroid .pol-actions .pol-save:disabled { background: var(--rule); color: var(--muted); cursor: not-allowed; border-color: var(--rule); }
+
+.polaroid.entering { animation: polaroidPeek 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+@keyframes polaroidPeek {
+  0% { transform: translateY(120%) rotate(-12deg); opacity: 0; }
+  100% { transform: translateY(0) rotate(-3deg); opacity: 1; }
+}
+
+/* hide on mobile to avoid clutter */
+@media (max-width: 1024px) { .polaroid { display: none; } }
+
+/* reduced motion for v0.4 */
+@media (prefers-reduced-motion: reduce) {
+  .cr-tick.lit .cr-tick-dot, .polaroid .pol-strip .pol-dot { animation: none !important; }
+  .polaroid.entering, .polaroid .pol-stamp { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<nav class="chrome">
+  <a href="/" class="brand">INFERA <em>·</em> MECHANISM SERIES</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/personhood-inc.html"><span class="tn">01</span>PERSONHOOD</a>
+    <a href="/the-feed-engine.html"><span class="tn">02</span>FEED</a>
+    <a href="/episode-03-trust-market.html"><span class="tn">03</span>TRUST</a>
+    <a href="/episode-04-the-influence-war.html"><span class="tn">04</span>INFLUENCE</a>
+    <a href="/the-replayable-city.html"><span class="tn">4½</span>REPLAYABLE</a>
+    <a class="cur" href="/episode-05-composite-state.html"><span class="tn">05</span>COMPOSITE STATE</a>
+  </div>
+</nav>
+
+<!-- ============== HERO ============== -->
+<header class="hero" id="sec-hero">
+  <div class="wrap-wide">
+    <div class="strap">
+      <span class="sticker pink r-1">EP 05</span>
+      <span class="sticker yellow r-2">INVESTIGATE</span>
+      <span class="sticker blue r-3">MACHINE-READABLE</span>
+      <span class="sticker lime r-4">≈14 MIN</span>
+      <span class="note-hand">← peak-90s vibes</span>
+    </div>
+
+    <h1>
+      YOU HAVE<br/>
+      ONE <span class="hi">FACE.</span><br/>
+      THEY HAVE<br/>
+      <span class="lo"><span class="count-stage"><span class="n" id="fileCountWord">ONE</span></span> <span id="fileWordTail">FILE.</span></span>
+      <span class="file-stk-stage" id="fileStkStage">
+        <span class="file-stk dmv">DMV</span>
+        <span class="file-stk court">COURT</span>
+        <span class="file-stk police">POLICE</span>
+        <span class="file-stk vital">VITAL</span>
+        <span class="file-stk license">LICENSE</span>
+        <span class="file-stk irs">IRS</span>
+        <span class="file-stk ssa">SSA</span>
+        <span class="file-stk border">BORDER</span>
+        <span class="file-stk biometric">BIOMETRIC</span>
+        <span class="file-stk opm">OPM</span>
+        <span class="file-stk lpr">LPR</span>
+      </span>
+      <span class="hand">(no one of them has all of you. all of them, together, do.)</span>
+    </h1>
+
+    <p class="deck">
+      The persuasion machine you walked through in <strong>EP 02–04</strong> wants to <span class="hl">move you</span>.
+      The administrative machine you've never been shown — the one this episode names —
+      wants to <span class="hl pink">fix you in place.</span> Eligibility. Liability. License. Status.
+      Different verbs. Different rooms. Same plumbing.
+    </p>
+
+    <div class="meta-strap">
+      <span><b>SERIES</b> &nbsp; Machine-Readable</span>
+      <span><b>SLOT</b> &nbsp; Civic Composite Layer</span>
+      <span><b>BETWEEN</b> &nbsp; EP 04½ → EP 06</span>
+      <span><b>STATUS</b> &nbsp; Preview · awaiting INVESTIGATE</span>
+    </div>
+  </div>
+
+  <!-- corner doodles -->
+  <svg class="hero-doodle tr" width="180" height="180" viewBox="0 0 180 180" aria-hidden="true">
+    <circle cx="90" cy="90" r="60" fill="none" stroke="#181818" stroke-width="3" stroke-dasharray="4 6"/>
+    <path d="M 30 60 L 60 90 L 30 120" fill="none" stroke="#ff2d8b" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 150 60 L 120 90 L 150 120" fill="none" stroke="#2cbef0" stroke-width="6" stroke-linecap="round"/>
+    <text x="90" y="96" text-anchor="middle" font-family="Bowlby One" font-size="14" fill="#181818">YOU</text>
+  </svg>
+  <svg class="hero-doodle bl" width="220" height="80" viewBox="0 0 220 80" aria-hidden="true">
+    <path d="M 5 40 Q 30 5, 55 40 T 105 40 T 155 40 T 215 40" fill="none" stroke="#ff8a32" stroke-width="5" stroke-linecap="round"/>
+  </svg>
+</header>
+
+<!-- ============== COMPRESSION SPLAT ============== -->
+<section class="splat-section" id="sec-compress">
+  <div class="splat-wrap">
+    <div class="splat-bg tape">
+      <span class="splat-tab">COMPRESSION POINT</span>
+      <div class="q">YOU ARE NOT STORED IN <span class="y">ONE FILE.</span><br/>YOU ARE <span class="y">RECONSTRUCTED</span> ON DEMAND.</div>
+      <div class="attr">— the line every section in this episode hangs on</div>
+    </div>
+  </div>
+
+  <svg class="squiggle" viewBox="0 0 800 30" preserveAspectRatio="none" style="margin-top:80px">
+    <path d="M 0 15 Q 50 0, 100 15 T 200 15 T 300 15 T 400 15 T 500 15 T 600 15 T 700 15 T 800 15"/>
+  </svg>
+</section>
+
+<!-- ============== PRESSURE · ONE FACE / ELEVEN FILES ============== -->
+<section class="pressure-section" id="sec-cabinets">
+  <div class="halftone-bg"></div>
+  <div class="wrap-wide">
+    <h2>The myth: <em>one omniscient file.</em><br/>The reality: <em>eleven cabinets.</em></h2>
+    <p class="lead">
+      There is a popular myth that the government keeps one master file on every citizen.
+      It does not. The accurate version is structurally more disquieting:
+      you exist as <strong>linked fragments</strong><button class="echo-dot purple" data-echo="ep02" aria-label="echo to Personhood Inc"></button> across agencies, vendors, case systems, databases,
+      retention schedules, contracts, and legal authorities.
+      <strong>No single agency holds the composite.</strong>
+      Many agencies <em>can assemble it</em> when something triggers the right authority.<button class="echo-dot blue" data-echo="ep4half" aria-label="echo to Replayable City"></button>
+    </p>
+
+    <!-- echo expansion panels (hidden until dot is clicked) -->
+    <div style="max-width:720px; margin: 18px auto 0;">
+      <div class="echo-panel purple" id="echo-ep02">
+        <button class="ep-close" data-close>×</button>
+        <div class="ep-tag">↳ Echo · EP 02 · Personhood Inc.</div>
+        <div class="ep-snip">The commercial composite assembles your <em>behavior</em>. The civic composite assembles your <em>authority footprint</em>. They are different machines.</div>
+        <a class="ep-link" href="/personhood-inc.html">Open EP 02 →</a>
+      </div>
+      <div class="echo-panel blue" id="echo-ep4half">
+        <button class="ep-close" data-close>×</button>
+        <div class="ep-tag">↳ Echo · Field Dispatch 4½ · Replayable City</div>
+        <div class="ep-snip">The Capitol-perimeter geofence in 2021 returned 5,723 device identifiers. That's the proof of concept for "fragments assembled on demand." The architecture didn't need to be designed; it had to be queried.</div>
+        <a class="ep-link" href="/the-replayable-city.html">Open Dispatch 4½ →</a>
+      </div>
+    </div>
+
+    <div class="folder-row">
+      <div class="folder"><div class="lbl">LOCAL · COURT</div><div class="name">CIVIL FILINGS</div><div class="sub">all of them, forever, public</div></div>
+      <div class="folder"><div class="lbl">LOCAL · POLICE</div><div class="name">911 + INCIDENT</div><div class="sub">audio sometimes, log always</div></div>
+      <div class="folder"><div class="lbl">STATE · DMV</div><div class="name">DRIVER + REG</div><div class="sub">DPPA · 14 permitted uses</div></div>
+      <div class="folder"><div class="lbl">STATE · VITAL</div><div class="name">BIRTH / MARR / DEATH</div><div class="sub">windows vary by state</div></div>
+      <div class="folder"><div class="lbl">STATE · LICENSE</div><div class="name">PROFESSIONAL</div><div class="sub">100% public · status searchable</div></div>
+      <div class="folder"><div class="lbl">FED · IRS</div><div class="name">§ 6103 TAX FILE</div><div class="sub">strict · 13 exceptions</div></div>
+      <div class="folder"><div class="lbl">FED · SSA</div><div class="name">EARNINGS · since 1937</div><div class="sub">every job, every quarter</div></div>
+      <div class="folder"><div class="lbl">FED · CBP</div><div class="name">TECS / ATS BORDER</div><div class="sub">retention 15–75 yrs</div></div>
+      <div class="folder"><div class="lbl">FED · DHS</div><div class="name">BIOMETRIC · IDENT/HART</div><div class="sub">faces, prints, irises</div></div>
+      <div class="folder"><div class="lbl">FED · OPM</div><div class="name">eOPF + SF-86</div><div class="sub">employment + clearance</div></div>
+      <div class="folder"><div class="lbl">VENDOR · ALPR</div><div class="name">FLOCK · GOVCLOUD</div><div class="sub">30 days default, longer on hold</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PIPELINE · THREE LAYERS ============== -->
+<section class="pipeline-section" id="sec-pipeline">
+  <div class="pipeline-intro">
+    <span class="burst lime">Exhibit B · the three layers</span>
+    <h2 style="margin-top:24px">Local. State. Federal. <em>And one extra.</em></h2>
+    <p>Every life event you generate splits into <strong>3–7 fragments</strong> across these zones. The vendor layer at the bottom is the new entrant<button class="echo-dot tang" data-echo="ep04" aria-label="echo to Influence War"></button> — the one that lets agencies search what they did not collect.<button class="echo-dot" data-echo="ep03" aria-label="echo to Trust Market"></button></p>
+
+    <div style="max-width: 720px; margin: 18px auto 0;">
+      <div class="echo-panel tang" id="echo-ep04">
+        <button class="ep-close" data-close>×</button>
+        <div class="ep-tag">↳ Echo · EP 04 · The Influence War</div>
+        <div class="ep-snip">The commercial-civic convergence happens at the substrate layer. Both machines now run on the same hyperscale infrastructure. The "vendor" layer below is where that convergence is bought retail.</div>
+        <a class="ep-link" href="/episode-04-the-influence-war.html">Open EP 04 →</a>
+      </div>
+      <div class="echo-panel" id="echo-ep03">
+        <button class="ep-close" data-close>×</button>
+        <div class="ep-tag">↳ Echo · EP 03 · The Trust Market</div>
+        <div class="ep-snip">What gets <em>priced</em> commercially is what predicts you. What gets <em>recorded</em> administratively is what binds you. Same readers. Different verbs. Different consequences.</div>
+        <a class="ep-link" href="/episode-03-trust-market.html">Open EP 03 →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="layer-stack">
+    <div class="layer-card local">
+      <svg class="star-burst" viewBox="0 0 110 110" aria-hidden="true">
+        <g fill="var(--pop-yellow)" stroke="var(--ink)" stroke-width="2">
+          <polygon class="star" style="--tx: -30px; --ty: -22px; --i: 0;" points="20,5 24,15 34,15 26,22 29,32 20,26 11,32 14,22 6,15 16,15"/>
+          <polygon class="star" style="--tx:  10px; --ty: -32px; --i: 1;" points="55,8 58,16 66,16 60,22 62,30 55,25 48,30 50,22 44,16 52,16"/>
+          <polygon class="star" style="--tx:  38px; --ty:  -8px; --i: 2;" points="88,18 91,26 99,26 93,32 95,40 88,35 81,40 83,32 77,26 85,26"/>
+          <polygon class="star" style="--tx:  32px; --ty:  18px; --i: 3;" points="78,60 81,68 89,68 83,74 85,82 78,77 71,82 73,74 67,68 75,68"/>
+          <polygon class="star" style="--tx: -18px; --ty:  28px; --i: 4;" points="28,75 31,83 39,83 33,89 35,97 28,92 21,97 23,89 17,83 25,83"/>
+        </g>
+      </svg>
+      <span class="tab">LAYER · LOCAL</span>
+      <h3>Block-Level Stuff</h3>
+      <ul>
+        <li>Property deeds + tax assessor</li>
+        <li>Court filings (civil + criminal)</li>
+        <li>Police-incident reports + 911 log</li>
+        <li>Body-cam footage (release varies wildly)</li>
+        <li>Permits, parking, tolls</li>
+        <li>Red-light + speed camera events</li>
+      </ul>
+      <div class="footnote">most public-records<br/>requests die here →</div>
+    </div>
+
+    <div class="layer-card state">
+      <svg class="star-burst" viewBox="0 0 110 110" aria-hidden="true">
+        <g fill="var(--pop-pink)" stroke="var(--ink)" stroke-width="2">
+          <polygon class="star" style="--tx: -28px; --ty: -28px; --i: 0;" points="20,5 24,15 34,15 26,22 29,32 20,26 11,32 14,22 6,15 16,15"/>
+          <polygon class="star" style="--tx:  18px; --ty: -28px; --i: 1;" points="55,8 58,16 66,16 60,22 62,30 55,25 48,30 50,22 44,16 52,16"/>
+          <polygon class="star" style="--tx:  36px; --ty:   2px; --i: 2;" points="88,18 91,26 99,26 93,32 95,40 88,35 81,40 83,32 77,26 85,26"/>
+          <polygon class="star" style="--tx: -20px; --ty:  30px; --i: 3;" points="28,75 31,83 39,83 33,89 35,97 28,92 21,97 23,89 17,83 25,83"/>
+          <polygon class="star" style="--tx:  28px; --ty:  22px; --i: 4;" points="78,60 81,68 89,68 83,74 85,82 78,77 71,82 73,74 67,68 75,68"/>
+        </g>
+      </svg>
+      <span class="tab">LAYER · STATE</span>
+      <h3>Identity + License Stuff</h3>
+      <ul>
+        <li>DMV: driver, registration, tickets</li>
+        <li>Vital records (birth/marriage/divorce/death)</li>
+        <li>Unemployment + benefits</li>
+        <li>State tax + business registrations</li>
+        <li>Professional licenses (all public)</li>
+        <li>Criminal history → NCIC interstate join</li>
+      </ul>
+      <div class="footnote">where one record<br/>becomes 50-state searchable</div>
+    </div>
+
+    <div class="layer-card federal">
+      <svg class="star-burst" viewBox="0 0 110 110" aria-hidden="true">
+        <g fill="var(--pop-blue)" stroke="var(--ink)" stroke-width="2">
+          <polygon class="star" style="--tx: -32px; --ty: -20px; --i: 0;" points="20,5 24,15 34,15 26,22 29,32 20,26 11,32 14,22 6,15 16,15"/>
+          <polygon class="star" style="--tx:  12px; --ty: -34px; --i: 1;" points="55,8 58,16 66,16 60,22 62,30 55,25 48,30 50,22 44,16 52,16"/>
+          <polygon class="star" style="--tx:  38px; --ty:  -2px; --i: 2;" points="88,18 91,26 99,26 93,32 95,40 88,35 81,40 83,32 77,26 85,26"/>
+          <polygon class="star" style="--tx:  28px; --ty:  26px; --i: 3;" points="78,60 81,68 89,68 83,74 85,82 78,77 71,82 73,74 67,68 75,68"/>
+          <polygon class="star" style="--tx: -22px; --ty:  24px; --i: 4;" points="28,75 31,83 39,83 33,89 35,97 28,92 21,97 23,89 17,83 25,83"/>
+        </g>
+      </svg>
+      <span class="tab">LAYER · FEDERAL</span>
+      <h3>The Big Stack</h3>
+      <ul>
+        <li>IRS § 6103 file (you, financially)</li>
+        <li>SSA earnings since 1937</li>
+        <li>Passport + entry/exit (TECS, ATS)</li>
+        <li>NICS firearm checks</li>
+        <li>DHS biometrics (IDENT → HART)</li>
+        <li>OPM eOPF + security clearance</li>
+        <li>Federal benefits, VA, Medicare, USCIS</li>
+      </ul>
+      <div class="footnote" style="color:var(--pop-yellow)">deepest layer.<br/>highest gate.</div>
+    </div>
+
+    <div class="layer-card vendor">
+      <svg class="star-burst" viewBox="0 0 110 110" aria-hidden="true">
+        <g fill="var(--pop-mint)" stroke="var(--ink)" stroke-width="2">
+          <polygon class="star" style="--tx: -30px; --ty: -22px; --i: 0;" points="20,5 24,15 34,15 26,22 29,32 20,26 11,32 14,22 6,15 16,15"/>
+          <polygon class="star" style="--tx:  16px; --ty: -32px; --i: 1;" points="55,8 58,16 66,16 60,22 62,30 55,25 48,30 50,22 44,16 52,16"/>
+          <polygon class="star" style="--tx:  36px; --ty:   2px; --i: 2;" points="88,18 91,26 99,26 93,32 95,40 88,35 81,40 83,32 77,26 85,26"/>
+          <polygon class="star" style="--tx:  30px; --ty:  28px; --i: 3;" points="78,60 81,68 89,68 83,74 85,82 78,77 71,82 73,74 67,68 75,68"/>
+          <polygon class="star" style="--tx: -16px; --ty:  30px; --i: 4;" points="28,75 31,83 39,83 33,89 35,97 28,92 21,97 23,89 17,83 25,83"/>
+        </g>
+      </svg>
+      <span class="tab">LAYER · VENDOR</span>
+      <h3>The Modern Twist</h3>
+      <ul>
+        <li>Fog Reveal / Fog Data Science</li>
+        <li>Flock Safety LPR · AWS GovCloud</li>
+        <li>Clearview AI face match</li>
+        <li>Venntel · Babel Street · X-Mode</li>
+        <li>Carrier subscriber lookups</li>
+        <li>Broker-fused location + purchase</li>
+      </ul>
+      <div class="footnote" style="color:var(--pop-mint)">what gov can <em>buy</em><br/>without a warrant</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== BUILD THE PERSON · INTERACTIVE ============== -->
+<section class="btp-section" id="sec-build">
+  <div class="wrap-wide">
+    <div class="btp-intro">
+      <span class="sticker pink r-2" style="display:inline-block; margin-bottom:18px">EXHIBIT C · INTERACTIVE</span>
+      <h2>Build the <span class="splat">Person.</span><br/>Watch the <em class="pulse-blackout">record split.</em></h2>
+      <p>Pick a few life events. Watch the fragments fan out into local / state / federal / vendor pools. Then pick an authority and see what <em>they</em> can pull. None of it leaves your browser.</p>
+    </div>
+
+    <div class="btp-grid">
+
+      <div class="btp-controls">
+        <div class="btp-card">
+          <div class="stage">STAGE 01 · PICK</div>
+          <h4>Life events</h4>
+          <div class="event-grid" id="eventGrid">
+            <button class="event-btn" data-evt="license"><span class="emoji">🪪</span>License renew</button>
+            <button class="event-btn" data-evt="house"><span class="emoji">🏠</span>House purchase</button>
+            <button class="event-btn" data-evt="job"><span class="emoji">💼</span>New job</button>
+            <button class="event-btn" data-evt="lawsuit"><span class="emoji">⚖️</span>Lawsuit filed</button>
+            <button class="event-btn" data-evt="hospital"><span class="emoji">🏥</span>Hospital visit</button>
+            <button class="event-btn" data-evt="divorce"><span class="emoji">💔</span>Divorce</button>
+            <button class="event-btn" data-evt="ticket"><span class="emoji">🚓</span>Speeding ticket</button>
+            <button class="event-btn" data-evt="benefits"><span class="emoji">🧾</span>Benefits claim</button>
+            <button class="event-btn" data-evt="airport"><span class="emoji">✈️</span>Airport travel</button>
+            <button class="event-btn" data-evt="passport"><span class="emoji">📕</span>Passport renew</button>
+            <button class="event-btn" data-evt="business"><span class="emoji">🏢</span>Business filing</button>
+            <button class="event-btn" data-evt="arrest"><span class="emoji">🚔</span>Arrest record</button>
+          </div>
+        </div>
+
+        <div class="btp-card">
+          <div class="stage">STAGE 03 · LENS</div>
+          <h4>Authority view</h4>
+          <div class="auth-grid" id="authGrid">
+            <button class="auth-chip" data-auth="advertiser">Advertiser</button>
+            <button class="auth-chip" data-auth="police">Police Officer</button>
+            <button class="auth-chip" data-auth="divorce">Divorce Atty</button>
+            <button class="auth-chip" data-auth="irs">IRS Auditor</button>
+            <button class="auth-chip" data-auth="journalist">Journalist</button>
+            <button class="auth-chip" data-auth="broker">Data Broker</button>
+            <button class="auth-chip" data-auth="campaign">Campaign</button>
+            <button class="auth-chip" data-auth="landlord">Landlord</button>
+            <button class="auth-chip" data-auth="insurer">Insurer</button>
+          </div>
+        </div>
+
+        <div class="btp-card">
+          <div class="stage">STAGE 04 · KEY</div>
+          <h4>What's public?</h4>
+          <div class="color-key">
+            <span><i class="swatch lime"></i>Ordinary public</span>
+            <span><i class="swatch tang"></i>Subpoena-able</span>
+            <span><i class="swatch pink"></i>Sealed, pullable</span>
+            <span><i class="swatch grey"></i>Effectively private</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="btp-stage" id="btpStage">
+          <div class="stage-hd"><span>STAGE 02 · WATCH THE RECORD SPLIT</span><span class="n" id="fragCount">0</span></div>
+          <svg id="btpSvg" class="idle" viewBox="0 0 720 460" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Build-the-Person fragment splay">
+            <defs>
+              <clipPath id="stageClip"><rect x="0" y="0" width="720" height="460"/></clipPath>
+            </defs>
+            <!-- pools -->
+            <g>
+              <circle class="pool-ring local"   cx="120" cy="120" r="74" data-pool="local"/>
+              <text class="pool-lbl" x="120" y="56" text-anchor="middle">LOCAL</text>
+              <text class="pool-access-pct" id="pct-local"   x="120" y="200"></text>
+              <circle class="pool-ring state"   cx="600" cy="120" r="74" data-pool="state"/>
+              <text class="pool-lbl" x="600" y="56" text-anchor="middle">STATE</text>
+              <text class="pool-access-pct" id="pct-state"   x="600" y="200"></text>
+              <circle class="pool-ring federal" cx="120" cy="350" r="74" data-pool="federal"/>
+              <text class="pool-lbl" x="120" y="430" text-anchor="middle">FEDERAL</text>
+              <text class="pool-access-pct" id="pct-federal" x="120" y="270"></text>
+              <circle class="pool-ring vendor"  cx="600" cy="350" r="74" data-pool="vendor"/>
+              <text class="pool-lbl" x="600" y="430" text-anchor="middle">VENDOR</text>
+              <text class="pool-access-pct" id="pct-vendor"  x="600" y="270"></text>
+            </g>
+            <!-- person (center) -->
+            <g>
+              <circle class="center-ring" cx="360" cy="235" r="46" stroke-dasharray="5 5"/>
+              <circle class="center-person" cx="360" cy="220" r="11"/>
+              <rect class="center-person" x="346" y="232" width="28" height="22" rx="6"/>
+              <text class="center-lbl" x="360" y="290">YOU</text>
+            </g>
+            <!-- fragments layer (built by JS) -->
+            <g id="fragLayer"></g>
+            <!-- v0.4 · fragment hover tooltip -->
+            <g id="fragTip" class="frag-tip" transform="translate(0,0)">
+              <polygon class="frag-tip-stem" points="0,0 -6,-8 6,-8"/>
+              <rect class="frag-tip-bg" x="-92" y="-58" width="184" height="50" rx="3"/>
+              <text class="frag-tip-lbl"  id="tipLbl"  x="-86" y="-42">--</text>
+              <text class="frag-tip-line" id="tipLine1" x="-86" y="-28">--</text>
+              <text class="frag-tip-line" id="tipLine2" x="-86" y="-16">--</text>
+            </g>
+            <!-- authority lens overlay (giant translucent disk + label) -->
+            <g id="btpLens">
+              <ellipse class="lens-disk" id="lensDisk" cx="360" cy="235" rx="280" ry="200"/>
+              <rect class="lens-label-bg" x="240" y="222" width="240" height="32" rx="2"/>
+              <text class="lens-label" id="lensLabel" x="360" y="244" font-size="16">AUTHORITY</text>
+            </g>
+            <!-- sweep line (animates across when authority changes) -->
+            <line id="btpSweep" x1="0" y1="0" x2="0" y2="460"/>
+          </svg>
+
+          <div class="btp-readout" id="btpReadout">
+            <span>Pick a life event to see fragments fan out. Then pick an authority to see who can pull what.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== COUNTER-READ · WHATABOUTS ============== -->
+<section class="cr-section" id="sec-counter">
+  <div class="halftone-bg"></div>
+  <div class="wrap-wide">
+    <span class="sticker purple r-2" style="display:block; margin: 0 auto 18px; max-width:fit-content">THE OTHER SIDE</span>
+    <h2>The <em>strongest</em> defenses, <em>hosted fairly.</em></h2>
+    <p class="lead">Three voices arguing the architecture is fine, or at least defensible. Each gets the strongest version of itself. Each gets a response.</p>
+
+    <div class="cr-grid">
+      <div class="cr-card">
+        <span class="tag">DEFENDER · 01</span>
+        <div class="voice">Fragmentation IS the protection</div>
+        <h4>"The lack of one master file isn't an accident."</h4>
+        <p>The Privacy Act, FERPA, HIPAA, FCRA, GLBA and dozens of sector-specific statutes were built precisely to prevent any one authority from holding the omniscient view. Aggregation is hard on purpose. The composite-on-demand framing overstates how often the demand actually arises and understates how thoroughly each assembly requires authorized process.</p>
+        <div class="resp">True at the storage layer. Not at the inquiry layer. Fragmentation is a feature of <em>where the data lives</em>. It is not a feature of <em>who can ask for it</em> when something triggers the question.</div>
+      </div>
+
+      <div class="cr-card">
+        <span class="tag">DEFENDER · 02</span>
+        <div class="voice">A state needs administrative records to function</div>
+        <h4>"Tax. Benefits. License. Court. Election."</h4>
+        <p>None of those operate without records. The records exist because the functions exist. Refusing to maintain administrative records does not make government smaller. It makes government arbitrary. Treating the existence of state capacity as a pathology gets the diagnosis wrong.</p>
+        <div class="resp">Conceded for the records themselves. The episode's critique is the <em>commercial-data acquisition layered on top</em> — Fog Reveal, Flock, Clearview, broker-fused location. That layer is new, large, lightly regulated, and not part of any traditional administrative-capacity defense.</div>
+      </div>
+
+      <div class="cr-card">
+        <span class="tag">DEFENDER · 03</span>
+        <div class="voice">FOIA and oversight already work</div>
+        <h4>"Use the tools. They're real."</h4>
+        <p>FOIA, the Privacy Act, agency Inspectors General, GAO investigations, OMB privacy-impact assessments, congressional oversight, and journalism collectively constitute a transparency apparatus. The fact that most people never use it doesn't mean it doesn't work for the ones who do — journalists and advocacy groups who file at industrial scale.</p>
+        <div class="resp">Partial. Works for sophisticated requesters. Response times exceed statutory windows for most members of the public. <em>Exemption 7</em> denials dominate surveillance-footage requests. The architecture works on all readers. The transparency works on some readers.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== DISCIPLINE STATEMENT ============== -->
+<section class="disc-section">
+  <div class="wrap">
+    <span class="sticker yellow r-1" style="display:inline-block; margin-bottom:18px">WHAT WE REFUSE</span>
+    <h2>Five things we do <em>NOT</em> prove.</h2>
+    <div class="deck">Discipline is part of the editorial chassis. Here's what this episode <em>doesn't</em> establish.</div>
+
+    <ol class="disc-list">
+      <li>No specific agency exceeded its lawful authority in any specific case documented in the corpus.</li>
+      <li>No proof of coordination between agencies, vendors, and statutory regimes — the architecture is accumulated, not designed.</li>
+      <li>No proof that intelligence-agency capabilities exceed publicly documented authorities. Presence is documented. Specifics are not, by design.</li>
+      <li>No proof FOIA or the Privacy Act are systematically broken. Uneven in use and outcome. Not the same as broken.</li>
+      <li>No proof the disparate-exposure pattern is intentional. The disparity arises from <em>who interacts with which agencies for what reasons</em>, not from agency intent.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============== CLOSER ============== -->
+<section class="closer" id="sec-closer">
+  <div class="closer-band">
+    <span class="stamp">COMPRESSION POINT</span>
+    <div class="closer-line cmyk cmyk-anim">
+      YOU ARE NOT <span class="hi">STORED</span><br/>
+      IN ONE FILE.
+      <span class="hand">you are reconstructed →</span>
+      <span class="lo">ON DEMAND.</span>
+    </div>
+    <div class="closer-attr">EP 05 · The Composite State · The Mechanism Series</div>
+  </div>
+</section>
+
+<!-- ============== ECHOES ============== -->
+<section class="echoes-section">
+  <h2>WHERE THIS LANDS</h2>
+  <div class="lead">←  back across the series.  forward into EP 06.  →</div>
+
+  <div class="echoes-grid">
+    <a class="echo-card" href="/personhood-inc.html">
+      <div class="ep">EP 02 ←</div>
+      <h5>PERSONHOOD INC</h5>
+      <p>The commercial composite assembles your behavior. The civic composite assembles your authority footprint. Different machines.</p>
+    </a>
+    <a class="echo-card" href="/episode-03-trust-market.html">
+      <div class="ep">EP 03 ←</div>
+      <h5>TRUST MARKET</h5>
+      <p>What's priced commercially predicts you. What's recorded administratively binds you.</p>
+    </a>
+    <a class="echo-card" href="/episode-04-the-influence-war.html">
+      <div class="ep">EP 04 ←</div>
+      <h5>INFLUENCE WAR</h5>
+      <p>The persuasion machine wants to move you. The administrative machine wants to fix you in place.</p>
+    </a>
+    <a class="echo-card" href="/the-replayable-city.html">
+      <div class="ep">DISPATCH 4½ ←</div>
+      <h5>REPLAYABLE CITY</h5>
+      <p>The footage collected there is one input to the composite assembled here.</p>
+    </a>
+    <a class="echo-card" href="/">
+      <div class="ep">EP 06 →</div>
+      <h5>PHYSICAL PLANT</h5>
+      <p>Both composites live in the same buildings. Often the same racks. Closes Season II.</p>
+    </a>
+  </div>
+</section>
+
+<!-- ============== BRIDGE NAV ============== -->
+<div class="bridge">
+  <div class="bridge-nav">
+    <a href="/the-replayable-city.html" class="prev">Field Dispatch 4½ · Replayable City</a>
+    <a href="/" class="next">EP 06 · Physical Plant · drafting</a>
+  </div>
+</div>
+
+<!-- ============== FOOTER ============== -->
+<footer class="legal-footer">
+  <div class="row">
+    <div class="brand">INFERA <em>·</em> Mechanism Series</div>
+    <div class="links">
+      <a href="/">Home</a>
+      <a href="/systems-atlas.html">Atlas</a>
+      <a href="/claims-atlas.html">Claims</a>
+      <a href="/case-file.html">Case file</a>
+      <a href="/founding.html">Founding 500</a>
+      <a href="/legal.html">Legal</a>
+    </div>
+  </div>
+  <div class="fine">
+    INFERA · MECHANISM SERIES · EP 05 · *The Composite State* · The episode is still in INVESTIGATE phase; this is a visual preview, not yet a sourced publication. The 32-claim corpus is at _drafts/episode-05-claim-corpus.md and awaits human review before the prose body is rendered. The Build-the-Person interactive is a 4-stage v0; fragment counts and authority mappings are illustrative rather than statutory. © Infera 2026.
+  </div>
+</footer>
+
+<!-- ============== v0.4 · B · CHAPTER RAIL ============== -->
+<aside class="chapter-rail" id="chapterRail" aria-label="Chapter progress">
+  <svg viewBox="0 0 32 360" preserveAspectRatio="xMidYMid meet">
+    <path class="cr-axis" d="M 22 8 L 22 352"/>
+    <path class="cr-axis-decoration" d="M 19 8 Q 24 80, 19 160 T 22 320 Q 25 340, 22 352"/>
+    <path class="cr-progress" id="crProgress" d="M 22 8 L 22 352"/>
+    <g id="crTicks"></g>
+  </svg>
+</aside>
+
+<!-- ============== v0.4 · C · COMPOSITE POLAROID ============== -->
+<aside class="polaroid" id="polaroid" aria-label="Composite reading receipt">
+  <div class="pol-strip"><span><span class="pol-dot"></span> COMPOSITE</span><span id="polCount">0 / 7</span></div>
+  <div class="pol-window">
+    <div class="pol-stamps" id="polStamps">
+      <div class="pol-stamp" data-stamp="hero">Hero</div>
+      <div class="pol-stamp" data-stamp="compress">Compress</div>
+      <div class="pol-stamp" data-stamp="cabinets">Cabinets</div>
+      <div class="pol-stamp" data-stamp="pipeline">Pipeline</div>
+      <div class="pol-stamp" data-stamp="build">Build</div>
+      <div class="pol-stamp" data-stamp="counter">Counter</div>
+      <div class="pol-stamp" data-stamp="closer">Closer</div>
+    </div>
+    <div class="pol-meta"><span>EP 05 · DC · </span><span class="pol-date" id="polDate"></span></div>
+  </div>
+  <div class="pol-actions">
+    <span class="pol-tag">your file →</span>
+    <button class="pol-save" id="polSave" disabled>Save .svg</button>
+  </div>
+</aside>
+
+<script>
+(function(){
+  "use strict";
+  var NS = 'http://www.w3.org/2000/svg';
+  var fragLayer = document.getElementById('fragLayer');
+  var fragCount = document.getElementById('fragCount');
+  var readout = document.getElementById('btpReadout');
+  var btpSvg = document.getElementById('btpSvg');
+  var btpStage = document.getElementById('btpStage');
+  var btpLens = document.getElementById('btpLens');
+  var lensDisk = document.getElementById('lensDisk');
+  var lensLabel = document.getElementById('lensLabel');
+  var btpSweep = document.getElementById('btpSweep');
+
+  // event → fragment map (pool, label, public-tier)
+  // pool: local/state/federal/vendor
+  // tier: lime (public), tang (subpoena), pink (sealed), grey (private)
+  var EVENTS = {
+    license:  [['state','DMV',     'lime'], ['state','VITAL ID','tang'], ['federal','REAL ID','pink']],
+    house:    [['local','DEED',    'lime'], ['local','TAX ASSESS','lime'], ['state','TRANSFER TAX','lime'], ['federal','IRS 1099-S','pink'], ['vendor','TITLE INSURER','tang']],
+    job:      [['federal','NDNH',  'pink'], ['state','UI ENROLL','pink'], ['federal','I-9 / E-VERIFY','pink'], ['federal','IRS W-2','pink']],
+    lawsuit:  [['local','COURT DOCKET','lime'], ['local','FILINGS','lime'], ['state','CASE LOOKUP','lime']],
+    hospital: [['vendor','PROVIDER EHR','grey'], ['federal','HIPAA-AUDIT','pink'], ['federal','MEDICARE CLAIM','pink']],
+    divorce:  [['local','COURT DOCKET','lime'], ['state','VITAL DECREE','lime'], ['federal','SSA UPDATE','pink']],
+    ticket:   [['local','CITATION','lime'], ['state','DMV POINT','tang'], ['vendor','LPR HIT','tang']],
+    benefits: [['state','SNAP/TANF','pink'], ['federal','NDNH MATCH','pink'], ['federal','IRS CROSS','pink']],
+    airport:  [['federal','TSA / SECURE FLT','pink'], ['federal','CBP TECS','pink'], ['vendor','PNR / CARRIER','tang']],
+    passport: [['federal','STATE DEPT','pink'], ['federal','BIOMETRIC HART','pink'], ['federal','TECS LOOKUP','pink']],
+    business: [['state','SECRETARY OF STATE','lime'], ['federal','IRS EIN','pink'], ['local','BIZ LICENSE','lime']],
+    arrest:   [['local','POLICE RPT','tang'], ['state','CRIM HISTORY','tang'], ['federal','NCIC','pink'], ['vendor','BG CHECK FEED','tang']]
+  };
+
+  // authority → which (pool, tier) combinations they can lawfully access
+  var AUTHORITIES = {
+    advertiser: { name:'Advertiser', sees: { vendor:['tang','grey'], local:['lime'] } },
+    police:     { name:'Police Officer', sees: { local:['lime','tang','pink'], state:['lime','tang','pink'], federal:['pink'], vendor:['tang','grey'] } },
+    divorce:    { name:'Divorce Attorney', sees: { local:['lime','tang'], state:['lime','tang'], federal:[], vendor:['tang'] } },
+    irs:        { name:'IRS Auditor', sees: { federal:['lime','tang','pink'], state:['lime','tang'], vendor:['tang','grey'], local:['lime'] } },
+    journalist: { name:'Journalist', sees: { local:['lime'], state:['lime'], federal:['lime'], vendor:[] } },
+    broker:     { name:'Data Broker', sees: { vendor:['lime','tang','grey'], local:['lime'], state:['lime'] } },
+    campaign:   { name:'Campaign', sees: { state:['lime'], local:['lime'], vendor:['tang'] } },
+    landlord:   { name:'Landlord (via screener)', sees: { local:['lime','tang'], state:['lime'], vendor:['tang','grey'] } },
+    insurer:    { name:'Insurer', sees: { state:['lime','tang'], vendor:['tang','grey'], federal:['lime'] } }
+  };
+
+  // pool centers in SVG space
+  var POOLS = {
+    local:   { x: 120, y: 120 },
+    state:   { x: 600, y: 120 },
+    federal: { x: 120, y: 350 },
+    vendor:  { x: 600, y: 350 }
+  };
+  // user (center)
+  var ME = { x: 360, y: 235 };
+
+  var selected = new Set();
+  var auth = null;
+
+  // place fragments in a small ring around pool center, slot index decides angle
+  function fragPos(pool, slotIndex){
+    var c = POOLS[pool];
+    var r = 30 + (slotIndex % 4) * 8;
+    var ang = (slotIndex / 6) * Math.PI * 2 - Math.PI/4;
+    return { x: c.x + r * Math.cos(ang), y: c.y + r * Math.sin(ang) };
+  }
+
+  function repaintFragments(){
+    fragLayer.innerHTML = '';
+    var count = 0;
+    var slot = { local:0, state:0, federal:0, vendor:0 };
+    // gather all fragments
+    var allFrags = [];
+    selected.forEach(function(evtKey){
+      var list = EVENTS[evtKey] || [];
+      list.forEach(function(f){
+        allFrags.push({ pool: f[0], lbl: f[1], tier: f[2], evt: evtKey });
+      });
+    });
+
+    // draw spokes first (under fragments)
+    allFrags.forEach(function(f){
+      var p = fragPos(f.pool, slot[f.pool]++);
+      var line = document.createElementNS(NS,'line');
+      line.setAttribute('class','event-spoke');
+      line.setAttribute('x1', ME.x); line.setAttribute('y1', ME.y);
+      line.setAttribute('x2', p.x);  line.setAttribute('y2', p.y);
+      fragLayer.appendChild(line);
+      f.pos = p;
+    });
+
+    // then draw fragments
+    slot = { local:0, state:0, federal:0, vendor:0 };
+    allFrags.forEach(function(f){
+      var p = f.pos;
+      var g = document.createElementNS(NS,'g');
+      g.setAttribute('class','frag');
+      // dim if authority filter excludes
+      if(auth){
+        var tiers = (AUTHORITIES[auth].sees[f.pool] || []);
+        if(tiers.indexOf(f.tier) === -1) g.classList.add('dim');
+      }
+      var bub = document.createElementNS(NS,'rect');
+      bub.setAttribute('x', p.x - 30); bub.setAttribute('y', p.y - 11);
+      bub.setAttribute('width', 60); bub.setAttribute('height', 22); bub.setAttribute('rx', 4);
+      bub.setAttribute('class', 'frag-bub ' + f.tier);
+      g.appendChild(bub);
+      var t = document.createElementNS(NS,'text');
+      t.setAttribute('class', 'frag-lbl');
+      t.setAttribute('x', p.x); t.setAttribute('y', p.y + 3);
+      t.textContent = f.lbl;
+      // fill text white on dark fills
+      if(f.tier === 'pink' || f.tier === 'purple') t.setAttribute('fill','#fff');
+      g.appendChild(t);
+      fragLayer.appendChild(g);
+      count++;
+    });
+
+    fragCount.textContent = count;
+    updateReadout(count, allFrags);
+  }
+
+  function updateReadout(count, allFrags){
+    if(count === 0){
+      readout.innerHTML = '<span>Pick a life event to see fragments fan out. Then pick an authority to see who can pull what.</span>';
+      return;
+    }
+    if(!auth){
+      var perPool = { local:0, state:0, federal:0, vendor:0 };
+      allFrags.forEach(function(f){ perPool[f.pool]++; });
+      readout.innerHTML =
+        'YOU GENERATED <b>' + count + '</b> FRAGMENTS · ' +
+        '<span class="pill" style="background:var(--pop-lime)">' + perPool.local + ' LOCAL</span>' +
+        '<span class="pill" style="background:var(--pop-tang)">' + perPool.state + ' STATE</span>' +
+        '<span class="pill" style="background:var(--pop-pink); color:#fff">' + perPool.federal + ' FED</span>' +
+        '<span class="pill" style="background:var(--pop-purple); color:#fff">' + perPool.vendor + ' VENDOR</span>' +
+        ' · pick an authority below to see who can pull what →';
+    } else {
+      var visible = 0;
+      allFrags.forEach(function(f){
+        var tiers = AUTHORITIES[auth].sees[f.pool] || [];
+        if(tiers.indexOf(f.tier) !== -1) visible++;
+      });
+      readout.innerHTML =
+        AUTHORITIES[auth].name.toUpperCase() + ' CAN SEE <b>' + visible + ' / ' + count + '</b> · ' +
+        Math.round(visible/count*100) + '% OF YOUR FOOTPRINT THROUGH THEIR LAWFUL CHANNEL.' +
+        '<br><span style="opacity:.7">Dimmed fragments are present in the architecture; this authority just doesn\'t have the channel to pull them.</span>';
+    }
+  }
+
+  // wire event buttons
+  document.querySelectorAll('.event-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      var k = b.getAttribute('data-evt');
+      if(selected.has(k)) { selected.delete(k); b.classList.remove('active'); }
+      else { selected.add(k); b.classList.add('active'); }
+      repaintFragments();
+    });
+  });
+
+  // wire authority chips
+  document.querySelectorAll('.auth-chip').forEach(function(c){
+    c.addEventListener('click', function(){
+      var k = c.getAttribute('data-auth');
+      if(auth === k){ auth = null; c.classList.remove('active'); }
+      else {
+        auth = k;
+        document.querySelectorAll('.auth-chip').forEach(function(x){ x.classList.remove('active'); });
+        c.classList.add('active');
+      }
+      repaintFragments();
+    });
+  });
+
+  // seed with two events selected so the stage isn't empty on load
+  selected.add('house'); selected.add('ticket');
+  document.querySelector('[data-evt="house"]').classList.add('active');
+  document.querySelector('[data-evt="ticket"]').classList.add('active');
+  repaintFragments();
+
+  /* ============================================================
+   *  v0.2 POLISH
+   *  - hero count-up: 1 → 11 with rotating file names
+   *  - inline echo dot expand/collapse
+   *  - IntersectionObserver fly-ins for folders + layer cards
+   *  - slot-machine count tick on fragCount
+   *  - authority lens overlay (recolor + sweep + per-pool access %)
+   * ============================================================ */
+
+  // ---- HERO count-up: loops continuously, 33% slower than v0.2 ----
+  var COUNT_WORDS = ['ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','ELEVEN'];
+  var FILE_NAMES  = ['dmv','court','police','vital','license','irs','ssa','border','biometric','opm','lpr'];
+  var TICK_MS = 293;        // 220ms * 1.33 — 33% slower
+  var REST_MS = 2200;       // pause on ELEVEN before restarting from ONE
+  function runHeroCountUp(){
+    var $word = document.getElementById('fileCountWord');
+    var $tail = document.getElementById('fileWordTail');
+    var $stage = document.getElementById('fileStkStage');
+    if(!$word || !$stage) return;
+    var stickers = $stage.querySelectorAll('.file-stk');
+    var i = 0;
+    function showSticker(n){
+      stickers.forEach(function(s){
+        if(s.classList.contains('live')) s.classList.add('exit');
+        s.classList.remove('live');
+      });
+      // ensure exit class is removed after transition so re-entry works
+      setTimeout(function(){ stickers.forEach(function(s){ s.classList.remove('exit'); }); }, 280);
+      var target = stickers[n];
+      if(target){
+        // tiny delay so the exit can play first
+        setTimeout(function(){ target.classList.add('live'); }, 90);
+      }
+    }
+    showSticker(0);
+    function tick(){
+      i++;
+      if(i >= COUNT_WORDS.length){
+        // reached ELEVEN — hold, then restart from ONE
+        setTimeout(function(){
+          i = 0;
+          $word.textContent = COUNT_WORDS[0];
+          $tail.textContent = 'FILE.';
+          $word.classList.remove('bump'); void $word.offsetWidth; $word.classList.add('bump');
+          showSticker(0);
+          setTimeout(tick, TICK_MS);
+        }, REST_MS);
+        return;
+      }
+      $word.textContent = COUNT_WORDS[i];
+      $word.classList.remove('bump'); void $word.offsetWidth; $word.classList.add('bump');
+      if(i >= 1) $tail.textContent = 'FILES.';
+      showSticker(i);
+      setTimeout(tick, TICK_MS);
+    }
+    setTimeout(tick, TICK_MS);
+  }
+  // start hero animation as soon as the page loads (or when hero is visible)
+  var heroIo = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ runHeroCountUp(); heroIo.disconnect(); } });
+  }, { threshold: 0.25 });
+  var heroEl = document.querySelector('.hero h1');
+  if(heroEl) heroIo.observe(heroEl);
+
+  // ---- ECHO DOTS: click to expand inline panel ----
+  document.querySelectorAll('.echo-dot').forEach(function(d){
+    d.addEventListener('click', function(e){
+      e.preventDefault();
+      var k = d.getAttribute('data-echo');
+      var panel = document.getElementById('echo-' + k);
+      if(!panel) return;
+      // close any open siblings
+      document.querySelectorAll('.echo-panel.open').forEach(function(p){ if(p !== panel) p.classList.remove('open'); });
+      panel.classList.toggle('open');
+      if(panel.classList.contains('open')){
+        // scroll into view smoothly
+        setTimeout(function(){ panel.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 50);
+      }
+    });
+  });
+  document.querySelectorAll('.echo-panel [data-close]').forEach(function(b){
+    b.addEventListener('click', function(){ b.closest('.echo-panel').classList.remove('open'); });
+  });
+
+  // ---- IntersectionObserver fly-ins ----
+  var revealIo = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); revealIo.unobserve(e.target); }
+    });
+  }, { threshold: 0.18 });
+  document.querySelectorAll('.folder-row, .layer-stack, .fade-up').forEach(function(el){ revealIo.observe(el); });
+
+  // ---- Slot-machine tick on fragment count ----
+  var lastCount = -1;
+  var realPaint = repaintFragments;
+  // hook the existing function: every time count changes, trigger tick anim
+  repaintFragments = function(){
+    realPaint();
+    var n = parseInt(fragCount.textContent, 10) || 0;
+    if(n !== lastCount && lastCount !== -1){
+      fragCount.classList.remove('tick'); void fragCount.offsetWidth; fragCount.classList.add('tick');
+    }
+    lastCount = n;
+    // toggle idle breathing on the SVG based on whether any authority is active
+    if(auth){ btpSvg.classList.remove('idle'); } else { btpSvg.classList.add('idle'); }
+    // update per-pool access % when an authority is on
+    updatePoolBadges();
+    // recolor pool rings
+    updatePoolRings();
+  };
+
+  // ---- AUTHORITY LENS SWEEP + RECOLOR ----
+  // map authority → lens color class
+  var LENS_COLOR = {
+    advertiser: 'tang',
+    police:     'cobalt',
+    divorce:    'lime',
+    irs:        'red',
+    journalist: 'yellow',
+    broker:     'purple',
+    campaign:   'mint',
+    landlord:   'tang',
+    insurer:    'purple'
+  };
+
+  function showLens(authKey){
+    var color = LENS_COLOR[authKey] || 'cobalt';
+    ['cobalt','tang','lime','red','yellow','purple','mint'].forEach(function(c){ lensDisk.classList.remove(c); });
+    lensDisk.classList.add(color);
+    lensLabel.textContent = (AUTHORITIES[authKey].name || '').toUpperCase();
+    btpLens.classList.add('live');
+    // briefly hide the lens after 1.6s so the canvas stays readable, but keep filter dim
+    setTimeout(function(){ btpLens.classList.remove('live'); }, 1600);
+    // run sweep
+    btpSweep.classList.remove('go'); void btpSweep.offsetWidth; btpSweep.classList.add('go');
+  }
+  function hideLens(){
+    btpLens.classList.remove('live');
+    btpStage.classList.remove('auth-on');
+  }
+  function updatePoolBadges(){
+    var pools = ['local','state','federal','vendor'];
+    if(!auth){
+      pools.forEach(function(p){ var el = document.getElementById('pct-' + p); if(el) el.textContent = ''; });
+      return;
+    }
+    // count fragments per pool, and how many the authority can see
+    var counts = { local:{tot:0,vis:0}, state:{tot:0,vis:0}, federal:{tot:0,vis:0}, vendor:{tot:0,vis:0} };
+    selected.forEach(function(evtKey){
+      (EVENTS[evtKey] || []).forEach(function(f){
+        var pool = f[0], tier = f[2];
+        counts[pool].tot++;
+        var tiers = (AUTHORITIES[auth].sees[pool] || []);
+        if(tiers.indexOf(tier) !== -1) counts[pool].vis++;
+      });
+    });
+    pools.forEach(function(p){
+      var el = document.getElementById('pct-' + p);
+      if(!el) return;
+      var c = counts[p];
+      if(c.tot === 0){ el.textContent = ''; return; }
+      var pct = Math.round((c.vis / c.tot) * 100);
+      el.textContent = pct + '% · ' + c.vis + '/' + c.tot;
+    });
+  }
+  function updatePoolRings(){
+    var pools = ['local','state','federal','vendor'];
+    if(!auth){
+      pools.forEach(function(p){
+        var ring = document.querySelector('.pool-ring[data-pool="' + p + '"]');
+        if(ring){ ring.classList.remove('access'); ring.classList.remove('noaccess'); }
+      });
+      return;
+    }
+    pools.forEach(function(p){
+      var hasAccess = (AUTHORITIES[auth].sees[p] || []).length > 0;
+      var ring = document.querySelector('.pool-ring[data-pool="' + p + '"]');
+      if(ring){
+        ring.classList.toggle('access', hasAccess);
+        ring.classList.toggle('noaccess', !hasAccess);
+      }
+    });
+  }
+
+  // wrap authority-chip handler to trigger lens cinematic
+  document.querySelectorAll('.auth-chip').forEach(function(c){
+    c.addEventListener('click', function(){
+      var k = c.getAttribute('data-auth');
+      // a frame later (after the existing handler runs), if auth is now set, show lens
+      setTimeout(function(){
+        if(auth === k){
+          showLens(k);
+          btpStage.classList.add('auth-on');
+        } else {
+          hideLens();
+        }
+      }, 0);
+    });
+  });
+
+  // initial paint to seed badges (none on load, since no auth)
+  updatePoolBadges();
+})();
+
+/* ============================================================
+   v0.4 · A · FRAGMENT TOOLTIPS · B · CHAPTER RAIL · C · POLAROID
+   ============================================================ */
+(function v04(){
+
+  /* --- A · FRAGMENT TOOLTIPS ----------------------------------- */
+  (function fragTooltips(){
+    var svg = document.getElementById('btpSvg');
+    var tip = document.getElementById('fragTip');
+    var lbl = document.getElementById('tipLbl');
+    var l1  = document.getElementById('tipLine1');
+    var l2  = document.getElementById('tipLine2');
+    if(!svg || !tip) return;
+
+    var POOL_LABEL = {
+      local:  'LOCAL · municipal',
+      state:  'STATE · agency',
+      federal:'FEDERAL · agency',
+      vendor: 'VENDOR · commercial'
+    };
+    var TIER_LABEL = {
+      lime: 'public · open record',
+      tang: 'restricted · subpoena',
+      pink: 'sealed · warrant only',
+      grey: 'private · broker held'
+    };
+
+    function showTip(el){
+      var pool = el.getAttribute('data-pool') || '';
+      var tier = el.getAttribute('data-tier') || '';
+      var src  = (el.textContent || '').trim();
+      lbl.textContent = src.length > 22 ? src.slice(0,21) + '…' : src;
+      l1.textContent = POOL_LABEL[pool] || pool.toUpperCase();
+      l2.textContent = TIER_LABEL[tier] || tier;
+      var x = parseFloat(el.getAttribute('data-x')) || 0;
+      var y = parseFloat(el.getAttribute('data-y')) || 0;
+      tip.setAttribute('transform','translate(' + x + ',' + (y - 6) + ')');
+      tip.classList.add('live');
+    }
+    function hideTip(){ tip.classList.remove('live'); }
+
+    function bind(){
+      svg.querySelectorAll('.frag').forEach(function(el){
+        if(el.__tipBound) return;
+        el.__tipBound = true;
+        try {
+          var bb = el.getBBox();
+          el.setAttribute('data-x', String(bb.x + bb.width/2));
+          el.setAttribute('data-y', String(bb.y));
+        } catch(_){}
+        el.addEventListener('mouseenter', function(){ showTip(el); });
+        el.addEventListener('mouseleave', hideTip);
+        el.addEventListener('focus',      function(){ showTip(el); });
+        el.addEventListener('blur',       hideTip);
+      });
+    }
+    bind();
+    var mo = new MutationObserver(function(){ bind(); });
+    mo.observe(svg, {childList:true, subtree:true});
+  })();
+
+  /* --- B · CHAPTER RAIL ---------------------------------------- */
+  (function chapterRail(){
+    var rail   = document.getElementById('chapterRail');
+    var prog   = document.getElementById('crProgress');
+    var ticksG = document.getElementById('crTicks');
+    if(!rail || !prog || !ticksG) return;
+
+    var SECTIONS = [
+      {id:'sec-hero',     lbl:'HERO'},
+      {id:'sec-compress', lbl:'COMPRESS'},
+      {id:'sec-cabinets', lbl:'CABINETS'},
+      {id:'sec-pipeline', lbl:'PIPELINE'},
+      {id:'sec-build',    lbl:'BUILD'},
+      {id:'sec-counter',  lbl:'COUNTER'},
+      {id:'sec-closer',   lbl:'CLOSER'}
+    ];
+    var top = 8, bot = 352, span = bot - top;
+    var step = span / (SECTIONS.length - 1);
+    var SVGNS = 'http://www.w3.org/2000/svg';
+
+    SECTIONS.forEach(function(s, i){
+      var y = top + i * step;
+      var g = document.createElementNS(SVGNS,'g');
+      g.setAttribute('class','cr-tick');
+      g.setAttribute('data-target', s.id);
+      g.setAttribute('data-idx', String(i));
+      g.setAttribute('transform','translate(0,' + y + ')');
+      g.innerHTML =
+        '<circle class="cr-tick-dot" cx="22" cy="0" r="3"/>' +
+        '<text class="cr-tick-lbl" x="15" y="3" text-anchor="end">' + s.lbl + '</text>';
+      g.style.cursor = 'pointer';
+      g.addEventListener('click', function(){
+        var el = document.getElementById(s.id);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+      ticksG.appendChild(g);
+    });
+
+    var prevDash = bot - top;
+    prog.style.strokeDasharray  = prevDash;
+    prog.style.strokeDashoffset = prevDash;
+
+    var sectionEls = SECTIONS.map(function(s){ return document.getElementById(s.id); });
+    var activeIdx = 0;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting && e.intersectionRatio > 0.3){
+          var idx = sectionEls.indexOf(e.target);
+          if(idx >= 0) activeIdx = idx;
+        }
+      });
+      paint();
+    }, {threshold:[0.3, 0.6]});
+    sectionEls.forEach(function(el){ if(el) io.observe(el); });
+
+    function paint(){
+      var t = activeIdx / (SECTIONS.length - 1);
+      prog.style.strokeDashoffset = prevDash * (1 - t);
+      ticksG.querySelectorAll('.cr-tick').forEach(function(g, i){
+        g.classList.toggle('lit',  i === activeIdx);
+        g.classList.toggle('done', i <  activeIdx);
+      });
+    }
+    paint();
+  })();
+
+  /* --- C · COMPOSITE POLAROID ---------------------------------- */
+  (function polaroid(){
+    var box      = document.getElementById('polaroid');
+    var stampsEl = document.getElementById('polStamps');
+    var countEl  = document.getElementById('polCount');
+    var saveBtn  = document.getElementById('polSave');
+    var dateEl   = document.getElementById('polDate');
+    if(!box || !stampsEl || !saveBtn) return;
+
+    var d = new Date();
+    var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var dateStr = String(d.getDate()).padStart(2,'0') + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+    if(dateEl) dateEl.textContent = dateStr;
+
+    var STAMP_FOR = {
+      'sec-hero':'hero','sec-compress':'compress','sec-cabinets':'cabinets',
+      'sec-pipeline':'pipeline','sec-build':'build','sec-counter':'counter','sec-closer':'closer'
+    };
+    var visited = {};
+    var total = Object.keys(STAMP_FOR).length;
+
+    function refresh(){
+      var n = Object.keys(visited).length;
+      countEl.textContent = n + ' / ' + total;
+      if(n >= 3) box.classList.add('peek');
+      if(n === total){ saveBtn.disabled = false; box.classList.add('full'); }
+    }
+    function mark(key){
+      if(visited[key]) return;
+      visited[key] = true;
+      var el = stampsEl.querySelector('[data-stamp="' + STAMP_FOR[key] + '"]');
+      if(el){
+        var rot = (Math.random() * 10 - 5).toFixed(1);
+        el.style.setProperty('--stamp-rot', rot + 'deg');
+        el.classList.add('stamped');
+      }
+      refresh();
+    }
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting && e.intersectionRatio > 0.35){
+          var id = e.target.id;
+          if(STAMP_FOR[id]) mark(id);
+        }
+      });
+    }, {threshold:[0.35]});
+    Object.keys(STAMP_FOR).forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) io.observe(el);
+    });
+
+    saveBtn.addEventListener('click', function(){
+      var W = 600, H = 800;
+      var labels = ['HERO','COMPRESS','CABINETS','PIPELINE','BUILD','COUNTER','CLOSER'];
+      var COLS = ['#ff2d8b','#2cbef0','#ffe247','#b8eb3e','#ff8a32','#8a4fff','#46e0c0'];
+      var rows = '';
+      labels.forEach(function(lbl, i){
+        var key = 'sec-' + lbl.toLowerCase();
+        var on = !!visited[key];
+        var y = 250 + (i * 64);
+        var col = on ? COLS[i] : '#dcdcdc';
+        var rot = on ? ((i*13 % 7) - 3) : 0;
+        rows +=
+          '<g transform="translate(80,' + y + ') rotate(' + rot + ' 220 28)">' +
+          '<rect x="0" y="0" width="440" height="56" rx="2" fill="' + col + '" opacity="' + (on?'0.92':'0.4') + '"/>' +
+          '<text x="220" y="36" text-anchor="middle" font-family="Bowlby One, sans-serif" font-size="24" fill="#111">' + lbl + '</text>' +
+          '</g>';
+      });
+      var fileNo = Math.floor(Math.random() * 8999) + 1000;
+      var svg =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '">' +
+        '<rect width="' + W + '" height="' + H + '" fill="#fffdf6"/>' +
+        '<rect x="20" y="20" width="' + (W-40) + '" height="' + (H-40) + '" fill="none" stroke="#111" stroke-width="3"/>' +
+        '<text x="50" y="90" font-family="Bowlby One, sans-serif" font-size="42" fill="#111">YOUR COMPOSITE</text>' +
+        '<text x="50" y="125" font-family="Bungee, sans-serif" font-size="18" fill="#ff2d8b">EP 05 · THE COMPOSITE STATE</text>' +
+        '<text x="50" y="155" font-family="Space Grotesk, sans-serif" font-size="14" fill="#555">' + dateStr + ' · DC METRO · INFERA · MECHANISM SERIES</text>' +
+        '<line x1="50" y1="180" x2="' + (W-50) + '" y2="180" stroke="#111" stroke-width="1.5"/>' +
+        '<text x="50" y="218" font-family="Caveat, cursive" font-size="22" fill="#111">layers you visited:</text>' +
+        rows +
+        '<text x="50" y="' + (H-60) + '" font-family="Patrick Hand, sans-serif" font-size="16" fill="#444">file no. ' + fileNo + ' · reconstructed on demand</text>' +
+        '<text x="' + (W-50) + '" y="' + (H-60) + '" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="12" fill="#888">infera@melophon.com</text>' +
+        '</svg>';
+      var blob = new Blob([svg], {type:'image/svg+xml'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'composite-' + d.toISOString().slice(0,10) + '.svg';
+      document.body.appendChild(a); a.click();
+      setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 100);
+    });
+  })();
+
+})();
+</script>
+</body>
+</html>

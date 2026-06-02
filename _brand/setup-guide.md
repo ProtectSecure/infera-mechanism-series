@@ -1,6 +1,14 @@
 # Setup guide · 20 minutes, four tabs open
 
-This walks you from "form captures to nowhere" to "subscriber gets a welcome email from `hello@infera.studio` within sixty seconds of signing up." Domain assumed: **infera.studio**.
+> **HISTORICAL · superseded May 2026.** This guide describes the original
+> Buttondown-based newsletter wiring and the old `infera.studio` domain
+> setup. The live site no longer uses Buttondown: every subscribe form
+> now submits directly to `infera@melophon.com` via `mailto:` (the
+> reader's own mail client posts the address). Domain assumed
+> throughout the document below: **series.melophon.com** (formerly
+> `infera.studio`). Kept for reference only.
+
+This walks you from "form captures to nowhere" to "subscriber gets a welcome email from `infera@melophon.com` within sixty seconds of signing up." Domain assumed: **series.melophon.com**.
 
 You'll have four tabs open: Squarespace, Google Workspace, Buttondown, and a code editor (or just this folder).
 
@@ -10,26 +18,26 @@ You'll have four tabs open: Squarespace, Google Workspace, Buttondown, and a cod
 
 Squarespace partners with Google Workspace for custom-domain email. You manage it from inside Squarespace.
 
-1. Log in to Squarespace → **Settings → Domains → infera.studio**.
-2. If you don't own infera.studio yet, register it here. ($20–$30/year, same flow.)
+1. Log in to Squarespace → **Settings → Domains → series.melophon.com**.
+2. If you don't own series.melophon.com yet, register it here. ($20–$30/year, same flow.)
 3. In the domain detail panel, click **Email** → **Get a Google Workspace account**.
-4. Choose **Business Starter** ($6/user/month). You only need one user to start — `hello@infera.studio`.
+4. Choose **Business Starter** ($6/user/month). You only need one user to start — `infera@melophon.com`.
 5. Walk through the Google Workspace setup wizard. Squarespace auto-publishes the MX records — no manual DNS.
-6. Verify: send a test email from your personal account to `hello@infera.studio`. It should arrive in the new Gmail-style inbox within minutes.
+6. Verify: send a test email from your personal account to `infera@melophon.com`. It should arrive in the new Gmail-style inbox within minutes.
 
-**You now have a working `@infera.studio` inbox.**
+**You now have a working `@series.melophon.com` inbox.**
 
 ---
 
 ## Step 2 · Create the additional inboxes (~3 min)
 
-Inside the new Google Workspace admin, create these as **aliases of hello@infera.studio** (free — aliases don't cost extra users):
+Inside the new Google Workspace admin, create these as **aliases of infera@melophon.com** (free — aliases don't cost extra users):
 
-- `hello@infera.studio` — primary inbox, the user
-- `press@infera.studio` — alias → forwards to hello
-- `subscribe@infera.studio` — alias → forwards to hello
-- `corrections@infera.studio` — alias → forwards to hello
-- `legal@infera.studio` — alias → forwards to hello
+- `infera@melophon.com` — primary inbox, the user
+- `infera@melophon.com` — alias → forwards to hello
+- `infera@melophon.com` — alias → forwards to hello
+- `infera@melophon.com` — alias → forwards to hello
+- `infera@melophon.com` — alias → forwards to hello
 
 Path: **Google Workspace Admin → Apps → Google Workspace → Gmail → Routing → Add → Catch-all or specific aliases**. Or use **Directory → Users → hello → Add alternate emails**.
 
@@ -41,10 +49,10 @@ See `email-addresses.md` for the full list + the autoresponder body for each.
 
 Squarespace's newsletter block only works inside Squarespace pages. Your site is custom HTML on Render — so we use Buttondown, which is designed for exactly this.
 
-1. Go to **buttondown.email** → sign up with `hello@infera.studio`.
+1. Go to **buttondown.email** → sign up with `infera@melophon.com`.
 2. Newsletter name: **The Mechanism Series**. Slug: `mechanism`.
-3. **Settings → Domains** → add `infera.studio` → follow the DNS verification (one TXT + one MX record, copy-paste into Squarespace's DNS panel).
-4. **Settings → Sending Email From** → set to `hello@infera.studio`.
+3. **Settings → Domains** → add `series.melophon.com` → follow the DNS verification (one TXT + one MX record, copy-paste into Squarespace's DNS panel).
+4. **Settings → Sending Email From** → set to `infera@melophon.com`.
 5. **Settings → Welcome Email** → paste the body from `welcome-email.md`. Subject from the same file.
 6. **Settings → Embeds** → grab the **form action URL**. It looks like:
    `https://buttondown.email/api/emails/embed-subscribe/mechanism`
@@ -94,13 +102,13 @@ Commit and push:
 ```bash
 cd ~/infera/mechanism-series-repo
 git add .
-git commit -m "Wire newsletter capture to Buttondown · @infera.studio email live · legal spine"
+git commit -m "Wire newsletter capture to Buttondown · @series.melophon.com email live · legal spine"
 git push origin main
 ```
 
 Send a test from a clean browser. The subscriber should:
 1. Submit the form
-2. Receive the welcome email from `hello@infera.studio` within a minute
+2. Receive the welcome email from `infera@melophon.com` within a minute
 3. The welcome email contains the unsubscribe link (Buttondown adds automatically)
 
 If anything misfires, the most common culprit is DNS propagation — wait 60 minutes and retry.
