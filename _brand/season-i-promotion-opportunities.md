@@ -22,10 +22,10 @@ The "Seven mechanisms. One pattern." closer thesis becomes **"Ten mechanisms. On
 |---|---|
 | Housing / civic disappearance | S1·01 Trickle · S1·02 Eviction Funnel · S1·03 Closed Hospital · S1·04 Coast Is Moving |
 | Civic apparatus | S1·05 Provisional Ballot · S1·10 Runoff Tells |
-| Financial substrate | S1·06 Vogtle Bill · S1·07 Data Center Load · S1·09 Capital Stack |
+| Financial substrate | S1·06 Vogtle Bill · S1·07 Data Center Bill · S1·09 Capital Stack |
 | Disbursement & accountability | S1·08 Settlement Shrinkage |
 
-The financial-substrate cluster (S1·06–S1·07–S1·09) now reads as a **three-piece sub-arc** within Season I — Vogtle is the historical case, Data Center Load is the present-tense case, Capital Stack is the integrative case that names the architecture across both. That's a coherent narrative pocket worth surfacing.
+The financial-substrate cluster (S1·06–S1·07–S1·09) now reads as a **three-piece sub-arc** within Season I — Vogtle is the historical case, Data Center Bill is the present-tense case, Capital Stack is the integrative case that names the architecture across both. That's a coherent narrative pocket worth surfacing.
 
 ### 2. Two new explicit bridges to Season II
 
@@ -56,7 +56,7 @@ The Systems Atlas now has **11 pink load-bearing edges** total. The bowtie at EP
 S1·06 + S1·07 + S1·09 now read as a coherent three-piece investigation. **Build a small landing/index page** that frames them as a sub-arc:
 
 - *The Vogtle Bill* — the historical case (15 years, $35B, kitchen table to dividend)
-- *The Data Center Load* — the present-tense case (8,200 MW, 76% ratepayer absorption)
+- *The Data Center Bill* — the present-tense case (8,200 MW, 76% ratepayer absorption)
 - *The Capital Stack* — the integrative case (three instruments, one stack, reproducible)
 
 URL slug candidate: `/the-financial-substrate.html` or `/financial-substrate-of-georgia.html`. Acts like a "season within the season." Editorial leverage: someone landing on Vogtle can be invited to read the whole sub-arc; someone landing on Capital Stack can be invited to read the prequel.
@@ -96,7 +96,7 @@ Now that Season I has 10 tiles, the homepage has more density. Worth testing:
 
 ## What this re-edit does NOT solve (and what to track for the next pass)
 
-1. **Where-you-are anchors are now on 3 Season I pages** (the promoted three) but **not the other 7**. For full coherence, the anchor pattern should extend to all 10 Season I episodes. Next pass: write a script that adds the same anchor template to Eviction Funnel, Closed Hospital, Coast, Trickle, Provisional Ballot, Vogtle, Data Center Load. Same approach as the Editorial Desk insert pass — standardize, batch.
+1. **Where-you-are anchors are now on 3 Season I pages** (the promoted three) but **not the other 7**. For full coherence, the anchor pattern should extend to all 10 Season I episodes. Next pass: write a script that adds the same anchor template to Eviction Funnel, Closed Hospital, Coast, Trickle, Provisional Ballot, Vogtle, Data Center Bill. Same approach as the Editorial Desk insert pass — standardize, batch.
 
 2. **In-body callbacks** were added at one decisive point each in the three new tiles. They could be added at MORE points within each piece for even denser cross-referencing. But that risks tipping into "see also spam" the Reader-Experience Principle warns against. Hold for now; revisit if reader behavior shows the existing callbacks are being followed at high rates.
 

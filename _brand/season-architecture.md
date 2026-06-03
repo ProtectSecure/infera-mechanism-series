@@ -114,7 +114,7 @@ This is the architecture EP 08 (The Class Engine) is built to make legible. Ever
 | EP 04 Influence War (persuasion + civic) | Voter targeting, registration challenges | S1·05 The Provisional Ballot |
 | EP 05 Replayable City (surveillance substrate) | Geofence-based investigations, civic monitoring | (Capitol breach reconstruction · in-episode) |
 | EP 06 Composite State (civic composite) | Medical-record dispersal, benefit denial | S1·02 The Closed Hospital · Special Report Hospital Closes |
-| EP 07 Physical Plant (data-center cost) | Rate-payer subsidy, household pressure | **S1·06 The Vogtle Bill** · **S1·07 The Data Center Load** |
+| EP 07 Physical Plant (data-center cost) | Rate-payer subsidy, household pressure | **S1·06 The Vogtle Bill** · **S1·07 The Data Center Bill** |
 | EP 08 Class Engine (compounding stratification) | **Convergence node — touches all Season I stories** | All of S1 |
 | EP 09 Synthetic Self (extension past participation) | Posthumous account abuse, persona-impersonation fraud | S1·05 Provisional Ballot (dead-voter challenges) |
 | EP 10 Subscription Self (recurring cost of being you) | Household-budget pressure that compounds with EP 07 cost | S1·04 The Trickle |

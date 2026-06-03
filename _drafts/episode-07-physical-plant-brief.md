@@ -2,7 +2,7 @@
 
 **Season II · Episode 07 · Movement: Consequence (1/2)**
 **Status:** DISCOVER mode brief — research consolidation pending
-**Atlas slot:** Physical Infrastructure node — load-bearing edges to Vogtle Bill (S1·06), Data Center Load (S1·07), and forward to EP 08 The Class Engine
+**Atlas slot:** Physical Infrastructure node — load-bearing edges to Vogtle Bill (S1·06), Data Center Bill (S1·07), and forward to EP 08 The Class Engine
 **Date drafted:** 27 May 2026 · revised 2 June 2026 (renumbered + tax angle added)
 
 ---
@@ -45,7 +45,7 @@ The episode's load-bearing turn. Data centers do not pay for their own grid upgr
 
 - **The rate-payer mechanism.** Public utility commissions approve transmission upgrades and capacity additions. The cost is distributed across the utility's full customer base, including residential. The data center pays its negotiated tariff; the household pays a marginally higher fixed cost forever. The same shape repeats in Northern Virginia, Maricopa County, central Ohio, and the Pacific Northwest.
 - **The Vogtle proof-of-concept.** Georgia Power's ratepayers are still paying down a nuclear-plant overrun — Plant Vogtle Units 3 and 4 — whose new load growth is now substantially data-center-driven. The Vogtle story (already documented as S1·07 The Vogtle Bill) is the cleanest case study of the mechanism. The episode hosts it explicitly and links back to the original S1 reporting.
-- **The Data Center Load companion (S1·07).** The Season I piece *The Data Center Load* runs in parallel with this episode and shows the residential customer's bill: where the line items go, what percentage is attributable to data-center load growth (current Georgia anchor: ~76% of buildout cost absorbed by residential/small-commercial customers), what the trajectory looks like to 2030. EP 07 references it; it references EP 07. The two pieces are mirrored.
+- **The Data Center Bill companion (S1·07).** The Season I piece *The Data Center Bill* runs in parallel with this episode and shows the residential customer's bill: where the line items go, what percentage is attributable to data-center load growth (current Georgia anchor: ~76% of buildout cost absorbed by residential/small-commercial customers), what the trajectory looks like to 2030. EP 07 references it; it references EP 07. The two pieces are mirrored.
 - **What it costs the host community.** Property-tax abatements that reduce local revenue (offered as economic-development incentives), modest operational headcount, contested water rights in regions where water is already politically scarce, transmission-cost socialization, heat and noise emissions, and increasingly substantive local opposition.
 
 ### Act 3 · WHAT IT CONNECTS (the convergence)
@@ -132,7 +132,7 @@ For Act 2 (the cost spine), introduce a second visual: **The Rate-Payer Diagram*
 ### Breadcrumb-back to Season I
 
 - ← **S1·07 The Vogtle Bill** *(load-bearing)*: the cleanest case study of the rate-payer subsidy mechanism. EP 07 references the Vogtle reporting explicitly and the Vogtle page receives a forward-pointing Editorial Desk insert pointing to EP 07.
-- ← **S1·07 The Data Center Load** *(load-bearing)*: the Season I companion to this episode. The reader can enter either one and reach the other.
+- ← **S1·07 The Data Center Bill** *(load-bearing)*: the Season I companion to this episode. The reader can enter either one and reach the other.
 - ← *S1·04 The Trickle* *(secondary)*: household-budget pressure compounding from the rate-payer side as well as the wage-stagnation side.
 
 ### Foreshadow dot (forward-reach)
@@ -143,7 +143,7 @@ For Act 2 (the cost spine), introduce a second visual: **The Rate-Payer Diagram*
 
 ## Atlas updates
 
-- **Systems Atlas:** Physical Plant terminal node already present. Add new **load-bearing pink edges** to S1·06 Vogtle Bill and S1·07 Data Center Load, labeled "rate-payer subsidy." Maintain edges to all Season II nodes.
+- **Systems Atlas:** Physical Plant terminal node already present. Add new **load-bearing pink edges** to S1·06 Vogtle Bill and S1·07 Data Center Bill, labeled "rate-payer subsidy." Maintain edges to all Season II nodes.
 - **Claims Atlas:** ~35 new rows (energy consumption, water consumption, ownership concentration, host-community fiscal data, rate-case filings naming data-center load growth, hyperscaler PPA structures, GovCloud-commercial co-location, Vogtle load-growth attribution).
 - **Case File:** adds a "Physical Plant" panel — based on reader's geographic inference, identifies likely primary data-center markets serving them, the dominant owner class, and the estimated state-level residential contribution to data-center grid upgrades.
 
@@ -181,7 +181,7 @@ Target: **35 load-bearing claims**, each with counter-read URL. ~8 additional cl
 3. Pull GA PSC Vogtle dockets specifically to anchor the rate-payer mechanism.
 4. Identify three named counter-read defenders: economic-development case, infrastructure-modernization case, AI-competitiveness case. Each gets a hosted paragraph.
 5. Specify the Data Center Reveal interactive in detail (including the new Stage 4 cost-to-you reveal).
-6. Coordinate with S1·07 Data Center Load — already shipped on Season I; EP 07 should reference its specific numbers directly and the Data Center Load page should receive an Editorial Desk insert pointing forward to EP 07.
+6. Coordinate with S1·07 The Data Center Bill — already shipped on Season I; EP 07 should reference its specific numbers directly and the Data Center Bill page should receive an Editorial Desk insert pointing forward to EP 07.
 7. Submit corpus + interactive spec for human review BEFORE rendering.
 8. Render. Audit. Approve. Ship as first half of consequence movement.
 
