@@ -463,39 +463,202 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
   const f2024 = [{y:0,mw:1.0},{y:1,mw:2.0},{y:2,mw:3.5},{y:3,mw:5.5},{y:4,mw:7.0},{y:5,mw:8.2}];
 
   // hyperscale node positions (georgia map abstraction)
+  // Used in ACT I (Footprint) as scattered dots AND in ACT IV (Concentration) as full circles
   const dcNodes = [
     {x:.35,y:.42,sz:2400,nm:'DOUGLAS'},
     {x:.30,y:.55,sz:1800,nm:'COWETA'},
     {x:.48,y:.46,sz:1200,nm:'NEWTON'},
     {x:.42,y:.50,sz:600},{x:.55,y:.40,sz:500},
-    {x:.60,y:.50,sz:400},{x:.40,y:.32,sz:400}
+    {x:.60,y:.50,sz:400},{x:.40,y:.32,sz:400},
+    {x:.52,y:.36,sz:350},{x:.38,y:.60,sz:300},
+    {x:.45,y:.38,sz:300},{x:.58,y:.55,sz:250},{x:.50,y:.58,sz:200}
   ];
 
   // particles for split visualization
   const flow = [];
   for(let i=0;i<80;i++) flow.push({t:Math.random(),side: Math.random()<0.76?'res':'dc'});
 
+  // ============================================================
+  // BASELINE-ILLUSTRATION DATA (used by acts 3, 4, 5 — homes ↔ grid ↔ data center)
+  // ============================================================
+  const NODES = {
+    grid:  { x: 0.5,  y: 0.5,  r: 0.16, label: 'GA GRID',        color: '#4ad4d4' },
+    dc:    { x: 0.78, y: 0.32, r: 0.14, label: 'DATA CENTER',    color: '#d44a8c' },
+    home1: { x: 0.18, y: 0.28, r: 0.05, label: 'HOMES',          color: '#9aa4b2' },
+    home2: { x: 0.16, y: 0.5,  r: 0.05, label: 'HOMES',          color: '#9aa4b2' },
+    home3: { x: 0.20, y: 0.72, r: 0.05, label: 'HOMES',          color: '#9aa4b2' },
+    rate:  { x: 0.5,  y: 0.83, r: 0.09, label: 'RATE INCREASE',  color: '#d4654a' }
+  };
+  const flowP = [];     // particles flowing along node connections
+  function drawBaselineNode(key, opacity, sizeMul){
+    sizeMul = sizeMul || 1;
+    const n = NODES[key];
+    const x = n.x * W, y = n.y * H;
+    const r = n.r * Math.min(W, H) * sizeMul;
+    // soft halo
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r * 2.2);
+    g.addColorStop(0, n.color + '40');
+    g.addColorStop(1, n.color + '00');
+    ctx.fillStyle = g;
+    ctx.fillRect(x - r * 2.2, y - r * 2.2, r * 4.4, r * 4.4);
+    // ring
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    const alphaHex = Math.round(opacity * 255).toString(16).padStart(2,'0');
+    ctx.strokeStyle = n.color + alphaHex;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    // label
+    ctx.font = '10px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = `rgba(240, 235, 245, ${opacity * 0.85})`;
+    ctx.fillText(n.label, x, y + r + 18);
+    ctx.textAlign = 'left';
+  }
+  function drawBaselineScene(dcPower, drawHomesPay){
+    // connection lines (homes → grid)
+    ['home1','home2','home3'].forEach(h => {
+      const f = NODES[h], t = NODES.grid;
+      ctx.beginPath();
+      ctx.moveTo(f.x * W, f.y * H);
+      ctx.lineTo(t.x * W, t.y * H);
+      ctx.strokeStyle = 'rgba(74, 212, 212, 0.10)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+    // connection line (grid → dc)
+    ctx.beginPath();
+    ctx.moveTo(NODES.grid.x * W, NODES.grid.y * H);
+    ctx.lineTo(NODES.dc.x * W, NODES.dc.y * H);
+    ctx.strokeStyle = 'rgba(212, 74, 140, 0.25)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    // dashed cost lines (homes → rate increase) — only when socialization is active
+    if(drawHomesPay){
+      ['home1','home2','home3'].forEach(h => {
+        const f = NODES[h], t = NODES.rate;
+        ctx.beginPath();
+        ctx.moveTo(f.x * W, f.y * H);
+        ctx.lineTo(t.x * W, t.y * H);
+        ctx.strokeStyle = 'rgba(212, 101, 74, 0.22)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      });
+    }
+    // nodes
+    drawBaselineNode('grid',  1);
+    drawBaselineNode('dc',    1, 0.6 + dcPower * 0.6);
+    drawBaselineNode('home1', 1);
+    drawBaselineNode('home2', 1);
+    drawBaselineNode('home3', 1);
+    drawBaselineNode('rate',  drawHomesPay ? 1 : 0.18);
+    // spawn particles
+    if(Math.random() < 0.4){
+      ['home1','home2','home3'].forEach(h => {
+        const f = NODES[h];
+        flowP.push({ x: f.x * W, y: f.y * H, tx: NODES.grid.x * W, ty: NODES.grid.y * H, t: 0, s: 0.012, c: '#4ad4d4' });
+      });
+    }
+    if(Math.random() < 0.6 * dcPower){
+      flowP.push({ x: NODES.grid.x * W, y: NODES.grid.y * H, tx: NODES.dc.x * W, ty: NODES.dc.y * H, t: 0, s: 0.015, c: '#d44a8c' });
+    }
+    if(drawHomesPay && Math.random() < 0.3){
+      ['home1','home2','home3'].forEach(h => {
+        const f = NODES[h];
+        flowP.push({ x: f.x * W, y: f.y * H, tx: NODES.rate.x * W, ty: NODES.rate.y * H, t: 0, s: 0.008, c: '#d4654a' });
+      });
+    }
+    // render particles
+    for(let i = flowP.length - 1; i >= 0; i--){
+      const p = flowP[i];
+      p.t += p.s;
+      if(p.t >= 1){ flowP.splice(i, 1); continue; }
+      const x = p.x + (p.tx - p.x) * p.t;
+      const y = p.y + (p.ty - p.y) * p.t;
+      ctx.beginPath();
+      ctx.arc(x, y, 1.6, 0, Math.PI * 2);
+      ctx.fillStyle = p.c + 'cc';
+      ctx.fill();
+    }
+  }
+
+  // tax exemption stamps (no longer used — superseded by BASELINE illustration for acts 3-5)
+  const stamps = [];
+  for(let i=0;i<6;i++) stamps.push({x:0.2+Math.random()*0.55,y:0.3+Math.random()*0.35,r:Math.random()*Math.PI*0.15-0.075,delay:i*0.08});
+
+  // helper: draw the GA outline (shared by states 1 and 4)
+  function drawGAOutline(w, h, opacity){
+    const mx = w*0.5, my = h*0.5;
+    const mw = w*0.55, mh = h*0.45;
+    ctx.strokeStyle = `rgba(196,167,119,${opacity})`;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(mx-mw/2, my-mh/2);
+    ctx.lineTo(mx+mw/2, my-mh/2);
+    ctx.lineTo(mx+mw/2+10, my-mh/4);
+    ctx.lineTo(mx+mw/2+10, my+mh/3);
+    ctx.lineTo(mx, my+mh/2);
+    ctx.lineTo(mx-mw/3, my+mh/2);
+    ctx.lineTo(mx-mw/2-10, my+mh/4);
+    ctx.lineTo(mx-mw/2, my-mh/4);
+    ctx.closePath();
+    ctx.stroke();
+  }
+
   function tick(){
     if(W < 10){ requestAnimationFrame(tick); return; }
     state += (targetState - state) * 0.08;
     const w = W, h = H;
     ctx.clearRect(0, 0, w, h);
+    const t = performance.now() * 0.001;
 
-    // ============= STATES 1-2: FORECAST CURVE =============
-    if(state < 2.5){
+    // ============= STATE 1: THE FOOTPRINT — GA #2 with scattered hyperscale dots =============
+    if(state < 1.5){
+      drawGAOutline(w, h, 0.35);
+      // scattered hyperscale dots — all 12 sites, smaller, pulsing in waves
+      dcNodes.forEach((n, i)=>{
+        const px = w * (0.22 + n.x*0.5);
+        const py = h * (0.2 + n.y*0.55);
+        const phase = (t * 0.6 + i*0.3) % (Math.PI*2);
+        const pulse = (Math.sin(phase) + 1) / 2;
+        const r = Math.sqrt(n.sz) * 0.08 + pulse * 3;
+        ctx.beginPath();
+        ctx.arc(px, py, r * 2.5, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(90,155,184,${0.06 + pulse*0.1})`;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(px, py, r, 0, Math.PI*2);
+        ctx.fillStyle = '#5a9bb8';
+        ctx.fill();
+      });
+      // big "#2" callout
+      ctx.font = '64px Fraunces';
+      ctx.fillStyle = 'rgba(90,155,184,0.92)';
+      ctx.textAlign = 'right';
+      ctx.fillText('#2', w*0.88, h*0.42);
+      ctx.font = '11px JetBrains Mono';
+      ctx.fillStyle = 'rgba(196,167,119,0.8)';
+      ctx.fillText('IN THE US', w*0.88, h*0.48);
+      ctx.font = '10px JetBrains Mono';
+      ctx.fillStyle = 'rgba(168,162,152,0.7)';
+      ctx.fillText('12 HYPERSCALE SITES', w*0.88, h*0.56);
+      ctx.textAlign = 'left';
+    }
+
+    // ============= STATE 2: THE FILING — FORECAST CURVE =============
+    else if(state < 2.5){
       const padX = w*0.10, padTop = 170, padBot = 140;
       const cw = w - padX*2, ch = Math.max(120, h - padTop - padBot);
       const padY = padTop;
 
-      // axis
       ctx.strokeStyle = 'rgba(196,167,119,.15)';
       ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(padX, padY+ch); ctx.lineTo(padX+cw, padY+ch); ctx.stroke();
 
-      // 2023 forecast (dashed)
       ctx.strokeStyle = 'rgba(196,167,119,.6)';
-      ctx.setLineDash([4,4]);
-      ctx.lineWidth = 2;
+      ctx.setLineDash([4,4]); ctx.lineWidth = 2;
       ctx.beginPath();
       f2023.forEach((p,i)=>{
         const x = padX + (i/5)*cw;
@@ -504,166 +667,132 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
       });
       ctx.stroke();
       ctx.setLineDash([]);
-
-      // 2023 label
       ctx.font = '10px JetBrains Mono';
       ctx.fillStyle = 'rgba(196,167,119,.7)';
       ctx.fillText('2023 IRP · 5,400 MW', padX+cw-130, padY + ch * (1 - 5.4/9) + 18);
 
-      // 2024 forecast (solid, brighter as state grows)
-      const reveal = state >= 2 ? 1 : 0.6;
-      ctx.strokeStyle = '#5a9bb8';
-      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#5a9bb8'; ctx.lineWidth = 3;
       ctx.beginPath();
       f2024.forEach((p,i)=>{
-        if(i/5 > reveal+0.05) return;
         const x = padX + (i/5)*cw;
         const y = padY + ch * (1 - p.mw/9);
         if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
       });
       ctx.stroke();
 
-      // shaded delta
-      if(state >= 2){
-        ctx.fillStyle = 'rgba(90,155,184,.18)';
-        ctx.beginPath();
-        f2024.forEach((p,i)=>{
-          const x = padX + (i/5)*cw;
-          const y = padY + ch * (1 - p.mw/9);
-          if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-        });
-        for(let i=f2023.length-1;i>=0;i--){
-          const p = f2023[i];
-          const x = padX + (i/5)*cw;
-          const y = padY + ch * (1 - p.mw/9);
-          ctx.lineTo(x,y);
-        }
-        ctx.closePath();
-        ctx.fill();
-
-        // delta callout
-        ctx.font = '12px JetBrains Mono';
-        ctx.fillStyle = '#5a9bb8';
-        ctx.fillText('+2.2 GW delta', padX+cw*0.45, padY+ch*0.55);
-
-        // 2024 endpoint
-        ctx.font = '18px Fraunces';
-        ctx.fillStyle = '#5a9bb8';
-        ctx.textAlign = 'right';
-        ctx.fillText('8,200 MW', padX+cw-10, padY + ch * (1 - 8.2/9) - 12);
-        ctx.textAlign = 'left';
+      ctx.fillStyle = 'rgba(90,155,184,.18)';
+      ctx.beginPath();
+      f2024.forEach((p,i)=>{
+        const x = padX + (i/5)*cw;
+        const y = padY + ch * (1 - p.mw/9);
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      });
+      for(let i=f2023.length-1;i>=0;i--){
+        const p = f2023[i];
+        const x = padX + (i/5)*cw;
+        const y = padY + ch * (1 - p.mw/9);
+        ctx.lineTo(x,y);
       }
-
-      // year axis
-      ctx.font = '9px JetBrains Mono';
-      ctx.fillStyle = 'rgba(168,162,152,.7)';
+      ctx.closePath(); ctx.fill();
+      ctx.font = '12px JetBrains Mono'; ctx.fillStyle = '#5a9bb8';
+      ctx.fillText('+2.2 GW delta', padX+cw*0.45, padY+ch*0.55);
+      ctx.font = '18px Fraunces'; ctx.fillStyle = '#5a9bb8'; ctx.textAlign = 'right';
+      ctx.fillText('8,200 MW', padX+cw-10, padY + ch * (1 - 8.2/9) - 12);
+      ctx.textAlign = 'left';
+      ctx.font = '9px JetBrains Mono'; ctx.fillStyle = 'rgba(168,162,152,.7)';
       ['2024','2026','2028','2030'].forEach((y,i)=>{
         ctx.fillText(y, padX + (i*1.67/5)*cw - 12, padY+ch+18);
       });
     }
 
-    // ============= STATE 3: CONCENTRATION MAP =============
-    if(state >= 2.5 && state < 3.5){
-      // simplified GA outline
-      const mx = w*0.5, my = h*0.5;
-      const mw = w*0.55, mh = h*0.45;
-      ctx.strokeStyle = 'rgba(196,167,119,.3)';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(mx-mw/2, my-mh/2);
-      ctx.lineTo(mx+mw/2, my-mh/2);
-      ctx.lineTo(mx+mw/2+10, my-mh/4);
-      ctx.lineTo(mx+mw/2+10, my+mh/3);
-      ctx.lineTo(mx, my+mh/2);
-      ctx.lineTo(mx-mw/3, my+mh/2);
-      ctx.lineTo(mx-mw/2-10, my+mh/4);
-      ctx.lineTo(mx-mw/2, my-mh/4);
-      ctx.closePath();
-      ctx.stroke();
+    // ============= STATES 3-5: BASELINE ILLUSTRATION (evolves through legal mechanism → buildout → split) =============
+    // The same scene (HOMES → GA GRID ← DATA CENTER) but with progressive intensification:
+    //   state 3 (Legal Mechanism · Tax Holiday) — data center growing, no rate increase yet
+    //   state 4 (Buildout) — data center at full draw, residential rate still stable
+    //   state 5 (The Split) — homes now also paying RATE INCREASE (dashed lines activate)
+    else if(state < 5.5){
+      // interpolate scene parameters from the smoothed state value
+      // dcPower grows from 0.6 at state 3 → 1.0 by state 4; stays at 1.0 thereafter
+      const dcPower = Math.min(1, 0.6 + (state - 3) * 0.5);
+      // homes-pay (rate increase) activates progressively as state crosses 4.4 → 5
+      const homesPay = state > 4.4;
 
-      // hyperscale nodes
-      dcNodes.forEach(n=>{
-        const px = w * (0.22 + n.x*0.5);
-        const py = h * (0.2 + n.y*0.55);
-        const radius = Math.sqrt(n.sz) * 0.25;
+      drawBaselineScene(dcPower, homesPay);
 
-        // pulse
-        const t = performance.now() * 0.001;
-        const p = (Math.sin(t + n.x*10) + 1) / 2;
-
-        ctx.beginPath();
-        ctx.arc(px, py, radius * (2 + p), 0, Math.PI*2);
-        ctx.fillStyle = `rgba(90,155,184,${0.1 + p*0.18})`;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(px, py, radius, 0, Math.PI*2);
-        ctx.fillStyle = '#5a9bb8';
-        ctx.fill();
-
-        if(n.nm){
-          ctx.font = '11px Fraunces';
-          ctx.fillStyle = '#f0ebe0';
-          ctx.textAlign = 'left';
-          ctx.fillText(n.nm, px + radius + 10, py - 4);
-          ctx.font = '9px JetBrains Mono';
-          ctx.fillStyle = '#5a9bb8';
-          ctx.fillText(`${n.sz} MW`, px + radius + 10, py + 8);
-          ctx.textAlign = 'left';
-        }
-      });
+      // per-state caption overlay (small, bottom-left)
+      ctx.font = '10.5px JetBrains Mono';
+      ctx.textAlign = 'left';
+      if(state < 3.5){
+        ctx.fillStyle = 'rgba(212,74,140,0.85)';
+        ctx.fillText('HB 1192 · TAX HOLIDAY IN EFFECT', w*0.06, h*0.93);
+      } else if(state < 4.5){
+        ctx.fillStyle = 'rgba(196,167,119,0.85)';
+        ctx.fillText('3 COUNTIES · DOUGLAS · COWETA · NEWTON', w*0.06, h*0.93);
+      } else {
+        ctx.fillStyle = 'rgba(212,101,74,0.95)';
+        ctx.fillText('RATE INCREASE · STACKED ATOP +$420/yr VOGTLE', w*0.06, h*0.93);
+      }
     }
 
-    // ============= STATE 4: 76/24 SPLIT FLOW =============
-    if(state >= 3.5){
-      const cx = w*0.5, topY = h*0.18;
-      const splitW = w*0.6;
+    // ============= STATE 6: THE HORIZON — TILTED SCALE (ASK vs WILL) =============
+    else {
+      const cx = w*0.5, baseY = h*0.62;
+      // pivot
+      ctx.beginPath();
+      ctx.arc(cx, baseY, 6, 0, Math.PI*2);
+      ctx.fillStyle = '#c4a777';
+      ctx.fill();
+      // tilt animation — perpetual lean toward "will" (right side heavy)
+      const tilt = -0.22 + Math.sin(t * 0.8) * 0.04;
+      const armLen = w*0.32;
+      ctx.save();
+      ctx.translate(cx, baseY);
+      ctx.rotate(tilt);
+      ctx.strokeStyle = 'rgba(196,167,119,0.78)';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(-armLen, 0);
+      ctx.lineTo(armLen, 0);
+      ctx.stroke();
 
-      // origin label
+      // ASK side (lighter, left) — empty rectangle outline
+      ctx.strokeStyle = '#5a9bb8';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(-armLen - 50, -50, 100, 60);
       ctx.font = '11px JetBrains Mono';
-      ctx.fillStyle = '#a8a298';
-      ctx.textAlign = 'center';
-      ctx.fillText('BUILDOUT COST', cx, topY-20);
-
-      // origin node
-      ctx.beginPath(); ctx.arc(cx, topY, 8, 0, Math.PI*2);
-      ctx.fillStyle = '#c4a777'; ctx.fill();
-
-      // two destinations
-      const leftX = cx - splitW/2, rightX = cx + splitW/2;
-      const bottomY = h*0.78;
-
-      // residential (76%) on left
-      ctx.font = '13px Fraunces';
-      ctx.fillStyle = '#b54a3a';
-      ctx.textAlign = 'center';
-      ctx.fillText('RESIDENTIAL', leftX, bottomY+24);
-      ctx.font = '32px Fraunces';
-      ctx.fillStyle = '#b54a3a';
-      ctx.fillText('76%', leftX, bottomY+62);
-
-      // hyperscale (24%) on right
-      ctx.font = '13px Fraunces';
       ctx.fillStyle = '#5a9bb8';
-      ctx.fillText('HYPERSCALE', rightX, bottomY+24);
-      ctx.font = '32px Fraunces';
-      ctx.fillStyle = '#5a9bb8';
-      ctx.fillText('24%', rightX, bottomY+62);
+      ctx.textAlign = 'center';
+      ctx.fillText('ASK', -armLen, -64);
+      ctx.font = '8.5px JetBrains Mono';
+      ctx.fillStyle = 'rgba(90,155,184,0.88)';
+      ctx.fillText('hyperscale tariff', -armLen, -16);
+      ctx.fillText('HB 1192 sunset', -armLen, -3);
+      ctx.fillText('disclosure', -armLen, 10);
+
+      // WILL side (heavy, right) — filled block, darker
+      ctx.fillStyle = 'rgba(181,74,58,0.62)';
+      ctx.fillRect(armLen - 50, -80, 100, 90);
+      ctx.strokeStyle = '#b54a3a';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(armLen - 50, -80, 100, 90);
+      ctx.font = '11px JetBrains Mono';
+      ctx.fillStyle = '#b54a3a';
+      ctx.fillText('WILL', armLen, -94);
+      ctx.font = '8.5px JetBrains Mono';
+      ctx.fillStyle = '#f0ebe0';
+      ctx.fillText('PSC composition', armLen, -50);
+      ctx.fillText('donor structure', armLen, -36);
+      ctx.fillText('low-turnout', armLen, -22);
+      ctx.fillText('elections', armLen, -8);
+      ctx.restore();
       ctx.textAlign = 'left';
 
-      // flow particles
-      flow.forEach(p=>{
-        p.t += 0.004;
-        if(p.t > 1) p.t = 0;
-        const ex = p.side === 'res' ? leftX : rightX;
-        const ey = bottomY - 20;
-        const x = cx + (ex - cx) * p.t;
-        const y = topY + (ey - topY) * p.t;
-        ctx.beginPath();
-        ctx.arc(x, y, 2, 0, Math.PI*2);
-        ctx.fillStyle = p.side === 'res' ? `rgba(181,74,58,${0.5 + p.t*0.4})` : `rgba(90,155,184,${0.5 + p.t*0.4})`;
-        ctx.fill();
-      });
+      // caption
+      ctx.font = '11px JetBrains Mono';
+      ctx.fillStyle = 'rgba(168,162,152,0.78)';
+      ctx.textAlign = 'center';
+      ctx.fillText('THE BILLS EXIST. THEY DIE IN COMMITTEE.', cx, h*0.88);
+      ctx.textAlign = 'left';
     }
 
     requestAnimationFrame(tick);
@@ -674,10 +803,12 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
   const stageH = document.getElementById('stageH');
   const stageAct = document.getElementById('stageAct');
   const STATES = {
-    1: { act:'ACT · I · THE FORECAST', h:'Eight thousand two hundred megawatts of new load by winter 2030/31.', year:'2030', mw:'8,200', dc:'~75%', res:'—' },
-    2: { act:'ACT · II · THE BUILDOUT', h:'Coal kept on. Gas added. Transmission accelerated. To serve a tripled forecast.', year:'2025', mw:'+2.2 GW', dc:'~75%', res:'—' },
-    3: { act:'ACT · III · THE CONCENTRATION', h:'Three counties — Douglas, Coweta, Newton — absorb most of the announced capacity.', year:'2030', mw:'8,200', dc:'12 sites', res:'—' },
-    4: { act:'ACT · IV · THE SPLIT', h:'Hyperscale customers pay ~24% of the buildout. Residential absorbs the rest.', year:'today', mw:'8,200', dc:'~24%', res:'76%' }
+    1: { act:'ACT · I · THE FOOTPRINT', h:'Georgia is the #2 data-center market in the United States.', year:'today', mw:'12 sites', dc:'#2 in US', res:'—' },
+    2: { act:'ACT · II · THE FILING', h:'Eight thousand two hundred megawatts of new load by winter 2030/31.', year:'2030', mw:'8,200', dc:'~75%', res:'—' },
+    3: { act:'ACT · III · THE LEGAL MECHANISM', h:'HB 1192 exempted data-center equipment from state sales tax. The hyperscale customer pays an abated rate.', year:'GRID', mw:'strained', dc:'HIGH +47%', res:'stable' },
+    4: { act:'ACT · IV · THE BUILDOUT', h:'Coal kept on. Gas added. Three counties — Douglas, Coweta, Newton — absorb most of the load.', year:'GRID', mw:'over capacity', dc:'AT FULL DRAW', res:'stable' },
+    5: { act:'ACT · V · THE SPLIT', h:'Cost socialized. Residential rate absorbs the gap. Hyperscalers paid 24%; everyone else pays the rest.', year:'GRID', mw:'over capacity', dc:'24% paid', res:'76% absorbed' },
+    6: { act:'ACT · VI · THE HORIZON', h:'The political ask is simple. The political will is not.', year:'next', mw:'reform', dc:'ask', res:'will' }
   };
   function setState(n){
     targetState = n;
