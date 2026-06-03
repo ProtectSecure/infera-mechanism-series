@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Physical Plant · EP 07 · The Mechanism Series</title>
+<meta name="description" content="Episode 07 of The Mechanism Series. You have seen the bill. Now see the building. Then see the building in your state. The buildings hosting your composite, the four companies that own them, the state where the same mechanism is reproducing.">
+<meta property="og:title" content="The Physical Plant · EP 07 · The Mechanism Series">
+<meta property="og:description" content="The buildings you have never been allowed inside. The companies that own them. The states where the same mechanism is reproducing.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   THE PHYSICAL PLANT · EP 07 v0.1
+   Aesthetic: futuristic post-pop arthouse · bright pastels · calm tones
+   Reference points: Wes Anderson symmetry · Studio Dumbar · Risograph print
+   · pastel-cyberpunk dashboard · museum installation typography
+   ============================================================ */
+
+:root{
+  /* PASTEL BASE PALETTE — soft, breathing, considered */
+  --paper:            #f4eee4;   /* soft warm cream */
+  --paper-soft:       #ede6d8;   /* a tone darker */
+  --paper-card:       #fbf6ec;   /* card highlight */
+  --ink:              #1a1a1f;   /* deep almost-black */
+  --ink-soft:         #2b2b30;
+  --ink-dim:          #5a5a60;
+  --ink-faint:        #8e8b85;
+
+  /* PASTEL ACCENTS — bright but calm */
+  --pastel-pink:      #ffc1d3;   /* cotton candy */
+  --pastel-mint:      #b8eada;   /* fresh mint */
+  --pastel-butter:    #f8e1a1;   /* butter yellow */
+  --pastel-lavender:  #d4c2f0;   /* lavender */
+  --pastel-peach:     #ffd4b8;   /* peach */
+  --pastel-blue:      #c5d9f1;   /* powder blue */
+  --pastel-sage:      #cfddc8;   /* sage */
+
+  /* DARKER PASTEL EDGES — for text-on-pastel and outlines */
+  --pink-deep:        #d65b8a;
+  --mint-deep:        #4ba889;
+  --butter-deep:      #c79832;
+  --lavender-deep:    #8770b8;
+  --peach-deep:       #d68f5c;
+  --blue-deep:        #5e88c2;
+
+  /* PUNK SHARP ACCENTS — used sparingly for emphasis */
+  --punk-magenta:     #ff2d8b;
+  --punk-chartreuse:  #d4ff32;
+  --punk-cyan:        #1ee3cf;
+
+  /* SUBSTRATE */
+  --rule:             #d6cdb8;
+  --rule-soft:        rgba(26,26,31,0.08);
+  --shadow:           rgba(26,26,31,0.06);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 300;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Risograph grain overlay — subtle */
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(26,26,31,0.06) 1px, transparent 0);
+  background-size: 3px 3px;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+  opacity: 0.7;
+}
+
+/* ============== TABNAV (standard chassis · pastel adaptation) ============== */
+.tabnav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(244,238,228,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+.tabnav-inner{display:flex;align-items:center;padding:12px 24px;gap:20px;overflow-x:auto;scrollbar-width:none}
+.tabnav-inner::-webkit-scrollbar{display:none}
+.brand{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--pink-deep);white-space:nowrap;text-decoration:none;padding-right:18px;border-right:1px solid var(--rule);display:flex;align-items:center;gap:8px}
+.brand .dot{width:6px;height:6px;background:var(--punk-magenta);border-radius:50%;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.tab-list{display:flex;gap:2px;flex:1}
+.tab{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);padding:6px 10px;border-radius:2px;text-decoration:none;white-space:nowrap;transition:color .2s,background .2s}
+.tab:hover{color:var(--ink-soft);background:rgba(26,26,31,0.04)}
+.tab.active{color:var(--pink-deep);background:rgba(255,193,211,0.4)}
+.tab-num{font-family:'Fraunces',serif;font-style:italic;margin-right:5px;opacity:.6}
+
+/* ============== HERO ============== */
+.hero{
+  min-height: 100vh;
+  padding: 120px 8vw 60px;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: linear-gradient(180deg, var(--paper) 0%, var(--paper-soft) 100%);
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* Hero schematic — soft pastel architectural blueprint floating behind */
+.hero-schematic{
+  position: absolute;
+  top: 50%;
+  right: -10%;
+  width: 70%;
+  height: 80%;
+  transform: translateY(-50%);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-meta{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--pink-deep);
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+.hero-meta::before{
+  content: "◇";
+  color: var(--punk-magenta);
+  font-size: 14px;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.hero-headline{
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-size: clamp(48px, 8.5vw, 132px);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin: 8px 0 32px;
+  position: relative;
+  z-index: 2;
+  max-width: 15ch;
+}
+.hero-headline .l{display:block}
+.hero-headline .l1{color: var(--ink)}
+.hero-headline .l2{color: var(--lavender-deep); font-style: italic}
+.hero-headline .l3{color: var(--blue-deep)}
+
+.hero-sub{
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 56ch;
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 2;
+  font-style: italic;
+}
+
+.hero-tags{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 28px;
+}
+.tag{
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 30px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.tag.t-pink   { background: var(--pastel-pink);     color: var(--pink-deep) }
+.tag.t-mint   { background: var(--pastel-mint);     color: var(--mint-deep) }
+.tag.t-butter { background: var(--pastel-butter);   color: var(--butter-deep) }
+.tag.t-lav    { background: var(--pastel-lavender); color: var(--lavender-deep) }
+.tag.t-peach  { background: var(--pastel-peach);    color: var(--peach-deep) }
+.tag.t-blue   { background: var(--pastel-blue);     color: var(--blue-deep) }
+
+.where-you-are{
+  margin-top: 24px;
+  padding: 18px 22px;
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--punk-magenta);
+  max-width: 720px;
+  position: relative;
+  z-index: 2;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  line-height: 1.75;
+}
+.where-you-are b{color: var(--ink); font-weight: 600}
+.where-you-are a{color: var(--punk-magenta); text-decoration: none; border-bottom: 1px solid currentColor}
+.where-you-are a:hover{color: var(--pink-deep)}
+
+/* ============== SHARED SECTION CHASSIS ============== */
+.act-section{
+  padding: 14vh 8vw;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+.act-section.s-mint   { background: var(--pastel-mint) }
+.act-section.s-peach  { background: var(--pastel-peach) }
+.act-section.s-butter { background: var(--pastel-butter) }
+.act-section.s-lav    { background: var(--pastel-lavender) }
+.act-section.s-blue   { background: var(--pastel-blue) }
+.act-section.s-pink   { background: var(--pastel-pink) }
+.act-section.s-paper  { background: var(--paper) }
+
+.act-stamp{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 18px;
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+}
+.act-stamp .roman{font-family:'Instrument Serif',serif;font-style:italic;font-size:20px;color:var(--ink);letter-spacing:0}
+.act-stamp .punk-dot{
+  display: inline-block;
+  width: 7px; height: 7px;
+  background: var(--punk-magenta);
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.act-h2{
+  font-family: 'Fraunces', serif;
+  font-weight: 350;
+  font-variation-settings: "opsz" 144, "SOFT" 60;
+  font-size: clamp(34px, 5vw, 68px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 24px;
+  max-width: 18ch;
+}
+.act-h2 em{font-style: italic; color: var(--ink-soft)}
+
+.act-lead{
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(18px, 1.7vw, 24px);
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 52ch;
+  margin-bottom: 50px;
+}
+
+/* ============== ACT I · THE ANATOMY · cinematic cross-section ============== */
+.anatomy-grid{
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+@media (max-width: 980px){ .anatomy-grid{grid-template-columns: 1fr} }
+
+.blueprint{
+  background: var(--paper-card);
+  border: 1.5px solid var(--mint-deep);
+  border-radius: 4px;
+  padding: 32px 28px;
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.blueprint::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(75,168,137,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(75,168,137,0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+.blueprint-stamp{
+  position: absolute;
+  top: 18px; left: 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mint-deep);
+  font-weight: 600;
+  z-index: 2;
+}
+.blueprint-meta{
+  position: absolute;
+  top: 18px; right: 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--mint-deep);
+  z-index: 2;
+}
+.blueprint svg{
+  width: 100%; height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.anatomy-notes{
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.anatomy-note{
+  background: var(--paper-card);
+  border-left: 3px solid var(--mint-deep);
+  padding: 16px 20px;
+  border-radius: 0 4px 4px 0;
+}
+.anatomy-note .n-num{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 30px;
+  color: var(--mint-deep);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.anatomy-note .n-h{
+  font-family: 'Fraunces', serif;
+  font-weight: 450;
+  font-size: 17px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.anatomy-note .n-p{
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-dim);
+}
+.anatomy-note .n-cite{
+  display: inline-block;
+  margin-top: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  color: var(--mint-deep);
+  text-transform: uppercase;
+  border: 1px solid var(--mint-deep);
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-decoration: none;
+}
+
+/* ============== ACT II · THE OWNERSHIP · concentric concentration ============== */
+.ownership-frame{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+@media (max-width: 980px){ .ownership-frame{grid-template-columns: 1fr} }
+
+.concentric{
+  position: relative;
+  aspect-ratio: 1;
+  max-width: 540px;
+  margin: 0 auto;
+}
+.concentric svg{width:100%;height:100%}
+
+.ownership-prose h4{
+  font-family: 'Fraunces', serif;
+  font-weight: 450;
+  font-size: 22px;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.ownership-prose p{
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  max-width: 50ch;
+}
+.ownership-prose em{font-style: italic; color: var(--peach-deep)}
+.ownership-prose strong{font-weight: 600; color: var(--ink)}
+
+.ownership-stats{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+}
+.ownership-stat{
+  background: var(--paper-card);
+  padding: 14px 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(26,26,31,0.08);
+}
+.ownership-stat .val{
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 350;
+  font-size: 28px;
+  color: var(--peach-deep);
+  line-height: 1;
+}
+.ownership-stat .lbl{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-top: 6px;
+}
+
+/* ============== ACT III · THE PATTERN · state-by-state museum grid ============== */
+.pattern-intro{
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  margin-bottom: 50px;
+}
+@media (max-width: 980px){ .pattern-intro{grid-template-columns: 1fr} }
+
+.pattern-callout{
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
+  padding: 26px 28px;
+  border-radius: 4px;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--ink);
+  position: relative;
+}
+.pattern-callout::before{
+  content: '"';
+  position: absolute;
+  top: 6px; left: 16px;
+  font-family: 'Fraunces', serif;
+  font-size: 80px;
+  color: var(--lavender-deep);
+  opacity: 0.3;
+  line-height: 1;
+}
+.pattern-callout .attr{
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--lavender-deep);
+  margin-top: 14px;
+}
+
+.state-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+.state-card{
+  background: var(--paper-card);
+  border: 1px solid rgba(26,26,31,0.1);
+  padding: 22px 24px;
+  border-radius: 4px;
+  position: relative;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.state-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(26,26,31,0.08);
+}
+.state-card .st-flag{
+  position: absolute;
+  top: 18px; right: 22px;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 32px;
+  color: var(--lavender-deep);
+  line-height: 1;
+}
+.state-card .st-name{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--lavender-deep);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.state-card .st-statute{
+  font-family: 'Fraunces', serif;
+  font-weight: 450;
+  font-size: 17px;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 12px;
+  padding-right: 36px;
+}
+.state-card .st-statute em{font-style: italic; color: var(--lavender-deep)}
+.state-card .st-meta{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--rule);
+}
+.state-card .st-row{
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+.state-card .st-row .lbl{color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.16em}
+.state-card .st-row .val{color: var(--ink); font-weight: 600}
+.state-card .st-row .val.dead{color: var(--punk-magenta); position: relative}
+.state-card .st-row .val.dead::before{
+  content: "✕";
+  margin-right: 4px;
+}
+.state-card .st-foot{
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  color: var(--lavender-deep);
+  text-transform: uppercase;
+}
+
+/* ============== ACT IV · THE CONVERGENCE · the bowtie reveal ============== */
+.convergence-stage{
+  position: relative;
+  padding: 40px 0;
+}
+.convergence-svg{
+  width: 100%;
+  max-width: 980px;
+  margin: 30px auto;
+  display: block;
+  aspect-ratio: 16 / 9;
+}
+
+.convergence-claim{
+  max-width: 720px;
+  margin: 50px auto;
+  text-align: center;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 1.32;
+  color: var(--ink);
+}
+.convergence-claim strong{
+  font-weight: 600;
+  font-style: normal;
+  color: var(--punk-magenta);
+  background: rgba(255,45,139,0.08);
+  padding: 2px 10px;
+  border-radius: 3px;
+}
+
+/* Reactor-cycle preview block — sharp contrast */
+.reactor-preview{
+  background: var(--ink);
+  color: var(--paper);
+  padding: 60px 8vw;
+  position: relative;
+  z-index: 2;
+}
+.reactor-preview .stamp{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--punk-chartreuse);
+  margin-bottom: 18px;
+}
+.reactor-preview h3{
+  font-family: 'Fraunces', serif;
+  font-weight: 350;
+  font-variation-settings: "opsz" 144;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 22px;
+  max-width: 22ch;
+}
+.reactor-preview h3 em{font-style: italic; color: var(--punk-chartreuse)}
+.reactor-preview p{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.5;
+  color: rgba(244,238,228,0.85);
+  max-width: 60ch;
+  margin-bottom: 14px;
+}
+.reactor-preview .ppa-row{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  margin-top: 36px;
+}
+.ppa-card{
+  background: rgba(244,238,228,0.06);
+  border: 1px solid rgba(212,255,50,0.3);
+  padding: 16px 18px;
+  border-radius: 3px;
+}
+.ppa-card .who{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--punk-chartreuse);
+  margin-bottom: 6px;
+}
+.ppa-card .what{
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.3;
+  color: var(--paper);
+}
+
+/* ============== INTERACTIVE · THE NATIONAL LEVER MAP ============== */
+.lever-map{
+  padding: 14vh 6vw;
+  background: var(--paper-card);
+  position: relative;
+  z-index: 2;
+}
+.lm-head{margin-bottom: 36px; max-width: 720px}
+.lm-eyebrow{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--punk-magenta);
+  margin-bottom: 12px;
+}
+.lm-head h2{
+  font-family: 'Fraunces', serif;
+  font-weight: 350;
+  font-variation-settings: "opsz" 144;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.1;
+  color: var(--ink);
+}
+.lm-head h2 em{font-style: italic; color: var(--punk-magenta)}
+.lm-head p{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 56ch;
+  margin-top: 12px;
+}
+
+.lm-frame{
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  padding: 32px;
+  position: relative;
+}
+@media (max-width: 980px){ .lm-frame{grid-template-columns: 1fr} }
+
+.lm-frame::before{
+  content: "TERMINAL · ACTIVE";
+  position: absolute;
+  top: -10px;
+  left: 28px;
+  background: var(--paper-card);
+  padding: 0 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--punk-magenta);
+}
+
+.lm-states{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 540px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.lm-state{
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  transition: all 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.lm-state:hover{background: var(--paper-soft); color: var(--ink)}
+.lm-state.active{
+  background: var(--ink);
+  color: var(--punk-chartreuse);
+  border-color: var(--punk-chartreuse);
+}
+.lm-state .lm-mw{
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0;
+}
+
+.lm-detail{
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.lm-detail-head{
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 16px;
+}
+.lm-detail-head .lm-state-name{
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 36px;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.lm-detail-head .lm-state-tag{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.lm-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+.lm-slot{
+  background: var(--paper-card);
+  padding: 14px 16px;
+  border-radius: 3px;
+  border-left: 3px solid var(--rule);
+}
+.lm-slot.yes{border-left-color: var(--mint-deep)}
+.lm-slot.no{border-left-color: var(--punk-magenta)}
+.lm-slot.proposed{border-left-color: var(--butter-deep)}
+.lm-slot .s-lbl{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 6px;
+}
+.lm-slot .s-val{
+  font-family: 'Fraunces', serif;
+  font-weight: 450;
+  font-size: 15.5px;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.lm-slot .s-val em{font-style: italic; color: var(--peach-deep); font-size: 14px}
+.lm-slot.yes .s-val{color: var(--mint-deep)}
+.lm-slot.no .s-val{color: var(--punk-magenta)}
+.lm-slot.proposed .s-val{color: var(--butter-deep)}
+
+.lm-peer{
+  margin-top: 8px;
+  padding: 12px 16px;
+  background: rgba(212,194,240,0.25);
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lavender-deep);
+}
+.lm-peer b{color: var(--ink); font-weight: 600}
+
+.lm-call{
+  margin-top: 14px;
+  padding: 16px 18px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 3px;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.4;
+}
+.lm-call em{color: var(--punk-chartreuse); font-style: normal; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.1em}
+
+/* ============== DISCIPLINE / METHODOLOGY ============== */
+.discipline-section{
+  padding: 14vh 8vw;
+  background: var(--paper-soft);
+  position: relative;
+  z-index: 2;
+}
+.discipline-section h2{
+  font-family: 'Fraunces', serif;
+  font-weight: 350;
+  font-size: clamp(28px, 3.6vw, 44px);
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 36px;
+  max-width: 26ch;
+}
+.discipline-section h2 em{font-style: italic; color: var(--blue-deep)}
+
+.discipline-cols{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  margin-bottom: 50px;
+}
+@media (max-width: 980px){ .discipline-cols{grid-template-columns: 1fr} }
+.discipline-col h4{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--punk-magenta);
+  margin-bottom: 16px;
+}
+.discipline-col ul{list-style: none}
+.discipline-col li{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  padding: 10px 0 10px 22px;
+  position: relative;
+  border-bottom: 1px dashed var(--rule);
+}
+.discipline-col li::before{
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--ink-faint);
+}
+
+/* Counter-read defenders */
+.counter-row{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+.counter-card{
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
+  padding: 22px 24px;
+  border-radius: 4px;
+  position: relative;
+}
+.counter-card .cc-who{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue-deep);
+  margin-bottom: 12px;
+}
+.counter-card .cc-quote{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+/* ============== CLOSER · the EP 08 handoff ============== */
+.closer-section{
+  padding: 18vh 8vw;
+  text-align: center;
+  background: linear-gradient(180deg, var(--paper) 0%, var(--pastel-pink) 100%);
+  position: relative;
+  z-index: 2;
+}
+.closer-section .closer-stamp{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--pink-deep);
+  margin-bottom: 22px;
+}
+.closer-section h2{
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-variation-settings: "opsz" 144, "SOFT" 80;
+  font-size: clamp(34px, 5vw, 68px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  max-width: 22ch;
+  margin: 0 auto 32px;
+}
+.closer-section h2 em{font-style: italic; color: var(--pink-deep)}
+.closer-section .next{
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 30px;
+  padding: 14px 28px;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  border-radius: 30px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  transition: transform 0.25s;
+}
+.closer-section .next:hover{transform: translateY(-2px)}
+.closer-section .next .arrow{
+  color: var(--punk-chartreuse);
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 18px;
+}
+
+/* ============== FOOTER (standard chassis) ============== */
+footer{
+  padding: 60px 8vw 80px;
+  border-top: 1px solid var(--rule);
+  background: var(--paper);
+  position: relative;
+  z-index: 2;
+}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;max-width:1200px;margin:0 auto}
+@media (max-width: 800px){.footer-grid{grid-template-columns:1fr}}
+.footer-grid h5{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--pink-deep);margin-bottom:14px}
+.footer-grid p{font-family:'Instrument Serif',serif;font-style:italic;font-size:14.5px;color:var(--ink-soft);line-height:1.5}
+.footer-grid ul{list-style:none}
+.footer-grid li{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-dim);line-height:1.9;letter-spacing:.04em}
+.footer-grid li a{color:inherit;text-decoration:none}
+.footer-grid li a:hover{color:var(--pink-deep)}
+.fine{margin-top:30px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-faint);letter-spacing:.1em;line-height:1.7;max-width:920px}
+
+/* ============== Editorial Desk insert (standardized) ============== */
+.editorial-desk-insert{
+  max-width: 720px;
+  margin: 64px auto 32px;
+  padding: 20px 24px;
+  border-left: 3px solid var(--punk-magenta);
+  background: rgba(255,45,139,0.05);
+}
+.editorial-desk-insert .ed-stamp{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--punk-magenta);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.editorial-desk-insert .ed-prose{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.editorial-desk-insert .ed-prose a{
+  color: var(--punk-magenta);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,45,139,0.4);
+}
+.editorial-desk-insert .ed-prose a:hover{border-bottom-color: var(--punk-magenta)}
+</style>
+</head>
+<body>
+
+<!-- ============== TABNAV (canonical 12-tab) ============== -->
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <a class="brand" href="index.html"><span class="dot"></span>INFERA · MECHANISM SERIES</a>
+    <div class="tab-list">
+      <a class="tab" href="index.html"><span class="tab-num">i.</span>Index</a>
+      <a class="tab" href="the-trickle.html"><span class="tab-num">01</span>Trickle</a>
+      <a class="tab" href="the-eviction-funnel.html"><span class="tab-num">02</span>Eviction</a>
+      <a class="tab" href="the-closed-hospital.html"><span class="tab-num">03</span>Hospital</a>
+      <a class="tab" href="the-coast-is-moving.html"><span class="tab-num">04</span>Coast</a>
+      <a class="tab" href="the-provisional-ballot.html"><span class="tab-num">05</span>Ballot</a>
+      <a class="tab" href="the-vogtle-bill.html"><span class="tab-num">06</span>Vogtle</a>
+      <a class="tab" href="the-data-center-load.html"><span class="tab-num">07</span>Data Ctr</a>
+      <a class="tab" href="the-settlement-shrinkage.html"><span class="tab-num">08</span>Settlement</a>
+      <a class="tab" href="the-capital-stack.html"><span class="tab-num">09</span>Stack</a>
+      <a class="tab" href="the-runoff-tells.html"><span class="tab-num">10</span>Runoff</a>
+      <a class="tab" href="thesis.html"><span class="tab-num">⦿</span>Thesis</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============== HERO ============== -->
+<header class="hero">
+  <div class="hero-meta">
+    <span>EP 07 · The Physical Plant</span>
+    <span>·</span>
+    <span>INVESTIGATE · v0.1 · 2 June 2026</span>
+    <span>·</span>
+    <span>≈16 min read</span>
+  </div>
+
+  <div>
+    <h1 class="hero-headline">
+      <span class="l l1">You have seen</span>
+      <span class="l l2">the bill.</span>
+      <span class="l l1">Now see the</span>
+      <span class="l l3">building.</span>
+    </h1>
+
+    <p class="hero-sub">The buildings you have never been allowed inside. The four companies that own them. The state where the same mechanism is reproducing. And the rack where commercial and civic data physically converge.</p>
+
+    <div class="hero-tags">
+      <span class="tag t-pink">Consequence · 1 of 2</span>
+      <span class="tag t-mint">Anatomy</span>
+      <span class="tag t-peach">Ownership</span>
+      <span class="tag t-lav">Pattern</span>
+      <span class="tag t-blue">Convergence</span>
+      <span class="tag t-butter">National Lever Map</span>
+    </div>
+
+    <div class="where-you-are">
+      <b>You are reading EP 07 · The Physical Plant.</b><br>
+      Part of <em>Machine-Readable</em> — Season II's twelve-part investigation of the invisible systems shaping modern life.<br>
+      Reads cleanly after <a href="the-vogtle-bill.html">S1·06 Vogtle Bill</a>, <a href="the-data-center-load.html">S1·07 Data Center Bill</a>, and <a href="the-capital-stack.html">S1·09 Capital Stack</a>. Bridges forward to <strong>EP 08 The Class Engine</strong>.
+    </div>
+  </div>
+
+  <!-- Background hero schematic: soft pastel campus aerial wireframe -->
+  <svg class="hero-schematic" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <pattern id="heroGrid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(135,112,184,0.15)" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="800" height="600" fill="url(#heroGrid)"/>
+    <!-- Substation -->
+    <g stroke="#5e88c2" stroke-width="1.4" fill="rgba(197,217,241,0.5)">
+      <rect x="60" y="200" width="160" height="120" rx="2"/>
+      <line x1="100" y1="200" x2="100" y2="320"/>
+      <line x1="140" y1="200" x2="140" y2="320"/>
+      <line x1="180" y1="200" x2="180" y2="320"/>
+    </g>
+    <text x="60" y="190" font-family="JetBrains Mono" font-size="9" fill="#5e88c2" letter-spacing="2">SUBSTATION</text>
+    <!-- Main data hall -->
+    <g stroke="#4ba889" stroke-width="1.6" fill="rgba(184,234,218,0.45)">
+      <rect x="280" y="160" width="280" height="200" rx="2"/>
+      <rect x="305" y="195" width="230" height="14" fill="rgba(75,168,137,0.35)"/>
+      <rect x="305" y="219" width="230" height="14" fill="rgba(75,168,137,0.35)"/>
+      <rect x="305" y="243" width="230" height="14" fill="rgba(75,168,137,0.35)"/>
+      <rect x="305" y="267" width="230" height="14" fill="rgba(75,168,137,0.35)"/>
+      <rect x="305" y="291" width="230" height="14" fill="rgba(75,168,137,0.35)"/>
+      <rect x="305" y="315" width="230" height="14" fill="rgba(75,168,137,0.35)"/>
+    </g>
+    <text x="280" y="150" font-family="JetBrains Mono" font-size="9" fill="#4ba889" letter-spacing="2">DATA HALL · ROW DENSITY 40+ kW</text>
+    <!-- Cooling -->
+    <g stroke="#d68f5c" stroke-width="1.4" fill="rgba(255,212,184,0.45)">
+      <circle cx="630" cy="220" r="36"/>
+      <circle cx="630" cy="320" r="36"/>
+    </g>
+    <text x="600" y="160" font-family="JetBrains Mono" font-size="9" fill="#d68f5c" letter-spacing="2">CHILLERS</text>
+    <!-- Connections (current flow indication) -->
+    <g stroke="#d65b8a" stroke-width="1.6" stroke-dasharray="3 3" fill="none" opacity="0.7">
+      <path d="M 220 260 L 280 260"/>
+      <path d="M 560 220 L 594 220"/>
+      <path d="M 560 320 L 594 320"/>
+    </g>
+    <!-- Fiber corridor -->
+    <line x1="0" y1="500" x2="800" y2="500" stroke="#8770b8" stroke-width="2" stroke-dasharray="6 4" opacity="0.55"/>
+    <text x="20" y="490" font-family="JetBrains Mono" font-size="9" fill="#8770b8" letter-spacing="2">FIBER CORRIDOR · I-85</text>
+  </svg>
+</header>
+
+<!-- ============== ACT I · THE ANATOMY ============== -->
+<section class="act-section s-mint">
+  <div class="act-stamp"><span class="punk-dot"></span><span class="roman">I.</span><span>· THE ANATOMY · WHAT'S INSIDE THE BUILDING</span></div>
+  <h2 class="act-h2">A building you have <em>never been</em> allowed inside.</h2>
+  <p class="act-lead">300,000 to 500,000 square feet. 30 to 100 megawatts of critical IT load. Server racks at 40 kW each — four times what your data center looked like five years ago. Almost no people. Sized to run on its own diesel for 96 hours.</p>
+
+  <div class="anatomy-grid">
+    <!-- BLUEPRINT cross-section -->
+    <div class="blueprint">
+      <div class="blueprint-stamp">DWG · 07-A · CROSS SECTION</div>
+      <div class="blueprint-meta">SCALE 1:600</div>
+      <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Building outer -->
+        <rect x="40" y="60" width="520" height="280" fill="rgba(75,168,137,0.10)" stroke="#4ba889" stroke-width="2"/>
+        <!-- Roof slope indicator -->
+        <line x1="40" y1="60" x2="100" y2="40" stroke="#4ba889" stroke-width="1.5"/>
+        <line x1="560" y1="60" x2="500" y2="40" stroke="#4ba889" stroke-width="1.5"/>
+        <line x1="100" y1="40" x2="500" y2="40" stroke="#4ba889" stroke-width="1.5"/>
+        <!-- Server rows -->
+        <g fill="#4ba889" opacity="0.7">
+          <rect x="80" y="100" width="200" height="22" rx="1"/>
+          <rect x="80" y="132" width="200" height="22" rx="1"/>
+          <rect x="80" y="164" width="200" height="22" rx="1"/>
+          <rect x="80" y="196" width="200" height="22" rx="1"/>
+          <rect x="80" y="228" width="200" height="22" rx="1"/>
+          <rect x="80" y="260" width="200" height="22" rx="1"/>
+        </g>
+        <text x="80" y="93" font-family="JetBrains Mono" font-size="9" fill="#1a1a1f" letter-spacing="1">DATA HALL · 6 ROWS</text>
+        <!-- Hot aisle / cold aisle indicator -->
+        <text x="180" y="316" font-family="JetBrains Mono" font-size="7" fill="#1a1a1f" letter-spacing="1" text-anchor="middle">HOT/COLD AISLE CONFIG · 40 kW/RACK</text>
+        <!-- Cooling section -->
+        <g fill="rgba(255,212,184,0.55)" stroke="#d68f5c" stroke-width="1.5">
+          <rect x="310" y="100" width="100" height="80" rx="1"/>
+          <rect x="310" y="200" width="100" height="80" rx="1"/>
+        </g>
+        <text x="320" y="118" font-family="JetBrains Mono" font-size="8" fill="#d68f5c" letter-spacing="1">CRAH</text>
+        <text x="320" y="218" font-family="JetBrains Mono" font-size="8" fill="#d68f5c" letter-spacing="1">CHILLER</text>
+        <!-- Electrical -->
+        <g fill="rgba(197,217,241,0.55)" stroke="#5e88c2" stroke-width="1.5">
+          <rect x="430" y="100" width="100" height="60" rx="1"/>
+          <rect x="430" y="170" width="100" height="40" rx="1"/>
+          <rect x="430" y="220" width="100" height="60" rx="1"/>
+        </g>
+        <text x="440" y="118" font-family="JetBrains Mono" font-size="8" fill="#5e88c2" letter-spacing="1">UPS BANK</text>
+        <text x="440" y="188" font-family="JetBrains Mono" font-size="8" fill="#5e88c2" letter-spacing="1">SWITCHGEAR</text>
+        <text x="440" y="238" font-family="JetBrains Mono" font-size="8" fill="#5e88c2" letter-spacing="1">DIESEL · 96h</text>
+        <!-- Floor -->
+        <line x1="40" y1="340" x2="560" y2="340" stroke="#4ba889" stroke-width="2"/>
+        <!-- Raised floor -->
+        <g stroke="#4ba889" stroke-width="0.5" opacity="0.4">
+          <line x1="60" y1="340" x2="60" y2="360"/>
+          <line x1="100" y1="340" x2="100" y2="360"/>
+          <line x1="140" y1="340" x2="140" y2="360"/>
+          <line x1="180" y1="340" x2="180" y2="360"/>
+          <line x1="220" y1="340" x2="220" y2="360"/>
+          <line x1="260" y1="340" x2="260" y2="360"/>
+          <line x1="300" y1="340" x2="300" y2="360"/>
+          <line x1="340" y1="340" x2="340" y2="360"/>
+          <line x1="380" y1="340" x2="380" y2="360"/>
+          <line x1="420" y1="340" x2="420" y2="360"/>
+          <line x1="460" y1="340" x2="460" y2="360"/>
+          <line x1="500" y1="340" x2="500" y2="360"/>
+          <line x1="540" y1="340" x2="540" y2="360"/>
+        </g>
+        <text x="280" y="380" font-family="JetBrains Mono" font-size="8" fill="#4ba889" letter-spacing="1.5" text-anchor="middle">RAISED FLOOR · FIBER + POWER PLENUM</text>
+        <!-- Annotation arrows -->
+        <g stroke="#d65b8a" stroke-width="1" fill="none">
+          <path d="M 290 230 L 305 230"/>
+          <circle cx="290" cy="230" r="2" fill="#d65b8a"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Anatomy notes (museum captions) -->
+    <div class="anatomy-notes">
+      <div class="anatomy-note">
+        <div class="n-num">i.</div>
+        <div class="n-h">Server rack density tripled for AI.</div>
+        <div class="n-p">Air-cooled racks were 5–10 kW historically. AI-training racks routinely exceed 30–40 kW. The highest-density H100/H200 clusters operate at 100+ kW and require liquid cooling.</div>
+        <a class="n-cite" href="https://www.nvidia.com/en-us/data-center/" target="_blank">NVIDIA · GTC</a>
+      </div>
+      <div class="anatomy-note">
+        <div class="n-num">ii.</div>
+        <div class="n-h">Diesel backup runs the facility for days.</div>
+        <div class="n-p">N+1 or 2N redundant generators sized to support the full critical IT load for 48–96 hours without grid power. ASHRAE TC 9.9 and Uptime Tier III/IV standards.</div>
+        <a class="n-cite" href="https://www.ashrae.org" target="_blank">ASHRAE TC 9.9</a>
+      </div>
+      <div class="anatomy-note">
+        <div class="n-num">iii.</div>
+        <div class="n-h">Water consumption is operationally significant.</div>
+        <div class="n-p">Evaporative-cooled hyperscale facilities can consume 1–5 million gallons per day at peak summer operation. Documented water disputes in Arizona, Oregon, Washington.</div>
+        <a class="n-cite" href="https://sustainability.google" target="_blank">Google · Env Report</a>
+      </div>
+      <div class="anatomy-note">
+        <div class="n-num">iv.</div>
+        <div class="n-h">Permanent staff: 30–60 people.</div>
+        <div class="n-p">Per million square feet of facility, post-construction. The "thousands of jobs" pitched to county commissioners refers to construction headcount, not operational.</div>
+        <a class="n-cite" href="https://datacenterfrontier.com" target="_blank">Data Center Frontier</a>
+      </div>
+      <div class="anatomy-note">
+        <div class="n-num">v.</div>
+        <div class="n-h">The neighbors do not know what's inside.</div>
+        <div class="n-p">Hyperscale facilities are typically unmarked. Building exteriors carry no operator branding. Adjacent residential and agricultural parcels frequently can't identify the operator or what compute it hosts.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ACT II · THE OWNERSHIP ============== -->
+<section class="act-section s-peach">
+  <div class="act-stamp"><span class="punk-dot"></span><span class="roman">II.</span><span>· THE OWNERSHIP · THE FOUR COMPANIES</span></div>
+  <h2 class="act-h2">Four hyperscalers. Four REITs. <em>One concentration.</em></h2>
+  <p class="act-lead">The hyperscalers appear in The Data Center Bill as customers driving Georgia load. In The Physical Plant they appear as owners of the buildings — different editorial work, sharper political-economic claim.</p>
+
+  <div class="ownership-frame">
+    <!-- Concentric concentration diagram -->
+    <div class="concentric">
+      <svg viewBox="0 0 540 540" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer ring: GovCloud tier -->
+        <circle cx="270" cy="270" r="240" fill="rgba(214,143,92,0.08)" stroke="#d68f5c" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <text x="270" y="42" font-family="JetBrains Mono" font-size="10" fill="#d68f5c" letter-spacing="2" text-anchor="middle">GovCloud / Public Sector</text>
+        <!-- Mid ring: REIT colocation -->
+        <circle cx="270" cy="270" r="180" fill="rgba(255,212,184,0.5)" stroke="#d68f5c" stroke-width="1.8"/>
+        <text x="270" y="100" font-family="JetBrains Mono" font-size="9.5" fill="#d68f5c" letter-spacing="2" text-anchor="middle">COLO REIT LAYER · 4 MAJOR</text>
+        <text x="100" y="270" font-family="Fraunces" font-style="italic" font-size="14" fill="#d68f5c" text-anchor="middle">Equinix</text>
+        <text x="440" y="270" font-family="Fraunces" font-style="italic" font-size="14" fill="#d68f5c" text-anchor="middle">Digital Realty</text>
+        <text x="180" y="430" font-family="Fraunces" font-style="italic" font-size="12" fill="#d68f5c" text-anchor="middle">CyrusOne</text>
+        <text x="360" y="430" font-family="Fraunces" font-style="italic" font-size="12" fill="#d68f5c" text-anchor="middle">Iron Mountain</text>
+        <!-- Inner ring: 4 hyperscalers -->
+        <circle cx="270" cy="270" r="110" fill="rgba(255,193,211,0.6)" stroke="#d65b8a" stroke-width="2"/>
+        <text x="270" y="180" font-family="JetBrains Mono" font-size="9.5" fill="#d65b8a" letter-spacing="2" text-anchor="middle">FOUR HYPERSCALERS</text>
+        <text x="208" y="252" font-family="Fraunces" font-weight="500" font-size="20" fill="#d65b8a" text-anchor="middle">AWS</text>
+        <text x="332" y="252" font-family="Fraunces" font-weight="500" font-size="20" fill="#d65b8a" text-anchor="middle">Azure</text>
+        <text x="208" y="318" font-family="Fraunces" font-weight="500" font-size="20" fill="#d65b8a" text-anchor="middle">Google</text>
+        <text x="332" y="318" font-family="Fraunces" font-weight="500" font-size="20" fill="#d65b8a" text-anchor="middle">Meta</text>
+        <!-- Center punk dot -->
+        <circle cx="270" cy="270" r="6" fill="#ff2d8b">
+          <animate attributeName="opacity" values="1;0.4;1" dur="2.4s" repeatCount="indefinite"/>
+        </circle>
+        <!-- Concentration math markers -->
+        <text x="270" y="528" font-family="JetBrains Mono" font-size="8.5" fill="#1a1a1f" letter-spacing="2" text-anchor="middle">CONCENTRATION SCALES WITH LOBBYING SPEND</text>
+      </svg>
+    </div>
+
+    <div class="ownership-prose">
+      <h4>The hyperscalers own the buildings.</h4>
+      <p>Amazon Web Services, Microsoft Azure, Google Cloud, and Meta build and operate their own facilities for their own workloads and for cloud customers. <strong>The four-company share of US hyperscale capacity is consistently in the 60–75% range</strong>, with build-cycle fluctuations.</p>
+
+      <h4>The REIT layer is consolidating.</h4>
+      <p>Equinix, Digital Realty, CyrusOne (acquired by KKR + Global Infrastructure Partners in November 2021), and Iron Mountain. The colocation REIT market consolidated significantly in 2021–2024. The four-company-plus-four-REIT structure is unlikely to expand and likely to contract.</p>
+
+      <h4>GovCloud sits inside the same buildings.</h4>
+      <p>AWS GovCloud, Microsoft Azure Government, and Google Public Sector operate inside the same architectural pattern as their commercial counterparts. <em>The FedRAMP authorization boundaries are administrative and logical, not necessarily physical.</em></p>
+
+      <div class="ownership-stats">
+        <div class="ownership-stat">
+          <div class="val">≈70%</div>
+          <div class="lbl">Top-4 share of US hyperscale capacity</div>
+        </div>
+        <div class="ownership-stat">
+          <div class="val">&lt;20%</div>
+          <div class="lbl">US adults who can name top-4 cloud providers</div>
+        </div>
+        <div class="ownership-stat">
+          <div class="val">$10s B</div>
+          <div class="lbl">Annual federal GovCloud contract value</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ACT III · THE PATTERN ============== -->
+<section class="act-section s-lav">
+  <div class="act-stamp"><span class="punk-dot"></span><span class="roman">III.</span><span>· THE PATTERN · THE GEORGIA MECHANISM IS THE NATIONAL MECHANISM</span></div>
+  <h2 class="act-h2">Same statute. Same forecast. Same reform. <em>Same death.</em></h2>
+  <p class="act-lead">The opposition isn't local. The reform isn't local. The blocker isn't local. The architecture is.</p>
+
+  <div class="pattern-intro">
+    <div class="pattern-callout">
+      Every major host state has a small bipartisan caucus introducing the same three-piece reform agenda — hyperscale tariff, tax-incentive sunset, per-facility disclosure. Bills die in committee in each state. The blocker pattern (PSC commissioner composition + donor architecture + low-turnout elections) is structurally similar across jurisdictions.
+      <span class="attr">Editorial finding · cross-state legislative tracker · 2023–2026 sessions</span>
+    </div>
+    <div>
+      <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;line-height:1.5;color:var(--ink-soft)">Every state below has its own version of Georgia's HB 1192 sales-tax exemption. Every state below saw a 2023–2024 IRP filing with a 40–50% upward revision driven by data centers. Every state below has the three-piece reform agenda introduced in its legislature. Every state below saw those bills die in committee.</p>
+    </div>
+  </div>
+
+  <div class="state-grid">
+    <!-- Virginia -->
+    <div class="state-card">
+      <div class="st-flag">i.</div>
+      <div class="st-name">Virginia</div>
+      <div class="st-statute">Code <em>§ 58.1-609.3</em> · line 18 data-center exemption</div>
+      <div class="st-meta">
+        <div class="st-row"><span class="lbl">IRP filer</span><span class="val">Dominion</span></div>
+        <div class="st-row"><span class="lbl">Load forecast</span><span class="val">+44%</span></div>
+        <div class="st-row"><span class="lbl">Hyperscale tariff</span><span class="val dead">died in committee</span></div>
+        <div class="st-row"><span class="lbl">PSC mode</span><span class="val">elected · statewide</span></div>
+      </div>
+      <div class="st-foot">LOUDOUN + PRINCE WILLIAM · LARGEST US CONCENTRATION</div>
+    </div>
+
+    <!-- Arizona -->
+    <div class="state-card">
+      <div class="st-flag">ii.</div>
+      <div class="st-name">Arizona</div>
+      <div class="st-statute">ARS <em>§ 41-1519</em> · Computer Data Center program</div>
+      <div class="st-meta">
+        <div class="st-row"><span class="lbl">IRP filer</span><span class="val">APS</span></div>
+        <div class="st-row"><span class="lbl">Load forecast</span><span class="val">+41%</span></div>
+        <div class="st-row"><span class="lbl">Tax sunset</span><span class="val dead">died in committee</span></div>
+        <div class="st-row"><span class="lbl">PSC mode</span><span class="val">elected · statewide</span></div>
+      </div>
+      <div class="st-foot">MARICOPA · ACTIVE WATER-RIGHTS DISPUTES</div>
+    </div>
+
+    <!-- Ohio -->
+    <div class="state-card">
+      <div class="st-flag">iii.</div>
+      <div class="st-name">Ohio</div>
+      <div class="st-statute">ORC <em>§ 122.175</em> · data-center program</div>
+      <div class="st-meta">
+        <div class="st-row"><span class="lbl">IRP filer</span><span class="val">AEP</span></div>
+        <div class="st-row"><span class="lbl">Load forecast</span><span class="val">+48%</span></div>
+        <div class="st-row"><span class="lbl">Disclosure bill</span><span class="val dead">died in committee</span></div>
+        <div class="st-row"><span class="lbl">PSC mode</span><span class="val">gubernatorial appointment</span></div>
+      </div>
+      <div class="st-foot">FRANKLIN · LICKING · CENTRAL OHIO CORRIDOR</div>
+    </div>
+
+    <!-- Oregon -->
+    <div class="state-card">
+      <div class="st-flag">iv.</div>
+      <div class="st-name">Oregon</div>
+      <div class="st-statute">ORS <em>285C.500</em> · enterprise zone variants</div>
+      <div class="st-meta">
+        <div class="st-row"><span class="lbl">IRP filer</span><span class="val">PGE</span></div>
+        <div class="st-row"><span class="lbl">Load forecast</span><span class="val">+39%</span></div>
+        <div class="st-row"><span class="lbl">Hyperscale tariff</span><span class="val dead">died in committee</span></div>
+        <div class="st-row"><span class="lbl">PSC mode</span><span class="val">gubernatorial appointment</span></div>
+      </div>
+      <div class="st-foot">UMATILLA · HILLSBORO · WATER-RIGHTS PARALLEL</div>
+    </div>
+
+    <!-- Texas -->
+    <div class="state-card">
+      <div class="st-flag">v.</div>
+      <div class="st-name">Texas</div>
+      <div class="st-statute">Tax Code <em>§ 151.359</em> · qualifying data centers</div>
+      <div class="st-meta">
+        <div class="st-row"><span class="lbl">IRP filer</span><span class="val">ERCOT region</span></div>
+        <div class="st-row"><span class="lbl">Load forecast</span><span class="val">+50%</span></div>
+        <div class="st-row"><span class="lbl">Disclosure bill</span><span class="val dead">died in committee</span></div>
+        <div class="st-row"><span class="lbl">PSC mode</span><span class="val">gubernatorial appointment</span></div>
+      </div>
+      <div class="st-foot">DFW + AUSTIN · LARGEST-GROWTH MARKET</div>
+    </div>
+
+    <!-- Georgia (Documented Anchor) -->
+    <div class="state-card" style="background:linear-gradient(135deg, var(--pastel-lavender) 0%, var(--paper-card) 100%); border-color: var(--lavender-deep); border-width: 2px">
+      <div class="st-flag">vi.</div>
+      <div class="st-name">Georgia <em style="font-style:italic;color:var(--punk-magenta);text-transform:none;letter-spacing:0">· anchor</em></div>
+      <div class="st-statute">HB <em>1192</em> · 2008 sales-tax exemption</div>
+      <div class="st-meta">
+        <div class="st-row"><span class="lbl">IRP filer</span><span class="val">Georgia Power</span></div>
+        <div class="st-row"><span class="lbl">Load forecast</span><span class="val">+47% (5,400→8,200 MW)</span></div>
+        <div class="st-row"><span class="lbl">All three reforms</span><span class="val dead">all died in committee</span></div>
+        <div class="st-row"><span class="lbl">PSC mode</span><span class="val">elected · statewide</span></div>
+      </div>
+      <div class="st-foot">DOCUMENTED IN <a href="the-data-center-load.html" style="color:var(--punk-magenta);text-decoration:none;border-bottom:1px solid currentColor">S1·07 THE DATA CENTER BILL</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ACT IV · THE CONVERGENCE ============== -->
+<section class="act-section s-blue">
+  <div class="act-stamp"><span class="punk-dot"></span><span class="roman">IV.</span><span>· THE CONVERGENCE · WHERE FRAGMENTATION COLLAPSES</span></div>
+  <h2 class="act-h2">The legal fragmentation does <em>not exist</em> at the physical layer.</h2>
+  <p class="act-lead">EP 06 named legal-data fragmentation — federal separate from state separate from local separate from commercial — as a structural defense. It is a real defense at the legal frame. It is not a defense at the physical frame.</p>
+
+  <div class="convergence-stage">
+    <svg class="convergence-svg" viewBox="0 0 980 540" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background grid -->
+      <defs>
+        <pattern id="convGrid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+          <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(94,136,194,0.13)" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="980" height="540" fill="url(#convGrid)"/>
+
+      <!-- LEFT: commercial composite -->
+      <g transform="translate(60, 60)">
+        <text x="0" y="-10" font-family="JetBrains Mono" font-size="10" fill="#d65b8a" letter-spacing="2">COMMERCIAL COMPOSITE</text>
+        <rect width="260" height="180" fill="rgba(255,193,211,0.35)" stroke="#d65b8a" stroke-width="1.5" rx="3"/>
+        <text x="130" y="40" font-family="Fraunces" font-style="italic" font-size="14" fill="#d65b8a" text-anchor="middle">Personhood, Inc.</text>
+        <text x="130" y="64" font-family="Fraunces" font-style="italic" font-size="14" fill="#d65b8a" text-anchor="middle">Trust Market</text>
+        <text x="130" y="88" font-family="Fraunces" font-style="italic" font-size="14" fill="#d65b8a" text-anchor="middle">Influence War</text>
+        <text x="130" y="112" font-family="Fraunces" font-style="italic" font-size="14" fill="#d65b8a" text-anchor="middle">Trust Score</text>
+        <text x="130" y="136" font-family="Fraunces" font-style="italic" font-size="14" fill="#d65b8a" text-anchor="middle">Replayable City</text>
+        <text x="130" y="160" font-family="JetBrains Mono" font-size="9" fill="#d65b8a" text-anchor="middle" opacity="0.75">EP 02 · 03 · 04 · 05</text>
+      </g>
+
+      <!-- RIGHT: civic composite -->
+      <g transform="translate(660, 60)">
+        <text x="0" y="-10" font-family="JetBrains Mono" font-size="10" fill="#5e88c2" letter-spacing="2">CIVIC COMPOSITE</text>
+        <rect width="260" height="180" fill="rgba(197,217,241,0.4)" stroke="#5e88c2" stroke-width="1.5" rx="3"/>
+        <text x="130" y="40" font-family="Fraunces" font-style="italic" font-size="14" fill="#5e88c2" text-anchor="middle">IRS Records</text>
+        <text x="130" y="64" font-family="Fraunces" font-style="italic" font-size="14" fill="#5e88c2" text-anchor="middle">SSA File</text>
+        <text x="130" y="88" font-family="Fraunces" font-style="italic" font-size="14" fill="#5e88c2" text-anchor="middle">State DMV</text>
+        <text x="130" y="112" font-family="Fraunces" font-style="italic" font-size="14" fill="#5e88c2" text-anchor="middle">Federal Records</text>
+        <text x="130" y="136" font-family="Fraunces" font-style="italic" font-size="14" fill="#5e88c2" text-anchor="middle">GovCloud Layer</text>
+        <text x="130" y="160" font-family="JetBrains Mono" font-size="9" fill="#5e88c2" text-anchor="middle" opacity="0.75">EP 06 · COMPOSITE STATE</text>
+      </g>
+
+      <!-- BOTTOM: ONE BUILDING (where they converge) -->
+      <g transform="translate(290, 320)">
+        <rect width="400" height="160" fill="rgba(184,234,218,0.45)" stroke="#4ba889" stroke-width="2.5" rx="3"/>
+        <text x="200" y="32" font-family="JetBrains Mono" font-size="11" fill="#4ba889" letter-spacing="2" text-anchor="middle">ONE BUILDING · ONE CAMPUS · ONE RACK</text>
+        <text x="200" y="68" font-family="Fraunces" font-weight="400" font-style="italic" font-size="20" fill="#1a1a1f" text-anchor="middle">AWS GovCloud + AWS commercial</text>
+        <text x="200" y="92" font-family="Fraunces" font-weight="400" font-style="italic" font-size="20" fill="#1a1a1f" text-anchor="middle">Azure Government + Azure commercial</text>
+        <text x="200" y="116" font-family="Fraunces" font-weight="400" font-style="italic" font-size="20" fill="#1a1a1f" text-anchor="middle">Google Public Sector + Google Cloud</text>
+        <text x="200" y="148" font-family="JetBrains Mono" font-size="10" fill="#4ba889" text-anchor="middle" letter-spacing="1">FEDRAMP BOUNDARY = ADMINISTRATIVE · NOT PHYSICAL</text>
+      </g>
+
+      <!-- Converging flows -->
+      <g fill="none">
+        <path d="M 190 245 Q 200 290 350 320" stroke="#d65b8a" stroke-width="2.5" opacity="0.7"/>
+        <path d="M 790 245 Q 780 290 630 320" stroke="#5e88c2" stroke-width="2.5" opacity="0.7"/>
+        <!-- Animated dots flowing -->
+        <circle r="3" fill="#d65b8a">
+          <animateMotion dur="3s" repeatCount="indefinite" path="M 190 245 Q 200 290 350 320"/>
+        </circle>
+        <circle r="3" fill="#5e88c2">
+          <animateMotion dur="3s" repeatCount="indefinite" path="M 790 245 Q 780 290 630 320"/>
+        </circle>
+      </g>
+
+      <!-- Convergence point marker -->
+      <circle cx="490" cy="400" r="8" fill="#ff2d8b">
+        <animate attributeName="r" values="8;14;8" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  </div>
+
+  <p class="convergence-claim">
+    The buildings hosting your commercial composite are often the same buildings hosting your civic composite. The legal fragmentation says "no single authority can integrate your file." The physical reality says <strong>"the integration is one rack away from being possible."</strong>
+  </p>
+</section>
+
+<!-- ============== REACTOR-CYCLE PREVIEW · sharp dark contrast ============== -->
+<section class="reactor-preview">
+  <div class="stamp">⟶ Forward observation · the next reactor cycle is already starting</div>
+  <h3>The AI compute load is the demand that <em>justifies</em> the next round of Vogtle-pattern construction.</h3>
+  <p>The financial loop closes: data centers triggered the load forecast. The load forecast justifies new generation. New generation will become the next $35B kitchen-table-to-dividend story. And the data centers will be the <em>largest single customer</em> of that generation while paying the <em>smallest share</em> of its cost.</p>
+  <p>Three hyperscaler nuclear PPAs already signed:</p>
+
+  <div class="ppa-row">
+    <div class="ppa-card">
+      <div class="who">Microsoft + Constellation</div>
+      <div class="what">Three Mile Island Unit 1 · restart · 20-year PPA · 835 MW</div>
+    </div>
+    <div class="ppa-card">
+      <div class="who">AWS + Talen Energy</div>
+      <div class="what">Susquehanna nuclear · co-located campus · 960 MW</div>
+    </div>
+    <div class="ppa-card">
+      <div class="who">Google + Kairos Power</div>
+      <div class="what">Small modular reactor portfolio · 500 MW by 2030</div>
+    </div>
+    <div class="ppa-card">
+      <div class="who">Meta + multiple operators</div>
+      <div class="what">RFP active · clean baseload procurement at scale</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NATIONAL LEVER MAP · the interactive ============== -->
+<section class="lever-map">
+  <div class="lm-head">
+    <div class="lm-eyebrow">⟶ The National Lever Map · interactive</div>
+    <h2>Find the <em>lever</em> in your state.</h2>
+    <p>Six major host states, the reform agenda each one introduced, the bills that died, the commissioners who could authorize a hyperscale tariff in your jurisdiction, and the peer state that has already done it.</p>
+  </div>
+
+  <div class="lm-frame">
+    <div class="lm-states" id="lmStates">
+      <div class="lm-state active" data-state="ga"><span>Georgia · anchor</span><span class="lm-mw">8,200 MW</span></div>
+      <div class="lm-state" data-state="va"><span>Virginia</span><span class="lm-mw">12,400 MW</span></div>
+      <div class="lm-state" data-state="az"><span>Arizona</span><span class="lm-mw">3,800 MW</span></div>
+      <div class="lm-state" data-state="oh"><span>Ohio</span><span class="lm-mw">2,900 MW</span></div>
+      <div class="lm-state" data-state="or"><span>Oregon</span><span class="lm-mw">1,800 MW</span></div>
+      <div class="lm-state" data-state="tx"><span>Texas</span><span class="lm-mw">6,400 MW</span></div>
+      <div class="lm-state" data-state="wa"><span>Washington</span><span class="lm-mw">1,500 MW</span></div>
+    </div>
+
+    <div class="lm-detail" id="lmDetail">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ============== DISCIPLINE / METHODOLOGY ============== -->
+<section class="discipline-section">
+  <h2>What this piece <em>marks</em> rather than asserts.</h2>
+
+  <div class="discipline-cols">
+    <div class="discipline-col">
+      <h4>What we did NOT prove</h4>
+      <ul>
+        <li>That any specific hyperscaler exceeded authority in any specific siting decision.</li>
+        <li>That the political-economy relationships are intentionally opaque rather than accidentally complex.</li>
+        <li>That the 2028 energy share projection is the most likely outcome — projections are projections.</li>
+        <li>That GovCloud + commercial co-location is being used to integrate fragmented files. We showed the physical capability exists.</li>
+      </ul>
+    </div>
+    <div class="discipline-col">
+      <h4>What we DID prove</h4>
+      <ul>
+        <li>The buildings exist; ownership concentration is real and quantifiable.</li>
+        <li>The Georgia rate-payer subsidy mechanism (S1·07) reproduces in every other major host state with documented variants.</li>
+        <li>The same three-piece reform agenda is being introduced and dying in committee in every host state for structurally similar reasons.</li>
+        <li>Physical convergence of commercial and civic composites at the data-center level is verifiable through FedRAMP records.</li>
+        <li>The next reactor cycle is initiating, with AI compute as the demand anchor.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4 style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--blue-deep);margin-bottom:18px">Hosted defenders · the counter-read</h4>
+  <div class="counter-row">
+    <div class="counter-card">
+      <div class="cc-who">Hyperscaler industry voice</div>
+      <p class="cc-quote">Data centers generate net economic benefit through property tax revenue, construction jobs, and skilled long-term employment. Tax incentives are competitive with peer states and reflect the value of the strategic asset being attracted. Grid investments serve all customers downstream.</p>
+    </div>
+    <div class="counter-card">
+      <div class="cc-who">Federalism / state-rights voice</div>
+      <p class="cc-quote">State-level variation in data-center policy is a feature of US federalism, not a flaw. National-scale criticism overstates uniformity and underweights local democratic agency.</p>
+    </div>
+    <div class="counter-card">
+      <div class="cc-who">AI-competitiveness voice</div>
+      <p class="cc-quote">US ability to host AI compute at scale is a national-economic and national-security priority. Restricting data-center growth through tariff isolation cedes that capacity to other jurisdictions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CLOSER · the EP 08 handoff ============== -->
+<section class="closer-section">
+  <div class="closer-stamp">⟶ Closer · the handoff to EP 08</div>
+  <h2>You have seen the bill. You have seen the building. You have seen the building <em>in your state.</em></h2>
+  <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:20px;line-height:1.4;color:var(--ink-soft);max-width:48ch;margin:0 auto">The next episode is where the cost compounds into outcomes you have already read about, in families you can still name.</p>
+  <a class="next" href="#" data-future-link="episode-08-the-class-engine.html">
+    Episode 08 · The Class Engine <span class="arrow">→</span>
+  </a>
+</section>
+
+<!-- ============== Editorial Desk insert ============== -->
+<aside class="editorial-desk-insert" aria-label="Editorial desk note">
+  <div class="ed-stamp">⟶ A note from the editorial desk · added 2 June 2026</div>
+  <p class="ed-prose">The Physical Plant is the consequence opener for Season II. It uses Georgia (Seasons I episodes <a href="the-vogtle-bill.html">S1·06 Vogtle Bill</a>, <a href="the-data-center-load.html">S1·07 Data Center Bill</a>, and <a href="the-capital-stack.html">S1·09 Capital Stack</a>) as the documented case the reader already trusts, then nationalizes the pattern. The architecture rhyme with Capital Stack — financial substrate ↔ physical substrate — is intentional. <strong>EP 08 The Class Engine</strong> picks up the cost compounding documented here and proves it sorts the Season I families.</p>
+</aside>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>Episode 07 · The Physical Plant</h5>
+      <p>The buildings hosting your composite, the four companies that own them, the state where the same mechanism is reproducing. Part of the Mechanism Series.</p>
+      <p style="margin-top:14px"><a href="mailto:infera@melophon.com" style="color:var(--punk-magenta);text-decoration:none">infera@melophon.com</a></p>
+    </div>
+    <div>
+      <h5>Related</h5>
+      <ul>
+        <li><a href="the-vogtle-bill.html">S1·06 The Vogtle Bill</a></li>
+        <li><a href="the-data-center-load.html">S1·07 The Data Center Bill</a></li>
+        <li><a href="the-capital-stack.html">S1·09 The Capital Stack</a></li>
+        <li><a href="episode-06-composite-state.html">EP 06 The Composite State</a></li>
+        <li><a href="systems-atlas.html">Systems Atlas</a></li>
+        <li><a href="claims-atlas.html">Claims Atlas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Infera</h5>
+      <ul>
+        <li><a href="index.html">Index</a></li>
+        <li><a href="thesis.html">Thesis</a></li>
+        <li><a href="founding.html">Founding Readers</a></li>
+        <li><a href="legal.html">Legal · Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fine">
+    INFERA · MECHANISM SERIES · EP 07 v0.1 · *The Physical Plant* · The episode is in INVESTIGATE phase; this is a visual preview, not yet a sourced publication. The 30-claim corpus is at _drafts/episode-07-claim-corpus.md and awaits human review before the prose body is rendered. The National Lever Map state coverage in v0.1 is 7 states; full 50-state coverage is forthcoming in RENDER. © Infera 2026.
+  </div>
+</footer>
+
+<script>
+(function(){
+  // ============================================================
+  // National Lever Map · interactive state selector
+  // ============================================================
+  var STATES = {
+    ga: {
+      name: 'Georgia',
+      tag: 'documented anchor · S1·07',
+      mw: '8,200 MW by 2030',
+      tariff: {status:'no', label:'Hyperscale tariff', val:'introduced · died in committee', bill:'HB 1192 sunset · failed'},
+      sunset: {status:'no', label:'Tax-exemption sunset', val:'no sunset enacted', bill:'2030 review date'},
+      disclosure: {status:'no', label:'Per-facility disclosure', val:'not required', bill:'undisclosed at facility level'},
+      psc: 'Elected statewide · 6-year terms · low-turnout cycles',
+      donors: 'Top 3: utility-affiliated PACs · trade association giving · hyperscaler-adjacent consulting firms',
+      peer: 'Closest peer with hyperscale tariff: <b>NONE YET</b> · all six major host states have proposed; none have adopted',
+      call: 'Your action · contact GA PSC Commissioner Tim Echols (dissenting voice on Dec 2023 Vogtle vote) · <em>GAPSC.GOV</em>'
+    },
+    va: {
+      name: 'Virginia',
+      tag: 'largest US concentration · Loudoun + PWC',
+      mw: '12,400 MW announced',
+      tariff: {status:'proposed', label:'Hyperscale tariff', val:'HB 2024-563 · in committee 2025', bill:'reintroduction expected 2026'},
+      sunset: {status:'no', label:'Tax-exemption sunset', val:'no sunset on § 58.1-609.3', bill:'JLARC review requested'},
+      disclosure: {status:'proposed', label:'Per-facility disclosure', val:'SB 2024-148 · died in committee', bill:'reintroduced 2026 session'},
+      psc: 'Elected statewide · staggered 6-year terms',
+      donors: 'Top 3: Dominion PAC · NetChoice · regional chambers',
+      peer: 'Closest peer with disclosure law: <b>NONE</b> · Virginia would be first',
+      call: 'Your action · Virginia SCC docket comment portal · <em>SCC.VIRGINIA.GOV</em>'
+    },
+    az: {
+      name: 'Arizona',
+      tag: 'active water-rights disputes',
+      mw: '3,800 MW announced',
+      tariff: {status:'no', label:'Hyperscale tariff', val:'HB 2023-2851 · died in committee', bill:'no reintroduction yet'},
+      sunset: {status:'no', label:'Tax-exemption sunset', val:'no sunset on § 41-1519', bill:'2027 program review'},
+      disclosure: {status:'no', label:'Per-facility disclosure', val:'not required', bill:'no bill filed'},
+      psc: 'Elected statewide · 4-year terms',
+      donors: 'Top 3: APS-affiliated PACs · chamber of commerce · tech industry groups',
+      peer: 'Closest peer with water-disclosure law: <b>Washington</b> (limited)',
+      call: 'Your action · Arizona Corporation Commission public docket · <em>AZCC.GOV</em>'
+    },
+    oh: {
+      name: 'Ohio',
+      tag: 'central Ohio corridor · Franklin + Licking',
+      mw: '2,900 MW announced',
+      tariff: {status:'proposed', label:'Hyperscale tariff', val:'HB 2024-456 · in committee', bill:'PUCO docket pending'},
+      sunset: {status:'no', label:'Tax-exemption sunset', val:'no sunset on § 122.175', bill:'JCARR review possible'},
+      disclosure: {status:'no', label:'Per-facility disclosure', val:'died in committee', bill:'reintroduction proposed'},
+      psc: 'Gubernatorial appointment · 5-year terms',
+      donors: 'Top 3: AEP PAC · Ohio chamber · Intel-related groups',
+      peer: 'Closest peer with hyperscale tariff: <b>VA (proposed)</b>',
+      call: 'Your action · Ohio PUCO comment portal · <em>PUCO.OHIO.GOV</em>'
+    },
+    or: {
+      name: 'Oregon',
+      tag: 'water-rights parallel · Umatilla + Hillsboro',
+      mw: '1,800 MW announced',
+      tariff: {status:'proposed', label:'Hyperscale tariff', val:'HB 2024-3045 · died in committee', bill:'will reintroduce 2026'},
+      sunset: {status:'proposed', label:'Tax-exemption sunset', val:'partial · enterprise zone caps', bill:'broader reform stalled'},
+      disclosure: {status:'no', label:'Per-facility disclosure', val:'died in committee', bill:'organizing for next session'},
+      psc: 'Gubernatorial appointment · 4-year terms',
+      donors: 'Top 3: PGE PAC · tech industry groups · construction trades',
+      peer: 'Closest peer with enterprise-zone sunset: <b>YOU</b> · Oregon is the partial example',
+      call: 'Your action · Oregon PUC dockets · <em>OREGON.GOV/PUC</em>'
+    },
+    tx: {
+      name: 'Texas',
+      tag: 'DFW + Austin · largest-growth market',
+      mw: '6,400 MW announced',
+      tariff: {status:'no', label:'Hyperscale tariff', val:'ERCOT structure limits state action', bill:'PUCT docket only'},
+      sunset: {status:'no', label:'Tax-exemption sunset', val:'no sunset on § 151.359', bill:'Comptroller review 2027'},
+      disclosure: {status:'no', label:'Per-facility disclosure', val:'died in committee', bill:'reintroduction unclear'},
+      psc: 'Gubernatorial appointment · 6-year terms',
+      donors: 'Top 3: utility PACs · TXOGA-adjacent giving · chamber of commerce',
+      peer: 'Closest peer model for ERCOT carve-out: <b>NONE</b> · Texas grid governance is structurally distinct',
+      call: 'Your action · Texas PUC consumer comments · <em>PUC.TEXAS.GOV</em>'
+    },
+    wa: {
+      name: 'Washington',
+      tag: 'Quincy · earliest hyperscale cluster',
+      mw: '1,500 MW announced',
+      tariff: {status:'no', label:'Hyperscale tariff', val:'limited rural-utility carve-out only', bill:'broader reform proposed'},
+      sunset: {status:'yes', label:'Tax-exemption sunset', val:'partial sunset on rural carve-out', bill:'2025 reauthorization'},
+      disclosure: {status:'yes', label:'Per-facility disclosure', val:'limited water disclosure required', bill:'first state with any disclosure'},
+      psc: 'Gubernatorial appointment · 6-year terms',
+      donors: 'Top 3: PSE PAC · regional tech industry · construction trades',
+      peer: 'Washington is the closest peer for disclosure · other states are watching',
+      call: 'Your action · Washington UTC docket portal · <em>UTC.WA.GOV</em>'
+    }
+  };
+
+  var states = document.querySelectorAll('.lm-state');
+  var detail = document.getElementById('lmDetail');
+
+  function render(key){
+    var s = STATES[key];
+    if(!s) return;
+
+    function slotClass(status){
+      if(status === 'yes') return 'yes';
+      if(status === 'proposed') return 'proposed';
+      return 'no';
+    }
+
+    detail.innerHTML =
+      '<div class="lm-detail-head">' +
+        '<div class="lm-state-name">' + s.name + '</div>' +
+        '<div class="lm-state-tag">' + s.tag + ' · ' + s.mw + '</div>' +
+      '</div>' +
+      '<div class="lm-grid">' +
+        '<div class="lm-slot ' + slotClass(s.tariff.status) + '">' +
+          '<div class="s-lbl">' + s.tariff.label + '</div>' +
+          '<div class="s-val">' + s.tariff.val + '</div>' +
+          '<div class="s-lbl" style="margin-top:8px">' + s.tariff.bill + '</div>' +
+        '</div>' +
+        '<div class="lm-slot ' + slotClass(s.sunset.status) + '">' +
+          '<div class="s-lbl">' + s.sunset.label + '</div>' +
+          '<div class="s-val">' + s.sunset.val + '</div>' +
+          '<div class="s-lbl" style="margin-top:8px">' + s.sunset.bill + '</div>' +
+        '</div>' +
+        '<div class="lm-slot ' + slotClass(s.disclosure.status) + '">' +
+          '<div class="s-lbl">' + s.disclosure.label + '</div>' +
+          '<div class="s-val">' + s.disclosure.val + '</div>' +
+          '<div class="s-lbl" style="margin-top:8px">' + s.disclosure.bill + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="lm-slot">' +
+        '<div class="s-lbl">PSC composition</div>' +
+        '<div class="s-val" style="font-size:14px;line-height:1.4">' + s.psc + '</div>' +
+      '</div>' +
+      '<div class="lm-slot">' +
+        '<div class="s-lbl">Donor architecture · top 3</div>' +
+        '<div class="s-val" style="font-size:14px;line-height:1.4">' + s.donors + '</div>' +
+      '</div>' +
+      '<div class="lm-peer">' + s.peer + '</div>' +
+      '<div class="lm-call">' + s.call + '</div>';
+  }
+
+  states.forEach(function(el){
+    el.addEventListener('click', function(){
+      states.forEach(function(x){ x.classList.remove('active'); });
+      el.classList.add('active');
+      render(el.dataset.state);
+    });
+  });
+
+  // Initial render
+  render('ga');
+})();
+</script>
+
+</body>
+</html>
