@@ -980,67 +980,45 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 .fine{margin-top:30px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-faint);letter-spacing:.1em;line-height:1.7;max-width:920px}
 
 /* ============================================================
-   SKETCH BACKGROUND · architectural exhibit · brutalist airport
-   ATL-themed pencil/marker drafts drifting around the content
-   z-index 5 puts them ABOVE the act-section backgrounds (z 2);
-   mix-blend-mode: multiply makes them tint the pastel pages
-   like architect's drawings on colored construction paper.
+   WATERCOLOR STILL LIFES · futuristic mid-century modern
+   Pinned to each section's natural NEGATIVE SPACE (the corner
+   the act-h2 + act-lead don't reach because of their
+   max-width constraints). One vignette per section. Color
+   choice contrasts the section's pastel background so the
+   composition reads against it. Hidden on mobile.
    ============================================================ */
-.sketch-bg{
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 5;
-  overflow: hidden;
-}
-.sketch{
+.still-life{
   position: absolute;
   pointer-events: none;
-  opacity: 0.38;
-  filter: contrast(0.9);
-  mix-blend-mode: multiply;
+  z-index: 3;
+  width: 280px;
+  height: 320px;
 }
-.sketch svg{ display: block; width: 100%; height: 100%; }
-.sketch path,
-.sketch line,
-.sketch rect,
-.sketch circle,
-.sketch polygon,
-.sketch polyline{
-  vector-effect: non-scaling-stroke;
+.still-life svg{ display: block; width: 100%; height: 100%; overflow: visible }
+.still-life .ink{
+  stroke: rgba(26,26,31,0.78);
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-.sketch-label{
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  fill: rgba(26,26,31,0.55);
-}
-/* Positioning + ambient animations · each piece sits in negative space */
-.sk-concourse  { top: 220vh; right: -4%;  width: 460px;  height: 180px; animation: ambDrift 64s ease-in-out infinite; }
-.sk-tower      { top: 80vh;  left: -1%;   width: 160px;  height: 380px; animation: ambSway 52s ease-in-out infinite; }
-.sk-evtol      { top: 380vh; left: 3%;    width: 280px;  height: 220px; animation: ambHover 14s ease-in-out infinite; }
-.sk-aircraft   { top: 540vh; right: -2%;  width: 520px;  height: 200px; animation: ambGlide 48s linear infinite; }
-.sk-train      { top: 680vh; left: -4%;   width: 580px;  height: 160px; animation: ambSlide 56s ease-in-out infinite; }
-.sk-jetway     { top: 320vh; right: 1%;   width: 320px;  height: 220px; animation: ambSway 70s ease-in-out infinite; }
-.sk-board      { top: 460vh; right: 2%;   width: 240px;  height: 360px; animation: ambDrift 80s ease-in-out infinite; }
-.sk-atrium     { top: 750vh; right: -3%;  width: 420px;  height: 260px; animation: ambDrift 58s ease-in-out infinite; }
-.sk-runway     { top: 600vh; left: 6%;    width: 360px;  height: 120px; animation: ambSlide 90s ease-in-out infinite; }
-.sk-hangar     { top: 870vh; left: -2%;   width: 460px;  height: 240px; animation: ambSway 60s ease-in-out infinite; }
-.sk-tunnel     { top: 140vh; right: 6%;   width: 280px;  height: 200px; animation: ambDrift 54s ease-in-out infinite reverse; }
+.still-life .ink-thin{ stroke-width: 0.7 }
+.still-life .ink-med { stroke-width: 1.1 }
+.still-life .ink-bold{ stroke-width: 1.6 }
 
-@keyframes ambDrift  { 0%,100%{transform:translate(0,0) rotate(0)} 50%{transform:translate(-14px,-10px) rotate(-0.4deg)} }
-@keyframes ambSway   { 0%,100%{transform:translate(0,0) rotate(0)} 50%{transform:translate(8px,-12px) rotate(0.6deg)} }
-@keyframes ambHover  { 0%,100%{transform:translate(0,0)}             50%{transform:translate(0,-8px)} }
-@keyframes ambGlide  { 0%{transform:translate(80px,0)}               100%{transform:translate(-120vw,0)} }
-@keyframes ambSlide  { 0%,100%{transform:translate(0,0)}             50%{transform:translate(40px,0)} }
+/* Per-section positioning · each pinned to its own empty corner */
+.sl-hero    { bottom: 5vh;  right: 4vw;   width: 280px; height: 320px }
+.sl-scale   { top: 10vh;    right: 4vw;   width: 240px; height: 280px }
+.sl-tenants { top: 8vh;     right: 4vw;   width: 240px; height: 270px }
+.sl-watch   { top: 10vh;    right: 4vw;   width: 250px; height: 290px }
+.sl-oppose  { top: 8vh;     right: 4vw;   width: 240px; height: 280px }
+.sl-tax     { top: 10vh;    right: 4vw;   width: 250px; height: 290px }
+.sl-stakes  { top: 8vh;     right: 4vw;   width: 240px; height: 260px }
 
-@media (max-width: 900px){
-  .sketch{opacity: 0.13}
-  .sk-aircraft, .sk-train, .sk-runway, .sk-hangar{display:none}
+@media (max-width: 1280px){
+  .still-life{ width: 200px; height: 230px; opacity: 0.85 }
+  .sl-hero{ width: 220px; height: 250px }
 }
+@media (max-width: 1000px){ .still-life{ display: none } }
 
 /* ============================================================
    ACT II · NEW · INTERNET DEPARTURES BOARD
@@ -1214,437 +1192,6 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 </head>
 <body>
 
-<!-- ============== SKETCH BACKGROUND · architectural exhibit ============== -->
-<div class="sketch-bg" aria-hidden="true">
-
-  <!-- 1 · BRUTALIST CONTROL TOWER · left edge upper -->
-  <div class="sketch sk-tower">
-    <svg viewBox="0 0 160 380" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="rough1"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="0.6"/></filter>
-      </defs>
-      <g stroke="#1a1a1f" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#rough1)">
-        <!-- Concrete shaft (brutalist) -->
-        <path d="M 64 360 L 64 130 L 96 130 L 96 360"/>
-        <path d="M 64 360 L 96 360"/>
-        <!-- Buttress/structural rib -->
-        <path d="M 64 360 L 50 320 L 56 280 L 60 130"/>
-        <path d="M 96 360 L 110 320 L 104 280 L 100 130"/>
-        <!-- Diamond-shaped observation deck (top-heavy brutalist) -->
-        <path d="M 80 60 L 130 110 L 80 160 L 30 110 Z"/>
-        <path d="M 30 110 L 130 110"/>
-        <!-- Glass strips on deck -->
-        <path d="M 42 110 L 118 110"/>
-        <path d="M 50 100 L 110 100" stroke-dasharray="3 3"/>
-        <path d="M 50 120 L 110 120" stroke-dasharray="3 3"/>
-        <!-- Antenna spire -->
-        <path d="M 80 60 L 80 12"/>
-        <path d="M 76 28 L 84 28"/>
-        <path d="M 78 18 L 82 18"/>
-        <!-- Connection from deck to shaft -->
-        <path d="M 64 160 L 80 130 L 96 160"/>
-        <!-- Door at base -->
-        <path d="M 72 360 L 72 340 L 88 340 L 88 360"/>
-        <!-- Hatching on shaft -->
-        <path d="M 70 200 L 90 200" stroke-dasharray="2 4"/>
-        <path d="M 70 230 L 90 230" stroke-dasharray="2 4"/>
-        <path d="M 70 260 L 90 260" stroke-dasharray="2 4"/>
-        <path d="M 70 290 L 90 290" stroke-dasharray="2 4"/>
-      </g>
-      <text x="6" y="375" class="sketch-label">CTRL TWR · ATL</text>
-    </svg>
-  </div>
-
-  <!-- 2 · TUNNEL / PLANE TRAIN CROSS-SECTION · right upper -->
-  <div class="sketch sk-tunnel">
-    <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#1a1a1f" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Tunnel arch -->
-        <path d="M 20 160 Q 20 40 140 40 Q 260 40 260 160"/>
-        <path d="M 20 160 L 260 160"/>
-        <!-- Inner concrete bands -->
-        <path d="M 40 160 Q 40 55 140 55 Q 240 55 240 160" stroke-dasharray="4 4"/>
-        <!-- Train pod -->
-        <path d="M 70 145 L 70 100 Q 70 95 75 95 L 205 95 Q 210 95 210 100 L 210 145 Z"/>
-        <path d="M 70 145 L 210 145"/>
-        <!-- Train front rounded -->
-        <path d="M 70 100 Q 60 100 60 115 Q 60 130 60 145 Z" fill="rgba(26,26,31,0.05)"/>
-        <!-- Windows -->
-        <path d="M 82 110 L 95 110 L 95 125 L 82 125 Z"/>
-        <path d="M 105 110 L 118 110 L 118 125 L 105 125 Z"/>
-        <path d="M 128 110 L 141 110 L 141 125 L 128 125 Z"/>
-        <path d="M 151 110 L 164 110 L 164 125 L 151 125 Z"/>
-        <path d="M 174 110 L 187 110 L 187 125 L 174 125 Z"/>
-        <!-- Track -->
-        <path d="M 30 175 L 250 175"/>
-        <path d="M 30 185 L 250 185"/>
-        <!-- Cross ties -->
-        <path d="M 50 170 L 50 190" stroke-dasharray="2 3"/>
-        <path d="M 100 170 L 100 190" stroke-dasharray="2 3"/>
-        <path d="M 150 170 L 150 190" stroke-dasharray="2 3"/>
-        <path d="M 200 170 L 200 190" stroke-dasharray="2 3"/>
-        <!-- Direction arrow -->
-        <path d="M 240 130 L 255 137 L 240 144"/>
-      </g>
-      <text x="14" y="195" class="sketch-label">PLANE TRAIN · ATL CONCOURSE A→T</text>
-    </svg>
-  </div>
-
-  <!-- 3 · BRUTALIST CONCOURSE · upper-right (long horizontal) -->
-  <div class="sketch sk-concourse">
-    <svg viewBox="0 0 460 180" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#1a1a1f" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Ground line -->
-        <path d="M 6 150 L 454 152"/>
-        <!-- Long brutalist terminal · stepped angular roof -->
-        <path d="M 20 148 L 22 110 L 70 105 L 72 145"/>
-        <path d="M 80 145 L 82 92 L 160 88 L 162 142"/>
-        <path d="M 170 142 L 172 75 L 270 72 L 272 140"/>
-        <path d="M 280 140 L 282 85 L 370 82 L 372 138"/>
-        <path d="M 380 138 L 382 100 L 440 98 L 442 145"/>
-        <!-- Strip windows -->
-        <path d="M 28 130 L 64 128" stroke-dasharray="3 3"/>
-        <path d="M 92 125 L 152 122" stroke-dasharray="3 3"/>
-        <path d="M 182 115 L 262 112" stroke-dasharray="3 3"/>
-        <path d="M 292 122 L 362 119" stroke-dasharray="3 3"/>
-        <path d="M 390 130 L 432 128" stroke-dasharray="3 3"/>
-        <!-- Brutalist concrete fin details -->
-        <path d="M 75 145 L 80 88 L 82 88"/>
-        <path d="M 165 142 L 172 72 L 175 72"/>
-        <path d="M 275 140 L 282 82 L 285 82"/>
-        <!-- Aircraft tail behind (silhouette) -->
-        <path d="M 320 148 L 325 116 L 332 116 L 335 148"/>
-        <path d="M 322 122 L 332 122"/>
-        <!-- Jetway connector to plane -->
-        <path d="M 330 130 L 360 132 L 380 138"/>
-        <!-- Plane fuselage hint -->
-        <path d="M 355 148 Q 360 144 380 144 L 420 144 Q 430 144 432 148"/>
-        <!-- Pencil hatching ground -->
-        <path d="M 30 160 L 80 162" stroke-dasharray="1 6"/>
-        <path d="M 110 162 L 200 163" stroke-dasharray="1 6"/>
-        <path d="M 230 163 L 320 164" stroke-dasharray="1 6"/>
-        <path d="M 350 164 L 440 165" stroke-dasharray="1 6"/>
-      </g>
-      <text x="10" y="173" class="sketch-label">CONCOURSE E · SECTION ELEVATION</text>
-    </svg>
-  </div>
-
-  <!-- 4 · JETWAY · right mid -->
-  <div class="sketch sk-jetway">
-    <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#1a1a1f" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Terminal wall left -->
-        <path d="M 12 30 L 12 200"/>
-        <path d="M 12 30 L 50 30"/>
-        <path d="M 12 200 L 50 200"/>
-        <path d="M 30 50 L 30 180" stroke-dasharray="3 3"/>
-        <!-- Jetway tunnel -->
-        <path d="M 50 90 L 220 100 L 220 140 L 50 130 Z"/>
-        <!-- Jetway accordion folds -->
-        <path d="M 80 92 L 80 132" stroke-dasharray="2 3"/>
-        <path d="M 110 94 L 110 134" stroke-dasharray="2 3"/>
-        <path d="M 140 96 L 140 136" stroke-dasharray="2 3"/>
-        <path d="M 170 98 L 170 138" stroke-dasharray="2 3"/>
-        <path d="M 200 100 L 200 140" stroke-dasharray="2 3"/>
-        <!-- Support legs -->
-        <path d="M 90 132 L 95 195 L 105 195"/>
-        <path d="M 160 137 L 165 195 L 175 195"/>
-        <path d="M 210 140 L 215 195 L 225 195"/>
-        <!-- Aircraft door / fuselage curve -->
-        <path d="M 220 90 Q 280 80 308 110 Q 312 130 308 150 Q 290 170 220 150 Z"/>
-        <!-- Fuselage window strip -->
-        <path d="M 235 110 L 295 108" stroke-dasharray="3 3"/>
-        <path d="M 235 125 L 295 123" stroke-dasharray="3 3"/>
-        <!-- Wheels on jetway -->
-        <circle cx="105" cy="200" r="6"/>
-        <circle cx="175" cy="200" r="6"/>
-        <circle cx="225" cy="200" r="6"/>
-      </g>
-      <text x="10" y="218" class="sketch-label">JET BRIDGE · BOEING 737 NG</text>
-    </svg>
-  </div>
-
-  <!-- 5 · eVTOL FUTURISTIC AIRCRAFT · left mid (hovers) -->
-  <div class="sketch sk-evtol">
-    <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#1a1a1f" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Central pod -->
-        <path d="M 100 110 Q 100 90 140 88 Q 180 90 180 110 Q 180 132 140 134 Q 100 132 100 110 Z"/>
-        <!-- Cockpit window -->
-        <path d="M 160 100 Q 175 100 178 110 Q 175 118 160 118"/>
-        <!-- Wing booms -->
-        <path d="M 100 105 L 50 90"/>
-        <path d="M 100 115 L 50 130"/>
-        <path d="M 180 105 L 230 90"/>
-        <path d="M 180 115 L 230 130"/>
-        <!-- Rotor housings -->
-        <circle cx="50" cy="90" r="14"/>
-        <circle cx="50" cy="130" r="14"/>
-        <circle cx="230" cy="90" r="14"/>
-        <circle cx="230" cy="130" r="14"/>
-        <!-- Rotor blade hints -->
-        <path d="M 38 90 L 62 90" stroke-dasharray="2 3"/>
-        <path d="M 50 78 L 50 102" stroke-dasharray="2 3"/>
-        <path d="M 38 130 L 62 130" stroke-dasharray="2 3"/>
-        <path d="M 50 118 L 50 142" stroke-dasharray="2 3"/>
-        <path d="M 218 90 L 242 90" stroke-dasharray="2 3"/>
-        <path d="M 230 78 L 230 102" stroke-dasharray="2 3"/>
-        <path d="M 218 130 L 242 130" stroke-dasharray="2 3"/>
-        <path d="M 230 118 L 230 142" stroke-dasharray="2 3"/>
-        <!-- Landing skids -->
-        <path d="M 110 134 L 105 175 L 175 175 L 170 134"/>
-        <path d="M 105 175 L 175 175"/>
-        <!-- Motion lines (hover) -->
-        <path d="M 70 200 L 90 200" stroke-dasharray="1 5"/>
-        <path d="M 100 205 L 130 205" stroke-dasharray="1 5"/>
-        <path d="M 145 205 L 175 205" stroke-dasharray="1 5"/>
-        <path d="M 185 200 L 210 200" stroke-dasharray="1 5"/>
-      </g>
-      <text x="10" y="215" class="sketch-label">eVTOL · CONCEPT · 2030 ATL</text>
-    </svg>
-  </div>
-
-  <!-- 6 · JETLINER SIDE VIEW · right mid (glides slowly) -->
-  <div class="sketch sk-aircraft">
-    <svg viewBox="0 0 520 200" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#1a1a1f" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Fuselage -->
-        <path d="M 30 105 Q 30 80 80 80 L 420 78 Q 460 78 480 90 L 495 100 L 495 115 L 480 125 L 420 130 L 80 132 Q 30 132 30 105 Z"/>
-        <!-- Cockpit windows -->
-        <path d="M 50 95 L 75 88 L 75 100" fill="rgba(26,26,31,0.06)"/>
-        <!-- Window strip -->
-        <path d="M 95 100 L 410 98" stroke-dasharray="4 3"/>
-        <path d="M 95 112 L 410 110" stroke-dasharray="4 3"/>
-        <!-- Door -->
-        <path d="M 110 90 L 110 122"/>
-        <path d="M 110 90 L 124 90 L 124 122 L 110 122"/>
-        <!-- Wing -->
-        <path d="M 220 130 L 250 175 L 320 175 L 290 130"/>
-        <!-- Engine pod -->
-        <path d="M 260 165 Q 270 160 300 160 Q 318 160 322 175 Q 320 188 300 188 Q 268 188 260 175 Z"/>
-        <!-- Engine fan lines -->
-        <path d="M 270 168 L 270 182" stroke-dasharray="1 2"/>
-        <path d="M 285 167 L 285 184" stroke-dasharray="1 2"/>
-        <path d="M 300 167 L 300 184" stroke-dasharray="1 2"/>
-        <!-- Vertical stabilizer (tail) -->
-        <path d="M 430 78 L 460 30 L 480 30 L 480 80"/>
-        <!-- Horizontal stabilizer -->
-        <path d="M 460 78 L 490 60 L 515 62"/>
-        <!-- Logo placeholder -->
-        <path d="M 145 95 L 195 95 L 195 110 L 145 110 Z" stroke-dasharray="2 3"/>
-      </g>
-      <text x="10" y="195" class="sketch-label">A320-NEO · SIDE ELEVATION · ATL TERM E</text>
-    </svg>
-  </div>
-
-  <!-- 7 · DEPARTURES BOARD STRUCTURE · right mid (architecturally rendered) -->
-  <div class="sketch sk-board">
-    <svg viewBox="0 0 240 360" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#1a1a1f" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Support pillars -->
-        <path d="M 30 350 L 30 60 L 35 50 L 40 60"/>
-        <path d="M 200 350 L 200 60 L 205 50 L 210 60"/>
-        <!-- Crossbeam -->
-        <path d="M 30 60 L 210 60"/>
-        <!-- Display panel housing -->
-        <path d="M 25 80 L 215 80 L 215 320 L 25 320 Z"/>
-        <!-- Inner display screens · multiple rows -->
-        <path d="M 35 95 L 205 95 L 205 130 L 35 130 Z" stroke-dasharray="4 3"/>
-        <path d="M 35 145 L 205 145 L 205 180 L 35 180 Z" stroke-dasharray="4 3"/>
-        <path d="M 35 195 L 205 195 L 205 230 L 35 230 Z" stroke-dasharray="4 3"/>
-        <path d="M 35 245 L 205 245 L 205 280 L 35 280 Z" stroke-dasharray="4 3"/>
-        <path d="M 35 295 L 205 295 L 205 315 L 35 315 Z"/>
-        <!-- Header bar -->
-        <path d="M 35 85 L 205 85" stroke-width="2"/>
-        <!-- Brackets bottom -->
-        <path d="M 25 320 L 20 350 L 50 350"/>
-        <path d="M 215 320 L 220 350 L 190 350"/>
-        <!-- Wiring/conduit hint -->
-        <path d="M 30 60 L 28 40 L 35 30" stroke-dasharray="2 4"/>
-      </g>
-      <text x="20" y="358" class="sketch-label">DEPARTURES · CONCOURSE T</text>
-    </svg>
-  </div>
-
-  <!-- 8 · ATRIUM CROSS-SECTION (Maynard Jackson) · right lower -->
-  <div class="sketch sk-atrium">
-    <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#1a1a1f" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Atrium curved roof -->
-        <path d="M 30 100 Q 210 30 390 100"/>
-        <!-- Roof structural ribs -->
-        <path d="M 70 88 L 90 178" stroke-dasharray="2 3"/>
-        <path d="M 130 70 L 140 178" stroke-dasharray="2 3"/>
-        <path d="M 210 60 L 210 178" stroke-dasharray="2 3"/>
-        <path d="M 290 70 L 280 178" stroke-dasharray="2 3"/>
-        <path d="M 350 88 L 330 178" stroke-dasharray="2 3"/>
-        <!-- Side walls -->
-        <path d="M 30 100 L 30 220 L 390 220 L 390 100"/>
-        <!-- Floor -->
-        <path d="M 30 180 L 390 180"/>
-        <path d="M 30 220 L 390 220"/>
-        <!-- Mezzanine level -->
-        <path d="M 30 150 L 130 150"/>
-        <path d="M 290 150 L 390 150"/>
-        <!-- Pillars -->
-        <path d="M 80 220 L 80 150"/>
-        <path d="M 340 220 L 340 150"/>
-        <!-- Public art installation in atrium -->
-        <path d="M 180 220 L 195 175 L 210 195 L 225 170 L 240 220"/>
-        <path d="M 200 200 L 220 200"/>
-        <!-- Tiny figures (people for scale) -->
-        <path d="M 100 220 L 100 215 L 102 215"/>
-        <circle cx="101" cy="212" r="1.5"/>
-        <path d="M 140 220 L 140 215 L 142 215"/>
-        <circle cx="141" cy="212" r="1.5"/>
-        <path d="M 270 220 L 270 215 L 272 215"/>
-        <circle cx="271" cy="212" r="1.5"/>
-        <!-- Hatching ground -->
-        <path d="M 40 240 L 80 240" stroke-dasharray="1 5"/>
-        <path d="M 120 240 L 200 240" stroke-dasharray="1 5"/>
-        <path d="M 230 240 L 320 240" stroke-dasharray="1 5"/>
-        <path d="M 340 240 L 380 240" stroke-dasharray="1 5"/>
-      </g>
-      <text x="14" y="255" class="sketch-label">MAYNARD H. JACKSON ATRIUM · SECTION</text>
-    </svg>
-  </div>
-
-  <!-- 9 · RUNWAY · left lower -->
-  <div class="sketch sk-runway">
-    <svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#1a1a1f" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Runway -->
-        <path d="M 10 40 L 350 30 L 348 80 L 12 90 Z"/>
-        <!-- Centerline dashes -->
-        <path d="M 30 60 L 50 58" stroke-width="2"/>
-        <path d="M 70 58 L 90 57" stroke-width="2"/>
-        <path d="M 110 56 L 130 55" stroke-width="2"/>
-        <path d="M 150 54 L 170 53" stroke-width="2"/>
-        <path d="M 190 52 L 210 51" stroke-width="2"/>
-        <path d="M 230 50 L 250 49" stroke-width="2"/>
-        <path d="M 270 48 L 290 47" stroke-width="2"/>
-        <path d="M 310 46 L 330 45" stroke-width="2"/>
-        <!-- Touchdown zone markings -->
-        <path d="M 20 50 L 28 50"/>
-        <path d="M 20 70 L 28 70"/>
-        <!-- Runway designator -->
-        <path d="M 22 55 L 27 65" stroke-width="2"/>
-        <path d="M 27 55 L 22 65" stroke-width="2"/>
-        <!-- Aircraft on runway -->
-        <path d="M 250 50 Q 260 47 280 47 L 300 46 L 305 48 L 305 53 L 300 55 L 280 55 Q 260 55 250 52 Z"/>
-        <path d="M 270 52 L 273 60 L 277 60"/>
-        <path d="M 285 52 L 288 60 L 292 60"/>
-        <!-- Edge lights -->
-        <circle cx="15" cy="35" r="1"/><circle cx="60" cy="33" r="1"/><circle cx="110" cy="31" r="1"/><circle cx="160" cy="29" r="1"/><circle cx="210" cy="27" r="1"/><circle cx="260" cy="26" r="1"/><circle cx="310" cy="25" r="1"/>
-        <circle cx="15" cy="92" r="1"/><circle cx="60" cy="90" r="1"/><circle cx="110" cy="88" r="1"/><circle cx="160" cy="86" r="1"/><circle cx="210" cy="84" r="1"/><circle cx="260" cy="82" r="1"/><circle cx="310" cy="80" r="1"/>
-      </g>
-      <text x="14" y="115" class="sketch-label">RWY 09L/27R · ATL · PLAN VIEW</text>
-    </svg>
-  </div>
-
-  <!-- 10 · TRAIN PLATFORM · left lower -->
-  <div class="sketch sk-train">
-    <svg viewBox="0 0 580 160" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#1a1a1f" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Platform edge -->
-        <path d="M 10 80 L 570 78"/>
-        <path d="M 10 110 L 570 108"/>
-        <path d="M 10 80 L 10 110"/>
-        <path d="M 570 78 L 570 108"/>
-        <!-- Train cars · 5 of them -->
-        <path d="M 30 30 L 30 75 L 130 75 L 130 30 Z"/>
-        <path d="M 140 30 L 140 75 L 240 75 L 240 30 Z"/>
-        <path d="M 250 30 L 250 75 L 350 75 L 350 30 Z"/>
-        <path d="M 360 30 L 360 75 L 460 75 L 460 30 Z"/>
-        <path d="M 470 30 L 470 75 L 560 75 L 560 30 Z"/>
-        <!-- Door per car -->
-        <path d="M 75 40 L 75 75"/>
-        <path d="M 90 40 L 90 75"/>
-        <path d="M 185 40 L 185 75"/>
-        <path d="M 200 40 L 200 75"/>
-        <path d="M 295 40 L 295 75"/>
-        <path d="M 310 40 L 310 75"/>
-        <path d="M 405 40 L 405 75"/>
-        <path d="M 420 40 L 420 75"/>
-        <path d="M 510 40 L 510 75"/>
-        <path d="M 525 40 L 525 75"/>
-        <!-- Window strip -->
-        <path d="M 40 45 L 70 45" stroke-dasharray="2 3"/>
-        <path d="M 95 45 L 125 45" stroke-dasharray="2 3"/>
-        <path d="M 150 45 L 180 45" stroke-dasharray="2 3"/>
-        <path d="M 205 45 L 235 45" stroke-dasharray="2 3"/>
-        <path d="M 260 45 L 290 45" stroke-dasharray="2 3"/>
-        <path d="M 315 45 L 345 45" stroke-dasharray="2 3"/>
-        <path d="M 370 45 L 400 45" stroke-dasharray="2 3"/>
-        <path d="M 425 45 L 455 45" stroke-dasharray="2 3"/>
-        <path d="M 480 45 L 505 45" stroke-dasharray="2 3"/>
-        <path d="M 530 45 L 555 45" stroke-dasharray="2 3"/>
-        <!-- Couplings -->
-        <path d="M 130 50 L 140 50" stroke-width="2"/>
-        <path d="M 240 50 L 250 50" stroke-width="2"/>
-        <path d="M 350 50 L 360 50" stroke-width="2"/>
-        <path d="M 460 50 L 470 50" stroke-width="2"/>
-        <!-- Platform tile hatching -->
-        <path d="M 30 130 L 60 130" stroke-dasharray="1 6"/>
-        <path d="M 100 130 L 160 130" stroke-dasharray="1 6"/>
-        <path d="M 200 130 L 260 130" stroke-dasharray="1 6"/>
-        <path d="M 300 130 L 360 130" stroke-dasharray="1 6"/>
-        <path d="M 400 130 L 460 130" stroke-dasharray="1 6"/>
-        <path d="M 500 130 L 560 130" stroke-dasharray="1 6"/>
-        <!-- Ceiling lights -->
-        <path d="M 60 15 L 100 15"/>
-        <path d="M 170 15 L 210 15"/>
-        <path d="M 280 15 L 320 15"/>
-        <path d="M 390 15 L 430 15"/>
-        <path d="M 500 15 L 540 15"/>
-      </g>
-      <text x="14" y="155" class="sketch-label">ATL PLANE TRAIN · 5-CAR CONSIST · PLATFORM ELEVATION</text>
-    </svg>
-  </div>
-
-  <!-- 11 · HANGAR / BRUTALIST AIRCRAFT MAINTENANCE · bottom -->
-  <div class="sketch sk-hangar">
-    <svg viewBox="0 0 460 240" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#1a1a1f" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Hangar door arch (brutalist) -->
-        <path d="M 30 220 L 30 80 L 60 50 L 400 50 L 430 80 L 430 220"/>
-        <path d="M 30 220 L 430 220"/>
-        <!-- Door panels -->
-        <path d="M 60 60 L 60 215" stroke-dasharray="2 3"/>
-        <path d="M 130 55 L 130 215" stroke-dasharray="2 3"/>
-        <path d="M 200 52 L 200 215" stroke-dasharray="2 3"/>
-        <path d="M 270 52 L 270 215" stroke-dasharray="2 3"/>
-        <path d="M 340 55 L 340 215" stroke-dasharray="2 3"/>
-        <path d="M 400 60 L 400 215" stroke-dasharray="2 3"/>
-        <!-- Aircraft tail sticking out -->
-        <path d="M 200 220 L 200 130 L 240 130 L 240 220"/>
-        <path d="M 215 130 L 215 100 L 235 100 L 230 130"/>
-        <path d="M 210 110 L 240 110"/>
-        <!-- Service vehicles -->
-        <path d="M 70 220 L 70 195 L 110 195 L 110 220 Z"/>
-        <circle cx="80" cy="220" r="6"/>
-        <circle cx="100" cy="220" r="6"/>
-        <path d="M 360 220 L 360 200 L 395 200 L 395 220 Z"/>
-        <circle cx="368" cy="220" r="5"/>
-        <circle cx="388" cy="220" r="5"/>
-        <!-- Roof structural ribs (brutalist concrete) -->
-        <path d="M 60 50 L 60 80 L 30 80"/>
-        <path d="M 400 50 L 400 80 L 430 80"/>
-        <path d="M 100 50 L 110 80" stroke-dasharray="3 3"/>
-        <path d="M 180 50 L 190 80" stroke-dasharray="3 3"/>
-        <path d="M 260 50 L 270 80" stroke-dasharray="3 3"/>
-        <path d="M 340 50 L 350 80" stroke-dasharray="3 3"/>
-        <!-- ATL logo placeholder -->
-        <path d="M 200 30 L 215 30 L 215 45 L 200 45 Z"/>
-        <path d="M 220 30 L 235 30 L 235 45 L 220 45 Z"/>
-        <path d="M 240 30 L 255 30 L 255 45 L 240 45 Z"/>
-      </g>
-      <text x="14" y="235" class="sketch-label">HANGAR 5 · DELTA TECHOPS · ATL</text>
-    </svg>
-  </div>
-
-</div>
-
 <!-- ============== TABNAV · Season II episodes only ============== -->
 <nav class="tabnav">
   <div class="tabnav-inner">
@@ -1670,6 +1217,68 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 
 <!-- ============== HERO · the airport reveal ============== -->
 <header class="hero">
+
+  <!-- WATERCOLOR STILL LIFE · DEPARTURE LOUNGE TABLE -->
+  <div class="still-life sl-hero" aria-hidden="true">
+    <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="washHero" cx="50%" cy="55%" r="60%">
+          <stop offset="0%" stop-color="#ffd4b8" stop-opacity="0.7"/>
+          <stop offset="50%" stop-color="#b8eada" stop-opacity="0.32"/>
+          <stop offset="100%" stop-color="#b8eada" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="washHero2" cx="70%" cy="35%" r="40%">
+          <stop offset="0%" stop-color="#f8e1a1" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#f8e1a1" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="heroGlass" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="#5e88c2" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#5e88c2" stop-opacity="0.15"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="140" cy="170" rx="135" ry="115" fill="url(#washHero)"/>
+      <ellipse cx="195" cy="100" rx="60" ry="50" fill="url(#washHero2)"/>
+      <circle cx="40" cy="60" r="4" fill="#d68f5c" opacity="0.4"/>
+      <circle cx="250" cy="280" r="3" fill="#4ba889" opacity="0.5"/>
+      <circle cx="48" cy="270" r="2.5" fill="#d65b8a" opacity="0.45"/>
+      <circle cx="234" cy="50" r="3.5" fill="#8770b8" opacity="0.45"/>
+
+      <!-- Saarinen tulip table -->
+      <ellipse cx="120" cy="288" rx="55" ry="9" fill="#4ba889" opacity="0.5"/>
+      <ellipse cx="120" cy="286" rx="55" ry="9" fill="none" class="ink ink-thin"/>
+      <path d="M 95 286 Q 108 250 102 200 Q 100 175 110 168" fill="#cfddc8" opacity="0.4"/>
+      <path d="M 145 286 Q 132 250 138 200 Q 140 175 130 168" fill="#cfddc8" opacity="0.4"/>
+      <path d="M 95 286 Q 108 250 102 200 Q 100 175 110 168" class="ink ink-thin" fill="none"/>
+      <path d="M 145 286 Q 132 250 138 200 Q 140 175 130 168" class="ink ink-thin" fill="none"/>
+      <ellipse cx="120" cy="165" rx="62" ry="11" fill="#4ba889" opacity="0.5"/>
+      <ellipse cx="120" cy="160" rx="62" ry="10" fill="#cfddc8" opacity="0.65"/>
+      <ellipse cx="120" cy="160" rx="62" ry="10" class="ink ink-med" fill="none"/>
+
+      <!-- Glass tumbler with ice -->
+      <path d="M 88 100 L 92 158 L 122 158 L 126 100 Z" fill="url(#heroGlass)"/>
+      <path d="M 88 100 L 92 158 L 122 158 L 126 100" class="ink ink-med" fill="none"/>
+      <path d="M 88 100 L 126 100" class="ink ink-thin"/>
+      <rect x="94" y="118" width="10" height="10" fill="#fbf6ec" opacity="0.7" class="ink ink-thin"/>
+      <rect x="108" y="123" width="10" height="10" fill="#fbf6ec" opacity="0.7" class="ink ink-thin"/>
+      <rect x="100" y="135" width="10" height="10" fill="#fbf6ec" opacity="0.65" class="ink ink-thin"/>
+      <path d="M 91 140 L 123 140" class="ink ink-thin" opacity="0.55" fill="none"/>
+      <path d="M 96 105 L 98 150" stroke="#fbf6ec" stroke-width="2" stroke-linecap="round" opacity="0.7" fill="none"/>
+
+      <!-- Model jet on pedestal -->
+      <path d="M 175 158 L 173 132 L 195 132 L 193 158 Z" fill="#d68f5c" opacity="0.5"/>
+      <path d="M 175 158 L 173 132 L 195 132 L 193 158 Z" class="ink ink-thin" fill="none"/>
+      <ellipse cx="184" cy="158" rx="12" ry="3" fill="#d68f5c" opacity="0.55" class="ink ink-thin"/>
+      <ellipse cx="200" cy="118" rx="38" ry="6" fill="#5e88c2" opacity="0.45"/>
+      <ellipse cx="200" cy="118" rx="38" ry="6" class="ink ink-med" fill="none"/>
+      <path d="M 195 121 L 178 134 L 205 128 L 215 134 L 220 121 Z" fill="#5e88c2" opacity="0.35"/>
+      <path d="M 195 121 L 178 134 L 205 128 L 215 134 L 220 121" class="ink ink-thin" fill="none"/>
+      <ellipse cx="230" cy="118" rx="6" ry="4" fill="#1a1a1f" opacity="0.55" class="ink ink-thin"/>
+      <path d="M 168 118 L 162 104 L 172 104 L 175 118 Z" fill="#5e88c2" opacity="0.5"/>
+      <path d="M 168 118 L 162 104 L 172 104 L 175 118" class="ink ink-thin" fill="none"/>
+      <path d="M 168 118 L 158 122" class="ink ink-thin"/>
+    </svg>
+  </div>
+
   <div class="hero-l">
     <div class="hero-meta">
       <span>EP 07 · The Physical Plant</span>
@@ -1739,6 +1348,75 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 
 <!-- ============== ACT I · THE SCALE ============== -->
 <section class="act-section s-mint">
+
+  <!-- WATERCOLOR STILL LIFE · TERMINAL BAR (peach/coral/butter against mint) -->
+  <div class="still-life sl-scale" aria-hidden="true">
+    <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="washI" cx="50%" cy="55%" r="60%">
+          <stop offset="0%" stop-color="#d68f5c" stop-opacity="0.55"/>
+          <stop offset="60%" stop-color="#d65b8a" stop-opacity="0.2"/>
+          <stop offset="100%" stop-color="#d65b8a" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="washI2" cx="30%" cy="30%" r="35%">
+          <stop offset="0%" stop-color="#f8e1a1" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#f8e1a1" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="120" cy="150" rx="115" ry="100" fill="url(#washI)"/>
+      <ellipse cx="80" cy="80" rx="50" ry="45" fill="url(#washI2)"/>
+      <circle cx="30" cy="50" r="3" fill="#c79832" opacity="0.5"/>
+      <circle cx="210" cy="240" r="4" fill="#d65b8a" opacity="0.4"/>
+      <circle cx="216" cy="60" r="2" fill="#1a1a1f" opacity="0.5"/>
+
+      <!-- Bar counter line -->
+      <path d="M 20 240 L 220 240" class="ink ink-bold" opacity="0.5"/>
+      <path d="M 20 244 L 220 244" class="ink ink-thin" opacity="0.4"/>
+
+      <!-- COCKTAIL SHAKER (mid-century icon) -->
+      <path d="M 38 240 L 38 165 Q 38 158 42 158 L 70 158 Q 74 158 74 165 L 74 240 Z" fill="#d68f5c" opacity="0.5"/>
+      <path d="M 38 240 L 38 165 Q 38 158 42 158 L 70 158 Q 74 158 74 165 L 74 240 Z" class="ink ink-med" fill="none"/>
+      <!-- Shaker top cap -->
+      <path d="M 44 158 L 46 142 L 66 142 L 68 158 Z" fill="#d68f5c" opacity="0.6"/>
+      <path d="M 44 158 L 46 142 L 66 142 L 68 158" class="ink ink-thin" fill="none"/>
+      <path d="M 48 142 L 50 130 L 62 130 L 64 142" fill="#1a1a1f" opacity="0.4" class="ink ink-thin"/>
+      <!-- Highlight on shaker -->
+      <path d="M 44 170 L 44 230" stroke="#fbf6ec" stroke-width="3" stroke-linecap="round" opacity="0.55" fill="none"/>
+      <!-- Shaker seam -->
+      <path d="M 38 195 L 74 195" class="ink ink-thin" opacity="0.5"/>
+
+      <!-- COUPE GLASS WITH CHERRY -->
+      <!-- Bowl -->
+      <path d="M 110 200 Q 110 170 145 170 Q 180 170 180 200 Q 175 215 145 215 Q 115 215 110 200 Z" fill="#c79832" opacity="0.35"/>
+      <path d="M 110 200 Q 110 170 145 170 Q 180 170 180 200 Q 175 215 145 215 Q 115 215 110 200" class="ink ink-med" fill="none"/>
+      <!-- Liquid line -->
+      <path d="M 113 195 Q 145 200 178 195" class="ink ink-thin" opacity="0.5" fill="none"/>
+      <!-- Stem -->
+      <path d="M 145 215 L 145 240" class="ink ink-med"/>
+      <!-- Base -->
+      <ellipse cx="145" cy="240" rx="14" ry="3" fill="#c79832" opacity="0.5"/>
+      <ellipse cx="145" cy="240" rx="14" ry="3" class="ink ink-thin" fill="none"/>
+      <!-- Cherry on top -->
+      <circle cx="155" cy="172" r="5" fill="#d65b8a" opacity="0.7"/>
+      <circle cx="155" cy="172" r="5" class="ink ink-thin" fill="none"/>
+      <path d="M 155 167 Q 158 160 162 158" class="ink ink-thin" fill="none"/>
+
+      <!-- FOLDED NEWSPAPER -->
+      <path d="M 195 240 L 195 215 L 232 215 L 232 240 Z" fill="#fbf6ec" opacity="0.85"/>
+      <path d="M 195 240 L 195 215 L 232 215 L 232 240 Z" class="ink ink-med" fill="none"/>
+      <path d="M 213 215 L 213 240" class="ink ink-thin"/>
+      <path d="M 200 222 L 209 222" class="ink ink-thin" opacity="0.55"/>
+      <path d="M 200 226 L 209 226" class="ink ink-thin" opacity="0.45"/>
+      <path d="M 200 230 L 209 230" class="ink ink-thin" opacity="0.35"/>
+      <path d="M 217 222 L 228 222" class="ink ink-thin" opacity="0.55"/>
+      <path d="M 217 226 L 228 226" class="ink ink-thin" opacity="0.45"/>
+
+      <!-- Olive on a pick -->
+      <circle cx="135" cy="180" r="3" fill="#cfddc8" opacity="0.7"/>
+      <circle cx="135" cy="180" r="3" class="ink ink-thin" fill="none"/>
+    </svg>
+  </div>
+
   <div class="act-stamp"><span class="punk-dot"></span><span class="roman">I.</span><span>· THE SCALE · WHAT A MEGAWATT LOOKS LIKE</span></div>
   <h2 class="act-h2">The most energy-hungry tenant Georgia ever attracted is the one <em>nobody voted for.</em></h2>
   <p class="act-lead">The unit of measure that matters here is the megawatt. One megawatt powers about 750 to 1,000 American homes. Hartsfield-Jackson is one of the largest single-meter loads in the Southeast. A single hyperscale facility can match it. Georgia Power's 2024 IRP says forty equivalents are coming.</p>
@@ -1850,6 +1528,76 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 
 <!-- ============== ACT II · THE TENANTS ============== -->
 <section class="act-section s-peach">
+
+  <!-- WATERCOLOR STILL LIFE · EXECUTIVE LOUNGE (sage/mint/teal against peach) -->
+  <div class="still-life sl-tenants" aria-hidden="true">
+    <svg viewBox="0 0 240 270" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="washII" cx="50%" cy="55%" r="60%">
+          <stop offset="0%" stop-color="#4ba889" stop-opacity="0.4"/>
+          <stop offset="60%" stop-color="#5e88c2" stop-opacity="0.18"/>
+          <stop offset="100%" stop-color="#5e88c2" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="120" cy="140" rx="115" ry="100" fill="url(#washII)"/>
+      <circle cx="35" cy="60" r="3" fill="#4ba889" opacity="0.5"/>
+      <circle cx="200" cy="245" r="4" fill="#1a1a1f" opacity="0.4"/>
+      <circle cx="35" cy="240" r="2.5" fill="#c79832" opacity="0.55"/>
+
+      <!-- Counter line -->
+      <path d="M 14 245 L 226 245" class="ink ink-thin" opacity="0.5"/>
+
+      <!-- PAN AM-STYLE SUITCASE (mid-century rectangular) -->
+      <path d="M 30 245 L 30 165 Q 30 158 38 158 L 152 158 Q 160 158 160 165 L 160 245 Z" fill="#4ba889" opacity="0.45"/>
+      <path d="M 30 245 L 30 165 Q 30 158 38 158 L 152 158 Q 160 158 160 165 L 160 245 Z" class="ink ink-med" fill="none"/>
+      <!-- Stripe across suitcase -->
+      <path d="M 30 195 L 160 195" class="ink ink-med" opacity="0.55"/>
+      <path d="M 30 205 L 160 205" class="ink ink-thin" opacity="0.45"/>
+      <!-- Handle -->
+      <path d="M 78 158 Q 78 142 95 142 Q 112 142 112 158" class="ink ink-med" fill="none"/>
+      <!-- Latches -->
+      <rect x="55" y="178" width="10" height="6" fill="#c79832" opacity="0.7" class="ink ink-thin"/>
+      <rect x="125" y="178" width="10" height="6" fill="#c79832" opacity="0.7" class="ink ink-thin"/>
+      <!-- Travel sticker corners -->
+      <circle cx="44" cy="225" r="9" fill="#d65b8a" opacity="0.35" class="ink ink-thin"/>
+      <circle cx="146" cy="225" r="7" fill="#f8e1a1" opacity="0.5" class="ink ink-thin"/>
+      <!-- Brand strip -->
+      <rect x="40" y="222" width="6" height="6" fill="#fbf6ec" opacity="0.6"/>
+
+      <!-- PASSPORT STACK -->
+      <path d="M 175 245 L 175 218 L 225 218 L 225 245 Z" fill="#5e88c2" opacity="0.65"/>
+      <path d="M 175 245 L 175 218 L 225 218 L 225 245 Z" class="ink ink-med" fill="none"/>
+      <path d="M 173 218 L 173 211 L 223 211 L 223 218" class="ink ink-thin" fill="none" opacity="0.6"/>
+      <path d="M 171 211 L 171 205 L 221 205 L 221 211" class="ink ink-thin" fill="none" opacity="0.55"/>
+      <!-- Seal -->
+      <circle cx="200" cy="232" r="6" fill="#c79832" opacity="0.65" class="ink ink-thin"/>
+      <text x="200" y="234" font-family="serif" font-size="6" text-anchor="middle" fill="#1a1a1f" opacity="0.8">★</text>
+
+      <!-- ANALOG WRISTWATCH (laid flat) -->
+      <ellipse cx="190" cy="105" rx="28" ry="28" fill="#fbf6ec" opacity="0.85"/>
+      <circle cx="190" cy="105" r="28" class="ink ink-med" fill="none"/>
+      <circle cx="190" cy="105" r="22" class="ink ink-thin" fill="none" opacity="0.5"/>
+      <!-- Tick marks · 12 of them -->
+      <g class="ink ink-thin" opacity="0.7">
+        <path d="M 190 82 L 190 86"/>
+        <path d="M 211 92 L 208 94"/>
+        <path d="M 213 105 L 209 105"/>
+        <path d="M 211 118 L 208 116"/>
+        <path d="M 190 128 L 190 124"/>
+        <path d="M 169 118 L 172 116"/>
+        <path d="M 167 105 L 171 105"/>
+        <path d="M 169 92 L 172 94"/>
+      </g>
+      <!-- Hands -->
+      <path d="M 190 105 L 190 88" class="ink ink-med"/>
+      <path d="M 190 105 L 206 110" class="ink ink-med"/>
+      <circle cx="190" cy="105" r="2" fill="#1a1a1f"/>
+      <!-- Strap hints -->
+      <path d="M 178 78 L 174 60 L 200 60 L 202 78" fill="#1a1a1f" opacity="0.45" class="ink ink-thin"/>
+      <path d="M 178 132 L 174 150 L 200 150 L 202 132" fill="#1a1a1f" opacity="0.45" class="ink ink-thin"/>
+    </svg>
+  </div>
+
   <div class="act-stamp"><span class="punk-dot"></span><span class="roman">II.</span><span>· THE TENANTS · WHO IS ACTUALLY USING THIS</span></div>
   <h2 class="act-h2">It is mostly the apps <em>in your pocket.</em></h2>
   <p class="act-lead">Roughly 80% of all internet traffic is now video. Netflix alone is consistently ~15% of global downstream. Add YouTube, TikTok, Instagram Reels, Disney+, gaming, and cloud storage and you have accounted for most of what's running. AI is the exponential new overlay.</p>
@@ -1997,6 +1745,91 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 
 <!-- ============== ACT III · WHO'S WATCHING ============== -->
 <section class="act-section s-butter">
+
+  <!-- WATERCOLOR STILL LIFE · GEOPOLITICAL DESK (lavender/teal against butter) -->
+  <div class="still-life sl-watch" aria-hidden="true">
+    <svg viewBox="0 0 250 290" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="washIII" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="#8770b8" stop-opacity="0.45"/>
+          <stop offset="60%" stop-color="#5e88c2" stop-opacity="0.2"/>
+          <stop offset="100%" stop-color="#5e88c2" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="globeWash" cx="40%" cy="38%" r="55%">
+          <stop offset="0%" stop-color="#5e88c2" stop-opacity="0.75"/>
+          <stop offset="100%" stop-color="#8770b8" stop-opacity="0.5"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="125" cy="150" rx="120" ry="105" fill="url(#washIII)"/>
+      <circle cx="38" cy="50" r="3.5" fill="#8770b8" opacity="0.5"/>
+      <circle cx="220" cy="245" r="3" fill="#1a1a1f" opacity="0.4"/>
+      <circle cx="40" cy="265" r="2.5" fill="#d65b8a" opacity="0.5"/>
+
+      <!-- Desk line -->
+      <path d="M 12 245 L 238 245" class="ink ink-thin" opacity="0.5"/>
+
+      <!-- VINTAGE ATLAS GLOBE -->
+      <!-- Wooden stand -->
+      <path d="M 60 245 L 60 225 L 110 225 L 110 245 Z" fill="#d68f5c" opacity="0.55"/>
+      <path d="M 60 245 L 60 225 L 110 225 L 110 245 Z" class="ink ink-thin" fill="none"/>
+      <ellipse cx="85" cy="225" rx="25" ry="4" fill="#d68f5c" opacity="0.5"/>
+      <!-- Vertical post -->
+      <path d="M 85 225 L 85 195" class="ink ink-med"/>
+      <!-- Meridian ring -->
+      <ellipse cx="85" cy="150" rx="42" ry="48" fill="none" class="ink ink-med"/>
+      <!-- Globe sphere -->
+      <circle cx="85" cy="150" r="38" fill="url(#globeWash)"/>
+      <circle cx="85" cy="150" r="38" class="ink ink-med" fill="none"/>
+      <!-- Continent doodles (watercolor blobs) -->
+      <path d="M 70 130 Q 78 125 88 132 Q 92 142 82 145 Q 72 144 70 130 Z" fill="#cfddc8" opacity="0.7"/>
+      <path d="M 70 130 Q 78 125 88 132 Q 92 142 82 145 Q 72 144 70 130 Z" class="ink ink-thin" fill="none"/>
+      <path d="M 95 155 Q 105 152 108 162 Q 105 172 96 170 Q 92 162 95 155 Z" fill="#cfddc8" opacity="0.6"/>
+      <path d="M 95 155 Q 105 152 108 162 Q 105 172 96 170 Q 92 162 95 155 Z" class="ink ink-thin" fill="none"/>
+      <path d="M 65 165 Q 72 168 70 180 Q 62 178 65 165 Z" fill="#cfddc8" opacity="0.55"/>
+      <!-- Equator + meridian -->
+      <ellipse cx="85" cy="150" rx="38" ry="10" class="ink ink-thin" fill="none" opacity="0.6"/>
+      <ellipse cx="85" cy="150" rx="10" ry="38" class="ink ink-thin" fill="none" opacity="0.6"/>
+      <!-- Top knob -->
+      <circle cx="85" cy="108" r="3" fill="#d68f5c" opacity="0.7" class="ink ink-thin"/>
+
+      <!-- STARBURST WALL CLOCK (atomic age) -->
+      <circle cx="190" cy="120" r="18" fill="#fbf6ec" opacity="0.85"/>
+      <circle cx="190" cy="120" r="18" class="ink ink-med" fill="none"/>
+      <!-- Starburst rays -->
+      <g class="ink ink-thin" opacity="0.75">
+        <path d="M 190 98 L 190 88"/>
+        <path d="M 190 142 L 190 152"/>
+        <path d="M 168 120 L 158 120"/>
+        <path d="M 212 120 L 222 120"/>
+        <path d="M 173 103 L 167 97"/>
+        <path d="M 207 137 L 213 143"/>
+        <path d="M 173 137 L 167 143"/>
+        <path d="M 207 103 L 213 97"/>
+        <path d="M 181 99 L 178 91"/>
+        <path d="M 199 99 L 202 91"/>
+        <path d="M 181 141 L 178 149"/>
+        <path d="M 199 141 L 202 149"/>
+      </g>
+      <!-- Hands · 10:10 (classic clock pose) -->
+      <path d="M 190 120 L 178 112" class="ink ink-med"/>
+      <path d="M 190 120 L 200 112" class="ink ink-med"/>
+      <circle cx="190" cy="120" r="2" fill="#1a1a1f"/>
+      <!-- Brass dots at 12 3 6 9 -->
+      <circle cx="190" cy="106" r="1.5" fill="#c79832"/>
+      <circle cx="204" cy="120" r="1.5" fill="#c79832"/>
+      <circle cx="190" cy="134" r="1.5" fill="#c79832"/>
+      <circle cx="176" cy="120" r="1.5" fill="#c79832"/>
+
+      <!-- COCKTAIL GLASS · short pour -->
+      <path d="M 175 245 L 175 215 L 215 215 L 215 245 Z" fill="#c79832" opacity="0.35"/>
+      <path d="M 175 245 L 175 215 L 215 215 L 215 245 Z" class="ink ink-med" fill="none"/>
+      <path d="M 178 230 L 212 230" class="ink ink-thin" opacity="0.6"/>
+      <ellipse cx="195" cy="215" rx="20" ry="3" fill="#c79832" opacity="0.4" class="ink ink-thin"/>
+      <circle cx="200" cy="222" r="3" fill="#d65b8a" opacity="0.7"/>
+      <circle cx="200" cy="222" r="3" class="ink ink-thin" fill="none"/>
+    </svg>
+  </div>
+
   <div class="act-stamp"><span class="punk-dot"></span><span class="roman">III.</span><span>· WHO'S WATCHING · THE REGULATORY VOID</span></div>
   <h2 class="act-h2">Six other jurisdictions have <em>caps, codes, or moratoriums.</em> The United States has none.</h2>
   <p class="act-lead">Singapore stopped permits for three years over energy concerns. Ireland's Dublin region has refused new grid connections since 2022. China caps Power Usage Effectiveness at 1.3. The EU just made facility-level reporting mandatory. The United States has no national energy-efficiency standard for data centers at all.</p>
@@ -2060,6 +1893,76 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 
 <!-- ============== ACT IV · THE OPPOSITION ============== -->
 <section class="act-section s-lav">
+
+  <!-- WATERCOLOR STILL LIFE · ACTIVIST'S COFFEE TABLE (ochre/butter/sage against lavender) -->
+  <div class="still-life sl-oppose" aria-hidden="true">
+    <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="washIV" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="#c79832" stop-opacity="0.5"/>
+          <stop offset="60%" stop-color="#d68f5c" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#d68f5c" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="lampWash" cx="50%" cy="40%" r="55%">
+          <stop offset="0%" stop-color="#f8e1a1" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#f8e1a1" stop-opacity="0.4"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="120" cy="145" rx="115" ry="100" fill="url(#washIV)"/>
+      <circle cx="35" cy="55" r="3" fill="#c79832" opacity="0.55"/>
+      <circle cx="205" cy="240" r="3.5" fill="#4ba889" opacity="0.5"/>
+      <circle cx="220" cy="55" r="2.5" fill="#1a1a1f" opacity="0.5"/>
+
+      <!-- Floor line -->
+      <path d="M 14 245 L 226 245" class="ink ink-thin" opacity="0.5"/>
+
+      <!-- NOGUCHI PAPER LAMP (Akari · iconic mid-century) -->
+      <!-- Lamp body (sculptural · futurist ovoid) -->
+      <path d="M 50 75 Q 30 100 35 145 Q 38 175 65 185 Q 92 175 95 145 Q 100 100 80 75 Q 65 65 50 75 Z" fill="url(#lampWash)"/>
+      <path d="M 50 75 Q 30 100 35 145 Q 38 175 65 185 Q 92 175 95 145 Q 100 100 80 75 Q 65 65 50 75" class="ink ink-med" fill="none"/>
+      <!-- Paper-pleat lines -->
+      <path d="M 38 100 Q 60 105 90 100" class="ink ink-thin" opacity="0.5" fill="none"/>
+      <path d="M 35 120 Q 60 125 95 120" class="ink ink-thin" opacity="0.5" fill="none"/>
+      <path d="M 35 140 Q 60 145 95 140" class="ink ink-thin" opacity="0.5" fill="none"/>
+      <path d="M 36 160 Q 60 165 94 160" class="ink ink-thin" opacity="0.5" fill="none"/>
+      <!-- Lamp cord -->
+      <path d="M 65 75 Q 60 50 65 35" class="ink ink-thin" fill="none"/>
+      <!-- Bamboo stand legs -->
+      <path d="M 50 185 L 38 245" class="ink ink-med"/>
+      <path d="M 80 185 L 92 245" class="ink ink-med"/>
+      <path d="M 65 185 L 65 245" class="ink ink-thin" opacity="0.7"/>
+
+      <!-- STACK OF NEWSPAPERS -->
+      <path d="M 130 245 L 130 225 L 215 225 L 215 245 Z" fill="#fbf6ec" opacity="0.9"/>
+      <path d="M 130 245 L 130 225 L 215 225 L 215 245 Z" class="ink ink-med" fill="none"/>
+      <path d="M 128 225 L 128 215 L 213 215 L 213 225" class="ink ink-thin" fill="none" opacity="0.65"/>
+      <path d="M 126 215 L 126 207 L 211 207 L 211 215" class="ink ink-thin" fill="none" opacity="0.5"/>
+      <!-- Masthead/banner -->
+      <path d="M 138 232 L 170 232" class="ink ink-bold" opacity="0.7"/>
+      <!-- Headline lines -->
+      <path d="M 138 237 L 205 237" class="ink ink-thin" opacity="0.5"/>
+      <path d="M 138 240 L 195 240" class="ink ink-thin" opacity="0.4"/>
+      <!-- Fold indicator -->
+      <path d="M 172 225 L 172 245" class="ink ink-thin" opacity="0.3"/>
+
+      <!-- VASE WITH SINGLE BIRD-OF-PARADISE STEM -->
+      <!-- Vase (sculptural curve) -->
+      <path d="M 170 225 Q 168 200 175 180 Q 185 175 195 180 Q 202 200 200 225 Z" fill="#d65b8a" opacity="0.45"/>
+      <path d="M 170 225 Q 168 200 175 180 Q 185 175 195 180 Q 202 200 200 225" class="ink ink-med" fill="none"/>
+      <ellipse cx="185" cy="180" rx="10" ry="2.5" fill="#d65b8a" opacity="0.5" class="ink ink-thin"/>
+      <!-- Stem -->
+      <path d="M 185 180 Q 188 150 192 130 Q 195 110 196 90" class="ink ink-med" fill="none"/>
+      <!-- Flower bracts (orange/red triangular shapes) -->
+      <path d="M 196 90 L 188 82 L 200 75 L 196 90 Z" fill="#d68f5c" opacity="0.85"/>
+      <path d="M 196 90 L 188 82 L 200 75 L 196 90" class="ink ink-thin" fill="none"/>
+      <path d="M 196 90 L 204 78 L 210 88 L 196 90 Z" fill="#c79832" opacity="0.85"/>
+      <path d="M 196 90 L 204 78 L 210 88 L 196 90" class="ink ink-thin" fill="none"/>
+      <path d="M 196 90 L 195 80 L 192 85" class="ink ink-thin" fill="none"/>
+      <!-- Blue tongue -->
+      <path d="M 200 85 L 208 80 L 206 86" fill="#5e88c2" opacity="0.7"/>
+    </svg>
+  </div>
+
   <div class="act-stamp"><span class="punk-dot"></span><span class="roman">IV.</span><span>· THE OPPOSITION · WHAT IS BEING FOUGHT, BY WHOM, AND FOR HOW MUCH</span></div>
   <h2 class="act-h2">An <em>asymmetry of money</em> meeting an <em>asymmetry of attention.</em></h2>
   <p class="act-lead">There IS opposition — in courts, on ballots, at zoning hearings, in legislative committees. The pattern that recurs across states is the gap between industry spending and opposition spending, and the gap between which side commands which timescales.</p>
@@ -2167,6 +2070,109 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 
 <!-- ============== ACT V · THE INVISIBLE TAX ============== -->
 <section class="act-section s-blue">
+
+  <!-- WATERCOLOR STILL LIFE · SUBURBAN DEN (coral/peach against powder blue) -->
+  <div class="still-life sl-tax" aria-hidden="true">
+    <svg viewBox="0 0 250 290" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="washV" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="#d68f5c" stop-opacity="0.5"/>
+          <stop offset="60%" stop-color="#d65b8a" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#d65b8a" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="tvScreen" cx="40%" cy="40%" r="65%">
+          <stop offset="0%" stop-color="#cfddc8" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#4ba889" stop-opacity="0.5"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="125" cy="150" rx="120" ry="105" fill="url(#washV)"/>
+      <circle cx="35" cy="60" r="3" fill="#d68f5c" opacity="0.55"/>
+      <circle cx="218" cy="250" r="3.5" fill="#1a1a1f" opacity="0.45"/>
+      <circle cx="220" cy="60" r="2.5" fill="#c79832" opacity="0.6"/>
+
+      <!-- Floor -->
+      <path d="M 12 250 L 238 250" class="ink ink-thin" opacity="0.5"/>
+
+      <!-- MIDCENTURY TV SET (wood console with hairpin legs) -->
+      <!-- Cabinet -->
+      <path d="M 30 220 L 30 130 Q 30 124 36 124 L 135 124 Q 141 124 141 130 L 141 220 Z" fill="#d68f5c" opacity="0.55"/>
+      <path d="M 30 220 L 30 130 Q 30 124 36 124 L 135 124 Q 141 124 141 130 L 141 220 Z" class="ink ink-med" fill="none"/>
+      <!-- Wood grain hints -->
+      <path d="M 35 140 L 138 142" class="ink ink-thin" opacity="0.4"/>
+      <path d="M 35 215 L 138 216" class="ink ink-thin" opacity="0.4"/>
+      <!-- TV screen (rounded corners · iconic) -->
+      <path d="M 45 145 Q 45 138 52 138 L 119 138 Q 126 138 126 145 L 126 195 Q 126 202 119 202 L 52 202 Q 45 202 45 195 Z" fill="url(#tvScreen)"/>
+      <path d="M 45 145 Q 45 138 52 138 L 119 138 Q 126 138 126 145 L 126 195 Q 126 202 119 202 L 52 202 Q 45 202 45 195 Z" class="ink ink-med" fill="none"/>
+      <!-- Screen reflection -->
+      <path d="M 55 148 L 75 148" stroke="#fbf6ec" stroke-width="2" stroke-linecap="round" opacity="0.75" fill="none"/>
+      <!-- Channel dial + speaker grill -->
+      <circle cx="133" cy="170" r="6" fill="#1a1a1f" opacity="0.55"/>
+      <circle cx="133" cy="170" r="6" class="ink ink-thin" fill="none"/>
+      <!-- Speaker grill -->
+      <g class="ink ink-thin" opacity="0.5">
+        <circle cx="48" cy="210" r="1"/>
+        <circle cx="54" cy="210" r="1"/>
+        <circle cx="60" cy="210" r="1"/>
+        <circle cx="66" cy="210" r="1"/>
+        <circle cx="72" cy="210" r="1"/>
+      </g>
+      <!-- Hairpin legs -->
+      <path d="M 40 220 Q 38 240 32 250" class="ink ink-med" fill="none"/>
+      <path d="M 40 220 Q 42 240 46 250" class="ink ink-thin" fill="none" opacity="0.7"/>
+      <path d="M 131 220 Q 133 240 138 250" class="ink ink-med" fill="none"/>
+      <path d="M 131 220 Q 129 240 124 250" class="ink ink-thin" fill="none" opacity="0.7"/>
+      <!-- Rabbit-ear antenna -->
+      <path d="M 80 124 L 60 80" class="ink ink-med"/>
+      <path d="M 80 124 L 100 80" class="ink ink-med"/>
+      <circle cx="60" cy="80" r="2.5" fill="#1a1a1f"/>
+      <circle cx="100" cy="80" r="2.5" fill="#1a1a1f"/>
+      <!-- Base of antenna -->
+      <circle cx="80" cy="124" r="3" fill="#1a1a1f" opacity="0.7"/>
+
+      <!-- ROTARY TELEPHONE (on the right) -->
+      <!-- Base body -->
+      <path d="M 175 245 Q 175 215 205 215 L 230 215 Q 240 215 240 240 L 240 250 L 175 250 Z" fill="#d65b8a" opacity="0.6"/>
+      <path d="M 175 245 Q 175 215 205 215 L 230 215 Q 240 215 240 240 L 240 250" class="ink ink-med" fill="none"/>
+      <!-- Rotary dial -->
+      <circle cx="205" cy="232" r="13" fill="#fbf6ec" opacity="0.8"/>
+      <circle cx="205" cy="232" r="13" class="ink ink-thin" fill="none"/>
+      <circle cx="205" cy="232" r="8" class="ink ink-thin" fill="none" opacity="0.7"/>
+      <!-- Dial holes -->
+      <g fill="#1a1a1f" opacity="0.7">
+        <circle cx="205" cy="222" r="1.5"/>
+        <circle cx="212" cy="225" r="1.5"/>
+        <circle cx="214" cy="232" r="1.5"/>
+        <circle cx="212" cy="239" r="1.5"/>
+        <circle cx="205" cy="242" r="1.5"/>
+        <circle cx="198" cy="239" r="1.5"/>
+        <circle cx="196" cy="232" r="1.5"/>
+        <circle cx="198" cy="225" r="1.5"/>
+      </g>
+      <!-- Handset (above base) -->
+      <path d="M 178 210 Q 178 200 188 200 L 222 200 Q 232 200 232 210 L 232 213 L 178 213 Z" fill="#d65b8a" opacity="0.75"/>
+      <path d="M 178 210 Q 178 200 188 200 L 222 200 Q 232 200 232 210" class="ink ink-med" fill="none"/>
+
+      <!-- SPUTNIK ATOMIC CLOCK on TV top (small) -->
+      <circle cx="85" cy="118" r="3" fill="#1a1a1f"/>
+      <g class="ink ink-thin">
+        <path d="M 85 118 L 85 108"/>
+        <path d="M 85 118 L 95 118"/>
+        <path d="M 85 118 L 75 118"/>
+        <path d="M 85 118 L 92 111"/>
+        <path d="M 85 118 L 78 111"/>
+        <path d="M 85 118 L 92 125"/>
+        <path d="M 85 118 L 78 125"/>
+      </g>
+      <circle cx="85" cy="108" r="1.5" fill="#c79832"/>
+      <circle cx="95" cy="118" r="1.5" fill="#c79832"/>
+      <circle cx="75" cy="118" r="1.5" fill="#c79832"/>
+      <circle cx="92" cy="111" r="1.5" fill="#c79832"/>
+      <circle cx="78" cy="111" r="1.5" fill="#c79832"/>
+      <circle cx="92" cy="125" r="1.5" fill="#c79832"/>
+      <circle cx="78" cy="125" r="1.5" fill="#c79832"/>
+    </svg>
+  </div>
+
   <div class="act-stamp"><span class="punk-dot"></span><span class="roman">V.</span><span>· THE INVISIBLE TAX · WHAT YOUR DAILY USE COSTS</span></div>
   <h2 class="act-h2">Your <em>refrigerator</em> and your <em>Netflix</em> are now in the same energy class.</h2>
   <p class="act-lead">The grid bill arrives every month. The data-center bill arrives every minute, attached to every stream, every backup, every AI query. It is not on your statement. It does not exist as a number you can see. But it is the largest single category of consumer-side energy growth in 2024.</p>
@@ -2247,6 +2253,72 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 
 <!-- ============== ACT VI · THE STAKES ============== -->
 <section class="stakes-section">
+
+  <!-- WATERCOLOR STILL LIFE · DECISION WINDOW (sage/navy against pink) -->
+  <div class="still-life sl-stakes" aria-hidden="true">
+    <svg viewBox="0 0 240 260" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="washVI" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="#4ba889" stop-opacity="0.45"/>
+          <stop offset="60%" stop-color="#5e88c2" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#5e88c2" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="120" cy="135" rx="115" ry="100" fill="url(#washVI)"/>
+      <circle cx="35" cy="50" r="3.5" fill="#4ba889" opacity="0.55"/>
+      <circle cx="215" cy="230" r="3" fill="#1a1a1f" opacity="0.5"/>
+      <circle cx="40" cy="240" r="2.5" fill="#c79832" opacity="0.6"/>
+
+      <!-- Floor -->
+      <path d="M 12 230 L 228 230" class="ink ink-thin" opacity="0.5"/>
+
+      <!-- SAARINEN WOMB CHAIR (mid-century icon · enveloping curve) -->
+      <!-- Back/shell -->
+      <path d="M 30 230 Q 22 200 28 160 Q 35 110 80 95 Q 130 88 140 130 Q 140 165 130 200 Q 125 220 130 230 Z" fill="#cfddc8" opacity="0.6"/>
+      <path d="M 30 230 Q 22 200 28 160 Q 35 110 80 95 Q 130 88 140 130 Q 140 165 130 200 Q 125 220 130 230" class="ink ink-med" fill="none"/>
+      <!-- Seat cushion -->
+      <path d="M 45 195 Q 80 175 125 185 Q 130 200 125 215 Q 75 220 45 215 Z" fill="#4ba889" opacity="0.4"/>
+      <path d="M 45 195 Q 80 175 125 185 Q 130 200 125 215 Q 75 220 45 215" class="ink ink-thin" fill="none"/>
+      <!-- Back cushion -->
+      <ellipse cx="80" cy="145" rx="35" ry="22" fill="#4ba889" opacity="0.45"/>
+      <ellipse cx="80" cy="145" rx="35" ry="22" class="ink ink-thin" fill="none"/>
+      <!-- Steel rod base · 4 splayed legs -->
+      <path d="M 50 230 Q 55 240 60 230" class="ink ink-med" fill="none"/>
+      <path d="M 110 230 Q 115 240 120 230" class="ink ink-med" fill="none"/>
+      <path d="M 80 230 L 80 245" class="ink ink-thin"/>
+
+      <!-- HOURGLASS (sand timer) on side -->
+      <!-- Wood caps -->
+      <rect x="170" y="100" width="32" height="6" fill="#d68f5c" opacity="0.65"/>
+      <rect x="170" y="100" width="32" height="6" class="ink ink-thin" fill="none"/>
+      <rect x="170" y="190" width="32" height="6" fill="#d68f5c" opacity="0.65"/>
+      <rect x="170" y="190" width="32" height="6" class="ink ink-thin" fill="none"/>
+      <!-- Glass top bulb (sand still in) -->
+      <path d="M 173 106 L 200 106 L 190 148 L 183 148 Z" fill="#c79832" opacity="0.6"/>
+      <path d="M 173 106 L 186 148 L 200 106" class="ink ink-thin" fill="none"/>
+      <!-- Glass bottom bulb (sand piling up) -->
+      <path d="M 183 148 L 190 148 L 200 190 L 173 190 Z" fill="#fbf6ec" opacity="0.4"/>
+      <path d="M 173 190 L 186 148 L 200 190" class="ink ink-thin" fill="none"/>
+      <!-- Sand pile in bottom -->
+      <path d="M 178 190 Q 186 175 196 190 Z" fill="#c79832" opacity="0.7"/>
+      <path d="M 178 190 Q 186 175 196 190" class="ink ink-thin" fill="none"/>
+      <!-- Sand stream falling -->
+      <path d="M 186 148 L 186 175" stroke="#c79832" stroke-width="1.5" opacity="0.85" fill="none"/>
+      <!-- Side frame rods -->
+      <path d="M 168 106 L 168 196" class="ink ink-med"/>
+      <path d="M 204 106 L 204 196" class="ink ink-med"/>
+      <!-- Wood top cap on frame -->
+      <path d="M 166 92 L 206 92 L 206 100 L 166 100 Z" fill="#d68f5c" opacity="0.6" class="ink ink-thin"/>
+      <path d="M 166 196 L 206 196 L 206 204 L 166 204 Z" fill="#d68f5c" opacity="0.6" class="ink ink-thin"/>
+
+      <!-- EAMES HANG-IT-ALL · small accent in upper right -->
+      <g class="ink ink-thin" opacity="0.7">
+        <circle cx="218" cy="50" r="4" fill="#1a1a1f"/>
+        <circle cx="218" cy="50" r="4" class="ink ink-thin" fill="none"/>
+      </g>
+    </svg>
+  </div>
+
   <div class="ss-stamp"><span class="roman">VI.</span><span>· THE STAKES · WHY THE WINDOW IS NOW</span></div>
   <h2>The decisions that lock the buildout in for <em>a generation</em> are being made <em>right now,</em> at scales most readers don't watch.</h2>
   <p class="ss-lead">Three decision windows are open. Each closes in less than two years. Each is being made in venues with low public attention — by design.</p>
