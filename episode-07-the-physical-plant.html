@@ -284,6 +284,316 @@ body::before{
   font-size: 13px;
 }
 
+/* ============================================================
+   FOOTPRINT SECTION · cinematic architectural comparison
+   Three plan-view drawings: ATL airport · ONE hyperscale ·
+   GA 2030 constellation. Each row has MW + acres + density
+   + animated energy halo pulsing at MW-scale.
+   ============================================================ */
+.footprint-section{
+  padding: 14vh 7vw;
+  background: linear-gradient(180deg, var(--paper-soft) 0%, var(--paper-card) 100%);
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+.footprint-head{ max-width: 920px; margin-bottom: 50px }
+.footprint-head .fp-stamp{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--punk-magenta);
+  margin-bottom: 16px;
+  display: flex; gap: 14px; align-items: baseline;
+}
+.footprint-head .fp-stamp .roman{
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 22px; color: var(--ink); letter-spacing: 0;
+}
+.footprint-head h2{
+  font-family: 'Fraunces', serif;
+  font-weight: 350;
+  font-variation-settings: "opsz" 144, "SOFT" 60;
+  font-size: clamp(34px, 4.8vw, 60px);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 20px;
+  max-width: 22ch;
+}
+.footprint-head h2 em{ font-style: italic; color: var(--punk-magenta) }
+.footprint-head .fp-lead{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 54ch;
+}
+
+.footprint-rows{ display: flex; flex-direction: column; gap: 24px }
+
+.fp-row{
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 36px;
+  align-items: stretch;
+  padding: 28px;
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+@media (max-width: 1000px){ .fp-row{ grid-template-columns: 1fr } }
+
+.fp-row::before{
+  content: attr(data-tag);
+  position: absolute;
+  top: -10px; left: 24px;
+  background: var(--paper-soft);
+  padding: 0 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--punk-magenta);
+}
+
+.fp-drawing{
+  position: relative;
+  background:
+    linear-gradient(rgba(75,168,137,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(75,168,137,0.05) 1px, transparent 1px),
+    var(--paper-card);
+  background-size: 16px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 22px;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fp-drawing::before{
+  content: attr(data-stamp);
+  position: absolute;
+  top: 10px; left: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: var(--mint-deep);
+}
+.fp-drawing::after{
+  content: attr(data-scale);
+  position: absolute;
+  bottom: 8px; right: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+}
+.fp-drawing svg{ width: 100%; height: auto; display: block; max-height: 250px }
+
+/* Architectural drawing common styles */
+.fp-drawing .arch-line{ stroke: rgba(26,26,31,0.78); fill: none; stroke-linecap: round; stroke-linejoin: round }
+.fp-drawing .arch-fill{ fill: rgba(26,26,31,0.08) }
+.fp-drawing .arch-fill-mint{ fill: rgba(75,168,137,0.18) }
+.fp-drawing .arch-fill-tan{ fill: rgba(214,143,92,0.18) }
+.fp-drawing .arch-fill-blue{ fill: rgba(94,136,194,0.2) }
+.fp-drawing .arch-label{ font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.16em; fill: rgba(26,26,31,0.65) }
+
+.fp-stats{
+  display: flex; flex-direction: column;
+  gap: 12px;
+  padding: 4px 0;
+}
+.fp-stat{
+  background: var(--paper-card);
+  padding: 14px 18px;
+  border-radius: 4px;
+  border-left: 3px solid var(--rule);
+}
+.fp-stat .lbl{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 4px;
+}
+.fp-stat .val{
+  font-family: 'Fraunces', serif;
+  font-weight: 350;
+  font-style: italic;
+  font-size: 26px;
+  color: var(--ink);
+  line-height: 1;
+}
+.fp-stat .unit{
+  display: inline-block;
+  margin-left: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+}
+.fp-stat.acres{ border-left-color: var(--mint-deep) }
+.fp-stat.acres .val{ color: var(--mint-deep) }
+.fp-stat.mw{ border-left-color: var(--punk-magenta) }
+.fp-stat.mw .val{ color: var(--punk-magenta) }
+
+/* Power density panel · the shock metric */
+.fp-density{
+  margin-top: 6px;
+  padding: 16px 18px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 4px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.fp-density .lbl{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--punk-chartreuse);
+  margin-bottom: 6px;
+}
+.fp-density .num{
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 350;
+  font-size: 36px;
+  color: var(--punk-chartreuse);
+  line-height: 1;
+}
+.fp-density .num .ut{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  font-style: normal;
+  color: rgba(212,255,50,0.7);
+  letter-spacing: 0.1em;
+  margin-left: 2px;
+}
+.fp-density .versus{
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba(244,238,228,0.55);
+  text-transform: uppercase;
+}
+
+/* Energy halo overlay · pulses behind the architectural drawing */
+.energy-halo{
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+.fp-drawing .energy-halo{
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255,45,139,0.22) 0%, rgba(255,45,139,0) 70%);
+  animation: haloPulse 3.2s ease-in-out infinite;
+}
+@keyframes haloPulse{
+  0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.85); }
+  50%      { opacity: 0.85; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+/* Energy intensity bar at bottom of each row · proportional to MW */
+.fp-energy-bar-wrap{
+  margin-top: 16px;
+  padding: 12px 18px;
+  background: var(--paper-card);
+  border-radius: 4px;
+  border-left: 3px solid var(--punk-chartreuse);
+}
+.fp-energy-bar-lbl{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  display: flex; justify-content: space-between;
+  margin-bottom: 6px;
+}
+.fp-energy-bar-lbl b{ color: var(--ink) }
+.fp-energy-bar{
+  height: 8px;
+  background: rgba(26,26,31,0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.fp-energy-fill{
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: linear-gradient(90deg, var(--punk-chartreuse) 0%, var(--punk-amber) 50%, var(--punk-magenta) 100%);
+  border-radius: 4px;
+  width: 0;
+  transition: width 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(255,45,139,0.4);
+}
+.fp-energy-fill::after{
+  content: ""; position: absolute; right: 0; top: 0; bottom: 0;
+  width: 8px; background: rgba(255,255,255,0.6);
+  animation: pulseGlow 1.8s ease-in-out infinite;
+}
+@keyframes pulseGlow{ 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* The reveal moment at the bottom · perspective-shift caption */
+.fp-reveal{
+  margin-top: 36px;
+  padding: 28px 36px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 6px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.fp-reveal::before{
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(255,45,139,0.18) 0%, transparent 60%);
+}
+.fp-reveal .rev-stamp{
+  position: relative;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--punk-chartreuse);
+  margin-bottom: 14px;
+}
+.fp-reveal .rev-h{
+  position: relative;
+  font-family: 'Fraunces', serif;
+  font-weight: 350;
+  font-style: italic;
+  font-size: clamp(22px, 2.8vw, 32px);
+  line-height: 1.3;
+  max-width: 38ch;
+  margin: 0 auto;
+}
+.fp-reveal .rev-h em{
+  font-style: normal;
+  font-weight: 500;
+  color: var(--punk-chartreuse);
+  background: rgba(212,255,50,0.1);
+  padding: 1px 8px;
+  border-radius: 2px;
+}
+
 /* ============== SHARED SECTION CHASSIS ============== */
 .act-section{padding: 14vh 7vw; position: relative; z-index: 2; overflow: hidden}
 .act-section.s-mint{background: var(--pastel-mint)}
@@ -1555,6 +1865,374 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
   </div>
 </header>
 
+<!-- ============== FOOTPRINT · cinematic comparison · architectural plan views ============== -->
+<section class="footprint-section" id="footprint">
+  <div class="footprint-head">
+    <div class="fp-stamp"><span class="roman">⟶</span><span>THE FOOTPRINT THAT DOESN'T MATCH THE BILL</span></div>
+    <h2>Same megawatts. <em>1/100th</em> the land.</h2>
+    <p class="fp-lead">Draft architectural plan views of three facilities — the airport, one hyperscale data center, and Georgia's projected 2030 cluster — drawn at the same pixel scale to land the question their size hides: how much grid does a building this small actually pull?</p>
+  </div>
+
+  <div class="footprint-rows">
+
+    <!-- ROW 1 · HARTSFIELD-JACKSON · the giant -->
+    <div class="fp-row" data-tag="DWG · 07-A · ATL HARTSFIELD-JACKSON · PLAN 1:6000">
+      <div class="fp-drawing" data-stamp="PLAN · NORTH ↑" data-scale="◀ 1 mile ▶">
+        <div class="energy-halo" style="width: 75%; height: 80%; opacity:0.5"></div>
+        <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg">
+          <!-- North arrow -->
+          <g transform="translate(520, 22)">
+            <circle cx="0" cy="0" r="10" class="arch-line" stroke-width="0.8"/>
+            <path d="M 0 -7 L 3 4 L 0 1 L -3 4 Z" fill="#1a1a1f" opacity="0.7"/>
+            <text x="0" y="-13" class="arch-label" text-anchor="middle">N</text>
+          </g>
+          <!-- Scale bar -->
+          <g transform="translate(20, 195)">
+            <line x1="0" y1="0" x2="60" y2="0" class="arch-line" stroke-width="1"/>
+            <line x1="0" y1="-3" x2="0" y2="3" class="arch-line" stroke-width="1"/>
+            <line x1="30" y1="-2" x2="30" y2="2" class="arch-line" stroke-width="1"/>
+            <line x1="60" y1="-3" x2="60" y2="3" class="arch-line" stroke-width="1"/>
+            <text x="30" y="14" class="arch-label" text-anchor="middle">1 MILE · 5280 FT</text>
+          </g>
+          <!-- 5 RUNWAYS (parallel, slightly diagonal) -->
+          <g class="arch-fill">
+            <!-- Runway 8L/26R (north) -->
+            <rect x="40" y="45" width="450" height="9" rx="1"/>
+            <!-- Runway 8R/26L -->
+            <rect x="40" y="68" width="450" height="9" rx="1"/>
+            <!-- Runway 9L/27R (between terminals) -->
+            <rect x="40" y="105" width="380" height="9" rx="1"/>
+            <!-- Runway 9R/27L -->
+            <rect x="40" y="160" width="450" height="9" rx="1"/>
+            <!-- Runway 10/28 (south) -->
+            <rect x="80" y="183" width="410" height="7" rx="1"/>
+          </g>
+          <g class="arch-line" stroke-width="0.6">
+            <!-- Runway outlines + centerline dashes -->
+            <rect x="40" y="45" width="450" height="9" rx="1"/>
+            <line x1="50" y1="49.5" x2="480" y2="49.5" stroke-dasharray="6 8"/>
+            <rect x="40" y="68" width="450" height="9" rx="1"/>
+            <line x1="50" y1="72.5" x2="480" y2="72.5" stroke-dasharray="6 8"/>
+            <rect x="40" y="105" width="380" height="9" rx="1"/>
+            <line x1="50" y1="109.5" x2="410" y2="109.5" stroke-dasharray="6 8"/>
+            <rect x="40" y="160" width="450" height="9" rx="1"/>
+            <line x1="50" y1="164.5" x2="480" y2="164.5" stroke-dasharray="6 8"/>
+            <rect x="80" y="183" width="410" height="7" rx="1"/>
+            <line x1="90" y1="186.5" x2="480" y2="186.5" stroke-dasharray="6 8"/>
+          </g>
+          <!-- Runway designators -->
+          <text x="44" y="51" class="arch-label">8L</text>
+          <text x="476" y="51" class="arch-label" text-anchor="end">26R</text>
+          <text x="44" y="74" class="arch-label">8R</text>
+          <text x="44" y="111" class="arch-label">9L</text>
+          <text x="44" y="166" class="arch-label">9R</text>
+          <text x="84" y="189" class="arch-label">10</text>
+
+          <!-- TERMINAL COMPLEX (north terminal + south terminal between runway pairs) -->
+          <g class="arch-fill-mint">
+            <!-- Main terminal building -->
+            <rect x="170" y="118" width="180" height="22" rx="2"/>
+            <!-- Concourse T -->
+            <rect x="170" y="86" width="14" height="34"/>
+            <!-- Concourse A -->
+            <rect x="200" y="86" width="14" height="34"/>
+            <!-- Concourse B -->
+            <rect x="230" y="86" width="14" height="34"/>
+            <!-- Concourse C -->
+            <rect x="260" y="86" width="14" height="34"/>
+            <!-- Concourse D -->
+            <rect x="290" y="86" width="14" height="34"/>
+            <!-- Concourse E -->
+            <rect x="320" y="86" width="14" height="34"/>
+            <!-- Concourse F -->
+            <rect x="350" y="86" width="14" height="34"/>
+          </g>
+          <g class="arch-line" stroke-width="0.7">
+            <rect x="170" y="118" width="180" height="22" rx="2"/>
+            <rect x="170" y="86" width="14" height="34"/>
+            <rect x="200" y="86" width="14" height="34"/>
+            <rect x="230" y="86" width="14" height="34"/>
+            <rect x="260" y="86" width="14" height="34"/>
+            <rect x="290" y="86" width="14" height="34"/>
+            <rect x="320" y="86" width="14" height="34"/>
+            <rect x="350" y="86" width="14" height="34"/>
+          </g>
+          <text x="260" y="155" class="arch-label" text-anchor="middle" font-weight="600">MAYNARD H. JACKSON · MAIN TERMINAL</text>
+
+          <!-- Plane train tunnel (dashed) -->
+          <line x1="178" y1="129" x2="357" y2="129" class="arch-line" stroke-dasharray="2 4" opacity="0.6"/>
+          <text x="266" y="138" class="arch-label" text-anchor="middle" opacity="0.7">PLANE TRAIN ↓</text>
+
+          <!-- Substation icon (off-airport) -->
+          <g transform="translate(490, 130)">
+            <rect x="-10" y="-8" width="20" height="16" class="arch-line" stroke-width="0.8" fill="rgba(255,45,139,0.18)"/>
+            <text x="0" y="-12" class="arch-label" text-anchor="middle">SUBSTN</text>
+            <!-- Power line dashed to terminal -->
+            <line x1="-10" y1="0" x2="-130" y2="0" class="arch-line" stroke-dasharray="3 3" stroke="#ff2d8b" stroke-width="0.8" opacity="0.7"/>
+          </g>
+
+          <!-- Tiny aircraft on aprons (animation) -->
+          <g fill="#1a1a1f" opacity="0.55">
+            <path d="M 196 84 L 197 81 L 199 81 L 200 84 L 202 83 L 200 85 L 200 88 L 196 88 L 196 85 L 194 83 Z">
+              <animateTransform attributeName="transform" type="translate" values="0 0; -8 -1; 0 0" dur="6s" repeatCount="indefinite"/>
+            </path>
+            <path d="M 256 84 L 257 81 L 259 81 L 260 84 L 262 83 L 260 85 L 260 88 L 256 88 L 256 85 L 254 83 Z">
+              <animateTransform attributeName="transform" type="translate" values="0 0; -10 0; 0 0" dur="7s" begin="-2s" repeatCount="indefinite"/>
+            </path>
+            <path d="M 326 84 L 327 81 L 329 81 L 330 84 L 332 83 L 330 85 L 330 88 L 326 88 L 326 85 L 324 83 Z"/>
+          </g>
+
+          <!-- Title block -->
+          <g transform="translate(20, 28)">
+            <rect x="0" y="0" width="125" height="18" class="arch-line" stroke-width="0.6" fill="none"/>
+            <text x="6" y="11" class="arch-label" font-weight="600">ATL HARTSFIELD-JACKSON</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="fp-stats">
+        <div class="fp-stat acres">
+          <div class="lbl">Land footprint</div>
+          <div class="val">4,700<span class="unit">acres</span></div>
+        </div>
+        <div class="fp-stat mw">
+          <div class="lbl">Continuous load</div>
+          <div class="val">≈150<span class="unit">MW</span></div>
+        </div>
+        <div class="fp-density">
+          <div class="lbl">⟶ Power density</div>
+          <div class="num">0.032<span class="ut">MW / acre</span></div>
+          <div class="versus">spread across 7.3 sq miles · 5 runways · 7 concourses</div>
+        </div>
+      </div>
+
+      <div class="fp-energy-bar-wrap" style="grid-column: 1 / -1">
+        <div class="fp-energy-bar-lbl"><span>⚡ Grid demand · scaled to 8,200 MW max</span><b>~150 MW · 1.8%</b></div>
+        <div class="fp-energy-bar"><div class="fp-energy-fill" data-mw-w="1.8"></div></div>
+      </div>
+    </div>
+
+    <!-- ROW 2 · ONE HYPERSCALE · the small building · same drawing scale -->
+    <div class="fp-row" data-tag="DWG · 07-B · ONE HYPERSCALE · PLAN 1:6000 · same scale">
+      <div class="fp-drawing" data-stamp="PLAN · NORTH ↑" data-scale="◀ 1 mile ▶">
+        <div class="energy-halo" style="width: 75%; height: 80%; opacity:0.7"></div>
+        <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg">
+          <!-- North arrow + scale bar (same as row 1 for direct comparison) -->
+          <g transform="translate(520, 22)">
+            <circle cx="0" cy="0" r="10" class="arch-line" stroke-width="0.8"/>
+            <path d="M 0 -7 L 3 4 L 0 1 L -3 4 Z" fill="#1a1a1f" opacity="0.7"/>
+            <text x="0" y="-13" class="arch-label" text-anchor="middle">N</text>
+          </g>
+          <g transform="translate(20, 195)">
+            <line x1="0" y1="0" x2="60" y2="0" class="arch-line" stroke-width="1"/>
+            <line x1="0" y1="-3" x2="0" y2="3" class="arch-line" stroke-width="1"/>
+            <line x1="30" y1="-2" x2="30" y2="2" class="arch-line" stroke-width="1"/>
+            <line x1="60" y1="-3" x2="60" y2="3" class="arch-line" stroke-width="1"/>
+            <text x="30" y="14" class="arch-label" text-anchor="middle">1 MILE · 5280 FT</text>
+          </g>
+
+          <!-- ATL airport ghost outline at same scale (faded · for reference) -->
+          <g opacity="0.18" class="arch-line" stroke-width="0.5" stroke-dasharray="2 3">
+            <rect x="40" y="45" width="450" height="9" rx="1"/>
+            <rect x="40" y="68" width="450" height="9" rx="1"/>
+            <rect x="40" y="105" width="380" height="9" rx="1"/>
+            <rect x="40" y="160" width="450" height="9" rx="1"/>
+            <rect x="80" y="183" width="410" height="7" rx="1"/>
+            <rect x="170" y="118" width="180" height="22" rx="2"/>
+          </g>
+          <text x="260" y="42" class="arch-label" text-anchor="middle" opacity="0.55">↳ ATL outline shown for scale</text>
+
+          <!-- THE HYPERSCALE FACILITY (tiny · 50 acres ≈ 22px × 22px at same 1:6000 scale) -->
+          <g transform="translate(280, 116)">
+            <!-- Security fence -->
+            <rect x="-15" y="-12" width="48" height="32" class="arch-line" stroke-width="0.6" stroke-dasharray="2 2" fill="none"/>
+            <!-- Main data hall -->
+            <rect x="-10" y="-8" width="26" height="20" class="arch-fill-mint"/>
+            <rect x="-10" y="-8" width="26" height="20" class="arch-line" stroke-width="0.9"/>
+            <!-- Server row hints -->
+            <line x1="-8" y1="-4" x2="14" y2="-4" class="arch-line" stroke-width="0.4"/>
+            <line x1="-8" y1="0" x2="14" y2="0" class="arch-line" stroke-width="0.4"/>
+            <line x1="-8" y1="4" x2="14" y2="4" class="arch-line" stroke-width="0.4"/>
+            <line x1="-8" y1="8" x2="14" y2="8" class="arch-line" stroke-width="0.4"/>
+            <!-- Cooling yard -->
+            <rect x="18" y="-6" width="12" height="16" class="arch-fill-blue"/>
+            <rect x="18" y="-6" width="12" height="16" class="arch-line" stroke-width="0.6"/>
+            <!-- Generator yard -->
+            <rect x="-15" y="14" width="14" height="4" class="arch-fill-tan"/>
+            <rect x="-15" y="14" width="14" height="4" class="arch-line" stroke-width="0.4"/>
+          </g>
+          <!-- Tiny callout arrow + label pointing to the tiny building -->
+          <line x1="300" y1="116" x2="370" y2="74" class="arch-line" stroke-width="0.7" opacity="0.7"/>
+          <circle cx="300" cy="116" r="2" fill="#ff2d8b">
+            <animate attributeName="r" values="2;5;2" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <g transform="translate(370, 68)">
+            <rect x="0" y="0" width="160" height="36" class="arch-line" stroke-width="0.7" fill="#fbf6ec"/>
+            <text x="8" y="13" class="arch-label" font-weight="600" fill="#ff2d8b">↗ ONE HYPERSCALE</text>
+            <text x="8" y="24" class="arch-label">≈ 50 ACRES · 22 PX AT 1:6000</text>
+            <text x="8" y="33" class="arch-label">~200 MW CONTINUOUS</text>
+          </g>
+
+          <!-- Substation hookup -->
+          <g transform="translate(330, 124)">
+            <rect x="-5" y="-4" width="10" height="8" class="arch-line" stroke-width="0.7" fill="rgba(255,45,139,0.25)"/>
+            <line x1="0" y1="0" x2="-18" y2="0" class="arch-line" stroke-dasharray="2 2" stroke="#ff2d8b" stroke-width="0.7" opacity="0.8"/>
+          </g>
+
+          <!-- Title block -->
+          <g transform="translate(20, 28)">
+            <rect x="0" y="0" width="135" height="18" class="arch-line" stroke-width="0.6" fill="none"/>
+            <text x="6" y="11" class="arch-label" font-weight="600">SINGLE HYPERSCALE · GA</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="fp-stats">
+        <div class="fp-stat acres">
+          <div class="lbl">Land footprint</div>
+          <div class="val">≈50<span class="unit">acres</span></div>
+        </div>
+        <div class="fp-stat mw">
+          <div class="lbl">Continuous load</div>
+          <div class="val">≈200<span class="unit">MW</span></div>
+        </div>
+        <div class="fp-density">
+          <div class="lbl">⟶ Power density</div>
+          <div class="num">4.0<span class="ut">MW / acre</span></div>
+          <div class="versus">≈125× the airport · same MW in 1/94th the land</div>
+        </div>
+      </div>
+
+      <div class="fp-energy-bar-wrap" style="grid-column: 1 / -1">
+        <div class="fp-energy-bar-lbl"><span>⚡ Grid demand · scaled to 8,200 MW max</span><b>~200 MW · 2.4%</b></div>
+        <div class="fp-energy-bar"><div class="fp-energy-fill" data-mw-w="2.4"></div></div>
+      </div>
+    </div>
+
+    <!-- ROW 3 · GA 2030 · 40 facilities clustered -->
+    <div class="fp-row" data-tag="DWG · 07-C · GEORGIA 2030 PROJECTED CLUSTER">
+      <div class="fp-drawing" data-stamp="PLAN · GA OUTLINE" data-scale="◀ 100 mi ▶">
+        <div class="energy-halo" style="width: 90%; height: 95%; opacity:0.95"></div>
+        <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg">
+          <!-- Georgia state outline (simplified) -->
+          <path d="M 180 30 L 380 28 L 395 60 L 410 95 L 405 130 L 395 165 L 370 195 L 290 195 L 235 192 L 195 180 L 175 145 L 165 100 L 168 60 Z" class="arch-line" stroke-width="1.2" fill="rgba(75,168,137,0.06)"/>
+          <!-- State label -->
+          <text x="290" y="100" class="arch-label" text-anchor="middle" font-weight="600" opacity="0.5" font-size="11">GEORGIA</text>
+
+          <!-- Major city dots -->
+          <circle cx="275" cy="90" r="3" fill="#1a1a1f" opacity="0.7"/>
+          <text x="282" y="93" class="arch-label">ATL</text>
+          <circle cx="345" cy="155" r="2" fill="#1a1a1f" opacity="0.6"/>
+          <text x="352" y="158" class="arch-label">SAV</text>
+          <circle cx="285" cy="155" r="2" fill="#1a1a1f" opacity="0.6"/>
+          <text x="292" y="158" class="arch-label">MAC</text>
+          <circle cx="225" cy="155" r="2" fill="#1a1a1f" opacity="0.6"/>
+          <text x="232" y="158" class="arch-label">COL</text>
+
+          <!-- 40 hyperscale facility dots (clustered in metro Atlanta + central GA) -->
+          <g>
+            <!-- Douglas / Coweta / Newton cluster (metro south + east) -->
+            <g class="hyperscale-dot">
+              <rect x="255" y="95" width="3" height="3" fill="#ff2d8b"/><rect x="262" y="96" width="3" height="3" fill="#ff2d8b"/><rect x="269" y="98" width="3" height="3" fill="#ff2d8b"/>
+              <rect x="276" y="96" width="3" height="3" fill="#ff2d8b"/><rect x="283" y="95" width="3" height="3" fill="#ff2d8b"/><rect x="290" y="97" width="3" height="3" fill="#ff2d8b"/>
+              <rect x="259" y="102" width="3" height="3" fill="#ff2d8b"/><rect x="266" y="103" width="3" height="3" fill="#ff2d8b"/><rect x="273" y="104" width="3" height="3" fill="#ff2d8b"/>
+              <rect x="280" y="103" width="3" height="3" fill="#ff2d8b"/><rect x="287" y="102" width="3" height="3" fill="#ff2d8b"/>
+              <rect x="295" y="100" width="3" height="3" fill="#ff2d8b"/><rect x="302" y="102" width="3" height="3" fill="#ff2d8b"/>
+              <rect x="248" y="98" width="3" height="3" fill="#ff2d8b"/><rect x="252" y="105" width="3" height="3" fill="#ff2d8b"/>
+              <!-- east cluster Newton -->
+              <rect x="310" y="98" width="3" height="3" fill="#ff2d8b"/><rect x="316" y="100" width="3" height="3" fill="#ff2d8b"/><rect x="322" y="103" width="3" height="3" fill="#ff2d8b"/>
+              <rect x="313" y="106" width="3" height="3" fill="#ff2d8b"/><rect x="319" y="108" width="3" height="3" fill="#ff2d8b"/>
+            </g>
+            <!-- Northwest cluster (Cherokee/Bartow) -->
+            <g>
+              <rect x="244" y="78" width="3" height="3" fill="#ff2d8b"/><rect x="250" y="82" width="3" height="3" fill="#ff2d8b"/>
+              <rect x="256" y="80" width="3" height="3" fill="#ff2d8b"/><rect x="240" y="85" width="3" height="3" fill="#ff2d8b"/>
+            </g>
+            <!-- Central GA (Macon corridor) -->
+            <g>
+              <rect x="278" y="135" width="3" height="3" fill="#ff2d8b"/><rect x="285" y="138" width="3" height="3" fill="#ff2d8b"/>
+              <rect x="295" y="140" width="3" height="3" fill="#ff2d8b"/><rect x="270" y="140" width="3" height="3" fill="#ff2d8b"/>
+            </g>
+            <!-- Augusta/East cluster -->
+            <g>
+              <rect x="350" y="85" width="3" height="3" fill="#ff2d8b"/><rect x="356" y="88" width="3" height="3" fill="#ff2d8b"/>
+              <rect x="362" y="92" width="3" height="3" fill="#ff2d8b"/><rect x="345" y="92" width="3" height="3" fill="#ff2d8b"/>
+            </g>
+          </g>
+          <!-- All 40 hyperscale facilities pulse together -->
+          <g>
+            <animate attributeName="opacity" values="0.55;1;0.55" dur="2.4s" repeatCount="indefinite"/>
+            <circle cx="280" cy="100" r="40" fill="none" stroke="#ff2d8b" stroke-width="0.5" opacity="0.45"/>
+            <circle cx="280" cy="100" r="55" fill="none" stroke="#ff2d8b" stroke-width="0.4" opacity="0.3"/>
+          </g>
+
+          <!-- Power-line grid hints (dashed lines connecting clusters to substations) -->
+          <g class="arch-line" stroke="#ff2d8b" stroke-width="0.4" stroke-dasharray="2 3" opacity="0.55">
+            <line x1="275" y1="90" x2="280" y2="100"/>
+            <line x1="275" y1="90" x2="245" y2="82"/>
+            <line x1="275" y1="90" x2="316" y2="103"/>
+            <line x1="275" y1="90" x2="285" y2="138"/>
+            <line x1="345" y1="155" x2="354" y2="89"/>
+          </g>
+
+          <!-- Scale bar -->
+          <g transform="translate(20, 195)">
+            <line x1="0" y1="0" x2="60" y2="0" class="arch-line" stroke-width="1"/>
+            <line x1="0" y1="-3" x2="0" y2="3" class="arch-line" stroke-width="1"/>
+            <line x1="60" y1="-3" x2="60" y2="3" class="arch-line" stroke-width="1"/>
+            <text x="30" y="14" class="arch-label" text-anchor="middle">100 MILES</text>
+          </g>
+
+          <!-- Legend -->
+          <g transform="translate(425, 30)">
+            <rect x="0" y="0" width="120" height="58" class="arch-line" stroke-width="0.6" fill="rgba(251,246,236,0.85)"/>
+            <text x="6" y="11" class="arch-label" font-weight="600">LEGEND</text>
+            <rect x="6" y="18" width="4" height="4" fill="#ff2d8b"/>
+            <text x="14" y="22" class="arch-label">HYPERSCALE FACILITY</text>
+            <text x="6" y="34" class="arch-label">N=40 · ANNOUNCED+OPERATING</text>
+            <text x="6" y="44" class="arch-label">8,200 MW PROJECTED 2030</text>
+            <text x="6" y="54" class="arch-label" fill="#ff2d8b">≈55× ATL AIRPORT IN POWER</text>
+          </g>
+
+          <!-- Title block -->
+          <g transform="translate(20, 28)">
+            <rect x="0" y="0" width="135" height="18" class="arch-line" stroke-width="0.6" fill="none"/>
+            <text x="6" y="11" class="arch-label" font-weight="600">GA 2030 · 40 FACILITIES</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="fp-stats">
+        <div class="fp-stat acres">
+          <div class="lbl">Combined land</div>
+          <div class="val">≈2,000<span class="unit">acres</span></div>
+        </div>
+        <div class="fp-stat mw">
+          <div class="lbl">Combined load</div>
+          <div class="val">8,200<span class="unit">MW</span></div>
+        </div>
+        <div class="fp-density">
+          <div class="lbl">⟶ Cluster density</div>
+          <div class="num">4.1<span class="ut">MW / acre</span></div>
+          <div class="versus">all 40 facilities together fit in <b>under half</b> the airport's land</div>
+        </div>
+      </div>
+
+      <div class="fp-energy-bar-wrap" style="grid-column: 1 / -1">
+        <div class="fp-energy-bar-lbl"><span>⚡ Grid demand · scaled to 8,200 MW max</span><b>8,200 MW · 100%</b></div>
+        <div class="fp-energy-bar"><div class="fp-energy-fill" data-mw-w="100"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="fp-reveal">
+    <div class="rev-stamp">⟶ The perspective shift</div>
+    <p class="rev-h">A facility the size of <em>a Costco</em> can match a 4,700-acre airport in continuous electricity demand. Georgia is on track for <em>forty of them</em>, fitting inside half the airport's land while drawing 55× its power.</p>
+  </div>
+</section>
+
 <!-- ============== ACT I · THE SCALE ============== -->
 <section class="act-section s-mint">
 
@@ -2095,101 +2773,151 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 <!-- ============== ACT IV · THE OPPOSITION ============== -->
 <section class="act-section s-lav">
 
-  <!-- WATERCOLOR · OLD-SCHOOL PASSPORT OPEN · stamps drop in animated -->
+  <!-- WATERCOLOR · ASYMMETRY · people watching TV + money streams flowing INTO the TV -->
   <div class="still-life sl-oppose" aria-hidden="true">
     <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="washIV" cx="50%" cy="50%" r="60%">
+        <radialGradient id="washIV" cx="50%" cy="55%" r="60%">
           <stop offset="0%" stop-color="#c79832" stop-opacity="0.5"/>
           <stop offset="60%" stop-color="#d68f5c" stop-opacity="0.22"/>
           <stop offset="100%" stop-color="#d68f5c" stop-opacity="0"/>
         </radialGradient>
+        <linearGradient id="tvScreenIV" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f8e1a1" stop-opacity="0.95"/>
+          <stop offset="100%" stop-color="#d68f5c" stop-opacity="0.85"/>
+        </linearGradient>
       </defs>
       <ellipse cx="120" cy="145" rx="115" ry="100" fill="url(#washIV)"/>
       <circle cx="32" cy="48" r="3" fill="#c79832" opacity="0.6"/>
-      <circle cx="218" cy="255" r="3.5" fill="#1a1a1f" opacity="0.45"/>
-      <circle cx="225" cy="55" r="2.5" fill="#4ba889" opacity="0.55"/>
+      <circle cx="218" cy="255" r="3.5" fill="#1a1a1f" opacity="0.5"/>
 
-      <!-- Desk surface -->
-      <path d="M 14 250 L 226 250" class="ink ink-thin" opacity="0.5"/>
+      <!-- Floor line -->
+      <path d="M 14 245 L 226 245" class="ink ink-thin" opacity="0.55"/>
 
-      <!-- VINTAGE PASSPORT (open · navy cover) -->
-      <!-- Cover backing -->
-      <path d="M 20 245 L 18 130 Q 19 124 26 125 L 116 128 L 116 245 Z" fill="#1a3a5f" opacity="0.85"/>
-      <path d="M 20 245 L 18 130 Q 19 124 26 125 L 116 128 L 116 245 Z" class="ink ink-med" fill="none"/>
-      <path d="M 116 128 L 116 245 L 222 245 L 222 130 Q 220 124 214 125 L 116 128 Z" fill="#1a3a5f" opacity="0.85"/>
-      <path d="M 116 128 L 116 245 L 222 245 L 222 130 Q 220 124 214 125 L 116 128" class="ink ink-med" fill="none"/>
-      <!-- Spine fold -->
-      <path d="M 116 128 L 116 245" class="ink ink-bold"/>
-
-      <!-- LEFT PAGE (personal info · cream paper) -->
-      <path d="M 26 138 L 110 140 L 110 240 L 28 240 Z" fill="#fbf6ec" opacity="0.96"/>
-      <path d="M 26 138 L 110 140 L 110 240 L 28 240 Z" class="ink ink-thin" fill="none"/>
-      <!-- Photo placeholder -->
-      <rect x="32" y="148" width="30" height="40" fill="#d68f5c" opacity="0.55" class="ink ink-thin"/>
-      <!-- Face hint in photo -->
-      <circle cx="47" cy="162" r="6" fill="#ffd4b8" opacity="0.85" class="ink ink-thin"/>
-      <path d="M 38 178 Q 47 174 56 178" class="ink ink-thin" fill="none"/>
-      <!-- Info lines -->
-      <path d="M 68 150 L 105 150" class="ink ink-thin" opacity="0.6"/>
-      <path d="M 68 158 L 105 158" class="ink ink-thin" opacity="0.55"/>
-      <path d="M 68 166 L 105 166" class="ink ink-thin" opacity="0.55"/>
-      <path d="M 68 174 L 105 174" class="ink ink-thin" opacity="0.55"/>
-      <path d="M 68 182 L 105 182" class="ink ink-thin" opacity="0.55"/>
-      <!-- MRZ chevron lines at bottom -->
-      <path d="M 32 215 L 105 215" class="ink ink-thin" opacity="0.7"/>
-      <path d="M 32 222 L 105 222" class="ink ink-thin" opacity="0.65"/>
-      <text x="34" y="220" font-family="monospace" font-size="5" fill="#1a1a1f" opacity="0.85">P&lt;USAANDERSON&lt;&lt;JARED&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</text>
-      <text x="34" y="227" font-family="monospace" font-size="5" fill="#1a1a1f" opacity="0.85">154200007USA8501012M3001012&lt;&lt;</text>
-
-      <!-- Gold eagle/seal hint at top -->
-      <text x="68" y="146" font-family="serif" font-size="6" text-anchor="middle" fill="#c79832" font-weight="bold">★ U.S. PASSPORT ★</text>
-
-      <!-- RIGHT PAGE (stamp page · cream paper) -->
-      <path d="M 122 140 L 214 138 L 212 240 L 124 240 Z" fill="#fbf6ec" opacity="0.96"/>
-      <path d="M 122 140 L 214 138 L 212 240 L 124 240 Z" class="ink ink-thin" fill="none"/>
-
-      <!-- EXISTING STAMPS on right page (settled) -->
-      <!-- Stamp 1: ATL inbound · purple circle -->
-      <g transform="translate(150,170) rotate(-12)">
-        <circle cx="0" cy="0" r="18" fill="none" stroke="#8770b8" stroke-width="1.5" opacity="0.85"/>
-        <circle cx="0" cy="0" r="13" fill="none" stroke="#8770b8" stroke-width="0.8" opacity="0.7"/>
-        <text x="0" y="-3" font-family="monospace" font-size="5" text-anchor="middle" fill="#8770b8" font-weight="bold">ATL</text>
-        <text x="0" y="4" font-family="monospace" font-size="4" text-anchor="middle" fill="#8770b8">14 JUN</text>
+      <!-- TV CABINET (mid-century console) -->
+      <path d="M 70 200 L 70 90 Q 70 84 76 84 L 184 84 Q 190 84 190 90 L 190 200 Z" fill="#d68f5c" opacity="0.7"/>
+      <path d="M 70 200 L 70 90 Q 70 84 76 84 L 184 84 Q 190 84 190 90 L 190 200 Z" class="ink ink-med" fill="none"/>
+      <!-- TV screen (rounded rectangle) -->
+      <path d="M 82 100 Q 82 96 86 96 L 174 96 Q 178 96 178 100 L 178 160 Q 178 164 174 164 L 86 164 Q 82 164 82 160 Z" fill="url(#tvScreenIV)"/>
+      <path d="M 82 100 Q 82 96 86 96 L 174 96 Q 178 96 178 100 L 178 160 Q 178 164 174 164 L 86 164 Q 82 164 82 160 Z" class="ink ink-med" fill="none"/>
+      <!-- TV content · pro-industry chart trending up + headline -->
+      <text x="130" y="112" font-family="monospace" font-size="6" text-anchor="middle" fill="#1a1a1f" font-weight="bold" opacity="0.85">📺 INDUSTRY NEWS</text>
+      <!-- Chart -->
+      <path d="M 92 152 L 100 144 L 110 146 L 122 138 L 134 132 L 148 126 L 162 118 L 172 114" stroke="#4ba889" stroke-width="2" fill="none"/>
+      <path d="M 92 152 L 100 144 L 110 146 L 122 138 L 134 132 L 148 126 L 162 118 L 172 114 L 172 158 L 92 158 Z" fill="#4ba889" opacity="0.25"/>
+      <!-- Chart arrow -->
+      <path d="M 172 114 L 168 110 M 172 114 L 174 118 M 172 114 L 178 110" class="ink ink-thin"/>
+      <!-- Headline -->
+      <text x="130" y="124" font-family="monospace" font-size="5" text-anchor="middle" fill="#1a1a1f" opacity="0.85">DATA CENTERS = JOBS</text>
+      <!-- Ticker bar -->
+      <rect x="82" y="156" width="96" height="4" fill="#d65b8a" opacity="0.85"/>
+      <g opacity="0.95">
+        <text font-family="monospace" font-size="3" fill="#fbf6ec" font-weight="bold">
+          <textPath href="#tickerPath">GROWTH · INVESTMENT · OPPORTUNITY · TAX REVENUE · </textPath>
+          <animateTransform attributeName="transform" type="translate" values="0 0; -50 0; 0 0" dur="8s" repeatCount="indefinite"/>
+        </text>
       </g>
-      <!-- Stamp 2: LHR · red rectangle -->
-      <g transform="translate(180,200) rotate(8)">
-        <rect x="-16" y="-10" width="32" height="20" fill="none" stroke="#d65b8a" stroke-width="1.5" opacity="0.85"/>
-        <text x="0" y="-2" font-family="monospace" font-size="5" text-anchor="middle" fill="#d65b8a" font-weight="bold">LHR</text>
-        <text x="0" y="5" font-family="monospace" font-size="4" text-anchor="middle" fill="#d65b8a">22 MAR</text>
-      </g>
+      <path id="tickerPath" d="M 82 159 L 178 159" fill="none"/>
+      <text x="84" y="159" font-family="monospace" font-size="3" fill="#fbf6ec" font-weight="bold">
+        <tspan>BUILT HERE · BUILT FOR YOU · GROWTH · JOBS · INVESTMENT · </tspan>
+        <animate attributeName="x" values="84; -200" dur="14s" repeatCount="indefinite"/>
+      </text>
 
-      <!-- FALLING / DROPPING STAMPS (animated) · enter from top, settle -->
-      <g transform="translate(170,215)">
-        <g transform="rotate(-6)">
-          <rect x="-16" y="-10" width="32" height="20" fill="none" stroke="#4ba889" stroke-width="1.5" opacity="0.85"/>
-          <text x="0" y="-2" font-family="monospace" font-size="5" text-anchor="middle" fill="#4ba889" font-weight="bold">NRT</text>
-          <text x="0" y="5" font-family="monospace" font-size="4" text-anchor="middle" fill="#4ba889">09 NOV</text>
-        </g>
-        <animateTransform attributeName="transform" type="translate" values="170 80;170 215;170 215" keyTimes="0;0.35;1" dur="4s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0;1;1;1;0" keyTimes="0;0.2;0.85;0.95;1" dur="4s" repeatCount="indefinite"/>
+      <!-- Channel knob + speaker grill -->
+      <circle cx="184" cy="180" r="4" fill="#1a1a1f" opacity="0.65" class="ink ink-thin"/>
+      <g class="ink ink-thin" opacity="0.55">
+        <circle cx="80" cy="180" r="0.8" fill="#1a1a1f"/>
+        <circle cx="86" cy="180" r="0.8" fill="#1a1a1f"/>
+        <circle cx="92" cy="180" r="0.8" fill="#1a1a1f"/>
+      </g>
+      <!-- Hairpin legs -->
+      <path d="M 78 200 Q 76 220 70 245" class="ink ink-med" fill="none"/>
+      <path d="M 78 200 Q 80 220 84 245" class="ink ink-thin" fill="none" opacity="0.7"/>
+      <path d="M 182 200 Q 184 220 190 245" class="ink ink-med" fill="none"/>
+      <path d="M 182 200 Q 180 220 176 245" class="ink ink-thin" fill="none" opacity="0.7"/>
+
+      <!-- THE PEOPLE WATCHING (3 figures from behind, foreground silhouettes) -->
+      <!-- Figure A (left, child-size) -->
+      <g transform="translate(108, 232)">
+        <circle cx="0" cy="-12" r="5" fill="#1a1a1f" opacity="0.8"/>
+        <path d="M -6 -7 L -7 10 L 7 10 L 6 -7 Z" fill="#1a1a1f" opacity="0.75"/>
+      </g>
+      <!-- Figure B (center, adult) -->
+      <g transform="translate(128, 230)">
+        <circle cx="0" cy="-14" r="6" fill="#1a1a1f" opacity="0.85"/>
+        <path d="M -7 -8 L -9 12 L 9 12 L 7 -8 Z" fill="#1a1a1f" opacity="0.8"/>
+      </g>
+      <!-- Figure C (right) -->
+      <g transform="translate(150, 232)">
+        <circle cx="0" cy="-12" r="5" fill="#1a1a1f" opacity="0.8"/>
+        <path d="M -6 -7 L -7 10 L 7 10 L 6 -7 Z" fill="#1a1a1f" opacity="0.75"/>
       </g>
 
-      <g transform="translate(140,220)">
-        <g transform="rotate(15)">
-          <circle cx="0" cy="0" r="15" fill="none" stroke="#c79832" stroke-width="1.5" opacity="0.85"/>
-          <text x="0" y="-2" font-family="monospace" font-size="5" text-anchor="middle" fill="#c79832" font-weight="bold">CDG</text>
-          <text x="0" y="5" font-family="monospace" font-size="4" text-anchor="middle" fill="#c79832">02 JUL</text>
-        </g>
-        <animateTransform attributeName="transform" type="translate" values="140 90;140 220;140 220" keyTimes="0;0.4;1" dur="4s" begin="1.6s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0;1;1;1;0" keyTimes="0;0.25;0.85;0.95;1" dur="4s" begin="1.6s" repeatCount="indefinite"/>
+      <!-- MONEY STREAMS · industry $$$ flowing INTO the TV (from off-screen left + right) -->
+      <!-- Stream 1: top-left flowing toward TV -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="-30 -8; 90 90; 90 90" keyTimes="0;0.7;1" dur="3.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.7;1" dur="3.2s" repeatCount="indefinite"/>
+        <text font-family="serif" font-size="13" fill="#4ba889" font-weight="bold">$</text>
+      </g>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="-20 12; 100 100; 100 100" keyTimes="0;0.7;1" dur="3.2s" begin="0.8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.7;1" dur="3.2s" begin="0.8s" repeatCount="indefinite"/>
+        <text font-family="serif" font-size="11" fill="#c79832" font-weight="bold">$</text>
+      </g>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="-15 35; 110 105; 110 105" keyTimes="0;0.7;1" dur="3.2s" begin="1.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.7;1" dur="3.2s" begin="1.6s" repeatCount="indefinite"/>
+        <text font-family="serif" font-size="14" fill="#4ba889" font-weight="bold">$</text>
+      </g>
+      <!-- Stream 2: top-right flowing toward TV -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="240 0; 130 100; 130 100" keyTimes="0;0.7;1" dur="3.2s" begin="0.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.7;1" dur="3.2s" begin="0.4s" repeatCount="indefinite"/>
+        <text font-family="serif" font-size="13" fill="#c79832" font-weight="bold">$</text>
+      </g>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="245 25; 135 110; 135 110" keyTimes="0;0.7;1" dur="3.2s" begin="1.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.7;1" dur="3.2s" begin="1.2s" repeatCount="indefinite"/>
+        <text font-family="serif" font-size="11" fill="#4ba889" font-weight="bold">$</text>
+      </g>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="245 50; 140 115; 140 115" keyTimes="0;0.7;1" dur="3.2s" begin="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.7;1" dur="3.2s" begin="2s" repeatCount="indefinite"/>
+        <text font-family="serif" font-size="14" fill="#c79832" font-weight="bold">$</text>
       </g>
 
-      <!-- Small ink splash where stamp lands -->
-      <circle cx="170" cy="215" r="2" fill="#4ba889" opacity="0">
-        <animate attributeName="r" values="2;6;2" dur="4s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0;0.6;0" keyTimes="0;0.4;0.7" dur="4s" repeatCount="indefinite"/>
-      </circle>
+      <!-- "$280M+" label upper area -->
+      <g transform="translate(40, 38)">
+        <text font-family="monospace" font-size="7" fill="#c79832" font-weight="bold" letter-spacing="1">$280M ↘</text>
+      </g>
+      <g transform="translate(196, 38)">
+        <text font-family="monospace" font-size="7" fill="#c79832" font-weight="bold" letter-spacing="1">↙ INDUSTRY</text>
+      </g>
+
+      <!-- TINY OPPOSITION MEGAPHONE in corner with sparse coins drifting nowhere -->
+      <g transform="translate(20, 215)">
+        <!-- Megaphone (small) -->
+        <path d="M 0 0 L 8 -4 L 8 4 L 0 0 Z" fill="#d65b8a" opacity="0.75"/>
+        <path d="M 0 0 L 8 -4 L 8 4 L 0 0 Z" class="ink ink-thin" fill="none"/>
+        <path d="M -3 -1 L -3 1 L 0 0 Z" fill="#1a1a1f" opacity="0.7"/>
+        <!-- "$14M" label -->
+        <text x="-2" y="15" font-family="monospace" font-size="6" fill="#d65b8a" font-weight="bold">$14M</text>
+        <!-- Tiny sparse coins drifting up but fading -->
+        <circle r="1.2" fill="#d65b8a" opacity="0.5">
+          <animateTransform attributeName="transform" type="translate" values="10 -5; 18 -25" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.6;0" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1" fill="#d65b8a" opacity="0.5">
+          <animateTransform attributeName="transform" type="translate" values="12 -8; 22 -28" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.5;0" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+
+      <!-- TV glow halo from people perspective -->
+      <ellipse cx="130" cy="130" rx="60" ry="35" fill="#f8e1a1" opacity="0.18">
+        <animate attributeName="opacity" values="0.1;0.25;0.1" dur="2.4s" repeatCount="indefinite"/>
+      </ellipse>
     </svg>
   </div>
 
@@ -2301,88 +3029,149 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 <!-- ============== ACT V · THE INVISIBLE TAX ============== -->
 <section class="act-section s-blue">
 
-  <!-- WATERCOLOR · OVAL PLANE WINDOW · clouds drift past + wingtip below -->
+  <!-- WATERCOLOR · FRIDGE + NETFLIX · matched two-needle analog wattmeter -->
   <div class="still-life sl-tax" aria-hidden="true">
     <svg viewBox="0 0 250 290" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="washV" cx="50%" cy="45%" r="60%">
+        <radialGradient id="washVtax" cx="50%" cy="50%" r="60%">
           <stop offset="0%" stop-color="#d68f5c" stop-opacity="0.5"/>
           <stop offset="60%" stop-color="#d65b8a" stop-opacity="0.22"/>
           <stop offset="100%" stop-color="#d65b8a" stop-opacity="0"/>
         </radialGradient>
-        <linearGradient id="skyView" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#9fbceb" stop-opacity="0.95"/>
-          <stop offset="60%" stop-color="#c5d9f1" stop-opacity="0.9"/>
-          <stop offset="100%" stop-color="#fbf6ec" stop-opacity="0.85"/>
-        </linearGradient>
-        <clipPath id="windowClip">
-          <path d="M 50 80 Q 50 50 125 50 Q 200 50 200 80 L 200 200 Q 200 230 125 230 Q 50 230 50 200 Z"/>
-        </clipPath>
+        <radialGradient id="meterFace" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fbf6ec" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#ffd4b8" stop-opacity="0.9"/>
+        </radialGradient>
+        <radialGradient id="screenGlow" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="#d65b8a" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#1a1a1f" stop-opacity="0.85"/>
+        </radialGradient>
       </defs>
-      <ellipse cx="125" cy="150" rx="120" ry="105" fill="url(#washV)"/>
+      <ellipse cx="125" cy="150" rx="120" ry="105" fill="url(#washVtax)"/>
       <circle cx="32" cy="48" r="3" fill="#d68f5c" opacity="0.55"/>
-      <circle cx="220" cy="265" r="3.5" fill="#1a1a1f" opacity="0.45"/>
+      <circle cx="220" cy="260" r="3.5" fill="#4ba889" opacity="0.5"/>
 
-      <!-- CABIN WALL behind window (cream) -->
-      <path d="M 22 30 L 228 30 L 228 260 L 22 260 Z" fill="#fbf6ec" opacity="0.55"/>
-
-      <!-- WINDOW FRAME OUTER (cabin plastic · rounded rectangle) -->
-      <path d="M 40 75 Q 40 40 125 40 Q 210 40 210 75 L 210 205 Q 210 240 125 240 Q 40 240 40 205 Z" fill="#d68f5c" opacity="0.7"/>
-      <path d="M 40 75 Q 40 40 125 40 Q 210 40 210 75 L 210 205 Q 210 240 125 240 Q 40 240 40 205 Z" class="ink ink-med" fill="none"/>
-
-      <!-- INNER WINDOW PORT (the actual view · classic aviation oval/rounded) -->
-      <path d="M 50 80 Q 50 50 125 50 Q 200 50 200 80 L 200 200 Q 200 230 125 230 Q 50 230 50 200 Z" fill="url(#skyView)"/>
-
-      <!-- CLOUDS · drift slowly left → right (animated · clipped to window) -->
-      <g clip-path="url(#windowClip)">
-        <!-- Cloud 1 (large · low) -->
-        <g>
-          <animateTransform attributeName="transform" type="translate" values="-80 0;320 0" dur="22s" repeatCount="indefinite"/>
-          <ellipse cx="0" cy="155" rx="40" ry="14" fill="#fbf6ec" opacity="0.9"/>
-          <ellipse cx="-22" cy="160" rx="22" ry="10" fill="#fbf6ec" opacity="0.85"/>
-          <ellipse cx="25" cy="160" rx="24" ry="10" fill="#fbf6ec" opacity="0.85"/>
+      <!-- THE ANALOG WATTMETER · centered top -->
+      <g transform="translate(125, 80)">
+        <!-- Meter housing -->
+        <rect x="-46" y="-6" width="92" height="58" rx="4" fill="#d68f5c" opacity="0.75"/>
+        <rect x="-46" y="-6" width="92" height="58" rx="4" class="ink ink-med" fill="none"/>
+        <!-- Meter face -->
+        <ellipse cx="0" cy="20" rx="36" ry="22" fill="url(#meterFace)"/>
+        <ellipse cx="0" cy="20" rx="36" ry="22" class="ink ink-med" fill="none"/>
+        <!-- Scale arc -->
+        <path d="M -30 28 A 32 18 0 0 1 30 28" stroke="#1a1a1f" stroke-width="1.2" fill="none" opacity="0.65"/>
+        <!-- Scale tick marks -->
+        <g class="ink ink-thin" opacity="0.75">
+          <path d="M -28 24 L -30 28"/>
+          <path d="M -22 18 L -23 22"/>
+          <path d="M -14 12 L -15 16"/>
+          <path d="M -4 9 L -4 13"/>
+          <path d="M 4 9 L 4 13"/>
+          <path d="M 14 12 L 15 16"/>
+          <path d="M 22 18 L 23 22"/>
+          <path d="M 28 24 L 30 28"/>
         </g>
-        <!-- Cloud 2 (mid-size · upper) -->
+        <!-- Scale labels -->
+        <text x="-32" y="40" font-family="monospace" font-size="4" fill="#1a1a1f" opacity="0.7" text-anchor="middle">0</text>
+        <text x="0" y="6" font-family="monospace" font-size="4" fill="#1a1a1f" opacity="0.7" text-anchor="middle">MAX</text>
+        <text x="32" y="40" font-family="monospace" font-size="4" fill="#1a1a1f" opacity="0.7" text-anchor="middle">kWh</text>
+        <!-- TWO NEEDLES · both pointing to the same value (matched) -->
+        <!-- Fridge needle (slightly to left of center, ~70% of scale) -->
         <g>
-          <animateTransform attributeName="transform" type="translate" values="-60 0;310 0" dur="28s" begin="-8s" repeatCount="indefinite"/>
-          <ellipse cx="0" cy="105" rx="28" ry="10" fill="#fbf6ec" opacity="0.85"/>
-          <ellipse cx="-16" cy="108" rx="14" ry="7" fill="#fbf6ec" opacity="0.8"/>
-          <ellipse cx="18" cy="108" rx="16" ry="7" fill="#fbf6ec" opacity="0.8"/>
+          <animateTransform attributeName="transform" type="rotate" values="-8;-4;-8" dur="3s" repeatCount="indefinite"/>
+          <line x1="0" y1="20" x2="-10" y2="2" stroke="#4ba889" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="-10" cy="2" r="1.5" fill="#4ba889"/>
         </g>
-        <!-- Cloud 3 (small wispy · animation faster) -->
+        <!-- Netflix needle (overlapping position, also ~70% of scale) -->
         <g>
-          <animateTransform attributeName="transform" type="translate" values="-40 0;300 0" dur="18s" begin="-12s" repeatCount="indefinite"/>
-          <ellipse cx="0" cy="130" rx="20" ry="6" fill="#fbf6ec" opacity="0.7"/>
-          <ellipse cx="14" cy="132" rx="10" ry="5" fill="#fbf6ec" opacity="0.65"/>
+          <animateTransform attributeName="transform" type="rotate" values="6;2;6" dur="3s" begin="0.4s" repeatCount="indefinite"/>
+          <line x1="0" y1="20" x2="10" y2="2" stroke="#d65b8a" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="10" cy="2" r="1.5" fill="#d65b8a"/>
         </g>
-        <!-- HORIZON LINE -->
-        <path d="M 30 198 L 220 198" stroke="#5e88c2" stroke-width="0.8" opacity="0.6"/>
-        <!-- DISTANT GROUND patches -->
-        <ellipse cx="80" cy="218" rx="40" ry="6" fill="#cfddc8" opacity="0.65"/>
-        <ellipse cx="170" cy="220" rx="35" ry="5" fill="#cfddc8" opacity="0.6"/>
+        <!-- Hub -->
+        <circle cx="0" cy="20" r="2.5" fill="#1a1a1f"/>
+        <!-- Brand label -->
+        <text x="0" y="-2" font-family="monospace" font-size="4.5" text-anchor="middle" fill="#1a1a1f" font-weight="bold" opacity="0.8">SAME ENERGY CLASS</text>
+        <!-- Needle key inside meter -->
+        <g font-family="monospace" font-size="3.5">
+          <rect x="-30" y="44" width="6" height="3" fill="#4ba889"/>
+          <text x="-22" y="47" fill="#4ba889" font-weight="bold">FRIDGE</text>
+          <rect x="6" y="44" width="6" height="3" fill="#d65b8a"/>
+          <text x="14" y="47" fill="#d65b8a" font-weight="bold">NETFLIX</text>
+        </g>
       </g>
+      <!-- Wires running down from meter to fridge + screen -->
+      <path d="M 105 132 Q 90 145 75 160" class="ink ink-thin" stroke="#4ba889" stroke-width="1.3" fill="none" opacity="0.85"/>
+      <path d="M 145 132 Q 160 145 175 160" class="ink ink-thin" stroke="#d65b8a" stroke-width="1.3" fill="none" opacity="0.85"/>
+      <!-- Pulse traveling down each wire -->
+      <circle r="2" fill="#4ba889">
+        <animateMotion path="M 105 132 Q 90 145 75 160" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="2" fill="#d65b8a">
+        <animateMotion path="M 145 132 Q 160 145 175 160" dur="1.6s" begin="0.8s" repeatCount="indefinite"/>
+      </circle>
 
-      <!-- AIRCRAFT WINGTIP (visible in lower portion of window) -->
-      <path d="M 50 200 L 30 245 L 80 235 L 130 220 L 180 215 L 200 200 Z" fill="#fbf6ec" opacity="0.92" clip-path="url(#windowClip)"/>
-      <path d="M 50 200 L 30 245 L 80 235 L 130 220 L 180 215 L 200 200" class="ink ink-med" fill="none" clip-path="url(#windowClip)"/>
-      <!-- Winglet (upturned end) -->
-      <path d="M 30 245 L 24 222 L 32 235" fill="#fbf6ec" opacity="0.9" clip-path="url(#windowClip)"/>
-      <path d="M 30 245 L 24 222 L 32 235" class="ink ink-thin" fill="none" clip-path="url(#windowClip)"/>
-      <!-- Wing markings -->
-      <path d="M 60 232 L 175 218" stroke="#d65b8a" stroke-width="1.5" opacity="0.85" clip-path="url(#windowClip)"/>
-      <!-- Engine / nacelle hint -->
-      <ellipse cx="75" cy="240" rx="14" ry="5" fill="#1a1a1f" opacity="0.55" clip-path="url(#windowClip)"/>
-      <!-- Wing inner reflection highlight -->
-      <path d="M 60 222 L 165 210" stroke="#fbf6ec" stroke-width="1.2" opacity="0.85" clip-path="url(#windowClip)"/>
+      <!-- LEFT · MID-CENTURY REFRIGERATOR -->
+      <g transform="translate(48, 160)">
+        <!-- Body (rounded corners · cream color iconic) -->
+        <path d="M 0 0 Q 0 -4 4 -4 L 54 -4 Q 58 -4 58 0 L 58 80 Q 58 84 54 84 L 4 84 Q 0 84 0 80 Z" fill="#fbf6ec" opacity="0.92"/>
+        <path d="M 0 0 Q 0 -4 4 -4 L 54 -4 Q 58 -4 58 0 L 58 80 Q 58 84 54 84 L 4 84 Q 0 84 0 80 Z" class="ink ink-med" fill="none"/>
+        <!-- Top compartment divider -->
+        <path d="M 0 22 L 58 22" class="ink ink-med"/>
+        <!-- Freezer (top) -->
+        <path d="M 0 0 L 58 0 L 58 22 L 0 22 Z" fill="#cfddc8" opacity="0.45"/>
+        <!-- Chrome handle (top compartment) -->
+        <rect x="40" y="6" width="14" height="3" fill="#5e88c2" opacity="0.75" class="ink ink-thin"/>
+        <!-- Chrome handle (bottom compartment · vertical) -->
+        <rect x="48" y="30" width="3" height="40" fill="#5e88c2" opacity="0.75" class="ink ink-thin"/>
+        <!-- GE / Brand badge -->
+        <ellipse cx="29" cy="42" rx="6" ry="3" fill="#d65b8a" opacity="0.85" class="ink ink-thin"/>
+        <text x="29" y="44" font-family="monospace" font-size="3" text-anchor="middle" fill="#fbf6ec" font-weight="bold">GE</text>
+        <!-- Hairpin feet -->
+        <path d="M 6 84 Q 4 90 0 95" class="ink ink-thin"/>
+        <path d="M 52 84 Q 54 90 58 95" class="ink ink-thin"/>
+      </g>
+      <!-- Energy aura around fridge -->
+      <ellipse cx="78" cy="200" rx="38" ry="48" fill="#4ba889" opacity="0.15">
+        <animate attributeName="opacity" values="0.1;0.25;0.1" dur="3s" repeatCount="indefinite"/>
+      </ellipse>
 
-      <!-- WINDOW SHADE (pulled up · top half of window) -->
-      <path d="M 50 80 Q 50 65 70 60 L 180 60 Q 200 65 200 80 L 200 78 L 50 78 Z" fill="#1a1a1f" opacity="0.15"/>
-      <path d="M 50 80 L 200 80" class="ink ink-thin" opacity="0.55"/>
-      <!-- Shade pull handle -->
-      <rect x="120" y="78" width="10" height="4" fill="#1a1a1f" opacity="0.5"/>
+      <!-- RIGHT · NETFLIX / STREAMING SCREEN -->
+      <g transform="translate(148, 160)">
+        <!-- Screen frame -->
+        <rect x="0" y="0" width="60" height="50" rx="3" fill="#1a1a1f" opacity="0.92"/>
+        <rect x="0" y="0" width="60" height="50" rx="3" class="ink ink-med" fill="none"/>
+        <!-- Inner screen -->
+        <rect x="3" y="3" width="54" height="44" rx="1" fill="url(#screenGlow)"/>
+        <!-- Netflix red "N" -->
+        <g transform="translate(30, 25)">
+          <path d="M -7 -10 L -7 10 L -3 10 L -3 -3 L 3 10 L 7 10 L 7 -10 L 3 -10 L 3 3 L -3 -10 Z" fill="#d65b8a" opacity="0.95"/>
+        </g>
+        <!-- Stand neck -->
+        <rect x="26" y="50" width="8" height="14" fill="#1a1a1f" opacity="0.85" class="ink ink-thin"/>
+        <!-- Stand base -->
+        <ellipse cx="30" cy="68" rx="18" ry="3" fill="#1a1a1f" opacity="0.8"/>
+        <ellipse cx="30" cy="68" rx="18" ry="3" class="ink ink-thin" fill="none"/>
+        <!-- Screen scan line (animated) -->
+        <line x1="3" y1="3" x2="57" y2="3" stroke="#fbf6ec" stroke-width="0.5" opacity="0.5">
+          <animate attributeName="y1" values="5;45;5" dur="2.4s" repeatCount="indefinite"/>
+          <animate attributeName="y2" values="5;45;5" dur="2.4s" repeatCount="indefinite"/>
+        </line>
+        <!-- HD / 4K label -->
+        <text x="50" y="44" font-family="monospace" font-size="3" fill="#d4ff32" font-weight="bold">4K</text>
+      </g>
+      <!-- Energy aura around screen -->
+      <ellipse cx="178" cy="195" rx="40" ry="42" fill="#d65b8a" opacity="0.15">
+        <animate attributeName="opacity" values="0.1;0.25;0.1" dur="3s" begin="0.4s" repeatCount="indefinite"/>
+      </ellipse>
 
-      <!-- Inner frame seal (subtle inset) -->
-      <path d="M 50 80 Q 50 50 125 50 Q 200 50 200 80 L 200 200 Q 200 230 125 230 Q 50 230 50 200 Z" class="ink ink-thin" fill="none" opacity="0.7"/>
+      <!-- Floor line -->
+      <path d="M 14 258 L 236 258" class="ink ink-thin" opacity="0.55"/>
+
+      <!-- "~3 kWh/day" labels under each device -->
+      <text x="78" y="275" font-family="monospace" font-size="6" text-anchor="middle" fill="#4ba889" font-weight="bold" letter-spacing="0.5">~3 kWh/day</text>
+      <text x="178" y="275" font-family="monospace" font-size="6" text-anchor="middle" fill="#d65b8a" font-weight="bold" letter-spacing="0.5">~3 kWh/day</text>
     </svg>
   </div>
 
