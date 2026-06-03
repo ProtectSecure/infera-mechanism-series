@@ -1021,94 +1021,126 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 @media (max-width: 1000px){ .still-life{ display: none } }
 
 /* ============================================================
-   ACT II · NEW · INTERNET DEPARTURES BOARD
-   Treats tenant traffic as flights leaving the airport
+   ACT II · INTERNET DEPARTURES BOARD · v2
+   Real-airport navy-blue background, 5 visible rows, slide-up
+   rotation every 3.5s with split-flap flip on each row change.
    ============================================================ */
 .departures-frame{
-  background: #0c0c12;
-  border-radius: 8px;
-  border: 1.5px solid #1a1a1f;
+  background: linear-gradient(180deg, #0a2148 0%, #0d2c5e 100%);
+  border-radius: 6px;
+  border: 2px solid #061535;
   padding: 0;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(26,26,31,0.18);
+  box-shadow: 0 24px 70px rgba(10,33,72,0.4), inset 0 0 0 1px rgba(255,255,255,0.04);
 }
+/* Subtle horizontal scanline overlay · CRT/LED board feel */
+.departures-frame::before{
+  content: "";
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.02) 0px,
+    rgba(255,255,255,0.02) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none; z-index: 1;
+}
+
 .dep-roof{
-  background: #1a1a1f;
-  padding: 16px 26px;
+  background: #061535;
+  padding: 16px 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #2a2a35;
+  border-bottom: 2px solid #0a2148;
+  position: relative; z-index: 2;
 }
 .dep-roof .dep-brand{
   display: flex; gap: 14px; align-items: center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.26em;
+  font-size: 12px;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--punk-chartreuse);
+  color: #ffe082;
   font-weight: 600;
 }
 .dep-roof .dep-brand::before{
-  content: ""; width: 8px; height: 8px;
-  border-radius: 50%; background: var(--punk-chartreuse);
+  content: ""; width: 9px; height: 9px;
+  border-radius: 50%; background: #d4ff32;
   animation: pulse 1.6s ease-in-out infinite;
-  box-shadow: 0 0 12px var(--punk-chartreuse);
+  box-shadow: 0 0 14px #d4ff32;
 }
 .dep-roof .dep-time{
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  color: rgba(244,238,228,0.55);
+  font-size: 11.5px;
+  letter-spacing: 0.2em;
+  color: rgba(255,224,130,0.7);
 }
-.dep-roof .dep-time span{color: var(--punk-amber)}
+.dep-roof .dep-time #depTimeVal{color: #ffe082; font-weight:600}
 
 .dep-header{
   display: grid;
-  grid-template-columns: 1.4fr 1fr 0.7fr 0.9fr 0.5fr;
+  grid-template-columns: 1.4fr 1fr 0.6fr 0.9fr 0.5fr;
   gap: 14px;
-  padding: 12px 26px;
-  background: #16161c;
-  border-bottom: 1px solid #2a2a35;
+  padding: 11px 28px;
+  background: #08193e;
+  border-bottom: 1px solid #051129;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.24em;
+  font-size: 9.5px;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(244,238,228,0.5);
+  color: rgba(255,224,130,0.55);
+  position: relative; z-index: 2;
 }
+
+/* Rotating window · only 5 rows visible */
+.dep-window{
+  position: relative;
+  height: 320px; /* 5 rows × 64px */
+  overflow: hidden;
+  z-index: 2;
+}
+.dep-stack{
+  position: relative;
+  transition: transform 0.6s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
 .dep-row{
   display: grid;
-  grid-template-columns: 1.4fr 1fr 0.7fr 0.9fr 0.5fr;
+  grid-template-columns: 1.4fr 1fr 0.6fr 0.9fr 0.5fr;
   gap: 14px;
-  padding: 14px 26px;
-  border-bottom: 1px solid #1a1a22;
+  padding: 16px 28px;
+  border-bottom: 1px solid rgba(255,224,130,0.08);
   align-items: center;
   font-family: 'JetBrains Mono', monospace;
-  transition: background 0.2s;
+  height: 64px;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 50%, rgba(0,0,0,0.08) 100%);
 }
-.dep-row:hover{background: rgba(255,45,139,0.04)}
-.dep-row:last-child{border-bottom: none}
 .dep-row .dr-name{
   display: flex; gap: 12px; align-items: center;
-  color: var(--paper);
+  color: #ffe082;
 }
 .dep-row .dr-name .icon{
-  width: 22px; height: 22px;
-  border-radius: 5px;
+  width: 24px; height: 24px;
+  border-radius: 4px;
   display: inline-flex;
   align-items: center; justify-content: center;
   font-family: 'Fraunces', serif;
   font-style: italic;
   font-weight: 600;
   font-size: 13px;
-  color: #0c0c12;
+  color: #061535;
   flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(255,224,130,0.15);
 }
 .dep-row .dr-name .nm{
   font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ffe082;
 }
 .dep-row .dr-name .nm .sub{
   display: block;
@@ -1116,65 +1148,78 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
   font-style: italic;
   font-size: 11px;
   font-weight: 400;
-  color: rgba(244,238,228,0.5);
+  color: rgba(255,224,130,0.55);
   letter-spacing: 0;
   margin-top: 2px;
 }
 .dep-row .dr-dest{
-  color: rgba(244,238,228,0.85);
+  color: rgba(255,224,130,0.85);
   font-size: 12px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 .dep-row .dr-dest .reg{
   display: block;
   font-size: 9px;
-  color: rgba(244,238,228,0.4);
-  letter-spacing: 0.16em;
+  color: rgba(255,224,130,0.45);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 .dep-row .dr-gate{
-  color: var(--paper);
-  font-size: 15px;
+  color: #ffe082;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  text-align: center;
 }
 .dep-row .dr-status{
   font-size: 10px;
-  letter-spacing: 0.2em;
-  font-weight: 600;
+  letter-spacing: 0.22em;
+  font-weight: 700;
   text-transform: uppercase;
-  padding: 4px 9px;
-  border-radius: 30px;
+  padding: 5px 10px;
+  border-radius: 2px;
   display: inline-block;
   width: fit-content;
 }
-.dep-row .dr-status.enroute{background:rgba(75,168,137,0.18); color:#7fdcbb}
-.dep-row .dr-status.boarding{background:rgba(255,140,66,0.18); color:#ffa466; animation: blink 1.2s ease-in-out infinite}
-.dep-row .dr-status.surging{background:rgba(255,45,139,0.18); color:#ff6fae; animation: blink 0.9s ease-in-out infinite}
-.dep-row .dr-status.steady{background:rgba(94,136,194,0.18); color:#9fbceb}
-.dep-row .dr-status.delayed{background:rgba(199,152,50,0.18); color:#e8c060}
+.dep-row .dr-status.enroute  { background:rgba(75,168,137,0.22);  color:#7fdcbb; border: 1px solid rgba(127,220,187,0.35) }
+.dep-row .dr-status.boarding { background:rgba(255,140,66,0.22);  color:#ffa466; border: 1px solid rgba(255,164,102,0.4); animation: blink 1.2s ease-in-out infinite }
+.dep-row .dr-status.surging  { background:rgba(255,45,139,0.22);  color:#ff6fae; border: 1px solid rgba(255,111,174,0.4); animation: blink 0.9s ease-in-out infinite }
+.dep-row .dr-status.steady   { background:rgba(94,136,194,0.22);  color:#9fbceb; border: 1px solid rgba(159,188,235,0.4) }
+.dep-row .dr-status.delayed  { background:rgba(212,255,50,0.18);  color:#d4ff32; border: 1px solid rgba(212,255,50,0.4) }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.45} }
 
 .dep-row .dr-pct{
-  color: var(--punk-chartreuse);
-  font-size: 14px;
+  color: #d4ff32;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-align: right;
 }
-.dep-row.surge-row .dr-pct{color: var(--punk-magenta)}
+.dep-row.surge-row .dr-pct{color: #ff6fae}
+
+/* Split-flap flip when a new row enters at bottom */
+@keyframes flipIn {
+  0%   { transform: rotateX(-90deg); opacity: 0; }
+  50%  { transform: rotateX(-30deg); opacity: 0.6; }
+  100% { transform: rotateX(0); opacity: 1; }
+}
+.dep-row.flip-in{
+  transform-origin: top center;
+  animation: flipIn 0.55s cubic-bezier(0.3, 0, 0.2, 1);
+}
 
 .dep-footer{
-  background: #16161c;
-  border-top: 1px solid #2a2a35;
-  padding: 12px 26px;
+  background: #061535;
+  border-top: 1px solid #0a2148;
+  padding: 12px 28px;
   display: flex; justify-content: space-between; align-items: center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.22em;
+  font-size: 9.5px;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(244,238,228,0.4);
+  color: rgba(255,224,130,0.6);
+  position: relative; z-index: 2;
 }
 .dep-footer .dep-key{display:flex; gap: 14px; flex-wrap: wrap}
 .dep-footer .dep-key span{display:inline-flex; gap:6px; align-items:center}
@@ -1187,6 +1232,8 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 @media (max-width: 900px){
   .dep-header, .dep-row{grid-template-columns: 1.4fr 0.6fr 0.5fr; gap: 8px; padding: 12px 18px}
   .dep-header .h-gate, .dep-header .h-dest, .dep-row .dr-gate, .dep-row .dr-dest{display:none}
+  .dep-window{height: 280px}
+  .dep-row{height: 56px}
 }
 </style>
 </head>
@@ -1218,64 +1265,111 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 <!-- ============== HERO · the airport reveal ============== -->
 <header class="hero">
 
-  <!-- WATERCOLOR STILL LIFE · DEPARTURE LOUNGE TABLE -->
+  <!-- WATERCOLOR · 1960s STEWARDESS POURING COFFEE (animated steam) -->
   <div class="still-life sl-hero" aria-hidden="true">
     <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="washHero" cx="50%" cy="55%" r="60%">
-          <stop offset="0%" stop-color="#ffd4b8" stop-opacity="0.7"/>
-          <stop offset="50%" stop-color="#b8eada" stop-opacity="0.32"/>
-          <stop offset="100%" stop-color="#b8eada" stop-opacity="0"/>
+          <stop offset="0%" stop-color="#d65b8a" stop-opacity="0.42"/>
+          <stop offset="55%" stop-color="#ffd4b8" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#ffd4b8" stop-opacity="0"/>
         </radialGradient>
-        <radialGradient id="washHero2" cx="70%" cy="35%" r="40%">
-          <stop offset="0%" stop-color="#f8e1a1" stop-opacity="0.6"/>
+        <radialGradient id="washHero2" cx="70%" cy="30%" r="40%">
+          <stop offset="0%" stop-color="#f8e1a1" stop-opacity="0.55"/>
           <stop offset="100%" stop-color="#f8e1a1" stop-opacity="0"/>
         </radialGradient>
-        <radialGradient id="heroGlass" cx="50%" cy="40%" r="60%">
-          <stop offset="0%" stop-color="#5e88c2" stop-opacity="0.5"/>
-          <stop offset="100%" stop-color="#5e88c2" stop-opacity="0.15"/>
-        </radialGradient>
       </defs>
-      <ellipse cx="140" cy="170" rx="135" ry="115" fill="url(#washHero)"/>
-      <ellipse cx="195" cy="100" rx="60" ry="50" fill="url(#washHero2)"/>
-      <circle cx="40" cy="60" r="4" fill="#d68f5c" opacity="0.4"/>
-      <circle cx="250" cy="280" r="3" fill="#4ba889" opacity="0.5"/>
-      <circle cx="48" cy="270" r="2.5" fill="#d65b8a" opacity="0.45"/>
-      <circle cx="234" cy="50" r="3.5" fill="#8770b8" opacity="0.45"/>
+      <ellipse cx="140" cy="180" rx="135" ry="115" fill="url(#washHero)"/>
+      <ellipse cx="200" cy="85" rx="60" ry="50" fill="url(#washHero2)"/>
+      <circle cx="35" cy="58" r="3.5" fill="#d65b8a" opacity="0.5"/>
+      <circle cx="248" cy="280" r="3" fill="#4ba889" opacity="0.55"/>
+      <circle cx="245" cy="55" r="2.5" fill="#c79832" opacity="0.6"/>
 
-      <!-- Saarinen tulip table -->
-      <ellipse cx="120" cy="288" rx="55" ry="9" fill="#4ba889" opacity="0.5"/>
-      <ellipse cx="120" cy="286" rx="55" ry="9" fill="none" class="ink ink-thin"/>
-      <path d="M 95 286 Q 108 250 102 200 Q 100 175 110 168" fill="#cfddc8" opacity="0.4"/>
-      <path d="M 145 286 Q 132 250 138 200 Q 140 175 130 168" fill="#cfddc8" opacity="0.4"/>
-      <path d="M 95 286 Q 108 250 102 200 Q 100 175 110 168" class="ink ink-thin" fill="none"/>
-      <path d="M 145 286 Q 132 250 138 200 Q 140 175 130 168" class="ink ink-thin" fill="none"/>
-      <ellipse cx="120" cy="165" rx="62" ry="11" fill="#4ba889" opacity="0.5"/>
-      <ellipse cx="120" cy="160" rx="62" ry="10" fill="#cfddc8" opacity="0.65"/>
-      <ellipse cx="120" cy="160" rx="62" ry="10" class="ink ink-med" fill="none"/>
+      <!-- counter line -->
+      <path d="M 20 290 L 260 290" class="ink ink-thin" opacity="0.6"/>
 
-      <!-- Glass tumbler with ice -->
-      <path d="M 88 100 L 92 158 L 122 158 L 126 100 Z" fill="url(#heroGlass)"/>
-      <path d="M 88 100 L 92 158 L 122 158 L 126 100" class="ink ink-med" fill="none"/>
-      <path d="M 88 100 L 126 100" class="ink ink-thin"/>
-      <rect x="94" y="118" width="10" height="10" fill="#fbf6ec" opacity="0.7" class="ink ink-thin"/>
-      <rect x="108" y="123" width="10" height="10" fill="#fbf6ec" opacity="0.7" class="ink ink-thin"/>
-      <rect x="100" y="135" width="10" height="10" fill="#fbf6ec" opacity="0.65" class="ink ink-thin"/>
-      <path d="M 91 140 L 123 140" class="ink ink-thin" opacity="0.55" fill="none"/>
-      <path d="M 96 105 L 98 150" stroke="#fbf6ec" stroke-width="2" stroke-linecap="round" opacity="0.7" fill="none"/>
+      <!-- SKIRT (A-line, mid-century) -->
+      <path d="M 130 245 L 110 290 L 180 290 L 162 245 Z" fill="#d65b8a" opacity="0.75"/>
+      <path d="M 130 245 L 110 290 L 180 290 L 162 245" class="ink ink-med" fill="none"/>
 
-      <!-- Model jet on pedestal -->
-      <path d="M 175 158 L 173 132 L 195 132 L 193 158 Z" fill="#d68f5c" opacity="0.5"/>
-      <path d="M 175 158 L 173 132 L 195 132 L 193 158 Z" class="ink ink-thin" fill="none"/>
-      <ellipse cx="184" cy="158" rx="12" ry="3" fill="#d68f5c" opacity="0.55" class="ink ink-thin"/>
-      <ellipse cx="200" cy="118" rx="38" ry="6" fill="#5e88c2" opacity="0.45"/>
-      <ellipse cx="200" cy="118" rx="38" ry="6" class="ink ink-med" fill="none"/>
-      <path d="M 195 121 L 178 134 L 205 128 L 215 134 L 220 121 Z" fill="#5e88c2" opacity="0.35"/>
-      <path d="M 195 121 L 178 134 L 205 128 L 215 134 L 220 121" class="ink ink-thin" fill="none"/>
-      <ellipse cx="230" cy="118" rx="6" ry="4" fill="#1a1a1f" opacity="0.55" class="ink ink-thin"/>
-      <path d="M 168 118 L 162 104 L 172 104 L 175 118 Z" fill="#5e88c2" opacity="0.5"/>
-      <path d="M 168 118 L 162 104 L 172 104 L 175 118" class="ink ink-thin" fill="none"/>
-      <path d="M 168 118 L 158 122" class="ink ink-thin"/>
+      <!-- JACKET / TUNIC -->
+      <path d="M 124 245 Q 122 215 122 178 Q 130 168 145 168 Q 162 168 168 178 Q 168 215 168 245 Z" fill="#d65b8a" opacity="0.8"/>
+      <path d="M 124 245 Q 122 215 122 178 Q 130 168 145 168 Q 162 168 168 178 Q 168 215 168 245" class="ink ink-med" fill="none"/>
+      <!-- collar/scarf -->
+      <path d="M 134 170 L 145 184 L 158 170" fill="#fbf6ec" opacity="0.95"/>
+      <path d="M 134 170 L 145 184 L 158 170" class="ink ink-thin" fill="none"/>
+      <!-- button row (brass) -->
+      <circle cx="145" cy="200" r="2" fill="#c79832"/>
+      <circle cx="145" cy="215" r="2" fill="#c79832"/>
+      <circle cx="145" cy="230" r="2" fill="#c79832"/>
+
+      <!-- NECK -->
+      <path d="M 138 168 L 138 158 L 154 158 L 154 168 Z" fill="#ffd4b8" opacity="0.95"/>
+
+      <!-- FACE (oval) -->
+      <ellipse cx="146" cy="148" rx="13" ry="16" fill="#ffd4b8" opacity="0.95"/>
+      <ellipse cx="146" cy="148" rx="13" ry="16" class="ink ink-med" fill="none"/>
+      <ellipse cx="141" cy="147" rx="1" ry="1.5" fill="#1a1a1f"/>
+      <ellipse cx="151" cy="147" rx="1" ry="1.5" fill="#1a1a1f"/>
+      <path d="M 143 156 Q 146 158 149 156" class="ink ink-thin" fill="none"/>
+      <circle cx="138" cy="153" r="2.2" fill="#d65b8a" opacity="0.4"/>
+      <circle cx="154" cy="153" r="2.2" fill="#d65b8a" opacity="0.4"/>
+
+      <!-- HAIR (curled bob under hat) -->
+      <path d="M 132 145 Q 132 130 146 128 Q 160 130 160 145 Q 158 142 154 140 Q 148 138 144 142 Q 140 136 136 140 Q 134 144 132 145 Z" fill="#1a1a1f" opacity="0.85"/>
+
+      <!-- PILLBOX HAT (iconic) -->
+      <path d="M 132 130 Q 132 121 146 121 Q 160 121 160 130 L 160 134 L 132 134 Z" fill="#d65b8a" opacity="0.9"/>
+      <path d="M 132 130 Q 132 121 146 121 Q 160 121 160 130 L 160 134 L 132 134 Z" class="ink ink-med" fill="none"/>
+      <path d="M 134 128 L 156 127" stroke="#fbf6ec" stroke-width="1.4" opacity="0.7"/>
+
+      <!-- LEFT ARM extended down + out, holding pot -->
+      <path d="M 124 198 Q 90 210 70 232" stroke="#ffd4b8" stroke-width="10" stroke-linecap="round" opacity="0.9" fill="none"/>
+      <path d="M 124 198 Q 90 210 70 232" class="ink ink-thin" fill="none"/>
+
+      <!-- COFFEE POT in hand -->
+      <g transform="translate(58,236)">
+        <path d="M -13 0 L -15 30 L 15 30 L 13 0 Z" fill="#5e88c2" opacity="0.75"/>
+        <path d="M -13 0 L -15 30 L 15 30 L 13 0 Z" class="ink ink-med" fill="none"/>
+        <ellipse cx="0" cy="0" rx="13" ry="3.5" fill="#1a1a1f" opacity="0.6"/>
+        <ellipse cx="0" cy="0" rx="13" ry="3.5" class="ink ink-thin"/>
+        <circle cx="0" cy="-5" r="3" fill="#1a1a1f"/>
+        <!-- spout -->
+        <path d="M -13 7 L -24 0 L -22 8 Z" fill="#5e88c2" opacity="0.75"/>
+        <path d="M -13 7 L -24 0 L -22 8" class="ink ink-thin" fill="none"/>
+        <!-- handle -->
+        <path d="M 15 8 Q 26 18 15 26" class="ink ink-med" fill="none"/>
+        <!-- highlight -->
+        <path d="M -9 4 L -9 25" stroke="#fbf6ec" stroke-width="1.8" opacity="0.7" fill="none"/>
+        <!-- pour stream -->
+        <path d="M -24 4 Q -28 12 -32 24" stroke="#5e3818" stroke-width="1.6" opacity="0.55" fill="none">
+          <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite"/>
+        </path>
+      </g>
+
+      <!-- COFFEE CUP being filled -->
+      <g transform="translate(26,272)">
+        <path d="M 0 0 Q 0 14 12 14 Q 24 14 24 0 Z" fill="#fbf6ec" opacity="0.85"/>
+        <path d="M 0 0 Q 0 14 12 14 Q 24 14 24 0" class="ink ink-thin" fill="none"/>
+        <ellipse cx="12" cy="0" rx="12" ry="2.5" fill="#5e3818" opacity="0.7"/>
+        <path d="M 24 4 Q 30 5 30 9 Q 30 12 24 12" class="ink ink-thin" fill="none"/>
+      </g>
+
+      <!-- COFFEE STEAM (animated rising) -->
+      <g opacity="0.7">
+        <path d="M 30 268 Q 33 252 30 240 Q 27 228 32 220" class="ink ink-thin" fill="none">
+          <animate attributeName="opacity" values="0;0.75;0" dur="2.8s" repeatCount="indefinite"/>
+          <animateTransform attributeName="transform" type="translate" values="0 4;0 -8;0 4" dur="2.8s" repeatCount="indefinite"/>
+        </path>
+        <path d="M 38 268 Q 41 252 38 240 Q 35 228 40 218" class="ink ink-thin" fill="none">
+          <animate attributeName="opacity" values="0;0.6;0" dur="2.8s" begin="0.6s" repeatCount="indefinite"/>
+          <animateTransform attributeName="transform" type="translate" values="0 4;0 -8;0 4" dur="2.8s" begin="0.6s" repeatCount="indefinite"/>
+        </path>
+        <path d="M 46 268 Q 49 250 46 240 Q 44 230 48 222" class="ink ink-thin" fill="none">
+          <animate attributeName="opacity" values="0;0.55;0" dur="2.8s" begin="1.2s" repeatCount="indefinite"/>
+          <animateTransform attributeName="transform" type="translate" values="0 4;0 -8;0 4" dur="2.8s" begin="1.2s" repeatCount="indefinite"/>
+        </path>
+      </g>
     </svg>
   </div>
 
@@ -1349,71 +1443,112 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 <!-- ============== ACT I · THE SCALE ============== -->
 <section class="act-section s-mint">
 
-  <!-- WATERCOLOR STILL LIFE · TERMINAL BAR (peach/coral/butter against mint) -->
+  <!-- WATERCOLOR · COCKPIT INTERIOR · two pilots + blinking instrument lights -->
   <div class="still-life sl-scale" aria-hidden="true">
     <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="washI" cx="50%" cy="55%" r="60%">
+        <radialGradient id="washI" cx="50%" cy="50%" r="60%">
           <stop offset="0%" stop-color="#d68f5c" stop-opacity="0.55"/>
-          <stop offset="60%" stop-color="#d65b8a" stop-opacity="0.2"/>
+          <stop offset="60%" stop-color="#d65b8a" stop-opacity="0.18"/>
           <stop offset="100%" stop-color="#d65b8a" stop-opacity="0"/>
         </radialGradient>
-        <radialGradient id="washI2" cx="30%" cy="30%" r="35%">
-          <stop offset="0%" stop-color="#f8e1a1" stop-opacity="0.5"/>
-          <stop offset="100%" stop-color="#f8e1a1" stop-opacity="0"/>
-        </radialGradient>
+        <linearGradient id="skyWash" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#5e88c2" stop-opacity="0.75"/>
+          <stop offset="50%" stop-color="#ffd4b8" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#d68f5c" stop-opacity="0.5"/>
+        </linearGradient>
       </defs>
       <ellipse cx="120" cy="150" rx="115" ry="100" fill="url(#washI)"/>
-      <ellipse cx="80" cy="80" rx="50" ry="45" fill="url(#washI2)"/>
-      <circle cx="30" cy="50" r="3" fill="#c79832" opacity="0.5"/>
-      <circle cx="210" cy="240" r="4" fill="#d65b8a" opacity="0.4"/>
-      <circle cx="216" cy="60" r="2" fill="#1a1a1f" opacity="0.5"/>
+      <circle cx="28" cy="40" r="3" fill="#c79832" opacity="0.6"/>
+      <circle cx="215" cy="50" r="3" fill="#d65b8a" opacity="0.5"/>
+      <circle cx="40" cy="265" r="3.5" fill="#1a1a1f" opacity="0.45"/>
 
-      <!-- Bar counter line -->
-      <path d="M 20 240 L 220 240" class="ink ink-bold" opacity="0.5"/>
-      <path d="M 20 244 L 220 244" class="ink ink-thin" opacity="0.4"/>
+      <!-- COCKPIT FRAME (rounded windshield trapezoid · we look from behind seats) -->
+      <!-- Outer cabin -->
+      <path d="M 22 70 L 22 250 L 218 250 L 218 70 Q 218 50 200 48 Q 120 38 40 48 Q 22 50 22 70 Z" fill="#1a1a1f" opacity="0.18"/>
+      <path d="M 22 70 Q 22 50 40 48 Q 120 38 200 48 Q 218 50 218 70 L 218 80" class="ink ink-med" fill="none"/>
 
-      <!-- COCKTAIL SHAKER (mid-century icon) -->
-      <path d="M 38 240 L 38 165 Q 38 158 42 158 L 70 158 Q 74 158 74 165 L 74 240 Z" fill="#d68f5c" opacity="0.5"/>
-      <path d="M 38 240 L 38 165 Q 38 158 42 158 L 70 158 Q 74 158 74 165 L 74 240 Z" class="ink ink-med" fill="none"/>
-      <!-- Shaker top cap -->
-      <path d="M 44 158 L 46 142 L 66 142 L 68 158 Z" fill="#d68f5c" opacity="0.6"/>
-      <path d="M 44 158 L 46 142 L 66 142 L 68 158" class="ink ink-thin" fill="none"/>
-      <path d="M 48 142 L 50 130 L 62 130 L 64 142" fill="#1a1a1f" opacity="0.4" class="ink ink-thin"/>
-      <!-- Highlight on shaker -->
-      <path d="M 44 170 L 44 230" stroke="#fbf6ec" stroke-width="3" stroke-linecap="round" opacity="0.55" fill="none"/>
-      <!-- Shaker seam -->
-      <path d="M 38 195 L 74 195" class="ink ink-thin" opacity="0.5"/>
+      <!-- WINDSHIELD (split center frame · classic 737-style) -->
+      <!-- Left windshield -->
+      <path d="M 38 60 L 36 130 L 110 132 L 112 50 Q 80 46 50 52 Q 40 55 38 60 Z" fill="url(#skyWash)"/>
+      <path d="M 38 60 L 36 130 L 110 132 L 112 50" class="ink ink-med" fill="none"/>
+      <!-- Right windshield -->
+      <path d="M 128 50 L 130 132 L 204 130 L 202 60 Q 200 55 190 52 Q 160 46 128 50 Z" fill="url(#skyWash)"/>
+      <path d="M 128 50 L 130 132 L 204 130 L 202 60" class="ink ink-med" fill="none"/>
+      <!-- Center post -->
+      <path d="M 120 45 L 120 134" class="ink ink-bold"/>
+      <!-- Side window strips -->
+      <path d="M 36 90 L 110 90" class="ink ink-thin" opacity="0.5"/>
+      <path d="M 130 90 L 204 90" class="ink ink-thin" opacity="0.5"/>
 
-      <!-- COUPE GLASS WITH CHERRY -->
-      <!-- Bowl -->
-      <path d="M 110 200 Q 110 170 145 170 Q 180 170 180 200 Q 175 215 145 215 Q 115 215 110 200 Z" fill="#c79832" opacity="0.35"/>
-      <path d="M 110 200 Q 110 170 145 170 Q 180 170 180 200 Q 175 215 145 215 Q 115 215 110 200" class="ink ink-med" fill="none"/>
-      <!-- Liquid line -->
-      <path d="M 113 195 Q 145 200 178 195" class="ink ink-thin" opacity="0.5" fill="none"/>
-      <!-- Stem -->
-      <path d="M 145 215 L 145 240" class="ink ink-med"/>
-      <!-- Base -->
-      <ellipse cx="145" cy="240" rx="14" ry="3" fill="#c79832" opacity="0.5"/>
-      <ellipse cx="145" cy="240" rx="14" ry="3" class="ink ink-thin" fill="none"/>
-      <!-- Cherry on top -->
-      <circle cx="155" cy="172" r="5" fill="#d65b8a" opacity="0.7"/>
-      <circle cx="155" cy="172" r="5" class="ink ink-thin" fill="none"/>
-      <path d="M 155 167 Q 158 160 162 158" class="ink ink-thin" fill="none"/>
+      <!-- Horizon line through windshields -->
+      <path d="M 38 100 L 112 100" stroke="#1a1a1f" stroke-width="0.8" opacity="0.5"/>
+      <path d="M 128 100 L 204 100" stroke="#1a1a1f" stroke-width="0.8" opacity="0.5"/>
 
-      <!-- FOLDED NEWSPAPER -->
-      <path d="M 195 240 L 195 215 L 232 215 L 232 240 Z" fill="#fbf6ec" opacity="0.85"/>
-      <path d="M 195 240 L 195 215 L 232 215 L 232 240 Z" class="ink ink-med" fill="none"/>
-      <path d="M 213 215 L 213 240" class="ink ink-thin"/>
-      <path d="M 200 222 L 209 222" class="ink ink-thin" opacity="0.55"/>
-      <path d="M 200 226 L 209 226" class="ink ink-thin" opacity="0.45"/>
-      <path d="M 200 230 L 209 230" class="ink ink-thin" opacity="0.35"/>
-      <path d="M 217 222 L 228 222" class="ink ink-thin" opacity="0.55"/>
-      <path d="M 217 226 L 228 226" class="ink ink-thin" opacity="0.45"/>
+      <!-- Distant cloud -->
+      <ellipse cx="70" cy="85" rx="14" ry="4" fill="#fbf6ec" opacity="0.7"/>
+      <ellipse cx="170" cy="80" rx="18" ry="5" fill="#fbf6ec" opacity="0.7"/>
 
-      <!-- Olive on a pick -->
-      <circle cx="135" cy="180" r="3" fill="#cfddc8" opacity="0.7"/>
-      <circle cx="135" cy="180" r="3" class="ink ink-thin" fill="none"/>
+      <!-- LEFT PILOT (back of head + shoulders + headset) -->
+      <path d="M 60 250 L 50 175 Q 50 165 60 162 L 95 162 Q 105 165 105 175 L 95 250 Z" fill="#1a1a1f" opacity="0.7"/>
+      <path d="M 60 250 L 50 175 Q 50 165 60 162 L 95 162 Q 105 165 105 175 L 95 250" class="ink ink-med" fill="none"/>
+      <!-- Head -->
+      <circle cx="78" cy="150" r="16" fill="#5e3818" opacity="0.75"/>
+      <circle cx="78" cy="150" r="16" class="ink ink-med" fill="none"/>
+      <!-- Headset band -->
+      <path d="M 64 144 Q 78 132 92 144" class="ink ink-med" fill="none"/>
+      <!-- Earpiece -->
+      <circle cx="92" cy="152" r="4" fill="#1a1a1f"/>
+      <!-- Captain's stripes (epaulet hint) -->
+      <path d="M 60 168 L 60 180" class="ink ink-thin" stroke="#c79832" opacity="0.85"/>
+      <path d="M 62 168 L 62 180" class="ink ink-thin" stroke="#c79832" opacity="0.85"/>
+
+      <!-- RIGHT PILOT (back of head + shoulders + headset) -->
+      <path d="M 145 250 L 135 175 Q 135 165 145 162 L 180 162 Q 190 165 190 175 L 180 250 Z" fill="#1a1a1f" opacity="0.7"/>
+      <path d="M 145 250 L 135 175 Q 135 165 145 162 L 180 162 Q 190 165 190 175 L 180 250" class="ink ink-med" fill="none"/>
+      <circle cx="163" cy="150" r="16" fill="#d68f5c" opacity="0.75"/>
+      <circle cx="163" cy="150" r="16" class="ink ink-med" fill="none"/>
+      <path d="M 149 144 Q 163 132 177 144" class="ink ink-med" fill="none"/>
+      <circle cx="149" cy="152" r="4" fill="#1a1a1f"/>
+
+      <!-- YOKES (one per pilot) -->
+      <path d="M 70 210 Q 70 200 80 200 L 78 215 Z" fill="#1a1a1f" opacity="0.7" class="ink ink-thin"/>
+      <path d="M 155 210 Q 155 200 165 200 L 163 215 Z" fill="#1a1a1f" opacity="0.7" class="ink ink-thin"/>
+
+      <!-- INSTRUMENT PANEL (between/below pilots) -->
+      <path d="M 22 220 L 218 220 L 218 250 L 22 250 Z" fill="#1a1a1f" opacity="0.85"/>
+      <path d="M 22 220 L 218 220" class="ink ink-thin"/>
+      <!-- Instrument dials -->
+      <circle cx="40" cy="235" r="6" fill="#0c0c12" stroke="#1a1a1f" stroke-width="0.5"/>
+      <circle cx="200" cy="235" r="6" fill="#0c0c12" stroke="#1a1a1f" stroke-width="0.5"/>
+      <!-- Center panel rectangle (FMS / nav screens) -->
+      <rect x="115" y="225" width="20" height="20" fill="#0c0c12" stroke="#1a1a1f" stroke-width="0.5"/>
+      <!-- BLINKING INDICATOR LIGHTS · animated -->
+      <circle cx="58" cy="232" r="2" fill="#d4ff32">
+        <animate attributeName="opacity" values="1;0.2;1" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="65" cy="232" r="2" fill="#ff6fae">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="2.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="72" cy="232" r="2" fill="#5e88c2">
+        <animate attributeName="opacity" values="1;0.4;1" dur="1.4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="79" cy="242" r="2" fill="#d4ff32">
+        <animate attributeName="opacity" values="0.2;1;0.2" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="170" cy="232" r="2" fill="#ff6fae">
+        <animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="177" cy="232" r="2" fill="#d4ff32">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="2.4s" begin="0.3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="184" cy="242" r="2" fill="#5e88c2">
+        <animate attributeName="opacity" values="1;0.2;1" dur="1.9s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Center screen "glow" line -->
+      <path d="M 118 230 L 132 230" stroke="#d4ff32" stroke-width="0.8" opacity="0.85">
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+      </path>
     </svg>
   </div>
 
@@ -1529,72 +1664,86 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 <!-- ============== ACT II · THE TENANTS ============== -->
 <section class="act-section s-peach">
 
-  <!-- WATERCOLOR STILL LIFE · EXECUTIVE LOUNGE (sage/mint/teal against peach) -->
+  <!-- WATERCOLOR · OLD-SCHOOL AIRLINE TICKET + BOARDING PASS + STAMP DROP -->
   <div class="still-life sl-tenants" aria-hidden="true">
     <svg viewBox="0 0 240 270" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="washII" cx="50%" cy="55%" r="60%">
-          <stop offset="0%" stop-color="#4ba889" stop-opacity="0.4"/>
-          <stop offset="60%" stop-color="#5e88c2" stop-opacity="0.18"/>
+          <stop offset="0%" stop-color="#4ba889" stop-opacity="0.45"/>
+          <stop offset="60%" stop-color="#5e88c2" stop-opacity="0.2"/>
           <stop offset="100%" stop-color="#5e88c2" stop-opacity="0"/>
         </radialGradient>
       </defs>
       <ellipse cx="120" cy="140" rx="115" ry="100" fill="url(#washII)"/>
-      <circle cx="35" cy="60" r="3" fill="#4ba889" opacity="0.5"/>
-      <circle cx="200" cy="245" r="4" fill="#1a1a1f" opacity="0.4"/>
-      <circle cx="35" cy="240" r="2.5" fill="#c79832" opacity="0.55"/>
+      <circle cx="32" cy="48" r="3" fill="#4ba889" opacity="0.55"/>
+      <circle cx="215" cy="245" r="3.5" fill="#1a1a1f" opacity="0.45"/>
+      <circle cx="220" cy="55" r="2.5" fill="#c79832" opacity="0.6"/>
 
-      <!-- Counter line -->
-      <path d="M 14 245 L 226 245" class="ink ink-thin" opacity="0.5"/>
+      <!-- Counter/desk -->
+      <path d="M 14 250 L 226 250" class="ink ink-thin" opacity="0.5"/>
 
-      <!-- PAN AM-STYLE SUITCASE (mid-century rectangular) -->
-      <path d="M 30 245 L 30 165 Q 30 158 38 158 L 152 158 Q 160 158 160 165 L 160 245 Z" fill="#4ba889" opacity="0.45"/>
-      <path d="M 30 245 L 30 165 Q 30 158 38 158 L 152 158 Q 160 158 160 165 L 160 245 Z" class="ink ink-med" fill="none"/>
-      <!-- Stripe across suitcase -->
-      <path d="M 30 195 L 160 195" class="ink ink-med" opacity="0.55"/>
-      <path d="M 30 205 L 160 205" class="ink ink-thin" opacity="0.45"/>
-      <!-- Handle -->
-      <path d="M 78 158 Q 78 142 95 142 Q 112 142 112 158" class="ink ink-med" fill="none"/>
-      <!-- Latches -->
-      <rect x="55" y="178" width="10" height="6" fill="#c79832" opacity="0.7" class="ink ink-thin"/>
-      <rect x="125" y="178" width="10" height="6" fill="#c79832" opacity="0.7" class="ink ink-thin"/>
-      <!-- Travel sticker corners -->
-      <circle cx="44" cy="225" r="9" fill="#d65b8a" opacity="0.35" class="ink ink-thin"/>
-      <circle cx="146" cy="225" r="7" fill="#f8e1a1" opacity="0.5" class="ink ink-thin"/>
-      <!-- Brand strip -->
-      <rect x="40" y="222" width="6" height="6" fill="#fbf6ec" opacity="0.6"/>
-
-      <!-- PASSPORT STACK -->
-      <path d="M 175 245 L 175 218 L 225 218 L 225 245 Z" fill="#5e88c2" opacity="0.65"/>
-      <path d="M 175 245 L 175 218 L 225 218 L 225 245 Z" class="ink ink-med" fill="none"/>
-      <path d="M 173 218 L 173 211 L 223 211 L 223 218" class="ink ink-thin" fill="none" opacity="0.6"/>
-      <path d="M 171 211 L 171 205 L 221 205 L 221 211" class="ink ink-thin" fill="none" opacity="0.55"/>
-      <!-- Seal -->
-      <circle cx="200" cy="232" r="6" fill="#c79832" opacity="0.65" class="ink ink-thin"/>
-      <text x="200" y="234" font-family="serif" font-size="6" text-anchor="middle" fill="#1a1a1f" opacity="0.8">★</text>
-
-      <!-- ANALOG WRISTWATCH (laid flat) -->
-      <ellipse cx="190" cy="105" rx="28" ry="28" fill="#fbf6ec" opacity="0.85"/>
-      <circle cx="190" cy="105" r="28" class="ink ink-med" fill="none"/>
-      <circle cx="190" cy="105" r="22" class="ink ink-thin" fill="none" opacity="0.5"/>
-      <!-- Tick marks · 12 of them -->
-      <g class="ink ink-thin" opacity="0.7">
-        <path d="M 190 82 L 190 86"/>
-        <path d="M 211 92 L 208 94"/>
-        <path d="M 213 105 L 209 105"/>
-        <path d="M 211 118 L 208 116"/>
-        <path d="M 190 128 L 190 124"/>
-        <path d="M 169 118 L 172 116"/>
-        <path d="M 167 105 L 171 105"/>
-        <path d="M 169 92 L 172 94"/>
+      <!-- AIRLINE TICKET (folded open · iconic red carbon-paper ticket) -->
+      <g transform="translate(28,150) rotate(-4)">
+        <!-- Outer fold (left page) -->
+        <path d="M 0 0 L 0 80 L 80 80 L 80 0 Z" fill="#fbf6ec" opacity="0.92"/>
+        <path d="M 0 0 L 0 80 L 80 80 L 80 0 Z" class="ink ink-med" fill="none"/>
+        <!-- Right page (folded) -->
+        <path d="M 80 0 L 80 80 L 160 80 L 160 0 Z" fill="#ffd4b8" opacity="0.85"/>
+        <path d="M 80 0 L 80 80 L 160 80 L 160 0 Z" class="ink ink-med" fill="none"/>
+        <!-- Fold line -->
+        <path d="M 80 0 L 80 80" class="ink ink-thin" stroke-dasharray="2 2"/>
+        <!-- Airline brand bar (red strip) -->
+        <rect x="4" y="4" width="72" height="10" fill="#d65b8a" opacity="0.9"/>
+        <text x="40" y="12" font-family="serif" font-size="6" text-anchor="middle" fill="#fbf6ec" font-weight="bold">PASSENGER COUPON</text>
+        <!-- Form fields (printed lines) -->
+        <path d="M 6 25 L 75 25" class="ink ink-thin" opacity="0.6"/>
+        <path d="M 6 35 L 75 35" class="ink ink-thin" opacity="0.6"/>
+        <path d="M 6 45 L 75 45" class="ink ink-thin" opacity="0.6"/>
+        <path d="M 6 55 L 75 55" class="ink ink-thin" opacity="0.6"/>
+        <path d="M 6 65 L 75 65" class="ink ink-thin" opacity="0.6"/>
+        <!-- ATL → JFK route -->
+        <text x="14" y="32" font-family="monospace" font-size="6" fill="#1a1a1f">FROM/ATL</text>
+        <text x="14" y="42" font-family="monospace" font-size="6" fill="#1a1a1f">TO/JFK</text>
+        <text x="14" y="52" font-family="monospace" font-size="6" fill="#1a1a1f">FLT/1542</text>
+        <!-- Right page carbon copy hints -->
+        <path d="M 88 12 L 152 12" class="ink ink-thin" opacity="0.55"/>
+        <path d="M 88 22 L 152 22" class="ink ink-thin" opacity="0.5"/>
+        <path d="M 88 32 L 152 32" class="ink ink-thin" opacity="0.5"/>
+        <path d="M 88 42 L 152 42" class="ink ink-thin" opacity="0.5"/>
+        <path d="M 88 52 L 152 52" class="ink ink-thin" opacity="0.5"/>
+        <path d="M 88 62 L 152 62" class="ink ink-thin" opacity="0.5"/>
+        <path d="M 88 72 L 152 72" class="ink ink-thin" opacity="0.5"/>
+        <!-- "BOARDING PASS" stamp impression on right page -->
+        <rect x="92" y="50" width="56" height="20" fill="none" stroke="#d65b8a" stroke-width="1.5" opacity="0.85" transform="rotate(-6 120 60)"/>
+        <text x="120" y="64" font-family="monospace" font-size="7" text-anchor="middle" fill="#d65b8a" font-weight="bold" transform="rotate(-6 120 60)">BOARDING</text>
       </g>
-      <!-- Hands -->
-      <path d="M 190 105 L 190 88" class="ink ink-med"/>
-      <path d="M 190 105 L 206 110" class="ink ink-med"/>
-      <circle cx="190" cy="105" r="2" fill="#1a1a1f"/>
-      <!-- Strap hints -->
-      <path d="M 178 78 L 174 60 L 200 60 L 202 78" fill="#1a1a1f" opacity="0.45" class="ink ink-thin"/>
-      <path d="M 178 132 L 174 150 L 200 150 L 202 132" fill="#1a1a1f" opacity="0.45" class="ink ink-thin"/>
+
+      <!-- HAND HOLDING STAMP (coming down · animated) -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 -10; 0 4; 0 -10" dur="3.6s" repeatCount="indefinite"/>
+        <!-- Stamp body -->
+        <path d="M 165 60 L 165 90 L 200 90 L 200 60 Z" fill="#1a1a1f" opacity="0.85"/>
+        <path d="M 165 60 L 165 90 L 200 90 L 200 60 Z" class="ink ink-med" fill="none"/>
+        <!-- Stamp wood handle -->
+        <path d="M 175 60 L 175 30 L 190 30 L 190 60 Z" fill="#d68f5c" opacity="0.85"/>
+        <path d="M 175 60 L 175 30 L 190 30 L 190 60 Z" class="ink ink-thin" fill="none"/>
+        <path d="M 173 30 L 192 30 L 192 22 L 173 22 Z" fill="#d68f5c" opacity="0.9"/>
+        <path d="M 173 30 L 192 30 L 192 22 L 173 22 Z" class="ink ink-thin" fill="none"/>
+        <!-- Stamp face highlight -->
+        <path d="M 169 64 L 196 64" class="ink ink-thin" opacity="0.5"/>
+        <!-- Wood grain -->
+        <path d="M 178 25 L 188 25" class="ink ink-thin" opacity="0.4"/>
+      </g>
+
+      <!-- INK SPLASH around stamp impact area · pulses -->
+      <circle cx="182" cy="100" r="3" fill="#d65b8a" opacity="0.3">
+        <animate attributeName="r" values="3;7;3" dur="3.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.55;0" dur="3.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="182" cy="100" r="2" fill="#d65b8a" opacity="0.4">
+        <animate attributeName="r" values="2;5;2" dur="3.6s" begin="0.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.7;0" dur="3.6s" begin="0.2s" repeatCount="indefinite"/>
+      </circle>
     </svg>
   </div>
 
@@ -1602,11 +1751,11 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
   <h2 class="act-h2">It is mostly the apps <em>in your pocket.</em></h2>
   <p class="act-lead">Roughly 80% of all internet traffic is now video. Netflix alone is consistently ~15% of global downstream. Add YouTube, TikTok, Instagram Reels, Disney+, gaming, and cloud storage and you have accounted for most of what's running. AI is the exponential new overlay.</p>
 
-  <!-- INTERNET DEPARTURES BOARD · airport metaphor extended -->
+  <!-- INTERNET DEPARTURES BOARD · 5 rows visible · auto-rotates · airport blue -->
   <div class="departures-frame">
     <div class="dep-roof">
       <div class="dep-brand">ATL · INTERNET DEPARTURES · LIVE</div>
-      <div class="dep-time" id="depTime">UPDATED <span id="depTimeVal">--:--:-- ET</span></div>
+      <div class="dep-time">UPDATED <span id="depTimeVal">--:--:-- ET</span></div>
     </div>
 
     <div class="dep-header">
@@ -1617,118 +1766,14 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
       <div class="h-pct">Share</div>
     </div>
 
-    <div class="dep-row">
-      <div class="dr-name">
-        <span class="icon" style="background:#ff2d8b">N</span>
-        <span class="nm">NFX 1542<span class="sub">Netflix · 4K streaming</span></span>
+    <div class="dep-window">
+      <div class="dep-stack" id="depStack">
+        <!-- JS populates 5 rows here · rotates every 3.5s -->
       </div>
-      <div class="dr-dest">AWS US-EAST-1 <span class="reg">Virginia · 12,400 MW region</span></div>
-      <div class="dr-gate">E·12</div>
-      <span class="dr-status enroute">ENROUTE</span>
-      <div class="dr-pct">15%</div>
-    </div>
-
-    <div class="dep-row">
-      <div class="dr-name">
-        <span class="icon" style="background:#ff6fae">Y</span>
-        <span class="nm">YT 0840<span class="sub">YouTube · adaptive bitrate</span></span>
-      </div>
-      <div class="dr-dest">GCP US-CENTRAL <span class="reg">Iowa · Ohio · Georgia</span></div>
-      <div class="dr-gate">F·08</div>
-      <span class="dr-status enroute">ENROUTE</span>
-      <div class="dr-pct">12%</div>
-    </div>
-
-    <div class="dep-row surge-row">
-      <div class="dr-name">
-        <span class="icon" style="background:#ffa466">T</span>
-        <span class="nm">TT 2147<span class="sub">TikTok · short-form video</span></span>
-      </div>
-      <div class="dr-dest">AWS + Oracle <span class="reg">Project Texas · multi-region</span></div>
-      <div class="dr-gate">C·24</div>
-      <span class="dr-status surging">SURGING</span>
-      <div class="dr-pct">9%</div>
-    </div>
-
-    <div class="dep-row">
-      <div class="dr-name">
-        <span class="icon" style="background:#9fbceb">M</span>
-        <span class="nm">META 1750<span class="sub">Instagram · Reels · WhatsApp</span></span>
-      </div>
-      <div class="dr-dest">META OWNED <span class="reg">Newton County GA · others</span></div>
-      <div class="dr-gate">A·17</div>
-      <span class="dr-status steady">STEADY</span>
-      <div class="dr-pct">8%</div>
-    </div>
-
-    <div class="dep-row">
-      <div class="dr-name">
-        <span class="icon" style="background:#7fdcbb">D</span>
-        <span class="nm">DIS 0915<span class="sub">Disney+ · Hulu · ESPN+</span></span>
-      </div>
-      <div class="dr-dest">AWS + Akamai CDN <span class="reg">Hollywood ⇆ multi-region</span></div>
-      <div class="dr-gate">E·15</div>
-      <span class="dr-status enroute">ENROUTE</span>
-      <div class="dr-pct">5%</div>
-    </div>
-
-    <div class="dep-row">
-      <div class="dr-name">
-        <span class="icon" style="background:#c79832">S</span>
-        <span class="nm">SaaS 1100<span class="sub">Slack · Zoom · 365 · Workday</span></span>
-      </div>
-      <div class="dr-dest">AZURE + AWS <span class="reg">enterprise multi-tenant</span></div>
-      <div class="dr-gate">B·22</div>
-      <span class="dr-status steady">STEADY</span>
-      <div class="dr-pct">14%</div>
-    </div>
-
-    <div class="dep-row">
-      <div class="dr-name">
-        <span class="icon" style="background:#ffd4b8">G</span>
-        <span class="nm">GAME 1925<span class="sub">Fortnite · Roblox · COD · MMOs</span></span>
-      </div>
-      <div class="dr-dest">AWS GAMELIFT + EDGE <span class="reg">global edge nodes</span></div>
-      <div class="dr-gate">D·07</div>
-      <span class="dr-status boarding">BOARDING</span>
-      <div class="dr-pct">12%</div>
-    </div>
-
-    <div class="dep-row surge-row">
-      <div class="dr-name">
-        <span class="icon" style="background:#d4ff32;color:#0c0c12">AI</span>
-        <span class="nm">GPT 0001<span class="sub">ChatGPT · Claude · Gemini · Midjourney</span></span>
-      </div>
-      <div class="dr-dest">AZURE + GCP + AWS <span class="reg">H100/H200 clusters · 100kW racks</span></div>
-      <div class="dr-gate">T·∞</div>
-      <span class="dr-status surging">SURGING</span>
-      <div class="dr-pct">11%</div>
-    </div>
-
-    <div class="dep-row">
-      <div class="dr-name">
-        <span class="icon" style="background:#5e88c2">☁</span>
-        <span class="nm">SYNC 0312<span class="sub">iCloud · Drive · Dropbox · backups</span></span>
-      </div>
-      <div class="dr-dest">APPLE + GOOGLE + AWS <span class="reg">background sync</span></div>
-      <div class="dr-gate">B·09</div>
-      <span class="dr-status steady">STEADY</span>
-      <div class="dr-pct">7%</div>
-    </div>
-
-    <div class="dep-row">
-      <div class="dr-name">
-        <span class="icon" style="background:#8770b8">★</span>
-        <span class="nm">GOV 1776<span class="sub">AWS GovCloud · Azure Gov</span></span>
-      </div>
-      <div class="dr-dest">FEDRAMP-AUTH ZONES <span class="reg">co-located with commercial</span></div>
-      <div class="dr-gate">F·01</div>
-      <span class="dr-status delayed">CLASSIFIED</span>
-      <div class="dr-pct">4%</div>
     </div>
 
     <div class="dep-footer">
-      <div>208M FLIGHTS/SEC · 99.7% LOAD FACTOR</div>
+      <div>208M FLIGHTS/SEC · 99.7% LOAD FACTOR · GATE T·∞</div>
       <div class="dep-key">
         <span class="ke">ENROUTE</span>
         <span class="kb">BOARDING</span>
@@ -1746,87 +1791,128 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 <!-- ============== ACT III · WHO'S WATCHING ============== -->
 <section class="act-section s-butter">
 
-  <!-- WATERCOLOR STILL LIFE · GEOPOLITICAL DESK (lavender/teal against butter) -->
+  <!-- WATERCOLOR · TSA SECURITY LINE · queue advances slowly -->
   <div class="still-life sl-watch" aria-hidden="true">
     <svg viewBox="0 0 250 290" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="washIII" cx="50%" cy="50%" r="60%">
-          <stop offset="0%" stop-color="#8770b8" stop-opacity="0.45"/>
-          <stop offset="60%" stop-color="#5e88c2" stop-opacity="0.2"/>
+          <stop offset="0%" stop-color="#8770b8" stop-opacity="0.5"/>
+          <stop offset="60%" stop-color="#5e88c2" stop-opacity="0.22"/>
           <stop offset="100%" stop-color="#5e88c2" stop-opacity="0"/>
-        </radialGradient>
-        <radialGradient id="globeWash" cx="40%" cy="38%" r="55%">
-          <stop offset="0%" stop-color="#5e88c2" stop-opacity="0.75"/>
-          <stop offset="100%" stop-color="#8770b8" stop-opacity="0.5"/>
         </radialGradient>
       </defs>
       <ellipse cx="125" cy="150" rx="120" ry="105" fill="url(#washIII)"/>
-      <circle cx="38" cy="50" r="3.5" fill="#8770b8" opacity="0.5"/>
-      <circle cx="220" cy="245" r="3" fill="#1a1a1f" opacity="0.4"/>
-      <circle cx="40" cy="265" r="2.5" fill="#d65b8a" opacity="0.5"/>
+      <circle cx="32" cy="48" r="3" fill="#8770b8" opacity="0.55"/>
+      <circle cx="225" cy="265" r="3.5" fill="#1a1a1f" opacity="0.45"/>
+      <circle cx="40" cy="260" r="2.5" fill="#d65b8a" opacity="0.55"/>
 
-      <!-- Desk line -->
-      <path d="M 12 245 L 238 245" class="ink ink-thin" opacity="0.5"/>
-
-      <!-- VINTAGE ATLAS GLOBE -->
-      <!-- Wooden stand -->
-      <path d="M 60 245 L 60 225 L 110 225 L 110 245 Z" fill="#d68f5c" opacity="0.55"/>
-      <path d="M 60 245 L 60 225 L 110 225 L 110 245 Z" class="ink ink-thin" fill="none"/>
-      <ellipse cx="85" cy="225" rx="25" ry="4" fill="#d68f5c" opacity="0.5"/>
-      <!-- Vertical post -->
-      <path d="M 85 225 L 85 195" class="ink ink-med"/>
-      <!-- Meridian ring -->
-      <ellipse cx="85" cy="150" rx="42" ry="48" fill="none" class="ink ink-med"/>
-      <!-- Globe sphere -->
-      <circle cx="85" cy="150" r="38" fill="url(#globeWash)"/>
-      <circle cx="85" cy="150" r="38" class="ink ink-med" fill="none"/>
-      <!-- Continent doodles (watercolor blobs) -->
-      <path d="M 70 130 Q 78 125 88 132 Q 92 142 82 145 Q 72 144 70 130 Z" fill="#cfddc8" opacity="0.7"/>
-      <path d="M 70 130 Q 78 125 88 132 Q 92 142 82 145 Q 72 144 70 130 Z" class="ink ink-thin" fill="none"/>
-      <path d="M 95 155 Q 105 152 108 162 Q 105 172 96 170 Q 92 162 95 155 Z" fill="#cfddc8" opacity="0.6"/>
-      <path d="M 95 155 Q 105 152 108 162 Q 105 172 96 170 Q 92 162 95 155 Z" class="ink ink-thin" fill="none"/>
-      <path d="M 65 165 Q 72 168 70 180 Q 62 178 65 165 Z" fill="#cfddc8" opacity="0.55"/>
-      <!-- Equator + meridian -->
-      <ellipse cx="85" cy="150" rx="38" ry="10" class="ink ink-thin" fill="none" opacity="0.6"/>
-      <ellipse cx="85" cy="150" rx="10" ry="38" class="ink ink-thin" fill="none" opacity="0.6"/>
-      <!-- Top knob -->
-      <circle cx="85" cy="108" r="3" fill="#d68f5c" opacity="0.7" class="ink ink-thin"/>
-
-      <!-- STARBURST WALL CLOCK (atomic age) -->
-      <circle cx="190" cy="120" r="18" fill="#fbf6ec" opacity="0.85"/>
-      <circle cx="190" cy="120" r="18" class="ink ink-med" fill="none"/>
-      <!-- Starburst rays -->
-      <g class="ink ink-thin" opacity="0.75">
-        <path d="M 190 98 L 190 88"/>
-        <path d="M 190 142 L 190 152"/>
-        <path d="M 168 120 L 158 120"/>
-        <path d="M 212 120 L 222 120"/>
-        <path d="M 173 103 L 167 97"/>
-        <path d="M 207 137 L 213 143"/>
-        <path d="M 173 137 L 167 143"/>
-        <path d="M 207 103 L 213 97"/>
-        <path d="M 181 99 L 178 91"/>
-        <path d="M 199 99 L 202 91"/>
-        <path d="M 181 141 L 178 149"/>
-        <path d="M 199 141 L 202 149"/>
+      <!-- Floor line -->
+      <path d="M 12 240 L 238 240" class="ink ink-bold" opacity="0.55"/>
+      <!-- Stanchion belt (the maze ropes) -->
+      <path d="M 22 220 L 80 220 L 80 200 L 230 200" class="ink ink-med" fill="none" stroke-dasharray="4 3" opacity="0.6"/>
+      <!-- Stanchion posts -->
+      <g class="ink ink-thin">
+        <circle cx="22" cy="220" r="2" fill="#1a1a1f"/>
+        <path d="M 22 222 L 22 235" class="ink ink-thin"/>
+        <circle cx="80" cy="220" r="2" fill="#1a1a1f"/>
+        <path d="M 80 222 L 80 235" class="ink ink-thin"/>
+        <circle cx="80" cy="200" r="2" fill="#1a1a1f"/>
+        <circle cx="230" cy="200" r="2" fill="#1a1a1f"/>
+        <path d="M 230 202 L 230 235" class="ink ink-thin"/>
       </g>
-      <!-- Hands · 10:10 (classic clock pose) -->
-      <path d="M 190 120 L 178 112" class="ink ink-med"/>
-      <path d="M 190 120 L 200 112" class="ink ink-med"/>
-      <circle cx="190" cy="120" r="2" fill="#1a1a1f"/>
-      <!-- Brass dots at 12 3 6 9 -->
-      <circle cx="190" cy="106" r="1.5" fill="#c79832"/>
-      <circle cx="204" cy="120" r="1.5" fill="#c79832"/>
-      <circle cx="190" cy="134" r="1.5" fill="#c79832"/>
-      <circle cx="176" cy="120" r="1.5" fill="#c79832"/>
 
-      <!-- COCKTAIL GLASS · short pour -->
-      <path d="M 175 245 L 175 215 L 215 215 L 215 245 Z" fill="#c79832" opacity="0.35"/>
-      <path d="M 175 245 L 175 215 L 215 215 L 215 245 Z" class="ink ink-med" fill="none"/>
-      <path d="M 178 230 L 212 230" class="ink ink-thin" opacity="0.6"/>
-      <ellipse cx="195" cy="215" rx="20" ry="3" fill="#c79832" opacity="0.4" class="ink ink-thin"/>
-      <circle cx="200" cy="222" r="3" fill="#d65b8a" opacity="0.7"/>
-      <circle cx="200" cy="222" r="3" class="ink ink-thin" fill="none"/>
+      <!-- METAL DETECTOR ARCHWAY -->
+      <path d="M 155 240 L 155 120 Q 155 110 165 110 L 205 110 Q 215 110 215 120 L 215 240" fill="#1a1a1f" opacity="0.15"/>
+      <path d="M 155 240 L 155 120 Q 155 110 165 110 L 205 110 Q 215 110 215 120 L 215 240" class="ink ink-bold" fill="none"/>
+      <!-- Cross bar -->
+      <path d="M 155 120 L 215 120" class="ink ink-med"/>
+      <!-- Glow strip on the archway -->
+      <path d="M 158 130 L 158 235" stroke="#d4ff32" stroke-width="2" opacity="0.6">
+        <animate attributeName="opacity" values="0.3;0.85;0.3" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 212 130 L 212 235" stroke="#d4ff32" stroke-width="2" opacity="0.6">
+        <animate attributeName="opacity" values="0.3;0.85;0.3" dur="2s" begin="1s" repeatCount="indefinite"/>
+      </path>
+      <!-- Scanner indicator light -->
+      <circle cx="185" cy="115" r="3" fill="#ff2d8b">
+        <animate attributeName="opacity" values="1;0.3;1" dur="1.4s" repeatCount="indefinite"/>
+      </circle>
+      <text x="170" y="103" font-family="monospace" font-size="6" fill="#1a1a1f" opacity="0.7">SCAN</text>
+
+      <!-- QUEUE OF FIGURES · animated shift right (toward archway) -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0; 14 0; 0 0" dur="5s" repeatCount="indefinite"/>
+
+        <!-- Figure 1 (rear · purple coat) -->
+        <g transform="translate(28,200)">
+          <circle cx="0" cy="0" r="6" fill="#8770b8" opacity="0.85"/>
+          <circle cx="0" cy="0" r="6" class="ink ink-thin" fill="none"/>
+          <path d="M -7 8 L -8 32 L 8 32 L 7 8 Z" fill="#8770b8" opacity="0.8"/>
+          <path d="M -7 8 L -8 32 L 8 32 L 7 8" class="ink ink-thin" fill="none"/>
+          <!-- Roller bag -->
+          <rect x="-16" y="14" width="6" height="14" fill="#1a1a1f" opacity="0.65" class="ink ink-thin"/>
+          <path d="M -16 14 L -16 8" class="ink ink-thin"/>
+          <circle cx="-13" cy="30" r="1.5" fill="#1a1a1f"/>
+        </g>
+        <!-- Figure 2 (yellow coat) -->
+        <g transform="translate(56,200)">
+          <circle cx="0" cy="0" r="6" fill="#f8e1a1" opacity="0.9"/>
+          <circle cx="0" cy="0" r="6" class="ink ink-thin" fill="none"/>
+          <path d="M -7 8 L -8 32 L 8 32 L 7 8 Z" fill="#f8e1a1" opacity="0.85"/>
+          <path d="M -7 8 L -8 32 L 8 32 L 7 8" class="ink ink-thin" fill="none"/>
+        </g>
+        <!-- Figure 3 (red coat) -->
+        <g transform="translate(82,200)">
+          <circle cx="0" cy="0" r="6" fill="#d65b8a" opacity="0.85"/>
+          <circle cx="0" cy="0" r="6" class="ink ink-thin" fill="none"/>
+          <path d="M -7 8 L -8 32 L 8 32 L 7 8 Z" fill="#d65b8a" opacity="0.8"/>
+          <path d="M -7 8 L -8 32 L 8 32 L 7 8" class="ink ink-thin" fill="none"/>
+          <!-- Briefcase -->
+          <rect x="9" y="20" width="8" height="6" fill="#1a1a1f" opacity="0.7" class="ink ink-thin"/>
+        </g>
+        <!-- Figure 4 (mint coat · approaching detector) -->
+        <g transform="translate(115,200)">
+          <circle cx="0" cy="0" r="6" fill="#4ba889" opacity="0.85"/>
+          <circle cx="0" cy="0" r="6" class="ink ink-thin" fill="none"/>
+          <path d="M -7 8 L -8 32 L 8 32 L 7 8 Z" fill="#4ba889" opacity="0.8"/>
+          <path d="M -7 8 L -8 32 L 8 32 L 7 8" class="ink ink-thin" fill="none"/>
+        </g>
+      </g>
+
+      <!-- TSA AGENT (at scanner · stationary) -->
+      <g transform="translate(232,200)">
+        <circle cx="0" cy="0" r="7" fill="#5e88c2" opacity="0.9"/>
+        <circle cx="0" cy="0" r="7" class="ink ink-med" fill="none"/>
+        <!-- TSA cap -->
+        <path d="M -7 -3 Q 0 -10 7 -3 L 7 -1 L -7 -1 Z" fill="#1a1a1f" opacity="0.85" class="ink ink-thin"/>
+        <!-- Uniform -->
+        <path d="M -8 9 L -10 38 L 10 38 L 8 9 Z" fill="#5e88c2" opacity="0.85"/>
+        <path d="M -8 9 L -10 38 L 10 38 L 8 9" class="ink ink-thin" fill="none"/>
+        <!-- Badge -->
+        <rect x="-3" y="14" width="6" height="4" fill="#c79832" opacity="0.85" class="ink ink-thin"/>
+      </g>
+
+      <!-- CONVEYOR BELT (above queue · with bin) -->
+      <path d="M 88 145 L 200 145 L 200 165 L 88 165 Z" fill="#1a1a1f" opacity="0.6"/>
+      <path d="M 88 145 L 200 145 L 200 165 L 88 165 Z" class="ink ink-thin" fill="none"/>
+      <!-- Rollers -->
+      <g fill="#fbf6ec" opacity="0.6">
+        <circle cx="98" cy="160" r="2"/>
+        <circle cx="112" cy="160" r="2"/>
+        <circle cx="126" cy="160" r="2"/>
+        <circle cx="140" cy="160" r="2"/>
+        <circle cx="154" cy="160" r="2"/>
+        <circle cx="168" cy="160" r="2"/>
+        <circle cx="182" cy="160" r="2"/>
+        <circle cx="196" cy="160" r="2"/>
+      </g>
+      <!-- Gray bin sliding -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0; 50 0; 0 0" dur="6s" repeatCount="indefinite"/>
+        <rect x="92" y="132" width="34" height="13" fill="#8e8b85" opacity="0.85" class="ink ink-thin"/>
+        <!-- shoe in bin -->
+        <path d="M 100 138 L 116 138 L 118 142 L 100 142 Z" fill="#1a1a1f" opacity="0.7" class="ink ink-thin"/>
+      </g>
     </svg>
   </div>
 
@@ -1894,7 +1980,7 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 <!-- ============== ACT IV · THE OPPOSITION ============== -->
 <section class="act-section s-lav">
 
-  <!-- WATERCOLOR STILL LIFE · ACTIVIST'S COFFEE TABLE (ochre/butter/sage against lavender) -->
+  <!-- WATERCOLOR · OLD-SCHOOL PASSPORT OPEN · stamps drop in animated -->
   <div class="still-life sl-oppose" aria-hidden="true">
     <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -1903,63 +1989,92 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
           <stop offset="60%" stop-color="#d68f5c" stop-opacity="0.22"/>
           <stop offset="100%" stop-color="#d68f5c" stop-opacity="0"/>
         </radialGradient>
-        <radialGradient id="lampWash" cx="50%" cy="40%" r="55%">
-          <stop offset="0%" stop-color="#f8e1a1" stop-opacity="0.9"/>
-          <stop offset="100%" stop-color="#f8e1a1" stop-opacity="0.4"/>
-        </radialGradient>
       </defs>
       <ellipse cx="120" cy="145" rx="115" ry="100" fill="url(#washIV)"/>
-      <circle cx="35" cy="55" r="3" fill="#c79832" opacity="0.55"/>
-      <circle cx="205" cy="240" r="3.5" fill="#4ba889" opacity="0.5"/>
-      <circle cx="220" cy="55" r="2.5" fill="#1a1a1f" opacity="0.5"/>
+      <circle cx="32" cy="48" r="3" fill="#c79832" opacity="0.6"/>
+      <circle cx="218" cy="255" r="3.5" fill="#1a1a1f" opacity="0.45"/>
+      <circle cx="225" cy="55" r="2.5" fill="#4ba889" opacity="0.55"/>
 
-      <!-- Floor line -->
-      <path d="M 14 245 L 226 245" class="ink ink-thin" opacity="0.5"/>
+      <!-- Desk surface -->
+      <path d="M 14 250 L 226 250" class="ink ink-thin" opacity="0.5"/>
 
-      <!-- NOGUCHI PAPER LAMP (Akari · iconic mid-century) -->
-      <!-- Lamp body (sculptural · futurist ovoid) -->
-      <path d="M 50 75 Q 30 100 35 145 Q 38 175 65 185 Q 92 175 95 145 Q 100 100 80 75 Q 65 65 50 75 Z" fill="url(#lampWash)"/>
-      <path d="M 50 75 Q 30 100 35 145 Q 38 175 65 185 Q 92 175 95 145 Q 100 100 80 75 Q 65 65 50 75" class="ink ink-med" fill="none"/>
-      <!-- Paper-pleat lines -->
-      <path d="M 38 100 Q 60 105 90 100" class="ink ink-thin" opacity="0.5" fill="none"/>
-      <path d="M 35 120 Q 60 125 95 120" class="ink ink-thin" opacity="0.5" fill="none"/>
-      <path d="M 35 140 Q 60 145 95 140" class="ink ink-thin" opacity="0.5" fill="none"/>
-      <path d="M 36 160 Q 60 165 94 160" class="ink ink-thin" opacity="0.5" fill="none"/>
-      <!-- Lamp cord -->
-      <path d="M 65 75 Q 60 50 65 35" class="ink ink-thin" fill="none"/>
-      <!-- Bamboo stand legs -->
-      <path d="M 50 185 L 38 245" class="ink ink-med"/>
-      <path d="M 80 185 L 92 245" class="ink ink-med"/>
-      <path d="M 65 185 L 65 245" class="ink ink-thin" opacity="0.7"/>
+      <!-- VINTAGE PASSPORT (open · navy cover) -->
+      <!-- Cover backing -->
+      <path d="M 20 245 L 18 130 Q 19 124 26 125 L 116 128 L 116 245 Z" fill="#1a3a5f" opacity="0.85"/>
+      <path d="M 20 245 L 18 130 Q 19 124 26 125 L 116 128 L 116 245 Z" class="ink ink-med" fill="none"/>
+      <path d="M 116 128 L 116 245 L 222 245 L 222 130 Q 220 124 214 125 L 116 128 Z" fill="#1a3a5f" opacity="0.85"/>
+      <path d="M 116 128 L 116 245 L 222 245 L 222 130 Q 220 124 214 125 L 116 128" class="ink ink-med" fill="none"/>
+      <!-- Spine fold -->
+      <path d="M 116 128 L 116 245" class="ink ink-bold"/>
 
-      <!-- STACK OF NEWSPAPERS -->
-      <path d="M 130 245 L 130 225 L 215 225 L 215 245 Z" fill="#fbf6ec" opacity="0.9"/>
-      <path d="M 130 245 L 130 225 L 215 225 L 215 245 Z" class="ink ink-med" fill="none"/>
-      <path d="M 128 225 L 128 215 L 213 215 L 213 225" class="ink ink-thin" fill="none" opacity="0.65"/>
-      <path d="M 126 215 L 126 207 L 211 207 L 211 215" class="ink ink-thin" fill="none" opacity="0.5"/>
-      <!-- Masthead/banner -->
-      <path d="M 138 232 L 170 232" class="ink ink-bold" opacity="0.7"/>
-      <!-- Headline lines -->
-      <path d="M 138 237 L 205 237" class="ink ink-thin" opacity="0.5"/>
-      <path d="M 138 240 L 195 240" class="ink ink-thin" opacity="0.4"/>
-      <!-- Fold indicator -->
-      <path d="M 172 225 L 172 245" class="ink ink-thin" opacity="0.3"/>
+      <!-- LEFT PAGE (personal info · cream paper) -->
+      <path d="M 26 138 L 110 140 L 110 240 L 28 240 Z" fill="#fbf6ec" opacity="0.96"/>
+      <path d="M 26 138 L 110 140 L 110 240 L 28 240 Z" class="ink ink-thin" fill="none"/>
+      <!-- Photo placeholder -->
+      <rect x="32" y="148" width="30" height="40" fill="#d68f5c" opacity="0.55" class="ink ink-thin"/>
+      <!-- Face hint in photo -->
+      <circle cx="47" cy="162" r="6" fill="#ffd4b8" opacity="0.85" class="ink ink-thin"/>
+      <path d="M 38 178 Q 47 174 56 178" class="ink ink-thin" fill="none"/>
+      <!-- Info lines -->
+      <path d="M 68 150 L 105 150" class="ink ink-thin" opacity="0.6"/>
+      <path d="M 68 158 L 105 158" class="ink ink-thin" opacity="0.55"/>
+      <path d="M 68 166 L 105 166" class="ink ink-thin" opacity="0.55"/>
+      <path d="M 68 174 L 105 174" class="ink ink-thin" opacity="0.55"/>
+      <path d="M 68 182 L 105 182" class="ink ink-thin" opacity="0.55"/>
+      <!-- MRZ chevron lines at bottom -->
+      <path d="M 32 215 L 105 215" class="ink ink-thin" opacity="0.7"/>
+      <path d="M 32 222 L 105 222" class="ink ink-thin" opacity="0.65"/>
+      <text x="34" y="220" font-family="monospace" font-size="5" fill="#1a1a1f" opacity="0.85">P&lt;USAANDERSON&lt;&lt;JARED&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</text>
+      <text x="34" y="227" font-family="monospace" font-size="5" fill="#1a1a1f" opacity="0.85">154200007USA8501012M3001012&lt;&lt;</text>
 
-      <!-- VASE WITH SINGLE BIRD-OF-PARADISE STEM -->
-      <!-- Vase (sculptural curve) -->
-      <path d="M 170 225 Q 168 200 175 180 Q 185 175 195 180 Q 202 200 200 225 Z" fill="#d65b8a" opacity="0.45"/>
-      <path d="M 170 225 Q 168 200 175 180 Q 185 175 195 180 Q 202 200 200 225" class="ink ink-med" fill="none"/>
-      <ellipse cx="185" cy="180" rx="10" ry="2.5" fill="#d65b8a" opacity="0.5" class="ink ink-thin"/>
-      <!-- Stem -->
-      <path d="M 185 180 Q 188 150 192 130 Q 195 110 196 90" class="ink ink-med" fill="none"/>
-      <!-- Flower bracts (orange/red triangular shapes) -->
-      <path d="M 196 90 L 188 82 L 200 75 L 196 90 Z" fill="#d68f5c" opacity="0.85"/>
-      <path d="M 196 90 L 188 82 L 200 75 L 196 90" class="ink ink-thin" fill="none"/>
-      <path d="M 196 90 L 204 78 L 210 88 L 196 90 Z" fill="#c79832" opacity="0.85"/>
-      <path d="M 196 90 L 204 78 L 210 88 L 196 90" class="ink ink-thin" fill="none"/>
-      <path d="M 196 90 L 195 80 L 192 85" class="ink ink-thin" fill="none"/>
-      <!-- Blue tongue -->
-      <path d="M 200 85 L 208 80 L 206 86" fill="#5e88c2" opacity="0.7"/>
+      <!-- Gold eagle/seal hint at top -->
+      <text x="68" y="146" font-family="serif" font-size="6" text-anchor="middle" fill="#c79832" font-weight="bold">★ U.S. PASSPORT ★</text>
+
+      <!-- RIGHT PAGE (stamp page · cream paper) -->
+      <path d="M 122 140 L 214 138 L 212 240 L 124 240 Z" fill="#fbf6ec" opacity="0.96"/>
+      <path d="M 122 140 L 214 138 L 212 240 L 124 240 Z" class="ink ink-thin" fill="none"/>
+
+      <!-- EXISTING STAMPS on right page (settled) -->
+      <!-- Stamp 1: ATL inbound · purple circle -->
+      <g transform="translate(150,170) rotate(-12)">
+        <circle cx="0" cy="0" r="18" fill="none" stroke="#8770b8" stroke-width="1.5" opacity="0.85"/>
+        <circle cx="0" cy="0" r="13" fill="none" stroke="#8770b8" stroke-width="0.8" opacity="0.7"/>
+        <text x="0" y="-3" font-family="monospace" font-size="5" text-anchor="middle" fill="#8770b8" font-weight="bold">ATL</text>
+        <text x="0" y="4" font-family="monospace" font-size="4" text-anchor="middle" fill="#8770b8">14 JUN</text>
+      </g>
+      <!-- Stamp 2: LHR · red rectangle -->
+      <g transform="translate(180,200) rotate(8)">
+        <rect x="-16" y="-10" width="32" height="20" fill="none" stroke="#d65b8a" stroke-width="1.5" opacity="0.85"/>
+        <text x="0" y="-2" font-family="monospace" font-size="5" text-anchor="middle" fill="#d65b8a" font-weight="bold">LHR</text>
+        <text x="0" y="5" font-family="monospace" font-size="4" text-anchor="middle" fill="#d65b8a">22 MAR</text>
+      </g>
+
+      <!-- FALLING / DROPPING STAMPS (animated) · enter from top, settle -->
+      <g transform="translate(170,215)">
+        <g transform="rotate(-6)">
+          <rect x="-16" y="-10" width="32" height="20" fill="none" stroke="#4ba889" stroke-width="1.5" opacity="0.85"/>
+          <text x="0" y="-2" font-family="monospace" font-size="5" text-anchor="middle" fill="#4ba889" font-weight="bold">NRT</text>
+          <text x="0" y="5" font-family="monospace" font-size="4" text-anchor="middle" fill="#4ba889">09 NOV</text>
+        </g>
+        <animateTransform attributeName="transform" type="translate" values="170 80;170 215;170 215" keyTimes="0;0.35;1" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;1;1;1;0" keyTimes="0;0.2;0.85;0.95;1" dur="4s" repeatCount="indefinite"/>
+      </g>
+
+      <g transform="translate(140,220)">
+        <g transform="rotate(15)">
+          <circle cx="0" cy="0" r="15" fill="none" stroke="#c79832" stroke-width="1.5" opacity="0.85"/>
+          <text x="0" y="-2" font-family="monospace" font-size="5" text-anchor="middle" fill="#c79832" font-weight="bold">CDG</text>
+          <text x="0" y="5" font-family="monospace" font-size="4" text-anchor="middle" fill="#c79832">02 JUL</text>
+        </g>
+        <animateTransform attributeName="transform" type="translate" values="140 90;140 220;140 220" keyTimes="0;0.4;1" dur="4s" begin="1.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;1;1;1;0" keyTimes="0;0.25;0.85;0.95;1" dur="4s" begin="1.6s" repeatCount="indefinite"/>
+      </g>
+
+      <!-- Small ink splash where stamp lands -->
+      <circle cx="170" cy="215" r="2" fill="#4ba889" opacity="0">
+        <animate attributeName="r" values="2;6;2" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.6;0" keyTimes="0;0.4;0.7" dur="4s" repeatCount="indefinite"/>
+      </circle>
     </svg>
   </div>
 
@@ -2071,105 +2186,88 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 <!-- ============== ACT V · THE INVISIBLE TAX ============== -->
 <section class="act-section s-blue">
 
-  <!-- WATERCOLOR STILL LIFE · SUBURBAN DEN (coral/peach against powder blue) -->
+  <!-- WATERCOLOR · OVAL PLANE WINDOW · clouds drift past + wingtip below -->
   <div class="still-life sl-tax" aria-hidden="true">
     <svg viewBox="0 0 250 290" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="washV" cx="50%" cy="50%" r="60%">
+        <radialGradient id="washV" cx="50%" cy="45%" r="60%">
           <stop offset="0%" stop-color="#d68f5c" stop-opacity="0.5"/>
           <stop offset="60%" stop-color="#d65b8a" stop-opacity="0.22"/>
           <stop offset="100%" stop-color="#d65b8a" stop-opacity="0"/>
         </radialGradient>
-        <radialGradient id="tvScreen" cx="40%" cy="40%" r="65%">
-          <stop offset="0%" stop-color="#cfddc8" stop-opacity="0.85"/>
-          <stop offset="100%" stop-color="#4ba889" stop-opacity="0.5"/>
-        </radialGradient>
+        <linearGradient id="skyView" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#9fbceb" stop-opacity="0.95"/>
+          <stop offset="60%" stop-color="#c5d9f1" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#fbf6ec" stop-opacity="0.85"/>
+        </linearGradient>
+        <clipPath id="windowClip">
+          <path d="M 50 80 Q 50 50 125 50 Q 200 50 200 80 L 200 200 Q 200 230 125 230 Q 50 230 50 200 Z"/>
+        </clipPath>
       </defs>
       <ellipse cx="125" cy="150" rx="120" ry="105" fill="url(#washV)"/>
-      <circle cx="35" cy="60" r="3" fill="#d68f5c" opacity="0.55"/>
-      <circle cx="218" cy="250" r="3.5" fill="#1a1a1f" opacity="0.45"/>
-      <circle cx="220" cy="60" r="2.5" fill="#c79832" opacity="0.6"/>
+      <circle cx="32" cy="48" r="3" fill="#d68f5c" opacity="0.55"/>
+      <circle cx="220" cy="265" r="3.5" fill="#1a1a1f" opacity="0.45"/>
 
-      <!-- Floor -->
-      <path d="M 12 250 L 238 250" class="ink ink-thin" opacity="0.5"/>
+      <!-- CABIN WALL behind window (cream) -->
+      <path d="M 22 30 L 228 30 L 228 260 L 22 260 Z" fill="#fbf6ec" opacity="0.55"/>
 
-      <!-- MIDCENTURY TV SET (wood console with hairpin legs) -->
-      <!-- Cabinet -->
-      <path d="M 30 220 L 30 130 Q 30 124 36 124 L 135 124 Q 141 124 141 130 L 141 220 Z" fill="#d68f5c" opacity="0.55"/>
-      <path d="M 30 220 L 30 130 Q 30 124 36 124 L 135 124 Q 141 124 141 130 L 141 220 Z" class="ink ink-med" fill="none"/>
-      <!-- Wood grain hints -->
-      <path d="M 35 140 L 138 142" class="ink ink-thin" opacity="0.4"/>
-      <path d="M 35 215 L 138 216" class="ink ink-thin" opacity="0.4"/>
-      <!-- TV screen (rounded corners · iconic) -->
-      <path d="M 45 145 Q 45 138 52 138 L 119 138 Q 126 138 126 145 L 126 195 Q 126 202 119 202 L 52 202 Q 45 202 45 195 Z" fill="url(#tvScreen)"/>
-      <path d="M 45 145 Q 45 138 52 138 L 119 138 Q 126 138 126 145 L 126 195 Q 126 202 119 202 L 52 202 Q 45 202 45 195 Z" class="ink ink-med" fill="none"/>
-      <!-- Screen reflection -->
-      <path d="M 55 148 L 75 148" stroke="#fbf6ec" stroke-width="2" stroke-linecap="round" opacity="0.75" fill="none"/>
-      <!-- Channel dial + speaker grill -->
-      <circle cx="133" cy="170" r="6" fill="#1a1a1f" opacity="0.55"/>
-      <circle cx="133" cy="170" r="6" class="ink ink-thin" fill="none"/>
-      <!-- Speaker grill -->
-      <g class="ink ink-thin" opacity="0.5">
-        <circle cx="48" cy="210" r="1"/>
-        <circle cx="54" cy="210" r="1"/>
-        <circle cx="60" cy="210" r="1"/>
-        <circle cx="66" cy="210" r="1"/>
-        <circle cx="72" cy="210" r="1"/>
+      <!-- WINDOW FRAME OUTER (cabin plastic · rounded rectangle) -->
+      <path d="M 40 75 Q 40 40 125 40 Q 210 40 210 75 L 210 205 Q 210 240 125 240 Q 40 240 40 205 Z" fill="#d68f5c" opacity="0.7"/>
+      <path d="M 40 75 Q 40 40 125 40 Q 210 40 210 75 L 210 205 Q 210 240 125 240 Q 40 240 40 205 Z" class="ink ink-med" fill="none"/>
+
+      <!-- INNER WINDOW PORT (the actual view · classic aviation oval/rounded) -->
+      <path d="M 50 80 Q 50 50 125 50 Q 200 50 200 80 L 200 200 Q 200 230 125 230 Q 50 230 50 200 Z" fill="url(#skyView)"/>
+
+      <!-- CLOUDS · drift slowly left → right (animated · clipped to window) -->
+      <g clip-path="url(#windowClip)">
+        <!-- Cloud 1 (large · low) -->
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="-80 0;320 0" dur="22s" repeatCount="indefinite"/>
+          <ellipse cx="0" cy="155" rx="40" ry="14" fill="#fbf6ec" opacity="0.9"/>
+          <ellipse cx="-22" cy="160" rx="22" ry="10" fill="#fbf6ec" opacity="0.85"/>
+          <ellipse cx="25" cy="160" rx="24" ry="10" fill="#fbf6ec" opacity="0.85"/>
+        </g>
+        <!-- Cloud 2 (mid-size · upper) -->
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="-60 0;310 0" dur="28s" begin="-8s" repeatCount="indefinite"/>
+          <ellipse cx="0" cy="105" rx="28" ry="10" fill="#fbf6ec" opacity="0.85"/>
+          <ellipse cx="-16" cy="108" rx="14" ry="7" fill="#fbf6ec" opacity="0.8"/>
+          <ellipse cx="18" cy="108" rx="16" ry="7" fill="#fbf6ec" opacity="0.8"/>
+        </g>
+        <!-- Cloud 3 (small wispy · animation faster) -->
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="-40 0;300 0" dur="18s" begin="-12s" repeatCount="indefinite"/>
+          <ellipse cx="0" cy="130" rx="20" ry="6" fill="#fbf6ec" opacity="0.7"/>
+          <ellipse cx="14" cy="132" rx="10" ry="5" fill="#fbf6ec" opacity="0.65"/>
+        </g>
+        <!-- HORIZON LINE -->
+        <path d="M 30 198 L 220 198" stroke="#5e88c2" stroke-width="0.8" opacity="0.6"/>
+        <!-- DISTANT GROUND patches -->
+        <ellipse cx="80" cy="218" rx="40" ry="6" fill="#cfddc8" opacity="0.65"/>
+        <ellipse cx="170" cy="220" rx="35" ry="5" fill="#cfddc8" opacity="0.6"/>
       </g>
-      <!-- Hairpin legs -->
-      <path d="M 40 220 Q 38 240 32 250" class="ink ink-med" fill="none"/>
-      <path d="M 40 220 Q 42 240 46 250" class="ink ink-thin" fill="none" opacity="0.7"/>
-      <path d="M 131 220 Q 133 240 138 250" class="ink ink-med" fill="none"/>
-      <path d="M 131 220 Q 129 240 124 250" class="ink ink-thin" fill="none" opacity="0.7"/>
-      <!-- Rabbit-ear antenna -->
-      <path d="M 80 124 L 60 80" class="ink ink-med"/>
-      <path d="M 80 124 L 100 80" class="ink ink-med"/>
-      <circle cx="60" cy="80" r="2.5" fill="#1a1a1f"/>
-      <circle cx="100" cy="80" r="2.5" fill="#1a1a1f"/>
-      <!-- Base of antenna -->
-      <circle cx="80" cy="124" r="3" fill="#1a1a1f" opacity="0.7"/>
 
-      <!-- ROTARY TELEPHONE (on the right) -->
-      <!-- Base body -->
-      <path d="M 175 245 Q 175 215 205 215 L 230 215 Q 240 215 240 240 L 240 250 L 175 250 Z" fill="#d65b8a" opacity="0.6"/>
-      <path d="M 175 245 Q 175 215 205 215 L 230 215 Q 240 215 240 240 L 240 250" class="ink ink-med" fill="none"/>
-      <!-- Rotary dial -->
-      <circle cx="205" cy="232" r="13" fill="#fbf6ec" opacity="0.8"/>
-      <circle cx="205" cy="232" r="13" class="ink ink-thin" fill="none"/>
-      <circle cx="205" cy="232" r="8" class="ink ink-thin" fill="none" opacity="0.7"/>
-      <!-- Dial holes -->
-      <g fill="#1a1a1f" opacity="0.7">
-        <circle cx="205" cy="222" r="1.5"/>
-        <circle cx="212" cy="225" r="1.5"/>
-        <circle cx="214" cy="232" r="1.5"/>
-        <circle cx="212" cy="239" r="1.5"/>
-        <circle cx="205" cy="242" r="1.5"/>
-        <circle cx="198" cy="239" r="1.5"/>
-        <circle cx="196" cy="232" r="1.5"/>
-        <circle cx="198" cy="225" r="1.5"/>
-      </g>
-      <!-- Handset (above base) -->
-      <path d="M 178 210 Q 178 200 188 200 L 222 200 Q 232 200 232 210 L 232 213 L 178 213 Z" fill="#d65b8a" opacity="0.75"/>
-      <path d="M 178 210 Q 178 200 188 200 L 222 200 Q 232 200 232 210" class="ink ink-med" fill="none"/>
+      <!-- AIRCRAFT WINGTIP (visible in lower portion of window) -->
+      <path d="M 50 200 L 30 245 L 80 235 L 130 220 L 180 215 L 200 200 Z" fill="#fbf6ec" opacity="0.92" clip-path="url(#windowClip)"/>
+      <path d="M 50 200 L 30 245 L 80 235 L 130 220 L 180 215 L 200 200" class="ink ink-med" fill="none" clip-path="url(#windowClip)"/>
+      <!-- Winglet (upturned end) -->
+      <path d="M 30 245 L 24 222 L 32 235" fill="#fbf6ec" opacity="0.9" clip-path="url(#windowClip)"/>
+      <path d="M 30 245 L 24 222 L 32 235" class="ink ink-thin" fill="none" clip-path="url(#windowClip)"/>
+      <!-- Wing markings -->
+      <path d="M 60 232 L 175 218" stroke="#d65b8a" stroke-width="1.5" opacity="0.85" clip-path="url(#windowClip)"/>
+      <!-- Engine / nacelle hint -->
+      <ellipse cx="75" cy="240" rx="14" ry="5" fill="#1a1a1f" opacity="0.55" clip-path="url(#windowClip)"/>
+      <!-- Wing inner reflection highlight -->
+      <path d="M 60 222 L 165 210" stroke="#fbf6ec" stroke-width="1.2" opacity="0.85" clip-path="url(#windowClip)"/>
 
-      <!-- SPUTNIK ATOMIC CLOCK on TV top (small) -->
-      <circle cx="85" cy="118" r="3" fill="#1a1a1f"/>
-      <g class="ink ink-thin">
-        <path d="M 85 118 L 85 108"/>
-        <path d="M 85 118 L 95 118"/>
-        <path d="M 85 118 L 75 118"/>
-        <path d="M 85 118 L 92 111"/>
-        <path d="M 85 118 L 78 111"/>
-        <path d="M 85 118 L 92 125"/>
-        <path d="M 85 118 L 78 125"/>
-      </g>
-      <circle cx="85" cy="108" r="1.5" fill="#c79832"/>
-      <circle cx="95" cy="118" r="1.5" fill="#c79832"/>
-      <circle cx="75" cy="118" r="1.5" fill="#c79832"/>
-      <circle cx="92" cy="111" r="1.5" fill="#c79832"/>
-      <circle cx="78" cy="111" r="1.5" fill="#c79832"/>
-      <circle cx="92" cy="125" r="1.5" fill="#c79832"/>
-      <circle cx="78" cy="125" r="1.5" fill="#c79832"/>
+      <!-- WINDOW SHADE (pulled up · top half of window) -->
+      <path d="M 50 80 Q 50 65 70 60 L 180 60 Q 200 65 200 80 L 200 78 L 50 78 Z" fill="#1a1a1f" opacity="0.15"/>
+      <path d="M 50 80 L 200 80" class="ink ink-thin" opacity="0.55"/>
+      <!-- Shade pull handle -->
+      <rect x="120" y="78" width="10" height="4" fill="#1a1a1f" opacity="0.5"/>
+
+      <!-- Inner frame seal (subtle inset) -->
+      <path d="M 50 80 Q 50 50 125 50 Q 200 50 200 80 L 200 200 Q 200 230 125 230 Q 50 230 50 200 Z" class="ink ink-thin" fill="none" opacity="0.7"/>
     </svg>
   </div>
 
@@ -2254,67 +2352,101 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 <!-- ============== ACT VI · THE STAKES ============== -->
 <section class="stakes-section">
 
-  <!-- WATERCOLOR STILL LIFE · DECISION WINDOW (sage/navy against pink) -->
+  <!-- WATERCOLOR · PLANE TAKING OFF · runway stripes flow + plane lifts -->
   <div class="still-life sl-stakes" aria-hidden="true">
     <svg viewBox="0 0 240 260" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="washVI" cx="50%" cy="50%" r="60%">
-          <stop offset="0%" stop-color="#4ba889" stop-opacity="0.45"/>
+          <stop offset="0%" stop-color="#4ba889" stop-opacity="0.5"/>
           <stop offset="60%" stop-color="#5e88c2" stop-opacity="0.22"/>
           <stop offset="100%" stop-color="#5e88c2" stop-opacity="0"/>
         </radialGradient>
+        <linearGradient id="duskSky" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#5e88c2" stop-opacity="0.5"/>
+          <stop offset="50%" stop-color="#d68f5c" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#d65b8a" stop-opacity="0.55"/>
+        </linearGradient>
+        <clipPath id="runwayClip">
+          <path d="M 30 200 L 210 200 L 200 250 L 40 250 Z"/>
+        </clipPath>
       </defs>
-      <ellipse cx="120" cy="135" rx="115" ry="100" fill="url(#washVI)"/>
-      <circle cx="35" cy="50" r="3.5" fill="#4ba889" opacity="0.55"/>
-      <circle cx="215" cy="230" r="3" fill="#1a1a1f" opacity="0.5"/>
-      <circle cx="40" cy="240" r="2.5" fill="#c79832" opacity="0.6"/>
+      <ellipse cx="120" cy="120" rx="115" ry="95" fill="url(#washVI)"/>
+      <circle cx="32" cy="40" r="3" fill="#4ba889" opacity="0.55"/>
+      <circle cx="218" cy="240" r="3.5" fill="#1a1a1f" opacity="0.5"/>
 
-      <!-- Floor -->
-      <path d="M 12 230 L 228 230" class="ink ink-thin" opacity="0.5"/>
+      <!-- DUSK SKY background (top half) -->
+      <rect x="20" y="30" width="200" height="170" fill="url(#duskSky)" opacity="0.6"/>
+      <!-- Sun on horizon -->
+      <circle cx="170" cy="185" r="14" fill="#c79832" opacity="0.85"/>
+      <circle cx="170" cy="185" r="14" class="ink ink-thin" fill="none" opacity="0.5"/>
+      <!-- Distant control tower on horizon -->
+      <path d="M 200 200 L 200 165 L 195 162 L 195 175 L 205 175 L 205 162 L 200 165" class="ink ink-thin" fill="none" opacity="0.7"/>
+      <ellipse cx="200" cy="162" rx="6" ry="2" fill="#1a1a1f" opacity="0.65"/>
+      <!-- Distant terminal silhouette -->
+      <path d="M 30 200 L 30 187 L 50 184 L 50 200 Z" fill="#1a1a1f" opacity="0.5"/>
+      <path d="M 50 200 L 50 192 L 80 190 L 80 200 Z" fill="#1a1a1f" opacity="0.5"/>
 
-      <!-- SAARINEN WOMB CHAIR (mid-century icon · enveloping curve) -->
-      <!-- Back/shell -->
-      <path d="M 30 230 Q 22 200 28 160 Q 35 110 80 95 Q 130 88 140 130 Q 140 165 130 200 Q 125 220 130 230 Z" fill="#cfddc8" opacity="0.6"/>
-      <path d="M 30 230 Q 22 200 28 160 Q 35 110 80 95 Q 130 88 140 130 Q 140 165 130 200 Q 125 220 130 230" class="ink ink-med" fill="none"/>
-      <!-- Seat cushion -->
-      <path d="M 45 195 Q 80 175 125 185 Q 130 200 125 215 Q 75 220 45 215 Z" fill="#4ba889" opacity="0.4"/>
-      <path d="M 45 195 Q 80 175 125 185 Q 130 200 125 215 Q 75 220 45 215" class="ink ink-thin" fill="none"/>
-      <!-- Back cushion -->
-      <ellipse cx="80" cy="145" rx="35" ry="22" fill="#4ba889" opacity="0.45"/>
-      <ellipse cx="80" cy="145" rx="35" ry="22" class="ink ink-thin" fill="none"/>
-      <!-- Steel rod base · 4 splayed legs -->
-      <path d="M 50 230 Q 55 240 60 230" class="ink ink-med" fill="none"/>
-      <path d="M 110 230 Q 115 240 120 230" class="ink ink-med" fill="none"/>
-      <path d="M 80 230 L 80 245" class="ink ink-thin"/>
+      <!-- HORIZON LINE -->
+      <path d="M 20 200 L 220 200" class="ink ink-med" opacity="0.55"/>
 
-      <!-- HOURGLASS (sand timer) on side -->
-      <!-- Wood caps -->
-      <rect x="170" y="100" width="32" height="6" fill="#d68f5c" opacity="0.65"/>
-      <rect x="170" y="100" width="32" height="6" class="ink ink-thin" fill="none"/>
-      <rect x="170" y="190" width="32" height="6" fill="#d68f5c" opacity="0.65"/>
-      <rect x="170" y="190" width="32" height="6" class="ink ink-thin" fill="none"/>
-      <!-- Glass top bulb (sand still in) -->
-      <path d="M 173 106 L 200 106 L 190 148 L 183 148 Z" fill="#c79832" opacity="0.6"/>
-      <path d="M 173 106 L 186 148 L 200 106" class="ink ink-thin" fill="none"/>
-      <!-- Glass bottom bulb (sand piling up) -->
-      <path d="M 183 148 L 190 148 L 200 190 L 173 190 Z" fill="#fbf6ec" opacity="0.4"/>
-      <path d="M 173 190 L 186 148 L 200 190" class="ink ink-thin" fill="none"/>
-      <!-- Sand pile in bottom -->
-      <path d="M 178 190 Q 186 175 196 190 Z" fill="#c79832" opacity="0.7"/>
-      <path d="M 178 190 Q 186 175 196 190" class="ink ink-thin" fill="none"/>
-      <!-- Sand stream falling -->
-      <path d="M 186 148 L 186 175" stroke="#c79832" stroke-width="1.5" opacity="0.85" fill="none"/>
-      <!-- Side frame rods -->
-      <path d="M 168 106 L 168 196" class="ink ink-med"/>
-      <path d="M 204 106 L 204 196" class="ink ink-med"/>
-      <!-- Wood top cap on frame -->
-      <path d="M 166 92 L 206 92 L 206 100 L 166 100 Z" fill="#d68f5c" opacity="0.6" class="ink ink-thin"/>
-      <path d="M 166 196 L 206 196 L 206 204 L 166 204 Z" fill="#d68f5c" opacity="0.6" class="ink ink-thin"/>
+      <!-- RUNWAY (trapezoid in perspective) -->
+      <path d="M 30 200 L 210 200 L 200 250 L 40 250 Z" fill="#1a1a1f" opacity="0.6"/>
+      <path d="M 30 200 L 210 200 L 200 250 L 40 250 Z" class="ink ink-med" fill="none"/>
 
-      <!-- EAMES HANG-IT-ALL · small accent in upper right -->
-      <g class="ink ink-thin" opacity="0.7">
-        <circle cx="218" cy="50" r="4" fill="#1a1a1f"/>
-        <circle cx="218" cy="50" r="4" class="ink ink-thin" fill="none"/>
+      <!-- CENTERLINE STRIPES (animated · move toward viewer) -->
+      <g clip-path="url(#runwayClip)">
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="0 0; 0 30; 0 0" dur="1.6s" repeatCount="indefinite"/>
+          <path d="M 119 205 L 121 215" stroke="#f8e1a1" stroke-width="2.5" opacity="0.9"/>
+          <path d="M 117 222 L 122 234" stroke="#f8e1a1" stroke-width="3" opacity="0.9"/>
+          <path d="M 115 240 L 121 248" stroke="#f8e1a1" stroke-width="3.5" opacity="0.9"/>
+          <path d="M 117 254 L 122 260" stroke="#f8e1a1" stroke-width="4" opacity="0.9"/>
+        </g>
+      </g>
+
+      <!-- RUNWAY EDGE LIGHTS · pulse -->
+      <g fill="#d4ff32">
+        <circle cx="35" cy="208" r="1.5" opacity="0.85"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/></circle>
+        <circle cx="36" cy="222" r="1.7" opacity="0.85"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="0.3s" repeatCount="indefinite"/></circle>
+        <circle cx="38" cy="238" r="2" opacity="0.9"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="0.6s" repeatCount="indefinite"/></circle>
+        <circle cx="205" cy="208" r="1.5" opacity="0.85"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="0.4s" repeatCount="indefinite"/></circle>
+        <circle cx="204" cy="222" r="1.7" opacity="0.85"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="0.7s" repeatCount="indefinite"/></circle>
+        <circle cx="202" cy="238" r="2" opacity="0.9"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="1s" repeatCount="indefinite"/></circle>
+      </g>
+
+      <!-- PLANE TAKING OFF (rotates up · lifts off · climbs out) -->
+      <g>
+        <!-- continuous lift cycle: starts low on runway, rotates up, climbs out into sky -->
+        <animateTransform attributeName="transform" type="translate" values="-40 50; 30 30; 80 0; 130 -30; 180 -65" dur="6s" repeatCount="indefinite"/>
+
+        <g transform="rotate(-8)">
+          <!-- Fuselage -->
+          <ellipse cx="80" cy="160" rx="42" ry="6" fill="#fbf6ec" opacity="0.95"/>
+          <ellipse cx="80" cy="160" rx="42" ry="6" class="ink ink-med" fill="none"/>
+          <!-- Cockpit window -->
+          <path d="M 112 158 Q 118 158 120 161 Q 118 164 112 164" fill="#1a1a1f" opacity="0.7" class="ink ink-thin"/>
+          <!-- Window strip -->
+          <path d="M 60 160 L 105 159" class="ink ink-thin" opacity="0.5" stroke-dasharray="2 2"/>
+          <!-- Wing -->
+          <path d="M 70 165 L 50 175 L 90 170 L 95 165" fill="#fbf6ec" opacity="0.9"/>
+          <path d="M 70 165 L 50 175 L 90 170 L 95 165" class="ink ink-thin" fill="none"/>
+          <!-- Engine -->
+          <ellipse cx="65" cy="172" rx="6" ry="3" fill="#1a1a1f" opacity="0.65"/>
+          <!-- Tail -->
+          <path d="M 42 160 L 36 148 L 46 148 L 50 160" fill="#fbf6ec" opacity="0.95" class="ink ink-thin"/>
+          <!-- Red livery stripe -->
+          <path d="M 50 161 L 105 160" stroke="#d65b8a" stroke-width="1.5" opacity="0.8"/>
+          <!-- Landing gear (tucking up · partial) -->
+          <path d="M 70 166 L 70 170" class="ink ink-thin" opacity="0.7"/>
+        </g>
+      </g>
+
+      <!-- WHEEL SMOKE / TIRE PUFF (briefly visible at rotation point) -->
+      <g opacity="0.5">
+        <ellipse cx="55" cy="215" rx="6" ry="3" fill="#fbf6ec">
+          <animate attributeName="opacity" values="0;0.7;0" dur="6s" repeatCount="indefinite"/>
+          <animate attributeName="rx" values="6;14;20" dur="6s" repeatCount="indefinite"/>
+        </ellipse>
       </g>
     </svg>
   </div>
@@ -2393,7 +2525,7 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
 
 <script>
 (function(){
-  // Animate bars on scroll-in
+  // ============== Animate bars on scroll-in ==============
   var bars = document.querySelectorAll('[data-w]');
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
@@ -2409,16 +2541,100 @@ footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: va
     bars.forEach(function(b){ b.style.width = b.dataset.w + '%'; });
   }
 
-  // Live departures-board timestamp (ET)
+  // ============== Live departures-board timestamp ==============
   function pad(n){ return n < 10 ? '0' + n : '' + n; }
   function tick(){
     var el = document.getElementById('depTimeVal');
     if(!el) return;
     var d = new Date();
-    // Eastern Time (rough — uses local offset, labeled ET for theme)
     el.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()) + ' ET';
   }
   tick(); setInterval(tick, 1000);
+
+  // ============== DEPARTURES BOARD · 5 rows, rotates up every 3.5s ==============
+  var TENANTS = [
+    { flight: 'NFX 1542',  sub: 'Netflix · 4K streaming',                icon: 'N',  iconBg: '#ff2d8b', iconFg: '#fbf6ec', dest: 'AWS US-EAST-1',   reg: 'Virginia · 12,400 MW region',     gate: 'E·12', status: 'enroute',  statusText: 'ENROUTE',  pct: '15%' },
+    { flight: 'YT 0840',   sub: 'YouTube · adaptive bitrate',            icon: 'Y',  iconBg: '#ff6fae', iconFg: '#fbf6ec', dest: 'GCP US-CENTRAL',  reg: 'Iowa · Ohio · Georgia',           gate: 'F·08', status: 'enroute',  statusText: 'ENROUTE',  pct: '12%' },
+    { flight: 'TT 2147',   sub: 'TikTok · short-form video',             icon: 'T',  iconBg: '#ffa466', iconFg: '#061535', dest: 'AWS + Oracle',    reg: 'Project Texas · multi-region',    gate: 'C·24', status: 'surging',  statusText: 'SURGING',  pct: '9%',  surge: true },
+    { flight: 'META 1750', sub: 'Instagram · Reels · WhatsApp',          icon: 'M',  iconBg: '#9fbceb', iconFg: '#061535', dest: 'META OWNED',      reg: 'Newton County GA · others',       gate: 'A·17', status: 'steady',   statusText: 'STEADY',   pct: '8%'  },
+    { flight: 'DIS 0915',  sub: 'Disney+ · Hulu · ESPN+',                icon: 'D',  iconBg: '#7fdcbb', iconFg: '#061535', dest: 'AWS + Akamai',    reg: 'Hollywood ⇆ multi-region',        gate: 'E·15', status: 'enroute',  statusText: 'ENROUTE',  pct: '5%'  },
+    { flight: 'SaaS 1100', sub: 'Slack · Zoom · 365 · Workday',          icon: 'S',  iconBg: '#c79832', iconFg: '#061535', dest: 'AZURE + AWS',     reg: 'enterprise multi-tenant',         gate: 'B·22', status: 'steady',   statusText: 'STEADY',   pct: '14%' },
+    { flight: 'GAME 1925', sub: 'Fortnite · Roblox · COD · MMOs',        icon: 'G',  iconBg: '#ffd4b8', iconFg: '#061535', dest: 'AWS GameLift',    reg: 'global edge nodes',               gate: 'D·07', status: 'boarding', statusText: 'BOARDING', pct: '12%' },
+    { flight: 'GPT 0001',  sub: 'ChatGPT · Claude · Gemini · Midjourney',icon: 'AI', iconBg: '#d4ff32', iconFg: '#061535', dest: 'AZURE+GCP+AWS',   reg: 'H100/H200 clusters · 100kW racks', gate: 'T·∞', status: 'surging',  statusText: 'SURGING',  pct: '11%', surge: true },
+    { flight: 'SYNC 0312', sub: 'iCloud · Drive · Dropbox · backups',    icon: '☁', iconBg: '#5e88c2', iconFg: '#061535', dest: 'APPLE+GOOGLE+AWS',reg: 'background sync',                 gate: 'B·09', status: 'steady',   statusText: 'STEADY',   pct: '7%'  },
+    { flight: 'GOV 1776',  sub: 'AWS GovCloud · Azure Gov',              icon: '★', iconBg: '#8770b8', iconFg: '#fbf6ec', dest: 'FEDRAMP ZONES',   reg: 'co-located with commercial',      gate: 'F·01', status: 'delayed',  statusText: 'CLASSIFIED', pct: '4%' }
+  ];
+
+  function buildRow(t){
+    var div = document.createElement('div');
+    div.className = 'dep-row' + (t.surge ? ' surge-row' : '');
+    div.innerHTML =
+      '<div class="dr-name">' +
+        '<span class="icon" style="background:' + t.iconBg + ';color:' + t.iconFg + '">' + t.icon + '</span>' +
+        '<span class="nm">' + t.flight + '<span class="sub">' + t.sub + '</span></span>' +
+      '</div>' +
+      '<div class="dr-dest">' + t.dest + '<span class="reg">' + t.reg + '</span></div>' +
+      '<div class="dr-gate">' + t.gate + '</div>' +
+      '<span class="dr-status ' + t.status + '">' + t.statusText + '</span>' +
+      '<div class="dr-pct">' + t.pct + '</div>';
+    return div;
+  }
+
+  var stack = document.getElementById('depStack');
+  var VISIBLE = 5;
+  var offset = 0;
+
+  function initBoard(){
+    if(!stack) return;
+    stack.innerHTML = '';
+    for(var i = 0; i < VISIBLE; i++){
+      stack.appendChild(buildRow(TENANTS[i % TENANTS.length]));
+    }
+  }
+
+  function rotate(){
+    if(!stack || stack.children.length === 0) return;
+    // Slide entire stack up by one row height
+    var rowHeight = stack.children[0].offsetHeight;
+    stack.style.transition = 'transform 0.6s cubic-bezier(0.55, 0, 0.1, 1)';
+    stack.style.transform = 'translateY(-' + rowHeight + 'px)';
+
+    setTimeout(function(){
+      // Remove top row, append next tenant at bottom with flip-in
+      stack.removeChild(stack.firstChild);
+      offset = (offset + 1) % TENANTS.length;
+      var nextIdx = (offset + VISIBLE - 1) % TENANTS.length;
+      var newRow = buildRow(TENANTS[nextIdx]);
+      newRow.classList.add('flip-in');
+      stack.appendChild(newRow);
+      // Reset transform without transition
+      stack.style.transition = 'none';
+      stack.style.transform = 'translateY(0)';
+      // Re-enable transition next tick
+      requestAnimationFrame(function(){
+        stack.style.transition = '';
+      });
+    }, 600);
+  }
+
+  initBoard();
+  // Start rotation once board is in view
+  if('IntersectionObserver' in window){
+    var depFrame = document.querySelector('.departures-frame');
+    if(depFrame){
+      var seen = false;
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting && !seen){
+            seen = true;
+            setTimeout(function(){ setInterval(rotate, 3500); }, 1500);
+          }
+        });
+      }, { threshold: 0.2 }).observe(depFrame);
+    }
+  } else {
+    setInterval(rotate, 3500);
+  }
 })();
 </script>
 
