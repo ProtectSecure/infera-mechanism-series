@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Class Engine · EP 08 · The Mechanism Series</title>
+<meta name="description" content="Episode 08 of The Mechanism Series. You have read about all of these people. You did not know you were reading about the same machine. The load-bearing convergence episode where every Season II mechanism flows in and every Season I consequence flows out — through one household, in five chapters: housing, employment, healthcare, credit, civic participation.">
+<meta property="og:title" content="The Class Engine · EP 08 · The Mechanism Series">
+<meta property="og:description" content="The bowtie episode. Five mechanisms. One household. One class.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   EP 08 · THE CLASS ENGINE · v0.1
+   Aesthetic: cinematic newsroom · Spotlight-film register
+   Aged cream paper · deep ink black · restrained investigative red
+   ============================================================ */
+
+:root{
+  /* PAPER + INK */
+  --paper:            #efe7d3;   /* aged manilla cream */
+  --paper-soft:       #e7decb;
+  --paper-card:       #f5eedb;   /* slightly brighter card */
+  --paper-news:       #ece4cf;
+  --ink:              #0d0d10;   /* deep ink black */
+  --ink-soft:         #2a2723;
+  --ink-dim:          #595348;
+  --ink-faint:        #8e8775;
+
+  /* INVESTIGATIVE RED · used sparingly for evidence-board string + pushpins */
+  --red-string:       #b8252a;
+  --red-deep:         #8a1c20;
+  --red-soft:         rgba(184,37,42,0.18);
+
+  /* SUPPORTING TONES · for chapter color-coding (still in newsprint register) */
+  --tone-housing:     #8a1c20;   /* red */
+  --tone-employment:  #6b4f1c;   /* sepia ochre */
+  --tone-healthcare:  #1f5246;   /* deep teal */
+  --tone-credit:      #3b3568;   /* deep plum */
+  --tone-civic:       #1d3a5a;   /* navy */
+
+  /* RULE LINES + SHADOWS */
+  --rule:             #c5b896;
+  --rule-soft:        rgba(13,13,16,0.12);
+  --shadow-light:     0 2px 8px rgba(13,13,16,0.08);
+  --shadow-medium:    0 6px 18px rgba(13,13,16,0.14);
+  --shadow-deep:      0 14px 34px rgba(13,13,16,0.22);
+  --tape-yellow:      #d4b76e;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 300;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Newsprint paper texture · subtle */
+body::before{
+  content: "";
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(13,13,16,0.05) 1px, transparent 0),
+    radial-gradient(circle at 12px 8px, rgba(13,13,16,0.025) 1px, transparent 0);
+  background-size: 3px 3px, 16px 12px;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+  opacity: 0.65;
+}
+
+/* Aged-paper sepia overlay (vignette at edges) */
+body::after{
+  content: "";
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(74,52,28,0.12) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+main, header, section, nav, footer, aside { position: relative; z-index: 3 }
+
+/* ============== TABNAV · Season II canonical (12 episodes) ============== */
+.tabnav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(239,231,211,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+.tabnav-inner{display:flex;align-items:center;padding:12px 20px;gap:18px;overflow-x:auto;scrollbar-width:none}
+.tabnav-inner::-webkit-scrollbar{display:none}
+.brand{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--red-string);white-space:nowrap;text-decoration:none;padding-right:16px;border-right:1px solid var(--rule);display:flex;align-items:center;gap:8px;flex-shrink:0}
+.brand .dot{width:6px;height:6px;background:var(--red-string);border-radius:50%;animation:pulse 2.4s ease-in-out infinite}
+.brand .s2{color:var(--ink-dim);margin-left:6px;font-style:italic;font-family:'Instrument Serif',serif;text-transform:none;font-size:13px;letter-spacing:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.tab-list{display:flex;gap:1px;flex:1;flex-shrink:0}
+.tab{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);padding:6px 9px;border-radius:2px;text-decoration:none;white-space:nowrap;transition:color .2s,background .2s;display:inline-flex;align-items:center;gap:5px}
+.tab:hover{color:var(--ink-soft);background:rgba(13,13,16,0.04)}
+.tab.active{color:var(--red-string);background:rgba(184,37,42,0.1);font-weight:600}
+.tab.drafting{opacity:.45;pointer-events:none}
+.tab-num{font-family:'Fraunces',serif;font-style:italic;opacity:.65}
+
+/* ============== HERO · evidence-board ============== */
+.hero{
+  min-height: 100vh;
+  padding: 110px 6vw 80px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6vw;
+  align-items: center;
+  overflow: visible;
+}
+@media (max-width: 1100px){ .hero{grid-template-columns:1fr; padding-top: 110px} }
+
+.hero-l{position:relative; z-index:4}
+.hero-r{position:relative; z-index:4}
+
+.hero-meta{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 22px;
+  display: flex; gap: 18px; align-items: center;
+}
+.hero-meta::before{
+  content: "▣";
+  color: var(--red-string);
+  font-size: 14px;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.hero-headline{
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-size: clamp(46px, 6.5vw, 96px);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  margin: 4px 0 32px;
+}
+.hero-headline .l{display:block}
+.hero-headline .em-red{color: var(--red-deep); font-style: italic; font-weight: 350}
+.hero-headline .em-italic{font-style: italic; color: var(--ink-soft)}
+
+.hero-sub{
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(19px, 1.7vw, 24px);
+  line-height: 1.42;
+  color: var(--ink-soft);
+  max-width: 60ch;
+  margin-bottom: 30px;
+  font-style: italic;
+}
+.hero-sub strong{
+  color: var(--ink);
+  font-weight: 600;
+  font-style: normal;
+  font-family: 'Inter', sans-serif;
+  background: var(--red-soft);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.hero-tags{display:flex; flex-wrap:wrap; gap:7px; margin-bottom: 28px}
+.tag{
+  display: inline-block;
+  padding: 5px 11px;
+  border-radius: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  background: var(--paper-card);
+  color: var(--ink-soft);
+  border: 1px solid var(--rule);
+}
+.tag.t-flag{background: var(--red-string); color: var(--paper); border-color: var(--red-deep)}
+
+.where-you-are{
+  margin-top: 22px;
+  padding: 18px 22px;
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--red-string);
+  max-width: 660px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  line-height: 1.75;
+}
+.where-you-are b{color: var(--ink); font-weight: 600}
+.where-you-are a{color: var(--red-string); text-decoration: none; border-bottom: 1px solid currentColor}
+
+/* HERO RIGHT · the EVIDENCE BOARD with 5 family Polaroid photos */
+.evidence-board{
+  position: relative;
+  padding: 36px 36px 48px;
+  background:
+    linear-gradient(180deg, rgba(74,52,28,0.04) 0%, rgba(74,52,28,0.08) 100%),
+    var(--paper-card);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  box-shadow: var(--shadow-deep), inset 0 0 60px rgba(74,52,28,0.06);
+  min-height: 540px;
+}
+/* Cork-board texture · subtle */
+.evidence-board::before{
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 2px 2px, rgba(74,52,28,0.1) 1px, transparent 0),
+    radial-gradient(circle at 6px 9px, rgba(74,52,28,0.05) 1px, transparent 0);
+  background-size: 8px 8px, 18px 14px;
+  pointer-events: none;
+  border-radius: 4px;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+.evidence-board::after{
+  content: "CASE FILE · EP 08";
+  position: absolute;
+  top: -10px; left: 24px;
+  background: var(--paper);
+  padding: 0 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  color: var(--red-string);
+  font-weight: 600;
+}
+
+.evidence-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.polaroid{
+  background: var(--paper);
+  padding: 12px 12px 18px;
+  box-shadow: var(--shadow-medium);
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.polaroid:hover{transform: translateY(-2px) rotate(0deg) !important; box-shadow: var(--shadow-deep); z-index: 5}
+.polaroid.p1{transform: rotate(-2.5deg)}
+.polaroid.p2{transform: rotate(1.5deg)}
+.polaroid.p3{transform: rotate(-1deg)}
+.polaroid.p4{transform: rotate(2deg); grid-column-start: 1}
+.polaroid.p5{transform: rotate(-1.5deg)}
+/* Pushpin */
+.polaroid::before{
+  content: "";
+  position: absolute;
+  top: -6px; left: 50%;
+  transform: translateX(-50%);
+  width: 12px; height: 12px;
+  background: var(--red-string);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(13,13,16,0.4);
+  z-index: 3;
+}
+/* Family portrait area (ink-line silhouette · cream paper) */
+.polaroid .portrait{
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: var(--paper-soft);
+  border: 1px solid var(--rule);
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.polaroid .portrait svg{width:100%; height:100%; display:block}
+/* Caption · first name + ZIP */
+.polaroid .cap-name{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1.2;
+  text-align: center;
+}
+.polaroid .cap-zip{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 4px;
+}
+.polaroid .cap-story{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.16em;
+  color: var(--red-string);
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+/* Evidence-board caption strip below */
+.eb-strip{
+  margin-top: 24px;
+  padding: 14px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  z-index: 3;
+}
+.eb-strip strong{color: var(--red-string); font-weight: 700}
+
+/* ============== SHARED SECTION CHASSIS ============== */
+.act-section{
+  padding: 12vh 7vw;
+  position: relative;
+  z-index: 3;
+}
+.act-section.s-paper{ background: var(--paper) }
+.act-section.s-soft{ background: var(--paper-soft) }
+.act-section.s-news{ background: var(--paper-news); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule) }
+.act-section.s-dark{ background: var(--ink); color: var(--paper) }
+
+.act-stamp{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 18px;
+  display: flex; gap: 16px; align-items: baseline;
+}
+.act-stamp .roman{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:var(--ink);letter-spacing:0}
+.act-stamp .red-dot{display:inline-block;width:7px;height:7px;background:var(--red-string);border-radius:50%;margin-right:4px;vertical-align:middle}
+.act-section.s-dark .act-stamp{color: var(--red-string)}
+.act-section.s-dark .act-stamp .roman{color: var(--paper)}
+
+.act-h2{
+  font-family: 'Fraunces', serif;
+  font-weight: 350;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 22px;
+  max-width: 22ch;
+}
+.act-h2 em{font-style: italic; color: var(--red-deep)}
+.act-section.s-dark .act-h2{color: var(--paper)}
+.act-section.s-dark .act-h2 em{color: var(--red-string)}
+
+.act-lead{
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(18px, 1.7vw, 24px);
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 56ch;
+  margin-bottom: 40px;
+}
+.act-section.s-dark .act-lead{color: rgba(239,231,211,0.78)}
+
+.act-prose{
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 64ch;
+  margin-bottom: 22px;
+}
+.act-prose strong{
+  color: var(--ink); font-weight: 600;
+  font-family: 'Inter', sans-serif; font-style: normal;
+  background: var(--red-soft); padding: 1px 5px; border-radius: 2px;
+}
+.act-section.s-dark .act-prose{color: rgba(239,231,211,0.82)}
+
+/* ============== CLASS ATLAS · the load-bearing interactive ============== */
+.atlas-section{
+  padding: 14vh 7vw;
+  background: var(--paper-card);
+  position: relative;
+  z-index: 3;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.atlas-head{ margin-bottom: 40px; max-width: 760px }
+.atlas-head .ah-eyebrow{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 12px;
+}
+.atlas-head h2{
+  font-family: 'Fraunces', serif;
+  font-weight: 350;
+  font-variation-settings: "opsz" 144;
+  font-size: clamp(30px, 4.4vw, 54px);
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+.atlas-head h2 em{font-style: italic; color: var(--red-deep)}
+.atlas-head p{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 58ch;
+}
+
+.atlas-wrap{
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+@media (max-width: 1100px){ .atlas-wrap{grid-template-columns: 1fr} }
+
+.atlas-canvas{
+  position: relative;
+  aspect-ratio: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  background:
+    radial-gradient(circle at center, var(--paper) 0%, var(--paper-soft) 100%);
+  border: 1.5px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: var(--shadow-deep);
+}
+.atlas-canvas svg{width:100%; height:100%; display:block}
+
+.atlas-side{display:flex; flex-direction:column; gap:18px}
+.atlas-side .legend-card{
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 18px 22px;
+  border-radius: 4px;
+}
+.atlas-side .legend-card h4{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.atlas-side .legend-card p{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.atlas-side .legend-card .mono-instr{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  font-style: normal;
+  text-transform: uppercase;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--paper-card);
+  border-left: 3px solid var(--red-string);
+}
+.atlas-progress{
+  display: flex; gap: 8px;
+  margin-top: 14px;
+}
+.atlas-progress .prog-dot{
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink-dim);
+  background: transparent;
+  transition: background 0.3s, border-color 0.3s;
+}
+.atlas-progress .prog-dot.lit{
+  background: var(--red-string);
+  border-color: var(--red-string);
+  box-shadow: 0 0 10px var(--red-string);
+}
+.atlas-progress .prog-label{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  margin-left: auto;
+  align-self: center;
+}
+
+/* The actual Atlas SVG nodes · styled via classes */
+.atlas-svg .household-icon{ cursor: default }
+.atlas-svg .mech-node, .atlas-svg .family-card{ cursor: pointer; transition: opacity 0.2s }
+.atlas-svg .mech-hex{ fill-opacity: 0.5; stroke: var(--ink); stroke-width: 1.4; transition: fill-opacity 0.3s }
+.atlas-svg .mech-node:hover .mech-hex{ fill-opacity: 0.88 }
+.atlas-svg .mech-node.active .mech-hex{ fill-opacity: 1 }
+.atlas-svg .family-rect{ fill: var(--paper); stroke: var(--ink); stroke-width: 1.4; transition: stroke 0.3s, filter 0.3s }
+.atlas-svg .family-card:hover .family-rect{ stroke: var(--red-string); stroke-width: 2; filter: drop-shadow(0 4px 8px rgba(13,13,16,0.25)) }
+.atlas-svg .family-card.active .family-rect{ stroke: var(--red-string); stroke-width: 2 }
+.atlas-svg .connector{ stroke-dasharray: 3 4; stroke-width: 1; opacity: 0.3; fill: none; transition: opacity 0.3s, stroke-width 0.3s, stroke-dasharray 0.3s }
+.atlas-svg .connector.active{ opacity: 0.95; stroke-width: 2.2; stroke-dasharray: 6 4; animation: dashflow 1.6s linear infinite }
+@keyframes dashflow { from{stroke-dashoffset: 0} to{stroke-dashoffset: -20} }
+
+.atlas-reveal-overlay{
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(circle at center, rgba(13,13,16,0.95) 0%, rgba(13,13,16,0.7) 70%, transparent 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s;
+  z-index: 5;
+}
+.atlas-reveal-overlay.visible{ opacity: 1 }
+.atlas-reveal-overlay .rev-1{
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 32px; color: var(--paper); margin-bottom: 8px;
+  opacity: 0; transform: translateY(20px); transition: all 0.5s 0.4s;
+}
+.atlas-reveal-overlay .rev-2{
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 38px; color: var(--paper); margin-bottom: 8px;
+  opacity: 0; transform: translateY(20px); transition: all 0.5s 0.8s;
+}
+.atlas-reveal-overlay .rev-3{
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 48px; color: var(--red-string); margin-bottom: 24px;
+  opacity: 0; transform: translateY(20px); transition: all 0.5s 1.2s;
+}
+.atlas-reveal-overlay.visible .rev-1,
+.atlas-reveal-overlay.visible .rev-2,
+.atlas-reveal-overlay.visible .rev-3{ opacity: 1; transform: translateY(0) }
+.atlas-reveal-overlay .replay-cta{
+  margin-top: 14px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(239,231,211,0.65);
+  padding: 8px 16px; border: 1px solid rgba(239,231,211,0.3);
+  border-radius: 2px;
+  opacity: 0; transition: opacity 0.5s 1.8s;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.atlas-reveal-overlay.visible .replay-cta{ opacity: 1 }
+.atlas-reveal-overlay .replay-cta:hover{color: var(--paper); border-color: var(--paper)}
+
+/* ============== PIPELINE · 5 CHAPTER FOLDERS ============== */
+.chapters-section{
+  padding: 14vh 7vw;
+  background: var(--paper-soft);
+  position: relative;
+  z-index: 3;
+}
+.chapters-head{ margin-bottom: 50px; max-width: 760px }
+.chapters-head .ch-eyebrow{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 14px;
+}
+.chapters-head h2{
+  font-family: 'Fraunces', serif;
+  font-weight: 350;
+  font-variation-settings: "opsz" 144;
+  font-size: clamp(30px, 4.4vw, 54px);
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+.chapters-head h2 em{font-style: italic; color: var(--red-deep)}
+
+.chapter-folder{
+  margin-bottom: 60px;
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
+  border-radius: 0 6px 6px 6px;
+  box-shadow: var(--shadow-medium);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  overflow: hidden;
+}
+@media (max-width: 1000px){ .chapter-folder{grid-template-columns: 1fr} }
+
+/* Folder tab */
+.chapter-folder::before{
+  content: attr(data-tab);
+  position: absolute;
+  top: -24px; left: 28px;
+  background: var(--paper-card);
+  padding: 8px 22px;
+  border: 1px solid var(--rule);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Chapter color accents · top border */
+.chapter-folder.housing{ border-top: 4px solid var(--tone-housing) }
+.chapter-folder.employment{ border-top: 4px solid var(--tone-employment) }
+.chapter-folder.healthcare{ border-top: 4px solid var(--tone-healthcare) }
+.chapter-folder.credit{ border-top: 4px solid var(--tone-credit) }
+.chapter-folder.civic{ border-top: 4px solid var(--tone-civic) }
+
+.chapter-body{padding: 36px 36px 28px}
+.chapter-body .ch-num{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 48px;
+  color: var(--ink-faint);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.chapter-body h3{
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(24px, 2.4vw, 32px);
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.chapter-body h3 em{ font-style: italic; color: var(--red-deep) }
+.chapter-body .ch-lead{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+}
+.chapter-body .ch-prose{
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+}
+.chapter-body .ch-question{
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.35;
+  color: var(--ink);
+  padding: 18px 22px;
+  background: var(--paper-news);
+  border-left: 3px solid var(--red-string);
+  margin: 22px 0;
+}
+.chapter-body .breadcrumb{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--rule);
+}
+.chapter-body .breadcrumb b{color: var(--red-string); font-weight: 600}
+.chapter-body .breadcrumb a{color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule)}
+.chapter-body .breadcrumb a:hover{color: var(--red-string); border-bottom-color: var(--red-string)}
+.chapter-body .bowtie-tag{
+  display: inline-block;
+  margin-top: 18px;
+  padding: 6px 12px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.chapter-body .bowtie-tag::before{ content: "⋈ "; color: var(--red-string) }
+
+/* ANCHOR FAMILY CARD (right column of folder) */
+.anchor-card{
+  background: var(--paper);
+  border-left: 1px solid var(--rule);
+  padding: 28px 32px;
+  position: relative;
+}
+.anchor-card .anchor-stamp{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.anchor-card .anchor-name{
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 26px;
+  color: var(--ink);
+  line-height: 1.15;
+  margin-bottom: 4px;
+}
+.anchor-card .anchor-zip{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.anchor-card .anchor-outcome{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  padding: 12px 14px;
+  background: var(--paper-card);
+  border-left: 2px solid var(--ink);
+  margin-bottom: 18px;
+}
+
+/* INFERENCE CHAIN · 6-step timeline */
+.inference-chain{
+  margin-top: 18px;
+}
+.inference-chain .ic-label{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 12px;
+}
+.ic-step{
+  display: grid;
+  grid-template-columns: 24px 1fr 60px;
+  gap: 10px;
+  align-items: start;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+.ic-step:last-child{border-bottom: none}
+.ic-step .ic-num{
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-faint);
+  text-align: center;
+}
+.ic-step .ic-text{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+.ic-step .ic-conf{
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 3px 4px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+.ic-conf.strong{background: rgba(31,82,70,0.18); color: var(--tone-healthcare)}
+.ic-conf.plausible{background: rgba(107,79,28,0.18); color: var(--tone-employment)}
+
+.anchor-counter{
+  margin-top: 20px;
+  padding: 14px 16px;
+  background: var(--paper-news);
+  border: 1px dashed var(--rule);
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-dim);
+}
+.anchor-counter .ac-label{
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* ============== OUTCOME · multiplicative-not-additive proof ============== */
+.outcome-stage{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-top: 30px;
+}
+@media (max-width: 1000px){ .outcome-stage{grid-template-columns: 1fr} }
+.outcome-prose strong{color: var(--red-deep)}
+
+.outcome-equation{
+  background: var(--ink);
+  color: var(--paper);
+  padding: 36px 40px;
+  border-radius: 6px;
+  position: relative;
+  box-shadow: var(--shadow-deep);
+}
+.outcome-equation .eq-label{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 18px;
+}
+.outcome-equation .eq-line{
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.outcome-equation .eq-strike{ text-decoration: line-through; text-decoration-color: var(--red-string); opacity: 0.5 }
+.outcome-equation .eq-final{
+  margin-top: 22px; padding-top: 22px;
+  border-top: 1px solid rgba(239,231,211,0.2);
+  font-size: 28px;
+  color: var(--red-string);
+}
+
+/* ============== COMPETING · 4 defenses + 3 counter-read host cards ============== */
+.competing-section{ background: var(--paper-card) }
+.defense-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin: 30px 0 50px;
+}
+@media (max-width: 900px){ .defense-grid{grid-template-columns: 1fr} }
+.defense-card{
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 22px 26px;
+  border-left: 3px solid var(--ink-dim);
+}
+.defense-card .df-num{
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 28px;
+  color: var(--ink-faint);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.defense-card h4{
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 17px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.defense-card p{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.counter-read-block{
+  margin-top: 40px;
+}
+.counter-read-block h3{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 22px;
+  font-weight: 700;
+}
+.host-card{
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin-bottom: 18px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 30px;
+}
+@media (max-width: 800px){ .host-card{grid-template-columns: 1fr; gap: 16px} }
+.host-card .hc-who{
+  border-right: 1px solid var(--rule);
+  padding-right: 22px;
+}
+@media (max-width: 800px){ .host-card .hc-who{border-right: none; border-bottom: 1px solid var(--rule); padding-bottom: 12px} }
+.host-card .hc-who .hc-label{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.host-card .hc-who .hc-role{
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+.host-card .hc-who .hc-status{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.host-card .hc-body blockquote{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: var(--ink);
+  margin-bottom: 14px;
+  padding-left: 0;
+}
+.host-card .hc-body .hc-response{
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  padding-top: 14px;
+  border-top: 1px dashed var(--rule);
+}
+.host-card .hc-body .hc-response::before{
+  content: "EPISODE RESPONSE · ";
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  color: var(--red-string);
+  font-weight: 700;
+}
+
+/* ============== DISCIPLINE · proved / not proved ============== */
+.discipline-cols{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+@media (max-width: 900px){ .discipline-cols{grid-template-columns: 1fr} }
+.discipline-col{
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 26px 30px;
+}
+.discipline-col.proved{ border-left: 3px solid var(--tone-healthcare) }
+.discipline-col.not-proved{ border-left: 3px solid var(--red-string) }
+.discipline-col h4{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+.discipline-col.proved h4{color: var(--tone-healthcare)}
+.discipline-col.not-proved h4{color: var(--red-string)}
+.discipline-col ul{list-style: none}
+.discipline-col li{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  padding: 10px 0 10px 22px;
+  position: relative;
+  border-bottom: 1px dashed var(--rule);
+}
+.discipline-col li:last-child{border-bottom: none}
+.discipline-col li::before{
+  content: "—";
+  position: absolute; left: 0;
+  color: var(--ink-faint);
+}
+
+.refusals{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 30px;
+}
+@media (max-width: 800px){ .refusals{grid-template-columns: 1fr} }
+.refusal-card{
+  background: var(--ink);
+  color: var(--paper);
+  padding: 22px 24px;
+  border-top: 3px solid var(--red-string);
+}
+.refusal-card .rc-num{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 28px;
+  color: var(--red-string);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.refusal-card .rc-h{
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+.refusal-card .rc-p{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgba(239,231,211,0.75);
+}
+
+/* ============== CLOSER · EP 09 handoff ============== */
+.stakes-section{
+  padding: 18vh 7vw;
+  background: linear-gradient(180deg, var(--paper) 0%, var(--ink) 100%);
+  color: var(--paper);
+  position: relative;
+  z-index: 3;
+  text-align: center;
+}
+.stakes-section .ss-stamp{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 26px;
+}
+.stakes-section h2{
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-variation-settings: "opsz" 144, "SOFT" 80;
+  font-size: clamp(38px, 5.5vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  max-width: 22ch;
+  margin: 0 auto 36px;
+}
+.stakes-section h2 em{font-style: italic; color: var(--red-string)}
+.stakes-section .ss-lead{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.4;
+  color: rgba(239,231,211,0.82);
+  max-width: 48ch;
+  margin: 0 auto 40px;
+}
+.stakes-section .next{
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 18px 32px;
+  background: var(--red-string);
+  color: var(--paper);
+  text-decoration: none;
+  border-radius: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  transition: transform 0.25s;
+  font-weight: 600;
+}
+.stakes-section .next:hover{transform: translateY(-2px)}
+.stakes-section .next .arrow{color: var(--paper); font-family: 'Instrument Serif', serif; font-style: italic; font-size: 20px}
+
+.closer-trail{
+  margin-top: 36px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(239,231,211,0.55);
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 2;
+}
+.closer-trail .ct-lbl{
+  display: block;
+  color: var(--red-string);
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 0.28em;
+}
+.closer-trail a{
+  color: var(--paper);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(239,231,211,0.3);
+  margin: 0 6px;
+  white-space: nowrap;
+}
+.closer-trail a:hover{color: var(--red-string); border-bottom-color: var(--red-string)}
+.closer-trail .ct-sep{ color: rgba(239,231,211,0.35); margin: 0 2px }
+
+/* ============== BREADCRUMB-FAMILIES + EDITORIAL DESK ============== */
+.breadcrumb-families{
+  max-width: 860px;
+  margin: 70px auto 24px;
+  padding: 28px 32px;
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--red-string);
+  border-radius: 6px;
+  position: relative;
+}
+.breadcrumb-families .bf-stamp{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+.breadcrumb-families .bf-lead{
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 20px;
+  max-width: 60ch;
+}
+.breadcrumb-families ul{ list-style: none; padding: 0 }
+.breadcrumb-families li{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  padding: 10px 0 10px 24px;
+  position: relative;
+  border-bottom: 1px dashed var(--rule);
+}
+.breadcrumb-families li:last-child{ border-bottom: none }
+.breadcrumb-families li::before{
+  content: "⋈";
+  position: absolute; left: 0; top: 12px;
+  font-style: normal;
+  color: var(--red-string);
+  font-weight: 600;
+}
+.breadcrumb-families a{
+  color: var(--red-string);
+  text-decoration: none;
+  font-style: normal;
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(184,37,42,0.4);
+}
+.breadcrumb-families a:hover{ border-bottom-color: var(--red-string) }
+
+.editorial-desk-insert{
+  max-width: 800px;
+  margin: 40px auto 60px;
+  padding: 22px 26px;
+  border-left: 3px solid var(--red-string);
+  background: rgba(184,37,42,0.05);
+}
+.editorial-desk-insert .ed-stamp{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.editorial-desk-insert .ed-prose{
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.editorial-desk-insert .ed-prose a{
+  color: var(--red-string);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(184,37,42,0.4);
+}
+
+/* ============== ECHO DOTS (woven into prose) ============== */
+.echo-dot{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red-string);
+  background: var(--red-soft);
+  padding: 3px 10px;
+  border-radius: 2px;
+  text-decoration: none;
+  margin: 0 4px;
+  vertical-align: middle;
+  border: 1px solid rgba(184,37,42,0.25);
+  transition: background 0.2s;
+}
+.echo-dot::before{
+  content: ""; width: 5px; height: 5px;
+  background: var(--red-string); border-radius: 50%;
+}
+.echo-dot:hover{ background: rgba(184,37,42,0.16) }
+
+/* ============== FOOTER ============== */
+footer{padding: 60px 7vw 80px; border-top: 1px solid var(--rule); background: var(--paper); position: relative; z-index: 3}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;max-width:1200px;margin:0 auto}
+@media (max-width: 800px){.footer-grid{grid-template-columns:1fr}}
+.footer-grid h5{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--red-string);margin-bottom:14px}
+.footer-grid p{font-family:'Instrument Serif',serif;font-style:italic;font-size:14.5px;color:var(--ink-soft);line-height:1.5}
+.footer-grid ul{list-style:none}
+.footer-grid li{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-dim);line-height:1.9;letter-spacing:.04em}
+.footer-grid li a{color:inherit;text-decoration:none}
+.footer-grid li a:hover{color:var(--red-string)}
+.fine{margin-top:30px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-faint);letter-spacing:.1em;line-height:1.7;max-width:920px}
+</style>
+</head>
+<body>
+
+<!-- ============== TABNAV · Season II episodes only ============== -->
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <a class="brand" href="index.html">
+      <span class="dot"></span>SEASON II<span class="s2">Machine-Readable</span>
+    </a>
+    <div class="tab-list">
+      <a class="tab" href="personhood-inc.html"><span class="tab-num">01</span>Personhood</a>
+      <a class="tab" href="the-feed-engine.html"><span class="tab-num">02</span>Feed</a>
+      <a class="tab" href="episode-03-trust-market.html"><span class="tab-num">03</span>Trust</a>
+      <a class="tab" href="episode-04-the-influence-war.html"><span class="tab-num">04</span>Influence</a>
+      <a class="tab" href="episode-05-the-replayable-city.html"><span class="tab-num">05</span>Replayable</a>
+      <a class="tab" href="episode-06-composite-state.html"><span class="tab-num">06</span>Composite</a>
+      <a class="tab" href="episode-07-the-physical-plant.html"><span class="tab-num">07</span>Plant</a>
+      <a class="tab active" href="episode-08-the-class-engine.html"><span class="tab-num">08</span>Class</a>
+      <a class="tab drafting" href="#"><span class="tab-num">09</span>Synthetic</a>
+      <a class="tab drafting" href="#"><span class="tab-num">10</span>Subscription</a>
+      <a class="tab drafting" href="#"><span class="tab-num">11</span>Afterlife</a>
+      <a class="tab drafting" href="#"><span class="tab-num">12</span>Governance</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============== HERO · evidence-board ============== -->
+<header class="hero">
+  <div class="hero-l">
+    <div class="hero-meta">
+      <span>EP 08 · The Class Engine</span>
+      <span>·</span>
+      <span>INVESTIGATE · v0.1 · 3 June 2026</span>
+    </div>
+
+    <h1 class="hero-headline">
+      <span class="l">You have read about</span>
+      <span class="l em-italic">all of these people.</span>
+      <span class="l">You did not know you</span>
+      <span class="l em-red">were reading about</span>
+      <span class="l">the same machine.</span>
+    </h1>
+
+    <p class="hero-sub">Six Season II episodes named the mechanisms — composite, score, target, fragment, substrate, cost. <strong>This episode names the victims, by callback to the publication's own prior reporting, and proves the mechanisms produced the outcomes.</strong> Five families. Five chapters. One household. One class.</p>
+
+    <div class="hero-tags">
+      <span class="tag t-flag">Load-Bearing · Bowtie</span>
+      <span class="tag">Consequence · 2 of 2</span>
+      <span class="tag">5 Anchor Families</span>
+      <span class="tag">The Class Atlas · Interactive</span>
+      <span class="tag">3 Hosted Counter-Reads</span>
+    </div>
+
+    <div class="where-you-are">
+      <b>You are reading EP 08 · The Class Engine.</b><br>
+      The load-bearing convergence node of <em>Machine-Readable</em> · every Season II mechanism flows in, every Season I consequence flows out.<br>
+      Reads cleanly after <a href="episode-07-the-physical-plant.html">EP 07 The Physical Plant</a>. Bridges to <strong>EP 09 The Synthetic Self</strong>.
+    </div>
+  </div>
+
+  <div class="hero-r">
+    <div class="evidence-board">
+      <div class="evidence-grid">
+        <!-- Polaroid 1 · Maria & Devon -->
+        <div class="polaroid p1">
+          <div class="portrait">
+            <svg viewBox="0 0 100 125" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="125" fill="#e7decb"/>
+              <!-- Two adult silhouettes + one child -->
+              <circle cx="38" cy="42" r="11" fill="#0d0d10" opacity="0.85"/>
+              <path d="M 28 56 L 25 105 L 48 105 L 48 56 Z" fill="#0d0d10" opacity="0.85"/>
+              <circle cx="62" cy="44" r="10" fill="#0d0d10" opacity="0.8"/>
+              <path d="M 54 57 L 52 105 L 72 105 L 72 57 Z" fill="#0d0d10" opacity="0.8"/>
+              <!-- Child -->
+              <circle cx="80" cy="74" r="6" fill="#0d0d10" opacity="0.7"/>
+              <path d="M 75 82 L 73 105 L 88 105 L 86 82 Z" fill="#0d0d10" opacity="0.7"/>
+            </svg>
+          </div>
+          <div class="cap-name">Maria &amp; Devon</div>
+          <div class="cap-zip">ZIP 30315</div>
+          <div class="cap-story">S1·01 Eviction Funnel</div>
+        </div>
+
+        <!-- Polaroid 2 · James -->
+        <div class="polaroid p2">
+          <div class="portrait">
+            <svg viewBox="0 0 100 125" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="125" fill="#e7decb"/>
+              <circle cx="50" cy="44" r="13" fill="#0d0d10" opacity="0.85"/>
+              <path d="M 36 60 L 32 105 L 68 105 L 64 60 Z" fill="#0d0d10" opacity="0.85"/>
+            </svg>
+          </div>
+          <div class="cap-name">James</div>
+          <div class="cap-zip">ZIP 30238</div>
+          <div class="cap-story">S1·04 The Trickle</div>
+        </div>
+
+        <!-- Polaroid 3 · Dorothy -->
+        <div class="polaroid p3">
+          <div class="portrait">
+            <svg viewBox="0 0 100 125" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="125" fill="#e7decb"/>
+              <!-- Elderly woman silhouette -->
+              <circle cx="50" cy="42" r="12" fill="#0d0d10" opacity="0.85"/>
+              <path d="M 38 56 L 30 105 L 70 105 L 62 56 Z" fill="#0d0d10" opacity="0.85"/>
+              <!-- Slight hair bun -->
+              <ellipse cx="50" cy="32" rx="5" ry="6" fill="#0d0d10" opacity="0.7"/>
+            </svg>
+          </div>
+          <div class="cap-name">Dorothy</div>
+          <div class="cap-zip">ZIP 31810</div>
+          <div class="cap-story">S1·02 Closed Hospital</div>
+        </div>
+
+        <!-- Polaroid 4 · Robert -->
+        <div class="polaroid p4">
+          <div class="portrait">
+            <svg viewBox="0 0 100 125" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="125" fill="#e7decb"/>
+              <circle cx="50" cy="44" r="12" fill="#0d0d10" opacity="0.85"/>
+              <path d="M 36 58 L 33 105 L 67 105 L 64 58 Z" fill="#0d0d10" opacity="0.85"/>
+            </svg>
+          </div>
+          <div class="cap-name">Robert</div>
+          <div class="cap-zip">ZIP 30401</div>
+          <div class="cap-story">S1·08 Settlement</div>
+        </div>
+
+        <!-- Polaroid 5 · LaToya -->
+        <div class="polaroid p5">
+          <div class="portrait">
+            <svg viewBox="0 0 100 125" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="125" fill="#e7decb"/>
+              <!-- Adult + two children silhouettes -->
+              <circle cx="50" cy="40" r="12" fill="#0d0d10" opacity="0.85"/>
+              <path d="M 36 54 L 32 105 L 68 105 L 64 54 Z" fill="#0d0d10" opacity="0.85"/>
+              <!-- Two small children at sides -->
+              <circle cx="20" cy="72" r="6" fill="#0d0d10" opacity="0.7"/>
+              <path d="M 15 79 L 13 105 L 28 105 L 26 79 Z" fill="#0d0d10" opacity="0.7"/>
+              <circle cx="82" cy="72" r="6" fill="#0d0d10" opacity="0.7"/>
+              <path d="M 76 79 L 74 105 L 88 105 L 86 79 Z" fill="#0d0d10" opacity="0.7"/>
+            </svg>
+          </div>
+          <div class="cap-name">LaToya</div>
+          <div class="cap-zip">ZIP 30314</div>
+          <div class="cap-story">S1·05 Provisional Ballot</div>
+        </div>
+      </div>
+
+      <div class="eb-strip">FIVE FAMILIES · FIVE STORIES · <strong>ONE MACHINE</strong></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============== PRESSURE · the engineered-class thesis ============== -->
+<section class="act-section s-paper">
+  <div class="act-stamp"><span class="red-dot"></span><span class="roman">I.</span><span>· PRESSURE · WHAT NOBODY NAMED AT THE TIME</span></div>
+  <h2 class="act-h2">Every outcome you watched in Season I was produced by <em>the same composite scoring</em> Season II spent six episodes describing.</h2>
+  <p class="act-lead">No single act of sorting is dramatic. The compounding effect across years and across categories is what produces what social scientists call <em>cumulative disadvantage</em> and what this episode will call, more honestly, <em>engineered class</em>.</p>
+
+  <p class="act-prose">The machine does not intend to stratify. It just does. <strong>Compounding optimization, run at scale, produces a digital caste the optimizer would never have written down.</strong> That is the mechanism of the engine.</p>
+
+  <p class="act-prose">Each of the five families above appeared in a different Season I story. They were not in different stories. They were in different parts of the same machine. <a class="echo-dot" href="personhood-inc.html">↺ EP 02 Personhood</a> assembled their composite. <a class="echo-dot" href="episode-03-trust-market.html">↺ EP 03 Trust</a> minted the score that opened or closed each gate. <a class="echo-dot" href="episode-04-the-influence-war.html">↺ EP 04 Influence</a> targeted them. <a class="echo-dot" href="episode-06-composite-state.html">↺ EP 06 Composite State</a> held the civic record. <a class="echo-dot" href="episode-07-the-physical-plant.html">↺ EP 07 Plant</a> hosted the racks all five orbits run on — and the bill arrives in their kitchen-table envelopes.</p>
+</section>
+
+<!-- ============== CLASS ATLAS · load-bearing interactive ============== -->
+<section class="atlas-section">
+  <div class="atlas-head">
+    <div class="ah-eyebrow">⟶ THE CLASS ATLAS · interactive</div>
+    <h2>One household. <em>Five mechanisms.</em> Click any of them.</h2>
+    <p>The household sits at the center. Five orbits surround it — one per chapter. Each orbit holds a Season II mechanism (outer ring) and a Season I family (inner ring). Click a mechanism to trace its arrow through the household to the outcome it produced. Click a family to reverse the arrow back to the mechanism that produced them. Activate all five mechanisms — the engine reveals itself.</p>
+  </div>
+
+  <div class="atlas-wrap">
+    <div class="atlas-canvas" id="atlasCanvas">
+      <svg class="atlas-svg" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg">
+        <!-- Idle connectors (5) drawn first so nodes overlay -->
+        <g id="connectors"></g>
+        <!-- Mechanism nodes + family cards (added by JS) -->
+        <g id="atlasMechs"></g>
+        <g id="atlasFamilies"></g>
+        <!-- Household icon at center -->
+        <g class="household-icon" transform="translate(320,320)">
+          <circle r="78" fill="none" stroke="#0d0d10" stroke-width="1.2" stroke-dasharray="3 4" opacity="0.6"/>
+          <circle r="62" fill="#f5eedb" stroke="#0d0d10" stroke-width="1.6"/>
+          <!-- Stylized family silhouette -->
+          <g transform="translate(0, 6)">
+            <circle cx="-16" cy="-14" r="9" fill="#0d0d10" opacity="0.88"/>
+            <path d="M -25 -4 L -27 26 L -8 26 L -8 -4 Z" fill="#0d0d10" opacity="0.88"/>
+            <circle cx="16" cy="-14" r="9" fill="#0d0d10" opacity="0.88"/>
+            <path d="M 8 -4 L 8 26 L 25 26 L 27 -4 Z" fill="#0d0d10" opacity="0.88"/>
+            <circle cx="0" cy="6" r="6" fill="#0d0d10" opacity="0.75"/>
+            <path d="M -5 12 L -6 26 L 6 26 L 5 12 Z" fill="#0d0d10" opacity="0.75"/>
+          </g>
+          <text y="58" font-family="JetBrains Mono" font-size="10" text-anchor="middle" fill="#0d0d10" letter-spacing="2" font-weight="700">ONE HOUSEHOLD</text>
+        </g>
+      </svg>
+      <div class="atlas-reveal-overlay" id="atlasReveal">
+        <div class="rev-1">Five mechanisms.</div>
+        <div class="rev-2">One household.</div>
+        <div class="rev-3">One class.</div>
+        <button class="replay-cta" id="atlasReplay">↻ PLAY AGAIN</button>
+      </div>
+    </div>
+
+    <div class="atlas-side">
+      <div class="legend-card">
+        <h4>HOW TO READ THIS</h4>
+        <p>Outer ring is the mechanism (EP 02-07). Inner ring is the family from Season I. Same composite feeds all five. The reader's own clicks demonstrate the multiplicative integration the prose describes.</p>
+        <div class="mono-instr">→ Click any mechanism to trace forward<br>→ Click any family to trace backward<br>→ Activate all five to reveal the engine</div>
+        <div class="atlas-progress">
+          <span class="prog-dot" data-prog="0"></span>
+          <span class="prog-dot" data-prog="1"></span>
+          <span class="prog-dot" data-prog="2"></span>
+          <span class="prog-dot" data-prog="3"></span>
+          <span class="prog-dot" data-prog="4"></span>
+          <span class="prog-label" id="progLabel">0 / 5</span>
+        </div>
+      </div>
+      <div class="legend-card">
+        <h4>WHY THIS MATTERS</h4>
+        <p>Each chapter that follows is a documented inference chain from one mechanism to one named family. Cumulative disadvantage is the published sociological term. <em>Engineered class</em> is the editorial term — used second.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PIPELINE · 5 CHAPTER FOLDERS ============== -->
+<section class="chapters-section">
+  <div class="chapters-head">
+    <div class="ch-eyebrow">⟶ II. PIPELINE · FIVE CHAPTERS · FIVE OUTCOMES</div>
+    <h2>Each chapter walks <em>one outcome</em>, surfaces the Season I family it happened to, and traces the Season II mechanism that produced it.</h2>
+  </div>
+
+  <!-- CHAPTER 1 · HOUSING -->
+  <article class="chapter-folder housing" data-tab="01 · HOUSING">
+    <div class="chapter-body">
+      <div class="ch-num">i.</div>
+      <h3>The Trust Market scored you. The Personhood composite priced your application. <em>A leasing decision was made.</em></h3>
+      <p class="ch-lead">Maria + Devon were renters of 6 years. A medical-debt collection dropped Maria's credit score 80 points. The tenant-screening vendor's recommendation flipped. The renewal was denied. The eviction filing followed.</p>
+      <p class="ch-prose">A leasing decision and a flood-insurance pricing decision can be made about the same household without any single human reviewing both. The composite is the connecting tissue. The flood-zone reclassification + insurance premium increase made non-renewal more financially attractive to the landlord than a workout — an independent compounding factor reading off the same data substrate.</p>
+      <div class="ch-question">Two stories. One score.</div>
+      <span class="bowtie-tag">Chapter ends · the bowtie glyph closes</span>
+      <p class="breadcrumb"><b>↳ Read the original case ·</b> <a href="the-eviction-funnel.html">S1·01 The Eviction Funnel</a> · <a href="the-coast-is-moving.html">S1·03 The Coast Is Moving</a></p>
+    </div>
+
+    <aside class="anchor-card">
+      <div class="anchor-stamp">↗ ANCHOR FAMILY · DOCUMENTED INFERENCE CHAIN</div>
+      <div class="anchor-name">Maria &amp; Devon</div>
+      <div class="anchor-zip">ZIP 30315 · Mechanicsville · Atlanta</div>
+      <div class="anchor-outcome">Eviction filing · 47 days after medical-debt collection dropped FICO 80 points · landlord pulled tenant-screening report at renewal · vendor recommendation flipped from approve to deny.</div>
+
+      <div class="inference-chain">
+        <div class="ic-label">⟶ Inference chain · 6 documented links</div>
+        <div class="ic-step"><div class="ic-num">1.</div><div class="ic-text">Medical-debt collection reported to CRA via documented standard pipeline</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">2.</div><div class="ic-text">Credit-score drop appeared in tenant-screening API within 24-72hr</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">3.</div><div class="ic-text">Landlord pulled tenant-screening report at renewal decision</div><div class="ic-conf plausible">plausible</div></div>
+        <div class="ic-step"><div class="ic-num">4.</div><div class="ic-text">Vendor recommendation flipped on the post-medical-debt score</div><div class="ic-conf plausible">plausible</div></div>
+        <div class="ic-step"><div class="ic-num">5.</div><div class="ic-text">Landlord followed vendor recommendation</div><div class="ic-conf plausible">plausible</div></div>
+        <div class="ic-step"><div class="ic-num">6.</div><div class="ic-text">FEMA flood-zone reclassification raised landlord's insurance premium independently · compounding</div><div class="ic-conf plausible">plausible</div></div>
+      </div>
+
+      <div class="anchor-counter">
+        <span class="ac-label">↺ Counter-explanation hosted</span>
+        The eviction may have happened anyway. Rent-to-income ratio rose to 44%. A traditional human reviewer might have made the same decision. <em>The episode does not claim the algorithm caused the eviction. It claims the algorithm made the decision faster, cheaper, and with less human review — in a way that compounds with the four other chapters in this episode for the same household.</em>
+      </div>
+    </aside>
+  </article>
+
+  <!-- CHAPTER 2 · EMPLOYMENT -->
+  <article class="chapter-folder employment" data-tab="02 · EMPLOYMENT">
+    <div class="chapter-body">
+      <div class="ch-num">ii.</div>
+      <h3>A job filter ran on Trust Market scoring. A targeted ad for a <em>different (worse) job</em> reached you through the Feed Engine.</h3>
+      <p class="ch-lead">James, 51, an 11-year supervisor with strong recommendations, was passed over for promotion three times in 14 months. Each promotion went to candidates with stronger algorithmic-resume scores.</p>
+      <p class="ch-prose">The composite of all three filters is not visible to any single hiring manager — and is not subject to any single anti-discrimination statute. EEOC's 2023 guidance addresses exactly this disparate-impact pattern.</p>
+      <div class="ch-question">If no single decision was discriminatory, what produced the outcome?</div>
+      <span class="bowtie-tag">Chapter ends · question, not statement</span>
+      <p class="breadcrumb"><b>↳ Read the original case ·</b> <a href="the-trickle.html">S1·04 The Trickle</a></p>
+    </div>
+
+    <aside class="anchor-card">
+      <div class="anchor-stamp">↗ ANCHOR FAMILY · DOCUMENTED INFERENCE CHAIN</div>
+      <div class="anchor-name">James</div>
+      <div class="anchor-zip">ZIP 30238 · Jonesboro · Clayton County</div>
+      <div class="anchor-outcome">3 promotion denials in 14 months · supervisor recommendations overridden by algorithmic ranker in at least one window · profile matches Brookings 2023 largest-penalty cohort.</div>
+
+      <div class="inference-chain">
+        <div class="ic-label">⟶ Inference chain · 6 documented links</div>
+        <div class="ic-step"><div class="ic-num">1.</div><div class="ic-text">Employer used algorithmic applicant-tracking system · ATS use &gt;80% Fortune 500</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">2.</div><div class="ic-text">James's resume processed through algorithmic ranker per promotion window</div><div class="ic-conf plausible">plausible</div></div>
+        <div class="ic-step"><div class="ic-num">3.</div><div class="ic-text">Profile matches Brookings 2023 largest-penalty demographic strata</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">4.</div><div class="ic-text">Supervisor override consistent with documented institutional pattern</div><div class="ic-conf plausible">plausible</div></div>
+        <div class="ic-step"><div class="ic-num">5.</div><div class="ic-text">EEOC 2023 guidance explicitly addresses this disparate-impact pattern</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">6.</div><div class="ic-text">Targeted ads for lower-tier jobs reached him through Meta + Indeed</div><div class="ic-conf plausible">plausible</div></div>
+      </div>
+
+      <div class="anchor-counter">
+        <span class="ac-label">↺ Counter-explanation hosted</span>
+        The promotion may have gone to better-qualified candidates by any reasonable metric. <em>The point is not that the algorithm was wrong; the point is that the algorithm compounded with the four other chapters in this episode to produce a household trajectory.</em>
+      </div>
+    </aside>
+  </article>
+
+  <!-- CHAPTER 3 · HEALTHCARE -->
+  <article class="chapter-folder healthcare" data-tab="03 · HEALTHCARE">
+    <div class="chapter-body">
+      <div class="ch-num">iii.</div>
+      <h3>The composite priced your insurance. The Composite State holds your civic medical record. The Physical Plant <em>hosts both.</em></h3>
+      <p class="ch-lead">Dorothy was a patient of Marion Memorial for 23 years before it closed in 2021 — one of 9 Georgia rural hospitals to close. Her records were transferred to two separate buyers. She wasn't told until she sought care.</p>
+      <p class="ch-prose">When the hospital itself closes, the records, the biometric data, the patient relationships, the local public-health infrastructure get dispersed, sold, or lost. The legal-data fragmentation that protects records in theory does not exist at the physical layer. <a class="echo-dot" href="episode-07-the-physical-plant.html">↺ EP 07 Physical Plant</a> · FedRAMP boundaries are administrative, not physical. Your bodily data was never yours.</p>
+      <div class="ch-question">Two stories. One substrate.</div>
+      <span class="bowtie-tag">Chapter ends · the Special Report attaches here</span>
+      <p class="breadcrumb"><b>↳ Read the original case ·</b> <a href="the-closed-hospital.html">S1·02 The Closed Hospital</a> · <a href="when-the-hospital-closes.html">Special Report · When the Hospital Closes</a> · <a href="episode-06-composite-state.html">EP 06 The Composite State</a></p>
+    </div>
+
+    <aside class="anchor-card">
+      <div class="anchor-stamp">↗ ANCHOR FAMILY · DOCUMENTED INFERENCE CHAIN</div>
+      <div class="anchor-name">Dorothy</div>
+      <div class="anchor-zip">ZIP 31810 · Buena Vista · Marion County</div>
+      <div class="anchor-outcome">23-year patient at Marion Memorial · records dispersed at closure to Phoebe Putney + Wellstar · Medicare Advantage prior-authorization denial documented 2022 · 32 miles to nearest open facility.</div>
+
+      <div class="inference-chain">
+        <div class="ic-label">⟶ Inference chain · 6 documented links</div>
+        <div class="ic-step"><div class="ic-num">1.</div><div class="ic-text">Marion Memorial closed 2021 · UNC Sheps Center tracker</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">2.</div><div class="ic-text">Records dispersed per CMS 42 CFR 482 framework</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">3.</div><div class="ic-text">Both successor entities operate on hyperscaler infrastructure per EP 07</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">4.</div><div class="ic-text">2023 Phoebe Putney cyber incident affected ~2.5M records · cardiology likely in set</div><div class="ic-conf plausible">plausible</div></div>
+        <div class="ic-step"><div class="ic-num">5.</div><div class="ic-text">Medicare Advantage denial falls in cohort HHS OIG 2022-23 documented as algorithmically-flagged</div><div class="ic-conf plausible">plausible</div></div>
+        <div class="ic-step"><div class="ic-num">6.</div><div class="ic-text">Promised data-center construction workforce did not absorb medical workforce that closed · ~40 perm jobs per facility</div><div class="ic-conf strong">strong</div></div>
+      </div>
+
+      <div class="anchor-counter">
+        <span class="ac-label">↺ Counter-explanation hosted</span>
+        The hospital closed for documented financial reasons. The denial may have been a correct clinical decision. The data-center comparison is not causally connected to her care outcome. <em>The episode does not claim direct causal chain from algorithm to denial. It claims the integration of pieces 1-6 is itself the engineered-class condition.</em>
+      </div>
+    </aside>
+  </article>
+
+  <!-- CHAPTER 4 · CREDIT + SETTLEMENT -->
+  <article class="chapter-folder credit" data-tab="04 · CREDIT + SETTLEMENT">
+    <div class="chapter-body">
+      <div class="ch-num">iv.</div>
+      <h3>The composite priced your interest rate. The settlement-disbursement algorithm <em>classified your harm into tiers</em> the statute did not define.</h3>
+      <p class="ch-lead">Robert lost his brother to opioid overdose in 2017. As a documented survivor he was eligible for compensation. The state's tier-classification allocated him $1,847 — 14% of the modeled per-person harm. After legal fees: $1,205.</p>
+      <p class="ch-prose">The Capital Stack securitized his debt and sold it forward. The institutional-investor pools managing his mortgage securitization overlap with the pools managing the settlement-fund administration <a class="echo-dot" href="the-capital-stack.html">↺ S1·09 Capital Stack</a>. By the time he received whatever he was going to receive, the machine had already taken its take — three different routes back to overlapping managers.</p>
+      <div class="ch-question">What would your check have looked like without the machine's take?</div>
+      <span class="bowtie-tag">Chapter ends · the number is documented, not modeled</span>
+      <p class="breadcrumb"><b>↳ Read the original case ·</b> <a href="the-trickle.html">S1·04 The Trickle</a> · <a href="the-settlement-shrinkage.html">S1·08 The Settlement Shrinkage</a> · <a href="the-capital-stack.html">S1·09 The Capital Stack</a></p>
+    </div>
+
+    <aside class="anchor-card">
+      <div class="anchor-stamp">↗ ANCHOR FAMILY · DOCUMENTED INFERENCE CHAIN</div>
+      <div class="anchor-name">Robert</div>
+      <div class="anchor-zip">ZIP 30401 · Swainsboro · Emanuel County</div>
+      <div class="anchor-outcome">$1,205 net opioid-settlement check · 14% of modeled per-person harm · mortgage held by securitization vehicle managed by top-3 institutional-capital pool documented in S1·09.</div>
+
+      <div class="inference-chain">
+        <div class="ic-label">⟶ Inference chain · 6 documented links</div>
+        <div class="ic-step"><div class="ic-num">1.</div><div class="ic-text">GA opioid disbursement used algorithmic tier-classification · state AG methodology public</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">2.</div><div class="ic-text">Robert's tier-B reflects documented composite identity · mechanically applied</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">3.</div><div class="ic-text">Composite-identity inputs structurally compatible with credit-scoring data-broker pipelines</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">4.</div><div class="ic-text">FICO ~640 + CFPB-flagged vendors place him in measurable higher-interest-rate cohort</div><div class="ic-conf plausible">plausible</div></div>
+        <div class="ic-step"><div class="ic-num">5.</div><div class="ic-text">Mortgage-securitization owners overlap settlement-fund-management owners · 13-F filings</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">6.</div><div class="ic-text">Net check ~14% modeled per-person harm pre-tier-classification · S1·08 reporting</div><div class="ic-conf strong">strong</div></div>
+      </div>
+
+      <div class="anchor-counter">
+        <span class="ac-label">↺ Counter-explanation hosted</span>
+        Settlement tier-classification reflects documented harm methodology. Mortgage securitization is unrelated to settlement allocation. <em>The chapter's claim is that the integration of pieces 1-6 — particularly the capital-flow overlap — is itself the engineered-class condition. The mechanism is the integration, not any single component.</em>
+      </div>
+    </aside>
+  </article>
+
+  <!-- CHAPTER 5 · CIVIC PARTICIPATION -->
+  <article class="chapter-folder civic" data-tab="05 · CIVIC PARTICIPATION">
+    <div class="chapter-body">
+      <div class="ch-num">v.</div>
+      <h3>Provisional-ballot challenges were not random. They targeted the composites <em>the same architecture targets ads.</em></h3>
+      <p class="ch-lead">LaToya, 42, registered 2018, voted three cycles without incident. November 2022: provisional ballot, rejected. The challenge: address inconsistency between her updated voter-roll and a commercial-broker address that had not been syndicated for ~6 months.</p>
+      <p class="ch-prose">The composite plus the influence machine plus the trust score added up to a voter whose ability to vote was materially shaped by all three. The system did not need to discriminate at the rule level to produce a disparate outcome at the population level. <a class="echo-dot" href="episode-04-the-influence-war.html">↺ EP 04 Influence War</a> documented the architecture; this is the architecture's downstream effect on one named household.</p>
+      <div class="ch-question">Your vote was not lost in chaos. Your vote was lost in pattern.</div>
+      <span class="bowtie-tag">Chapter ends · the pattern, not the noise</span>
+      <p class="breadcrumb"><b>↳ Read the original case ·</b> <a href="the-provisional-ballot.html">S1·05 The Provisional Ballot</a> · <a href="the-runoff-tells.html">S1·10 The Runoff Tells</a></p>
+    </div>
+
+    <aside class="anchor-card">
+      <div class="anchor-stamp">↗ ANCHOR FAMILY · DOCUMENTED INFERENCE CHAIN</div>
+      <div class="anchor-name">LaToya</div>
+      <div class="anchor-zip">ZIP 30314 · English Avenue · Vine City</div>
+      <div class="anchor-outcome">Provisional ballot rejected Nov 2022 · third-party SB 202 challenge based on commercial-broker address lag · not notified before election day · no opportunity to cure.</div>
+
+      <div class="inference-chain">
+        <div class="ic-label">⟶ Inference chain · 6 documented links</div>
+        <div class="ic-step"><div class="ic-num">1.</div><div class="ic-text">GA SB 202 allows third-party challenges based on address inconsistency · statute</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">2.</div><div class="ic-text">Challenger supported by commercial-data-broker address · standard True the Vote pipeline 2022-24</div><div class="ic-conf plausible">plausible</div></div>
+        <div class="ic-step"><div class="ic-num">3.</div><div class="ic-text">Commercial-broker lag (6 months post voter-roll update) consistent with LexisNexis Risk Solutions cadence</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">4.</div><div class="ic-text">Fulton County 2022 challenge filings documented spatial clustering in majority-Black precincts</div><div class="ic-conf strong">strong</div></div>
+        <div class="ic-step"><div class="ic-num">5.</div><div class="ic-text">LaToya's profile places her in measurably-higher-rejection-rate cohort per Brennan Center 2023</div><div class="ic-conf plausible">plausible</div></div>
+        <div class="ic-step"><div class="ic-num">6.</div><div class="ic-text">Same commercial-composite feeding her challenge was simultaneously feeding GOTV in her cell</div><div class="ic-conf plausible">plausible</div></div>
+      </div>
+
+      <div class="anchor-counter">
+        <span class="ac-label">↺ Counter-explanation hosted</span>
+        The challenge was filed under valid SB 202 procedures. The address inconsistency was real. <em>The chapter's claim is that the correlation between commercial-broker lag patterns and protected-class demographics is the engineered-class condition. The system did not need to discriminate at the rule level to produce a disparate outcome at the population level — and EEOC + DOJ enforcement have named this pattern repeatedly.</em>
+      </div>
+    </aside>
+  </article>
+</section>
+
+<!-- ============== OUTCOME · multiplicative-not-additive proof ============== -->
+<section class="act-section s-paper">
+  <div class="act-stamp"><span class="red-dot"></span><span class="roman">III.</span><span>· OUTCOME · NOT ADDITIVE · MULTIPLICATIVE</span></div>
+  <h2 class="act-h2">The compounding effect across the five chapters is <em>not additive.</em> It is multiplicative.</h2>
+  <p class="act-lead">A household sorted disadvantageously in any one chapter is statistically more likely to be sorted disadvantageously in the others — because the same composite feeds all five.</p>
+
+  <div class="outcome-stage">
+    <div>
+      <p class="act-prose">The honest social-science term is <strong>cumulative disadvantage</strong>. The honest editorial term is <strong>engineered class</strong>. The episode uses both, in that order, so the reader sees the documented language first and the editorial framing second.</p>
+      <p class="act-prose">Each of the five anchor families in this episode can be traced through at least one chapter besides their anchor. Maria + Devon's housing outcome runs through healthcare (the medical debt) and credit (the FICO drop). Dorothy's healthcare outcome runs through civic (her polling distance after closure) and credit (the prior-authorization economic impact). LaToya's civic outcome runs through housing (the within-ZIP move that triggered the broker lag) and employment (her social-worker employer participates in algorithmic-hiring infrastructure her own composite feeds).</p>
+      <p class="act-prose">Each family is at least double-anchored. The compounding integration is the engine.</p>
+    </div>
+
+    <div class="outcome-equation">
+      <div class="eq-label">⟶ The honest accounting</div>
+      <div class="eq-line eq-strike">5 sorting events · ADDED</div>
+      <div class="eq-line">5 sorting events · <em>integrated</em></div>
+      <div class="eq-line">on the same composite</div>
+      <div class="eq-line">feeding the same household</div>
+      <div class="eq-line">refreshed daily</div>
+      <div class="eq-final">= engineered class</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== COMPETING · 4 defenses + 3 hosted counter-read voices ============== -->
+<section class="act-section s-news competing-section">
+  <div class="act-stamp"><span class="red-dot"></span><span class="roman">IV.</span><span>· COMPETING · THE DEFENSES, HOSTED FAIRLY</span></div>
+  <h2 class="act-h2">Four positions each hold in part. The episode hosts each, then names <em>where each breaks down.</em></h2>
+
+  <div class="defense-grid">
+    <div class="defense-card">
+      <div class="df-num">a.</div>
+      <h4>No single actor's intent</h4>
+      <p>No housing platform, no scoring vendor, no insurance underwriter intended to produce a digital caste. The result is emergent from many separate optimization decisions, each rational in isolation.</p>
+    </div>
+    <div class="defense-card">
+      <div class="df-num">b.</div>
+      <h4>Net gains for many users</h4>
+      <p>Lower friction, faster decisions, broader access in some categories. Removing the algorithmic layer would not return the system to an equitable baseline; it would return it to slower manual decisions that produced their own well-documented disparities.</p>
+    </div>
+    <div class="defense-card">
+      <div class="df-num">c.</div>
+      <h4>Some outcomes pre-existed the mechanism</h4>
+      <p>Inequality preceded composite scoring. The machine accelerates and refines existing patterns more than it invents new ones. The honest empirical question is magnitude attribution, not pattern existence.</p>
+    </div>
+    <div class="defense-card">
+      <div class="df-num">d.</div>
+      <h4>Data + optimization are publicly auditable</h4>
+      <p>Regulatory remedies exist in some jurisdictions. The EU AI Act is operational. NYC AEDT is live. The system is not a black box if anyone with standing chooses to look inside.</p>
+    </div>
+  </div>
+
+  <div class="counter-read-block">
+    <h3>⟶ Three hosted defender voices · spoken in their own framing</h3>
+
+    <div class="host-card">
+      <div class="hc-who">
+        <div class="hc-label">DEFENDER 1</div>
+        <div class="hc-role">FAccT-community algorithmic-fairness researcher</div>
+        <div class="hc-status">Outreach in progress · 14-day response window</div>
+      </div>
+      <div class="hc-body">
+        <blockquote>"What this episode calls an 'engineered class' is a real pattern, and it deserves a serious name. But the FAccT community has been working on this problem for a decade, and the tools are more mature than the piece allows. The mechanisms' opacity is contingent, not necessary. The regulatory horizon is also more developed: the EU AI Act, the Colorado AI Act, the NYC AEDT law, the Illinois AIVIA. The trajectory is toward visibility, not away from it."</blockquote>
+        <p class="hc-response">Real and worth acknowledging. But cumulative-disadvantage holds even if every individual decision passes a formal-fairness audit, because the same composite feeds all five domains. The mechanism is auditable; the <em>integration</em> across five auditable domains largely is not. No NYC AEDT-equivalent regulates the meta-pattern of an applicant scored for tenancy, then hiring, then insurance, then credit, then voter eligibility — by overlapping composites flowing through overlapping infrastructure to overlapping institutional capital.</p>
+      </div>
+    </div>
+
+    <div class="host-card">
+      <div class="hc-who">
+        <div class="hc-label">DEFENDER 2</div>
+        <div class="hc-role">Industry / vendor / trade-association voice</div>
+        <div class="hc-status">Outreach in progress · 14-day response window</div>
+      </div>
+      <div class="hc-body">
+        <blockquote>"The framing of an 'engineered class' attributes intentionality and coordination to a market that has neither. No tenant-screening vendor, no hiring-platform operator, no insurance underwriter sets out to produce stratification. Each system is built around well-established compliance frameworks — FCRA, FHA, Title VII, HIPAA, ECOA, the Voting Rights Act. The mechanisms have also produced measurable gains. The honest accounting is not algorithm-vs-fair-system; it is algorithm-vs-manual-system, and the manual baseline was not fair either."</blockquote>
+        <p class="hc-response">True at each point. The episode does not rebut intentionality (no one is claiming intentionality) or compliance-framework existence. But the compliance frameworks the defender names were designed around single-decision discrimination. None of them governs the cross-decision integration that produces cumulative disadvantage. ECOA does not prevent the same composite from feeding both a credit decision and a tenant-screening decision. The compliance frameworks are necessary; they are not sufficient.</p>
+      </div>
+    </div>
+
+    <div class="host-card">
+      <div class="hc-who">
+        <div class="hc-label">DEFENDER 3</div>
+        <div class="hc-role">Sociological skeptic of cumulative-disadvantage framing</div>
+        <div class="hc-status">Outreach in progress · 14-day response window</div>
+      </div>
+      <div class="hc-body">
+        <blockquote>"The cumulative-disadvantage literature is real and worth engaging with, but it has been criticized on technical grounds. The framework can be made to fit almost any pattern of accumulated outcome. When magnitudes are measured carefully, the algorithmic-mechanism contribution to cumulative disadvantage tends to be smaller than the pre-existing-inequality baseline by an order of magnitude or more. The mechanism may be real; the share of the outcome it explains is the empirically open question."</blockquote>
+        <p class="hc-response">Fair. The episode does not claim the algorithmic layer explains <em>all</em> of any chapter's outcome — only that it provides a sufficient and increasingly dominant channel for the compounding observed. The Class Atlas's confidence-chip feature surfaces the per-chain confidence breakdown. The skeptic's argument that "magnitude is the open question" is not contradicted; it is the question the episode invites the reader to extend.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== DISCIPLINE · proved / not proved + 3 refusals ============== -->
+<section class="act-section s-paper">
+  <div class="act-stamp"><span class="red-dot"></span><span class="roman">V.</span><span>· DISCIPLINE · WHAT WE PROVED · WHAT WE DID NOT</span></div>
+  <h2 class="act-h2">The receipts in this episode are the most defensible the publication has shipped. They are also <em>labeled honestly.</em></h2>
+
+  <div class="discipline-cols">
+    <div class="discipline-col proved">
+      <h4>What we DID prove</h4>
+      <ul>
+        <li>The mechanisms in EP 02-07 produce outcomes of the kind documented in S1·01-S1·10</li>
+        <li>At least one named family per chapter can be traced from documented S1 outcome to specific S2 mechanism via inference chain</li>
+        <li>The compounding effect across categories is multiplicative because the same composite feeds all five</li>
+        <li>The pattern matches the definition of cumulative disadvantage in the published literature</li>
+      </ul>
+    </div>
+    <div class="discipline-col not-proved">
+      <h4>What we did NOT prove</h4>
+      <ul>
+        <li>That all five Season I families in this episode were sorted by the same scoring vendor</li>
+        <li>That provisional-ballot challenges in S1·05 used the same composite as targeting in EP 04 (we showed architectures are compatible)</li>
+        <li>That Hospital Closes record dispersal goes to the same Composite State infrastructure described in EP 06 (we showed architectures are compatible)</li>
+        <li>That removing the algorithmic layer would eliminate the underlying disparity</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.32em;text-transform:uppercase;color:var(--red-string);margin-bottom:18px;font-weight:700;margin-top:30px">⟶ Three founding refusals</h3>
+
+  <div class="refusals">
+    <div class="refusal-card">
+      <div class="rc-num">i.</div>
+      <div class="rc-h">No conspiracy.</div>
+      <div class="rc-p">The machine is not coordinated. The result is not designed. Naming it a class engine is naming a systemic pattern, not a plot.</div>
+    </div>
+    <div class="refusal-card">
+      <div class="rc-num">ii.</div>
+      <div class="rc-h">No determinism.</div>
+      <div class="rc-p">Not every reader is sorted the same way. Not every chapter applies equally to every household. Every modeled aggregate is labeled as modeled.</div>
+    </div>
+    <div class="refusal-card">
+      <div class="rc-num">iii.</div>
+      <div class="rc-h">No despair.</div>
+      <div class="rc-p">EP 12 The Governance Layer will name the political instruments that could change any of this. EP 08 hands the reader off with the conviction that outcomes are produced, not given.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CLOSER · EP 09 handoff ============== -->
+<section class="stakes-section">
+  <div class="ss-stamp">⟶ VI. · CLOSER · THE HANDOFF TO EP 09</div>
+  <h2>Now you know. The machine can already do all of this to people who <em>participated.</em></h2>
+  <p class="ss-lead">The next question is what it can do when you stop participating. <em>It doesn't need you online to deploy you.</em></p>
+
+  <a class="next" href="#" data-future-link="episode-09-the-synthetic-self.html">
+    EP 09 · The Synthetic Self <span class="arrow">→</span>
+  </a>
+
+  <div class="closer-trail">
+    <span class="ct-lbl">⟶ And after that · the season continues</span>
+    <a href="#" data-future-link="episode-10-the-subscription-self.html">EP 10 · The Subscription Self</a><span class="ct-sep">·</span>
+    <a href="#" data-future-link="episode-11-the-afterlife.html">EP 11 · The Afterlife of Your Data</a><span class="ct-sep">·</span>
+    <a href="#" data-future-link="episode-12-the-governance-layer.html">EP 12 · The Governance Layer</a>
+  </div>
+</section>
+
+<!-- ============== BREADCRUMB-BACK · the families this episode was secretly about ============== -->
+<aside class="breadcrumb-families" aria-label="Families this episode was secretly about">
+  <div class="bf-stamp">⋈ The families this episode was secretly about · the receipt</div>
+  <p class="bf-lead">This block is the single most important element of the episode. It is the receipt for the bowtie thesis. Every Season I episode the reader recognized by name appears here as the destination of a specific Season II mechanism.</p>
+  <ul>
+    <li><b>Housing</b> · <a href="the-eviction-funnel.html">S1·01 The Eviction Funnel</a> · <a href="the-coast-is-moving.html">S1·03 The Coast Is Moving</a></li>
+    <li><b>Employment</b> · <a href="the-trickle.html">S1·04 The Trickle</a></li>
+    <li><b>Healthcare</b> · <a href="the-closed-hospital.html">S1·02 The Closed Hospital</a> · <a href="when-the-hospital-closes.html">Special Report · When the Hospital Closes</a></li>
+    <li><b>Credit + Settlement</b> · <a href="the-trickle.html">S1·04 The Trickle</a> · <a href="the-settlement-shrinkage.html">S1·08 The Settlement Shrinkage</a> · <a href="the-capital-stack.html">S1·09 The Capital Stack</a></li>
+    <li><b>Civic Participation</b> · <a href="the-provisional-ballot.html">S1·05 The Provisional Ballot</a> · <a href="the-runoff-tells.html">S1·10 The Runoff Tells</a></li>
+    <li><b>Cost compounding</b> · <a href="the-vogtle-bill.html">S1·06 The Vogtle Bill</a> · <a href="the-data-center-load.html">S1·07 The Data Center Bill</a> · <a href="episode-07-the-physical-plant.html">EP 07 The Physical Plant</a></li>
+  </ul>
+</aside>
+
+<!-- ============== Editorial Desk insert ============== -->
+<aside class="editorial-desk-insert" aria-label="Editorial desk note">
+  <div class="ed-stamp">⟶ A note from the editorial desk · 3 June 2026</div>
+  <p class="ed-prose">EP 08 The Class Engine is the publication's bowtie. After EP 08, the reader cannot read any Season I episode without seeing the mechanism behind it, and cannot read any Season II episode without seeing the families it secretly described. The publication becomes coherent at this episode and only at this episode. This is INVESTIGATE-phase mockup v0.1 · five anchor families with 6-step inference chains and hosted counter-explanations · 53-claim corpus underlies the prose · three counter-read defender voices in outreach. <strong>Pre-publication: re-contact each anchor family for opt-in confirmation</strong> per the Step C ethics note in the brief.</p>
+</aside>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>Episode 08 · The Class Engine</h5>
+      <p>The bowtie episode. Where the suffering documented in Season I and the mechanisms described in Season II become one story.</p>
+      <p style="margin-top:14px"><a href="mailto:infera@melophon.com" style="color:var(--red-string);text-decoration:none">infera@melophon.com</a></p>
+    </div>
+    <div>
+      <h5>Related</h5>
+      <ul>
+        <li><a href="episode-07-the-physical-plant.html">EP 07 The Physical Plant</a></li>
+        <li><a href="episode-06-composite-state.html">EP 06 The Composite State</a></li>
+        <li><a href="personhood-inc.html">EP 02 Personhood Inc.</a></li>
+        <li><a href="when-the-hospital-closes.html">Special Report · When the Hospital Closes</a></li>
+        <li><a href="systems-atlas.html">Systems Atlas</a></li>
+        <li><a href="claims-atlas.html">Claims Atlas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Infera</h5>
+      <ul>
+        <li><a href="index.html">Index</a></li>
+        <li><a href="thesis.html">Thesis</a></li>
+        <li><a href="founding.html">Founding Readers</a></li>
+        <li><a href="legal.html">Legal · Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fine">
+    INFERA · MECHANISM SERIES · EP 08 v0.1 · *The Class Engine* · INVESTIGATE-phase mockup · 53-claim corpus at _drafts/episode-08-claim-corpus.md · 5 anchor families with documented inference chains at _drafts/episode-08-anchor-families.md · Class Atlas spec at _drafts/episode-08-class-atlas-spec.md · 3 counter-read voices with outreach plan at _drafts/episode-08-counter-read-voices.md · pre-publication ethics protocol: re-contact each anchor family for opt-in confirmation before RENDER. © Infera 2026.
+  </div>
+</footer>
+
+<script>
+(function(){
+  // ============================================================
+  // THE CLASS ATLAS · interactive
+  // ============================================================
+  var CHAPTERS = [
+    { id:'housing',    angle:-90,  color:'#8a1c20', mech:{ep:'EP 03',label:'Trust Market',sub:'tenant score'},      fam:{names:'Maria & Devon',zip:'30315',story:'S1·01 EVICTION FUNNEL',url:'the-eviction-funnel.html'},        arrow:'score → renewal denied' },
+    { id:'employment', angle:-18,  color:'#6b4f1c', mech:{ep:'EP 03',label:'Algorithmic ATS',sub:'resume ranker'},   fam:{names:'James',zip:'30238',story:'S1·04 THE TRICKLE',url:'the-trickle.html'},                            arrow:'rank → promotion denied' },
+    { id:'healthcare', angle:54,   color:'#1f5246', mech:{ep:'EP 06',label:'Composite State',sub:'records · auth'},  fam:{names:'Dorothy',zip:'31810',story:'S1·02 CLOSED HOSPITAL',url:'the-closed-hospital.html'},               arrow:'fragmentation → access lost' },
+    { id:'credit',     angle:126,  color:'#3b3568', mech:{ep:'EP 03 + S1·09',label:'Tier Classifier',sub:'settle+sec'}, fam:{names:'Robert',zip:'30401',story:'S1·08 SETTLEMENT SHRINKAGE',url:'the-settlement-shrinkage.html'},  arrow:'tier → check shrunk' },
+    { id:'civic',      angle:-162, color:'#1d3a5a', mech:{ep:'EP 04',label:'Influence War',sub:'composite voter'},   fam:{names:'LaToya',zip:'30314',story:'S1·05 PROVISIONAL BALLOT',url:'the-provisional-ballot.html'},          arrow:'challenge → vote rejected' }
+  ];
+
+  var CX = 320, CY = 320;
+  var R_MECH = 260;
+  var R_FAM = 170;
+  var canvas = document.getElementById('atlasCanvas');
+  if(!canvas) return;
+  var svg = canvas.querySelector('svg');
+  var gConn = svg.querySelector('#connectors');
+  var gMechs = svg.querySelector('#atlasMechs');
+  var gFams = svg.querySelector('#atlasFamilies');
+  var reveal = document.getElementById('atlasReveal');
+  var progLabel = document.getElementById('progLabel');
+  var progDots = document.querySelectorAll('.prog-dot');
+
+  var state = {
+    activated: new Set(),
+    currentForward: null,
+    currentReverse: null
+  };
+
+  function polar(angleDeg, r){
+    var rad = (angleDeg * Math.PI) / 180;
+    return { x: CX + r * Math.cos(rad), y: CY + r * Math.sin(rad) };
+  }
+
+  function svgEl(name, attrs){
+    var el = document.createElementNS('http://www.w3.org/2000/svg', name);
+    if(attrs){ for(var k in attrs) el.setAttribute(k, attrs[k]); }
+    return el;
+  }
+
+  // Build idle connectors + mechanism nodes + family cards
+  CHAPTERS.forEach(function(ch, i){
+    var pm = polar(ch.angle, R_MECH);
+    var pf = polar(ch.angle, R_FAM);
+
+    // Connector line (mech → family)
+    var line = svgEl('line', {
+      x1: pm.x, y1: pm.y, x2: pf.x, y2: pf.y,
+      stroke: ch.color, class: 'connector', 'data-ch': ch.id
+    });
+    gConn.appendChild(line);
+
+    // Mechanism node (hexagon)
+    var mGroup = svgEl('g', { class:'mech-node', 'data-ch': ch.id, transform:'translate('+pm.x+','+pm.y+')', tabindex:'0', role:'button', 'aria-label':'Mechanism · '+ch.mech.label });
+    var hex = svgEl('polygon', {
+      points: '0,-32 28,-16 28,16 0,32 -28,16 -28,-16',
+      class: 'mech-hex',
+      fill: ch.color
+    });
+    mGroup.appendChild(hex);
+    var mEpText = svgEl('text', { y:-48, 'text-anchor':'middle', 'font-family':'JetBrains Mono','font-size':'10','font-weight':'600','letter-spacing':'1.5', fill:'#0d0d10' });
+    mEpText.textContent = ch.mech.ep;
+    mGroup.appendChild(mEpText);
+    var mLblText = svgEl('text', { y:4, 'text-anchor':'middle', 'font-family':'Fraunces, serif','font-size':'11','font-style':'italic','font-weight':'500', fill:'#f5eedb' });
+    mLblText.textContent = ch.mech.label;
+    mGroup.appendChild(mLblText);
+    var mSubText = svgEl('text', { y:18, 'text-anchor':'middle', 'font-family':'JetBrains Mono','font-size':'8','letter-spacing':'1', fill:'#f5eedb' });
+    mSubText.textContent = ch.mech.sub;
+    mGroup.appendChild(mSubText);
+    var mEpBelow = svgEl('text', { y:50, 'text-anchor':'middle', 'font-family':'JetBrains Mono','font-size':'8','letter-spacing':'1.5', fill:'#0d0d10', opacity:0.55 });
+    mEpBelow.textContent = (i+1) + ' / 5';
+    mGroup.appendChild(mEpBelow);
+    gMechs.appendChild(mGroup);
+
+    // Family card
+    var fGroup = svgEl('g', { class:'family-card', 'data-ch': ch.id, transform:'translate('+pf.x+','+pf.y+')', tabindex:'0', role:'button', 'aria-label':'Family · '+ch.fam.names });
+    var rect = svgEl('rect', { x:-44, y:-30, width:88, height:60, rx:3, class:'family-rect' });
+    fGroup.appendChild(rect);
+    var fNameText = svgEl('text', { y:-12, 'text-anchor':'middle', 'font-family':'Instrument Serif, serif','font-size':'13','font-style':'italic', fill:'#0d0d10' });
+    fNameText.textContent = ch.fam.names;
+    fGroup.appendChild(fNameText);
+    var fZipText = svgEl('text', { y:4, 'text-anchor':'middle', 'font-family':'JetBrains Mono','font-size':'9','letter-spacing':'1.5', fill:'#595348' });
+    fZipText.textContent = 'ZIP ' + ch.fam.zip;
+    fGroup.appendChild(fZipText);
+    var fStoryText = svgEl('text', { y:20, 'text-anchor':'middle', 'font-family':'JetBrains Mono','font-size':'7','letter-spacing':'1', fill: ch.color, 'font-weight':'600' });
+    fStoryText.textContent = ch.fam.story;
+    fGroup.appendChild(fStoryText);
+    gFams.appendChild(fGroup);
+
+    // Click handlers
+    mGroup.addEventListener('click', function(){ activate(ch.id, 'forward'); });
+    mGroup.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activate(ch.id, 'forward'); }});
+    fGroup.addEventListener('click', function(){ activate(ch.id, 'reverse'); });
+    fGroup.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activate(ch.id, 'reverse'); }});
+  });
+
+  function activate(chId, direction){
+    // Deactivate previously active connector (single-trace mode)
+    var allConnectors = gConn.querySelectorAll('.connector');
+    allConnectors.forEach(function(c){
+      if(c.dataset.ch !== chId) c.classList.remove('active');
+    });
+    var allMechs = gMechs.querySelectorAll('.mech-node');
+    var allFams = gFams.querySelectorAll('.family-card');
+    allMechs.forEach(function(m){ if(m.dataset.ch !== chId) m.classList.remove('active'); });
+    allFams.forEach(function(f){ if(f.dataset.ch !== chId) f.classList.remove('active'); });
+
+    // Activate selected
+    var connector = gConn.querySelector('.connector[data-ch="'+chId+'"]');
+    var mech = gMechs.querySelector('.mech-node[data-ch="'+chId+'"]');
+    var fam = gFams.querySelector('.family-card[data-ch="'+chId+'"]');
+    if(connector) connector.classList.add('active');
+    if(mech) mech.classList.add('active');
+    if(fam) fam.classList.add('active');
+
+    // Track activation
+    state.activated.add(chId);
+    updateProgress();
+
+    // Trigger reveal if all 5 activated
+    if(state.activated.size === 5){
+      setTimeout(function(){ showReveal(); }, 700);
+    }
+  }
+
+  function updateProgress(){
+    var count = state.activated.size;
+    progLabel.textContent = count + ' / 5';
+    progDots.forEach(function(d, i){
+      if(i < count) d.classList.add('lit');
+      else d.classList.remove('lit');
+    });
+  }
+
+  function showReveal(){
+    reveal.classList.add('visible');
+  }
+
+  function resetAtlas(){
+    reveal.classList.remove('visible');
+    state.activated.clear();
+    updateProgress();
+    gConn.querySelectorAll('.connector').forEach(function(c){ c.classList.remove('active'); });
+    gMechs.querySelectorAll('.mech-node').forEach(function(m){ m.classList.remove('active'); });
+    gFams.querySelectorAll('.family-card').forEach(function(f){ f.classList.remove('active'); });
+  }
+
+  document.getElementById('atlasReplay').addEventListener('click', resetAtlas);
+})();
+</script>
+
+</body>
+</html>

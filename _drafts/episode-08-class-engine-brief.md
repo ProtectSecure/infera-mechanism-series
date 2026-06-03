@@ -1,9 +1,11 @@
 # Episode 08 · The Class Engine — DISCOVER Brief
 
 **Season II · Episode 08 · Movement: Consequence (2/2) · LOAD-BEARING**
-**Status:** DISCOVER mode brief — first pass, 2 June 2026
+**Status:** DISCOVER brief refreshed after EP 07 ship — ready for INVESTIGATE
 **Atlas slot:** Convergence node (bowtie) — every Season II mechanism flows IN, every Season I consequence flows OUT
 **Why this is the most important episode in the publication:** *this is where the suffering documented in Season I and the mechanisms described in Season II become one story.*
+
+**Refresh note · post-EP-07 shipment.** EP 07 The Physical Plant shipped 3 June 2026 with the following framing now live and citable from EP 08: the Atlanta-airport megawatt comparison (one hyperscale ≈ ATL Hartsfield-Jackson in continuous load · Georgia on track for forty), the regulatory void (US vs EU/Singapore/China/Ireland/Netherlands), the quantified opposition asymmetry (~$280M industry vs ~$14M opposition · ≈20:1 across all major host states), the named fight cases (Prince William VA win, Loudoun VA contested, Umatilla OR water disclosure, Maricopa AZ loss, Quincy WA template, Georgia statewide 0-for-9), and the invisible per-user tax (~0.8 kWh / Netflix hour · ~3 Wh / ChatGPT query = ~10× Google search · streaming + AI now in the same household-energy class as the refrigerator). All of these are direct ammunition for EP 08's Cost-Compounding and Healthcare chapters and for the Class Atlas interactive.
 
 ---
 
@@ -169,7 +171,7 @@ The mechanic is the visual proof of the compounding effect that the prose chapte
 - ← EP 03 Trust Market: *"The score that opens or closes each gate was minted here."*
 - ← EP 04 Influence War: *"The targeting that decides which doors are even shown to you originates here."*
 - ← EP 06 Composite State: *"The civic side of every gate is held here."*
-- ← EP 07 Physical Plant: *"All five orbits run on the same racks."*
+- ← EP 07 Physical Plant: *"All five orbits run on the same racks. The cost of running them lands on the same households being sorted by them. One hyperscale equals the Atlanta airport in megawatts — and the bill arrives in the kitchen-table envelope EP 08's families are about to open."*
 
 ### Breadcrumb-back to Season I — *load-bearing for this episode*
 
@@ -180,7 +182,7 @@ Footer block titled **The families this episode was secretly about**:
 - *Healthcare* — [S1·02 The Closed Hospital] · [Special Report: When the Hospital Closes]
 - *Credit + Settlement* — [S1·04 The Trickle] · [S1·06 The Settlement Shrinkage] · [S1·09 The Capital Stack]
 - *Civic Participation* — [S1·05 The Provisional Ballot] · [S1·10 The Runoff Tells]
-- *Cost compounding* — [S1·06 The Vogtle Bill] · [S1·07 The Data Center Bill]
+- *Cost compounding* — [S1·06 The Vogtle Bill] · [S1·07 The Data Center Bill] · [**EP 07 The Physical Plant**] *(now live · the per-household allocation of the buildout, the regulatory void around it, the 20:1 opposition spending asymmetry, and the invisible-tax accounting per stream and per query)*
 
 This block is the single most important element of the episode's footer. It is the receipt for the bowtie thesis.
 
@@ -204,6 +206,7 @@ This block is the single most important element of the episode's footer. It is t
 |---|---|---|
 | T1 | Existing Mechanism Series reporting (all Season I) | Family-level documented outcomes (the breadcrumb anchors) |
 | T1 | Existing Mechanism Series reporting (EP 02–07) | Mechanism-level documented descriptions |
+| T1 | EP 07 The Physical Plant (live · 3 June 2026) | Footprint vs power-density math · regulatory-void comparison table · opposition spending ratio · per-user invisible-tax math |
 | T1 | Peer-reviewed literature on cumulative disadvantage | Sociological framing |
 | T1 | HUD reporting on housing-discrimination patterns | Housing chapter empirical |
 | T1 | EEOC patterns on algorithmic-hiring complaints | Employment chapter empirical |
@@ -258,5 +261,5 @@ The arc that follows (EP 09 → EP 12) widens from the present-tense case (EP 08
 
 ---
 
-*Brief drafted 2 June 2026 · Editorial Agent · DISCOVER mode complete · awaiting INVESTIGATE approval*
+*Brief drafted 2 June 2026 · refreshed 3 June 2026 post-EP-07-shipment · Editorial Agent · DISCOVER mode complete · INVESTIGATE phase opened*
 *This is the most editorially load-bearing brief in the publication. Treat with care.*
