@@ -482,13 +482,17 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
   // ============================================================
   // BASELINE-ILLUSTRATION DATA (used by acts 3, 4, 5 — homes ↔ grid ↔ data center)
   // ============================================================
+  // Node positions scaled for the 60%-of-viewport sticky canvas (narrower than full-width).
+  // X-axis compressed: HOMES pulled in from edge; DATA CENTER pulled left from 0.78 → 0.68
+  // so overlay labels (county names, tax exempt badge) fit to the right without clipping.
+  // Radii reduced slightly so circles don't crowd each other in the narrower space.
   const NODES = {
-    grid:  { x: 0.5,  y: 0.5,  r: 0.16, label: 'GA GRID',        color: '#4ad4d4' },
-    dc:    { x: 0.78, y: 0.32, r: 0.14, label: 'DATA CENTER',    color: '#d44a8c' },
-    home1: { x: 0.18, y: 0.28, r: 0.05, label: 'HOMES',          color: '#9aa4b2' },
-    home2: { x: 0.16, y: 0.5,  r: 0.05, label: 'HOMES',          color: '#9aa4b2' },
-    home3: { x: 0.20, y: 0.72, r: 0.05, label: 'HOMES',          color: '#9aa4b2' },
-    rate:  { x: 0.5,  y: 0.83, r: 0.09, label: 'RATE INCREASE',  color: '#d4654a' }
+    grid:  { x: 0.46, y: 0.48, r: 0.13, label: 'GA GRID',        color: '#4ad4d4' },
+    dc:    { x: 0.70, y: 0.32, r: 0.11, label: 'DATA CENTER',    color: '#d44a8c' },
+    home1: { x: 0.20, y: 0.26, r: 0.045, label: 'HOMES',         color: '#9aa4b2' },
+    home2: { x: 0.18, y: 0.48, r: 0.045, label: 'HOMES',         color: '#9aa4b2' },
+    home3: { x: 0.22, y: 0.70, r: 0.045, label: 'HOMES',         color: '#9aa4b2' },
+    rate:  { x: 0.46, y: 0.80, r: 0.075, label: 'RATE INCREASE', color: '#d4654a' }
   };
   const flowP = [];     // particles flowing along node connections
   function drawBaselineNode(key, opacity, sizeMul){
@@ -641,34 +645,37 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
     drawBaselineScene(dcPower, homesPay > 0.4);
 
     // ============================================================
-    // OVERLAY LAYER 1 — STATE 1: "GA #2 IN THE US" callout
+    // OVERLAY LAYER 1 — STATE 1: "GA #2 IN THE US" callout (upper-right, safe distance from DC node)
     // Fades in at state 0.7, peaks at state 1, fades by state 1.6
     // ============================================================
     const o1 = rampAround(state, 0.7, 1, 1, 1.6);
     if(o1 > 0){
       ctx.save();
       ctx.globalAlpha = o1;
-      ctx.font = '64px Fraunces';
+      ctx.font = '52px Fraunces';
       ctx.fillStyle = 'rgba(90,155,184,0.92)';
       ctx.textAlign = 'right';
-      ctx.fillText('#2', w*0.92, h*0.20);
-      ctx.font = '11px JetBrains Mono';
+      ctx.fillText('#2', w*0.95, h*0.13);
+      ctx.font = '10.5px JetBrains Mono';
       ctx.fillStyle = 'rgba(196,167,119,0.85)';
-      ctx.fillText('IN THE US', w*0.92, h*0.26);
-      ctx.font = '10px JetBrains Mono';
+      ctx.fillText('IN THE US', w*0.95, h*0.17);
+      ctx.font = '9.5px JetBrains Mono';
       ctx.fillStyle = 'rgba(168,162,152,0.7)';
-      ctx.fillText('12 HYPERSCALE SITES', w*0.92, h*0.30);
+      ctx.fillText('12 HYPERSCALE SITES', w*0.95, h*0.205);
       ctx.restore();
       ctx.textAlign = 'left';
     }
 
     // ============================================================
-    // OVERLAY LAYER 2 — STATE 2: forecast curve mini-chart (upper-left, sits AS A CARD over the scene)
+    // OVERLAY LAYER 2 — STATE 2: forecast curve mini-chart (upper-right corner, safe from sticky left content)
     // Fades in at state 1.6, peaks at state 2, fades by state 2.6
     // ============================================================
     const o2 = rampAround(state, 1.6, 2, 2, 2.6);
     if(o2 > 0){
-      const padX = w*0.04, padY = h*0.10, cw = w*0.32, ch = h*0.22;
+      const cw = Math.min(w*0.34, 260);
+      const ch = h*0.18;
+      const padX = w - cw - w*0.04;
+      const padY = h*0.10;
       ctx.save();
       ctx.globalAlpha = o2;
       // card background
@@ -730,7 +737,7 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
     }
 
     // ============================================================
-    // OVERLAY LAYER 3 — STATE 3: HB 1192 TAX EXEMPT badge near DATA CENTER node
+    // OVERLAY LAYER 3 — STATE 3: HB 1192 TAX EXEMPT badge ABOVE the DATA CENTER node
     // Fades in at state 2.6, peaks at state 3, lingers through state 5 (stays visible to remind reader)
     // ============================================================
     const o3 = rampAround(state, 2.6, 3, 5, 5.5);
@@ -738,27 +745,29 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
       const dcX = NODES.dc.x * w;
       const dcY = NODES.dc.y * h;
       const dcR = NODES.dc.r * Math.min(w, h) * (0.6 + dcPower * 0.6);
-      const bx = dcX + dcR + 20;
-      const by = dcY - dcR - 30;
+      // Place badge ABOVE the data center circle (centered horizontally on it)
+      const badgeW = 110, badgeH = 30;
+      const bx = dcX - badgeW/2;
+      const by = dcY - dcR - badgeH - 22;
       ctx.save();
       ctx.globalAlpha = o3 * 0.92;
       ctx.fillStyle = 'rgba(181,74,58,0.22)';
       ctx.strokeStyle = '#b54a3a';
       ctx.lineWidth = 1.5;
-      ctx.fillRect(bx, by, 110, 32);
-      ctx.strokeRect(bx, by, 110, 32);
+      ctx.fillRect(bx, by, badgeW, badgeH);
+      ctx.strokeRect(bx, by, badgeW, badgeH);
       ctx.font = 'bold 10px JetBrains Mono';
       ctx.fillStyle = '#b54a3a';
       ctx.textAlign = 'center';
-      ctx.fillText('TAX EXEMPT', bx+55, by+14);
+      ctx.fillText('TAX EXEMPT', dcX, by+13);
       ctx.font = '8.5px JetBrains Mono';
-      ctx.fillText('HB 1192 · 2008', bx+55, by+26);
+      ctx.fillText('HB 1192 · 2008', dcX, by+25);
       ctx.restore();
       ctx.textAlign = 'left';
     }
 
     // ============================================================
-    // OVERLAY LAYER 4 — STATE 4: county labels (Douglas / Coweta / Newton) appear AT the data center
+    // OVERLAY LAYER 4 — STATE 4: county labels BELOW the DATA CENTER node (clear of badge above)
     // Fades in at state 3.6, peaks at state 4, fades by state 5
     // ============================================================
     const o4 = rampAround(state, 3.6, 4, 4.5, 5);
@@ -766,48 +775,51 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
       const dcX = NODES.dc.x * w;
       const dcY = NODES.dc.y * h;
       const dcR = NODES.dc.r * Math.min(w, h) * (0.6 + dcPower * 0.6);
-      const lx = dcX + dcR + 20;
-      const ly = dcY + 4;
+      // Place labels BELOW the data center node, centered on it
+      const ly = dcY + dcR + 38;
       ctx.save();
       ctx.globalAlpha = o4;
       ctx.font = '10.5px JetBrains Mono';
       ctx.fillStyle = 'rgba(196,167,119,0.92)';
-      ctx.textAlign = 'left';
-      ctx.fillText('DOUGLAS · COWETA · NEWTON', lx, ly + 4);
+      ctx.textAlign = 'center';
+      ctx.fillText('DOUGLAS · COWETA · NEWTON', dcX, ly);
       ctx.font = '8.5px JetBrains Mono';
       ctx.fillStyle = 'rgba(196,167,119,0.7)';
-      ctx.fillText('60% of announced capacity', lx, ly + 18);
+      ctx.fillText('60% of announced capacity', dcX, ly + 14);
       ctx.fillStyle = 'rgba(181,74,58,0.78)';
-      ctx.fillText('40 PERMANENT JOBS / FACILITY', lx, ly + 32);
+      ctx.fillText('40 permanent jobs / facility', dcX, ly + 28);
       ctx.restore();
+      ctx.textAlign = 'left';
     }
 
     // ============================================================
-    // OVERLAY LAYER 5 — STATE 5: SPLIT callout (76% / 24%) appears near the grid → dc edge
+    // OVERLAY LAYER 5 — STATE 5: SPLIT callout (24% / 76%) — 24% midway on grid→dc edge, 76% near rate-increase
     // Fades in at state 4.6, peaks at state 5, fades by state 5.6
     // ============================================================
     const o5 = rampAround(state, 4.6, 5, 5, 5.6);
     if(o5 > 0){
       const mx = (NODES.grid.x + NODES.dc.x) / 2 * w;
-      const my = (NODES.grid.y + NODES.dc.y) / 2 * h;
+      // Position 24% callout ABOVE the grid→dc line so it doesn't overlap the line itself
+      const my = (NODES.grid.y + NODES.dc.y) / 2 * h - 18;
       ctx.save();
       ctx.globalAlpha = o5;
       ctx.font = 'bold 16px Fraunces';
       ctx.fillStyle = '#5a9bb8';
       ctx.textAlign = 'center';
-      ctx.fillText('24%', mx, my - 14);
+      ctx.fillText('24%', mx, my);
       ctx.font = '9px JetBrains Mono';
       ctx.fillStyle = 'rgba(90,155,184,0.85)';
-      ctx.fillText('HYPERSCALE PAYS', mx, my + 2);
-      // homes side — at the rate-increase node
+      ctx.fillText('HYPERSCALE PAYS', mx, my + 14);
+      // 76% callout — to the LEFT of the rate-increase node, with room for the dashed lines
       const rx = NODES.rate.x * w;
       const ry = NODES.rate.y * h;
+      const rR = NODES.rate.r * Math.min(w,h);
       ctx.font = 'bold 18px Fraunces';
       ctx.fillStyle = '#b54a3a';
-      ctx.fillText('76%', rx, ry - NODES.rate.r * Math.min(w,h) - 18);
+      ctx.fillText('76%', rx, ry - rR - 18);
       ctx.font = '9px JetBrains Mono';
       ctx.fillStyle = 'rgba(181,74,58,0.92)';
-      ctx.fillText('RESIDENTIAL ABSORBS', rx, ry - NODES.rate.r * Math.min(w,h) - 4);
+      ctx.fillText('RESIDENTIAL ABSORBS', rx, ry - rR - 4);
       ctx.restore();
       ctx.textAlign = 'left';
     }
