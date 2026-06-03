@@ -607,6 +607,15 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
     ctx.stroke();
   }
 
+  // Helper: smooth opacity ramp around a peak state (returns 0..1)
+  // Used to crossfade overlay elements that should appear during specific act ranges
+  function rampAround(state, lo, peakLo, peakHi, hi){
+    if(state <= lo || state >= hi) return 0;
+    if(state >= peakLo && state <= peakHi) return 1;
+    if(state < peakLo) return (state - lo) / (peakLo - lo);
+    return 1 - (state - peakHi) / (hi - peakHi);
+  }
+
   function tick(){
     if(W < 10){ requestAnimationFrame(tick); return; }
     state += (targetState - state) * 0.08;
@@ -614,51 +623,66 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
     ctx.clearRect(0, 0, w, h);
     const t = performance.now() * 0.001;
 
-    // ============= STATE 1: THE FOOTPRINT — GA #2 with scattered hyperscale dots =============
-    if(state < 1.5){
-      drawGAOutline(w, h, 0.35);
-      // scattered hyperscale dots — all 12 sites, smaller, pulsing in waves
-      dcNodes.forEach((n, i)=>{
-        const px = w * (0.22 + n.x*0.5);
-        const py = h * (0.2 + n.y*0.55);
-        const phase = (t * 0.6 + i*0.3) % (Math.PI*2);
-        const pulse = (Math.sin(phase) + 1) / 2;
-        const r = Math.sqrt(n.sz) * 0.08 + pulse * 3;
-        ctx.beginPath();
-        ctx.arc(px, py, r * 2.5, 0, Math.PI*2);
-        ctx.fillStyle = `rgba(90,155,184,${0.06 + pulse*0.1})`;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(px, py, r, 0, Math.PI*2);
-        ctx.fillStyle = '#5a9bb8';
-        ctx.fill();
-      });
-      // big "#2" callout
+    // ============================================================
+    // FOUNDATION LAYER — BASELINE illustration always drawn
+    // (mirrors the Trickle pattern: one continuous scene, parameters evolve per act)
+    //
+    // Per-act parameter mapping:
+    //   state 1 (Footprint)         · dcPower 0.30 · homesPay 0
+    //   state 2 (Filing)            · dcPower 0.50 · homesPay 0
+    //   state 3 (Legal Mechanism)   · dcPower 0.75 · homesPay 0
+    //   state 4 (Buildout)          · dcPower 1.00 · homesPay 0
+    //   state 5 (The Split)         · dcPower 1.00 · homesPay 1   ← dashed flow lines activate
+    //   state 6 (Horizon)           · dcPower 1.00 · homesPay 1
+    // ============================================================
+    const dcPower  = Math.max(0.3, Math.min(1, 0.3 + (state - 1) * 0.20));
+    const homesPay = Math.max(0, Math.min(1, (state - 4.4) * 1.5));
+    drawBaselineScene(dcPower, homesPay > 0.4);
+
+    // ============================================================
+    // OVERLAY LAYER 1 — STATE 1: "GA #2 IN THE US" callout
+    // Fades in at state 0.7, peaks at state 1, fades by state 1.6
+    // ============================================================
+    const o1 = rampAround(state, 0.7, 1, 1, 1.6);
+    if(o1 > 0){
+      ctx.save();
+      ctx.globalAlpha = o1;
       ctx.font = '64px Fraunces';
       ctx.fillStyle = 'rgba(90,155,184,0.92)';
       ctx.textAlign = 'right';
-      ctx.fillText('#2', w*0.88, h*0.42);
+      ctx.fillText('#2', w*0.92, h*0.20);
       ctx.font = '11px JetBrains Mono';
-      ctx.fillStyle = 'rgba(196,167,119,0.8)';
-      ctx.fillText('IN THE US', w*0.88, h*0.48);
+      ctx.fillStyle = 'rgba(196,167,119,0.85)';
+      ctx.fillText('IN THE US', w*0.92, h*0.26);
       ctx.font = '10px JetBrains Mono';
       ctx.fillStyle = 'rgba(168,162,152,0.7)';
-      ctx.fillText('12 HYPERSCALE SITES', w*0.88, h*0.56);
+      ctx.fillText('12 HYPERSCALE SITES', w*0.92, h*0.30);
+      ctx.restore();
       ctx.textAlign = 'left';
     }
 
-    // ============= STATE 2: THE FILING — FORECAST CURVE =============
-    else if(state < 2.5){
-      const padX = w*0.10, padTop = 170, padBot = 140;
-      const cw = w - padX*2, ch = Math.max(120, h - padTop - padBot);
-      const padY = padTop;
-
-      ctx.strokeStyle = 'rgba(196,167,119,.15)';
+    // ============================================================
+    // OVERLAY LAYER 2 — STATE 2: forecast curve mini-chart (upper-left, sits AS A CARD over the scene)
+    // Fades in at state 1.6, peaks at state 2, fades by state 2.6
+    // ============================================================
+    const o2 = rampAround(state, 1.6, 2, 2, 2.6);
+    if(o2 > 0){
+      const padX = w*0.04, padY = h*0.10, cw = w*0.32, ch = h*0.22;
+      ctx.save();
+      ctx.globalAlpha = o2;
+      // card background
+      ctx.fillStyle = 'rgba(8,8,10,0.78)';
+      ctx.fillRect(padX-8, padY-22, cw+16, ch+50);
+      ctx.strokeStyle = 'rgba(90,155,184,0.4)';
       ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(padX, padY+ch); ctx.lineTo(padX+cw, padY+ch); ctx.stroke();
-
-      ctx.strokeStyle = 'rgba(196,167,119,.6)';
-      ctx.setLineDash([4,4]); ctx.lineWidth = 2;
+      ctx.strokeRect(padX-8, padY-22, cw+16, ch+50);
+      ctx.font = '9px JetBrains Mono';
+      ctx.fillStyle = 'rgba(90,155,184,0.9)';
+      ctx.textAlign = 'left';
+      ctx.fillText('IRP FORECAST · DEC 2024', padX, padY-8);
+      // 2023 baseline (dashed)
+      ctx.strokeStyle = 'rgba(196,167,119,0.55)';
+      ctx.setLineDash([3,3]); ctx.lineWidth = 1.5;
       ctx.beginPath();
       f2023.forEach((p,i)=>{
         const x = padX + (i/5)*cw;
@@ -667,11 +691,8 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
       });
       ctx.stroke();
       ctx.setLineDash([]);
-      ctx.font = '10px JetBrains Mono';
-      ctx.fillStyle = 'rgba(196,167,119,.7)';
-      ctx.fillText('2023 IRP · 5,400 MW', padX+cw-130, padY + ch * (1 - 5.4/9) + 18);
-
-      ctx.strokeStyle = '#5a9bb8'; ctx.lineWidth = 3;
+      // 2024 curve (solid)
+      ctx.strokeStyle = '#5a9bb8'; ctx.lineWidth = 2.5;
       ctx.beginPath();
       f2024.forEach((p,i)=>{
         const x = padX + (i/5)*cw;
@@ -679,8 +700,8 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
         if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
       });
       ctx.stroke();
-
-      ctx.fillStyle = 'rgba(90,155,184,.18)';
+      // delta fill
+      ctx.fillStyle = 'rgba(90,155,184,0.18)';
       ctx.beginPath();
       f2024.forEach((p,i)=>{
         const x = padX + (i/5)*cw;
@@ -694,106 +715,163 @@ footer{padding:60px 6vw 80px;border-top:1px solid var(--rule);background:var(--b
         ctx.lineTo(x,y);
       }
       ctx.closePath(); ctx.fill();
-      ctx.font = '12px JetBrains Mono'; ctx.fillStyle = '#5a9bb8';
-      ctx.fillText('+2.2 GW delta', padX+cw*0.45, padY+ch*0.55);
-      ctx.font = '18px Fraunces'; ctx.fillStyle = '#5a9bb8'; ctx.textAlign = 'right';
-      ctx.fillText('8,200 MW', padX+cw-10, padY + ch * (1 - 8.2/9) - 12);
+      // endpoint
+      ctx.font = '14px Fraunces';
+      ctx.fillStyle = '#5a9bb8';
+      ctx.textAlign = 'right';
+      ctx.fillText('8,200 MW', padX+cw, padY-2);
+      ctx.font = '9px JetBrains Mono';
+      ctx.fillStyle = 'rgba(196,167,119,0.7)';
       ctx.textAlign = 'left';
-      ctx.font = '9px JetBrains Mono'; ctx.fillStyle = 'rgba(168,162,152,.7)';
-      ['2024','2026','2028','2030'].forEach((y,i)=>{
-        ctx.fillText(y, padX + (i*1.67/5)*cw - 12, padY+ch+18);
-      });
+      ctx.fillText('2023: 5,400 MW  →  2024: 8,200 MW  ·  +2.2 GW delta', padX, padY+ch+14);
+      ctx.restore();
+      ctx.textAlign = 'left';
     }
 
-    // ============= STATES 3-5: BASELINE ILLUSTRATION (evolves through legal mechanism → buildout → split) =============
-    // The same scene (HOMES → GA GRID ← DATA CENTER) but with progressive intensification:
-    //   state 3 (Legal Mechanism · Tax Holiday) — data center growing, no rate increase yet
-    //   state 4 (Buildout) — data center at full draw, residential rate still stable
-    //   state 5 (The Split) — homes now also paying RATE INCREASE (dashed lines activate)
-    else if(state < 5.5){
-      // interpolate scene parameters from the smoothed state value
-      // dcPower grows from 0.6 at state 3 → 1.0 by state 4; stays at 1.0 thereafter
-      const dcPower = Math.min(1, 0.6 + (state - 3) * 0.5);
-      // homes-pay (rate increase) activates progressively as state crosses 4.4 → 5
-      const homesPay = state > 4.4;
+    // ============================================================
+    // OVERLAY LAYER 3 — STATE 3: HB 1192 TAX EXEMPT badge near DATA CENTER node
+    // Fades in at state 2.6, peaks at state 3, lingers through state 5 (stays visible to remind reader)
+    // ============================================================
+    const o3 = rampAround(state, 2.6, 3, 5, 5.5);
+    if(o3 > 0){
+      const dcX = NODES.dc.x * w;
+      const dcY = NODES.dc.y * h;
+      const dcR = NODES.dc.r * Math.min(w, h) * (0.6 + dcPower * 0.6);
+      const bx = dcX + dcR + 20;
+      const by = dcY - dcR - 30;
+      ctx.save();
+      ctx.globalAlpha = o3 * 0.92;
+      ctx.fillStyle = 'rgba(181,74,58,0.22)';
+      ctx.strokeStyle = '#b54a3a';
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(bx, by, 110, 32);
+      ctx.strokeRect(bx, by, 110, 32);
+      ctx.font = 'bold 10px JetBrains Mono';
+      ctx.fillStyle = '#b54a3a';
+      ctx.textAlign = 'center';
+      ctx.fillText('TAX EXEMPT', bx+55, by+14);
+      ctx.font = '8.5px JetBrains Mono';
+      ctx.fillText('HB 1192 · 2008', bx+55, by+26);
+      ctx.restore();
+      ctx.textAlign = 'left';
+    }
 
-      drawBaselineScene(dcPower, homesPay);
-
-      // per-state caption overlay (small, bottom-left)
+    // ============================================================
+    // OVERLAY LAYER 4 — STATE 4: county labels (Douglas / Coweta / Newton) appear AT the data center
+    // Fades in at state 3.6, peaks at state 4, fades by state 5
+    // ============================================================
+    const o4 = rampAround(state, 3.6, 4, 4.5, 5);
+    if(o4 > 0){
+      const dcX = NODES.dc.x * w;
+      const dcY = NODES.dc.y * h;
+      const dcR = NODES.dc.r * Math.min(w, h) * (0.6 + dcPower * 0.6);
+      const lx = dcX + dcR + 20;
+      const ly = dcY + 4;
+      ctx.save();
+      ctx.globalAlpha = o4;
       ctx.font = '10.5px JetBrains Mono';
+      ctx.fillStyle = 'rgba(196,167,119,0.92)';
       ctx.textAlign = 'left';
-      if(state < 3.5){
-        ctx.fillStyle = 'rgba(212,74,140,0.85)';
-        ctx.fillText('HB 1192 · TAX HOLIDAY IN EFFECT', w*0.06, h*0.93);
-      } else if(state < 4.5){
-        ctx.fillStyle = 'rgba(196,167,119,0.85)';
-        ctx.fillText('3 COUNTIES · DOUGLAS · COWETA · NEWTON', w*0.06, h*0.93);
-      } else {
-        ctx.fillStyle = 'rgba(212,101,74,0.95)';
-        ctx.fillText('RATE INCREASE · STACKED ATOP +$420/yr VOGTLE', w*0.06, h*0.93);
-      }
+      ctx.fillText('DOUGLAS · COWETA · NEWTON', lx, ly + 4);
+      ctx.font = '8.5px JetBrains Mono';
+      ctx.fillStyle = 'rgba(196,167,119,0.7)';
+      ctx.fillText('60% of announced capacity', lx, ly + 18);
+      ctx.fillStyle = 'rgba(181,74,58,0.78)';
+      ctx.fillText('40 PERMANENT JOBS / FACILITY', lx, ly + 32);
+      ctx.restore();
     }
 
-    // ============= STATE 6: THE HORIZON — TILTED SCALE (ASK vs WILL) =============
-    else {
-      const cx = w*0.5, baseY = h*0.62;
+    // ============================================================
+    // OVERLAY LAYER 5 — STATE 5: SPLIT callout (76% / 24%) appears near the grid → dc edge
+    // Fades in at state 4.6, peaks at state 5, fades by state 5.6
+    // ============================================================
+    const o5 = rampAround(state, 4.6, 5, 5, 5.6);
+    if(o5 > 0){
+      const mx = (NODES.grid.x + NODES.dc.x) / 2 * w;
+      const my = (NODES.grid.y + NODES.dc.y) / 2 * h;
+      ctx.save();
+      ctx.globalAlpha = o5;
+      ctx.font = 'bold 16px Fraunces';
+      ctx.fillStyle = '#5a9bb8';
+      ctx.textAlign = 'center';
+      ctx.fillText('24%', mx, my - 14);
+      ctx.font = '9px JetBrains Mono';
+      ctx.fillStyle = 'rgba(90,155,184,0.85)';
+      ctx.fillText('HYPERSCALE PAYS', mx, my + 2);
+      // homes side — at the rate-increase node
+      const rx = NODES.rate.x * w;
+      const ry = NODES.rate.y * h;
+      ctx.font = 'bold 18px Fraunces';
+      ctx.fillStyle = '#b54a3a';
+      ctx.fillText('76%', rx, ry - NODES.rate.r * Math.min(w,h) - 18);
+      ctx.font = '9px JetBrains Mono';
+      ctx.fillStyle = 'rgba(181,74,58,0.92)';
+      ctx.fillText('RESIDENTIAL ABSORBS', rx, ry - NODES.rate.r * Math.min(w,h) - 4);
+      ctx.restore();
+      ctx.textAlign = 'left';
+    }
+
+    // ============================================================
+    // OVERLAY LAYER 6 — STATE 6: ASK vs WILL tilted scale (positioned at bottom, not blocking the scene)
+    // Fades in at state 5.6, peaks at state 6
+    // ============================================================
+    const o6 = rampAround(state, 5.6, 6, 7, 7);
+    if(o6 > 0){
+      const cx = w*0.5, baseY = h*0.95;
+      ctx.save();
+      ctx.globalAlpha = o6;
       // pivot
       ctx.beginPath();
-      ctx.arc(cx, baseY, 6, 0, Math.PI*2);
+      ctx.arc(cx, baseY, 4, 0, Math.PI*2);
       ctx.fillStyle = '#c4a777';
       ctx.fill();
-      // tilt animation — perpetual lean toward "will" (right side heavy)
-      const tilt = -0.22 + Math.sin(t * 0.8) * 0.04;
-      const armLen = w*0.32;
-      ctx.save();
+      // tilt animation
+      const tilt = -0.18 + Math.sin(t * 0.8) * 0.03;
+      const armLen = w*0.22;
       ctx.translate(cx, baseY);
       ctx.rotate(tilt);
       ctx.strokeStyle = 'rgba(196,167,119,0.78)';
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(-armLen, 0);
       ctx.lineTo(armLen, 0);
       ctx.stroke();
-
-      // ASK side (lighter, left) — empty rectangle outline
+      // ASK
       ctx.strokeStyle = '#5a9bb8';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(-armLen - 50, -50, 100, 60);
-      ctx.font = '11px JetBrains Mono';
+      ctx.strokeRect(-armLen - 36, -32, 72, 36);
+      ctx.font = '9.5px JetBrains Mono';
       ctx.fillStyle = '#5a9bb8';
       ctx.textAlign = 'center';
-      ctx.fillText('ASK', -armLen, -64);
-      ctx.font = '8.5px JetBrains Mono';
-      ctx.fillStyle = 'rgba(90,155,184,0.88)';
-      ctx.fillText('hyperscale tariff', -armLen, -16);
-      ctx.fillText('HB 1192 sunset', -armLen, -3);
-      ctx.fillText('disclosure', -armLen, 10);
-
-      // WILL side (heavy, right) — filled block, darker
+      ctx.fillText('ASK', -armLen, -40);
+      // WILL
       ctx.fillStyle = 'rgba(181,74,58,0.62)';
-      ctx.fillRect(armLen - 50, -80, 100, 90);
+      ctx.fillRect(armLen - 36, -52, 72, 56);
       ctx.strokeStyle = '#b54a3a';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(armLen - 50, -80, 100, 90);
-      ctx.font = '11px JetBrains Mono';
+      ctx.strokeRect(armLen - 36, -52, 72, 56);
+      ctx.font = '9.5px JetBrains Mono';
       ctx.fillStyle = '#b54a3a';
-      ctx.fillText('WILL', armLen, -94);
-      ctx.font = '8.5px JetBrains Mono';
-      ctx.fillStyle = '#f0ebe0';
-      ctx.fillText('PSC composition', armLen, -50);
-      ctx.fillText('donor structure', armLen, -36);
-      ctx.fillText('low-turnout', armLen, -22);
-      ctx.fillText('elections', armLen, -8);
+      ctx.fillText('WILL', armLen, -60);
       ctx.restore();
       ctx.textAlign = 'left';
-
-      // caption
-      ctx.font = '11px JetBrains Mono';
-      ctx.fillStyle = 'rgba(168,162,152,0.78)';
-      ctx.textAlign = 'center';
-      ctx.fillText('THE BILLS EXIST. THEY DIE IN COMMITTEE.', cx, h*0.88);
-      ctx.textAlign = 'left';
     }
+
+    // ============================================================
+    // BOTTOM CAPTION — changes per act, always present
+    // ============================================================
+    ctx.save();
+    ctx.font = '10.5px JetBrains Mono';
+    ctx.textAlign = 'left';
+    let caption = '';
+    let captionColor = 'rgba(168,162,152,0.78)';
+    if(state < 1.5)      { caption = 'BASELINE · GRID AT REST'; captionColor = 'rgba(90,155,184,0.78)'; }
+    else if(state < 2.5) { caption = 'IRP FILED · DEC 2024 · 8,200 MW BY 2030'; captionColor = 'rgba(90,155,184,0.85)'; }
+    else if(state < 3.5) { caption = 'HB 1192 · TAX HOLIDAY IN EFFECT'; captionColor = 'rgba(212,74,140,0.85)'; }
+    else if(state < 4.5) { caption = 'BUILDOUT · COAL STAYS · GAS ADDED · 3 COUNTIES'; captionColor = 'rgba(196,167,119,0.85)'; }
+    else if(state < 5.5) { caption = 'COST SOCIALIZED · RESIDENTIAL ABSORBS THE GAP'; captionColor = 'rgba(212,101,74,0.95)'; }
+    else                 { caption = 'THE BILLS EXIST. THEY DIE IN COMMITTEE.'; captionColor = 'rgba(168,162,152,0.85)'; }
+    ctx.fillStyle = captionColor;
+    ctx.fillText(caption, w*0.06, h*0.95);
+    ctx.restore();
 
     requestAnimationFrame(tick);
   }
