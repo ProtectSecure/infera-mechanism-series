@@ -1,0 +1,2413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Three Converging Clocks · A Field Note from Infera</title>
+<meta name="description" content="Three institutions decide what becomes news next week: The Fed sets your mortgage rate, Congress controls federal spending, the Supreme Court rules on the law. An interactive plain-English brief on what's coming June 8-12,2026 and what it means for your wallet, job, and rights."/>
+<meta property="og:title" content="Three Converging Clocks · Infera">
+<meta property="og:description" content="Three rhythms decide what becomes news. Watch them tick.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   FIELD NOTE 02 · THREE CONVERGING CLOCKS
+   Gallery palette · breaks Infera dark default for this exhibit
+   ============================================================ */
+:root{
+  --wall:        #f5f3ee;   /* gallery white wall */
+  --wall-soft:   #ece9e1;
+  --floor:       #d6d2c7;   /* polished concrete floor */
+  --floor-deep:  #b6b1a4;
+  --ink:         #0a0a0a;   /* clock frames + body type */
+  --ink-soft:    #1c1c1c;
+  --hair:        rgba(10,10,10,0.10);
+  --hair-strong: rgba(10,10,10,0.22);
+  --face:        #ffffff;
+  --face-dim:    #f8f7f3;
+  --dim:         #6b665b;
+  --faint:       #8a857b;
+  --warning:     #c81818;   /* museum-warning red, convergence */
+  --warning-s:   rgba(200,24,24,0.10);
+  --signal:      #c8ff1e;   /* infera lime · used very sparingly */
+  --amber:       #b8860b;
+
+  --display:'Archivo Black', system-ui, sans-serif;
+  --italic:'Instrument Serif', Georgia, serif;
+  --sans:'Inter', system-ui, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, monospace;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--wall);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:300;
+  line-height:1.65;
+  font-size:17px;
+  overflow-x:hidden;
+}
+
+/* subtle wall grain, barely visible */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:1;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(10,10,10,0.015) 1px, transparent 0);
+  background-size:3px 3px;
+  mix-blend-mode:multiply;
+}
+
+/* ============== nav ============== */
+nav.tn{
+  position:sticky; top:0; z-index:50;
+  padding:18px 32px;
+  background:rgba(245,243,238,0.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--hair);
+  display:flex; justify-content:space-between; align-items:center;
+}
+nav.tn .brand{
+  font-family:var(--display);
+  font-size:11px; letter-spacing:.18em;
+  color:var(--ink); text-decoration:none;
+  text-transform:uppercase;
+}
+nav.tn .brand em{
+  font-family:var(--italic); font-style:italic;
+  color:var(--warning); font-size:14px;
+  padding:0 4px; font-weight:400;
+}
+nav.tn .links{display:flex; gap:4px}
+nav.tn .links a{
+  font-family:var(--mono); font-size:10px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--dim);
+  padding:8px 12px; text-decoration:none;
+  transition:color .2s;
+}
+nav.tn .links a:hover{color:var(--ink)}
+
+/* ============== LIVE COUNTDOWN STRIP ============== */
+.countdown-strip{
+  background: var(--ink); color: var(--wall);
+  padding: 14px 32px;
+  border-bottom: 1px solid rgba(245,243,238,0.10);
+  position: sticky; top: 58px; z-index: 49;
+}
+.countdown-strip .cs-inner{
+  max-width: 1280px; margin: 0 auto;
+  display: flex; align-items: center; gap: 32px;
+  flex-wrap: wrap;
+}
+.countdown-strip .cs-label{
+  font-family: var(--mono); font-size: 10px; letter-spacing: .28em;
+  color: var(--warning); font-weight: 700; text-transform: uppercase;
+}
+.countdown-strip .cs-item{
+  display: flex; align-items: baseline; gap: 8px;
+}
+.countdown-strip .cs-item .cs-name{
+  font-family: var(--display); font-size: 11px; letter-spacing: -0.005em;
+  color: var(--wall); text-transform: uppercase;
+}
+.countdown-strip .cs-item .cs-when{
+  font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+  color: rgba(245,243,238,0.65);
+}
+.countdown-strip .cs-item .cs-when b{
+  color: var(--signal); font-weight: 700;
+  padding-right: 4px;
+}
+@media (max-width: 760px){
+  .countdown-strip{ position: relative; top: 0; padding: 10px 16px }
+  .countdown-strip .cs-inner{ gap: 14px }
+  .countdown-strip .cs-item .cs-when{ font-size: 10px }
+}
+
+/* ============== HERO · the gallery room ============== */
+.gallery-hero{
+  position:relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display:flex; flex-direction:column;
+  background: linear-gradient(180deg, var(--wall) 0%, var(--wall) 62%, var(--floor) 62%, var(--floor-deep) 100%);
+  overflow:hidden;
+}
+.gallery-hero .room-caption{
+  position:absolute; top:80px; left:50%; transform:translateX(-50%);
+  font-family:var(--mono); font-size:10px; letter-spacing:.32em;
+  color:var(--dim); text-transform:uppercase;
+  z-index:5; white-space:nowrap;
+}
+.gallery-hero .room-caption b{ color:var(--warning); font-weight:700; letter-spacing:.32em }
+
+.gallery-hero .wall-clocks{
+  flex: 0 0 62%;
+  display:flex; align-items:center; justify-content:center;
+  gap: clamp(40px, 7vw, 110px);
+  padding: 60px clamp(24px, 6vw, 100px) 0;
+}
+.gallery-hero .floor{
+  flex: 0 0 38%;
+  position: relative;
+  background:
+    linear-gradient(180deg, var(--floor) 0%, var(--floor-deep) 100%);
+}
+.gallery-hero .floor::before{
+  /* faint reflection ring of each clock */
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 80px 6px at 25% 18%, rgba(10,10,10,0.12), transparent 70%),
+    radial-gradient(ellipse 80px 6px at 50% 18%, rgba(10,10,10,0.12), transparent 70%),
+    radial-gradient(ellipse 80px 6px at 75% 18%, rgba(10,10,10,0.12), transparent 70%);
+}
+
+/* ============== CLOCKS · SVG anatomy ============== */
+.clock{
+  position:relative;
+  width:clamp(150px, 18vw, 240px);
+  aspect-ratio:1;
+  filter: drop-shadow(0 14px 18px rgba(10,10,10,0.14));
+  transition: transform 0.6s cubic-bezier(.2.6.2,1);
+}
+.clock svg{ width:100%; height:100%; display:block }
+.clock .glow{
+  position:absolute; inset:-6%; border-radius:50%;
+  background: radial-gradient(circle, var(--warning-s), transparent 65%);
+  opacity:0; pointer-events:none;
+  transition: opacity 0.4s;
+}
+.clock.active .glow{ opacity:1 }
+.clock.active{ transform: scale(1.02) }
+.clock.active svg circle.frame{ stroke: var(--warning) }
+.clock.dim svg circle.frame{ opacity:0.28 }
+.clock.dim svg .tick.clock.dim svg .hand{ opacity:0.32 }
+.clock svg circle.frame{
+  stroke: var(--ink);
+  stroke-width: 4;
+  fill: var(--face);
+  transition: stroke 0.4s;
+}
+.clock svg .tick{
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  stroke-linecap: square;
+  transition: opacity 0.4s;
+}
+.clock svg .tick.major{ stroke-width: 2.4; }
+.clock svg .hand{
+  stroke: var(--ink);
+  stroke-linecap: round;
+  transform-origin: center;
+  transition: transform 0.55s cubic-bezier(.5.05.5,1.0), opacity 0.4s;
+}
+.clock svg .hand.hour{ stroke-width: 4.5; }
+.clock svg .hand.minute{ stroke-width: 2.8; }
+.clock svg .hub{ fill: var(--ink); }
+.clock svg .second{
+  stroke: var(--warning);
+  stroke-width: 1.4;
+  transform-origin: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.clock.active svg .second{ opacity: 1 }
+
+/* small label under each hero clock */
+.clock-label{
+  position:absolute; left:50%; transform:translateX(-50%);
+  bottom:-44px; white-space:nowrap;
+  font-family:var(--mono); font-size:10px; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--dim);
+}
+.clock-label b{ color: var(--ink); font-weight:700; letter-spacing:.32em }
+
+/* ============== TITLE MOMENT ============== */
+.title-moment.opener{
+  padding-top: 18vh;
+  position: relative;
+}
+.title-moment.opener::before{
+  content: "";
+  position: absolute; top: 8vh; left: clamp(24px, 6vw, 80px);
+  width: 60px; height: 1px; background: var(--ink);
+}
+.title-moment{
+  padding: 14vh 0 12vh;
+  text-align:left;
+  max-width: 900px;
+  margin: 0 auto;
+  padding-left: clamp(24px, 6vw, 80px);
+  padding-right: clamp(24px, 6vw, 80px);
+}
+.title-moment .pre{
+  font-family:var(--mono); font-size:11px; letter-spacing:.32em;
+  color:var(--warning); text-transform:uppercase; font-weight:700;
+  margin-bottom: 22px;
+}
+.title-moment h1{
+  font-family:var(--display);
+  font-size: clamp(48px, 8vw, 124px);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.title-moment h1 em{
+  font-family:var(--italic);
+  font-style:italic; font-weight:400;
+  color: var(--warning);
+  letter-spacing: -0.02em;
+}
+.title-moment .deck{
+  font-family:var(--italic); font-style:italic;
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.35;
+  color: var(--ink-soft);
+  max-width: 32ch;
+}
+.title-moment .byline{
+  margin-top: 36px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.22em;
+  color: var(--dim); text-transform:uppercase;
+}
+
+/* ============== MEET THE CLOCKS ============== */
+.meet{
+  padding: 10vh clamp(24px, 6vw, 80px);
+  max-width: 1280px; margin: 0 auto;
+}
+.meet h2{
+  font-family:var(--italic); font-style:italic;
+  font-size: clamp(28px, 3.6vw, 52px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 12px;
+  max-width: 22ch;
+}
+.meet .meet-sub{
+  font-family:var(--sans); font-weight:300;
+  font-size: 15px; color: var(--dim);
+  margin-bottom: 50px;
+  max-width: 56ch;
+}
+.clock-row{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: clamp(20px, 3vw, 48px);
+  align-items: stretch;
+}
+.clock-card{
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  display:flex; flex-direction:column;
+  position: relative;
+}
+.clock-card .clock-mini{
+  width: 100%;
+  max-width: 220px;
+  margin: 0 auto 28px;
+  aspect-ratio: 1;
+  filter: drop-shadow(0 10px 14px rgba(10,10,10,0.12));
+  transition: transform 0.4s cubic-bezier(.2.7.3,1.1);
+}
+.clock-card:hover .clock-mini.clock-card:focus .clock-mini{
+  transform: translateY(-6px) scale(1.03);
+}
+.clock-card .clock-mini svg{ width:100%; height:100%; display:block }
+.card-label{
+  font-family:var(--display);
+  font-size: 22px; letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.card-meta{
+  font-family:var(--mono);
+  font-size: 10px; letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--warning);
+  margin-bottom: 14px;
+}
+.card-body{
+  font-family:var(--sans); font-weight:300;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+}
+.card-body strong{ font-weight:600; color: var(--ink) }
+.card-body em{ font-family:var(--italic); font-style:italic; color: var(--warning) }
+.card-stat-row{
+  display:flex; gap: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hair);
+  font-family:var(--mono); font-size:10px;
+  letter-spacing:.18em; text-transform:uppercase;
+  color: var(--dim);
+}
+.card-stat b{ color: var(--ink); font-weight:700 }
+.card-impact{
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: var(--wall-soft);
+  border-left: 2px solid var(--warning);
+}
+.card-impact .ci-stamp{
+  display: block;
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .26em;
+  color: var(--warning); font-weight: 700; text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.card-impact ul{
+  list-style: none; margin: 0; padding: 0;
+}
+.card-impact li{
+  font-family: var(--sans); font-weight: 300; font-size: 13.5px;
+  line-height: 1.45; color: var(--ink-soft);
+  padding: 4px 0 4px 14px;
+  position: relative;
+}
+.card-impact li::before{
+  content: "·"; position: absolute; left: 0; top: 2px;
+  color: var(--warning); font-weight: 700; font-size: 16px;
+}
+.card-impact li b{ color: var(--ink); font-weight: 600 }
+
+/* ============== v0.4 · PROGRESSIVE REVEAL ============== */
+.fade-up{
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(.2,.7,.2,1), transform 0.7s cubic-bezier(.2,.7,.2,1);
+}
+.fade-up.seen{ opacity: 1; transform: translateY(0); }
+.fade-up.seen.delay-1{ transition-delay: 0.08s }
+.fade-up.seen.delay-2{ transition-delay: 0.16s }
+.fade-up.seen.delay-3{ transition-delay: 0.24s }
+
+.ant-day .ad-toggle{
+  position: absolute; top: 22px; right: 22px;
+  font-family: var(--display); font-size: 20px;
+  color: var(--warning); line-height: 1;
+  transition: transform 0.3s;
+}
+.ant-day.collapsed .ad-body{
+  max-height: 0; opacity: 0;
+  overflow: hidden;
+  padding-top: 0; padding-bottom: 0;
+  transition: max-height 0.45s cubic-bezier(.2,.7,.2,1),
+              opacity 0.3s, padding 0.3s;
+}
+.ant-day .ad-body{
+  max-height: 4000px; opacity: 1;
+  transition: max-height 0.45s cubic-bezier(.2,.7,.2,1),
+              opacity 0.3s, padding 0.3s;
+}
+.ant-day.collapsed .ad-head{
+  border-bottom: none;
+}
+.ant-day .ad-head{
+  position: relative;
+  transition: background 0.2s;
+}
+.ant-day:not(.collapsed) .ad-head:hover{
+  background: rgba(200,24,24,0.03);
+}
+.ant-day.collapsed .ad-head:hover{
+  background: var(--wall-soft);
+}
+
+/* the closed-day shows a hint of what's inside */
+.ant-day.collapsed::after{
+  content: "tap to read";
+  position: absolute; bottom: 12px; right: 22px;
+  font-family: var(--mono); font-size: 9px; letter-spacing: .22em;
+  color: var(--dim); text-transform: uppercase;
+}
+
+/* echo · small callbacks to other Mechanism Series pieces */
+.echo{
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: rgba(10,10,10,0.03);
+  border-left: 2px dashed var(--ink);
+  font-family: var(--italic); font-style: italic;
+  font-size: 13px; color: var(--dim); line-height: 1.5;
+}
+.echo .echo-mark{
+  font-family: var(--mono); font-style: normal;
+  font-size: 9px; letter-spacing: .22em;
+  color: var(--ink); font-weight: 700;
+  text-transform: uppercase;
+  display: inline-block; margin-right: 8px;
+}
+.echo a{
+  color: var(--ink); text-decoration: none;
+  border-bottom: 1px solid var(--ink);
+}
+.echo a:hover{
+  color: var(--warning); border-color: var(--warning);
+}
+
+/* SCOTUS clock: extra subtle pulse during burst */
+.clock svg .second{ transition: opacity 0.4s; }
+
+/* ============== INTERDEPENDENCY CHAINS ============== */
+.chains{
+  padding: 14vh clamp(24px, 6vw, 80px);
+  background: var(--wall);
+  border-top: 1px solid var(--hair);
+}
+.chains .inner{ max-width: 1280px; margin: 0 auto; }
+.chains .pre{
+  font-family: var(--mono); font-size: 11px; letter-spacing: .32em;
+  color: var(--warning); font-weight: 700; text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.chains h2{
+  font-family: var(--display);
+  font-size: clamp(36px, 5.2vw, 72px);
+  line-height: 0.98; letter-spacing: -0.035em;
+  color: var(--ink); margin-bottom: 18px; max-width: 18ch;
+}
+.chains h2 em{
+  font-family: var(--italic); font-style: italic; font-weight: 400;
+  color: var(--warning); letter-spacing: -0.015em;
+}
+.chains .ch-deck{
+  font-family: var(--italic); font-style: italic;
+  font-size: clamp(18px, 1.9vw, 24px);
+  line-height: 1.45; color: var(--ink-soft);
+  max-width: 56ch; margin-bottom: 60px;
+}
+.chain{
+  margin-bottom: 50px;
+  padding: 28px 32px;
+  background: var(--face);
+  border: 1px solid var(--hair-strong);
+}
+.chain-title{
+  font-family: var(--display); font-size: 14px; letter-spacing: -0.005em;
+  text-transform: uppercase;
+  color: var(--ink); margin-bottom: 24px;
+  padding-bottom: 14px; border-bottom: 1px solid var(--hair);
+}
+.chain-flow{
+  display: flex; align-items: stretch; gap: 8px;
+  flex-wrap: wrap;
+}
+.chain-flow .step{
+  flex: 1 1 200px; min-width: 180px;
+  padding: 18px 18px 16px;
+  background: var(--wall-soft);
+  border-left: 3px solid var(--ink);
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.chain-flow .step.end{ border-left-color: var(--warning); background: #fefaf8 }
+.chain-flow .step-num{
+  font-family: var(--display); font-size: 22px; line-height: 1;
+  color: var(--warning); margin-bottom: 8px;
+}
+.chain-flow .step-name{
+  font-family: var(--display); font-size: 13.5px; line-height: 1.25;
+  letter-spacing: -0.005em; color: var(--ink); margin-bottom: 10px;
+}
+.chain-flow .step-what{
+  font-family: var(--sans); font-weight: 300; font-size: 13px;
+  line-height: 1.45; color: var(--ink-soft);
+}
+.chain-flow .step-what strong{ color: var(--ink); font-weight: 600 }
+.chain-flow .arrow{
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 4px;
+  font-family: var(--display); font-size: 24px;
+  color: var(--warning); font-weight: 700;
+}
+.chain-summary{
+  margin-top: 50px;
+  padding: 32px 36px;
+  background: var(--ink); color: var(--wall);
+  border-left: 6px solid var(--warning);
+}
+.chain-summary .cs-stamp{
+  font-family: var(--mono); font-size: 11px; letter-spacing: .32em;
+  color: var(--warning); font-weight: 700; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.chain-summary p{
+  font-family: var(--italic); font-style: italic;
+  font-size: clamp(17px, 1.9vw, 22px);
+  line-height: 1.5; color: var(--wall);
+}
+.chain-summary em{ color: var(--warning); font-style: italic; font-weight: 500 }
+@media (max-width: 760px){
+  .chain-flow{ flex-direction: column; gap: 0 }
+  .chain-flow .arrow{
+    transform: rotate(90deg);
+    padding: 8px 0;
+  }
+}
+
+/* ============== GLOSSARY ============== */
+.glossary{
+  padding: 10vh clamp(24px, 6vw, 80px);
+  background: var(--wall-soft);
+  border-top: 1px solid var(--hair);
+}
+.glossary .inner{ max-width: 1080px; margin: 0 auto; }
+.glossary .pre{
+  font-family: var(--mono); font-size: 11px; letter-spacing: .32em;
+  color: var(--warning); font-weight: 700; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.glossary h2{
+  font-family: var(--italic); font-style: italic;
+  font-size: clamp(28px, 3.6vw, 42px);
+  line-height: 1.1; color: var(--ink); margin-bottom: 8px;
+}
+.glossary .g-deck{
+  font-family: var(--sans); font-weight: 300; font-size: 15px;
+  color: var(--ink-soft); margin-bottom: 40px;
+}
+.g-grid{
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+.g-term{
+  padding: 16px 18px;
+  background: var(--face); border: 1px solid var(--hair);
+}
+.g-term .gt-name{
+  font-family: var(--display); font-size: 13px; letter-spacing: -0.005em;
+  color: var(--ink); margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.g-term .gt-acronym{
+  font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
+  color: var(--warning); margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.g-term .gt-def{
+  font-family: var(--sans); font-weight: 300; font-size: 13.5px;
+  line-height: 1.5; color: var(--ink-soft);
+}
+.g-term .gt-def b{ color: var(--ink); font-weight: 600 }
+
+/* ============== SCRUBBER · the instrument ============== */
+.scrubber-section{
+  background: var(--wall-soft);
+  padding: 14vh clamp(24px, 6vw, 80px);
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+}
+.scrubber-section .inner{ max-width: 1280px; margin: 0 auto; }
+.scrubber-section h2{
+  font-family:var(--italic); font-style:italic;
+  font-size: clamp(28px, 3.6vw, 52px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 12px;
+  max-width: 22ch;
+}
+.scrubber-section .scrub-sub{
+  font-family:var(--sans); font-weight:300;
+  font-size: 15px; color: var(--dim);
+  margin-bottom: 50px;
+  max-width: 56ch;
+}
+.scrub-stage{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: clamp(20px, 3vw, 48px);
+  margin-bottom: 50px;
+  align-items:end;
+}
+.scrub-clock{
+  display:flex; flex-direction:column; align-items:center;
+  position: relative;
+}
+.scrub-clock .clock-mini{
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio:1;
+  filter: drop-shadow(0 10px 14px rgba(10,10,10,0.12));
+}
+.scrub-clock .clock-mini svg{ width:100%; height:100%; display:block }
+.scrub-clock .clock-mini.firing{
+  animation: firingPulse 1.4s ease infinite;
+}
+@keyframes firingPulse{
+  0%, 100%{ filter: drop-shadow(0 10px 14px rgba(10,10,10,0.12)) drop-shadow(0 0 0 transparent); }
+  50%{ filter: drop-shadow(0 10px 14px rgba(10,10,10,0.12)) drop-shadow(0 0 18px rgba(200,24,24,0.55)); }
+}
+.scrub-clock .clock-mini.firing svg circle.frame{ stroke: var(--warning); stroke-width: 5; }
+
+.scrub-clock .sc-name{
+  margin-top: 18px;
+  font-family:var(--mono); font-size: 10px; letter-spacing: .32em;
+  text-transform: uppercase; color: var(--ink);
+  font-weight: 700;
+}
+.scrub-clock .sc-state{
+  margin-top: 6px;
+  font-family:var(--italic); font-style: italic; font-size: 14px;
+  color: var(--dim);
+  text-align:center; min-height: 1.2em;
+  transition: color 0.4s;
+}
+.scrub-clock .sc-state.firing-text{ color: var(--warning); font-weight: 500 }
+
+.day-readout{
+  display:flex; align-items:baseline; gap: 14px;
+  margin-bottom: 22px;
+}
+.day-readout .dr-month{
+  font-family:var(--display);
+  font-size: 18px; letter-spacing: -0.01em;
+  color: var(--dim);
+}
+.day-readout .dr-day{
+  font-family:var(--display);
+  font-size: 64px; letter-spacing: -0.04em;
+  line-height: 1; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.day-readout .dr-year{
+  font-family:var(--mono); font-size:12px; letter-spacing: .22em;
+  color: var(--dim);
+}
+.day-readout .dr-tag{
+  margin-left: auto;
+  font-family:var(--mono); font-size: 11px; letter-spacing: .28em;
+  padding: 6px 14px;
+  background: var(--ink); color: var(--wall);
+  text-transform: uppercase;
+}
+.day-readout .dr-tag.convergence{
+  background: var(--warning); color: var(--wall);
+  animation: convFlash 1.6s ease infinite;
+}
+@keyframes convFlash{ 0%,100%{ opacity:1 } 50%{ opacity: 0.65 } }
+
+.scrubber-rail{
+  position: relative;
+  margin: 0 0 22px;
+}
+.scrubber-rail input[type=range]{
+  width:100%; height: 32px;
+  -webkit-appearance: none; appearance: none;
+  background: transparent;
+  margin: 0;
+}
+.scrubber-rail input[type=range]::-webkit-slider-runnable-track{
+  height: 3px; background: var(--ink); border-radius:0;
+}
+.scrubber-rail input[type=range]::-moz-range-track{
+  height: 3px; background: var(--ink); border-radius:0;
+}
+.scrubber-rail input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none;
+  width: 22px; height: 22px;
+  background: var(--warning);
+  border: 3px solid var(--wall);
+  border-radius: 50%;
+  margin-top: -10px;
+  cursor: grab;
+  box-shadow: 0 4px 10px rgba(10,10,10,0.25);
+}
+.scrubber-rail input[type=range]::-moz-range-thumb{
+  width: 22px; height: 22px;
+  background: var(--warning);
+  border: 3px solid var(--wall);
+  border-radius: 50%;
+  cursor: grab;
+  box-shadow: 0 4px 10px rgba(10,10,10,0.25);
+}
+.scrubber-rail .tick-marks{
+  position: absolute; top: 22px; left: 0; right: 0; height: 10px;
+  pointer-events: none;
+}
+.scrubber-rail .tick-marks .tm{
+  position: absolute; top: 0; width: 1px; height: 6px;
+  background: var(--hair-strong);
+  transform: translateX(-50%);
+}
+.scrubber-rail .tick-marks .tm.major{ height: 10px; background: var(--ink); }
+.scrubber-rail .tick-marks .tm.fire{
+  background: var(--warning); height: 10px;
+}
+.scrubber-rail .tick-marks .tm-label{
+  position:absolute; top: 14px; transform: translateX(-50%);
+  font-family:var(--mono); font-size:9px; letter-spacing:.18em;
+  color: var(--dim); white-space:nowrap;
+}
+
+.scrub-play{
+  display:flex; gap: 12px; align-items:center; margin-top: 26px;
+}
+.scrub-play button{
+  background: var(--ink); color: var(--wall); border: none;
+  padding: 10px 18px; cursor: pointer;
+  font-family:var(--mono); font-size: 11px; letter-spacing: .22em;
+  text-transform: uppercase;
+  transition: all .2s;
+}
+.scrub-play button:hover{ background: var(--warning) }
+.scrub-play button.ghost{
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--ink);
+}
+.scrub-play button.ghost:hover{ background: var(--ink); color: var(--wall) }
+
+.event-log{
+  margin-top: 36px;
+  padding: 22px 26px;
+  background: var(--wall);
+  border-left: 3px solid var(--ink);
+  min-height: 80px;
+  font-family:var(--mono); font-size: 12px; letter-spacing: .04em;
+  color: var(--ink-soft); line-height: 1.6;
+  transition: border-color 0.4s, background 0.4s;
+}
+.event-log.firing{ border-left-color: var(--warning); background: #fefaf8 }
+.event-log .el-stamp{
+  display: block;
+  font-size: 9.5px; letter-spacing: .32em;
+  color: var(--warning); font-weight: 700;
+  text-transform: uppercase; margin-bottom: 10px;
+}
+.event-log .el-empty{
+  font-family: var(--italic); font-style: italic;
+  color: var(--dim); font-size: 14px;
+}
+.event-log .el-row{
+  display: flex; gap: 14px;
+  padding: 6px 0;
+  border-top: 1px dashed var(--hair);
+}
+.event-log .el-row:first-of-type{ border-top: none }
+.event-log .el-row .el-time{
+  color: var(--warning); font-weight: 700;
+  min-width: 64px; flex-shrink: 0;
+}
+.event-log .el-row .el-clock{
+  color: var(--dim); font-weight: 700;
+  min-width: 72px; flex-shrink: 0;
+}
+
+/* ============== WHAT TO ANTICIPATE · WEEK AHEAD ============== */
+.anticipate{
+  padding: 14vh clamp(24px, 6vw, 80px);
+  background: var(--wall);
+  border-top: 1px solid var(--hair);
+}
+.anticipate .inner{ max-width: 1280px; margin: 0 auto; }
+.anticipate .pre{
+  font-family: var(--mono); font-size: 11px; letter-spacing: .32em;
+  color: var(--warning); font-weight: 700; text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.anticipate h2{
+  font-family: var(--display);
+  font-size: clamp(36px, 5.2vw, 72px);
+  line-height: 0.98; letter-spacing: -0.035em;
+  color: var(--ink); margin-bottom: 18px;
+  max-width: 22ch;
+}
+.anticipate h2 em{
+  font-family: var(--italic); font-style: italic; font-weight: 400;
+  color: var(--warning); letter-spacing: -0.015em;
+}
+.anticipate .ant-deck{
+  font-family: var(--italic); font-style: italic;
+  font-size: clamp(18px, 1.9vw, 24px);
+  line-height: 1.45; color: var(--ink-soft);
+  max-width: 50ch; margin-bottom: 60px;
+}
+
+.ant-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-bottom: 50px;
+}
+.ant-day{
+  background: var(--face);
+  border: 1px solid var(--hair-strong);
+  display: flex; flex-direction: column;
+  position: relative;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.ant-day:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(10,10,10,0.08);
+}
+.ant-day.featured{ border-color: var(--warning); border-width: 2px }
+.ant-day.full-convergence{
+  border-color: var(--warning);
+  border-width: 2px;
+  background: linear-gradient(180deg, #fefaf8 0%, var(--face) 100%);
+}
+.ant-day.full-convergence::before{
+  content: "⚠ FULL CONVERGENCE"; position: absolute; top: -10px; left: 12px;
+  background: var(--warning); color: var(--wall);
+  padding: 3px 10px;
+  font-family: var(--mono); font-size: 9px; letter-spacing: .22em;
+  font-weight: 700; text-transform: uppercase;
+}
+.ad-head{
+  padding: 22px 22px 14px;
+  border-bottom: 1px solid var(--hair);
+}
+.ad-dow{
+  font-family: var(--mono); font-size: 10px; letter-spacing: .32em;
+  color: var(--dim); text-transform: uppercase; margin-bottom: 4px;
+}
+.ad-date{
+  font-family: var(--display); font-size: 32px;
+  letter-spacing: -0.025em; color: var(--ink); line-height: 1;
+  margin-bottom: 10px;
+}
+.ad-gravity{
+  font-family: var(--mono); font-size: 10px; letter-spacing: .22em;
+  color: var(--dim); text-transform: uppercase;
+}
+.ad-gravity b{ color: var(--ink); font-weight: 700 }
+.ant-day.featured .ad-gravity b.ant-day.full-convergence .ad-gravity b{ color: var(--warning) }
+.ad-body{ padding: 18px 22px 22px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+.ad-event{ padding-bottom: 14px; border-bottom: 1px dashed var(--hair); }
+.ad-event:last-of-type{ border-bottom: none; padding-bottom: 0 }
+.ad-time{
+  font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
+  color: var(--warning); font-weight: 700; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.ad-name{
+  font-family: var(--display); font-size: 14px; letter-spacing: -0.005em;
+  color: var(--ink); margin-bottom: 8px;
+}
+.ad-anti{
+  font-family: var(--sans); font-weight: 300; font-size: 14px;
+  line-height: 1.5; color: var(--ink-soft);
+}
+.ad-anti em{ font-family: var(--italic); font-style: italic; color: var(--warning); font-weight: 500 }
+.ad-anti strong{ font-weight: 600; color: var(--ink) }
+.branches{
+  margin-top: 12px; display: flex; flex-direction: column; gap: 8px;
+}
+.branches .br{
+  padding: 10px 12px;
+  background: var(--wall-soft);
+  border-left: 2px solid var(--ink);
+  font-family: var(--sans); font-weight: 300; font-size: 13px;
+  line-height: 1.45; color: var(--ink-soft);
+}
+.branches .br b{
+  font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
+  font-weight: 700; color: var(--warning); text-transform: uppercase;
+  margin-right: 8px;
+}
+.branches .br em{ font-family: var(--italic); font-style: italic; color: var(--ink); font-weight: 500 }
+.ad-watch{
+  margin-top: 4px;
+  padding: 14px 16px;
+  background: var(--wall-soft);
+  border-left: 2px solid var(--warning);
+  font-family: var(--sans); font-weight: 300; font-size: 13px;
+  line-height: 1.5; color: var(--ink-soft);
+}
+.ad-watch .aw-stamp{
+  display: block;
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .28em;
+  color: var(--warning); font-weight: 700; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.ad-watch strong{ font-weight: 600; color: var(--ink) }
+
+.ant-tldr{
+  margin-top: 36px;
+  padding: 32px 36px;
+  background: var(--ink); color: var(--wall);
+  border-left: 6px solid var(--warning);
+}
+.tldr-pre{
+  font-family: var(--mono); font-size: 11px; letter-spacing: .32em;
+  color: var(--warning); font-weight: 700; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.tldr-body{
+  font-family: var(--italic); font-style: italic;
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.4; color: var(--wall); margin: 0;
+}
+.tldr-body em{ color: var(--warning); font-style: italic; font-weight: 500 }
+
+/* ============== CONVERGENCE MOMENT ============== */
+.convergence{
+  position: relative;
+  padding: 16vh clamp(24px, 6vw, 80px) 16vh;
+  background: var(--ink);
+  color: var(--wall);
+  overflow:hidden;
+}
+.convergence::before{
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(200,24,24,0.18), transparent 70%);
+  pointer-events: none;
+}
+.convergence .inner{
+  max-width: 1080px; margin: 0 auto;
+  position: relative; z-index: 2;
+}
+.convergence .stamp{
+  font-family:var(--mono); font-size:11px; letter-spacing:.32em;
+  color: var(--warning); font-weight:700; text-transform:uppercase;
+  margin-bottom: 22px;
+}
+.convergence h2{
+  font-family:var(--display);
+  font-size: clamp(42px, 6vw, 88px);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+  color: var(--wall);
+  margin-bottom: 28px;
+}
+.convergence h2 em{
+  font-family:var(--italic); font-style:italic; font-weight:400;
+  color: var(--warning);
+  letter-spacing: -0.015em;
+}
+.convergence .conv-deck{
+  font-family:var(--italic); font-style:italic;
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.45; color: rgba(245,243,238,0.86);
+  max-width: 36ch;
+  margin-bottom: 56px;
+}
+
+.conv-visual{
+  position: relative;
+  height: 320px;
+  margin: 50px 0;
+}
+.conv-visual .conv-clock{
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  width: 150px; aspect-ratio: 1;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+}
+.conv-visual .conv-clock.c1{ left: 8%; }
+.conv-visual .conv-clock.c2{ left: 50%; transform: translate(-50%, -50%); }
+.conv-visual .conv-clock.c3{ right: 8%; }
+.conv-visual .conv-clock svg{ width: 100%; height: 100%; display: block }
+.conv-visual .conv-clock svg circle.frame{
+  fill: var(--wall);
+  stroke: var(--warning);
+  stroke-width: 4;
+}
+.conv-visual .conv-clock svg .tick{ stroke: var(--ink); }
+.conv-visual .conv-clock svg .hand{ stroke: var(--ink); }
+.conv-visual .conv-clock svg .hub{ fill: var(--warning); }
+.conv-visual .conv-line{
+  position: absolute;
+  top: 50%; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%, var(--warning) 18%, var(--warning) 82%, transparent 100%);
+  transform-origin: center;
+  animation: conv-pulse 2s ease infinite;
+}
+@keyframes conv-pulse{
+  0%,100%{ opacity: 0.35 }
+  50%{ opacity: 0.85; box-shadow: 0 0 12px var(--warning); }
+}
+
+.conv-readout{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 18px;
+  margin-top: 40px;
+}
+.conv-readout .cr-cell{
+  padding: 16px 20px;
+  border-left: 2px solid var(--warning);
+}
+.conv-readout .cr-time{
+  font-family: var(--mono); font-size: 11px; letter-spacing: .22em;
+  color: var(--warning); font-weight: 700;
+  margin-bottom: 6px;
+}
+.conv-readout .cr-event{
+  font-family: var(--display); font-size: 18px; letter-spacing: -0.01em;
+  color: var(--wall); margin-bottom: 4px;
+}
+.conv-readout .cr-source{
+  font-family: var(--italic); font-style: italic; font-size: 13px;
+  color: rgba(245,243,238,0.6);
+}
+
+/* ============== ANNOTATED PASSAGE (the original three-clocks text) ============== */
+.passage{
+  padding: 12vh clamp(24px, 6vw, 80px);
+  background: var(--wall);
+  max-width: 1200px; margin: 0 auto;
+}
+.passage .pre{
+  font-family:var(--mono); font-size:10px; letter-spacing:.32em;
+  color: var(--warning); text-transform: uppercase; font-weight:700;
+  margin-bottom: 18px;
+}
+.passage h2{
+  font-family:var(--display);
+  font-size: clamp(32px, 4.4vw, 56px);
+  line-height: 1.02; letter-spacing: -0.025em;
+  color: var(--ink); margin-bottom: 36px;
+  max-width: 24ch;
+}
+.passage .grid{
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 28px 36px;
+  margin-top: 14px;
+}
+.passage .ann{
+  display:flex; justify-content:center; align-items:flex-start;
+  padding-top: 4px;
+}
+.passage .ann svg{
+  width: 64px; height: 64px;
+  filter: drop-shadow(0 4px 8px rgba(10,10,10,0.12));
+}
+.passage .body{
+  font-family:var(--sans); font-weight: 300;
+  font-size: 18px; line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 60ch;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--hair);
+}
+.passage .body strong{
+  font-family:var(--display); font-weight: 400;
+  font-size: 14px; letter-spacing:.06em;
+  text-transform: uppercase;
+  color: var(--ink); display: block; margin-bottom: 8px;
+}
+.passage .body em{
+  font-family:var(--italic); font-style:italic;
+  color: var(--warning); font-weight: 500;
+}
+.passage .grid > div:last-child{ border-bottom: none }
+.passage .grid > div:nth-last-child(2){ border-bottom: none }
+
+/* ============== CLOSER ============== */
+.closer{
+  padding: 18vh clamp(24px, 6vw, 80px) 14vh;
+  background: var(--wall-soft);
+  text-align: center;
+  border-top: 1px solid var(--hair);
+  position: relative;
+  overflow: hidden;
+}
+.closer .three-mini{
+  display: flex; justify-content: center; gap: clamp(28px, 6vw, 80px);
+  margin-bottom: 60px;
+}
+.closer .three-mini .clock-mini{
+  width: 80px; aspect-ratio: 1;
+  filter: drop-shadow(0 6px 10px rgba(10,10,10,0.10));
+}
+.closer .three-mini .clock-mini svg{ width:100%; height:100%; display:block }
+.closer h2{
+  font-family:var(--display);
+  font-size: clamp(36px, 5vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 18px;
+  max-width: 18ch;
+  margin-left: auto; margin-right: auto;
+}
+.closer h2 em{
+  font-family:var(--italic); font-style:italic; font-weight: 400;
+  color: var(--warning);
+}
+.closer .close-deck{
+  font-family:var(--italic); font-style:italic;
+  font-size: clamp(20px, 2vw, 26px);
+  color: var(--ink-soft);
+  max-width: 32ch;
+  margin: 0 auto 50px;
+  line-height: 1.4;
+}
+.closer .links{
+  display: flex; gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.closer .links a{
+  font-family:var(--mono); font-size: 11px; letter-spacing: .22em;
+  text-transform: uppercase;
+  padding: 14px 22px;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  transition: all .2s;
+}
+.closer .links a:hover{
+  background: var(--ink); color: var(--wall);
+}
+.closer .links a.primary{
+  background: var(--warning); color: var(--wall); border-color: var(--warning);
+}
+.closer .links a.primary:hover{
+  background: var(--ink); color: var(--wall); border-color: var(--ink);
+}
+
+/* ============== FOOTER ============== */
+footer{
+  padding: 50px clamp(24px, 6vw, 80px);
+  background: var(--ink); color: var(--wall);
+  font-family: var(--mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase;
+  display: flex; justify-content: space-between; flex-wrap: wrap;
+  gap: 14px;
+}
+footer .ft-left b{ color: var(--warning) }
+footer a{ color: var(--wall); text-decoration: none; border-bottom: 1px solid rgba(245,243,238,0.3) }
+footer a:hover{ color: var(--warning); border-color: var(--warning); }
+
+/* ============== RESPONSIVE ============== */
+@media (max-width: 760px){
+  .clock-row{ grid-template-columns: 1fr; gap: 60px; }
+  .scrub-stage{ grid-template-columns: 1fr; gap: 50px; }
+  .conv-readout{ grid-template-columns: 1fr; gap: 12px }
+  .conv-visual{ height: 240px }
+  .conv-visual .conv-clock{ width: 90px }
+  .passage .grid{ grid-template-columns: 1fr; gap: 14px }
+  .passage .ann{ justify-content: flex-start; }
+  .gallery-hero .wall-clocks{ gap: 24px; padding: 60px 16px 0; }
+  .clock-label{ font-size: 9px; letter-spacing: .22em; bottom: -32px }
+  .closer .three-mini{ gap: 24px; }
+  .closer .three-mini .clock-mini{ width: 56px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .clock svg .hand{ transition: none }
+  .scrub-clock .clock-mini.firing{ animation: none }
+  .conv-visual .conv-line{ animation: none }
+  .day-readout .dr-tag.convergence{ animation: none }
+}
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav class="tn">
+  <a href="../index.html" class="brand">THE <em>MECHANISM</em> SERIES · INFERA</a>
+  <div class="links">
+    <a href="../index.html">← all episodes</a>
+    <a href="./index.html">field notes</a>
+  </div>
+</nav>
+
+<!-- ============== LIVE COUNTDOWN STRIP ============== -->
+<div class="countdown-strip">
+  <div class="cs-inner">
+    <span class="cs-label">▸ COMING UP</span>
+    <div class="cs-item">
+      <span class="cs-name">INFLATION REPORT</span>
+      <span class="cs-when"><b id="cdCPI">in 5 days</b> · Wed Jun 10 · sets mortgage rates</span>
+    </div>
+    <div class="cs-item">
+      <span class="cs-name">FED RATE DECISION</span>
+      <span class="cs-when"><b id="cdFOMC">in 11 days</b> · Jun 16,17 · the big one</span>
+    </div>
+    <div class="cs-item">
+      <span class="cs-name">SUPREME COURT</span>
+      <span class="cs-when"><b id="cdSCOTUS">in 3 days</b> · Mon Jun 8 · ruling possible</span>
+    </div>
+  </div>
+</div>
+
+<!-- hero gallery removed in v0.5, page opens straight on the title -->
+
+
+<!-- ============== OPENER (now first paint after the countdown) ============== -->
+<section class="title-moment opener">
+  <div class="pre">▸ FIELD NOTE 02 · FROM INFERA · JUNE 5, 2026</div>
+  <h1>Three clocks decide<br>what <em>matters</em><br>next week.</h1>
+  <p class="deck">One sets your mortgage rate. One decides if the government shuts down. One can change what's legal Monday morning. They almost never tick at the same time. <em>Next week, they will.</em></p>
+  <div class="byline">Infera Editorial, ~5 min read, plain English throughout</div>
+</section>
+
+<!-- ============== MEET THE CLOCKS ============== -->
+<section class="meet">
+  <h2>What each clock <em>actually</em> controls in your life.</h2>
+  <p class="meet-sub">Three institutions run American life on three different schedules. Most of the time you don't notice. Next week you will. Here's what each one does in plain English, and how it shows up in your wallet, your job, or your rights.</p>
+
+  <div class="clock-row">
+
+    <div class="clock-card" data-id="fomc">
+      <div class="clock-mini">
+        <svg viewBox="0 0 100 100" aria-label="The Fed clock">
+          <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+          <g class="ticks"></g>
+          <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#0a0a0a" stroke-width="4.5" stroke-linecap="round" transform="rotate(60 50 50)"></line>
+          <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#0a0a0a" stroke-width="2.8" stroke-linecap="round" transform="rotate(0 50 50)"></line>
+          <circle cx="50" cy="50" r="2.6" fill="#0a0a0a"></circle>
+        </svg>
+      </div>
+      <div class="card-label">The Fed clock</div>
+      <div class="card-meta">8 decisions per year · next: Jun 16,17</div>
+      <p class="card-body">The Federal Reserve is the U.S. central bank. Eight times a year, they decide whether to <strong>raise, lower, or hold</strong> the interest rate that every other rate is built on. The decision lands at exactly <strong>2:00 PM Eastern</strong>.</p>
+      <div class="card-impact">
+        <span class="ci-stamp">↳ How it shows up in your life</span>
+        <ul>
+          <li><b>Your mortgage rate</b>, moves within an hour of the announcement</li>
+          <li><b>Your credit card APR</b>, adjusts within weeks</li>
+          <li><b>Your savings account interest</b>, moves the same direction</li>
+          <li><b>Whether your small business loan gets approved</b></li>
+          <li><b>The stock market</b> (your 401k), reacts within minutes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="clock-card" data-id="fiscal">
+      <div class="clock-mini">
+        <svg viewBox="0 0 100 100" aria-label="The Congress clock">
+          <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+          <g class="ticks"></g>
+          <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#0a0a0a" stroke-width="4.5" stroke-linecap="round" transform="rotate(285 50 50)"></line>
+          <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#0a0a0a" stroke-width="2.8" stroke-linecap="round" transform="rotate(180 50 50)"></line>
+          <circle cx="50" cy="50" r="2.6" fill="#0a0a0a"></circle>
+        </svg>
+      </div>
+      <div class="card-label">The Congress clock</div>
+      <div class="card-meta">runs all year · panics every September</div>
+      <p class="card-body">Congress controls the federal budget, every program, every tax, every spending bill. Their fiscal year ends <strong>September 30</strong>. If they haven't agreed on a budget by then, <em>the government shuts down</em>. The closer we get, the louder this clock gets.</p>
+      <div class="card-impact">
+        <span class="ci-stamp">↳ How it shows up in your life</span>
+        <ul>
+          <li><b>Whether your federal services run</b>, Social Security checks, passports, national parks, IRS refunds</li>
+          <li><b>Whose taxes change</b>, every appropriations bill carries tax provisions</li>
+          <li><b>What programs survive</b>, Medicare, Medicaid, SNAP, student aid, veterans benefits</li>
+          <li><b>If you work for a federal contractor</b>, your paycheck</li>
+          <li><b>If you fly</b>, TSA, air traffic control during a shutdown</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="clock-card" data-id="scotus">
+      <div class="clock-mini">
+        <svg viewBox="0 0 100 100" aria-label="The Supreme Court clock">
+          <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+          <g class="ticks"></g>
+          <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#0a0a0a" stroke-width="4.5" stroke-linecap="round" transform="rotate(300 50 50)"></line>
+          <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#0a0a0a" stroke-width="2.8" stroke-linecap="round" transform="rotate(0 50 50)"></line>
+          <circle cx="50" cy="50" r="2.6" fill="#0a0a0a"></circle>
+        </svg>
+      </div>
+      <div class="card-label">The Supreme Court clock</div>
+      <div class="card-meta">silent 11 months · roars every June</div>
+      <p class="card-body">The Supreme Court announces rulings at <strong>10:00 AM Eastern</strong>. For most of the year, this clock is silent. But late May through June is <em>decision season</em>, when they release the term's biggest rulings, often with less than 30 seconds of warning.</p>
+      <div class="card-impact">
+        <span class="ci-stamp">↳ How it shows up in your life</span>
+        <ul>
+          <li><b>Healthcare</b>, what your insurance must cover</li>
+          <li><b>Voting</b>, registration, IDs, mail ballots, district maps</li>
+          <li><b>Immigration</b>, who can stay, who must leave</li>
+          <li><b>Workplace rights</b>, discrimination, overtime, union rules</li>
+          <li><b>Regulation</b>, what federal agencies can and can't enforce</li>
+          <li><b>Reproductive and family law</b></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============== HOW THEY'RE CONNECTED ============== -->
+<section class="chains">
+  <div class="inner">
+    <div class="pre">▸ HOW THESE THINGS ACTUALLY CONNECT</div>
+    <h2>One event sets off the <em>next</em>.<br>The chain ends in <em>your wallet.</em></h2>
+    <p class="ch-deck">Most news feels random. It isn't. Here are the three cause-and-effect chains that explain why every report next week matters, and how they end up in your kitchen, your job, or your court date.</p>
+
+    <div class="chain">
+      <div class="chain-title">CHAIN 1 · From Wednesday's inflation report to your mortgage payment</div>
+      <div class="chain-flow">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-name">Wednesday's inflation report comes out</div>
+          <div class="step-what">Government tells us whether prices were higher or lower than expected last month.</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-name">The Fed reads it ahead of next Tuesday's meeting</div>
+          <div class="step-what">If inflation is sticky, the Fed holds rates high. If it's cooling, they prepare to cut.</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-name">Mortgage lenders re-price within hours</div>
+          <div class="step-what">30-year mortgage rates follow the Fed's signal almost in real time.</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step end">
+          <div class="step-num">4</div>
+          <div class="step-name">Your monthly payment moves</div>
+          <div class="step-what">A 0.25% rate change on a $400k mortgage = <strong>~$70/month</strong> over 30 years. That's $25,000.</div>
+        </div>
+      </div>
+      <div class="echo">
+        <span class="echo-mark">↳ ECHO</span>
+        We documented the same algorithmic engine in <a href="../episode-08-the-class-engine.html">Episode 08, The Class Engine</a>, where Maria's rent jumped 18% because the software set it. The Fed sets one rate, the software sets thousands.
+      </div>
+    </div>
+
+    <div class="chain">
+      <div class="chain-title">CHAIN 2 · From the Wisconsin farm trip to your grocery bill</div>
+      <div class="chain-flow">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-name">President visits a Wisconsin farm Friday</div>
+          <div class="step-what">Trip is framed around "rural strength" and farm-economy success.</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-name">Thursday's government crop report drops at noon</div>
+          <div class="step-what">USDA's monthly forecast for corn, soy, wheat, livestock, the data that drives food prices.</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-name">Crop forecast either validates or contradicts the trip's claims</div>
+          <div class="step-what">If yields are stronger than expected, prices fall. If they're weaker, prices rise.</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step end">
+          <div class="step-num">4</div>
+          <div class="step-name">Your grocery bill, in 60,90 days</div>
+          <div class="step-what">Corn shows up in <strong>animal feed, meat prices</strong>, <strong>cereal, syrup, gasoline (ethanol)</strong>. Soy shows up in <strong>cooking oil, packaged food, eggs</strong>.</div>
+        </div>
+      </div>
+      <div class="echo">
+        <span class="echo-mark">↳ ECHO</span>
+        The same farm-belt cohort we traced in <a href="../the-closed-hospital.html">When the Hospital Closes</a> is the cohort that absorbs every food-price shock first. The crop report becomes the rural grocery aisle becomes the next county's hospital decision.
+      </div>
+    </div>
+
+    <div class="chain">
+      <div class="chain-title">CHAIN 3 · From a Monday Supreme Court ruling to your insurance card</div>
+      <div class="chain-flow">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-name">Supreme Court hands down a ruling Monday at 10:00 AM</div>
+          <div class="step-what">During June, any Monday or Thursday could deliver a major decision with 30 seconds of warning.</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-name">Federal agencies update their guidance within days</div>
+          <div class="step-what">HHS, EPA, IRS, Labor Department all rewrite enforcement rules to match the ruling.</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-name">Your insurance company, employer, or bank adjusts</div>
+          <div class="step-what">Coverage changes, workplace policies change, lending rules change, usually quietly.</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step end">
+          <div class="step-num">4</div>
+          <div class="step-name">What's legal Monday morning is different from Friday</div>
+          <div class="step-what">Could affect <strong>what your insurance covers, who can vote in your district, whether your overtime counts, what your employer can ask you</strong>.</div>
+        </div>
+      </div>
+      <div class="echo">
+        <span class="echo-mark">↳ ECHO</span>
+        The civic, commercial bridge we mapped across <a href="../episode-04-the-influence-war.html">Episode 04, The Influence War</a> begins here. A ruling at 10:00 AM becomes an agency memo by Thursday, becomes a benefits letter in your mailbox by August.
+      </div>
+    </div>
+
+    <div class="chain-summary">
+      <div class="cs-stamp">▸ THE BIGGER PICTURE</div>
+      <p>None of these chains run alone. Wednesday's inflation report doesn't just set your mortgage, it changes whether Congress can pass a tax bill, which changes whether a federal program survives, which changes what your kid's school gets funded for. The clocks are <em>connected</em>. When they fire in the same week, the connections happen all at once, and that's when entire policy directions can shift in 96 hours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SCRUBBER · THE INSTRUMENT ============== -->
+<section class="scrubber-section">
+  <div class="inner">
+    <h2>Slide through June. <em style="font-family:var(--italic); font-style:italic; color:var(--warning); font-weight:500">Watch them</em> fire.</h2>
+    <p class="scrub-sub">Drag the playhead across June 2026. Each clock dims when it's quiet and pulses red when it fires. Some days only one clock fires. On a few days, two or three fire within the same window, those are convergence days.</p>
+
+    <div class="scrub-stage">
+      <div class="scrub-clock">
+        <div class="clock-mini" id="scrubClock_fomc">
+          <svg viewBox="0 0 100 100" aria-label="FOMC clock scrubbed">
+            <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+            <g class="ticks"></g>
+            <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#0a0a0a" stroke-width="4.5" stroke-linecap="round" transform="rotate(60 50 50)"></line>
+            <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#0a0a0a" stroke-width="2.8" stroke-linecap="round" transform="rotate(0 50 50)"></line>
+            <circle cx="50" cy="50" r="2.6" fill="#0a0a0a"></circle>
+          </svg>
+        </div>
+        <div class="sc-name">THE FED</div>
+        <div class="sc-state" id="state_fomc">quiet</div>
+      </div>
+
+      <div class="scrub-clock">
+        <div class="clock-mini" id="scrubClock_fiscal">
+          <svg viewBox="0 0 100 100" aria-label="The Congress clock scrubbed">
+            <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+            <g class="ticks"></g>
+            <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#0a0a0a" stroke-width="4.5" stroke-linecap="round" transform="rotate(285 50 50)"></line>
+            <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#0a0a0a" stroke-width="2.8" stroke-linecap="round" transform="rotate(180 50 50)"></line>
+            <circle cx="50" cy="50" r="2.6" fill="#0a0a0a"></circle>
+          </svg>
+        </div>
+        <div class="sc-name">CONGRESS</div>
+        <div class="sc-state" id="state_fiscal">continuous</div>
+      </div>
+
+      <div class="scrub-clock">
+        <div class="clock-mini" id="scrubClock_scotus">
+          <svg viewBox="0 0 100 100" aria-label="The Supreme Court clock scrubbed">
+            <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+            <g class="ticks"></g>
+            <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#0a0a0a" stroke-width="4.5" stroke-linecap="round" transform="rotate(300 50 50)"></line>
+            <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#0a0a0a" stroke-width="2.8" stroke-linecap="round" transform="rotate(0 50 50)"></line>
+            <circle cx="50" cy="50" r="2.6" fill="#0a0a0a"></circle>
+          </svg>
+        </div>
+        <div class="sc-name">SUPREME COURT</div>
+        <div class="sc-state" id="state_scotus">quiet</div>
+      </div>
+    </div>
+
+    <div class="day-readout">
+      <div class="dr-month">JUNE</div>
+      <div class="dr-day" id="drDay">1</div>
+      <div class="dr-year">2026</div>
+      <div class="dr-tag" id="drTag">QUIET DAY</div>
+    </div>
+
+    <div class="scrubber-rail">
+      <input type="range" min="1" max="30" value="1" id="dayScrubber" aria-label="Day of June 2026">
+      <div class="tick-marks" id="tickMarks"></div>
+    </div>
+
+    <div class="scrub-play">
+      <button id="playBtn">▸ PLAY THE MONTH</button>
+      <button class="ghost" id="jumpConvBtn">JUMP TO CONVERGENCE</button>
+    </div>
+
+    <div class="event-log" id="eventLog">
+      <span class="el-empty">No events fire on June 1. The week begins quietly. Drag the playhead forward.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== WHAT TO ANTICIPATE · WEEK AHEAD ============== -->
+<section class="anticipate">
+  <div class="inner">
+    <div class="pre">▸ NEXT WEEK · DAY BY DAY · WHAT IT MEANS FOR YOU</div>
+    <h2>Five days. Five reasons<br>this <em>matters to you.</em></h2>
+    <p class="ant-deck">Each day below is what's on the schedule, what it means in plain English, and how it touches your life. Big-deal days are marked in red.</p>
+
+    <div class="ant-grid">
+
+      <div class="ant-day">
+        <div class="ad-head">
+          <div class="ad-dow">MONDAY</div>
+          <div class="ad-date">JUN 08</div>
+          <div class="ad-gravity">3 FRONTS OPEN AT ONCE</div>
+        </div>
+        <div class="ad-body">
+          <div class="ad-event">
+            <div class="ad-time">8:45 AM</div>
+            <div class="ad-name">Federal Register publishes Monday's rules</div>
+            <div class="ad-anti">Including the HHS proposed rule on Medicare Advantage prior authorization audits flagged Friday. Once it publishes, the 60 day public comment window opens. Industry lobbyists will respond within 48 hours.</div>
+          </div>
+          <div class="ad-event">
+            <div class="ad-time">10:00 AM</div>
+            <div class="ad-name">Supreme Court, ruling day possible</div>
+            <div class="ad-anti">First Monday of decision season. The Court could announce a major ruling with about 30 seconds of warning. We don't know which case until they say it. Last June there were four opinion day Mondays, three produced major rulings.</div>
+          </div>
+          <div class="ad-event">
+            <div class="ad-time">12:00 PM</div>
+            <div class="ad-name">DOJ, Treasury, Pentagon Monday press wave</div>
+            <div class="ad-anti">Federal agencies cluster announcements on Monday mornings to dominate the week's headlines. Watch for sanctions designations, indictments, contract awards.</div>
+          </div>
+          <div class="ad-event">
+            <div class="ad-time">3:00 PM</div>
+            <div class="ad-name">Senate convenes, procedural week begins</div>
+            <div class="ad-anti">First votes of the week typically Tuesday afternoon. The Senate Majority Leader's Monday floor speech tells you which bills are alive and which are dead.</div>
+          </div>
+          <div class="ad-watch">
+            <span class="aw-stamp">↳ WHAT THIS MEANS FOR YOU</span>
+            <span><strong>If you have Medicare Advantage:</strong> the new audit rule could change whether your insurer can keep denying prior authorization requests. <strong>If you've been waiting on a Supreme Court case</strong> (healthcare, immigration, voting, workplace), by 11 AM the rules could be different. <strong>If you watch defense, energy, or financial sectors:</strong> Monday's Treasury or DOJ release often previews a sector move that lands by Wednesday.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ant-day">
+        <div class="ad-head">
+          <div class="ad-dow">TUESDAY</div>
+          <div class="ad-date">JUN 09</div>
+          <div class="ad-gravity">SETUP DAY FOR THE BIG WEDNESDAY</div>
+        </div>
+        <div class="ad-body">
+          <div class="ad-event">
+            <div class="ad-time">10:00 AM</div>
+            <div class="ad-name">Senate committee hearings begin</div>
+            <div class="ad-anti">Tuesdays are the heaviest committee day of the week. Banking, Judiciary, Health, Foreign Relations typically all sit. If a Cabinet official is testifying, this is usually where they show up.</div>
+          </div>
+          <div class="ad-event">
+            <div class="ad-time">1:00 PM</div>
+            <div class="ad-name">Treasury 10 year note auction</div>
+            <div class="ad-anti">The government borrows about $40 billion at a fresh interest rate. The auction result tells you what big investors think rates will do over the next decade. Weak demand = bond market thinks inflation is sticky = bad for mortgages.</div>
+          </div>
+          <div class="ad-event">
+            <div class="ad-time">3:00 PM</div>
+            <div class="ad-name">Fed speech window closes</div>
+            <div class="ad-anti">Fed officials enter a blackout period the Saturday before each rate meeting. Tuesday is one of the last days they can speak publicly. Any unscheduled remarks today are deliberate signaling about June 17.</div>
+          </div>
+          <div class="ad-event">
+            <div class="ad-time">4:30 PM</div>
+            <div class="ad-name">Private oil inventory preview</div>
+            <div class="ad-anti">The American Petroleum Institute releases a preview of Wednesday's official government oil numbers. Often moves gas station futures before the government data lands.</div>
+          </div>
+          <div class="ad-watch">
+            <span class="aw-stamp">↳ WHAT THIS MEANS FOR YOU</span>
+            <span><strong>If you have a mortgage application pending:</strong> the 10 year Treasury auction at 1 PM is a leading indicator of where rates head Wednesday. <strong>If you fill your gas tank Thursday:</strong> the 4:30 PM private oil number often previews the Wednesday official report. <strong>If you watch politics:</strong> Tuesday committee hearings are where the White House messaging team locks in the Wednesday inflation talking points, win or lose.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ant-day featured">
+        <div class="ad-head">
+          <div class="ad-dow">WEDNESDAY</div>
+          <div class="ad-date">JUN 10</div>
+          <div class="ad-gravity">⚠ HIGH-IMPACT DAY · INFLATION REPORT</div>
+        </div>
+        <div class="ad-body">
+          <div class="ad-event">
+            <div class="ad-time">8:30 AM</div>
+            <div class="ad-name">Government releases the inflation report</div>
+            <div class="ad-anti">The single most-watched number of the month. Tells the Fed whether to cut rates next week. Four possible scenarios:</div>
+            <div class="branches">
+              <div class="br"><b>HOT</b> Prices rose faster than expected. → Fed holds rates high → <em>mortgages stay expensive, stocks fall</em></div>
+              <div class="br"><b>COOL</b> Prices rose slower than expected. → Fed prepares to cut → <em>mortgages get cheaper, stocks rally</em></div>
+              <div class="br"><b>HOUSING-DRIVEN HOT</b> Rent and home costs are pushing inflation. Fed already knew. → <em>housing affordability re-enters the news cycle</em></div>
+              <div class="br"><b>GAS-DRIVEN COOL</b> Gas prices fell, but everything else is still expensive. → <em>uneven market reaction, Iran/oil questions reopen</em></div>
+            </div>
+          </div>
+          <div class="ad-event">
+            <div class="ad-time">10:30 AM</div>
+            <div class="ad-name">Weekly oil supply report</div>
+            <div class="ad-anti">Government tells us how much oil and gasoline is in storage. Combined with the inflation report, it tells you whether high gas prices are about to stay or come down.</div>
+          </div>
+          <div class="ad-watch">
+            <span class="aw-stamp">↳ WHAT THIS MEANS FOR YOU</span>
+            <span><strong>If you're house-hunting:</strong> a cool inflation report could drop mortgage rates within days. <strong>If you have credit card debt:</strong> your APR follows the Fed. <strong>If you have a 401k:</strong> the stock market reacts within minutes. <strong>If you fill your gas tank:</strong> the oil report previews next week's prices.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ant-day full-convergence">
+        <div class="ad-head">
+          <div class="ad-dow">THURSDAY</div>
+          <div class="ad-date">JUN 11</div>
+          <div class="ad-gravity">⚠ ALL THREE CLOCKS FIRE TODAY</div>
+        </div>
+        <div class="ad-body">
+          <div class="ad-event">
+            <div class="ad-time">8:30 AM</div>
+            <div class="ad-name">Wholesale inflation report</div>
+            <div class="ad-anti">What businesses are paying before they raise <em>your</em> prices. A leading indicator of what hits store shelves in 60-90 days.</div>
+          </div>
+          <div class="ad-event">
+            <div class="ad-time">8:30 AM</div>
+            <div class="ad-name">Weekly unemployment claims</div>
+            <div class="ad-anti">How many people filed for unemployment last week. A jump = the job market is weakening. A drop = it's still strong.</div>
+          </div>
+          <div class="ad-event">
+            <div class="ad-time">12:00 PM</div>
+            <div class="ad-name">Government's monthly food &amp; farm forecast</div>
+            <div class="ad-anti">Tells us how much corn, soy, wheat, and meat will be available. This is what drives <em>grocery prices</em> over the next 60-90 days. If yields are weaker than expected, food gets more expensive.</div>
+          </div>
+          <div class="ad-event">
+            <div class="ad-time">10:00 AM</div>
+            <div class="ad-name">Supreme Court · second possible ruling day</div>
+            <div class="ad-anti">Another chance for a major ruling. By mid-June, Thursdays start delivering multiple opinions per day.</div>
+          </div>
+          <div class="ad-watch">
+            <span class="aw-stamp">↳ WHAT THIS MEANS FOR YOU</span>
+            <span><strong>Four reports in four hours, all touching your wallet:</strong> wholesale inflation (your future prices), unemployment (your job market), food forecasts (your grocery bill), Supreme Court (your rights). If they tell the same story, prices and policy align fast. If they conflict, the whole week's narrative changes by Friday.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ant-day">
+        <div class="ad-head">
+          <div class="ad-dow">FRIDAY</div>
+          <div class="ad-date">JUN 12</div>
+          <div class="ad-gravity">SHUTDOWN TALK BEGINS</div>
+        </div>
+        <div class="ad-body">
+          <div class="ad-event">
+            <div class="ad-time">TBA</div>
+            <div class="ad-name">Congressional cost estimate may drop</div>
+            <div class="ad-anti">The Congressional Budget Office may release its analysis of last week's spending bill, telling us how much it'll add to the deficit. <em>This is when "shutdown" enters headlines.</em></div>
+          </div>
+          <div class="ad-event">
+            <div class="ad-time">3:30 PM</div>
+            <div class="ad-name">Trader positioning data</div>
+            <div class="ad-anti">A weekly snapshot of how Wall Street is betting ahead of next Tuesday's Fed meeting. If traders are crowded into "rate cut" bets, any disappointment hits hard.</div>
+          </div>
+          <div class="ad-watch">
+            <span class="aw-stamp">↳ WHAT THIS MEANS FOR YOU</span>
+            <span><strong>Friday afternoon is when agencies publish things they don't want covered.</strong> If you care about a federal program, regulation, or rule change, Friday between 4 and 5 PM is when news of it surfaces. By Saturday morning, it's already old news.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ant-tldr">
+      <div class="tldr-pre">▸ THE WHOLE WEEK IN ONE SENTENCE</div>
+      <p class="tldr-body">Next week's Fed decision isn't really about Wednesday's inflation report, it's about whether <em>Wednesday's</em> inflation report agrees with <em>Friday's</em> jobs report from last week, and <em>Thursday's</em> wholesale prices and food forecast will decide which version of reality the Fed believes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CONVERGENCE MOMENT ============== -->
+<section class="convergence">
+  <div class="inner">
+    <div class="stamp">▸ NEXT THURSDAY · 4 BIG REPORTS IN 4 HOURS</div>
+    <h2>When all three clocks<br>fire in <em>one morning,</em><br>everything changes at once.</h2>
+    <p class="conv-deck">June 11,2026. Wholesale inflation at 8:30. Unemployment claims at 8:30. Food and farm forecast at noon. Three government reports within four hours, all feeding the Fed's rate decision the following Tuesday.</p>
+
+    <div class="conv-visual">
+      <div class="conv-line"></div>
+      <div class="conv-clock c1">
+        <svg viewBox="0 0 100 100">
+          <circle class="frame" cx="50" cy="50" r="44"></circle>
+          <g class="ticks">
+            <line class="tick" x1="50" y1="6" x2="50" y2="14"></line>
+            <line class="tick" x1="50" y1="86" x2="50" y2="94"></line>
+            <line class="tick" x1="6" y1="50" x2="14" y2="50"></line>
+            <line class="tick" x1="86" y1="50" x2="94" y2="50"></line>
+          </g>
+          <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke-width="4.5" stroke-linecap="round" transform="rotate(255 50 50)"></line>
+          <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke-width="2.8" stroke-linecap="round" transform="rotate(180 50 50)"></line>
+          <circle class="hub" cx="50" cy="50" r="2.6"></circle>
+        </svg>
+      </div>
+      <div class="conv-clock c2">
+        <svg viewBox="0 0 100 100">
+          <circle class="frame" cx="50" cy="50" r="44"></circle>
+          <g class="ticks">
+            <line class="tick" x1="50" y1="6" x2="50" y2="14"></line>
+            <line class="tick" x1="50" y1="86" x2="50" y2="94"></line>
+            <line class="tick" x1="6" y1="50" x2="14" y2="50"></line>
+            <line class="tick" x1="86" y1="50" x2="94" y2="50"></line>
+          </g>
+          <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke-width="4.5" stroke-linecap="round" transform="rotate(0 50 50)"></line>
+          <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke-width="2.8" stroke-linecap="round" transform="rotate(0 50 50)"></line>
+          <circle class="hub" cx="50" cy="50" r="2.6"></circle>
+        </svg>
+      </div>
+      <div class="conv-clock c3">
+        <svg viewBox="0 0 100 100">
+          <circle class="frame" cx="50" cy="50" r="44"></circle>
+          <g class="ticks">
+            <line class="tick" x1="50" y1="6" x2="50" y2="14"></line>
+            <line class="tick" x1="50" y1="86" x2="50" y2="94"></line>
+            <line class="tick" x1="6" y1="50" x2="14" y2="50"></line>
+            <line class="tick" x1="86" y1="50" x2="94" y2="50"></line>
+          </g>
+          <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke-width="4.5" stroke-linecap="round" transform="rotate(300 50 50)"></line>
+          <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke-width="2.8" stroke-linecap="round" transform="rotate(0 50 50)"></line>
+          <circle class="hub" cx="50" cy="50" r="2.6"></circle>
+        </svg>
+      </div>
+    </div>
+
+    <div class="conv-readout">
+      <div class="cr-cell">
+        <div class="cr-time">8:30 AM ET</div>
+        <div class="cr-event">Wholesale inflation report</div>
+        <div class="cr-source">Tells the Fed what businesses are paying, a preview of your next 90 days of prices</div>
+      </div>
+      <div class="cr-cell">
+        <div class="cr-time">8:30 AM ET</div>
+        <div class="cr-event">Weekly unemployment claims</div>
+        <div class="cr-source">A real-time read on how the job market is holding up</div>
+      </div>
+      <div class="cr-cell">
+        <div class="cr-time">12:00 PM ET</div>
+        <div class="cr-event">Food &amp; farm forecast</div>
+        <div class="cr-source">Government's monthly look at crops and meat, what'll set grocery prices in 60,90 days</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ANNOTATED PASSAGE (the original) ============== -->
+<section class="passage">
+  <div class="pre">▸ FROM THE TOMORROW BOARD · WEEK OF JUNE 8</div>
+  <h2>The week's choreography wasn't <em style="font-family:var(--italic); font-style:italic; color:var(--warning); font-weight:400">random.</em></h2>
+
+  <div class="grid">
+
+    <div class="ann">
+      <svg viewBox="0 0 100 100">
+        <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+        <line class="tick" x1="50" y1="6" x2="50" y2="14" stroke="#0a0a0a" stroke-width="2.4"></line>
+        <line class="tick" x1="50" y1="86" x2="50" y2="94" stroke="#0a0a0a" stroke-width="1.4"></line>
+        <line class="tick" x1="6" y1="50" x2="14" y2="50" stroke="#0a0a0a" stroke-width="1.4"></line>
+        <line class="tick" x1="86" y1="50" x2="94" y2="50" stroke="#0a0a0a" stroke-width="1.4"></line>
+        <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#c81818" stroke-width="4.5" stroke-linecap="round" transform="rotate(60 50 50)"></line>
+        <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#c81818" stroke-width="2.8" stroke-linecap="round" transform="rotate(0 50 50)"></line>
+        <circle cx="50" cy="50" r="2.6" fill="#c81818"></circle>
+      </svg>
+    </div>
+    <div class="body">
+      <strong>1 · The Fed clock</strong>
+      The Federal Reserve makes its rate decision June 16,17. Every single economic number between now and then will be read through one question: <em>does this change what the Fed will do?</em> Wednesday's inflation report, Thursday's wholesale prices, Thursday's unemployment claims, and Thursday's food forecast, four data points compressed into 48 hours, all feeding the same decision.
+    </div>
+
+    <div class="ann">
+      <svg viewBox="0 0 100 100">
+        <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+        <line class="tick" x1="50" y1="6" x2="50" y2="14" stroke="#0a0a0a" stroke-width="2.4"></line>
+        <line class="tick" x1="50" y1="86" x2="50" y2="94" stroke="#0a0a0a" stroke-width="1.4"></line>
+        <line class="tick" x1="6" y1="50" x2="14" y2="50" stroke="#0a0a0a" stroke-width="1.4"></line>
+        <line class="tick" x1="86" y1="50" x2="94" y2="50" stroke="#0a0a0a" stroke-width="1.4"></line>
+        <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#c81818" stroke-width="4.5" stroke-linecap="round" transform="rotate(285 50 50)"></line>
+        <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#c81818" stroke-width="2.8" stroke-linecap="round" transform="rotate(180 50 50)"></line>
+        <circle cx="50" cy="50" r="2.6" fill="#c81818"></circle>
+      </svg>
+    </div>
+    <div class="body">
+      <strong>2 · The Congress clock</strong>
+      The House started writing the next budget last Friday. The Senate picks it up this week. By late June, the two chambers will be reconciling differences, every step compressing the September 30 shutdown deadline a little tighter. Watch for the phrase <em>shutdown risk</em> to enter headlines by Friday, June 12, when the Congressional Budget Office releases its cost estimate.
+    </div>
+
+    <div class="ann">
+      <svg viewBox="0 0 100 100">
+        <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+        <line class="tick" x1="50" y1="6" x2="50" y2="14" stroke="#0a0a0a" stroke-width="2.4"></line>
+        <line class="tick" x1="50" y1="86" x2="50" y2="94" stroke="#0a0a0a" stroke-width="1.4"></line>
+        <line class="tick" x1="6" y1="50" x2="14" y2="50" stroke="#0a0a0a" stroke-width="1.4"></line>
+        <line class="tick" x1="86" y1="50" x2="94" y2="50" stroke="#0a0a0a" stroke-width="1.4"></line>
+        <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#c81818" stroke-width="4.5" stroke-linecap="round" transform="rotate(300 50 50)"></line>
+        <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#c81818" stroke-width="2.8" stroke-linecap="round" transform="rotate(0 50 50)"></line>
+        <circle cx="50" cy="50" r="2.6" fill="#c81818"></circle>
+      </svg>
+    </div>
+    <div class="body">
+      <strong>3 · The Supreme Court clock</strong>
+      Late May through June is when major rulings land. Every Monday and Thursday this month could deliver a decision that reshapes a national debate before lunch. We don't know which case until they say it. That uncertainty <em>is</em> the news.
+    </div>
+
+  </div>
+</section>
+
+<!-- ============== CLOSER ============== -->
+<section class="closer">
+  <div class="three-mini">
+    <div class="clock-mini">
+      <svg viewBox="0 0 100 100">
+        <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+        <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#0a0a0a" stroke-width="4.5" stroke-linecap="round" transform="rotate(60 50 50)"></line>
+        <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#0a0a0a" stroke-width="2.8" stroke-linecap="round" transform="rotate(0 50 50)"></line>
+        <circle cx="50" cy="50" r="2.6" fill="#0a0a0a"></circle>
+      </svg>
+    </div>
+    <div class="clock-mini">
+      <svg viewBox="0 0 100 100">
+        <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+        <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#0a0a0a" stroke-width="4.5" stroke-linecap="round" transform="rotate(285 50 50)"></line>
+        <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#0a0a0a" stroke-width="2.8" stroke-linecap="round" transform="rotate(180 50 50)"></line>
+        <circle cx="50" cy="50" r="2.6" fill="#0a0a0a"></circle>
+      </svg>
+    </div>
+    <div class="clock-mini">
+      <svg viewBox="0 0 100 100">
+        <circle class="frame" cx="50" cy="50" r="44" fill="#fff" stroke="#0a0a0a" stroke-width="4"></circle>
+        <line class="hand hour" x1="50" y1="50" x2="50" y2="30" stroke="#0a0a0a" stroke-width="4.5" stroke-linecap="round" transform="rotate(300 50 50)"></line>
+        <line class="hand minute" x1="50" y1="50" x2="50" y2="20" stroke="#0a0a0a" stroke-width="2.8" stroke-linecap="round" transform="rotate(0 50 50)"></line>
+        <circle cx="50" cy="50" r="2.6" fill="#0a0a0a"></circle>
+      </svg>
+    </div>
+  </div>
+  <h2>These three rhythms <em>decide</em><br>what becomes news.</h2>
+  <p class="close-deck">Watch them tick. Before the headline hardens, these are the clocks setting it.</p>
+  <div class="echo" style="max-width: 520px; margin: 0 auto 36px; text-align: left;">
+    <span class="echo-mark">↳ INFERA</span>
+    Every Infera brief begins the same way: with the clocks. The Daily Mechanism Brief, The Tomorrow Board, The Hidden Calendar, all three sit on top of this rhythm. <a href="../index.html">See the rest of the series.</a>
+  </div>
+  <div class="links">
+    <a href="#" class="primary">SUBSCRIBE TO THE MECHANISM BRIEF</a>
+    <a href="../index.html">← ALL EPISODES</a>
+    <a href="./index.html">OTHER FIELD NOTES</a>
+  </div>
+</section>
+
+<!-- ============== GLOSSARY ============== -->
+<section class="glossary">
+  <div class="inner">
+    <div class="pre">▸ TERMS YOU'LL HEAR THIS WEEK · WHAT THEY ACTUALLY MEAN</div>
+    <h2>The words the news will use.<br><span style="color:var(--warning); font-style:italic">In plain English.</span></h2>
+    <p class="g-deck">News coverage of this week will throw a lot of acronyms and insider terms at you. Here's the translation.</p>
+
+    <div class="g-grid">
+      <div class="g-term">
+        <div class="gt-name">Inflation report</div>
+        <div class="gt-acronym">aka CPI · Consumer Price Index</div>
+        <div class="gt-def">The government's monthly measure of <b>how much prices changed</b>. Includes groceries, rent, gas, healthcare, everything. Wednesday's report is for May.</div>
+      </div>
+      <div class="g-term">
+        <div class="gt-name">Wholesale inflation</div>
+        <div class="gt-acronym">aka PPI · Producer Price Index</div>
+        <div class="gt-def">What <b>businesses pay for stuff</b> before they raise <em>your</em> prices. Often signals what consumer prices will do in 60-90 days.</div>
+      </div>
+      <div class="g-term">
+        <div class="gt-name">The Fed</div>
+        <div class="gt-acronym">Federal Reserve · FOMC meeting</div>
+        <div class="gt-def">The U.S. central bank. Sets the <b>interest rate that affects every other rate</b>, mortgages, credit cards, business loans, savings accounts. Meets eight times a year.</div>
+      </div>
+      <div class="g-term">
+        <div class="gt-name">Food &amp; farm forecast</div>
+        <div class="gt-acronym">aka WASDE report</div>
+        <div class="gt-def">USDA's monthly estimate of how much <b>corn, soy, wheat, and meat</b> the U.S. and world will have. The data that ends up in your <em>grocery bill</em>.</div>
+      </div>
+      <div class="g-term">
+        <div class="gt-name">Cost estimate</div>
+        <div class="gt-acronym">aka CBO score</div>
+        <div class="gt-def">The Congressional Budget Office's analysis of <b>how much a bill will cost</b>. Triggers shutdown talk when the numbers look bad.</div>
+      </div>
+      <div class="g-term">
+        <div class="gt-name">Shutdown</div>
+        <div class="gt-acronym">Government shutdown</div>
+        <div class="gt-def">If Congress doesn't agree on a budget by <b>September 30</b>, the federal government stops non-essential operations. Workers go unpaid. Services pause. Usually ends in days, sometimes weeks.</div>
+      </div>
+      <div class="g-term">
+        <div class="gt-name">Unemployment claims</div>
+        <div class="gt-acronym">Jobless claims</div>
+        <div class="gt-def">A weekly count of people who <b>filed for unemployment</b>. A real-time read on the job market.</div>
+      </div>
+      <div class="g-term">
+        <div class="gt-name">SCOTUS</div>
+        <div class="gt-acronym">Supreme Court of the United States</div>
+        <div class="gt-def">The highest U.S. court. <b>Rulings change what's legal nationwide.</b> Issues most major decisions in late May, June.</div>
+      </div>
+      <div class="g-term">
+        <div class="gt-name">Markup</div>
+        <div class="gt-acronym">Committee markup</div>
+        <div class="gt-def">When a congressional committee <b>edits a bill</b> before sending it to the full chamber. Where most of the actual policymaking happens.</div>
+      </div>
+      <div class="g-term">
+        <div class="gt-name">Cloture vote</div>
+        <div class="gt-acronym">Senate procedural vote</div>
+        <div class="gt-def">A Senate vote that ends debate and forces a final vote on a bill. <b>Needs 60 votes.</b> Without it, a bill can be filibustered indefinitely.</div>
+      </div>
+      <div class="g-term">
+        <div class="gt-name">Convergence day</div>
+        <div class="gt-acronym">Infera term</div>
+        <div class="gt-def">A day when <b>two or more of the three clocks fire</b> within hours of each other. Markets and politics get whiplash because too much is happening at once.</div>
+      </div>
+      <div class="g-term">
+        <div class="gt-name">Document dump</div>
+        <div class="gt-acronym">Friday afternoon release</div>
+        <div class="gt-def">When agencies publish reports they <b>don't want covered</b>, usually after 3 PM Friday so weekend news cycles bury them.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="ft-left"><b>INFERA</b> · MAKE THE MACHINERY VISIBLE BEFORE THE HEADLINE HARDENS</div>
+  <div class="ft-right"><a href="mailto:infera@melophon.com">infera@melophon.com</a> · series.melophon.com</div>
+</footer>
+
+<script>
+(function(){
+  // ============================================================
+  // Build hour & minute ticks on every clock with a .ticks group
+  // ============================================================
+  function buildTicks(group){
+    if(!group) return;
+    for(var i = 0; i < 60; i++){
+      var angle = (i * 6) * Math.PI / 180;
+      var inner = (i % 5 === 0) ? 36 : 40;
+      var outer = 44;
+      var x1 = 50 + Math.sin(angle) * inner;
+      var y1 = 50 - Math.cos(angle) * inner;
+      var x2 = 50 + Math.sin(angle) * outer;
+      var y2 = 50 - Math.cos(angle) * outer;
+      var tick = document.createElementNS('http://www.w3.org/2000/svg','line');
+      tick.setAttribute('x1', x1);
+      tick.setAttribute('y1', y1);
+      tick.setAttribute('x2', x2);
+      tick.setAttribute('y2', y2);
+      tick.setAttribute('class', (i % 5 === 0) ? 'tick major' : 'tick');
+      tick.setAttribute('stroke', '#0a0a0a');
+      tick.setAttribute('stroke-width', (i % 5 === 0) ? '2.4' : '1.0');
+      group.appendChild(tick);
+    }
+  }
+  document.querySelectorAll('svg g.ticks').forEach(buildTicks);
+
+  // ============================================================
+  // June 2026 event data · the rhythm of the month
+  // Day numbers are 1-30 of June 2026.
+  // Each event: clock, time, label, source, gravity 0-100
+  // ============================================================
+  var EVENTS = {
+    1:  [],
+    2:  [],
+    3:  [],
+    4:  [],
+    5:  [
+      { clock:'fiscal', time:'08:00', label:'House writes the next federal health & education budget', source:'docs.house.gov', gravity:82 },
+      { clock:'fiscal', time:'08:00', label:'House writes the next homeland security budget', source:'docs.house.gov', gravity:80 },
+      { clock:'fomc',   time:'08:30', label:'Monthly jobs report, May numbers', source:'bls.gov', gravity:91 }
+    ],
+    6:  [],
+    7:  [],
+    8:  [
+      { clock:'fiscal', time:'15:00', label:'Senate returns to session', source:'senate.gov', gravity:62 },
+      { clock:'scotus', time:'10:00', label:'Supreme Court, possible ruling day', source:'supremecourt.gov', gravity:85 }
+    ],
+    9:  [],
+    10: [
+      { clock:'fomc',   time:'08:30', label:'Inflation report, May (sets mortgage rates)', source:'bls.gov', gravity:96 },
+      { clock:'fomc',   time:'10:30', label:'Weekly oil & gas supply report', source:'eia.gov', gravity:60 }
+    ],
+    11: [
+      { clock:'fomc',   time:'08:30', label:'Wholesale inflation, what businesses pay', source:'bls.gov', gravity:84 },
+      { clock:'fomc',   time:'08:30', label:'Weekly unemployment claims', source:'bls.gov', gravity:62 },
+      { clock:'fiscal', time:'12:00', label:'Food & farm forecast (sets grocery prices)', source:'usda.gov', gravity:74 },
+      { clock:'scotus', time:'10:00', label:'Supreme Court, possible ruling day', source:'supremecourt.gov', gravity:85 }
+    ],
+    12: [
+      { clock:'fomc',   time:'15:30', label:'Weekly Wall Street positioning data', source:'cftc.gov', gravity:58 },
+      { clock:'fiscal', time:'TBA',   label:'Cost estimate for the June 5 spending bill', source:'cbo.gov', gravity:70 }
+    ],
+    13: [],
+    14: [],
+    15: [
+      { clock:'scotus', time:'10:00', label:'Supreme Court, possible ruling day', source:'supremecourt.gov', gravity:88 }
+    ],
+    16: [
+      { clock:'fomc',   time:'14:00', label:'Fed meeting begins (decision tomorrow)', source:'federalreserve.gov', gravity:88 }
+    ],
+    17: [
+      { clock:'fomc',   time:'14:00', label:'⚡ FED RATE DECISION, mortgages, savings, stocks move', source:'federalreserve.gov', gravity:99 },
+      { clock:'fomc',   time:'14:30', label:'Fed Chair explains the decision on live TV', source:'federalreserve.gov', gravity:98 }
+    ],
+    18: [
+      { clock:'scotus', time:'10:00', label:'Supreme Court, possible ruling day', source:'supremecourt.gov', gravity:90 },
+      { clock:'fomc',   time:'08:30', label:'Weekly unemployment claims', source:'bls.gov', gravity:55 }
+    ],
+    19: [
+      { clock:'fomc',   time:'15:30', label:'Weekly Wall Street positioning data', source:'cftc.gov', gravity:58 }
+    ],
+    20: [],
+    21: [],
+    22: [
+      { clock:'scotus', time:'10:00', label:'Supreme Court, possible ruling day', source:'supremecourt.gov', gravity:92 }
+    ],
+    23: [],
+    24: [],
+    25: [
+      { clock:'scotus', time:'10:00', label:'Supreme Court, major ruling week begins', source:'supremecourt.gov', gravity:95 }
+    ],
+    26: [
+      { clock:'fomc',   time:'08:30', label:'The Fed\'s preferred inflation measure (PCE)', source:'bea.gov', gravity:90 },
+      { clock:'fomc',   time:'15:30', label:'Weekly Wall Street positioning data', source:'cftc.gov', gravity:55 }
+    ],
+    27: [],
+    28: [],
+    29: [
+      { clock:'scotus', time:'10:00', label:'Supreme Court, term wraps up', source:'supremecourt.gov', gravity:96 }
+    ],
+    30: [
+      { clock:'fomc',   time:'10:00', label:'Job openings & quits report', source:'bls.gov', gravity:72 },
+      { clock:'fiscal', time:'TBA',   label:'92 days until government shutdown deadline', source:'house.gov / senate.gov', gravity:65 }
+    ]
+  };
+
+  // ============================================================
+  // Convergence detection
+  // ============================================================
+  function getActiveClocks(day){
+    var ev = EVENTS[day] || [];
+    var seen = {};
+    ev.forEach(function(e){ seen[e.clock] = true; });
+    return Object.keys(seen);
+  }
+  function isConvergence(day){ return getActiveClocks(day).length >= 2; }
+  function isFullConvergence(day){ return getActiveClocks(day).length >= 3; }
+
+  // ============================================================
+  // Render tick marks on the scrubber rail
+  // ============================================================
+  var rail = document.getElementById('tickMarks');
+  for(var d = 1; d <= 30; d++){
+    var pct = ((d - 1) / 29) * 100;
+    var ev = EVENTS[d] || [];
+    var hasEvent = ev.length > 0;
+    var hasConv = isConvergence(d);
+    var tm = document.createElement('div');
+    tm.className = 'tm' + (hasEvent ? ' fire' : '') + (hasConv ? ' major' : '');
+    tm.style.left = pct + '%';
+    rail.appendChild(tm);
+    if(d === 1 || d === 8 || d === 15 || d === 17 || d === 22 || d === 29){
+      var lbl = document.createElement('div');
+      lbl.className = 'tm-label';
+      lbl.textContent = 'JUN ' + d;
+      lbl.style.left = pct + '%';
+      rail.appendChild(lbl);
+    }
+  }
+
+  // ============================================================
+  // Scrubber-driven clock rendering
+  // ============================================================
+  var scrubber = document.getElementById('dayScrubber');
+  var drDay = document.getElementById('drDay');
+  var drTag = document.getElementById('drTag');
+  var stateLabels = {
+    fomc:   document.getElementById('state_fomc'),
+    fiscal: document.getElementById('state_fiscal'),
+    scotus: document.getElementById('state_scotus')
+  };
+  var miniClocks = {
+    fomc:   document.getElementById('scrubClock_fomc'),
+    fiscal: document.getElementById('scrubClock_fiscal'),
+    scotus: document.getElementById('scrubClock_scotus')
+  };
+  var eventLog = document.getElementById('eventLog');
+
+  // base resting positions for each clock's hands
+  var BASE_HANDS = {
+    fomc:   { hour: 60,  minute: 0   },  // 2:00
+    fiscal: { hour: 285, minute: 180 },  // 9:30
+    scotus: { hour: 300, minute: 0   }   // 10:00
+  };
+
+  function setHands(miniWrap, hourDeg, minuteDeg){
+    if(!miniWrap) return;
+    var svg = miniWrap.querySelector('svg');
+    if(!svg) return;
+    var hour = svg.querySelector('.hand.hour');
+    var minute = svg.querySelector('.hand.minute');
+    if(hour) hour.setAttribute('transform', 'rotate(' + hourDeg + ' 50 50)');
+    if(minute) minute.setAttribute('transform', 'rotate(' + minuteDeg + ' 50 50)');
+  }
+
+  function fmtTime(t){
+    if(t === 'TBA') return 'TBA  ';
+    var parts = t.split(':');
+    var h = parseInt(parts[0],10);
+    var m = parts[1] || '00';
+    var ampm = (h >= 12) ? 'PM' : 'AM';
+    var h12 = h % 12; if(h12 === 0) h12 = 12;
+    return (h12 < 10 ? ' ' : '') + h12 + ':' + m + ' ' + ampm;
+  }
+
+  function clockState(clock, day){
+    var ev = (EVENTS[day] || []).filter(function(e){ return e.clock === clock; });
+    if(ev.length){
+      return { firing: true, label: ev[0].time + ' · ' + ev[0].label };
+    }
+    if(clock === 'fiscal'){
+      return { firing: false, label: 'continuous · quiet on the wire' };
+    }
+    if(clock === 'fomc'){
+      // pre-meeting ramp
+      var d = parseInt(day,10);
+      if(d >= 12 && d <= 15) return { firing: false, label: 'pre-FOMC ramp' };
+      if(d > 17 && d <= 26)  return { firing: false, label: 'post-FOMC settle' };
+      return { firing: false, label: 'quiet' };
+    }
+    if(clock === 'scotus'){
+      return { firing: false, label: 'waiting for opinion day' };
+    }
+    return { firing: false, label: 'quiet' };
+  }
+
+  function render(day){
+    drDay.textContent = day;
+
+    // tag
+    var convs = getActiveClocks(day).length;
+    if(convs >= 3){
+      drTag.textContent = 'FULL CONVERGENCE · 3 CLOCKS';
+      drTag.className = 'dr-tag convergence';
+    } else if(convs === 2){
+      drTag.textContent = 'CONVERGENCE · 2 CLOCKS';
+      drTag.className = 'dr-tag convergence';
+    } else if(convs === 1){
+      drTag.textContent = 'ONE CLOCK FIRING';
+      drTag.className = 'dr-tag';
+    } else {
+      drTag.textContent = 'QUIET DAY';
+      drTag.className = 'dr-tag';
+    }
+
+    // per-clock state + visuals
+    ['fomc','fiscal','scotus'].forEach(function(c){
+      var st = clockState(c, day);
+      var label = stateLabels[c];
+      var mini = miniClocks[c];
+      var base = BASE_HANDS[c];
+
+      if(st.firing){
+        if(label){ label.textContent = st.label; label.className = 'sc-state firing-text'; }
+        if(mini){ mini.classList.add('firing'); }
+        // wobble the hands a touch toward "fire time"
+        setHands(mini, base.hour, base.minute);
+      } else {
+        if(label){ label.textContent = st.label; label.className = 'sc-state'; }
+        if(mini){ mini.classList.remove('firing'); }
+        // dim posture
+        setHands(mini, base.hour, base.minute);
+      }
+    });
+
+    // event log
+    var ev = EVENTS[day] || [];
+    if(ev.length === 0){
+      eventLog.className = 'event-log';
+      eventLog.innerHTML = '<span class="el-empty">No clocks fire on June ' + day + '. Quiet day. Drag forward.</span>';
+    } else {
+      eventLog.className = 'event-log' + (convs >= 2 ? ' firing' : '');
+      var html = '<span class="el-stamp">' + (convs >= 3 ? '⚠ FULL CONVERGENCE · ' : (convs === 2 ? '⚠ CONVERGENCE · ' : '')) + 'JUNE ' + day + ' · ' + ev.length + ' event' + (ev.length === 1 ? '' : 's') + '</span>';
+      // sort by time
+      var sorted = ev.slice().sort(function(a, b){
+        if(a.time === 'TBA') return 1;
+        if(b.time === 'TBA') return -1;
+        return a.time.localeCompare(b.time);
+      });
+      sorted.forEach(function(e){
+        html += '<div class="el-row">' +
+                  '<span class="el-time">' + fmtTime(e.time) + '</span>' +
+                  '<span class="el-clock">' + e.clock.toUpperCase() + '</span>' +
+                  '<span>' + e.label + ' &nbsp;·&nbsp; <i style="opacity:.7">' + e.source + '</i></span>' +
+                '</div>';
+      });
+      eventLog.innerHTML = html;
+    }
+  }
+
+  scrubber.addEventListener('input', function(){
+    render(parseInt(this.value, 10));
+  });
+
+  // ============================================================
+  // Play the month
+  // ============================================================
+  var playBtn = document.getElementById('playBtn');
+  var playing = false;
+  var playInterval = null;
+  function startPlay(){
+    if(playing) return;
+    playing = true;
+    playBtn.textContent = '◼ PAUSE';
+    var d = parseInt(scrubber.value, 10);
+    if(d >= 30) d = 1;
+    playInterval = setInterval(function(){
+      d += 1;
+      if(d > 30){ stopPlay(); return; }
+      scrubber.value = d;
+      render(d);
+    }, 480);
+  }
+  function stopPlay(){
+    playing = false;
+    playBtn.textContent = '▸ PLAY THE MONTH';
+    if(playInterval){ clearInterval(playInterval); playInterval = null; }
+  }
+  playBtn.addEventListener('click', function(){
+    if(playing) stopPlay(); else startPlay();
+  });
+
+  document.getElementById('jumpConvBtn').addEventListener('click', function(){
+    stopPlay();
+    scrubber.value = 11;  // June 11 convergence day
+    render(11);
+    // smooth scroll to scrubber
+    document.querySelector('.scrubber-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  // Hero clocks removed in v0.5.
+  // Variable narrative rates now live on the scrubber clocks only.
+  var scotusBurstActive = false;  // kept for scrubber SCOTUS burst logic
+
+  // ============================================================
+  // SCRUBBER CLOCKS · ambient ticking that reflects their rhythm
+  // Same idea: Fed crawls, Congress runs, SCOTUS sleeps then bursts.
+  // Visible inside each clock face as a faint vermilion second hand.
+  // ============================================================
+  var scrubMeta = {
+    fomc:   { el: miniClocks.fomc,   tickSpeed: 0.75, baseHour: 60,  baseMin: 0   },
+    fiscal: { el: miniClocks.fiscal, tickSpeed: 6,    baseHour: 285, baseMin: 180 },
+    scotus: { el: miniClocks.scotus, tickSpeed: 0,    baseHour: 300, baseMin: 0,  burstRate: 24 }
+  };
+  Object.keys(scrubMeta).forEach(function(k){
+    var m = scrubMeta[k];
+    var svg = m.el.querySelector('svg');
+    var sec = document.createElementNS('http://www.w3.org/2000/svg','line');
+    sec.setAttribute('class','second');
+    sec.setAttribute('x1','50'); sec.setAttribute('y1','58');
+    sec.setAttribute('x2','50'); sec.setAttribute('y2','12');
+    sec.setAttribute('stroke','#c81818');
+    sec.setAttribute('stroke-width','1.0');
+    sec.setAttribute('stroke-linecap','round');
+    sec.setAttribute('opacity','0.4');
+    sec.setAttribute('transform','rotate(0 50 50)');
+    svg.appendChild(sec);
+    m.secEl = sec;
+    m.secAngle = 0;
+  });
+  // scrubber bursts on SCOTUS during opinion days as you scrub
+  var scrubLast = performance.now();
+  function scrubTick(now){
+    var dt = (now - scrubLast) / 1000;
+    scrubLast = now;
+    var currentDay = parseInt(scrubber.value, 10);
+    var scotusFiringToday = (EVENTS[currentDay] || []).some(function(e){ return e.clock === 'scotus'; });
+    Object.keys(scrubMeta).forEach(function(k){
+      var m = scrubMeta[k];
+      var rate = m.tickSpeed;
+      if(k === 'scotus'){
+        rate = scotusFiringToday ? (m.burstRate * 60) : 0;
+      }
+      m.secAngle = (m.secAngle + rate * dt) % 360;
+      if(m.secEl) m.secEl.setAttribute('transform', 'rotate(' + m.secAngle + ' 50 50)');
+    });
+    requestAnimationFrame(scrubTick);
+  }
+  requestAnimationFrame(scrubTick);
+
+  // ============================================================
+  // PROGRESSIVE REVEAL · day cards collapse to header, click to expand
+  // ============================================================
+  function setupDayCardCollapse(){
+    var cards = document.querySelectorAll('.ant-day');
+    cards.forEach(function(card, i){
+      var body = card.querySelector('.ad-body');
+      if(!body) return;
+      // Featured/full-convergence cards default to OPEN
+      var defaultOpen = card.classList.contains('featured') || card.classList.contains('full-convergence');
+      if(!defaultOpen) card.classList.add('collapsed');
+      // add a click affordance to the header
+      var head = card.querySelector('.ad-head');
+      if(!head) return;
+      head.style.cursor = 'pointer';
+      var indicator = document.createElement('div');
+      indicator.className = 'ad-toggle';
+      indicator.innerHTML = defaultOpen ? '▾' : '▸';
+      head.appendChild(indicator);
+      head.addEventListener('click', function(){
+        var nowCollapsed = card.classList.toggle('collapsed');
+        indicator.innerHTML = nowCollapsed ? '▸' : '▾';
+      });
+    });
+  }
+  setupDayCardCollapse();
+
+  // ============================================================
+  // SCROLL-IN FADE for chains + glossary terms
+  // ============================================================
+  var fadeObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('seen');
+        fadeObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.18 });
+  document.querySelectorAll('.chain, .g-term, .ant-day, .cr-cell').forEach(function(el){
+    el.classList.add('fade-up');
+    fadeObs.observe(el);
+  });
+
+  // ============================================================
+  // LIVE COUNTDOWN STRIP · computes from "today" forward
+  // ============================================================
+  // For demo purposes anchor "today" to June 5,2026. In production
+  // this is just new Date() and the strip self-updates.
+  var anchorToday = new Date('2026-06-05T12:00:00');
+  function daysUntil(targetISO){
+    var t = new Date(targetISO);
+    var diffMs = t.getTime() - anchorToday.getTime();
+    return Math.round(diffMs / (1000 * 60 * 60 * 24));
+  }
+  function fmtDay(n){
+    if(n < 0) return 'past';
+    if(n === 0) return 'today';
+    if(n === 1) return 'tomorrow';
+    return n + 'd';
+  }
+  var countdownTargets = {
+    cdCPI:    '2026-06-10T08:30:00',
+    cdConv:   '2026-06-11T08:30:00',
+    cdFOMC:   '2026-06-17T14:00:00',
+    cdSCOTUS: '2026-06-08T10:00:00'
+  };
+  Object.keys(countdownTargets).forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.textContent = fmtDay(daysUntil(countdownTargets[id]));
+  });
+
+  // ============================================================
+  // AUTO-PLAY SCRUBBER ONCE WHEN IT ENTERS VIEW
+  // (so the page demonstrates itself instead of waiting)
+  // ============================================================
+  var hasAutoPlayed = false;
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && !hasAutoPlayed){
+        hasAutoPlayed = true;
+        // Jump to start, then play through
+        scrubber.value = 1;
+        render(1);
+        setTimeout(startPlay, 600);
+      }
+    });
+  }, { threshold: 0.35 });
+  var scrubberSection = document.querySelector('.scrubber-section');
+  if(scrubberSection) observer.observe(scrubberSection);
+
+  // ============================================================
+  // Init
+  // ============================================================
+  render(1);
+
+  // smooth scroll cue: after 2s of being on hero, gently nudge a small
+  // pulse on the room caption to suggest scrolling
+  // (kept subtle to honor the gallery register)
+})();
+</script>
+
+</body>
+</html>
