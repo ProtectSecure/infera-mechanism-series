@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Field Note № 04 — The Loudest Story · Friday, June 5, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4efe2;      /* cream field */
+    --paper-soft: #ece6d4;
+    --ink: #15222b;        /* flat editorial ink */
+    --ink-dim: #46535d;
+    --ink-faint: #8b9097;
+    --rule: #d9d2bf;
+    --loud: #e8472b;       /* vivid red, the loud story */
+    --band: #e8872d;       /* poster orange */
+    --quiet: #2b5d6e;      /* deep teal, the quiet story */
+    --accent: #b3641f;     /* ochre for fine labels */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--loud); color: var(--paper); }
+
+  /* ───────── fixed editorial strip ───────── */
+  .strip {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-dim);
+    background: linear-gradient(to bottom, rgba(244,239,226,0.96), rgba(244,239,226,0));
+    backdrop-filter: blur(8px);
+  }
+  .strip .dot { width: 6px; height: 6px; background: var(--loud); border-radius: 50%; display: inline-block; margin-right: 8px; vertical-align: middle; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* ───────── hero ───────── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-rows: 1fr auto 1fr;
+    padding: 90px 6vw 50px;
+    position: relative; overflow: hidden;
+  }
+
+  /* the poster band */
+  .hero .band {
+    position: absolute;
+    left: 34vw; width: 23vw; top: 0; height: 72%;
+    background: var(--band);
+    z-index: 0;
+  }
+  /* the red current, flowing in from the left */
+  .hero .swirl {
+    position: absolute; left: -16vw; top: -6vh;
+    width: 58vw; height: 115vh; min-width: 480px;
+    z-index: 0; pointer-events: none;
+  }
+  /* the reader, ink silhouette at the desk */
+  .hero .figure {
+    position: absolute; right: -3vw; bottom: -2vh;
+    width: clamp(320px, 42vw, 640px);
+    z-index: 1; pointer-events: none;
+  }
+  .hero .figure .rec { animation: pulse 1.8s ease-in-out infinite; }
+  @media (max-width: 760px) {
+    .hero .figure { opacity: 0.35; }
+    .hero .band { left: 48vw; width: 34vw; }
+  }
+
+  .hero-content { grid-row: 2; text-align: center; position: relative; z-index: 2; }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--ink);
+    background: var(--paper);
+    display: inline-block; padding: 6px 14px;
+    opacity: 0; animation: fadeUp 1s ease 0.3s forwards;
+  }
+  h1.headline {
+    font-family: 'Fraunces', serif; font-weight: 380;
+    font-size: clamp(64px, 12vw, 180px);
+    line-height: 0.92; letter-spacing: -0.04em;
+    margin: 26px 0 22px;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    color: var(--ink);
+  }
+  h1.headline .word { display: inline-block; opacity: 0; transform: translateY(40px); animation: dropIn 1.2s cubic-bezier(0.2,0.8,0.2,1) forwards; }
+  h1.headline .word:nth-child(1) { animation-delay: 0.7s; }
+  h1.headline .word:nth-child(2) { animation-delay: 1.4s; color: var(--loud); font-style: italic; }
+  h1.headline .word:nth-child(3) { animation-delay: 2.1s; }
+  .hero-sub {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(15px, 1.6vw, 20px);
+    color: var(--ink-dim); max-width: 620px; margin: 0 auto;
+    background: rgba(244,239,226,0.88);
+    padding: 10px 16px;
+    opacity: 0; animation: fadeUp 1.2s ease 2.4s forwards;
+  }
+  .hero-foot {
+    grid-row: 3; align-self: end;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    position: relative; z-index: 2;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim);
+    opacity: 0; animation: fadeUp 1s ease 3.2s forwards;
+  }
+  .scroll-hint { animation: bob 2.2s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes dropIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ───────── shared section bones ───────── */
+  section { padding: 110px 6vw; position: relative; }
+  .measure { max-width: 680px; margin: 0 auto; }
+  .wide { max-width: 1040px; margin: 0 auto; }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 1s ease, transform 1s cubic-bezier(0.2,0.8,0.2,1); }
+  .reveal.on { opacity: 1; transform: translateY(0); }
+
+  /* museum placard */
+  .placard {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; flex-wrap: wrap; gap: 8px 28px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 0;
+    margin: 0 0 44px;
+  }
+  .placard b { color: var(--accent); font-weight: 500; }
+
+  .ex-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 18px;
+  }
+  h2.ex-title {
+    font-family: 'Fraunces', serif; font-weight: 380;
+    font-size: clamp(34px, 4.6vw, 60px);
+    line-height: 1.04; letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    font-variation-settings: "opsz" 144;
+  }
+  .lede {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(18px, 2vw, 23px); line-height: 1.5;
+    color: var(--ink); margin-bottom: 26px;
+  }
+  p.body { color: var(--ink-dim); font-size: 16px; margin-bottom: 22px; }
+  p.body strong { color: var(--ink); font-weight: 500; }
+  .you {
+    border-left: 3px solid var(--loud);
+    background: var(--paper-soft);
+    padding: 22px 26px;
+    margin: 34px 0;
+    font-family: 'Fraunces', serif; font-weight: 300; font-style: italic;
+    font-size: clamp(17px, 1.8vw, 21px); line-height: 1.55;
+    color: var(--ink);
+  }
+  .you .tag {
+    display: block; font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--loud); margin-bottom: 10px;
+  }
+
+  /* big number artifacts */
+  .artifact {
+    text-align: center;
+    padding: 70px 0 60px;
+    margin: 50px 0;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .artifact::before {
+    content: '';
+    position: absolute; right: -40px; top: -40px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle at 60% 40%, var(--band) 0 38%, transparent 40%);
+    opacity: 0.5;
+  }
+  .artifact .big {
+    font-family: 'Fraunces', serif; font-weight: 340;
+    font-size: clamp(72px, 13vw, 200px);
+    line-height: 0.9; letter-spacing: -0.04em;
+    font-variation-settings: "opsz" 144;
+    position: relative;
+  }
+  .artifact .big.loud { color: var(--loud); }
+  .artifact .cap {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--ink-faint); margin-top: 22px;
+  }
+
+  /* coverage bars */
+  .gapviz { margin: 60px 0 30px; }
+  .gaprow { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 36px; }
+  .gaprow .glabel { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim); display: flex; justify-content: space-between; }
+  .gaprow .glabel span:last-child { color: var(--ink-faint); }
+  .bar { height: 12px; background: var(--paper); border: 1px solid var(--ink); position: relative; overflow: hidden; }
+  .bar i { position: absolute; inset: 0; right: auto; width: 0; transition: width 1.6s cubic-bezier(0.2,0.8,0.2,1); }
+  .bar i.loud { background: var(--loud); }
+  .bar i.quiet { background: var(--quiet); }
+  .bar i.band { background: var(--band); }
+  .gapnote { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); text-align: right; margin-top: -24px; }
+
+  /* the chain */
+  .chainwrap { margin: 70px auto 20px; }
+  .chain-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink-faint); text-align: center; margin-bottom: 30px; }
+  svg text { font-family: 'JetBrains Mono', monospace; }
+
+  /* diptych, flat poster blocks */
+  .diptych { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 56px 0; }
+  .panel { padding: 48px 38px; }
+  .panel.left { background: var(--loud); color: var(--paper); }
+  .panel.right { background: var(--ink); color: var(--paper); }
+  .panel .pk { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 18px; opacity: 0.8; }
+  .panel h3 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.15; margin-bottom: 16px; }
+  .panel p { font-size: 14.5px; opacity: 0.86; }
+  @media (max-width: 720px) { .diptych { grid-template-columns: 1fr; } }
+
+  /* countdown device */
+  .cliff {
+    display: flex; align-items: baseline; justify-content: center; gap: 26px;
+    margin: 54px 0; flex-wrap: wrap;
+  }
+  .cliff .n { font-family: 'Fraunces', serif; font-weight: 340; font-size: clamp(90px, 14vw, 190px); line-height: 0.9; color: var(--loud); letter-spacing: -0.04em; }
+  .cliff .lbl { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink-dim); max-width: 200px; line-height: 1.8; }
+
+  /* vote ticks */
+  .votes { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin: 44px auto 10px; max-width: 560px; }
+  .votes .t { width: 14px; height: 26px; border: 1px solid var(--ink); }
+  .votes .t.yes { background: var(--quiet); border-color: var(--quiet); }
+  .votes .t.no { background: transparent; }
+  .votes .t.cross { background: var(--band); border-color: var(--band); }
+  .voteleg { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); text-align: center; margin-bottom: 50px; }
+  .voteleg em { color: var(--accent); font-style: normal; }
+
+  /* colophon */
+  .colophon { background: var(--paper-soft); border-top: 1px solid var(--ink); }
+  .colophon h2 { font-family: 'Fraunces', serif; font-weight: 380; font-size: clamp(26px, 3vw, 38px); margin-bottom: 26px; }
+  .meter { margin: 40px 0; }
+  .meter .mlabel { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim); display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .honesty {
+    border: 1px solid var(--loud); padding: 28px 30px; margin: 44px 0;
+    font-size: 14px; color: var(--ink-dim); background: var(--paper);
+  }
+  .honesty .hk { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--loud); margin-bottom: 14px; }
+
+  .sources { font-size: 13px; color: var(--ink-faint); line-height: 2; }
+  .sources a { color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .sources a:hover { color: var(--loud); border-color: var(--loud); }
+
+  footer {
+    padding: 60px 6vw 80px; text-align: center;
+    background: var(--ink); color: var(--paper);
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.24em; text-transform: uppercase;
+  }
+  footer .fdot { color: var(--loud); }
+
+  .divider { display: flex; align-items: center; gap: 20px; justify-content: center; padding: 0 6vw; }
+  .divider::before, .divider::after { content: ''; height: 1px; background: var(--ink); opacity: 0.25; flex: 1; max-width: 200px; }
+  .divider span { color: var(--loud); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="strip">
+  <div><span class="dot"></span>INFERA · FIELD NOTE № 04</div>
+  <div>FRI · 06.05.2026 · EVENING CLOSE</div>
+</div>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <div class="band"></div>
+
+  <!-- the red current -->
+  <svg class="swirl" viewBox="0 0 600 1100" aria-hidden="true">
+    <defs>
+      <filter id="ripple" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.011 0.019" numOctaves="3" seed="11" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="85" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+    <g filter="url(#ripple)" fill="none" stroke="#e8472b">
+      <ellipse cx="150" cy="560" rx="230" ry="300" stroke-width="26" opacity="0.95"/>
+      <ellipse cx="160" cy="555" rx="180" ry="240" stroke-width="14" opacity="0.85"/>
+      <ellipse cx="145" cy="565" rx="130" ry="180" stroke-width="22" opacity="0.9"/>
+      <ellipse cx="155" cy="560" rx="85" ry="120" stroke-width="10" opacity="0.8"/>
+      <ellipse cx="150" cy="558" rx="45" ry="65" stroke-width="16" opacity="0.9"/>
+      <ellipse cx="170" cy="540" rx="280" ry="360" stroke-width="6" opacity="0.55"/>
+      <ellipse cx="135" cy="580" rx="320" ry="420" stroke-width="3" opacity="0.35"/>
+    </g>
+    <g fill="#e8472b">
+      <circle cx="330" cy="120" r="9" opacity="0.9"/>
+      <circle cx="370" cy="78" r="4" opacity="0.7"/>
+      <circle cx="298" cy="170" r="3" opacity="0.6"/>
+      <circle cx="412" cy="150" r="5" opacity="0.55"/>
+      <circle cx="350" cy="220" r="2.5" opacity="0.5"/>
+      <circle cx="450" cy="95" r="3" opacity="0.45"/>
+      <circle cx="265" cy="90" r="5" opacity="0.65"/>
+      <circle cx="390" cy="260" r="2" opacity="0.4"/>
+      <circle cx="240" cy="950" r="6" opacity="0.5"/>
+      <circle cx="300" cy="1010" r="3" opacity="0.4"/>
+    </g>
+  </svg>
+
+  <!-- the camera, ink silhouette, lens turned toward the noise -->
+  <svg class="figure" viewBox="0 0 700 520" aria-hidden="true">
+    <!-- the unread document, lying behind the camera -->
+    <g transform="rotate(-7 618 462)">
+      <rect x="578" y="438" width="80" height="52" fill="#f4efe2" stroke="#15222b" stroke-width="2"/>
+      <line x1="590" y1="452" x2="646" y2="452" stroke="#15222b" stroke-width="2"/>
+      <line x1="590" y1="464" x2="646" y2="464" stroke="#15222b" stroke-width="2"/>
+      <line x1="590" y1="476" x2="624" y2="476" stroke="#15222b" stroke-width="2"/>
+    </g>
+    <!-- tripod -->
+    <g stroke="#15222b" stroke-width="11" stroke-linecap="round">
+      <line x1="452" y1="338" x2="372" y2="514"/>
+      <line x1="452" y1="338" x2="466" y2="514"/>
+      <line x1="452" y1="338" x2="540" y2="510"/>
+    </g>
+    <circle cx="452" cy="338" r="16" fill="#15222b"/>
+    <rect x="440" y="300" width="24" height="40" fill="#15222b"/>
+    <!-- camera body -->
+    <rect x="372" y="216" width="196" height="96" rx="10" fill="#15222b"/>
+    <!-- lens barrel, pointed left toward the red current -->
+    <path d="M 372 240 L 306 230 L 306 298 L 372 288 Z" fill="#15222b"/>
+    <ellipse cx="304" cy="264" rx="9" ry="34" fill="#15222b" stroke="#f4efe2" stroke-width="2.5"/>
+    <!-- top handle + mic -->
+    <rect x="408" y="192" width="110" height="14" rx="7" fill="#15222b"/>
+    <rect x="396" y="200" width="14" height="22" fill="#15222b"/>
+    <rect x="506" y="200" width="14" height="22" fill="#15222b"/>
+    <rect x="330" y="196" width="58" height="12" rx="6" fill="#15222b"/>
+    <!-- viewfinder screen on the operator side -->
+    <rect x="568" y="228" width="30" height="48" rx="4" fill="#15222b"/>
+    <rect x="574" y="236" width="18" height="32" rx="2" fill="#f4efe2"/>
+    <!-- tally light -->
+    <circle class="rec" cx="552" cy="206" r="7" fill="#e8472b"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="kicker">What the cameras missed · What took their place</div>
+    <h1 class="headline"><span class="word">The</span> <span class="word">Loudest</span> <span class="word">Story</span></h1>
+    <p class="hero-sub">On the day a trillion dollars of stock value burned off before lunch, the United States Senate quietly walked the government's most powerful surveillance law toward a cliff. Only one of those stories made it to your screen. This is a field note about why, and about how the loud story and the quiet story were secretly the same story.</p>
+  </div>
+  <div class="hero-foot">
+    <div>FIVE EXHIBITS</div>
+    <div class="scroll-hint">↓ ENTER</div>
+    <div>READING TIME · 7 MIN</div>
+  </div>
+</div>
+
+<!-- ═══════════ EXHIBIT 01 ═══════════ -->
+<section>
+  <div class="measure">
+    <div class="placard reveal"><span>EXHIBIT <b>01</b></span><span>CATALOG <b>E07</b></span><span>MEDIUM <b>MARKET PANIC</b></span><span>PROVENANCE <b>AN EARNINGS CALL</b></span></div>
+    <div class="reveal">
+      <div class="ex-kicker">The story that took the oxygen</div>
+      <h2 class="ex-title">A very good morning became a very bad day.</h2>
+      <p class="lede">At 8:30 in the morning, the government reported that America added 172,000 jobs in May, more than double what forecasters expected. Good news. By the closing bell, the Nasdaq had fallen more than 4% and roughly $1.3&nbsp;trillion had evaporated from chip companies. How does good news do that?</p>
+      <p class="body">Here is the plain-language chain. When hiring stays strong, the Federal Reserve has less reason to cut interest rates, and more reason to consider raising them. So the interest the government pays on its debt jumped: the 10-year rate climbed above 4.5%, the 30-year above 5%. When safe government bonds pay that much, the most expensive bets in the market, chiefly the artificial intelligence buildout, suddenly look harder to justify. Broadcom, a major AI chipmaker, had already disappointed Wall Street the night before. The jobs number lit the fuse. Nvidia fell 6%. Micron fell 11%. The semiconductor index had its worst day since the pandemic crash of March 2020.</p>
+    </div>
+    <div class="artifact reveal">
+      <div class="big loud">−$1.3T</div>
+      <div class="cap">Chip-sector value erased · Friday, June 5, 2026 · worst day since March 2020</div>
+    </div>
+    <div class="you reveal">
+      <span class="tag">Why this reaches you</span>
+      If you have a 401(k), an index fund, or a pension, you almost certainly own these companies whether you chose them or not, because the AI giants now make up an outsized share of every "boring" retirement fund. And those same rising interest rates are the reason mortgages, car loans, and credit cards stay expensive. Friday's loud story was, quietly, about your borrowing costs.
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- ═══════════ EXHIBIT 02 ═══════════ -->
+<section>
+  <div class="wide">
+    <div class="placard reveal"><span>EXHIBIT <b>02</b></span><span>CATALOG <b>E01 / E06 / E07</b></span><span>MEDIUM <b>CAUSAL CHAIN</b></span><span>NOTE <b>ONE SYSTEM, NOT THREE STORIES</b></span></div>
+    <div class="measure reveal">
+      <div class="ex-kicker">The interconnection</div>
+      <h2 class="ex-title">Five stories. One machine.</h2>
+      <p class="lede">News arrives in fragments: a jobs number here, a drone intercept there, a market drop somewhere else. They were one mechanism on Friday. Read the chain left to right.</p>
+    </div>
+    <div class="chainwrap reveal">
+      <div class="chain-label">The machinery of June 5 · follow the arrows</div>
+      <svg viewBox="0 0 1000 420" width="100%" role="img" aria-label="Causal chain: drones and jobs feed oil and rate fear, which feed yields, which feed the selloff, which buries the surveillance vote">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#46535d"/>
+          </marker>
+        </defs>
+        <g>
+          <rect x="20" y="40" width="200" height="74" fill="#f4efe2" stroke="#2b5d6e" stroke-width="1.5"/>
+          <text x="120" y="70" text-anchor="middle" fill="#15222b" font-size="13">4 IRANIAN DRONES</text>
+          <text x="120" y="92" text-anchor="middle" fill="#46535d" font-size="10">DOWNED NEAR HORMUZ</text>
+
+          <rect x="20" y="290" width="200" height="74" fill="#f4efe2" stroke="#e8872d" stroke-width="1.5"/>
+          <text x="120" y="320" text-anchor="middle" fill="#15222b" font-size="13">JOBS BEAT</text>
+          <text x="120" y="342" text-anchor="middle" fill="#46535d" font-size="10">172K VS 80K EXPECTED</text>
+
+          <rect x="300" y="40" width="180" height="74" fill="#f4efe2" stroke="#2b5d6e" stroke-width="1.5"/>
+          <text x="390" y="70" text-anchor="middle" fill="#15222b" font-size="13">OIL ≈ $98</text>
+          <text x="390" y="92" text-anchor="middle" fill="#46535d" font-size="10">20% OF WORLD SUPPLY AT RISK</text>
+
+          <rect x="300" y="290" width="180" height="74" fill="#f4efe2" stroke="#e8872d" stroke-width="1.5"/>
+          <text x="390" y="320" text-anchor="middle" fill="#15222b" font-size="13">RATE-HIKE FEAR</text>
+          <text x="390" y="342" text-anchor="middle" fill="#46535d" font-size="10">FED CUTS OFF THE TABLE</text>
+
+          <rect x="560" y="165" width="180" height="74" fill="#f4efe2" stroke="#15222b" stroke-width="1.5"/>
+          <text x="650" y="195" text-anchor="middle" fill="#15222b" font-size="13">YIELDS SPIKE</text>
+          <text x="650" y="217" text-anchor="middle" fill="#46535d" font-size="10">10Y &gt; 4.5% · 30Y &gt; 5%</text>
+
+          <rect x="800" y="40" width="180" height="74" fill="#e8472b"/>
+          <text x="890" y="70" text-anchor="middle" fill="#f4efe2" font-size="13">−$1.3T SELLOFF</text>
+          <text x="890" y="92" text-anchor="middle" fill="#f4efe2" font-size="10" opacity="0.85">EVERY CAMERA TURNS HERE</text>
+
+          <rect x="800" y="290" width="180" height="74" fill="#f4efe2" stroke="#2b5d6e" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="890" y="320" text-anchor="middle" fill="#15222b" font-size="13">SURVEILLANCE VOTE</text>
+          <text x="890" y="342" text-anchor="middle" fill="#2b5d6e" font-size="10">FAILS, ALMOST UNSEEN</text>
+        </g>
+        <g stroke="#46535d" stroke-width="1.2" fill="none" marker-end="url(#arr)">
+          <line x1="220" y1="77" x2="296" y2="77"/>
+          <line x1="220" y1="327" x2="296" y2="327"/>
+          <line x1="480" y1="95" x2="566" y2="180"/>
+          <line x1="480" y1="310" x2="566" y2="225"/>
+          <line x1="740" y1="180" x2="796" y2="98"/>
+          <line x1="890" y1="118" x2="890" y2="284" stroke-dasharray="4 5"/>
+        </g>
+        <text x="905" y="206" fill="#8b9097" font-size="10" letter-spacing="2">BURIES</text>
+      </svg>
+    </div>
+    <div class="measure reveal">
+      <p class="body">A drone intercept that most people never heard about kept oil near $98, and expensive oil keeps inflation warm, which keeps interest rates high. A jobs report most people skimmed in a push alert did the same thing from the other direction. Together they spiked the cost of money, the cost of money cracked the AI trade, and the crack swallowed the day's attention whole, including the attention that would otherwise have gone to a Senate vote about who gets to read communications without a warrant. <strong>The quiet story didn't lose to the loud story by coincidence. The same machine produced both.</strong></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- ═══════════ EXHIBIT 03 ═══════════ -->
+<section>
+  <div class="measure">
+    <div class="placard reveal"><span>EXHIBIT <b>03</b></span><span>CATALOG <b>E03</b></span><span>MEDIUM <b>A FAILED VOTE</b></span><span>STATUS <b>POWERS LAPSE JUNE 12</b></span></div>
+    <div class="reveal">
+      <div class="ex-kicker">What the cameras missed</div>
+      <h2 class="ex-title">The Senate walked a surveillance law to the edge. Almost nobody watched.</h2>
+      <p class="lede">Section 702 is the legal authority that lets U.S. intelligence agencies collect the communications of foreign targets without individual warrants, and, in the process, sweep up the emails, texts, and calls of Americans who happen to be on the other end. It expires in seven days. On Friday, the Senate refused to even begin debating its renewal, 47 to 52.</p>
+      <p class="body">The reason was not the law itself. It was <strong>who would hold the keys</strong>. The White House installed Bill Pulte, a housing regulator with no intelligence background and a public history of wielding private records against rivals, as acting Director of National Intelligence. Nearly every Democrat, joined by six Republicans, declined to extend warrantless surveillance powers into those hands. Senator Mark Warner put the worry plainly: someone with "a history of taking and weaponizing confidential information" should not sit atop the nation's intelligence apparatus.</p>
+    </div>
+
+    <div class="cliff reveal">
+      <div class="n" id="cliff-n">7</div>
+      <div class="lbl">DAYS UNTIL SECTION 702 AUTHORITIES LAPSE · JUNE 12, 2026</div>
+    </div>
+
+    <div class="votes reveal" id="votefield" aria-label="Vote visualization: 47 yes, 52 no, including 6 Republican crossovers"></div>
+    <div class="voteleg reveal">47 ADVANCE · 52 REFUSE · <em>■ 6 REPUBLICAN CROSSOVERS</em> · A GENUINE BIPARTISAN REVOLT, THE RAREST OBJECT IN THIS MUSEUM</div>
+
+    <div class="you reveal">
+      <span class="tag">Why this reaches you</span>
+      This is the rare story that touches you twice no matter where you stand. If the powers lapse, the intelligence community loses a tool it calls essential against foreign threats. If they renew under contested leadership, the question becomes whether your incidentally collected messages are handled by institutions or by individuals. Either way, the decision is being made this week, in the shadow of a stock chart.
+    </div>
+
+    <div class="reveal">
+      <p class="body"><strong>The connection you should know:</strong> this fight rhymes with every story where an institution's power depends on who occupies it. It is the same tension as court appointments, and the same tension Georgia saw in fights over who controls election boards. The mechanism repeats at every scale: the rules stay written, and the struggle moves to the names on the door.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- ═══════════ EXHIBIT 04 ═══════════ -->
+<section>
+  <div class="wide">
+    <div class="placard reveal"><span>EXHIBIT <b>04</b></span><span>CATALOG <b>E04 / E08</b></span><span>MEDIUM <b>DIPTYCH</b></span><span>SUBJECT <b>THE PURSE &amp; THE CAGE</b></span></div>
+    <div class="measure reveal">
+      <div class="ex-kicker">A study in contrast</div>
+      <h2 class="ex-title">Same lawn, same day, two stories.</h2>
+      <p class="lede">Friday offered an almost perfect diptych about how power is seen versus how it is exercised.</p>
+    </div>
+    <div class="diptych reveal">
+      <div class="panel left">
+        <div class="pk">WHAT THE CAMERAS FILMED</div>
+        <h3>A fight cage rises on the South Lawn.</h3>
+        <p>Workers spent the day assembling an octagon for a planned UFC event at the White House. Irresistible television: surreal, visual, free of homework. It asked nothing of the viewer and gave nothing back.</p>
+      </div>
+      <div class="panel right">
+        <div class="pk">WHAT THE CAMERAS SKIPPED</div>
+        <h3>The Senate took back a billion dollars.</h3>
+        <p>The same day, Senate Republicans stripped $1&nbsp;billion in ballroom and security funding for the White House complex from the budget package. Congress's power of the purse, the oldest check in the system, actually flexing against a president's pet project. Two paragraphs, deep inside the papers.</p>
+      </div>
+    </div>
+    <div class="measure reveal">
+      <div class="you">
+        <span class="tag">Why this reaches you</span>
+        The cage is a picture of power. The appropriations line is power. Whenever you notice a spectacle staged on government property, it is worth asking the museum-goer's question: what is the building doing today that isn't being staged? Friday, the answer was: losing a billion dollars, and shrugging off a surveillance cliff.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- ═══════════ EXHIBIT 05 ═══════════ -->
+<section>
+  <div class="measure">
+    <div class="placard reveal"><span>EXHIBIT <b>05</b></span><span>CATALOG <b>E09</b></span><span>MEDIUM <b>LOCAL THREAD</b></span><span>REGION <b>GEORGIA</b></span></div>
+    <div class="reveal">
+      <div class="ex-kicker">The Georgia coda</div>
+      <h2 class="ex-title">While Washington shouted, Georgia kept moving.</h2>
+      <p class="lede">Field notes are written from somewhere. Ours is written from Georgia, where three quieter clocks kept ticking under Friday's national noise.</p>
+      <p class="body"><strong>The runoff clock.</strong> The June 16 runoff for lieutenant governor is eleven days out, the contest that will shape how the Senate chamber in Atlanta is run for four years. Runoffs are where turnout collapses and small, organized groups decide outcomes. If you vote in Georgia, your ballot is worth several times its November weight right now.</p>
+      <p class="body"><strong>The fire clock.</strong> Twin wildfires in South Georgia have burned for over a month between Valdosta and the coast, through the same week markets argued about interest rates. Fires this persistent shape insurance pricing, timber, and air quality long after they leave the news, if they ever enter it.</p>
+      <p class="body"><strong>The civic clock.</strong> A 66-year-old woman was killed on a MARTA train, and the response will run through transit-policing budgets and city elections, the level of government where a single public-comment session still changes outcomes. National attention is a spectator sport; local attention is a participatory one.</p>
+    </div>
+    <div class="you reveal">
+      <span class="tag">The thread that ties it to everything above</span>
+      The same attention machine operates at every altitude. A $1.3&nbsp;trillion selloff buries a surveillance vote in Washington; a national news cycle buries a runoff in Georgia. The skill being demonstrated in this museum is the same one worth practicing at home: notice what the loudest story is standing in front of.
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- ═══════════ METHOD / COLOPHON ═══════════ -->
+<section class="colophon">
+  <div class="measure">
+    <div class="placard reveal"><span>COLOPHON</span><span>METHOD <b>ATTENTION GAP</b></span><span>CYCLE <b>EVENING CLOSE</b></span></div>
+    <div class="reveal">
+      <h2>How this note was made, and where it could be wrong.</h2>
+      <p class="body">Each morning, Infera scores the day's scheduled events on a zero-to-one-hundred "coverage gravity" scale, a structured estimate of what deserves attention, with every point traced to something concrete: who holds power in the room, whether cameras are allowed in, whether the event can change a rule that touches you. Each evening, we compare that score against what newsrooms actually covered. The differences are the product. <strong>High importance, low coverage</strong> becomes "What the Cameras Missed." <strong>Low importance, high coverage</strong> becomes "The Story That Took the Oxygen." You just walked through both.</p>
+    </div>
+
+    <div class="gapviz reveal">
+      <div class="gaprow">
+        <div class="glabel"><span>CHIP SELLOFF · institutional weight</span><span>LOW</span></div>
+        <div class="bar"><i class="loud" data-w="22%"></i></div>
+        <div class="glabel" style="margin-top:10px;"><span>· coverage received</span><span>SATURATION</span></div>
+        <div class="bar"><i class="loud" data-w="100%"></i></div>
+      </div>
+      <div class="gaprow">
+        <div class="glabel"><span>SURVEILLANCE VOTE · institutional weight</span><span>HIGH</span></div>
+        <div class="bar"><i class="quiet" data-w="72%"></i></div>
+        <div class="glabel" style="margin-top:10px;"><span>· coverage received</span><span>TRACE</span></div>
+        <div class="bar"><i class="quiet" data-w="11%"></i></div>
+      </div>
+      <div class="gapnote">THE GAP IS THE STORY</div>
+    </div>
+
+    <div class="meter reveal">
+      <div class="mlabel"><span>PREWRITTEN FORECAST BRANCHES THAT FIRED CORRECTLY TODAY</span><span>4 OF 5 · 80%</span></div>
+      <div class="bar"><i class="band" data-w="80%"></i></div>
+      <p class="body" style="margin-top:14px; font-size:13.5px;">We pre-write branching interpretations for scheduled events before they happen, then grade ourselves. Today: the jobs-report branch, the surveillance-vote branch, the Hormuz-oil branch, and the budget branch all fired as written. The miss: we expected Supreme Court opinions on Friday; this term they are landing Tuesdays and Thursdays. The calendar has been corrected.</p>
+    </div>
+
+    <div class="honesty reveal">
+      <div class="hk">⚠ Honest limitation · read before trusting</div>
+      No morning forecast was locked for June 5; the "predicted importance" scores in this note were reconstructed after the fact and may be flattered by hindsight. Coverage levels are estimates from major-outlet placement (AP, Reuters, Bloomberg, NYT, WaPo, AJC), not a systematic count. A museum that hides its restoration work is lying to you; this one would rather show the seams.
+    </div>
+
+    <div class="reveal">
+      <p class="body" style="font-family:'Fraunces',serif; font-style:italic; font-size:17px; color:var(--ink);">The principle on the wall as you exit: attention is a budget, and someone is always spending yours. The loudest story is not usually the one that changes your life. It is usually the one standing in front of it.</p>
+    </div>
+
+    <div class="sources reveal" style="margin-top:50px;">
+      <strong style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.24em; color:var(--ink-faint);">PROVENANCE · PRIMARY &amp; CONTEMPORANEOUS SOURCES</strong><br>
+      <a href="https://www.bls.gov/news.release/empsit.nr0.htm">BLS · Employment Situation, May 2026</a> ·
+      <a href="https://www.bloomberg.com/news/articles/2026-06-05/us-adds-172-000-jobs-in-may-beating-all-economists-estimates">Bloomberg · jobs report</a> ·
+      <a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-june-05-2026">TheStreet · market close</a> ·
+      <a href="https://www.investing.com/news/stock-market-news/chip-selloff-erases-over-1-trillion-in-stock-market-value-4729116">Reuters · chip selloff</a> ·
+      <a href="https://thehill.com/homenews/senate/5911421-senate-democrats-fisa-702-pulte/">The Hill · FISA 702 vote</a> ·
+      <a href="https://www.axios.com/2026/06/04/pulte-senate-section-702-trump">Axios · Pulte rebellion</a> ·
+      <a href="https://thehill.com/homenews/senate/5908157-senate-republicans-strip-ballroom-funding/">The Hill · ballroom funding</a> ·
+      <a href="https://oilprice.com/Latest-Energy-News/World-News/Oil-Prices-Climb-as-US-Strikes-Tanker-and-Downs-Iranian-Drones.html">OilPrice · Hormuz drones</a> ·
+      <a href="https://www.scotusblog.com/">SCOTUSblog</a> ·
+      <a href="https://www.ajc.com/">AJC · Georgia</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  INFERA <span class="fdot">·</span> MECHANISM SERIES <span class="fdot">·</span> FIELD NOTE № 04 <span class="fdot">·</span> "THE LOUDEST STORY" <span class="fdot">·</span> EVENING CLOSE 06.05.2026<br><br>
+  MAKE THE MACHINERY VISIBLE BEFORE THE HEADLINE HARDENS
+</footer>
+
+<script>
+  // scroll reveals
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('on');
+        e.target.querySelectorAll('.bar i').forEach(b => {
+          requestAnimationFrame(() => { b.style.width = b.dataset.w; });
+        });
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.18 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // vote field: 99 ticks. 47 advance, 52 refuse, of which 6 are GOP crossovers.
+  const vf = document.getElementById('votefield');
+  const ticks = [];
+  for (let i = 0; i < 47; i++) ticks.push('yes');
+  for (let i = 0; i < 46; i++) ticks.push('no');
+  for (let i = 0; i < 6; i++) ticks.push('cross');
+  ticks.forEach((cls, i) => {
+    const t = document.createElement('div');
+    t.className = 't ' + cls;
+    t.style.opacity = '0';
+    t.style.transition = 'opacity 0.4s ease ' + (i * 12) + 'ms';
+    vf.appendChild(t);
+  });
+  const vio = new IntersectionObserver((es) => {
+    es.forEach(e => {
+      if (e.isIntersecting) {
+        vf.querySelectorAll('.t').forEach(t => t.style.opacity = '1');
+        vio.unobserve(vf);
+      }
+    });
+  }, { threshold: 0.4 });
+  vio.observe(vf);
+
+  // countdown to the June 12 lapse
+  (function(){
+    const lapse = new Date('2026-06-12T00:00:00-04:00');
+    const now = new Date();
+    let d = Math.ceil((lapse - now) / 86400000);
+    if (isNaN(d)) d = 7;
+    const el = document.getElementById('cliff-n');
+    if (d <= 0) { el.textContent = '0'; el.nextElementSibling.textContent = 'SECTION 702 AUTHORITIES HAVE REACHED THEIR JUNE 12 DEADLINE · CHECK CURRENT STATUS'; }
+    else { el.textContent = d; }
+  })();
+</script>
+</body>
+</html>
