@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Open Record Order · 06.08.2026 · Observatory, Infera Tomorrow Board Exhibit</title>
+<meta name="description" content="Infera's Open Record Order for Monday June 8, 2026, rendered as a luminous data-observatory at dawn. The day's events placed in orbit by coverage gravity.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5efe2; --paper2:#fbf7ee; --ink:#1c1813; --ink2:#3b352c; --muted:#6b6358;
+  --line:rgba(28,24,19,.14); --lime:#5f7d00; --limebright:#86b300; --indigo:#3a3a6e;
+  --peach:#e87b52; --sky:#2f7bb0; --gold:#bf8a1e;
+  --mono:'JetBrains Mono',ui-monospace,monospace; --body:'Inter',system-ui,sans-serif;
+  --serif:'Fraunces',Georgia,serif; --script:'Instrument Serif',Georgia,serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); line-height:1.62; -webkit-font-smoothing:antialiased; overflow-x:hidden}
+/* dawn environment */
+.bg{position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+   radial-gradient(1100px 620px at 50% -10%, rgba(232,123,82,.18), transparent 60%),
+   radial-gradient(900px 700px at 14% 4%, rgba(58,58,110,.10), transparent 55%),
+   radial-gradient(1000px 800px at 86% 18%, rgba(47,123,176,.08), transparent 60%),
+   linear-gradient(180deg,#efe7d6, #f5efe2 38%, #faf5ec);}
+.bg .rays{position:absolute; inset:0; opacity:.05; background:repeating-conic-gradient(from 200deg at 50% -6%, var(--peach) 0deg 2deg, transparent 2deg 9deg); animation:turn 120s linear infinite}
+@keyframes turn{to{transform:rotate(360deg)}}
+.wrap{position:relative; z-index:1; max-width:1140px; margin:0 auto; padding:0 6vw}
+
+/* nav strip, house pattern, light language */
+nav.strip{position:sticky; top:0; z-index:40; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  padding:13px 6vw; background:rgba(245,239,226,.78); backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
+  font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase}
+nav.strip a{color:var(--ink); text-decoration:none; font-weight:700; display:inline-flex; align-items:center; gap:9px}
+nav.strip .dot{width:7px;height:7px;border-radius:50%; background:var(--limebright); box-shadow:0 0 10px rgba(134,179,0,.7); animation:tw 2.6s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:1}50%{opacity:.4}}
+nav.strip .navlinks{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+nav.strip .navlinks a{color:var(--muted); font-weight:500}
+nav.strip .navlinks a:hover{color:var(--lime)}
+nav.strip .stamp{color:var(--sky); border:1px solid rgba(47,123,176,.32); padding:3px 9px; font-weight:700}
+
+/* hero + sky chart */
+.hero{padding:74px 0 30px}
+.kicker{font-family:var(--mono); font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--peach); margin-bottom:20px; display:flex; gap:12px; align-items:center}
+.kicker .star{width:7px;height:7px;border-radius:50%; background:var(--peach); box-shadow:0 0 9px var(--peach); animation:tw 1.8s infinite}
+.hero h1{font-family:var(--serif); font-weight:330; font-size:clamp(2.5rem,6.6vw,5rem); line-height:1.03; letter-spacing:-.02em; margin:0}
+.hero h1 em{font-family:var(--script); font-style:italic; color:var(--peach)}
+.hero .sub{font-family:var(--script); font-style:italic; font-size:clamp(1.15rem,2.4vw,1.7rem); color:var(--ink2); max-width:58ch; margin:18px 0 0}
+
+.observatory{margin:40px 0 8px; display:grid; grid-template-columns:minmax(280px,1fr) minmax(260px,360px); gap:30px; align-items:center; padding:30px; border:1px solid var(--line); background:rgba(251,247,238,.5)}
+.chart{width:100%; height:auto}
+.chart .ring{fill:none; stroke:rgba(28,24,19,.12)}
+.chart .sun{fill:var(--gold)}
+.chart .orbit{transform-box:fill-box; transform-origin:center}
+.chart .body{cursor:default}
+.chart .glow{filter:url(#soft)}
+.legendcard h4{font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 14px; font-weight:700}
+.legendcard p{margin:0 0 12px; color:var(--ink2); font-size:.94rem}
+.legendcard .key{display:flex; gap:8px; align-items:center; font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:var(--muted); margin-top:8px}
+.legendcard .key i{width:10px;height:10px;border-radius:50%; display:inline-block}
+
+/* section heads */
+.shead{display:flex; align-items:baseline; gap:16px; margin:64px 0 8px; padding-top:30px; border-top:1px solid var(--line)}
+.shead .n{font-family:var(--mono); font-size:12px; color:var(--lime); letter-spacing:.2em; font-weight:700}
+.shead h2{font-family:var(--serif); font-weight:360; font-size:clamp(1.6rem,3.6vw,2.5rem); margin:0; letter-spacing:-.01em}
+.lede{color:var(--ink2); max-width:72ch; margin:6px 0 28px; font-size:1.02rem}
+.lede em{font-family:var(--script); font-style:italic; color:var(--ink)}
+
+.chip{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding:2px 7px; border:1px solid currentColor; white-space:nowrap}
+.fact{color:var(--sky)} .reported{color:var(--peach)} .watch{color:var(--lime)}
+.t-high{color:var(--peach)} .t-likely{color:var(--gold)} .t-watch{color:var(--lime)} .t-low{color:var(--muted)}
+
+/* Top 5 as rising bodies, gallery of one per wall */
+.gallery{display:flex; flex-direction:column; gap:0}
+.wall{display:grid; grid-template-columns:120px 1fr; gap:30px; padding:34px 0; border-bottom:1px solid var(--line); align-items:start;
+  opacity:0; transform:translateY(20px); transition:opacity .7s ease, transform .7s ease}
+.wall.in{opacity:1; transform:none}
+.orb{position:relative; width:120px; height:120px}
+.orb svg{width:100%; height:100%; display:block}
+.orb .mag{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; font-family:var(--mono)}
+.orb .mag b{font-size:1.9rem; font-weight:700; color:var(--ink); line-height:1}
+.orb .mag small{font-size:8.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-top:3px}
+.wall .label{padding-top:4px}
+.wall .num{font-family:var(--mono); font-size:11px; letter-spacing:.18em; color:var(--muted); margin-bottom:8px}
+.wall h3{font-family:var(--serif); font-weight:420; font-size:1.4rem; margin:0 0 8px; letter-spacing:-.01em; line-height:1.18}
+.wall p{margin:0; color:var(--ink2); font-size:.98rem; max-width:72ch}
+.wall .tags{margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.wall .id{font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.12em}
+
+/* full board, light list */
+.board{width:100%; border-collapse:collapse; margin-top:6px; font-size:.92rem}
+.board th{font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); font-weight:700}
+.board td{padding:13px 12px; border-bottom:1px solid rgba(28,24,19,.07); vertical-align:top; color:var(--ink2)}
+.board tr:hover td{background:rgba(255,255,255,.5)}
+.board td.ev{color:var(--ink); max-width:480px}
+.board td.g{font-family:var(--mono); font-weight:700; color:var(--ink); font-size:1.05rem; white-space:nowrap}
+.board .micro{height:4px; width:64px; background:rgba(28,24,19,.1); margin-top:6px; position:relative}
+.board .micro i{position:absolute; inset:0 auto 0 0; background:var(--peach)}
+
+/* split-screen as a dawn timeline */
+.timeline{margin-top:18px; padding:30px 26px; border:1px solid var(--line); background:rgba(251,247,238,.55)}
+.track{position:relative; height:150px; margin-top:26px; border-left:1px solid var(--line); border-bottom:1px solid var(--line)}
+.hourmark{position:absolute; bottom:-22px; transform:translateX(-50%); font-family:var(--mono); font-size:9.5px; color:var(--muted); letter-spacing:.1em}
+.evdot{position:absolute; transform:translate(-50%,-50%); width:13px; height:13px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 5px rgba(191,138,30,.12)}
+.evdot.iran{background:var(--peach); box-shadow:0 0 0 5px rgba(232,123,82,.14)}
+.evdot.msg{background:var(--lime); box-shadow:0 0 0 5px rgba(95,125,0,.14)}
+.evlabel{position:absolute; transform:translateX(-50%); font-family:var(--mono); font-size:9.5px; letter-spacing:.05em; color:var(--ink2); white-space:nowrap; text-transform:uppercase}
+.sunrise{position:absolute; left:0; bottom:0; height:3px; width:0; background:linear-gradient(90deg,var(--peach),var(--gold)); animation:rise 8s ease-in-out infinite alternate}
+@keyframes rise{from{width:0}to{width:100%}}
+.splitnote{margin-top:36px; font-family:var(--script); font-style:italic; font-size:1.18rem; color:var(--ink); border-left:2px solid var(--peach); padding-left:16px}
+
+/* ephemeris: knew / learned / watching */
+.threads{display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:18px; border:1px solid var(--line); background:rgba(251,247,238,.5)}
+.threads .col{padding:22px 20px; border-right:1px solid var(--line)}
+.threads .col:last-child{border-right:0}
+.threads .col h4{font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; margin:0 0 14px; font-weight:700}
+.threads .knew h4{color:var(--muted)} .threads .learned h4{color:var(--peach)} .threads .watch4 h4{color:var(--lime)}
+.threads .item{margin-bottom:16px; padding-bottom:16px; border-bottom:1px dashed rgba(28,24,19,.12); font-size:.92rem; color:var(--ink2)}
+.threads .item:last-child{border-bottom:0; margin-bottom:0; padding-bottom:0}
+.threads .item b{color:var(--ink); font-weight:600; display:block; margin-bottom:3px; font-family:var(--serif); font-size:1rem}
+
+.curator{margin:60px 0; padding:34px 30px; border:1px solid var(--line); background:rgba(251,247,238,.6); position:relative}
+.curator::before{content:"WALL LABEL"; position:absolute; top:-8px; left:22px; background:var(--paper); padding:0 8px; font-family:var(--mono); font-size:9px; letter-spacing:.2em; color:var(--muted)}
+.curator p{font-family:var(--script); font-style:italic; font-size:1.32rem; line-height:1.5; color:var(--ink); margin:0; max-width:74ch}
+.curator .by{font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--peach); margin-top:18px}
+
+.switch{margin:54px 0; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; padding:26px 28px; border:1px solid rgba(28,24,19,.5); background:rgba(28,24,19,.04)}
+.switch .t{font-family:var(--serif); font-size:1.3rem; color:var(--ink)}
+.switch .t span{font-family:var(--script); font-style:italic; color:var(--peach)}
+.switch a{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--paper); background:var(--ink); padding:13px 22px; text-decoration:none; font-weight:700}
+.switch a:hover{background:var(--indigo)}
+
+.footnav{margin-top:70px; padding:38px 0 20px; border-top:1px solid var(--line); display:grid; grid-template-columns:1fr 1fr; gap:26px}
+.footnav a{color:var(--muted); text-decoration:none; font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; display:block; padding:5px 0}
+.footnav a:hover{color:var(--lime)}
+.footnav .col h5{font-family:var(--mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin:0 0 12px; font-weight:700}
+.postcopy{margin-top:30px; padding:18px 0; font-family:var(--mono); font-size:10px; letter-spacing:.05em; color:var(--muted); line-height:1.7; border-top:1px dashed var(--line)}
+.postcopy a{color:var(--lime)}
+
+@media (max-width:820px){
+  .observatory{grid-template-columns:1fr}
+  .wall{grid-template-columns:84px 1fr; gap:18px} .orb{width:84px;height:84px}
+  .threads{grid-template-columns:1fr} .threads .col{border-right:0; border-bottom:1px solid var(--line)}
+  .board td.ev{max-width:none}
+  .footnav{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important}
+  .wall{opacity:1; transform:none; transition:none}
+  .bg .rays{display:none}
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><div class="rays"></div></div>
+
+<!-- ═══════════ NAV STRIP (house pattern) ═══════════ -->
+<nav class="strip" aria-label="Series navigation">
+  <a href="index.html"><span class="dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="index.html">← All Episodes</a>
+    <a href="field-notes/index.html">Field Notes</a>
+    <span class="stamp">EXHIBIT · TOMORROW BOARD · 06.08.2026</span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ═══════════ HERO + SKY CHART ═══════════ -->
+  <header class="hero">
+    <div class="kicker"><span class="star"></span> The Open Record Order · Monday 06.08.2026 · frozen 14:13 ET · the dawn reading</div>
+    <h1>The same day, seen from the <em>observatory</em></h1>
+    <p class="sub">Take last night's war room, drain the alarm out of it, and let the light in. The events have not changed. Their orbits have. The closer a body sits to the sun, the harder the day pulls it into view.</p>
+  </header>
+
+  <section class="observatory" aria-label="Sky chart: events placed in orbit by coverage gravity">
+    <svg class="chart" viewBox="0 0 460 460" role="img" aria-label="Concentric orbital chart. Higher coverage gravity places an event in a tighter orbit around the day's attention. B01 Iran at gravity 85 is the innermost body; Consumer Credit at gravity 20 is outermost.">
+      <defs>
+        <filter id="soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5"/></filter>
+        <radialGradient id="sung" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffd97a"/><stop offset="100%" stop-color="#bf8a1e"/></radialGradient>
+      </defs>
+      <circle class="ring" cx="230" cy="230" r="56"/>
+      <circle class="ring" cx="230" cy="230" r="92"/>
+      <circle class="ring" cx="230" cy="230" r="128"/>
+      <circle class="ring" cx="230" cy="230" r="164"/>
+      <circle class="ring" cx="230" cy="230" r="200"/>
+      <!-- sun = the day's attention -->
+      <circle class="sun glow" cx="230" cy="230" r="26" fill="url(#sung)" opacity=".55"/>
+      <circle cx="230" cy="230" r="17" fill="url(#sung)"/>
+      <!-- bodies, radius by gravity: tighter orbit = higher gravity -->
+      <g class="orbit"><circle class="body" cx="230" cy="174" r="9" fill="#e87b52"/><text x="230" y="158" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#1c1813">B01 · 85</text></g>
+      <g class="orbit"><circle class="body" cx="295" cy="270" r="7.5" fill="#bf8a1e"/><text x="312" y="270" font-family="'JetBrains Mono',monospace" font-size="9" fill="#1c1813">B02 · 70</text></g>
+      <g class="orbit"><circle class="body" cx="150" cy="290" r="6.5" fill="#5f7d00"/><text x="96" y="292" font-family="'JetBrains Mono',monospace" font-size="9" fill="#1c1813">B11 · 58</text></g>
+      <g class="orbit"><circle class="body" cx="330" cy="158" r="6.5" fill="#5f7d00"/><text x="346" y="158" font-family="'JetBrains Mono',monospace" font-size="9" fill="#1c1813">B03 · 56</text></g>
+      <g class="orbit"><circle class="body" cx="118" cy="150" r="6" fill="#5f7d00"/><text x="64" y="150" font-family="'JetBrains Mono',monospace" font-size="9" fill="#1c1813">B08 · 55</text></g>
+      <g class="orbit"><circle class="body" cx="360" cy="318" r="5" fill="#6b6358"/><text x="372" y="320" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#6b6358">B09 · 55</text></g>
+      <g class="orbit"><circle class="body" cx="90" cy="360" r="4.5" fill="#6b6358"/><text x="100" y="378" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#6b6358">B05-B10</text></g>
+      <g class="orbit"><circle class="body" cx="408" cy="210" r="4" fill="#9a9286"/><text x="372" y="200" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9a9286">B07 · 35</text></g>
+    </svg>
+    <div class="legendcard">
+      <h4>How to read the sky</h4>
+      <p>The <b>sun</b> is the day's finite attention. Each <b>body</b> is a scheduled event. The <em>tighter the orbit, the higher the coverage gravity</em>, which means the harder that event pulls on the producer's, reader's, or analyst's next five minutes.</p>
+      <p>It is the identical board from the war-room exhibit. Only the metaphor changed. Same scores, same stamps, same caution.</p>
+      <div class="key"><i style="background:#e87b52"></i> Iran / Gulf cluster</div>
+      <div class="key"><i style="background:#bf8a1e"></i> Surveillance · 702</div>
+      <div class="key"><i style="background:#5f7d00"></i> War powers · markets · spectacle</div>
+      <div class="key"><i style="background:#9a9286"></i> Background bodies</div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 1 · THE FIVE BRIGHTEST ═══════════ -->
+  <div class="shead"><span class="n">01</span><h2>The five brightest bodies</h2></div>
+  <p class="lede">Coverage gravity is not a prophecy and not a ruling on truth. It is a disciplined guess about where the day's light collects. One object per wall, brightest first, each measured by its magnitude on the 0 to 100 scale.</p>
+
+  <div class="gallery">
+    <article class="wall" data-g="85">
+      <div class="orb"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="rgba(232,123,82,.25)"/><circle class="ring2" cx="50" cy="50" r="34" fill="none" stroke="rgba(232,123,82,.4)" stroke-dasharray="3 5"/><circle cx="50" cy="50" r="22" fill="rgba(232,123,82,.16)"/></svg><div class="mag"><b>85</b><small>magnitude</small></div></div>
+      <div class="label">
+        <div class="num">01 · B01</div>
+        <h3>Iran and the United States, the ceasefire that keeps almost happening</h3>
+        <p>The President is publicly pressing for an "immediate ceasefire" and Iran says it has halted operations against Israel. The port blockade stays, the prior strikes stand. A de-escalation attempt balanced on a fraying truce, not a settled peace. Crude already cast its vote by round-tripping.</p>
+        <div class="tags"><span class="id">B01</span><span class="chip reported">Reported</span><span class="chip t-high">High gravity</span></div>
+      </div>
+    </article>
+
+    <article class="wall" data-g="70">
+      <div class="orb"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="rgba(191,138,30,.22)"/><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(191,138,30,.4)" stroke-dasharray="3 5"/><circle cx="50" cy="50" r="19" fill="rgba(191,138,30,.16)"/></svg><div class="mag"><b>70</b><small>magnitude</small></div></div>
+      <div class="label">
+        <div class="num">02 · B02</div>
+        <h3>FISA Section 702, four days from going dark</h3>
+        <p>Cloture failed 47 to 52. The live vehicle is the bipartisan SAFE Act, not a clean extension, and the acting-DNI fight still tangles the count. A surveillance authority is nearer to lapsing than the calendar lets on, and the floor window is this week.</p>
+        <div class="tags"><span class="id">B02</span><span class="chip fact">Fact</span><span class="chip t-likely">Likely coverage</span></div>
+      </div>
+    </article>
+
+    <article class="wall" data-g="58">
+      <div class="orb"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="rgba(95,125,0,.2)"/><circle cx="50" cy="50" r="26" fill="none" stroke="rgba(95,125,0,.4)" stroke-dasharray="3 5"/><circle cx="50" cy="50" r="16" fill="rgba(95,125,0,.15)"/></svg><div class="mag"><b>58</b><small>magnitude</small></div></div>
+      <div class="label">
+        <div class="num">03 · B11</div>
+        <h3>The Senate war-powers vote that nobody will schedule</h3>
+        <p>The House passed it 215 to 208. The Senate vehicle, S.J.Res.59, advanced in May and then the calendar quietly swallowed it. The ceasefire push hands leadership a clean excuse to leave it parked. The veto endgame is the real story, even if the vote never arrives.</p>
+        <div class="tags"><span class="id">B11</span><span class="chip fact">Fact</span><span class="chip t-watch">Watch</span></div>
+      </div>
+    </article>
+
+    <article class="wall" data-g="56">
+      <div class="orb"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="rgba(95,125,0,.18)"/><circle cx="50" cy="50" r="24" fill="none" stroke="rgba(95,125,0,.38)" stroke-dasharray="3 5"/><circle cx="50" cy="50" r="15" fill="rgba(95,125,0,.14)"/></svg><div class="mag"><b>56</b><small>magnitude</small></div></div>
+      <div class="label">
+        <div class="num">04 · B03</div>
+        <h3>Crude's round-trip, the market arguing with itself</h3>
+        <p>The Sunday-night tripwire fired exactly as prewritten: crude up, chips heavy. Brent crossed 98, then unwound to about 94 on the ceasefire headline. The intraday reversal is the signal, not the noise. The Strait of Hormuz is still setting the price.</p>
+        <div class="tags"><span class="id">B03</span><span class="chip fact">Fact</span><span class="chip t-watch">Watch</span></div>
+      </div>
+    </article>
+
+    <article class="wall" data-g="55">
+      <div class="orb"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="rgba(95,125,0,.18)"/><circle cx="50" cy="50" r="23" fill="none" stroke="rgba(95,125,0,.36)" stroke-dasharray="3 5"/><circle cx="50" cy="50" r="14" fill="rgba(95,125,0,.13)"/></svg><div class="mag"><b>55</b><small>magnitude</small></div></div>
+      <div class="label">
+        <div class="num">05 · B08</div>
+        <h3>The President courtside, 20:30 tonight</h3>
+        <p>A first-ever sitting-president appearance at an NBA Finals game, on a national telecast, with a hard security closure of the arena. It runs split-screen against live Gulf diplomacy. The visual competes with the wire copy, which is the whole point and the whole risk. <span class="id">Co-equal at 55:</span> the frozen-asset move (B09), louder if it becomes the ceasefire's sweetener.</p>
+        <div class="tags"><span class="id">B08</span><span class="chip reported">Reported</span><span class="chip t-watch">Watch</span></div>
+      </div>
+    </article>
+  </div>
+
+  <!-- ═══════════ 2 · FULL BOARD ═══════════ -->
+  <div class="shead"><span class="n">02</span><h2>The full sky, charted</h2></div>
+  <p class="lede">All eleven bodies, scored and stamped. The power-proximity cap keeps the two presidential items from swallowing the chart, which is exactly the gravitational distortion the rubric is built to prevent.</p>
+  <table class="board">
+    <thead><tr><th>ID</th><th>Event</th><th>Conf.</th><th>Tier</th><th>Magnitude</th></tr></thead>
+    <tbody>
+      <tr><td>B01</td><td class="ev">Iran-US exchange holds bidirectional; Trump pushes "immediate ceasefire," Iran says it ended operations vs. Israel; Pakistan channel open</td><td><span class="chip reported">REP</span></td><td><span class="chip t-high">High</span></td><td class="g">85<div class="micro"><i style="width:85%"></i></div></td></tr>
+      <tr><td>B02</td><td class="ev">FISA §702 lapse countdown, 4 days; 47-52 cloture failure stands; SAFE Act the live vehicle</td><td><span class="chip fact">FACT</span></td><td><span class="chip t-likely">Likely</span></td><td class="g">70<div class="micro"><i style="width:70%"></i></div></td></tr>
+      <tr><td>B11</td><td class="ev">War Powers Resolution; House-passed 215-208; Senate S.J.Res.59 final vote still not scheduled</td><td><span class="chip fact">FACT</span></td><td><span class="chip t-watch">Watch</span></td><td class="g">58<div class="micro"><i style="width:58%"></i></div></td></tr>
+      <tr><td>B03</td><td class="ev">Crude tripwire fired then unwound: Brent ~$98 → ~$94, WTI >$95 → ~$91 on the ceasefire headline</td><td><span class="chip fact">FACT</span></td><td><span class="chip t-watch">Watch</span></td><td class="g">56<div class="micro"><i style="width:56%"></i></div></td></tr>
+      <tr><td>B08</td><td class="ev">Trump attends NBA Finals Game 3 at Madison Square Garden ~20:30; first sitting president at a Finals game</td><td><span class="chip reported">REP</span></td><td><span class="chip t-watch">Watch</span></td><td class="g">55<div class="micro"><i style="width:55%"></i></div></td></tr>
+      <tr><td>B09</td><td class="ev">Frozen Iranian assets to be made available to Gulf allies; Iran ties unfreeze to talks, possible ceasefire sweetener</td><td><span class="chip reported">REP</span></td><td><span class="chip t-watch">Watch</span></td><td class="g">55<div class="micro"><i style="width:55%"></i></div></td></tr>
+      <tr><td>B05</td><td class="ev">Schedule Policy/Career EO (signed 6/3, ~8,000 positions); no new action over the weekend; litigation exposure live</td><td><span class="chip fact">FACT</span></td><td><span class="chip t-watch">Watch</span></td><td class="g">45<div class="micro"><i style="width:45%"></i></div></td></tr>
+      <tr><td>B06</td><td class="ev">Georgia lieutenant-governor runoff runup toward June 16 (Infera GA beat); 8 days out</td><td><span class="chip fact">FACT</span></td><td><span class="chip t-watch">Watch</span></td><td class="g">45<div class="micro"><i style="width:45%"></i></div></td></tr>
+      <tr><td>B10</td><td class="ev">US refuses visas to 15 of Iran's 2026 World Cup delegation (Iranian state media, single adversarial source)</td><td><span class="chip reported">REP</span></td><td><span class="chip t-watch">Watch</span></td><td class="g">42<div class="micro"><i style="width:42%"></i></div></td></tr>
+      <tr><td>B07</td><td class="ev">SCOTUS Monday Orders session (passed ~9:30); opinion day Thu 6/11; 6/2 Alabama map stay the live thread</td><td><span class="chip fact">FACT</span></td><td><span class="chip t-low">Low</span></td><td class="g">35<div class="micro"><i style="width:35%"></i></div></td></tr>
+      <tr><td>·</td><td class="ev">Consumer Credit (G.19, April), Federal Reserve, 15:00</td><td><span class="chip fact">FACT</span></td><td><span class="chip t-low">Low</span></td><td class="g">20<div class="micro"><i style="width:20%"></i></div></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════ 3 · SPLIT-SCREEN ═══════════ -->
+  <div class="shead"><span class="n">03</span><h2>The 20:30 conjunction</h2></div>
+  <p class="lede">No mechanical collision fired today. The rubric only triggers when three or more bodies above 70 cross the same hour, and only B01 and B02 clear 70, on different clocks. The real event is a softer conjunction, so we mark it by hand.</p>
+  <div class="timeline">
+    <div style="font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted)">Evening track · 17:00 → 23:00 ET</div>
+    <div class="track" aria-hidden="true">
+      <span class="sunrise"></span>
+      <span class="evdot iran" style="left:8%; top:34%"></span><span class="evlabel" style="left:8%; top:14%">Gulf diplomacy · live</span>
+      <span class="evdot" style="left:30%; top:62%"></span><span class="evlabel" style="left:30%; top:76%">702 floor math</span>
+      <span class="evdot msg" style="left:58%; top:42%"></span><span class="evlabel" style="left:58%; top:22%">Trump → MSG 20:30</span>
+      <span class="evdot iran" style="left:84%; top:30%"></span><span class="evlabel" style="left:84%; top:82%">agency-only follow-up ~22:00</span>
+      <span class="hourmark" style="left:0%">17:00</span><span class="hourmark" style="left:33%">19:00</span><span class="hourmark" style="left:66%">21:00</span><span class="hourmark" style="left:100%">23:00</span>
+    </div>
+    <p class="splitnote">Around 20:30 the arena's light outshines the consequential-but-dim stories: the 702 lapse math and the war-powers vote nobody will schedule. Watch for the agency-only follow-up, a DoD readout, an ODNI note, a Treasury instrument, that tends to rise near 22:00 while every telescope is pointed at the court.</p>
+  </div>
+
+  <!-- ═══════════ 4 · EPHEMERIS ═══════════ -->
+  <div class="shead"><span class="n">04</span><h2>Ephemeris · where these bodies were, are, and are heading</h2></div>
+  <p class="lede">An observatory keeps a logbook so tonight's reading makes sense against last night's. Here is how today moved the three running threads, charted so tomorrow's board resumes exactly where this one leaves off.</p>
+  <div class="threads">
+    <div class="col knew">
+      <h4>Last recorded position</h4>
+      <div class="item"><b>Gulf exchange, bidirectional</b>US downed six one-way drones and struck coastal radar; Iran fired seven ballistic missiles at Kuwait and Bahrain, largely intercepted. The April ceasefire was already fraying.</div>
+      <div class="item"><b>702 was wobbling</b>The 47-52 cloture failure was logged, with a June 12 lapse on the clock.</div>
+      <div class="item"><b>Crude's tripwire was armed</b>The prewritten "crude up, chips heavy" path was staged for the Sunday open.</div>
+    </div>
+    <div class="col learned">
+      <h4>Tonight's reading</h4>
+      <div class="item"><b>The President went public for peace</b>A social post pressing for an "immediate ceasefire," port blockade held as leverage. <span class="chip reported">Reported</span>, cross-check against an official readout before it hardens.</div>
+      <div class="item"><b>Oil round-tripped</b>Brent crossed 98, then fell back to about 94 once Iran said it had stopped. The market is pricing doubt, not relief.</div>
+      <div class="item"><b>The asset move became a bargaining chip</b>Iran tied the unfreeze to talks, linking B09 to B01 for the first time.</div>
+    </div>
+    <div class="col watch4">
+      <h4>Forecast position</h4>
+      <div class="item"><b>The readout that settles B01</b>A CENTCOM or Treasury document that hardens the ceasefire or breaks it. Next checkpoint: 48-hour durability.</div>
+      <div class="item"><b>The 702 re-run</b>Pass, fail again, or a SAFE Act substitute, with a possible ODNI declassification timed to move votes.</div>
+      <div class="item"><b>CPI, Wednesday 8:30</b>The week's real number. The scaffold is built and held, energy-driven branch first given the Hormuz premium.</div>
+    </div>
+  </div>
+
+  <div class="curator">
+    <p>"From the war room the day looks like an emergency. From the observatory it looks like a system doing what systems do, on schedule, indifferent to whether anyone is watching. Both readings are true. We publish both so you can choose your distance without losing the facts."</p>
+    <div class="by">Infera · curator's note · impartial by design</div>
+  </div>
+
+  <div class="switch">
+    <div class="t">Prefer the day with the <span>alarms on?</span> See the same board as a midnight war room.</div>
+    <a href="tomorrow-exhibit-2026-06-08.html">← The war-room imagination</a>
+  </div>
+
+  <!-- ═══════════ NAV FOOTER (house pattern) ═══════════ -->
+  <nav class="footnav" aria-label="Post navigation">
+    <div class="col">
+      <h5>The sequence</h5>
+      <a href="tomorrow-exhibit-2026-06-08.html">← The war-room imagination of today</a>
+      <a href="tomorrow-exhibit-2026-06-09-alt.html">Next day · The Open Record Order, 06.09.2026 →</a>
+      <a href="index.html">Series Home</a>
+      <a href="field-notes/index.html">Field Notes</a>
+    </div>
+    <div class="col">
+      <h5>Reference</h5>
+      <a href="field-notes/05-the-morning-after.html">Field Note 05 · The Morning After</a>
+      <a href="systems-atlas.html">Systems Atlas</a>
+      <a href="legal.html#privacy">Legal · Privacy</a>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </div>
+  </nav>
+
+  <div class="postcopy">
+    © 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: <a href="mailto:infera@melophon.com">infera@melophon.com</a><br>
+    Exhibit rendered from the confirmed Open Record Order, frozen 14:13 ET, Monday June 8, 2026. Same board as the war-room exhibit, opposite visual language. REPORTED items require cross-checking before any published claim.
+  </div>
+
+</div>
+
+<!-- ═══════════ SITE-WIDE PROTECTIVE LEGAL BLOCK (root-relative) ═══════════ -->
+<style id="infera-legal-footer">
+.legal-footer{background:#06060a; color:rgba(168,162,152,.75); font-family:'Inter', system-ui, sans-serif; font-size:11.5px; line-height:1.55; padding:32px 6vw 36px; border-top:1px solid rgba(168,162,152,.12);}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{display:grid; grid-template-columns:1fr auto; gap:24px 32px; padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08); margin-bottom:14px;}
+.legal-footer .lf-brand{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700; display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+.legal-footer .lf-brand b{color:#c8ff1e; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; padding:3px 8px; border:1px solid rgba(168,162,152,.18); white-space:nowrap}
+.legal-footer .lf-disclaim{font-size:11.5px; line-height:1.6; color:rgba(168,162,152,.62);}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+.legal-footer details.lf-more{margin-top:8px}
+.legal-footer details.lf-more summary{cursor:pointer; list-style:none; font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700; display:inline-flex; align-items:center; gap:8px; padding:5px 0;}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+.legal-footer .lf-links{display:flex; flex-wrap:wrap; gap:0 18px; padding-top:14px; border-top:1px dashed rgba(168,162,152,.12); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+.legal-footer .lf-infra{display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:10px 14px 12px; margin-bottom:14px; background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:780px){.legal-footer .lf-top{grid-template-columns:1fr}.legal-footer{padding:26px 5vw 30px; font-size:11px}}
+@media (prefers-reduced-motion: reduce){.legal-footer details.lf-more summary::before{transition:none}}
+</style>
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+    <nav class="lf-infra" aria-label="Infrastructure links">
+      <span class="lf-infra-lbl">More from Infera</span>
+      <a href="systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+      <a href="claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+      <a href="case-file.html">Your Case File</a><span class="lf-sep">·</span>
+      <a href="founding.html">Founding 500</a><span class="lf-sep">·</span>
+      <a href="field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+      <a href="index.html#about">About</a>
+    </nav>
+    <div class="lf-top">
+      <div class="lf-brand"><span>© 2026 <b>Infera</b></span><span class="sep">·</span><span>All rights reserved</span><span class="sep">·</span><em>The Mechanism Series™</em></div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis, <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided "as is" without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> "Infera," "The Mechanism Series," and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong>Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission, usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong>Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for reading preferences, none transmitted. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong>DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with the required statutory elements under 17 U.S.C. § 512. Knowingly false notices may incur liability under § 512(f).</p>
+          <p><strong>Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong>Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Editorial decisions are independent.</p>
+          <p><strong>AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication.</p>
+          <p style="margin-top:10px; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+    <div class="lf-tail"><em>Atlanta, GA · USA · v.2026.05</em><span>Last updated · 26 May 2026</span></div>
+  </div>
+</aside>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var walls = document.querySelectorAll('.wall');
+  if(reduce || !('IntersectionObserver' in window)){ walls.forEach(function(w){ w.classList.add('in'); }); }
+  else{
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.3});
+    walls.forEach(function(w){ io.observe(w); });
+  }
+})();
+</script>
+</body>
+</html>
