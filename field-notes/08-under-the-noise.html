@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Field Note № 08 — Under the Noise · Tuesday, June 9, 2026</title>
+<meta name="description" content="On a day owned by a ceasefire rally and troops moving toward Los Angeles, a surveillance law slid to three days from lapse, a $1.5T defense bill was marked up behind closed doors, and three federal rules published quietly. An Evening Close field note on what moves under the noise." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Palette chosen for June 9: warm newsprint with a two-thread logic.
+       --loud (broadcast red) marks the spectacle thread: the LA streets and the ceasefire rally.
+       --quiet (slate blue) marks the mechanism thread: the rules, the parked votes, the paperwork.
+       --alert (brass) is reserved for the one countdown that is genuinely running out: Section 702. */
+    --paper: #f3efe6;
+    --paper-soft: #e8e2d4;
+    --ink: #15171c;
+    --ink-dim: #474d56;
+    --ink-faint: #8b8f97;
+    --rule: #d2ccbd;
+    --loud: #d8442b;     /* broadcast red, the cameras' thread */
+    --quiet: #2f5d7c;    /* slate blue, the paperwork thread */
+    --alert: #bf8a1e;    /* brass, the 702 countdown */
+    --accent: #6b6150;   /* ochre labels */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection { background: var(--loud); color: var(--paper); }
+
+  /* ───── nav header ───── */
+  nav.strip {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 32px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-dim);
+    background: linear-gradient(to bottom, rgba(243,239,230,0.96), rgba(243,239,230,0));
+    backdrop-filter: blur(8px);
+  }
+  nav.strip a { color: var(--ink); text-decoration: none; transition: color 0.2s ease; }
+  nav.strip a:hover { color: var(--loud); }
+  nav.strip .navlinks { display: flex; gap: 24px; align-items: center; }
+  nav.strip .stamp { color: var(--ink-faint); }
+  nav.strip .dot { width: 6px; height: 6px; background: var(--alert); border-radius: 50%; display: inline-block; margin-right: 8px; vertical-align: middle; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @media (max-width: 720px) { nav.strip .stamp { display: none; } nav.strip .navlinks { gap: 16px; } }
+
+  /* ───── hero ───── */
+  .hero { min-height: 100vh; display: grid; grid-template-rows: 1fr auto 1fr; padding: 90px 6vw 50px; position: relative; overflow: hidden; }
+  .hero .figure { position: absolute; right: -2vw; bottom: 3vh; width: clamp(320px, 46vw, 680px); z-index: 0; pointer-events: none; }
+  .hero .burst { position: absolute; left: -5vw; top: 7vh; width: clamp(280px, 38vw, 520px); z-index: 0; pointer-events: none; }
+  @media (max-width: 760px) { .hero .figure, .hero .burst { opacity: 0.3; } }
+
+  .hero-content { grid-row: 2; text-align: center; position: relative; z-index: 2; }
+  .kicker { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink); background: var(--paper); display: inline-block; padding: 6px 14px; opacity: 0; animation: fadeUp 1s ease 0.3s forwards; }
+  h1.headline { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(58px, 12vw, 168px); line-height: 0.94; letter-spacing: -0.02em; margin: 24px 0 22px; }
+  h1.headline .word { display: inline-block; opacity: 0; transform: translateY(40px); animation: dropIn 1.2s cubic-bezier(0.2,0.8,0.2,1) forwards; }
+  h1.headline .word:nth-child(1) { animation-delay: 0.7s; }
+  h1.headline .word:nth-child(2) { animation-delay: 1.3s; color: var(--ink-faint); }
+  h1.headline .word:nth-child(3) { animation-delay: 1.9s; font-style: italic; color: var(--quiet); }
+  .hero-sub { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(15px, 1.7vw, 21px); color: var(--ink-dim); max-width: 660px; margin: 0 auto; background: rgba(243,239,230,0.86); padding: 10px 16px; opacity: 0; animation: fadeUp 1.2s ease 2.4s forwards; }
+  .hero-foot { grid-row: 3; align-self: end; display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 2; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim); opacity: 0; animation: fadeUp 1s ease 3.2s forwards; }
+  .scroll-hint { animation: bob 2.2s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes dropIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ───── sections ───── */
+  section { padding: 104px 6vw; position: relative; }
+  .measure { max-width: 680px; margin: 0 auto; }
+  .wide { max-width: 1040px; margin: 0 auto; }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 1s ease, transform 1s cubic-bezier(0.2,0.8,0.2,1); }
+  .reveal.on { opacity: 1; transform: translateY(0); }
+
+  .placard { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); display: flex; flex-wrap: wrap; gap: 8px 28px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 12px 0; margin: 0 0 44px; }
+  .placard b { color: var(--accent); font-weight: 700; }
+
+  .ex-kicker { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; margin-bottom: 18px; }
+  .ex-kicker.loud { color: var(--loud); }
+  .ex-kicker.quiet { color: var(--quiet); }
+  h2.ex-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(32px, 4.6vw, 58px); line-height: 1.04; letter-spacing: -0.015em; margin-bottom: 26px; }
+  .lede { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(18px, 2vw, 23px); line-height: 1.5; color: var(--ink); margin-bottom: 26px; }
+  p.body { color: var(--ink-dim); font-size: 16px; margin-bottom: 22px; }
+  p.body strong { color: var(--ink); font-weight: 600; }
+  .you { border-left: 3px solid var(--loud); background: var(--paper-soft); padding: 22px 26px; margin: 34px 0; font-family: 'Fraunces', serif; font-weight: 400; font-style: italic; font-size: clamp(17px, 1.8vw, 21px); line-height: 1.55; color: var(--ink); }
+  .you.q { border-left-color: var(--quiet); }
+  .you .tag { display: block; font-family: 'Space Mono', monospace; font-style: normal; font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--loud); margin-bottom: 10px; }
+  .you.q .tag { color: var(--quiet); }
+
+  .artifact { text-align: center; padding: 66px 0 56px; margin: 50px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); position: relative; overflow: hidden; }
+  .artifact .big { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(54px, 11vw, 150px); line-height: 0.9; letter-spacing: -0.03em; position: relative; }
+  .artifact .big.loud { color: var(--loud); } .artifact .big.quiet { color: var(--quiet); } .artifact .big.alert { color: var(--alert); }
+  .artifact .cap { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint); margin-top: 22px; max-width: 640px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+
+  .gapviz { margin: 58px 0 30px; }
+  .gaprow { display: grid; gap: 8px; margin-bottom: 36px; }
+  .gaprow .glabel { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-dim); display: flex; justify-content: space-between; }
+  .gaprow .glabel span:last-child { color: var(--ink-faint); }
+  .bar { height: 12px; background: var(--paper); border: 1px solid var(--ink); position: relative; overflow: hidden; }
+  .bar i { position: absolute; inset: 0; right: auto; width: 0; transition: width 1.6s cubic-bezier(0.2,0.8,0.2,1); }
+  .bar i.loud { background: var(--loud); } .bar i.quiet { background: var(--quiet); } .bar i.alert { background: var(--alert); }
+  .gapnote { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); text-align: right; margin-top: -24px; }
+
+  .chainwrap { margin: 70px auto 20px; }
+  .chain-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint); text-align: center; margin-bottom: 30px; }
+  svg text { font-family: 'Space Mono', monospace; }
+
+  .diptych { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 56px 0; }
+  .panel { padding: 46px 36px; }
+  .panel.left { background: var(--loud); color: #fbf2ee; }
+  .panel.right { background: var(--quiet); color: #eef3f6; }
+  .panel .pk { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; margin-bottom: 18px; opacity: 0.85; }
+  .panel h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.16; margin-bottom: 16px; }
+  .panel p { font-size: 14.5px; opacity: 0.92; }
+  @media (max-width: 720px) { .diptych { grid-template-columns: 1fr; } }
+
+  .cliff { display: flex; align-items: baseline; justify-content: center; gap: 26px; margin: 52px 0; flex-wrap: wrap; }
+  .cliff .n { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(86px, 13vw, 180px); line-height: 0.9; color: var(--alert); letter-spacing: -0.03em; }
+  .cliff .lbl { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-dim); max-width: 230px; line-height: 1.8; }
+
+  .votes { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin: 42px auto 10px; max-width: 560px; }
+  .votes .t { width: 14px; height: 26px; border: 1px solid var(--ink); }
+  .votes .t.yes { background: var(--quiet); border-color: var(--quiet); }
+  .votes .t.no { background: transparent; }
+  .votes .t.cross { background: var(--alert); border-color: var(--alert); }
+  .voteleg { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); text-align: center; margin-bottom: 48px; }
+  .voteleg em { color: var(--accent); font-style: normal; }
+
+  .ledger { width: 100%; border-collapse: collapse; margin: 44px 0 16px; font-family: 'Space Mono', monospace; font-size: 12px; }
+  .ledger th, .ledger td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  .ledger th { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); border-bottom: 1px solid var(--ink); }
+  .ledger td .sub { color: var(--ink-faint); font-size: 10.5px; }
+  .ledger .pill { display: inline-block; padding: 1px 7px; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .ledger .pill.q { background: rgba(47,93,124,0.16); color: var(--quiet); }
+  .ledger .pill.l { background: rgba(216,68,43,0.14); color: var(--loud); }
+  @media (max-width: 680px) { .ledger { font-size: 10.5px; } .ledger th, .ledger td { padding: 8px 6px; } }
+
+  .colophon { background: var(--paper-soft); border-top: 1px solid var(--ink); }
+  .colophon h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(26px, 3vw, 38px); margin-bottom: 26px; }
+  .meter { margin: 40px 0; }
+  .meter .mlabel { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-dim); display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .honesty { border: 1px solid var(--alert); padding: 26px 30px; margin: 44px 0; font-size: 14px; color: var(--ink-dim); background: var(--paper); }
+  .honesty .hk { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--alert); margin-bottom: 14px; }
+
+  .sources { font-size: 13px; color: var(--ink-faint); line-height: 2; }
+  .sources a { color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .sources a:hover { color: var(--loud); border-color: var(--loud); }
+
+  footer.note-footer { padding: 56px 6vw 60px; text-align: center; background: var(--ink); color: var(--paper); font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; }
+  footer.note-footer .fnav { display: flex; flex-wrap: wrap; gap: 14px 32px; justify-content: center; margin-bottom: 34px; }
+  footer.note-footer .fnav a { color: var(--paper); text-decoration: none; border-bottom: 1px solid rgba(243,239,230,0.35); padding-bottom: 2px; transition: color 0.2s ease, border-color 0.2s ease; }
+  footer.note-footer .fnav a:hover { color: var(--loud); border-color: var(--loud); }
+  footer.note-footer .fdot { color: var(--alert); }
+  footer.note-footer .fcopy { margin-top: 18px; color: rgba(243,239,230,0.5); letter-spacing: 0.08em; text-transform: none; font-size: 10.5px; line-height: 1.7; }
+
+  .divider { display: flex; align-items: center; gap: 20px; justify-content: center; padding: 0 6vw; }
+  .divider::before, .divider::after { content: ''; height: 1px; background: var(--ink); opacity: 0.25; flex: 1; max-width: 200px; }
+  .divider span { color: var(--loud); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<nav class="strip">
+  <a href="../index.html"><span class="dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="../index.html">← All Episodes</a>
+    <a href="index.html">Field Notes</a>
+    <span class="stamp">№ 08 · EVENING CLOSE · 06.09.2026</span>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <!-- the loud broadcast burst: red noise the cameras face -->
+  <svg class="burst" viewBox="0 0 500 500" aria-hidden="true">
+    <g stroke="#d8442b" stroke-width="3" stroke-linecap="round" opacity="0.9">
+      <line x1="250" y1="250" x2="250" y2="40"/>
+      <line x1="250" y1="250" x2="410" y2="90"/>
+      <line x1="250" y1="250" x2="470" y2="250"/>
+      <line x1="250" y1="250" x2="410" y2="410"/>
+      <line x1="250" y1="250" x2="250" y2="460"/>
+      <line x1="250" y1="250" x2="120" y2="430"/>
+      <line x1="250" y1="250" x2="40" y2="330"/>
+      <line x1="250" y1="250" x2="70" y2="120"/>
+      <line x1="250" y1="250" x2="180" y2="60"/>
+    </g>
+    <g stroke="#d8442b" stroke-width="2" fill="none" opacity="0.45">
+      <circle cx="250" cy="250" r="120"/>
+      <circle cx="250" cy="250" r="172"/>
+    </g>
+    <circle cx="250" cy="250" r="20" fill="#d8442b"/>
+  </svg>
+
+  <!-- the thesis, no human figures: two cameras face the red burst; behind them a stamped
+       document and a small brass clock sit unlit, in the blue paperwork thread -->
+  <svg class="figure" viewBox="0 0 720 520" aria-hidden="true">
+    <line x1="40" y1="476" x2="690" y2="476" stroke="#d2ccbd" stroke-width="2"/>
+
+    <!-- two broadcast cameras, pointed left toward the noise -->
+    <g>
+      <!-- camera one -->
+      <g transform="translate(150 250)">
+        <rect x="0" y="0" width="120" height="74" rx="6" fill="#d8442b"/>
+        <rect x="-26" y="18" width="30" height="38" rx="4" fill="#15171c"/>
+        <circle cx="-26" cy="37" r="13" fill="#15171c" stroke="#f3efe6" stroke-width="2"/>
+        <rect x="40" y="-18" width="44" height="22" rx="3" fill="#15171c"/>
+        <rect x="118" y="20" width="20" height="34" rx="3" fill="#15171c"/>
+        <!-- tally light on -->
+        <circle cx="8" cy="12" r="5" fill="#bf8a1e"/>
+        <line x1="60" y1="74" x2="60" y2="150" stroke="#15171c" stroke-width="5"/>
+        <line x1="20" y1="150" x2="100" y2="150" stroke="#15171c" stroke-width="5"/>
+      </g>
+      <!-- camera two, slightly behind -->
+      <g transform="translate(300 286) scale(0.82)">
+        <rect x="0" y="0" width="120" height="74" rx="6" fill="#15171c"/>
+        <rect x="-26" y="18" width="30" height="38" rx="4" fill="#15171c"/>
+        <circle cx="-26" cy="37" r="13" fill="#15171c" stroke="#f3efe6" stroke-width="2"/>
+        <rect x="40" y="-18" width="44" height="22" rx="3" fill="#15171c"/>
+        <circle cx="8" cy="12" r="5" fill="#d8442b"/>
+        <line x1="60" y1="74" x2="60" y2="150" stroke="#15171c" stroke-width="5"/>
+        <line x1="20" y1="150" x2="100" y2="150" stroke="#15171c" stroke-width="5"/>
+      </g>
+    </g>
+
+    <!-- behind the cameras: the unlit paperwork thread -->
+    <g transform="translate(470 250)" opacity="0.96">
+      <!-- stacked stamped documents -->
+      <rect x="0" y="120" width="150" height="120" fill="#e8e2d4" stroke="#2f5d7c" stroke-width="3"/>
+      <rect x="14" y="92" width="150" height="120" fill="#eef0e8" stroke="#2f5d7c" stroke-width="3"/>
+      <rect x="28" y="64" width="150" height="120" fill="#f4f1e8" stroke="#2f5d7c" stroke-width="3"/>
+      <g stroke="#8b8f97" stroke-width="3">
+        <line x1="46" y1="92" x2="158" y2="92"/>
+        <line x1="46" y1="110" x2="158" y2="110"/>
+        <line x1="46" y1="128" x2="132" y2="128"/>
+      </g>
+      <!-- a stamp, the mechanism mark -->
+      <circle cx="150" cy="150" r="22" fill="none" stroke="#2f5d7c" stroke-width="2.5" stroke-dasharray="4 5"/>
+      <text x="150" y="154" text-anchor="middle" fill="#2f5d7c" font-size="9" letter-spacing="1">FILED</text>
+    </g>
+
+    <!-- the one clock that is actually running: brass, small, in shadow -->
+    <g transform="translate(560 360)">
+      <circle cx="0" cy="0" r="34" fill="#f3efe6" stroke="#bf8a1e" stroke-width="3.5"/>
+      <line x1="0" y1="0" x2="0" y2="-22" stroke="#bf8a1e" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="16" y2="8" stroke="#bf8a1e" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="3" fill="#bf8a1e"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <div class="kicker">Two loud pictures · the decisions moved on paper</div>
+    <h1 class="headline"><span class="word">Under</span> <span class="word">the</span> <span class="word">Noise</span></h1>
+    <p class="hero-sub">On Tuesday two pictures owned the screens: a Middle East ceasefire firm enough to drop oil below ninety dollars, and National Guard troops moving toward Los Angeles over immigration raids. Both mattered. Underneath them, a surveillance law slid to three days from going dark, a $1.5 trillion defense bill was marked up behind a closed door, and three federal rules published with almost no coverage. One of those rules was about the very thing on the screen. This is a field note about what moves under the noise.</p>
+  </div>
+  <div class="hero-foot">
+    <div>FIVE EXHIBITS</div>
+    <div class="scroll-hint">↓ ENTER</div>
+    <div>READING TIME · 8 MIN</div>
+  </div>
+</div>
+
+<!-- ═══════════ EXHIBIT 01 ═══════════ -->
+<section>
+  <div class="measure">
+    <div class="placard reveal"><span>EXHIBIT <b>01</b></span><span>CATALOG <b>X01 / T01</b></span><span>MEDIUM <b>TWO LOUD CAMERAS</b></span><span>CONFIDENCE <b>FACT (UNREST) · REPORTED (CEASEFIRE)</b></span></div>
+    <div class="reveal">
+      <div class="ex-kicker loud">The story that took the oxygen</div>
+      <h2 class="ex-title">Two pictures owned the day, and both deserved a camera.</h2>
+      <p class="lede">The first picture was domestic. Protests over immigration raids spread from Los Angeles into Orange County; the President authorized another 2,000 National Guard members, the Pentagon activated 700 Marines, and California's governor sued the administration over the deployment. The second picture was foreign. Israel and Iran were reported to have stopped trading blows, and markets exhaled: oil fell hard, with Brent near 91 dollars and U.S. crude below 90, while stocks edged up.</p>
+      <p class="body">Neither of these is a fake story. A state suing the federal government over troops in its largest city is a real constitutional fight, and a ceasefire that calms the oil market is real money in your pocket. The point of this exhibit is not that the cameras were wrong to be there. It is that when two pictures this strong arrive on the same day, they take nearly all the available attention, and the things that do not photograph keep moving in the space they leave behind.</p>
+    </div>
+    <div class="artifact reveal">
+      <div class="big loud">2,700</div>
+      <div class="cap">National Guard members plus Marines ordered toward Los Angeles by June 9 · the image that led the domestic broadcast</div>
+    </div>
+    <div class="you reveal">
+      <span class="tag">Why this reaches you</span>
+      Your attention is the scarce thing, not the news. On a two-picture day, almost everything you learn will come from those two pictures, and almost everything you do not learn will be whatever happened off camera. That is not a reason to look away from the streets or the ceasefire. It is a reason to ask, before you close the tab, what used today's noise as cover.
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- ═══════════ EXHIBIT 02 ═══════════ -->
+<section>
+  <div class="wide">
+    <div class="placard reveal"><span>EXHIBIT <b>02</b></span><span>CATALOG <b>T07 / X01 / T05 / T06</b></span><span>MEDIUM <b>CAUSAL CHAIN</b></span><span>NOTE <b>SAME SUBJECTS, TWO DISTANCES</b></span></div>
+    <div class="measure reveal">
+      <div class="ex-kicker quiet">The interconnection</div>
+      <h2 class="ex-title">The loud thread and the quiet thread are the same subjects, seen from two distances.</h2>
+      <p class="lede">This is the part the separate headlines hide. The pictures on the screen and the paperwork off it are not different stories. They are the front and the back of one machine.</p>
+    </div>
+    <div class="chainwrap reveal">
+      <div class="chain-label">One subject · two distances · follow the rows</div>
+      <svg viewBox="0 0 1000 360" width="100%" role="img" aria-label="Diagram: immigration and Iran each appear as a loud camera story and a quiet paperwork story on the same day">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#474d56"/></marker>
+        </defs>
+        <!-- subject labels -->
+        <rect x="20" y="40" width="150" height="64" fill="#15171c"/>
+        <text x="95" y="70" text-anchor="middle" fill="#f3efe6" font-size="13">IMMIGRATION</text>
+        <text x="95" y="90" text-anchor="middle" fill="#bf8a1e" font-size="10">ONE SUBJECT</text>
+        <rect x="20" y="256" width="150" height="64" fill="#15171c"/>
+        <text x="95" y="286" text-anchor="middle" fill="#f3efe6" font-size="13">IRAN</text>
+        <text x="95" y="306" text-anchor="middle" fill="#bf8a1e" font-size="10">ONE SUBJECT</text>
+        <!-- loud column -->
+        <rect x="370" y="20" width="240" height="76" fill="#d8442b"/>
+        <text x="490" y="50" text-anchor="middle" fill="#fbf2ee" font-size="12">TROOPS TOWARD L.A.</text>
+        <text x="490" y="70" text-anchor="middle" fill="#fbf2ee" font-size="10" opacity="0.9">ON EVERY SCREEN</text>
+        <rect x="370" y="236" width="240" height="76" fill="#d8442b"/>
+        <text x="490" y="266" text-anchor="middle" fill="#fbf2ee" font-size="12">CEASEFIRE RELIEF RALLY</text>
+        <text x="490" y="286" text-anchor="middle" fill="#fbf2ee" font-size="10" opacity="0.9">OIL FALLS, STOCKS RISE</text>
+        <!-- quiet column -->
+        <rect x="720" y="20" width="250" height="76" fill="#f4f1e8" stroke="#2f5d7c" stroke-width="1.5"/>
+        <text x="845" y="46" text-anchor="middle" fill="#15171c" font-size="11">DHS/HHS DETERMINATION</text>
+        <text x="845" y="64" text-anchor="middle" fill="#2f5d7c" font-size="9.5">POSTURE BY FINDING · NO COMMENT</text>
+        <text x="845" y="80" text-anchor="middle" fill="#8b8f97" font-size="9">PUBLISHED THE SAME DAY</text>
+        <rect x="720" y="236" width="250" height="76" fill="#f4f1e8" stroke="#2f5d7c" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="845" y="262" text-anchor="middle" fill="#15171c" font-size="11">WAR POWERS VOTE · $24B ASSETS</text>
+        <text x="845" y="280" text-anchor="middle" fill="#2f5d7c" font-size="9.5">NO SENATE DATE · NO OFAC FORM</text>
+        <text x="845" y="296" text-anchor="middle" fill="#8b8f97" font-size="9">THE TERMS, STILL PARKED</text>
+        <g stroke="#474d56" stroke-width="1.2" fill="none" marker-end="url(#arr)">
+          <line x1="170" y1="60" x2="366" y2="58"/>
+          <line x1="170" y1="86" x2="366" y2="270"/>
+          <line x1="610" y1="58" x2="716" y2="58"/>
+          <line x1="170" y1="296" x2="366" y2="274"/>
+          <line x1="610" y1="274" x2="716" y2="274"/>
+        </g>
+      </svg>
+    </div>
+    <div class="measure reveal">
+      <p class="body">Read across the rows. Immigration is the troops on the screen, and it is also a DHS and HHS determination published Tuesday that shifts who gets removed or admitted by administrative finding, with no comment window, drawing near-zero coverage. Iran is the relief rally, and it is also a War Powers Resolution the Senate still will not schedule and a 24-billion-dollar frozen-asset term with no legal instrument yet, the two levers that would actually constrain the war or make the peace real. <strong>The camera version and the paper version are the same fight, and only one of them is being filmed.</strong> That is the thesis of the whole note: on the loudest days, the consequential decisions move by paperwork, and the paperwork is on the same subjects as the noise.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- ═══════════ EXHIBIT 03 ═══════════ -->
+<section>
+  <div class="measure">
+    <div class="placard reveal"><span>EXHIBIT <b>03</b></span><span>CATALOG <b>T02</b></span><span>MEDIUM <b>A COUNTDOWN</b></span><span>STATUS <b>LAPSES JUNE 12</b></span></div>
+    <div class="reveal">
+      <div class="ex-kicker quiet">What the cameras missed</div>
+      <h2 class="ex-title">A surveillance law is three days from going dark, and no vote fired today.</h2>
+      <p class="lede">Section 702 is the legal authority that lets U.S. intelligence agencies collect the communications of foreign targets without individual warrants, sweeping up Americans' messages on the other end in the process. It expires June 12. On Tuesday, with three days left, the Senate held no new vote on it.</p>
+      <p class="body">What happened instead was procedural. Majority Leader Thune filed cloture on a three-year reauthorization, which sets up a future vote, and signaled that a short-term extension is "something the administration will have to consider." Friday's failed motion still stands, and the way it failed is the unusual part: <strong>seven Republicans</strong>, Hawley, Kennedy, Lee, Paul, Schmitt, Scott, and Tuberville, joined every Democrat to block it, over warrantless surveillance of Americans and a fight about installing a housing-finance regulator as acting intelligence chief. A privacy bloc that does not sort by party, on a three-day clock, while the cameras face the streets and the ceasefire.</p>
+    </div>
+    <div class="cliff reveal">
+      <div class="n" id="cliff-n">3</div>
+      <div class="lbl">DAYS UNTIL SECTION 702 AUTHORITIES LAPSE · JUNE 12, 2026</div>
+    </div>
+    <div class="votes reveal" id="votefield" aria-label="Vote: 47 to advance, 52 against, including 7 Republican crossovers"></div>
+    <div class="voteleg reveal">47 ADVANCE · 52 REFUSE · <em>■ 7 REPUBLICAN CROSSOVERS</em> · A PRIVACY BLOC THAT CROSSES PARTY LINES</div>
+    <div class="you q reveal">
+      <span class="tag">Why this reaches you</span>
+      This touches you twice. If the law lapses on Friday, the intelligence community loses a tool it calls essential against foreign threats. If it is renewed under a contested intelligence chief, the question becomes whether your incidentally collected messages are governed by clear rules or by one person's discretion. Either outcome is being decided this week, mostly off camera. The countdown does not pause for the louder stories.
+    </div>
+    <div class="reveal">
+      <p class="body"><strong>The thread to our last two notes:</strong> this is the same 702 cliff we tracked in "The Loudest Story" and "Announced, Not Signed." Each time the deadline gets closer and the coverage gets thinner, because each day brings a louder competitor. When a fight refuses to follow the usual team lines, it is usually worth more of your attention, not less.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- ═══════════ EXHIBIT 04 ═══════════ -->
+<section>
+  <div class="wide">
+    <div class="placard reveal"><span>EXHIBIT <b>04</b></span><span>CATALOG <b>T03 / T13</b></span><span>MEDIUM <b>DIPTYCH</b></span><span>SUBJECT <b>THE OPEN STREET &amp; THE CLOSED ROOM</b></span></div>
+    <div class="measure reveal">
+      <div class="ex-kicker loud">A study in contrast</div>
+      <h2 class="ex-title">The biggest dollar figure of the day was decided where no camera could go.</h2>
+      <p class="lede">The clearest illustration of how attention is allocated versus how money is moved sat one mile apart in Washington and Los Angeles.</p>
+    </div>
+    <div class="diptych reveal">
+      <div class="panel left">
+        <div class="pk">WHAT THE CAMERAS FILMED · OPEN STREET</div>
+        <h3>Troops and protesters in the largest city in California.</h3>
+        <p>An unfolding, visual, genuinely consequential confrontation, with a lawsuit attached. It earned its coverage. It also required nothing of the viewer beyond watching, and it filled the domestic news hole almost completely for the day.</p>
+      </div>
+      <div class="panel right">
+        <div class="pk">WHAT HAD NO CAMERA · CLOSED ROOM</div>
+        <h3>A $1.5 trillion defense bill, marked up behind a closed door.</h3>
+        <p>The Senate Armed Services Committee began marking up the FY2027 defense authorization Tuesday afternoon, in closed session. The request is about $1.5 trillion, roughly $750 billion of it for procurement including the "Golden Dome" missile-defense program, described as the largest year-over-year defense increase since World War Two. The only open session all day was a personnel subcommittee at 9:30 in the morning.</p>
+      </div>
+    </div>
+    <div class="measure reveal">
+      <div class="you q">
+        <span class="tag">Why this reaches you</span>
+        That $1.5 trillion is your money, authorized on your behalf. The decisions about what it buys, and a White House push to route part of it through the partisan reconciliation process rather than the usual bipartisan bill, were made in a room you could not watch. The deliverable you can read, the post-markup summary, comes later and quieter. When the most expensive decision of the day is also the least visible, that gap is the story, not a footnote to it.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- ═══════════ EXHIBIT 05 ═══════════ -->
+<section>
+  <div class="measure">
+    <div class="placard reveal"><span>EXHIBIT <b>05</b></span><span>CATALOG <b>T04 / T07 / T09</b></span><span>MEDIUM <b>THE MECHANISM</b></span><span>SUBJECT <b>THREE RULES, ONE LOUD DAY</b></span></div>
+    <div class="reveal">
+      <div class="ex-kicker quiet">Follow the paperwork</div>
+      <h2 class="ex-title">Three federal rules published Tuesday, with almost no one watching.</h2>
+      <p class="lede">The Federal Register is the government's daily record of rules and notices. On a loud day, it is the quietest room in the building, which makes it worth reading on exactly those days.</p>
+    </div>
+    <table class="ledger reveal" aria-label="Three Federal Register actions published June 9, 2026">
+      <thead>
+        <tr><th>Rule</th><th>What it does</th><th>The mechanism</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>State Dept consular fees <span class="sub">FR 2026-11513 · T04</span></td>
+          <td>Adds a paid lane to skip the visa-appointment queue at busy posts, reported near 750 dollars, framed around the World Cup and the LA Olympics. Comment window open to about July 9.</td>
+          <td><span class="pill l">Burden shift</span> <span class="sub">a public line you can pay to skip</span></td>
+        </tr>
+        <tr>
+          <td>DHS/HHS determination <span class="sub">FR 2026-11473 · T07</span></td>
+          <td>Shifts removal and admission posture by an administrative finding rather than notice-and-comment rulemaking. Published the same day troops moved toward Los Angeles over immigration enforcement.</td>
+          <td><span class="pill q">Doing by finding</span> <span class="sub">the paper twin of the street story</span></td>
+        </tr>
+        <tr>
+          <td>NCUA preemption <span class="sub">FR 2026-11559 · T09</span></td>
+          <td>Federal preemption that displaces state limits on the fees and charges federal credit unions can levy. Quietly overrides state consumer-fee caps.</td>
+          <td><span class="pill q">Federal preemption</span> <span class="sub">state protections, switched off</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="body reveal">Each of these is a quiet way of changing the rules. A fee schedule is a burden shift: it moves cost onto whoever needs the service. A determination is doing by finding: it sets policy without opening a comment window. A preemption rule is an off switch for the state-level protections underneath it. None of the three is hidden, all are public, and on Tuesday all three landed with near-zero coverage because the cameras were full.</p>
+    <div class="you q reveal">
+      <span class="tag">Why this reaches you</span>
+      One of these decides what a faster passport appointment costs you. One can change which immigration rules apply, on the same subject filling your screen. One can quietly raise the fees your credit union is allowed to charge by switching off a state cap. You will not get a push alert for any of them. The Federal Register is free, searchable, and open. On the loudest days, it is where the things that touch your money and your rights are actually written down.
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- ═══════════ COLOPHON ═══════════ -->
+<section class="colophon">
+  <div class="measure">
+    <div class="placard reveal"><span>COLOPHON</span><span>METHOD <b>ATTENTION GAP</b></span><span>CYCLE <b>EVENING CLOSE</b></span><span>NOTE <b>№ 08</b></span></div>
+    <div class="reveal">
+      <h2>How this note was made, and where it could be wrong.</h2>
+      <p class="body">Each morning Infera scores the day's scheduled events on a zero-to-one-hundred "coverage gravity" scale, a structured estimate of what deserves attention, with every point traced to something concrete: who holds power in the room, whether cameras are allowed in, whether the event can change a rule that touches you. Each evening we compare that score to what newsrooms actually covered. The gaps are the product. <strong>High importance, low coverage</strong> becomes "What the Cameras Missed." <strong>Low importance, high coverage</strong> becomes "The Story That Took the Oxygen." Today the honest version was more pointed: the loud stories were genuinely important, and the quiet ones were on the same subjects, one distance further from the lens.</p>
+    </div>
+    <div class="gapviz reveal">
+      <div class="gaprow">
+        <div class="glabel"><span>L.A. PROTESTS + CEASEFIRE RALLY · coverage received</span><span>SATURATION</span></div>
+        <div class="bar"><i class="loud" data-w="100%"></i></div>
+        <div class="glabel" style="margin-top:10px;"><span>· share that was off camera (the rules, the votes, the terms)</span><span>TRACE</span></div>
+        <div class="bar"><i class="loud" data-w="10%"></i></div>
+      </div>
+      <div class="gaprow">
+        <div class="glabel"><span>§702 COUNTDOWN + CLOSED $1.5T MARKUP + 3 FR RULES · institutional weight</span><span>HIGH</span></div>
+        <div class="bar"><i class="quiet" data-w="80%"></i></div>
+        <div class="glabel" style="margin-top:10px;"><span>· coverage received</span><span>TRACE</span></div>
+        <div class="bar"><i class="quiet" data-w="14%"></i></div>
+      </div>
+      <div class="gapnote">THE GAP IS THE STORY</div>
+    </div>
+    <div class="meter reveal">
+      <div class="mlabel"><span>SCAFFOLD BRANCHES THAT FIRED TODAY · HIT RATE</span><span>1 OF 1 · 100%</span></div>
+      <div class="bar"><i class="quiet" data-w="100%"></i></div>
+      <p class="body" style="margin-top:14px; font-size:13.5px;">We pre-write branching interpretations before events happen, then grade ourselves. Today the NFIB small-business gauge fired its prewritten "below average again" branch exactly: 95.3, a third straight month under the long-run average, with uncertainty still elevated. Four more scaffolds are armed and pending this week: the §702 cloture path, the closed NDAA markup summary, Wednesday's CPI inflation report, and the Treasury auctions. No misses today.</p>
+    </div>
+    <div class="honesty reveal">
+      <div class="hk">⚠ Honest limitation · read before trusting</div>
+      Three seams to show. First, the biggest story of the day, the Los Angeles protests and the troop deployment, was never on our morning board, because the board ranks the scheduled calendar and cannot anticipate spontaneous unrest. We logged that as a coverage-type gap, not a scoring error, and recommend a standing live-crisis watch slot rather than pretending we predicted it. Second, the ceasefire is REPORTED, not FACT: it rests on reporting of a 60-day memorandum, not a signed deal, and a U.S. helicopter went down near the Strait of Hormuz this morning (crew reported safe, cause unknown). Third, two board rows are source-degraded and ungraded: the local Pennsylvania meetings were cached three days stale, and we could not confirm a Treasury 3-year auction result, so we did not grade its demand metrics. Market and oil figures are end-of-session reads, not official settle. A museum that hides its restoration work is lying to you; this one shows the seams.
+    </div>
+    <div class="reveal">
+      <p class="body" style="font-family:'Fraunces',serif; font-style:italic; font-size:18px; color:var(--ink);">The line on the wall as you leave: the loud stories are not the lie. The lie is thinking they are the whole day. The rules, the votes, and the terms keep moving under the noise, and the noise is usually about the same thing they are.</p>
+    </div>
+    <div class="sources reveal" style="margin-top:50px;">
+      <strong style="font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--ink-faint);">PROVENANCE · PRIMARY &amp; CONTEMPORANEOUS SOURCES</strong><br>
+      <a href="https://www.nbcnews.com/news/us-news/live-blog/trump-los-angeles-immigration-protests-rcna211695">NBC News · L.A. protests, National Guard deployment</a> ·
+      <a href="https://abc7.com/post/protests-erupt-immigration-customs-enforcement-raids-los-angeles-california/16690197/">ABC7 · 2,000 Guard + Marines activated</a> ·
+      <a href="https://tradingeconomics.com/commodity/brent-crude-oil">Trading Economics · Brent ~$91, WTI below $90, June 9</a> ·
+      <a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-june-09-2026">TheStreet · equities June 9</a> ·
+      <a href="https://www.cbsnews.com/news/senate-fisa-vote-extension/">CBS News · Senate §702 fails, 7 GOP crossovers</a> ·
+      <a href="https://rollcall.com/2026/06/05/fisa-reauthorization-stalls-in-early-morning-senate-vote/">Roll Call · FISA stalls, June 12 expiry</a> ·
+      <a href="https://legis1.com/news/defense-authorization-act-2027-senate-shapes">Legis1 · SASC marks up ~$1.5T FY2027 NDAA</a> ·
+      <a href="https://spacepolicyonline.com/events/sasc-markup-of-fy2027-ndaa-june-8-10-2026-dc/">SpacePolicyOnline · SASC markup June 8 to 10, closed</a> ·
+      <a href="https://investinglive.com/news/us-may-nfib-small-business-optimism-index-953-vs-960-expected-20260609/">InvestingLive · NFIB May 95.3 vs 96.0 expected</a> ·
+      <a href="https://www.federalregister.gov/public-inspection">Federal Register · public inspection (consular fees, DHS/HHS, NCUA)</a> ·
+      <a href="https://www.cbsnews.com/live-updates/iran-war-us-trump-vance-ceasefire-strait-of-hormuz-deal-close/">CBS News · Iran ceasefire and Hormuz</a>
+    </div>
+  </div>
+</section>
+
+<footer class="note-footer">
+  <div class="fnav">
+    <a href="index.html">← Field Notes</a>
+    <a href="../index.html">Series Home</a>
+    <a href="07-the-fast-lane.html">Prev · № 07 The Fast Lane</a>
+    <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+  </div>
+  INFERA <span class="fdot">·</span> MECHANISM SERIES <span class="fdot">·</span> FIELD NOTE № 08 <span class="fdot">·</span> "UNDER THE NOISE" <span class="fdot">·</span> EVENING CLOSE 06.09.2026
+  <div class="fcopy">© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com</div>
+</footer>
+
+<style id="infera-legal-footer">
+.legal-footer{
+  background:#06060a; color:rgba(168,162,152,.75);
+  font-family:'Inter', system-ui, sans-serif; font-size:11.5px; line-height:1.55;
+  padding:32px 6vw 36px;
+  border-top:1px solid rgba(168,162,152,.12);
+}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{
+  display:grid; grid-template-columns:1fr auto; gap:24px 32px;
+  padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08);
+  margin-bottom:14px;
+}
+.legal-footer .lf-brand{
+  font-family:'JetBrains Mono', ui-monospace, monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.legal-footer .lf-brand b{color:#c8ff1e; font-family:inherit; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; padding:3px 8px; border:1px solid rgba(168,162,152,.18); white-space:nowrap}
+.legal-footer .lf-disclaim{
+  font-size:11.5px; line-height:1.6; max-width:none; color:rgba(168,162,152,.62);
+}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+
+.legal-footer details.lf-more{margin-top:8px; padding:0}
+.legal-footer details.lf-more summary{
+  cursor:pointer; list-style:none;
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700;
+  display:inline-flex; align-items:center; gap:8px; padding:5px 0;
+}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+
+.legal-footer .lf-links{
+  display:flex; flex-wrap:wrap; gap:0 18px;
+  padding-top:14px; border-top:1px dashed rgba(168,162,152,.12);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+
+@media (max-width:780px){
+  .legal-footer .lf-top{grid-template-columns:1fr}
+  .legal-footer{padding:26px 5vw 30px; font-size:11px}
+}
+@media (prefers-reduced-motion: reduce){
+  .legal-footer details.lf-more summary::before{transition:none}
+}
+
+.legal-footer .lf-infra{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:10px 14px 12px; margin-bottom:14px;
+  background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:560px){
+  .legal-footer .lf-infra{font-size:9px; gap:8px; padding:8px 10px 10px}
+}
+</style>
+
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+      <nav class="lf-infra" aria-label="Infrastructure links">
+        <span class="lf-infra-lbl">More from Infera</span>
+        <a href="../systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+        <a href="../claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+        <a href="../case-file.html">Your Case File</a><span class="lf-sep">·</span>
+        <a href="../founding.html">Founding 500</a><span class="lf-sep">·</span>
+        <a href="../field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+        <a href="../index.html#about">About</a>
+      </nav>
+
+    <div class="lf-top">
+      <div class="lf-brand">
+        <span>© 2026 <b>Infera</b></span>
+        <span class="sep">·</span>
+        <span>All rights reserved</span>
+        <span class="sep">·</span>
+        <em>The Mechanism Series™</em>
+      </div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis &mdash; <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided &ldquo;as is&rdquo; without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> &ldquo;Infera,&rdquo; &ldquo;The Mechanism Series,&rdquo; and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis (echo dots, provenance layer, evidence mode, chapter rails, claims atlas format, systems atlas format) are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission &mdash; usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for persona memory, reading log, and evidence-mode preference &mdash; none transmitted. Subscriber emails stored at Buttondown. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with: (1) the copyrighted work, (2) the allegedly infringing URL, (3) your contact info, (4) good-faith statement, (5) statement under penalty of perjury, (6) your signature. Knowingly false DMCA notices may incur liability under 17 U.S.C. § 512(f). Counter-notices follow § 512(g).</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action arising from these terms shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Underwriters do not see episodes prior to publication. Editorial decisions are independent.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication. AI does not author episodes.</p>
+          <p style="margin-top:10px; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="../legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="../legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="../legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="../legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="../legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="../legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="../legal.html#unsubscribe">Unsubscribe</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+
+    <div class="lf-tail">
+      <em>Atlanta, GA · USA · v.2026.05</em>
+      <span>Last updated · 26 May 2026</span>
+    </div>
+  </div>
+</aside>
+
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('on');
+        e.target.querySelectorAll('.bar i').forEach(b => { requestAnimationFrame(() => { b.style.width = b.dataset.w; }); });
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.18 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // vote field: 47 advance, 52 refuse, of which 7 are GOP crossovers
+  const vf = document.getElementById('votefield');
+  if (vf) {
+    const ticks = [];
+    for (let i = 0; i < 47; i++) ticks.push('yes');
+    for (let i = 0; i < 45; i++) ticks.push('no');
+    for (let i = 0; i < 7; i++) ticks.push('cross');
+    ticks.forEach((cls, i) => {
+      const t = document.createElement('div');
+      t.className = 't ' + cls;
+      t.style.opacity = '0';
+      t.style.transition = 'opacity 0.4s ease ' + (i * 12) + 'ms';
+      vf.appendChild(t);
+    });
+    const vio = new IntersectionObserver((es) => {
+      es.forEach(e => { if (e.isIntersecting) { vf.querySelectorAll('.t').forEach(t => t.style.opacity = '1'); vio.unobserve(vf); } });
+    }, { threshold: 0.4 });
+    vio.observe(vf);
+  }
+
+  // countdown to June 12 lapse
+  (function(){
+    const lapse = new Date('2026-06-12T00:00:00-04:00');
+    const now = new Date();
+    let d = Math.ceil((lapse - now) / 86400000);
+    if (isNaN(d)) d = 3;
+    const el = document.getElementById('cliff-n');
+    if (el) {
+      if (d <= 0) { el.textContent = '0'; el.nextElementSibling.textContent = 'SECTION 702 AUTHORITIES HAVE REACHED THEIR JUNE 12 DEADLINE · CHECK CURRENT STATUS'; }
+      else { el.textContent = d; }
+    }
+  })();
+</script>
+</body>
+</html>

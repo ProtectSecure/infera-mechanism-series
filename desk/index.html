@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Desk · Operational Layer · Infera</title>
+<meta name="description" content="The operational layer beneath the Mechanism Series. Six scheduled products that capture the public schedule, the deltas, and the gaps. Newsroom infrastructure, not editorial product." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4efe2;
+    --paper-soft: #ece6d4;
+    --paper-deep: #d9d2bf;
+    --ink: #15222b;
+    --ink-dim: #46535d;
+    --ink-faint: #8b9097;
+    --rule: #d9d2bf;
+    --signal: #c14026;
+    --ochre: #b3641f;
+    --teal: #2b5d6e;
+    --moss: #4a7058;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', 'Inter', monospace;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 2px; transition: all 0.2s ease; }
+  a:hover { color: var(--signal); text-decoration-color: var(--signal); }
+
+  nav.strip {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-dim);
+    background: linear-gradient(to bottom, rgba(244,239,226,0.96), rgba(244,239,226,0));
+    backdrop-filter: blur(8px);
+  }
+  nav.strip a { text-decoration: none; }
+  nav.strip .brand { color: var(--ink); font-weight: 500; }
+  nav.strip .brand .dot { display: inline-block; width: 4px; height: 4px; background: var(--signal); border-radius: 50%; margin: 0 6px 2px; vertical-align: middle; }
+  nav.strip .navlinks { display: flex; gap: 24px; align-items: center; }
+  nav.strip .stamp { color: var(--ink-faint); }
+  @media (max-width: 720px) { nav.strip .stamp { display: none; } nav.strip .navlinks { gap: 14px; } }
+
+  main { max-width: 880px; margin: 0 auto; padding: 120px 24px 80px; }
+
+  /* MASTHEAD */
+  header.masthead {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0 28px;
+    margin-bottom: 40px;
+    background:
+      linear-gradient(transparent 23px, rgba(217,210,191,0.4) 23px, rgba(217,210,191,0.4) 24px, transparent 24px);
+    background-size: 100% 24px;
+  }
+  .masthead-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    flex-wrap: wrap; gap: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+  .masthead-row .left { color: var(--ochre); }
+  .masthead-row .right { color: var(--ink-dim); }
+  .masthead h1 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 1.02; letter-spacing: -0.025em;
+    margin: 14px 0 12px;
+    font-variation-settings: "opsz" 96;
+    color: var(--ink);
+  }
+  .masthead h1 em { color: var(--signal); font-style: italic; }
+  .masthead .deck {
+    font-family: 'Fraunces', serif; font-weight: 300; font-style: italic;
+    font-size: clamp(17px, 1.6vw, 21px);
+    color: var(--ink-dim);
+    max-width: 700px;
+    line-height: 1.5;
+  }
+
+  /* STATUS BAR */
+  .status-bar {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    background: var(--ink); color: var(--paper);
+    padding: 18px 0;
+    margin: 30px 0 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  @media (max-width: 600px) { .status-bar { grid-template-columns: repeat(2, 1fr); gap: 14px 0; } }
+  .status-bar .stat {
+    text-align: center;
+    border-right: 1px solid rgba(244,239,226,0.18);
+    padding: 0 10px;
+  }
+  .status-bar .stat:last-child { border-right: none; }
+  .status-bar .num {
+    font-family: 'Fraunces', serif; font-weight: 400; font-style: italic;
+    font-size: 28px; color: var(--paper); display: block; margin-bottom: 4px;
+    letter-spacing: 0;
+  }
+  .status-bar .lbl { color: var(--ochre); }
+
+  /* WHAT IT IS */
+  .explainer {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: 17px; line-height: 1.7;
+    color: var(--ink);
+    max-width: 720px;
+    margin-bottom: 36px;
+  }
+  .explainer em { color: var(--signal); font-style: italic; }
+  .explainer p + p { margin-top: 12px; }
+  .explainer p { margin-bottom: 0; }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--paper-soft);
+    border-left: 3px solid var(--ochre);
+    padding: 22px 26px;
+    margin: 28px 0 50px;
+    max-width: 720px;
+  }
+  .callout .h {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ochre); margin-bottom: 10px;
+  }
+  .callout p {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; color: var(--ink); line-height: 1.55; margin: 0;
+  }
+  .callout p strong { font-weight: 500; }
+
+  /* PRODUCT GRID */
+  h2.section-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--ochre);
+    margin: 50px 0 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  h2.section-head .count { color: var(--ink-faint); font-size: 10px; }
+
+  .desk-grid {
+    display: grid; grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .desk-row {
+    display: grid; grid-template-columns: 88px 1fr 200px;
+    gap: 20px; align-items: start;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.2s ease;
+  }
+  .desk-row:hover { background: var(--paper-soft); }
+  @media (max-width: 720px) { .desk-row { grid-template-columns: 1fr; gap: 10px; } }
+  .desk-row .num {
+    font-family: 'Fraunces', serif; font-weight: 400; font-style: italic;
+    font-size: 36px; color: var(--signal); line-height: 1;
+  }
+  .desk-row .body { padding-right: 12px; }
+  .desk-row .title {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 22px; line-height: 1.2;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .desk-row .title em { color: var(--signal); font-style: italic; }
+  .desk-row .desc {
+    font-family: 'Inter', sans-serif; font-weight: 300;
+    font-size: 14px; color: var(--ink-dim);
+    line-height: 1.55;
+  }
+  .desk-row .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .desk-row .meta .cadence {
+    color: var(--ochre); margin-bottom: 4px; display: block;
+  }
+  .desk-row .meta .state {
+    color: var(--ink-faint); display: block; margin-top: 6px;
+  }
+  .desk-row .meta .pulse {
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--moss); border-radius: 50%;
+    margin-right: 6px; vertical-align: middle;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  /* PIPELINE */
+  .pipeline {
+    background: var(--ink); color: var(--paper);
+    padding: 60px 36px;
+    margin: 70px -36px;
+  }
+  @media (max-width: 720px) { .pipeline { margin: 50px -24px; padding: 50px 24px; } }
+  .pipeline h2 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: clamp(26px, 3.4vw, 36px);
+    line-height: 1.15;
+    color: var(--paper); margin-bottom: 18px;
+    max-width: 680px;
+  }
+  .pipeline h2 em { color: var(--signal); font-style: italic; }
+  .pipeline .pipe-deck {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    color: var(--paper-deep); font-size: 17px;
+    max-width: 580px; margin-bottom: 36px; line-height: 1.5;
+  }
+  .pipe-flow {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-top: 24px;
+  }
+  @media (max-width: 720px) { .pipe-flow { grid-template-columns: 1fr; } }
+  .pipe-step {
+    background: rgba(244,239,226,0.06);
+    border: 1px solid rgba(244,239,226,0.18);
+    padding: 18px 16px;
+    position: relative;
+  }
+  .pipe-step .pn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.24em; color: var(--ochre);
+    margin-bottom: 8px;
+  }
+  .pipe-step .pt {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 16px; color: var(--paper); margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .pipe-step .ps {
+    font-family: 'Inter', sans-serif; font-weight: 300;
+    font-size: 12px; color: var(--paper-deep);
+    line-height: 1.45;
+  }
+  .pipe-step.editorial { border-color: var(--signal); background: rgba(193,64,38,0.08); }
+  .pipe-arrow {
+    text-align: center; font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--paper-deep);
+    margin: 18px 0 6px;
+    letter-spacing: 0.3em;
+  }
+
+  /* ACCESS */
+  .access {
+    margin-top: 50px; padding: 36px;
+    background: var(--paper-soft);
+    border-left: 3px solid var(--signal);
+  }
+  .access h2 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 24px; margin-bottom: 14px;
+  }
+  .access p { font-size: 15px; color: var(--ink-dim); margin-bottom: 12px; line-height: 1.6; font-family: 'Inter', sans-serif; font-weight: 300; }
+  .access p strong { color: var(--ink); font-weight: 500; }
+  .access .tier {
+    display: inline-block;
+    padding: 3px 8px; border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.24em;
+    background: var(--ochre); color: var(--paper);
+    margin-right: 8px; text-transform: uppercase;
+  }
+
+  /* footer */
+  footer.page-footer {
+    max-width: 880px; margin: 0 auto;
+    padding: 40px 24px;
+    border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;
+  }
+  footer.page-footer a { color: var(--ink-dim); text-decoration: none; }
+  footer.page-footer a:hover { color: var(--signal); }
+</style>
+<style id="infera-legal-footer">
+.legal-footer { max-width: 880px; margin: 0 auto; padding: 24px; border-top: 1px solid var(--rule); font-family: 'Inter', sans-serif; font-size: 11px; line-height: 1.6; color: var(--ink-faint); }
+.legal-footer p { margin-bottom: 8px; }
+.legal-footer a { color: var(--ink-dim); text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<nav class="strip">
+  <a href="../index.html" class="brand">INFERA<span class="dot"></span>THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="../index.html">All Episodes</a>
+    <a href="../field-notes/index.html">Field Notes</a>
+    <a href="../briefs/index.html">Briefs</a>
+    <a href="index.html">The Desk</a>
+    <span class="stamp">OPERATIONAL LAYER</span>
+  </div>
+</nav>
+
+<main>
+
+  <header class="masthead">
+    <div class="masthead-row">
+      <span class="left">THE DESK · OPERATIONAL LAYER</span>
+      <span class="right">SIX PRODUCTS · DAILY CADENCE</span>
+    </div>
+    <h1>The newsroom <em>wire feed</em>.</h1>
+    <p class="deck">Six scheduled products that capture the public schedule, the deltas, and the gaps. The substrate the Briefs are built on. Not editorial product; operational infrastructure.</p>
+  </header>
+
+  <div class="status-bar">
+    <div class="stat"><span class="num">6</span><span class="lbl">Scheduled Products</span></div>
+    <div class="stat"><span class="num">5×/day</span><span class="lbl">Daily Cadence</span></div>
+    <div class="stat"><span class="num">1×/week</span><span class="lbl">Weekly Sweep</span></div>
+    <div class="stat"><span class="num">$0</span><span class="lbl">Substrate Cost</span></div>
+  </div>
+
+  <div class="explainer">
+    <p>The Desk is where the operational layer lives. Six scheduled tasks run on a fixed cadence — 4 PM Tomorrow Board, 6:30 AM Morning Lock, 8:45 AM Federal Register PI scan, 6:30 PM Evening Close, 11:30 PM Overnight Desk delta, and the Monday 9 AM Weekly Accountability Sweep. Each one captures something specific from the public schedule and writes it to disk.</p>
+    <p>This is what feeds the Briefs. It is <em>not</em> the Brief. The Brief is the editorial product extracted from this raw stream. The Desk shows the stream itself.</p>
+  </div>
+
+  <div class="callout">
+    <div class="h">WHAT THIS IS NOT</div>
+    <p>The Desk is not a Brief. <strong>The Brief synthesizes</strong>; the Desk captures. A typical Tomorrow Board contains 40-80 line items across federal, state, and county layers, with gravity scores and cross-state convergence flags. A Brief picks one of those items and turns it into a story. Both are public-source, but only the Brief has a voice.</p>
+  </div>
+
+  <h2 class="section-head"><span>SCHEDULED PRODUCTS</span><span class="count">6 LIVE</span></h2>
+
+  <div class="desk-grid">
+
+    <div class="desk-row">
+      <div class="num">01</div>
+      <div class="body">
+        <div class="title">Tomorrow <em>Board</em></div>
+        <div class="desc">The next-day Open Record Order. Pulls federal layer (Senate, House, agencies, SCOTUS, BLS/BEA/Census), NC + PA state layers (legislatures, courts, PUCs, auditors), and the L2 county layer (Legistar, CivicPlus, OpenCities, Sitefinity, Cadence Projection). Tags each item with civic dimension and gravity score. Flags cross-state convergence.</div>
+      </div>
+      <div class="meta">
+        <span class="cadence">4:04 PM ET · MON-FRI</span>
+        <span class="state"><span class="pulse"></span>LIVE</span>
+      </div>
+    </div>
+
+    <div class="desk-row">
+      <div class="num">02</div>
+      <div class="body">
+        <div class="title">Morning <em>Lock</em></div>
+        <div class="desc">Confirms the Tomorrow Board before the 8:30 AM ET economic-release window. Checks for overnight cancellations, time changes, or new postings. Locks the day's record order or flags it for revision.</div>
+      </div>
+      <div class="meta">
+        <span class="cadence">6:38 AM ET · MON-FRI</span>
+        <span class="state"><span class="pulse"></span>LIVE</span>
+      </div>
+    </div>
+
+    <div class="desk-row">
+      <div class="num">03</div>
+      <div class="body">
+        <div class="title">Federal Register PI <em>Scan</em></div>
+        <div class="desc">Pulls the Federal Register's Public Inspection list — rules and proposed rules posted that morning that take effect later. Tags by agency, by mechanism, by likely downstream impact. The day's governance preview before it's law.</div>
+      </div>
+      <div class="meta">
+        <span class="cadence">8:54 AM ET · MON-FRI</span>
+        <span class="state"><span class="pulse"></span>LIVE</span>
+      </div>
+    </div>
+
+    <div class="desk-row">
+      <div class="num">04</div>
+      <div class="body">
+        <div class="title">Evening <em>Close</em></div>
+        <div class="desc">Compares planned versus actual. What was on the Tomorrow Board that did happen, what was on the Tomorrow Board that did not, what happened that was not on the Tomorrow Board. The attention-gap output names the high-gravity items that received no media coverage that day.</div>
+      </div>
+      <div class="meta">
+        <span class="cadence">6:38 PM ET · MON-FRI</span>
+        <span class="state"><span class="pulse"></span>LIVE</span>
+      </div>
+    </div>
+
+    <div class="desk-row">
+      <div class="num">05</div>
+      <div class="body">
+        <div class="title">Overnight <em>Desk</em></div>
+        <div class="desc">Captures everything that changed since the Tomorrow Board fired. New filings, withdrawn rules, shifted agendas, court orders, late-evening press releases. The morning's delta is built here.</div>
+      </div>
+      <div class="meta">
+        <span class="cadence">11:32 PM ET · DAILY</span>
+        <span class="state"><span class="pulse"></span>LIVE</span>
+      </div>
+    </div>
+
+    <div class="desk-row">
+      <div class="num">06</div>
+      <div class="body">
+        <div class="title">Weekly Accountability <em>Sweep</em></div>
+        <div class="desc">Pulls the GovInfo Congressionally Mandated Reports collection, GAO open recommendations, Oversight.gov, and OIG semiannual reports. Builds the week's list of overdue reports and unmet recommendations. The slow-clock layer.</div>
+      </div>
+      <div class="meta">
+        <span class="cadence">9:07 AM ET · MONDAYS</span>
+        <span class="state"><span class="pulse"></span>LIVE</span>
+      </div>
+    </div>
+
+  </div>
+
+  <section class="pipeline">
+    <h2>How the Desk feeds the <em>Series</em>.</h2>
+    <p class="pipe-deck">Findings flow from raw operational capture to synthesized editorial product. Most Desk findings stay at the Desk. The ones that don't travel a predictable path.</p>
+
+    <div class="pipe-flow">
+      <div class="pipe-step">
+        <div class="pn">RAW</div>
+        <div class="pt">Desk</div>
+        <div class="ps">Public schedule, deltas, gaps. Operational logs.</div>
+      </div>
+      <div class="pipe-step editorial">
+        <div class="pn">DAILY</div>
+        <div class="pt">Brief</div>
+        <div class="ps">One mechanism, synthesized with exhibits and action.</div>
+      </div>
+      <div class="pipe-step editorial">
+        <div class="pn">MONTHLY</div>
+        <div class="pt">Field Note</div>
+        <div class="ps">Analytical dispatch between episodes.</div>
+      </div>
+      <div class="pipe-step editorial">
+        <div class="pn">PER CASE</div>
+        <div class="pt">Special Report</div>
+        <div class="ps">One case, walked end-to-end with named sources.</div>
+      </div>
+      <div class="pipe-step editorial">
+        <div class="pn">PER PATTERN</div>
+        <div class="pt">Episode</div>
+        <div class="ps">Canonical chassis. Pattern named. Museum installation.</div>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="section-head"><span>OUTPUTS · THREE LAYERS</span><span class="count">JOURNAL + CALENDAR + ARCHIVE</span></h2>
+
+  <div class="explainer" style="margin-bottom: 18px;">
+    <p>The Desk publishes through three distinct surfaces. The <strong>Journal</strong> is the reader-facing zine that renders the overnight cycle as a designed artifact. The <strong>Sealed Calendar</strong> is the forward watchlist of court-sealed material scheduled to become public. The <strong>Archive</strong> is the raw dated artifacts the scheduled tasks write to disk. All three are public-source.</p>
+  </div>
+
+  <!-- JOURNAL FEATURE CARD -->
+  <a href="../desk-journal.html" style="display: block; background: var(--ink); color: var(--paper); padding: 36px 40px; margin: 32px 0; text-decoration: none; border: 1px solid var(--ink); transition: all 0.25s ease; position: relative; overflow: hidden;">
+    <div style="display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end;">
+      <div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ochre); margin-bottom: 12px;">THE JOURNAL · ZINE OF THE OVERNIGHT CYCLE</div>
+        <h3 style="font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; color: var(--paper); margin-bottom: 12px;">The Infera Desk <em style="color: var(--signal); font-style: italic;">Journal</em></h3>
+        <p style="font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 17px; color: var(--paper-deep); line-height: 1.5; max-width: 540px;">The living mixed-media board. The overnight desk cycle rendered as a zine: featured case files, background-radiation thread strip, deadline ledger, confidence labels per claim. Updated each cycle. The only Desk surface with a voice.</p>
+      </div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; color: var(--ochre); white-space: nowrap; text-transform: uppercase;">OPEN JOURNAL →</div>
+    </div>
+  </a>
+
+  <!-- SEALED CALENDAR FEATURE CARD -->
+  <a href="sealed-calendar/index.html" style="display: block; background: #1e2730; color: var(--paper); padding: 36px 40px; margin: 18px 0 32px; text-decoration: none; border: 1px solid #1e2730; transition: all 0.25s ease; position: relative; overflow: hidden;">
+    <div style="display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end;">
+      <div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: #e8c34a; margin-bottom: 12px;">THE SEALED CALENDAR · FORWARD DISCLOSURE WATCHLIST</div>
+        <h3 style="font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; color: var(--paper); margin-bottom: 12px;">The PA <em style="color: #e8c34a; font-style: italic;">Sealed</em> Calendar</h3>
+        <p style="font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 17px; color: var(--paper-deep); line-height: 1.5; max-width: 580px;">Every protective-order sunset, statutory unsealing date, gag-order expiration, and phased settlement disclosure across EDPA, WDPA, the Third Circuit, and PA bankruptcy courts in the next 90 days. The premise: most seals have a structure, and the structure is usually public, even when the sealed content is not. Powered by <code style="font-family: inherit; background: rgba(232,195,74,0.10); padding: 1px 6px;">infera-sealed-document-watcher</code>. Reading the schedule is the story before the story.</p>
+      </div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; color: #e8c34a; white-space: nowrap; text-transform: uppercase;">OPEN CALENDAR →</div>
+    </div>
+  </a>
+
+  <h3 style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ochre); margin: 36px 0 14px;">THE ARCHIVE · DATED ARTIFACTS</h3>
+
+  <div class="explainer" style="margin-bottom: 18px; max-width: 720px;">
+    <p>Raw outputs land in dated artifacts: <code>tomorrow-board-YYYY-MM-DD.{csv,md}</code>, <code>overnight-delta-YYYY-MM-DD.md</code>, <code>evening-close-YYYY-MM-DD.md</code>, <code>weekly-accountability-sweep-YYYY-MM-DD.md</code>. The archive is permanent. Most artifacts do not get promoted to the Journal; the archive is the point.</p>
+  </div>
+
+  <div class="callout" style="border-left-color: var(--moss);">
+    <div class="h" style="color: var(--moss);">ARCHIVE ACCESS STATUS</div>
+    <p>Raw archive rendering on this page is <strong>provisional</strong>. The scheduled tasks write to <code>/_boards/</code>, <code>/_desk/</code>, and <code>/_weekly/</code> on the production server. A subsequent batch will surface a date-picker here that lets readers pull any past day's Desk artifacts. For now: the <a href="../desk-journal.html">Journal</a> is the canonical reader-facing artifact, and the <a href="../briefs/index.html">Briefs</a> are the synthesized editorial output.</p>
+  </div>
+
+  <section class="access">
+    <h2>Access</h2>
+    <p><span class="tier">Free Public</span> The methodology behind each Desk product. Sample artifacts on request.</p>
+    <p><span class="tier" style="background: var(--teal);">Member</span> Read-only access to current week's Tomorrow Board, Morning Lock, and Federal Register PI Scan.</p>
+    <p><span class="tier" style="background: var(--signal);">Analyst</span> Full archive of all six products. Raw CSVs. <code>gravity-ledger.csv</code> for cross-day comparison. API access for downstream automation.</p>
+    <p style="margin-top: 18px; font-style: italic;">Tier access goes live with Membership v1. Until then: contact <a href="mailto:infera@melophon.com">infera@melophon.com</a> for early Analyst access.</p>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <a href="../briefs/index.html">← Briefs</a>
+  <a href="../field-notes/index.html">Field Notes</a>
+  <a href="../index.html">Series Home</a>
+  <a href="../legal.html">Legal · Privacy</a>
+  <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+</footer>
+
+<aside class="legal-footer">
+  <p>© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: <a href="mailto:infera@melophon.com">infera@melophon.com</a></p>
+  <p>The Desk is the operational layer of the Mechanism Series. It captures public-source civic infrastructure on a fixed cadence and is distinct from the synthesized editorial product surfaced through Briefs, Field Notes, Special Reports, and Episodes. See <a href="../legal.html">Legal</a> for full provenance terms.</p>
+</aside>
+
+</body>
+</html>

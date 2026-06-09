@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Sealed Calendar · PA Federal Courts · Infera Desk</title>
+<meta name="description" content="A forward calendar of every PA federal-court protective-order sunset, statutory unsealing date, gag-order expiration, and phased settlement disclosure in the next 90 days. Powered by infera-sealed-document-watcher. Operational layer of the Mechanism Series."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4efe2;
+    --paper-soft: #ece6d4;
+    --paper-deep: #d9d2bf;
+    --ink: #15222b;
+    --ink-dim: #46535d;
+    --ink-faint: #8b9097;
+    --rule: #d9d2bf;
+    --signal: #c14026;
+    --ochre: #b3641f;
+    --teal: #2b5d6e;
+    --moss: #4a7058;
+    --copper: #b87333;
+    --voltage: #e8c34a;
+    --circuit: #3a6ea5;
+    --steel: #3d4854;
+    /* Sealed Calendar specific */
+    --seal: #1e2730;
+    --seal-soft: #2a343e;
+    --urgent: #c14026;
+    --soon: #b3641f;
+    --watch: #b87333;
+    --horizon: #4a7058;
+    --long: #46535d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(to right, rgba(30,39,48,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(30,39,48,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  main { position: relative; z-index: 1; }
+  a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 2px; transition: all 0.2s ease; }
+  a:hover { text-decoration-color: var(--copper); color: var(--copper); }
+
+  /* nav strip */
+  nav.strip {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-dim);
+    background: linear-gradient(to bottom, rgba(244,239,226,0.97), rgba(244,239,226,0));
+    backdrop-filter: blur(8px);
+  }
+  nav.strip a { text-decoration: none; }
+  nav.strip .brand { color: var(--ink); font-weight: 500; }
+  nav.strip .brand .dot { display: inline-block; width: 5px; height: 5px; background: var(--voltage); border-radius: 50%; margin: 0 7px 2px; vertical-align: middle; animation: voltage-pulse 1.8s ease-in-out infinite; }
+  nav.strip .navlinks { display: flex; gap: 22px; align-items: center; }
+  nav.strip .stamp { color: var(--ink-faint); }
+  @keyframes voltage-pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  @media (max-width: 720px) { nav.strip .stamp { display: none; } nav.strip .navlinks { gap: 14px; } nav.strip { padding: 14px 18px; } }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .lock-anim, .count-tick { animation: none !important; }
+  }
+
+  section { padding: 64px 24px; }
+  .container { max-width: 980px; margin: 0 auto; }
+  .container-wide { max-width: 1200px; margin: 0 auto; }
+
+  /* ───────── HERO ───────── */
+  .hero {
+    padding: 130px 24px 56px;
+    background: var(--seal); color: var(--paper);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgba(232,195,74,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(232,195,74,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .hero .container { position: relative; z-index: 2; }
+  .hero .kicker {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--voltage); margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+  }
+  .hero .kicker::after { content: ''; flex-grow: 1; height: 1px; background: rgba(232,195,74,0.32); }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(36px, 5.6vw, 64px); line-height: 1.08;
+    letter-spacing: -0.012em; margin-bottom: 24px; max-width: 800px;
+  }
+  .hero h1 em { color: var(--voltage); font-style: italic; }
+  .hero .lede {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(17px, 2vw, 21px); line-height: 1.55; color: var(--paper-deep);
+    max-width: 720px; margin-bottom: 36px;
+  }
+
+  .status-bar {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px;
+    background: rgba(255,255,255,0.10); padding: 1px;
+    border: 1px solid rgba(255,255,255,0.10);
+    margin-top: 32px;
+  }
+  @media (max-width: 720px) { .status-bar { grid-template-columns: 1fr 1fr; } }
+  .status-cell {
+    background: var(--seal); padding: 18px 16px;
+  }
+  .status-cell .l {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 8px;
+  }
+  .status-cell .v {
+    font-family: 'Fraunces', serif; font-size: 22px; font-weight: 400; color: var(--paper); line-height: 1.1;
+  }
+  .status-cell.live .v { color: var(--voltage); }
+  .status-cell .sub {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-faint); margin-top: 4px;
+  }
+
+  /* ───────── HORIZON SECTIONS ───────── */
+  .horizon-section { padding-top: 72px; padding-bottom: 72px; }
+  .horizon-section.h7 { background: var(--paper); }
+  .horizon-section.h30 { background: var(--paper-soft); }
+  .horizon-section.h90 { background: var(--paper); }
+  .horizon-section.hlong { background: var(--paper-soft); }
+  .horizon-section.fail { background: var(--seal); color: var(--paper); }
+  .horizon-section.fail h2 { color: var(--paper); }
+  .horizon-section.fail h2 em { color: var(--signal); }
+  .horizon-section.fail p { color: var(--paper-deep); }
+
+  .h-label {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase;
+  }
+  .h-label .num { padding: 4px 10px; letter-spacing: 0.16em; color: var(--paper); font-weight: 600; }
+  .horizon-section.h7 .num { background: var(--urgent); }
+  .horizon-section.h30 .num { background: var(--soon); }
+  .horizon-section.h90 .num { background: var(--watch); }
+  .horizon-section.hlong .num { background: var(--horizon); }
+  .horizon-section.fail .num { background: var(--voltage); color: var(--ink); }
+
+  .horizon-section h2 {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(26px, 3.8vw, 38px); line-height: 1.15;
+    margin-bottom: 16px; max-width: 720px;
+  }
+  .horizon-section h2 em { color: var(--copper); font-style: italic; }
+  .horizon-section p { max-width: 720px; font-size: 15.5px; color: var(--ink-dim); margin-bottom: 24px; }
+
+  /* ───────── DOCKET CARDS ───────── */
+  .docket-grid {
+    display: grid; grid-template-columns: 1fr; gap: 14px;
+    margin-top: 28px;
+  }
+  .docket {
+    display: grid; grid-template-columns: 110px 1fr 180px; gap: 22px;
+    padding: 22px 24px; background: var(--paper-soft); border: 1px solid var(--rule);
+    border-left: 4px solid var(--steel);
+    align-items: start; transition: all 0.18s ease;
+  }
+  .docket:hover { background: var(--paper-deep); border-left-color: var(--copper); }
+  .docket.urgent { border-left-color: var(--urgent); background: rgba(193,64,38,0.04); }
+  .docket.soon { border-left-color: var(--soon); }
+  .docket.watch { border-left-color: var(--watch); }
+  .docket.horizon { border-left-color: var(--horizon); }
+  .horizon-section.fail .docket {
+    background: var(--seal-soft); border-color: rgba(255,255,255,0.10); color: var(--paper); border-left-color: var(--signal);
+  }
+  @media (max-width: 720px) {
+    .docket { grid-template-columns: 1fr; gap: 14px; }
+  }
+
+  .d-when {
+    text-align: center; padding-right: 14px; border-right: 1px dashed var(--rule);
+  }
+  .horizon-section.fail .d-when { border-right-color: rgba(255,255,255,0.15); }
+  .d-when .days {
+    font-family: 'Fraunces', serif; font-size: 42px; font-weight: 400; line-height: 1;
+    color: var(--ink); margin-bottom: 2px;
+  }
+  .horizon-section.fail .d-when .days { color: var(--paper); }
+  .docket.urgent .d-when .days { color: var(--urgent); }
+  .d-when .unit {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.20em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 10px;
+  }
+  .d-when .date {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+    color: var(--ink-dim);
+  }
+  .horizon-section.fail .d-when .date { color: var(--paper-deep); }
+  @media (max-width: 720px) {
+    .d-when { display: flex; align-items: baseline; gap: 14px; text-align: left; border-right: none; border-bottom: 1px dashed var(--rule); padding-right: 0; padding-bottom: 10px; }
+    .d-when .days { font-size: 28px; }
+    .d-when .unit { margin-bottom: 0; }
+  }
+
+  .d-body .d-caption {
+    font-family: 'Fraunces', serif; font-size: 17.5px; font-weight: 400; color: var(--ink);
+    line-height: 1.25; margin-bottom: 6px;
+  }
+  .horizon-section.fail .d-body .d-caption { color: var(--paper); }
+  .d-body .d-caption em { font-style: italic; color: var(--copper); }
+  .d-body .d-court {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em;
+    color: var(--ink-faint); margin-bottom: 14px;
+  }
+  .d-body .d-trigger {
+    font-family: 'Inter', sans-serif; font-size: 13.5px; color: var(--ink-dim);
+    line-height: 1.55; margin-bottom: 10px;
+  }
+  .horizon-section.fail .d-body .d-trigger { color: var(--paper-deep); }
+  .d-body .d-trigger strong { color: var(--ink); font-weight: 500; }
+  .horizon-section.fail .d-body .d-trigger strong { color: var(--paper); }
+  .d-body .d-entities {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.10em;
+    color: var(--ink-faint); padding-top: 8px; border-top: 1px solid var(--rule);
+  }
+  .horizon-section.fail .d-body .d-entities { border-top-color: rgba(255,255,255,0.10); }
+
+  .d-meta {
+    display: flex; flex-direction: column; gap: 8px; padding-left: 14px; border-left: 1px dashed var(--rule);
+  }
+  .horizon-section.fail .d-meta { border-left-color: rgba(255,255,255,0.15); }
+  @media (max-width: 720px) {
+    .d-meta { border-left: none; border-top: 1px dashed var(--rule); padding-left: 0; padding-top: 12px; flex-direction: row; flex-wrap: wrap; }
+  }
+  .d-meta .row {
+    display: flex; flex-direction: column;
+  }
+  .d-meta .row .k {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 3px;
+  }
+  .d-meta .row .v {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink); font-weight: 500;
+  }
+  .horizon-section.fail .d-meta .row .v { color: var(--paper); }
+  .d-meta .conf {
+    display: inline-block; padding: 3px 9px; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    font-weight: 600;
+  }
+  .d-meta .conf.high { background: var(--moss); color: var(--paper); }
+  .d-meta .conf.medium { background: var(--copper); color: var(--paper); }
+  .d-meta .conf.low { background: var(--steel); color: var(--paper); }
+  .d-meta .seal-type {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 3px 9px; border: 1px solid var(--ink-dim); color: var(--ink);
+  }
+  .horizon-section.fail .d-meta .seal-type { border-color: var(--paper-deep); color: var(--paper); }
+
+  .empty-state {
+    padding: 36px 28px; background: var(--paper-soft); border: 1px dashed var(--rule);
+    text-align: center;
+  }
+  .empty-state .e {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; color: var(--ink-dim);
+    max-width: 540px; margin: 0 auto;
+  }
+
+  /* ───────── METHODOLOGY ───────── */
+  .method-section {
+    background: var(--ink); color: var(--paper); padding: 72px 24px;
+  }
+  .method-section h2 { color: var(--paper); font-family: 'Fraunces', serif; font-weight: 300; font-size: 32px; margin-bottom: 24px; }
+  .method-section h2 em { color: var(--voltage); font-style: italic; }
+  .method-section p { color: var(--paper-deep); font-size: 15px; margin-bottom: 18px; max-width: 760px; }
+  .method-section p strong { color: var(--paper); font-weight: 500; }
+  .method-section h3 {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--voltage); margin: 32px 0 14px;
+  }
+  .method-section ul { padding-left: 22px; color: var(--paper-deep); font-size: 14px; line-height: 1.7; max-width: 760px; }
+  .method-section ul li { margin-bottom: 6px; }
+  .conf-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 16px; }
+  .conf-row span {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 4px 10px; border: 1px solid rgba(255,255,255,0.20); color: var(--paper-deep);
+  }
+  .conf-row .high { border-color: var(--moss); color: var(--moss); }
+  .conf-row .med { border-color: var(--copper); color: var(--copper); }
+  .conf-row .low { border-color: var(--paper-deep); }
+
+  /* ───────── FOOTER ───────── */
+  footer.page-footer {
+    background: var(--seal); color: var(--paper-deep); padding: 44px 24px 28px;
+  }
+  footer.page-footer .container { max-width: 1080px; }
+  footer.page-footer .frow {
+    display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;
+    padding-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.10); margin-bottom: 22px;
+  }
+  footer.page-footer a { color: var(--paper); text-decoration: none; }
+  footer.page-footer a:hover { color: var(--voltage); }
+  footer.page-footer .flinks {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    display: flex; gap: 22px; flex-wrap: wrap;
+  }
+  footer.page-footer .fcopy {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.10em;
+    color: var(--ink-faint); line-height: 1.7;
+  }
+  footer.page-footer .fcopy a { color: var(--ink-faint); border-bottom: 1px solid rgba(255,255,255,0.10); }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════ NAV STRIP ════════════ -->
+<nav class="strip">
+  <a class="brand" href="../../index.html">INFERA<span class="dot"></span>THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="../index.html">← The Desk</a>
+    <a href="../../briefs/index.html">Briefs</a>
+    <span class="stamp">SEALED CALENDAR · PA</span>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ════════════ HERO ════════════ -->
+  <section class="hero">
+    <div class="container">
+      <div class="kicker">DESK PRODUCT · UPDATED DAILY · POWERED BY INFERA-SEALED-DOCUMENT-WATCHER</div>
+      <h1>The <em>Sealed</em> Calendar.<br>PA Federal Courts.</h1>
+      <p class="lede">Every protective-order sunset, statutory unsealing date, gag-order expiration, and phased settlement disclosure across EDPA, WDPA, the Third Circuit, and PA bankruptcy courts in the next 90 days. The premise is simple: most seals have a structure, and the structure is usually public, even when the sealed content is not. Reading the structure is the story before the story.</p>
+
+      <div class="status-bar">
+        <div class="status-cell live">
+          <div class="l">CALENDAR STATE</div>
+          <div class="v">SEEDED</div>
+          <div class="sub">page chassis · daily updates wiring next</div>
+        </div>
+        <div class="status-cell">
+          <div class="l">JURISDICTIONS</div>
+          <div class="v">4</div>
+          <div class="sub">EDPA · WDPA · 3rd Cir · USBC</div>
+        </div>
+        <div class="status-cell">
+          <div class="l">TRACKED EVENTS</div>
+          <div class="v">5</div>
+          <div class="sub">seeded from existing reporting</div>
+        </div>
+        <div class="status-cell">
+          <div class="l">FAILURE ALERTS</div>
+          <div class="v">0</div>
+          <div class="sub">expected unsealings not occurring</div>
+        </div>
+        <div class="status-cell">
+          <div class="l">LAST UPDATED</div>
+          <div class="v">2026-06-07</div>
+          <div class="sub">manual seed · auto refresh pending</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ 7-DAY HORIZON ════════════ -->
+  <section class="horizon-section h7">
+    <div class="container-wide">
+      <div class="h-label"><span class="num">NEXT 7 DAYS</span><span>IMMINENT · ACT NOW</span></div>
+      <h2>Sealed material scheduled to become public this week.</h2>
+      <p>Items in this window are within the operational horizon for editorial action. If an expected unsealing occurs, the Brief or Field Note pipeline is pre-positioned. If it fails to occur on the scheduled date, that becomes a failure-to-unseal alert (see bottom of page).</p>
+
+      <div class="docket-grid">
+        <div class="empty-state">
+          <p class="e">No imminent unsealings in the seeded dataset for this window. The Sealed Calendar will populate this section daily as the scheduled task scans EDPA, WDPA, 3rd Cir, and USBC RECAP feeds. Until the daily run is wired, this section reads empty.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ 30-DAY HORIZON ════════════ -->
+  <section class="horizon-section h30">
+    <div class="container-wide">
+      <div class="h-label"><span class="num">NEXT 30 DAYS</span><span>NEAR TERM · PRE-POSITION COVERAGE</span></div>
+      <h2>Sealed material likely to become public in the next month.</h2>
+      <p>These items are early enough to research, brief, and prepare interpretive infrastructure for. Each entry below is sourced from public dockets and existing Infera reporting. Confidence is per the skill's spec: HIGH = explicit calendar date, MEDIUM = triggering event likely to occur on schedule, LOW = speculative.</p>
+
+      <div class="docket-grid">
+        <div class="docket soon">
+          <div class="d-when">
+            <div class="days">~25</div>
+            <div class="unit">days</div>
+            <div class="date">EST. JUL 2 2026</div>
+          </div>
+          <div class="d-body">
+            <div class="d-caption">Quarterly Monitor Report · PA participation in multi-state opioid settlement</div>
+            <div class="d-court">PA OFFICE OF ATTORNEY GENERAL · NON-PACER · SETTLEMENT ADMINISTRATOR DISCLOSURE</div>
+            <div class="d-trigger"><strong>Triggering condition:</strong> The Settlement Agreement requires the appointed monitor to file a quarterly disclosure of distributions, abatement spending categories, and compliance findings. Q2 2026 report is due by July 1 with public release on the settlement website typically within 24 hours.</div>
+            <div class="d-entities">ENTITIES: Distributor Defendants · PA AG · Settlement Administrator · Abatement Council</div>
+          </div>
+          <div class="d-meta">
+            <div class="row"><span class="k">SEAL TYPE</span><span class="seal-type">SETTLEMENT_PHASE</span></div>
+            <div class="row"><span class="k">CONFIDENCE</span><span class="conf medium">MEDIUM</span></div>
+            <div class="row"><span class="k">GRAVITY</span><span class="v">38 / 100</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ 90-DAY HORIZON ════════════ -->
+  <section class="horizon-section h90">
+    <div class="container-wide">
+      <div class="h-label"><span class="num">NEXT 90 DAYS</span><span>FORWARD PLANNING WINDOW</span></div>
+      <h2>Sealed material projected to become public this quarter.</h2>
+      <p>Quarter-ahead window. Lower confidence per entry by definition; useful for editorial calendar planning and for identifying which forthcoming disclosures justify pre-positioned reporting.</p>
+
+      <div class="docket-grid">
+        <div class="docket watch">
+          <div class="d-when">
+            <div class="days">~75</div>
+            <div class="unit">days</div>
+            <div class="date">EST. AUG 20 2026</div>
+          </div>
+          <div class="d-body">
+            <div class="d-caption">Crozer Health Sale Motion exhibits · interim status filings</div>
+            <div class="d-court">USBC DEL · IN RE PROSPECT MEDICAL HOLDINGS · 25-10006 (CONSOLIDATED)</div>
+            <div class="d-trigger"><strong>Triggering condition:</strong> Sale-process status reports are filed approximately every 60 days under the case management order; interim status filings often include exhibits originally filed under seal that the trustee subsequently agrees to make public. Window estimated from the cadence of prior status filings in this docket.</div>
+            <div class="d-entities">ENTITIES: Prospect Medical Holdings · ChristianaCare · Crozer Health · Delaware County PA</div>
+          </div>
+          <div class="d-meta">
+            <div class="row"><span class="k">SEAL TYPE</span><span class="seal-type">PROTECTIVE_ORDER</span></div>
+            <div class="row"><span class="k">CONFIDENCE</span><span class="conf low">LOW</span></div>
+            <div class="row"><span class="k">GRAVITY</span><span class="v">71 / 100</span></div>
+          </div>
+        </div>
+
+        <div class="docket watch">
+          <div class="d-when">
+            <div class="days">~80</div>
+            <div class="unit">days</div>
+            <div class="date">EST. AUG 25 2026</div>
+          </div>
+          <div class="d-body">
+            <div class="d-caption">PA PUC Docket M-2025-3054271 · downstream EDC large-load tariff filings</div>
+            <div class="d-court">PA PUBLIC UTILITY COMMISSION · NON-FEDERAL · DOCKET STATUS PORTAL</div>
+            <div class="d-trigger"><strong>Triggering condition:</strong> The PA PUC en banc on large-load customer tariffs (April 2025) is being translated into actual EDC tariff filings. Each EDC filing (Duquesne Light, FirstEnergy PA, PECO, PPL Electric) opens a ~60-day intervention window. Some testimony and exhibits are filed with confidential treatment requests. Windows for the next round of substantive filings are projected from prior PUC cadence.</div>
+            <div class="d-entities">ENTITIES: PA PUC · Duquesne Light · FirstEnergy PA · PECO · PPL Electric · Office of Consumer Advocate</div>
+          </div>
+          <div class="d-meta">
+            <div class="row"><span class="k">SEAL TYPE</span><span class="seal-type">CONFIDENTIAL_TREATMENT</span></div>
+            <div class="row"><span class="k">CONFIDENCE</span><span class="conf medium">MEDIUM</span></div>
+            <div class="row"><span class="k">GRAVITY</span><span class="v">66 / 100</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ LONG HORIZON ════════════ -->
+  <section class="horizon-section hlong">
+    <div class="container-wide">
+      <div class="h-label"><span class="num">LONG HORIZON</span><span>90 DAYS TO MULTI-YEAR</span></div>
+      <h2>Sealed material scheduled or projected to become public beyond the 90-day window.</h2>
+      <p>The long horizon is where the canonical Infera examples live: statutory destructions, multi-year monitorships, settlements with phased disclosure schedules extending across years. These entries shape Volume I and II Brief planning and inform the Episode roadmap.</p>
+
+      <div class="docket-grid">
+        <div class="docket horizon">
+          <div class="d-when">
+            <div class="days">~269</div>
+            <div class="unit">days</div>
+            <div class="date">MAR 2 2027</div>
+          </div>
+          <div class="d-body">
+            <div class="d-caption">Crozer Health <em>records destruction</em> · scheduled by court order</div>
+            <div class="d-court">USBC DEL · IN RE PROSPECT MEDICAL HOLDINGS · COURT-ORDERED RECORDS DESTRUCTION DATE</div>
+            <div class="d-trigger"><strong>Triggering condition:</strong> Bankruptcy court order authorizes destruction of Crozer Health System patient records on or after March 2, 2027 (per HIPAA retention compliance + bankruptcy estate administration). Anchor of Mechanism Brief № 002, The 269-Day Clock. <em>Disclosure type is inverse: this is the date material exits public availability, not enters it.</em></div>
+            <div class="d-entities">ENTITIES: Crozer Health · Prospect Medical Holdings · Delaware County PA · ChristianaCare · former patients</div>
+          </div>
+          <div class="d-meta">
+            <div class="row"><span class="k">SEAL TYPE</span><span class="seal-type">RECORDS_DESTRUCTION</span></div>
+            <div class="row"><span class="k">CONFIDENCE</span><span class="conf high">HIGH</span></div>
+            <div class="row"><span class="k">GRAVITY</span><span class="v">88 / 100</span></div>
+          </div>
+        </div>
+
+        <div class="docket horizon">
+          <div class="d-when">
+            <div class="days">~545</div>
+            <div class="unit">days</div>
+            <div class="date">DEC 2027</div>
+          </div>
+          <div class="d-body">
+            <div class="d-caption">Final wave of opioid settlement disclosure · 18-year payment schedule annual report</div>
+            <div class="d-court">PA OFFICE OF ATTORNEY GENERAL · NON-PACER · STATE-LEVEL DISCLOSURE</div>
+            <div class="d-trigger"><strong>Triggering condition:</strong> Annual aggregate disclosure of how PA's $1B+ share of the opioid settlement was spent in the prior calendar year. Required by the Settlement Agreement and PA Act 24 of 2022. End-of-year window typical. Successive years of this report build the longitudinal record referenced by Episode 11 framing.</div>
+            <div class="d-entities">ENTITIES: PA AG · 67 counties · PA Opioid Misuse and Addiction Abatement Trust · Settlement Administrator</div>
+          </div>
+          <div class="d-meta">
+            <div class="row"><span class="k">SEAL TYPE</span><span class="seal-type">STATUTORY_DISCLOSURE</span></div>
+            <div class="row"><span class="k">CONFIDENCE</span><span class="conf high">HIGH</span></div>
+            <div class="row"><span class="k">GRAVITY</span><span class="v">62 / 100</span></div>
+          </div>
+        </div>
+
+        <div class="docket horizon">
+          <div class="d-when">
+            <div class="days">~3,650</div>
+            <div class="unit">days</div>
+            <div class="date">~2036</div>
+          </div>
+          <div class="d-body">
+            <div class="d-caption">Routine 10-year sealed-record review · EDPA</div>
+            <div class="d-court">US DISTRICT COURT EASTERN DISTRICT OF PA · LOCAL RULE</div>
+            <div class="d-trigger"><strong>Triggering condition:</strong> Many federal districts apply a periodic review of long-sealed records under local rule. EDPA's specific review cadence is a research item for the Sealed Calendar's first full run. This placeholder shows the long-horizon structure: jurisdictional review schedules accumulate into a multi-year forward calendar of bulk reconsideration events.</div>
+            <div class="d-entities">ENTITIES: US District Court EDPA · Clerk of Court · Records retention administrator</div>
+          </div>
+          <div class="d-meta">
+            <div class="row"><span class="k">SEAL TYPE</span><span class="seal-type">REVIEW_CYCLE</span></div>
+            <div class="row"><span class="k">CONFIDENCE</span><span class="conf low">LOW</span></div>
+            <div class="row"><span class="k">GRAVITY</span><span class="v">28 / 100</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ FAILURE TO UNSEAL ════════════ -->
+  <section class="horizon-section fail">
+    <div class="container-wide">
+      <div class="h-label"><span class="num">FAILURE TO UNSEAL</span><span>EXPECTED EVENTS THAT DIDN'T HAPPEN</span></div>
+      <h2>The secondary signal: <em>when a scheduled unsealing fails to occur.</em></h2>
+      <p>When a date passes and an expected document does not appear, that is itself a story. The Sealed Calendar tracks each entry's <strong>failure-to-unseal alert date</strong> and surfaces overdue items here. Patterns of which seals get extended, by which judges, in which case types are themselves a longitudinal story across enough events. Apply the blind-spot auditor before treating any single non-unsealing as news; a seal not lifting on schedule may be administrative, not significant.</p>
+
+      <div class="docket-grid">
+        <div class="empty-state" style="background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12);">
+          <p class="e" style="color: var(--paper-deep);">No failures-to-unseal in the seeded dataset. This section will populate when entries from the 7/30/90-day horizons pass their failure-alert date without an unsealing event detected on the docket.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ METHODOLOGY ════════════ -->
+  <section class="method-section">
+    <div class="container">
+      <h2>Methodology · <em>how to read this page honestly</em></h2>
+
+      <p><strong>What this page is.</strong> A forward calendar of disclosure events in PA federal courts, powered by the <code>infera-sealed-document-watcher</code> skill. The premise is that most seals have a structure (duration, sunset clause, triggering event, review cycle) and that the structure is usually public even when the sealed content is not. Mining the structure produces a calendar.</p>
+
+      <p><strong>What it is not.</strong> This page does not display sealed content. It displays the public schedule on which sealed content is expected to become available. It does not solicit, request, or process sealed material. Entries are scheduled-future events, not current disclosures.</p>
+
+      <h3>JURISDICTIONS COVERED</h3>
+      <ul>
+        <li>US District Court, Eastern District of Pennsylvania (EDPA)</li>
+        <li>US District Court, Western District of Pennsylvania (WDPA)</li>
+        <li>US Court of Appeals for the Third Circuit (PA component)</li>
+        <li>US Bankruptcy Court for EDPA and WDPA</li>
+        <li>Adjacent: PA OAG settlement administrations with PA federal nexus; PA PUC dockets with confidential treatment</li>
+      </ul>
+
+      <h3>SOURCES (PRIMARY)</h3>
+      <ul>
+        <li>PACER and the Free Law Project's RECAP archive (docket entries, sealing-order text where available)</li>
+        <li>EDPA / WDPA / 3rd Cir local rules on sealed records</li>
+        <li>Federal Rules of Criminal Procedure 6(e) and 32(e); 5 USC §552(a)(2); other governing statutes</li>
+        <li>PA Office of Attorney General settlement administration filings</li>
+        <li>PA PUC docket portal for confidential-treatment requests</li>
+        <li>Existing Infera reporting (notably Mechanism Brief № 002 for the Crozer entry and Brief № 003 for the PUC entry)</li>
+      </ul>
+
+      <h3>CONFIDENCE LABELS (PER SKILL SPEC)</h3>
+      <div class="conf-row">
+        <span class="high">HIGH · EXPLICIT CALENDAR DATE</span>
+        <span class="med">MEDIUM · LIKELY TRIGGERING EVENT</span>
+        <span class="low">LOW · SPECULATIVE / PROJECTED</span>
+      </div>
+
+      <h3>CURRENT STATE</h3>
+      <p>This page launched on <strong>June 7, 2026</strong> as a chassis seeded with verifiable entries from existing Infera reporting. The complete daily watchlist will populate as the scheduled task wires into the RECAP and CourtListener APIs. Until then, every entry shown here is documented in our published Briefs or sourced from filings already cited elsewhere on the site. The methodology is locked; the throughput is the next step.</p>
+
+      <p><strong>Failure-to-unseal handling.</strong> A scheduled unsealing that does not occur on its expected date is escalated to the failure-to-unseal section after the alert date passes and the docket shows no unsealing activity. Per the skill's own discipline, the blind-spot auditor is applied before any non-unsealing is treated as news; the most common explanation is administrative delay, not concealment.</p>
+
+      <p><strong>Out-of-scope categories.</strong> Certain seal categories (grand jury materials under FRCrP 6(e), juvenile records, certain national-security materials) are tracked at the metadata level only. The Sealed Calendar observes their statutory schedule but does not process the underlying material when unsealing occurs. See <code>infera-sealed-document-watcher/RULES-AND-METHODOLOGY.md</code> Section III.</p>
+
+      <p style="margin-top: 28px;"><strong>Corrections.</strong> If an entry on this page is wrong, missing, or out of date, email <a href="mailto:infera@melophon.com" style="color: var(--voltage); border-bottom: 1px solid rgba(232,195,74,0.32);">infera@melophon.com</a>. Corrections logged within 24 hours; substantive errors logged with date and changelog at the bottom of this page once the corrections register is built.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="page-footer">
+  <div class="container">
+    <div class="frow">
+      <div class="flinks">
+        <a href="../index.html">← The Desk</a>
+        <a href="../../briefs/index.html">Mechanism Briefs</a>
+        <a href="../../field-notes/index.html">Field Notes</a>
+        <a href="../../index.html">Series Home</a>
+        <a href="../../legal.html">Legal · Privacy</a>
+        <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+      </div>
+    </div>
+    <div class="fcopy">
+      &copy; 2026 Infera &middot; The Sealed Calendar is a Desk product · operational layer · powered by infera-sealed-document-watcher &middot; Not legal advice &middot; Corrections: <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═════════════ Legal footer protective block ═════════════ -->
+<style id="infera-legal-footer">
+  .legal-footer{background:#0d1419;color:#8b9097;font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;font-size:11px;line-height:1.55;letter-spacing:.04em;border-top:1px solid #1d2933;padding:36px 24px 32px;}
+  .legal-footer .lcw{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+  .legal-footer p{margin:0;}
+  .legal-footer a{color:#e8c34a;text-decoration:none;border-bottom:1px solid rgba(232,195,74,.25);}
+  .legal-footer a:hover{border-bottom-color:#e8c34a;}
+  .legal-footer .lh{color:#d9d2bf;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:10px;}
+</style>
+<aside class="legal-footer" role="contentinfo">
+  <div class="lcw">
+    <p><span class="lh">Editorial.</span> The Sealed Calendar is operational journalism, not legal advice. Confidence labels (HIGH / MEDIUM / LOW) are applied per entry; lower-confidence entries are forecasts that may revise as docket activity updates. Corrections: <a href="../../legal.html">see policy</a> or email <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+    <p><span class="lh">Copyright.</span> &copy; 2026 Infera / The Mechanism Series. Docket-entry references are drawn from public PACER, RECAP, and CourtListener data and reproduced for journalistic commentary under fair-use principles. Calendar predictions are original analytical work.</p>
+    <p><span class="lh">Privacy.</span> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party local storage is not used on this page. Reader rights under GDPR and CCPA are honored. <a href="../../legal.html">Full policy</a>.</p>
+    <p><span class="lh">Scope.</span> This page does not display sealed content. It displays the public schedule on which sealed content is expected to become available. Out-of-scope seal categories (grand jury, juvenile records, certain national-security materials) are tracked at metadata level only, per the skill's RULES-AND-METHODOLOGY discipline.</p>
+  </div>
+</aside>
+
+<script>
+  (function(){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.docket, .empty-state, .status-bar, .horizon-section h2, .horizon-section p').forEach(function(el){
+      el.classList.add('reveal');
+      io.observe(el);
+    });
+  })();
+</script>
+
+</body>
+</html>

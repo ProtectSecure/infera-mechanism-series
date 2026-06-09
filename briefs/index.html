@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Mechanism Brief · Infera</title>
-<meta name="description" content="Daily civic intelligence brief. What is forming today across federal, state, and county public infrastructure. From the Infera editorial desk." />
+<title>The Mechanism Brief · Volume I · The Hidden Clocks · Infera</title>
+<meta name="description" content="Daily synthesized civic intelligence. Volume I follows the hidden clocks: time-bound civic mechanisms affecting ordinary people in rooms nobody is watching. From the Infera editorial desk." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -12,12 +12,14 @@
   :root {
     --paper: #f4efe2;
     --paper-soft: #ece6d4;
+    --paper-deep: #d9d2bf;
     --ink: #15222b;
     --ink-dim: #46535d;
     --ink-faint: #8b9097;
     --rule: #d9d2bf;
     --signal: #c14026;
     --ochre: #b3641f;
+    --teal: #2b5d6e;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -31,7 +33,6 @@
   a { color: var(--ink); text-decoration: none; }
   a:hover { color: var(--signal); }
 
-  /* nav strip (per house pattern) */
   nav.strip {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
@@ -48,75 +49,158 @@
   nav.strip .stamp { color: var(--ink-faint); }
   @media (max-width: 720px) { nav.strip .stamp { display: none; } nav.strip .navlinks { gap: 14px; } }
 
-  main { max-width: 760px; margin: 0 auto; padding: 120px 24px 80px; }
-  header.section {
-    border-bottom: 1px solid var(--rule);
-    padding-bottom: 32px; margin-bottom: 32px;
+  main { max-width: 880px; margin: 0 auto; padding: 120px 24px 80px; }
+
+  /* MASTHEAD */
+  header.masthead {
+    border-top: 3px solid var(--ink);
+    padding-top: 28px;
+    margin-bottom: 14px;
   }
-  .kicker {
+  .masthead-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    flex-wrap: wrap; gap: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .masthead-row .left { color: var(--ochre); }
+  .masthead h1 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 1.02; letter-spacing: -0.025em;
+    margin: 24px 0 8px;
+    font-variation-settings: "opsz" 96;
+  }
+  .masthead h1 .em { color: var(--signal); font-style: italic; }
+  .masthead .deck {
+    font-family: 'Fraunces', serif; font-weight: 300; font-style: italic;
+    font-size: clamp(17px, 1.6vw, 21px);
+    color: var(--ink-dim);
+    max-width: 640px;
+    line-height: 1.5;
+    margin-bottom: 28px;
+  }
+
+  /* VOLUME BAR */
+  .volume {
+    background: var(--ink); color: var(--paper);
+    padding: 22px 28px;
+    margin: 18px 0 50px;
+    display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: center;
+  }
+  @media (max-width: 720px) { .volume { grid-template-columns: 1fr; gap: 14px; } }
+  .volume .vol-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--ochre);
+  }
+  .volume .vol-name {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: clamp(20px, 2.4vw, 26px);
+    color: var(--paper);
+    line-height: 1.2;
+  }
+  .volume .vol-name em { color: var(--signal); font-style: italic; }
+  .volume .vol-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.24em;
+    color: var(--paper-deep); text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* THESIS */
+  .thesis {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: 17px; line-height: 1.65;
+    color: var(--ink);
+    border-left: 3px solid var(--ochre);
+    padding: 4px 0 4px 22px;
+    margin: 14px 0 44px;
+    max-width: 660px;
+  }
+  .thesis em { color: var(--signal); font-style: italic; }
+
+  /* BRIEF CARDS */
+  h2.cycle-head {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
     color: var(--ochre);
-    margin-bottom: 12px;
+    margin: 36px 0 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
   }
-  h1 {
-    font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: clamp(36px, 5vw, 56px);
-    line-height: 1.05; letter-spacing: -0.02em;
-    margin-bottom: 16px;
-    font-variation-settings: "opsz" 96;
-  }
-  .lead {
-    font-family: 'Fraunces', serif; font-weight: 300;
-    font-size: clamp(17px, 1.4vw, 20px);
-    color: var(--ink-dim);
-    max-width: 600px;
-  }
+  h2.cycle-head .count { color: var(--ink-faint); font-size: 10px; }
 
-  /* brief cards */
-  .briefs { display: flex; flex-direction: column; gap: 28px; }
+  .briefs { display: flex; flex-direction: column; gap: 18px; }
   .brief-card {
     border: 1px solid var(--rule);
     background: rgba(255,255,255,0.45);
-    padding: 24px 26px;
-    display: grid; grid-template-columns: 100px 1fr;
-    gap: 18px;
-    transition: border-color 0.2s ease;
+    padding: 26px 28px;
+    display: grid; grid-template-columns: 130px 1fr;
+    gap: 22px;
+    transition: all 0.2s ease;
   }
-  .brief-card:hover { border-color: var(--ink); }
+  @media (max-width: 600px) { .brief-card { grid-template-columns: 1fr; } }
+  .brief-card:hover { border-color: var(--ink); transform: translateY(-2px); }
   .brief-num {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px; letter-spacing: 0.2em; color: var(--ink-faint);
     text-transform: uppercase;
   }
-  .brief-num .date { display: block; color: var(--ochre); margin-top: 6px; }
+  .brief-num .date { display: block; color: var(--ochre); margin-top: 8px; }
+  .brief-num .vol { display: block; color: var(--ink-dim); margin-top: 6px; font-size: 9px; }
   .brief-title {
     font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: 24px; line-height: 1.2;
-    margin-bottom: 8px;
+    font-size: 26px; line-height: 1.2;
+    margin-bottom: 10px;
   }
-  .brief-desc { font-size: 15px; color: var(--ink-dim); margin-bottom: 12px; }
+  .brief-title em { color: var(--signal); font-style: italic; }
+  .brief-desc { font-size: 15px; color: var(--ink-dim); margin-bottom: 14px; line-height: 1.55; }
   .brief-meta {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px; letter-spacing: 0.18em; color: var(--ink-faint);
     text-transform: uppercase;
   }
 
-  /* about block */
-  .about {
-    margin-top: 60px; padding: 32px;
+  /* COMING NEXT placeholder cards */
+  .brief-card.coming {
+    border-style: dashed; opacity: 0.65;
+    pointer-events: none;
+  }
+  .brief-card.coming .brief-title { color: var(--ink-dim); }
+  .brief-card.coming .brief-desc { font-style: italic; }
+
+  /* FORMAT CONTEXT */
+  .context {
+    margin-top: 70px; padding: 36px;
     background: var(--paper-soft);
     border-left: 3px solid var(--signal);
   }
-  .about h2 {
+  .context h2 {
     font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: 22px; margin-bottom: 12px;
+    font-size: 24px; margin-bottom: 14px;
   }
-  .about p { font-size: 15px; color: var(--ink-dim); margin-bottom: 12px; }
+  .context p { font-size: 15px; color: var(--ink-dim); margin-bottom: 12px; line-height: 1.6; }
+  .context p strong { color: var(--ink); font-weight: 500; }
+  .context .other-formats {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    margin-top: 18px; padding-top: 18px;
+    border-top: 1px solid var(--rule);
+  }
+  .context .other-formats a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--ink-dim); padding: 8px 12px;
+    border: 1px solid var(--rule); background: var(--paper);
+    transition: all 0.2s ease;
+  }
+  .context .other-formats a:hover { border-color: var(--signal); color: var(--signal); }
 
   /* footer */
   footer.page-footer {
-    max-width: 760px; margin: 0 auto;
+    max-width: 880px; margin: 0 auto;
     padding: 40px 24px;
     border-top: 1px solid var(--rule);
     font-family: 'JetBrains Mono', monospace;
@@ -126,14 +210,9 @@
   }
   footer.page-footer a { color: var(--ink-dim); }
   footer.page-footer a:hover { color: var(--signal); }
-  footer .colophon {
-    margin-top: 16px; font-family: 'Inter', sans-serif;
-    text-transform: none; letter-spacing: 0; font-size: 11px;
-    color: var(--ink-faint);
-  }
 </style>
 <style id="infera-legal-footer">
-.legal-footer { max-width: 760px; margin: 0 auto; padding: 24px; border-top: 1px solid var(--rule); font-family: 'Inter', sans-serif; font-size: 11px; line-height: 1.6; color: var(--ink-faint); }
+.legal-footer { max-width: 880px; margin: 0 auto; padding: 24px; border-top: 1px solid var(--rule); font-family: 'Inter', sans-serif; font-size: 11px; line-height: 1.6; color: var(--ink-faint); }
 .legal-footer p { margin-bottom: 8px; }
 .legal-footer a { color: var(--ink-dim); text-decoration: underline; }
 </style>
@@ -146,43 +225,107 @@
     <a href="../index.html">All Episodes</a>
     <a href="../field-notes/index.html">Field Notes</a>
     <a href="index.html">Briefs</a>
+    <a href="../desk/index.html">The Desk</a>
     <span class="stamp">SECTION INDEX</span>
   </div>
 </nav>
 
 <main>
-  <header class="section">
-    <div class="kicker">THE MECHANISM BRIEF</div>
-    <h1>What is forming today.</h1>
-    <p class="lead">A daily civic intelligence brief drawn from federal, state, and county public infrastructure. We surface tomorrow's mechanism before tomorrow's headline.</p>
+
+  <header class="masthead">
+    <div class="masthead-row">
+      <span class="left">THE MECHANISM BRIEF</span>
+      <span>EDITORIAL · DAILY-TO-WEEKLY · FREE PUBLIC</span>
+    </div>
+    <h1>The mechanism, <span class="em">while it's still running</span>.</h1>
+    <p class="deck">Synthesized civic intelligence drawn from the public schedule. Tomorrow's mechanism, today's brief. Read each one in under nine minutes.</p>
   </header>
 
+  <div class="volume">
+    <span class="vol-tag">VOLUME I</span>
+    <div class="vol-name">The Hidden <em>Clocks</em></div>
+    <span class="vol-count">2 BRIEFS · ARC OPEN</span>
+  </div>
+
+  <p class="thesis">Clocks are the unit of civic intelligence. Statutorily fixed time windows where ordinary people are affected by procedures running in <em>rooms nobody is watching</em>. Volume I tracks the clocks: post-primary certification, bankruptcy records destruction, regulatory hearing windows, mandated report deadlines, the federal continuing resolution. Each brief is one clock, named.</p>
+
+  <h2 class="cycle-head>"><span>BRIEFS IN THIS VOLUME</span><span class="count">3 · OPEN</span></h2>
+
   <div class="briefs">
+
+    <a href="2026-06-12-the-puc-large-load-tariff-clock.html" class="brief-card">
+      <div class="brief-num">
+        BRIEF № 003
+        <span class="date">FRI · JUN 12 · 2026</span>
+        <span class="vol">VOL I · THE HIDDEN CLOCKS</span>
+      </div>
+      <div>
+        <div class="brief-title">The PUC Large-Load Tariff <em>Clock</em></div>
+        <div class="brief-desc">Five PA PUC commissioners held an en banc hearing on who pays for Big Tech's power. Amazon, Google, and Vantage sent witnesses. Two state advocates spoke for sixty million household members. The comment window closed a year ago. Now the actual tariffs are filing with intervention windows the public can't see. Allegheny County anchor.</div>
+        <div class="brief-meta">PUC DOCKET M-2025-3054271 · DUQUESNE LIGHT · HARVARD ELI · 15-QUESTION COST ALLOCATION</div>
+      </div>
+    </a>
+
+    <a href="2026-06-10-the-269-day-clock.html" class="brief-card">
+      <div class="brief-num">
+        BRIEF № 002
+        <span class="date">WED · JUN 10 · 2026</span>
+        <span class="vol">VOL I · THE HIDDEN CLOCKS</span>
+      </div>
+      <div>
+        <div class="brief-title">The 269-Day <em>Clock</em></div>
+        <div class="brief-desc">A bankruptcy court has ordered the destruction of every Crozer Health System patient record after March 2, 2027. The county that inherited the wreckage is keeping the receipts. The receipts have an expiration date. Atlanta Medical Center patients had 62.</div>
+        <div class="brief-meta">CROZER · PROSPECT MEDICAL · DELAWARE PA · DYK POP QUIZ · ECHOES</div>
+      </div>
+    </a>
 
     <a href="2026-06-08-the-certification-clock.html" class="brief-card">
       <div class="brief-num">
         BRIEF № 001
         <span class="date">MON · JUN 8 · 2026</span>
+        <span class="vol">VOL I · THE HIDDEN CLOCKS</span>
       </div>
       <div>
-        <div class="brief-title">The Certification Clock</div>
-        <div class="brief-desc">Three Pennsylvania county Boards of Elections meet Monday morning. The convergence is not random; the state primary was three weeks ago. The clock is the mechanism.</div>
-        <div class="brief-meta">36 EVENTS · 12 COUNTIES · 2 STATES · 6 PLATFORMS</div>
+        <div class="brief-title">The Certification <em>Clock</em></div>
+        <div class="brief-desc">Three Pennsylvania county Boards of Elections meet Monday morning. The convergence is not random; the state primary was three weeks ago. The clock is the mechanism, and the clock is statutory.</div>
+        <div class="brief-meta">36 EVENTS · 12 COUNTIES · 2 STATES · 5 EXHIBITS</div>
       </div>
     </a>
 
+    <div class="brief-card coming">
+      <div class="brief-num">
+        BRIEF № 004
+        <span class="date">DRAFTING</span>
+        <span class="vol">VOL I · THE HIDDEN CLOCKS</span>
+      </div>
+      <div>
+        <div class="brief-title">The Reassessment Clock</div>
+        <div class="brief-desc">County property reassessments happen on cycles set by state law. The cycle decides whether your house gets re-valued every year or every fifteen. Pennsylvania and North Carolina answer that question very differently, and the answer changes who pays for what in your school district.</div>
+        <div class="brief-meta">PROPERTY REASSESSMENT · COUNTY-LEVEL · PA + NC · SCHOOL FUNDING</div>
+      </div>
+    </div>
+
   </div>
 
-  <section class="about">
-    <h2>How the Brief is assembled</h2>
-    <p>Each brief draws from Infera's L2 county infrastructure layer, which presently covers 12 PA and NC counties across six platform-mode families: Legistar OData, CivicPlus RSS, CivicPlus browser-UA fallback, Granicus OpenCities HTML, Sitefinity HTML, and platform-agnostic cadence projection. Total population covered: 7.91 million.</p>
-    <p>Every claim links to a public primary source. Every projected meeting carries a WATCH label. Every observed change carries a date and a next checkpoint.</p>
-    <p>This is mechanism intelligence. It is not partisan, not predictive, and not opinion. It is the public schedule, read carefully.</p>
+  <section class="context">
+    <h2>How the Brief fits into the Series</h2>
+    <p>The Mechanism Brief is the <strong>daily editorial product</strong> in Infera's format taxonomy. It draws from the operational layer (The Desk) and turns upcoming civic mechanisms into stories the reader can act on. It's shorter than a Special Report and faster than a Field Note. It always ends with <em>what to do</em>.</p>
+    <p>Briefs are organized into Volumes by thematic arc. Volume I, currently open, follows the <strong>hidden clocks</strong>: time-bound civic mechanisms affecting ordinary people in rooms nobody is watching. Each Brief is one clock. When the clock arc exhausts, Volume II opens on a different theme.</p>
+    <p>If you want the raw public schedule rather than the synthesized brief, see <a href="../desk/index.html"><strong>The Desk</strong></a>. If you want monthly analytical dispatches, see <a href="../field-notes/index.html"><strong>Field Notes</strong></a>. If you want the long-form chassis, see <a href="../index.html#season-1"><strong>Episodes</strong></a>.</p>
+
+    <div class="other-formats">
+      <a href="../index.html#season-1">Episodes</a>
+      <a href="../field-notes/index.html">Field Notes</a>
+      <a href="../desk/index.html">The Desk</a>
+      <a href="../index.html#about">About Infera</a>
+    </div>
   </section>
+
 </main>
 
 <footer class="page-footer">
   <a href="../field-notes/index.html">← Field Notes</a>
+  <a href="../desk/index.html">The Desk</a>
   <a href="../index.html">Series Home</a>
   <a href="../legal.html">Legal · Privacy</a>
   <a href="mailto:infera@melophon.com">infera@melophon.com</a>

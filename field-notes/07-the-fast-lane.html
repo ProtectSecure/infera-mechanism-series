@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Field Note № 07 — The Fast Lane · Tuesday, June 9, 2026</title>
+<meta name="description" content="A public line just opened a paid lane. For 750 dollars you can move to the front of the visa appointment queue. An interactive walkthrough of how a quiet fee rule shifts a burden, and what you can do about it before July 9." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4efe2;
+    --paper-soft: #ece6d4;
+    --card: #faf6ec;
+    --ink: #15222b;
+    --ink-dim: #46535d;
+    --ink-faint: #8b9097;
+    --rule: #d9d2bf;
+    --loud: #e8472b;       /* the paid lane */
+    --band: #e8872d;
+    --quiet: #2b5d6e;      /* the standard lane */
+    --accent: #b3641f;
+    --green: #2f6f4f;      /* the action / weigh-in color */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection { background: var(--loud); color: var(--paper); }
+
+  /* ───────── fixed editorial strip ───────── */
+  nav.strip {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-dim);
+    background: linear-gradient(to bottom, rgba(244,239,226,0.96), rgba(244,239,226,0));
+    backdrop-filter: blur(8px);
+  }
+  nav.strip a { color: var(--ink); text-decoration: none; transition: color 0.2s ease; }
+  nav.strip a:hover { color: var(--loud); }
+  nav.strip .navlinks { display: flex; gap: 24px; align-items: center; }
+  nav.strip .stamp { color: var(--ink-faint); }
+  @media (max-width: 720px) { nav.strip .stamp { display: none; } nav.strip .navlinks { gap: 14px; } }
+  nav.strip .dot { width: 6px; height: 6px; background: var(--loud); border-radius: 50%; display: inline-block; margin-right: 8px; vertical-align: middle; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  /* ───────── hero ───────── */
+  .hero { min-height: 92vh; display: grid; grid-template-rows: 1fr auto 1fr; padding: 90px 6vw 40px; position: relative; overflow: hidden; }
+  .hero .lane-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.5; }
+  .hero-content { grid-row: 2; position: relative; z-index: 2; }
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink); background: var(--paper); display: inline-block; padding: 6px 14px; opacity: 0; animation: fadeUp 1s ease 0.2s forwards; }
+  h1.headline { font-family: 'Fraunces', serif; font-weight: 380; font-size: clamp(56px, 11vw, 150px); line-height: 0.92; letter-spacing: -0.04em; margin: 22px 0 20px; font-variation-settings: "opsz" 144, "SOFT" 100; color: var(--ink); }
+  h1.headline .word { display: inline-block; opacity: 0; transform: translateY(40px); animation: dropIn 1.1s cubic-bezier(0.2,0.8,0.2,1) forwards; }
+  h1.headline .word:nth-child(1) { animation-delay: 0.5s; }
+  h1.headline .word:nth-child(2) { animation-delay: 1.1s; color: var(--loud); font-style: italic; }
+  .hero-sub { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(16px, 1.7vw, 22px); color: var(--ink-dim); max-width: 600px; opacity: 0; animation: fadeUp 1.2s ease 1.7s forwards; }
+  .hero-foot { grid-row: 3; align-self: end; position: relative; z-index: 2; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); display: flex; gap: 22px; flex-wrap: wrap; opacity: 0; animation: fadeUp 1.2s ease 2.2s forwards; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes dropIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ───────── body sections ───────── */
+  section.read { padding: 40px 0; }
+  .lede { font-family: 'Fraunces', serif; font-weight: 330; font-size: clamp(22px, 3vw, 30px); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); margin: 10px 0 34px; }
+  .lede em { font-style: italic; color: var(--loud); }
+  p.body { font-size: 17px; line-height: 1.72; color: var(--ink-dim); margin: 0 0 20px; }
+  p.body strong { color: var(--ink); font-weight: 500; }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+  h2.sec { font-family: 'Fraunces', serif; font-weight: 360; font-size: clamp(28px, 4.4vw, 44px); line-height: 1.04; letter-spacing: -0.02em; color: var(--ink); margin: 0 0 18px; }
+
+  /* confidence stamps */
+  .stamp-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; vertical-align: middle; font-weight: 500; white-space: nowrap; }
+  .s-fact { background: rgba(47,111,79,0.14); color: #2f6f4f; border: 1px solid rgba(47,111,79,0.3); }
+  .s-watch { background: rgba(232,135,45,0.14); color: #a55a14; border: 1px solid rgba(232,135,45,0.35); }
+  .s-reported { background: rgba(43,93,110,0.12); color: #2b5d6e; border: 1px solid rgba(43,93,110,0.3); }
+
+  /* ───────── the museum exhibit: the queue ───────── */
+  .exhibit { background: var(--card); border: 1px solid var(--rule); border-radius: 6px; padding: 28px 26px 30px; margin: 30px 0; box-shadow: 0 1px 0 rgba(21,34,43,0.03); }
+  .exhibit .ex-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 4px; }
+  .exhibit h3 { font-family: 'Fraunces', serif; font-weight: 380; font-size: 24px; letter-spacing: -0.01em; margin-bottom: 8px; color: var(--ink); }
+  .exhibit p.ex-note { font-size: 14.5px; color: var(--ink-dim); margin-bottom: 20px; }
+
+  .stage { position: relative; }
+  .window-label { display: flex; justify-content: flex-end; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--quiet); margin-bottom: 6px; }
+  .lanerow { display: flex; align-items: center; gap: 7px; min-height: 38px; padding: 4px 0; }
+  .lanerow .ltag { width: 96px; flex-shrink: 0; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+  .queue { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .dot-p { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; transition: transform 0.5s cubic-bezier(0.2,0.8,0.2,1), background 0.4s ease, opacity 0.4s ease; }
+  .dot-std { background: var(--quiet); }
+  .dot-paid { background: var(--loud); box-shadow: 0 0 0 3px rgba(232,71,43,0.16); }
+  .dot-you { background: var(--ink); box-shadow: 0 0 0 3px rgba(21,34,43,0.18); position: relative; }
+  .dot-you::after { content: "YOU"; position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.1em; color: var(--ink); }
+
+  .controls { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 22px; padding-top: 20px; border-top: 1px dashed var(--rule); }
+  .toggle { display: inline-flex; align-items: center; gap: 11px; cursor: pointer; user-select: none; }
+  .toggle .tg-track { width: 46px; height: 26px; border-radius: 14px; background: var(--rule); position: relative; transition: background 0.25s ease; flex-shrink: 0; }
+  .toggle .tg-knob { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform 0.25s cubic-bezier(0.2,0.8,0.2,1); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .toggle.on .tg-track { background: var(--loud); }
+  .toggle.on .tg-knob { transform: translateX(20px); }
+  .toggle .tg-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); font-weight: 500; }
+  .readout { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-dim); text-align: right; }
+  .readout b { color: var(--loud); font-weight: 600; font-size: 15px; }
+  @media (max-width: 560px) { .readout { margin-left: 0; width: 100%; text-align: left; } .lanerow .ltag { width: 70px; } }
+
+  /* ───────── the four-line reader card ───────── */
+  .rcard { border: 1px solid var(--ink); border-radius: 6px; overflow: hidden; margin: 34px 0; background: var(--card); }
+  .rcard .rc-head { background: var(--ink); color: var(--paper); padding: 14px 20px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .rcard .rc-head .doc { color: var(--band); }
+  .rc-line { display: grid; grid-template-columns: 120px 1fr; gap: 18px; padding: 18px 20px; border-bottom: 1px solid var(--rule); }
+  .rc-line:last-child { border-bottom: none; }
+  .rc-line .rc-k { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); padding-top: 3px; }
+  .rc-line .rc-v { font-size: 15.5px; color: var(--ink-dim); line-height: 1.6; }
+  .rc-line .rc-v strong { color: var(--ink); font-weight: 500; }
+  @media (max-width: 560px) { .rc-line { grid-template-columns: 1fr; gap: 5px; } }
+
+  /* ───────── the ladder ───────── */
+  .ladder { margin: 30px 0; }
+  .rung { display: grid; grid-template-columns: 44px 1fr; gap: 16px; align-items: start; cursor: pointer; padding: 16px 16px 16px 0; border-left: 2px solid var(--rule); padding-left: 18px; transition: border-color 0.3s ease; position: relative; }
+  .rung:hover, .rung.open { border-left-color: var(--loud); }
+  .rung .rn { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 400; color: var(--ink-faint); line-height: 1; transition: color 0.3s ease; }
+  .rung.open .rn { color: var(--loud); }
+  .rung .rt { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 4px; }
+  .rung .rd { font-size: 14.5px; color: var(--ink-dim); max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease; }
+  .rung.open .rd { max-height: 220px; opacity: 1; margin-top: 6px; }
+  .rung .rhint { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-top: 6px; }
+  .rung.open .rhint { display: none; }
+
+  /* ───────── the tell (flip card) ───────── */
+  .tell { perspective: 1200px; margin: 30px 0; }
+  .tell-inner { position: relative; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(0.2,0.8,0.2,1); min-height: 180px; }
+  .tell.flipped .tell-inner { transform: rotateY(180deg); }
+  .tell-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 6px; padding: 26px 26px; display: flex; flex-direction: column; justify-content: center; }
+  .tell-front { background: var(--paper-soft); border: 1px solid var(--rule); cursor: pointer; }
+  .tell-back { background: var(--ink); color: var(--paper); transform: rotateY(180deg); cursor: pointer; }
+  .tell-front .tf-k, .tell-back .tf-k { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; }
+  .tell-front .tf-k { color: var(--accent); }
+  .tell-back .tf-k { color: var(--band); }
+  .tell-front h4 { font-family: 'Fraunces', serif; font-weight: 380; font-size: 23px; color: var(--ink); margin-bottom: 8px; }
+  .tell-back h4 { font-family: 'Fraunces', serif; font-weight: 380; font-size: 23px; color: var(--paper); margin-bottom: 8px; }
+  .tell-front p { font-size: 14.5px; color: var(--ink-dim); }
+  .tell-back p { font-size: 14.5px; color: rgba(244,239,226,0.82); }
+  .tell .flip-hint { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; margin-top: 12px; opacity: 0.6; }
+
+  /* ───────── two honest readings ───────── */
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
+  @media (max-width: 620px) { .twocol { grid-template-columns: 1fr; } }
+  .argue { border: 1px solid var(--rule); border-radius: 6px; padding: 20px; background: var(--card); }
+  .argue .a-k { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 10px; font-weight: 500; }
+  .argue.forr .a-k { color: var(--quiet); }
+  .argue.against .a-k { color: var(--loud); }
+  .argue h4 { font-family: 'Fraunces', serif; font-weight: 380; font-size: 18px; color: var(--ink); margin-bottom: 8px; line-height: 1.2; }
+  .argue p { font-size: 14px; color: var(--ink-dim); line-height: 1.6; }
+
+  /* ───────── the call to action ───────── */
+  .cta-box { background: var(--ink); color: var(--paper); border-radius: 8px; padding: 34px 30px; margin: 40px 0; position: relative; overflow: hidden; }
+  .cta-box .cta-k { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--band); margin-bottom: 12px; }
+  .cta-box h3 { font-family: 'Fraunces', serif; font-weight: 360; font-size: clamp(24px, 3.6vw, 34px); line-height: 1.12; color: var(--paper); margin-bottom: 14px; letter-spacing: -0.01em; }
+  .cta-box p { font-size: 15.5px; color: rgba(244,239,226,0.8); line-height: 1.65; margin-bottom: 18px; max-width: 560px; }
+  .cta-box .clock { display: inline-flex; align-items: baseline; gap: 10px; font-family: 'JetBrains Mono', monospace; margin: 6px 0 22px; }
+  .cta-box .clock .cn { font-size: 44px; font-weight: 500; color: var(--band); line-height: 1; }
+  .cta-box .clock .cl { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(244,239,226,0.6); }
+  .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; padding: 13px 20px; border-radius: 4px; text-decoration: none; transition: transform 0.15s ease, background 0.2s ease; }
+  .btn-primary { background: var(--band); color: var(--ink); }
+  .btn-primary:hover { transform: translateY(-2px); background: #f0962f; }
+  .btn-ghost { background: transparent; color: var(--paper); border: 1px solid rgba(244,239,226,0.3); }
+  .btn-ghost:hover { border-color: var(--band); color: var(--band); }
+  .cta-fine { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(244,239,226,0.45); margin-top: 18px; line-height: 1.7; }
+
+  /* sources */
+  .sources { margin: 30px 0; padding: 22px 0 0; border-top: 1px solid var(--rule); }
+  .sources .src-k { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; }
+  .sources ol { list-style: none; counter-reset: s; }
+  .sources li { counter-increment: s; font-size: 13px; color: var(--ink-dim); padding: 6px 0 6px 30px; position: relative; line-height: 1.5; }
+  .sources li::before { content: counter(s); position: absolute; left: 0; top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); border: 1px solid var(--rule); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .sources a { color: var(--quiet); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* post footer */
+  footer.note-footer { background: var(--ink); color: var(--paper); padding: 54px 6vw 60px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; line-height: 2.2; }
+  footer.note-footer .fnav { display: flex; flex-wrap: wrap; gap: 14px 32px; justify-content: center; margin-bottom: 34px; }
+  footer.note-footer .fnav a { color: var(--paper); text-decoration: none; border-bottom: 1px solid rgba(244,239,226,0.35); padding-bottom: 2px; transition: color 0.2s ease, border-color 0.2s ease; }
+  footer.note-footer .fnav a:hover { color: var(--band); border-color: var(--band); }
+  footer.note-footer .fdot { color: var(--ink-faint); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    h1.headline .word, .kicker, .hero-sub, .hero-foot { opacity: 1 !important; transform: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="strip">
+  <a href="../index.html"><span class="dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="../index.html">← All Episodes</a>
+    <a href="index.html">Field Notes</a>
+    <span class="stamp">№ 07 · EVENING CLOSE · 06.09.2026</span>
+  </div>
+</nav>
+
+<!-- ───────── HERO ───────── -->
+<header class="hero">
+  <svg class="lane-bg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="lg" x1="0" x2="1">
+        <stop offset="0" stop-color="#2b5d6e" stop-opacity="0.0"/>
+        <stop offset="1" stop-color="#2b5d6e" stop-opacity="0.5"/>
+      </linearGradient>
+      <linearGradient id="lr" x1="0" x2="1">
+        <stop offset="0" stop-color="#e8472b" stop-opacity="0.0"/>
+        <stop offset="1" stop-color="#e8472b" stop-opacity="0.6"/>
+      </linearGradient>
+    </defs>
+    <path d="M-20,420 C300,420 520,420 760,300 C920,220 1040,200 1240,196" fill="none" stroke="url(#lg)" stroke-width="2"/>
+    <path d="M-20,300 C320,300 540,300 780,300 C980,300 1080,300 1240,300" fill="none" stroke="url(#lr)" stroke-width="3"/>
+    <line x1="1080" y1="120" x2="1080" y2="480" stroke="#2b5d6e" stroke-opacity="0.25" stroke-width="2" stroke-dasharray="4 8"/>
+  </svg>
+  <div class="hero-content">
+    <span class="kicker">Field Note № 07 · The mechanism behind the everyday</span>
+    <h1 class="headline"><span class="word">The Fast</span> <span class="word">Lane</span></h1>
+    <p class="hero-sub">On June 9 a quiet rule opened a paid lane in a public line. For 750 dollars, you can move to the front of the visa appointment queue. Here is how that works, and what it means.</p>
+  </div>
+  <div class="hero-foot">
+    <span>Tuesday · June 9 · 2026</span>
+    <span>Mechanism · Burden Shift</span>
+    <span>Reading time · 8 min</span>
+    <span>Interactive · 4 exhibits</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- LEDE -->
+  <section class="read">
+    <p class="lede">Most days, the most important thing a government does is something nobody reports. Not because it is hidden, but because it is <em>boring on its surface</em>: a fee, a form, a schedule. This is one of those. A line that everyone has to stand in just got a way to pay your way to the front of it.</p>
+    <p class="body">On Tuesday, June 9, the State Department published a rule with a forgettable name: <strong>Schedule of Fees for Consular Services, Visa and Citizenship Services Fee Changes</strong> <span class="stamp-tag s-fact">FACT</span>. Inside it is a new option. At certain busy embassies and consulates, an applicant can pay <strong>750 dollars</strong> to jump to the front of the interview appointment line. The Department frames it around the crowds expected for the 2026 FIFA World Cup and the 2028 Los Angeles Olympics <span class="stamp-tag s-fact">FACT</span>.</p>
+    <p class="body">That is the whole story, and it is bigger than it looks. Let us take it apart the way we take everything apart here: first what literally changed, then the machine underneath it, then the one move that is yours to make.</p>
+  </section>
+
+  <!-- THE FOUR-LINE CARD -->
+  <section class="read">
+    <p class="section-label">The item, in four lines</p>
+    <h2 class="sec">What actually changed</h2>
+    <p class="body">Every dry document resolves to the same four questions. Skip the legalese; here is the rule as a person experiences it.</p>
+
+    <div class="rcard">
+      <div class="rc-head">
+        <span>Schedule of Fees for Consular Services</span>
+        <span class="doc">FR Doc 2026-11513 · 22 CFR Part 22</span>
+      </div>
+      <div class="rc-line">
+        <div class="rc-k">So what</div>
+        <div class="rc-v"><strong>A public appointment line opened a paid fast lane.</strong> At identified high-demand posts, applicants can pay an extra <strong>750 dollars</strong> for an expedited interview slot, moving ahead of those who do not. Your existing appointment is not taken away. The people ahead of you in the paid lane are new. <span class="stamp-tag s-fact">FACT</span></div>
+      </div>
+      <div class="rc-line">
+        <div class="rc-k">Says who · why now</div>
+        <div class="rc-v">The <strong>State Department, Bureau of Consular Affairs</strong>, by temporary final rule. The stated reason: appointment backlogs ahead of two mega-events, the <strong>2026 World Cup</strong> and the <strong>2028 LA Olympics</strong>, that will push millions of visitors through the same posts. <span class="stamp-tag s-fact">FACT</span></div>
+      </div>
+      <div class="rc-line">
+        <div class="rc-k">The clock</div>
+        <div class="rc-v">Effective <strong>July 1, 2026</strong>. It sunsets <strong>December 31, 2026</strong>, which makes it a pilot. Public comments are open until <strong>July 9, 2026</strong>. <span class="stamp-tag s-fact">FACT</span></div>
+      </div>
+      <div class="rc-line">
+        <div class="rc-k">Your move</div>
+        <div class="rc-v">The comment window is the lever. Anyone, applicant or not, can tell the Department in writing what they think before July 9. Whether you would use this lane or resent it, the same channel is open to you. <a href="#act" style="color:var(--quiet);text-decoration:underline;text-underline-offset:2px">Jump to it.</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE EXHIBIT: INTERACTIVE QUEUE -->
+  <section class="read">
+    <p class="section-label">Exhibit A · Move the lever yourself</p>
+    <h2 class="sec">Watch the line reorder</h2>
+    <p class="body">A fee does not add hours to the day or interviewers to the booth. The same number of people get seen. So when a paid lane opens in front of a fixed window, everyone who does not pay moves <strong>back</strong>, not because anything was taken, but because something was added ahead of them. You are the dark dot. Open the lane and watch where you land.</p>
+
+    <div class="exhibit">
+      <div class="ex-title">Exhibit A · The expedited-appointment queue</div>
+      <h3>One window. A fixed number of slots. A new way to the front.</h3>
+      <p class="ex-note">Twenty-four applicants, one interview window. Toggle the 750-dollar lane and watch the standard line, and your place in it, shift.</p>
+
+      <div class="stage">
+        <div class="window-label">interview window →</div>
+        <div class="lanerow">
+          <div class="ltag" style="color:var(--loud)">Paid · $750</div>
+          <div class="queue" id="paidLane"></div>
+        </div>
+        <div class="lanerow">
+          <div class="ltag">Standard</div>
+          <div class="queue" id="stdLane"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="toggle" id="laneToggle" role="switch" aria-checked="false" tabindex="0">
+          <span class="tg-track"><span class="tg-knob"></span></span>
+          <span class="tg-label">Open the $750 lane</span>
+        </div>
+        <div class="readout" id="readout">Your wait: <b>position 9</b> of 24</div>
+      </div>
+    </div>
+    <p class="body" style="font-size:15px;color:var(--ink-faint)">This is the mechanism in one motion. Nobody is wronged in a way you can photograph. The cost is distributional and invisible: it lands as a slightly longer wait spread across everyone who could not, or would not, pay. That is what a <strong>Burden Shift</strong> is. The burden does not disappear. It moves to the people with the least leverage to refuse it.</p>
+  </section>
+
+  <!-- THE LADDER -->
+  <section class="read">
+    <p class="section-label">Exhibit B · Climb the ladder</p>
+    <h2 class="sec">From a fee to a pattern</h2>
+    <p class="body">Here is how a single boring item becomes a way of seeing. Three rungs: the thing, the machine, the meaning. Tap each to climb.</p>
+
+    <div class="ladder" id="ladder">
+      <div class="rung" tabindex="0">
+        <div class="rn">1</div>
+        <div>
+          <div class="rt">The thing</div>
+          <div class="rd">A 750-dollar expedited-appointment fee at busy visa posts, effective July 1, sunsetting December 31. One rule, one number, one date. This is the rung most coverage stops at, if it covers it at all.</div>
+          <div class="rhint">tap to climb →</div>
+        </div>
+      </div>
+      <div class="rung" tabindex="0">
+        <div class="rn">2</div>
+        <div>
+          <div class="rt">The machine · Burden Shift</div>
+          <div class="rd">A fixed public service meets variable willingness to pay. The service does not grow, so paid access necessarily comes out of unpaid access. The cost is real but diffuse: it is absorbed as wait time by people who never see the rule and never get a vote on it. The machine is access-by-payment layered onto a queue that used to run on time alone.</div>
+          <div class="rhint">tap to climb →</div>
+        </div>
+      </div>
+      <div class="rung" tabindex="0">
+        <div class="rn">3</div>
+        <div>
+          <div class="rt">The meaning · The two-tier default</div>
+          <div class="rd">When a public line learns to sell its front, the line itself changes character. Paying to skip stops being an exception and starts being the design. The question is no longer whether this one fee is fair. It is whether we are comfortable with a public system whose default, quietly and post by post, becomes: those who can pay wait less. That is a civic choice, not a logistics one, and it is being made one temporary final rule at a time.</div>
+          <div class="rhint">tap to climb →</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE TELL -->
+  <section class="read">
+    <p class="section-label">Exhibit C · Read the tell</p>
+    <h2 class="sec">The most important date is the one nobody quotes</h2>
+    <p class="body">Reporters quote the start date. The tell is in the end date. This rule expires on December 31, which is what lets everyone call it a pilot. But pilots have a habit. Flip the card.</p>
+
+    <div class="tell" id="tellCard">
+      <div class="tell-inner">
+        <div class="tell-face tell-front">
+          <div class="tf-k">What it says · the pilot</div>
+          <h4>"Temporary. It sunsets December 31, 2026."</h4>
+          <p>A limited test, tied to one summer of crowds, with a built-in expiration. Low stakes. Nothing permanent here.</p>
+          <div class="flip-hint">tap to read the tell →</div>
+        </div>
+        <div class="tell-face tell-back">
+          <div class="tf-k">What to watch · the renewal</div>
+          <h4>The real story is what happens on December 30.</h4>
+          <p>A pilot that works is a pilot that gets extended. The interesting moment is not the launch, it is the quiet renewal, or the permanent version, that lands after the World Cup justification has expired but the revenue has not. Mark the date. Watch whether the fast lane closes, or just stops being temporary.</p>
+          <div class="flip-hint">tap to flip back</div>
+        </div>
+      </div>
+    </div>
+    <p class="body" style="font-size:15px;color:var(--ink-faint)">Learn to read tells and you will see them everywhere: the sunset clause that signals a coming fight over renewal, the "correction" that reveals what was wrong the first time, the comment window so short it tells you how much pushback the agency expects. The document is talking. The tell is where it tells on itself. <span class="stamp-tag s-watch">WATCH</span></p>
+  </section>
+
+  <!-- TWO HONEST READINGS -->
+  <section class="read">
+    <p class="section-label">Exhibit D · Both sides of it</p>
+    <h2 class="sec">The honest case, either way</h2>
+    <p class="body">We are not here to tell you what to think about this. We are here to make sure you can think about it clearly. Here is the strongest version of each side, so your view is yours and not ours.</p>
+
+    <div class="twocol">
+      <div class="argue forr">
+        <div class="a-k">The case for</div>
+        <h4>A real bottleneck, a fair way to pay for it</h4>
+        <p>The crowds are genuine and the staffing is not infinite. A voluntary fee lets time-sensitive travelers cover the cost of being expedited, funds consular operations without raising everyone's base fee, and takes nothing from the standard line that was already there. It sunsets. There is a comment window. Nobody is forced to pay, and nobody loses a slot they already had.</p>
+      </div>
+      <div class="argue against">
+        <div class="a-k">The case against</div>
+        <h4>A public queue should not have a price for the front</h4>
+        <p>Access to a government service is not supposed to track ability to pay. A 750-dollar lane means those who can afford it wait less, by definition at the expense of those who cannot. "Pilot" rules tend to become permanent once the revenue arrives. And launching it under a World Cup banner is a soft way to normalize pay-to-skip as the new default, one post at a time.</p>
+      </div>
+    </div>
+    <p class="body" style="font-size:15px;color:var(--ink-faint)">If you find yourself nodding at both, good. That is the honest state of it. The point of this note is not to resolve that tension for you. It is to hand you the place where your nod becomes part of the record.</p>
+  </section>
+
+  <!-- CALL TO ACTION -->
+  <section class="read" id="act">
+    <div class="cta-box">
+      <div class="cta-k">Your move · the lever is open</div>
+      <h3>The question is on the table. You can answer it on the record.</h3>
+      <p>Should a public appointment system sell front-of-line access? The Department is taking written comments on exactly that, until July 9. This is not a petition and not a poll. It is the formal record a rule has to reckon with. You do not have to be an applicant. You do not have to be an expert. You have to be willing to say what you think, for it or against it, before the window closes.</p>
+      <div class="clock">
+        <span class="cn" id="daysLeft">--</span>
+        <span class="cl">days left to comment<br>deadline · July 9, 2026</span>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="https://www.federalregister.gov/documents/2026/06/09/2026-11513/schedule-of-fees-for-consular-services-department-of-state-and-overseas-embassies-and" target="_blank" rel="noopener">Read the rule · submit a comment</a>
+        <a class="btn btn-ghost" href="https://public-inspection.federalregister.gov/2026-11513.pdf" target="_blank" rel="noopener">See the original filing</a>
+      </div>
+      <div class="cta-fine">If the comment window has closed by the time you read this, the lever changes, not disappears: watch the December 31 sunset, and whether the fast lane is renewed, extended, or made permanent. That decision is the next place to weigh in. Infera is not legal, financial, or travel advice. We point you to the public process; the judgment is yours.</div>
+    </div>
+  </section>
+
+  <!-- WHY THIS NOTE EXISTS -->
+  <section class="read">
+    <p class="section-label">The standing promise</p>
+    <h2 class="sec">Why a fee gets a whole note</h2>
+    <p class="body">Because this is the work. The headlines take care of themselves. What we track is the layer underneath: the fees, findings, schedules, and sunset clauses where governance actually happens, before it hardens into news. Every day, our desk pulls the next day's federal rules off public inspection and asks of each one: who pays, who benefits, what changes, and when does it bite. Most are routine. Some, like this one, are a civic choice wearing the costume of an administrative fee.</p>
+    <p class="body">A line learning to sell its front is not a scandal. It might even be the right call. But it should be a decision someone made on purpose, in the open, with you able to weigh in, not a thing that simply happened because the document was boring enough that no one looked. Looking is the whole job. Now you have looked too.</p>
+  </section>
+
+  <!-- SOURCES -->
+  <section class="read sources">
+    <div class="src-k">Sources · current as of publication</div>
+    <ol>
+      <li>Federal Register, published rule, June 9, 2026: <a href="https://www.federalregister.gov/documents/2026/06/09/2026-11513/schedule-of-fees-for-consular-services-department-of-state-and-overseas-embassies-and" target="_blank" rel="noopener">Schedule of Fees for Consular Services, Visa and Citizenship Services Fee Changes (FR Doc 2026-11513)</a>. Temporary final rule, effective July 1, 2026 through December 31, 2026; comments due July 9, 2026. <span class="stamp-tag s-fact">FACT</span></li>
+      <li>Public inspection filing (original, June 8, 2026): <a href="https://public-inspection.federalregister.gov/2026-11513.pdf" target="_blank" rel="noopener">FR Doc 2026-11513 (PDF)</a>. <span class="stamp-tag s-fact">FACT</span></li>
+      <li>Infera Federal Register Public Inspection scan, June 9, 2026 (internal desk board); withdrawal check confirmed the rule published as filed. <span class="stamp-tag s-fact">FACT</span></li>
+      <li>Related thread: reported visa refusals for an Iranian World Cup delegation (single adversarial source, unconfirmed by US officials) sit in the same visa-leverage cycle as this fee rule. The pairing is thematic. <span class="stamp-tag s-reported">REPORTED</span></li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="note-footer">
+  <div class="fnav">
+    <a href="index.html">← Field Notes</a>
+    <a href="../index.html">Series Home</a>
+    <a href="06-announced-not-signed.html">Prev · № 06 Announced, Not Signed</a>
+    <a href="../legal.html">Legal · Privacy</a>
+    <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+  </div>
+  INFERA <span class="fdot">·</span> MECHANISM SERIES <span class="fdot">·</span> FIELD NOTE № 07 <span class="fdot">·</span> "THE FAST LANE" <span class="fdot">·</span> EVENING CLOSE 06.09.2026<br><br>
+  © 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com<br><br>
+  MAKE THE MACHINERY VISIBLE BEFORE THE HEADLINE HARDENS
+</footer>
+
+<script>
+  // ───────── Exhibit A: the queue ─────────
+  (function(){
+    const TOTAL = 24;
+    const YOU = 8;            // zero-indexed standard position 9
+    const PAYERS = [2,5,10,13,16,19];  // standard dots that defect to the paid lane when opened (never YOU)
+    const stdLane = document.getElementById('stdLane');
+    const paidLane = document.getElementById('paidLane');
+    const toggle = document.getElementById('laneToggle');
+    const readout = document.getElementById('readout');
+    let on = false;
+
+    function render(){
+      stdLane.innerHTML = ''; paidLane.innerHTML = '';
+      const payers = on ? PAYERS.slice() : [];
+      // paid lane
+      payers.forEach(() => {
+        const d = document.createElement('div');
+        d.className = 'dot-p dot-paid';
+        paidLane.appendChild(d);
+      });
+      if (!on) {
+        const ph = document.createElement('span');
+        ph.style.cssText = 'font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em;color:var(--ink-faint);text-transform:uppercase';
+        ph.textContent = 'empty · no paid lane';
+        paidLane.appendChild(ph);
+      }
+      // standard lane
+      let stdPos = 0, yourNewPos = 0;
+      for (let i = 0; i < TOTAL; i++){
+        if (payers.includes(i)) continue; // moved to paid lane
+        const d = document.createElement('div');
+        d.className = 'dot-p ' + (i === YOU ? 'dot-you' : 'dot-std');
+        stdLane.appendChild(d);
+        stdPos++;
+        if (i === YOU) yourNewPos = stdPos;
+      }
+      // effective wait = people seen before you = paid-lane count + your standard index
+      const ahead = (on ? PAYERS.length : 0) + (yourNewPos - 1);
+      readout.innerHTML = on
+        ? 'Your wait: <b>position ' + (ahead+1) + '</b> of 24 · ' + PAYERS.length + ' paid ahead'
+        : 'Your wait: <b>position 9</b> of 24';
+    }
+
+    function flip(){
+      on = !on;
+      toggle.classList.toggle('on', on);
+      toggle.setAttribute('aria-checked', on ? 'true' : 'false');
+      render();
+    }
+    toggle.addEventListener('click', flip);
+    toggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+    render();
+  })();
+
+  // ───────── Exhibit B: the ladder ─────────
+  document.querySelectorAll('#ladder .rung').forEach(rung => {
+    const act = () => rung.classList.toggle('open');
+    rung.addEventListener('click', act);
+    rung.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+  });
+
+  // ───────── Exhibit C: the tell ─────────
+  (function(){
+    const card = document.getElementById('tellCard');
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+  })();
+
+  // ───────── CTA countdown to July 9 ─────────
+  (function(){
+    const deadline = new Date('2026-07-09T23:59:59-04:00');
+    const now = new Date();
+    let d = Math.ceil((deadline - now) / 86400000);
+    const el = document.getElementById('daysLeft');
+    if (isNaN(d)) { el.textContent = '--'; return; }
+    if (d < 0) { el.textContent = '0'; el.nextElementSibling.innerHTML = 'comment window closed<br>watch the Dec 31 sunset'; }
+    else el.textContent = d;
+  })();
+</script>
+
+<!-- ============================================================ LEGAL FOOTER (site-wide protective block) -->
+<style id="infera-legal-footer">
+.legal-footer{
+  background:#06060a; color:rgba(168,162,152,.75);
+  font-family:'Inter', system-ui, sans-serif; font-size:11.5px; line-height:1.55;
+  padding:32px 6vw 36px;
+  border-top:1px solid rgba(168,162,152,.12);
+}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{
+  display:grid; grid-template-columns:1fr auto; gap:24px 32px;
+  padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08);
+  margin-bottom:14px;
+}
+.legal-footer .lf-brand{
+  font-family:'JetBrains Mono', ui-monospace, monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.legal-footer .lf-brand b{color:#c8ff1e; font-family:inherit; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; padding:3px 8px; border:1px solid rgba(168,162,152,.18); white-space:nowrap}
+.legal-footer .lf-disclaim{
+  font-size:11.5px; line-height:1.6; max-width:none; color:rgba(168,162,152,.62);
+}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+
+.legal-footer details.lf-more{margin-top:8px; padding:0}
+.legal-footer details.lf-more summary{
+  cursor:pointer; list-style:none;
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700;
+  display:inline-flex; align-items:center; gap:8px; padding:5px 0;
+}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+
+.legal-footer .lf-links{
+  display:flex; flex-wrap:wrap; gap:0 18px;
+  padding-top:14px; border-top:1px dashed rgba(168,162,152,.12);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+
+@media (max-width:780px){
+  .legal-footer .lf-top{grid-template-columns:1fr}
+  .legal-footer{padding:26px 5vw 30px; font-size:11px}
+}
+@media (prefers-reduced-motion: reduce){
+  .legal-footer details.lf-more summary::before{transition:none}
+}
+
+.legal-footer .lf-infra{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:10px 14px 12px; margin-bottom:14px;
+  background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:560px){
+  .legal-footer .lf-infra{font-size:9px; gap:8px; padding:8px 10px 10px}
+}
+</style>
+
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+      <nav class="lf-infra" aria-label="Infrastructure links">
+        <span class="lf-infra-lbl">More from Infera</span>
+        <a href="../systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+        <a href="../claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+        <a href="../case-file.html">Your Case File</a><span class="lf-sep">·</span>
+        <a href="../founding.html">Founding 500</a><span class="lf-sep">·</span>
+        <a href="../field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+        <a href="../index.html#about">About</a>
+      </nav>
+
+    <div class="lf-top">
+      <div class="lf-brand">
+        <span>© 2026 <b>Infera</b></span>
+        <span class="sep">·</span>
+        <span>All rights reserved</span>
+        <span class="sep">·</span>
+        <em>The Mechanism Series™</em>
+      </div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis &mdash; <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided &ldquo;as is&rdquo; without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> &ldquo;Infera,&rdquo; &ldquo;The Mechanism Series,&rdquo; and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis (echo dots, provenance layer, evidence mode, chapter rails, claims atlas format, systems atlas format) are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission &mdash; usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for persona memory, reading log, and evidence-mode preference &mdash; none transmitted. Subscriber emails stored at Buttondown. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with: (1) the copyrighted work, (2) the allegedly infringing URL, (3) your contact info, (4) good-faith statement, (5) statement under penalty of perjury, (6) your signature. Knowingly false DMCA notices may incur liability under 17 U.S.C. § 512(f). Counter-notices follow § 512(g).</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action arising from these terms shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Underwriters do not see episodes prior to publication. Editorial decisions are independent.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication. AI does not author episodes.</p>
+          <p style="margin-top:10px; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="../legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="../legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="../legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="../legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="../legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="../legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="../legal.html#unsubscribe">Unsubscribe</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+
+    <div class="lf-tail">
+      <em>Atlanta, GA · USA · v.2026.05</em>
+      <span>Last updated · 26 May 2026</span>
+    </div>
+  </div>
+</aside>
+
+</body>
+</html>
