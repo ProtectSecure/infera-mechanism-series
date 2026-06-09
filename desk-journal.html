@@ -320,12 +320,13 @@ nav.idx a.active{background:var(--gold);color:var(--ink);border-color:var(--ink)
    THE DATA. This is the only block future desk cycles edit.
    ════════════════════════════════════════════════════════════════ */
 const DESK = {
-  updated: "Mon Jun 8, 2026 · 01:20 ET",
-  cycle: "Overnight Desk · night of Sun 6/7 into Mon 6/8 · cycle 04",
-  stats: { changes: 5, alertNow: 1, tbaResolved: 0, exposureHits: 0 },
+  updated: "Tue Jun 9, 2026 · 10:55 ET",
+  cycle: "Overnight Desk · 6/8 into Tue 6/9 · cycle 05",
+  stats: { changes: 7, alertNow: 1, tbaResolved: 1, exposureHits: 0 },
   deadlines: [
+    { label: "CPI (May) print", note: "Wed Jun 10 · 08:30 ET", utc: Date.UTC(2026,5,10,12,30,0) },
+    { label: "SCOTUS opinion day", note: "Thu Jun 11 · 10:00 ET", utc: Date.UTC(2026,5,11,14,0,0) },
     { label: "FISA §702 lapse", note: "Fri Jun 12 · 00:00 ET", utc: Date.UTC(2026,5,12,4,0,0) },
-    { label: "Trump at NBA Finals · MSG", note: "Mon Jun 8 · 20:30 ET", utc: Date.UTC(2026,5,9,0,30,0) },
     { label: "GA lt-gov runoff", note: "Tue Jun 16", utc: Date.UTC(2026,5,16,11,0,0) }
   ],
   threads: [
@@ -340,18 +341,20 @@ const DESK = {
       {date:"Jun 7", cycle:"Overnight Desk", grav:90, cls:"ESCALATION · ALERT", conf:"FACT", alert:true,
        text:"Iran fires 7 ballistic missiles at US bases in Kuwait and Bahrain, 6 intercepted per CENTCOM. Six drones downed over two days. Correction: the Kharg oil-terminal strike is unconfirmed, downgraded to WATCH, likely conflation with the Jun 2 tanker interdiction."},
       {date:"Jun 8", cycle:"Overnight Desk", grav:88, cls:"UPDATED · ALERT", conf:"FACT", alert:true,
-       text:"No new confirmed kinetic event in the overnight window. The exchange holds bidirectional. New: Pakistan's interior minister visits Tehran for talks with FM Araghchi, reopening the channel that produced the April ceasefire. A Khamenei adviser ties resumption to unfreezing Iranian assets, linking this thread to B09. Gravity eases 90 to 88 on the mediation reopening."}
+       text:"No new confirmed kinetic event in the overnight window. The exchange holds bidirectional. New: Pakistan's interior minister visits Tehran for talks with FM Araghchi, reopening the channel that produced the April ceasefire. A Khamenei adviser ties resumption to unfreezing Iranian assets, linking this thread to B09. Gravity eases 90 to 88 on the mediation reopening."},
+      {date:"Jun 9", cycle:"Overnight Desk", grav:80, cls:"DE-ESCALATION · ALERT", conf:"REPORTED", alert:true,
+       text:"After the heaviest exchange since April on 6/7-6/8, Israel and Iran agree to halt attacks against each other. REPORTED, not FACT, and still unsigned. A US Army Apache goes down near the Strait of Hormuz on 6/9, both crew safe, cause unconfirmed. Trump says a deal could be signed in two or three days. The US-Iran blockade is unchanged and the $24B asset release is now the named price. Gravity eases 88 to 80 on the mutual halt, offset by the Apache incident."}
     ],
     now:{
-      grav:88, status:"ALERT NOW", conf:"FACT",
-      text:"The exchange holds bidirectional with no fresh strike overnight. IRGC says it targeted Ali Al Salem air base and 5th Fleet HQ, damage claims called false by CENTCOM. Both sides still accuse the other of violating the April ceasefire and the 60-day extension sits unsigned. REPORTED: Pakistan's interior minister visited Tehran and a Khamenei adviser calls talks deadlocked, the ball in Trump's court, tying resumption to an asset unfreeze.",
-      read:"The mediation channel that produced the April ceasefire has reopened through Islamabad, the same broker as before. The pause in kinetic action overnight eases the score one notch, but the structure is unchanged: open exchange, on the record, at the world's most important oil chokepoint, with the diplomatic price now named out loud.",
-      watch:["CENTCOM / DoD readouts","Pakistan-mediated talks readout (Araghchi)","UNSC emergency-session request (Feb 28 precedent)","Senate WPR floor scheduling (case B11)","Tanker war-risk premia, GCC statements","Asset-unfreeze as the explicit talks condition (case B09)"]
+      grav:80, status:"ALERT NOW · COOLING", conf:"REPORTED",
+      text:"Israel and Iran have agreed to halt attacks against each other after the worst exchange since the April ceasefire. REPORTED, not FACT, resting on each side's own statements and still unsigned, consistent with the announced-not-signed pattern. A US Army Apache went down near the Strait of Hormuz on 6/9 with both crew safe and the cause unconfirmed, do not assert a hostile downing. Trump says there is a good chance of signing a deal in two or three days. The dual US-Iran blockade is unchanged and Iran's negotiator vows to defeat it.",
+      read:"The vector flipped from escalation to de-escalation, but on a mutual halt neither capital has signed and a fresh, unexplained Apache loss sits in the middle of it. The kinetic Israel-Iran axis cooled while the US-Iran blockade axis did not. The score eases to 80, the lowest since the kinetic series began, and the thread stays top of the board until a text exists or the Apache cause is known.",
+      watch:["CENTCOM / DoD readout on the 6/9 Apache, cause","A signed ceasefire text inside Trump's two-to-three-day window","Pakistan-mediated track readout (Araghchi)","Whether the $24B unfreeze becomes a written deal term (case B09)","Strait blockade incidents, tanker war-risk premia"]
     },
     paths:[
-      {band:"LIKELY", name:"Mediated pause holds", text:"The Pakistan channel buys a quiet window, kinetic action stays paused while the asset-unfreeze price is negotiated. Neither a deal nor a return to fire.", trig:"Araghchi or Islamabad readout, 48 hours quiet on the wires"},
-      {band:"OPEN", name:"Extension signs", text:"Both capitals step back, the 60-day ceasefire extension gets signed and a new nuclear round opens, likely paired with a partial asset gesture.", trig:"Joint statement out of the Pakistan-mediated track"},
-      {band:"TAIL", name:"Export infrastructure hit", text:"A confirmed strike on Kharg oil infrastructure or a Hormuz closure attempt. New target class, oil reprices non-linearly, UNSC convenes within 24 hours.", trig:"Tanker-tracking gap at Kharg, war-risk premium spike"}
+      {band:"LIKELY", name:"Halt holds, no signature yet", text:"Kinetic action stays paused on the Israel-Iran axis while the $24B asset fight keeps a signed text out of reach. A trade-able pause, not a deal.", trig:"48 hours quiet on the wires, no joint text by Fri 6/12"},
+      {band:"OPEN", name:"Deal signs in the window", text:"Trump's two-to-three-day window holds, a written ceasefire or extension lands, the blockade eases in phases likely paired with a partial asset gesture.", trig:"WH or joint signing readout"},
+      {band:"TAIL", name:"Blockade incident re-arms it", text:"The Apache cause turns out hostile, or a new Strait clash lands. The de-escalation reverses, oil reprices, the Feb 28 UNSC script re-arms.", trig:"CENTCOM confirms hostile fire, or a new kinetic event at the Strait"}
     ]
   },
   {
@@ -365,18 +368,20 @@ const DESK = {
       {date:"Jun 7", cycle:"Overnight Desk", grav:72, cls:"CARRIED", conf:"FACT", alert:false,
        text:"No weekend motion detected. The Durbin-Lee SAFE Act, warrant requirement with emergency exceptions, is the live bipartisan vehicle."},
       {date:"Jun 8", cycle:"Overnight Desk", grav:72, cls:"CARRIED · NEW RUN SIGNALED", conf:"FACT", alert:false,
-       text:"Majority Leader Thune says the Senate will take another run at it this week. Monday opens the live floor window with four days to the lapse. The Pulte-DNI protest still entangles the Democratic count."}
+       text:"Majority Leader Thune says the Senate will take another run at it this week. Monday opens the live floor window with four days to the lapse. The Pulte-DNI protest still entangles the Democratic count."},
+      {date:"Jun 9", cycle:"Overnight Desk", grav:72, cls:"CARRIED · 3 DAYS OUT", conf:"FACT", alert:false,
+       text:"The 47-52 cloture failure still stands and no new motion was locked at run time. Three days to the Jun 12 lapse. The window to file and ripen a fresh cloture motion is closing fast."}
     ],
     now:{
-      grav:72, status:"COUNTDOWN · 4 DAYS", conf:"FACT",
-      text:"Constitutional surveillance authority lapses Friday Jun 12 at midnight without action. Thune has signaled a fresh attempt this week and Monday is the live floor window. The Pulte protest still entangles the Democratic count.",
-      read:"A rare double squeeze: civil-liberties Republicans and appointment-protest Democrats blocking from opposite directions, with a hard statutory clock behind them. Watch for a declassification timed to move votes.",
-      watch:["Senate floor schedule this week","SAFE Act amendment talks","House posture pre-6/12","ODNI declassification surface"]
+      grav:72, status:"COUNTDOWN · 3 DAYS", conf:"FACT",
+      text:"Constitutional surveillance authority lapses Friday Jun 12 at midnight without action. Thune signaled a fresh attempt and the floor window is open, but no new motion was locked at run time and the 47-52 failure stands. The Pulte protest still entangles the Democratic count.",
+      read:"A rare double squeeze: civil-liberties Republicans and appointment-protest Democrats blocking from opposite directions, with a hard statutory clock behind them. With three days left the procedural runway is short. Watch for a declassification timed to move votes.",
+      watch:["A new cloture motion filed this week","SAFE Act amendment talks","House posture pre-6/12","ODNI declassification surface"]
     },
     paths:[
-      {band:"LIKELY", name:"Short-term extension at the wire", text:"The April playbook repeats: a clean weeks-long extension passes within 48 hours of the deadline.", trig:"Leadership files a new cloture motion Mon or Tue"},
+      {band:"LIKELY", name:"Short-term extension at the wire", text:"The April playbook repeats: a clean weeks-long extension passes within 48 hours of the deadline.", trig:"Leadership files a new cloture motion Tue or Wed"},
       {band:"OPEN", name:"SAFE Act deal", text:"Warrant-requirement compromise gets floor time and ships to the House before Friday. Reform wins the hostage standoff.", trig:"Durbin-Lee joint statement, UC agreement"},
-      {band:"TAIL", name:"Authority lapses", text:"702 goes dark June 12. Existing certifications limp on under transition procedures while both parties blame each other.", trig:"No motion filed by Wed Jun 10"}
+      {band:"TAIL", name:"Authority lapses", text:"702 goes dark June 12. Existing certifications limp on under transition procedures while both parties blame each other.", trig:"No motion filed by Thu Jun 11"}
     ]
   },
   {
@@ -390,16 +395,18 @@ const DESK = {
       {date:"Jun 7", cycle:"Overnight Desk", grav:60, cls:"PROMOTED TO ROW", conf:"FACT", alert:false,
        text:"The weekend missile exchange at Kuwait and Bahrain strengthens the Senate count argument. Kaine's privileged resolution must be considered."},
       {date:"Jun 8", cycle:"Overnight Desk", grav:60, cls:"CARRIED · CITATION FIXED", conf:"FACT", alert:false,
-       text:"Citation correction: the Senate privileged vehicle of record is S.J.Res.59 (119th Congress), not S.J.Res.193 as prior cycles carried. The final Senate floor vote is still NOT scheduled. Kaine, Schumer and Schiff are pushing for floor time."}
+       text:"Citation correction: the Senate privileged vehicle of record is S.J.Res.59 (119th Congress), not S.J.Res.193 as prior cycles carried. The final Senate floor vote is still NOT scheduled. Kaine, Schumer and Schiff are pushing for floor time."},
+      {date:"Jun 9", cycle:"Overnight Desk", grav:60, cls:"CARRIED · CITATION WATCH", conf:"FACT", alert:false,
+       text:"Final Senate floor vote still not scheduled. New citation WATCH: S.J.Res.104 surfaces on Congress.gov as a parallel Iran War Powers vehicle alongside S.J.Res.59, carry both pending a clean confirm of the privileged vehicle of record. The earlier Senate discharge ran 50-47 (Paul, Collins, Cassidy, Murkowski plus Democrats)."}
     ],
     now:{
       grav:60, status:"PENDING SENATE", conf:"FACT",
-      text:"Kaine's privileged resolution S.J.Res.59 forces Senate consideration, but leadership has not scheduled the final floor vote. An active kinetic series with no new AUMF is the textbook WPR trigger, and the House has already moved 215 to 208.",
-      read:"The veto endgame is likely, but the vote itself is the story: every senator goes on the record about an active exchange with Iran during an election year. The variable the 2020 precedent cannot price is the GOP defection count after missiles hit GCC hosts.",
-      watch:["Senate floor scheduling this week","Veto threat language from the WH","GOP defection count after Kuwait/Bahrain"]
+      text:"Kaine's privileged resolution S.J.Res.59 forces Senate consideration, but leadership has not scheduled the final floor vote. A parallel vehicle, S.J.Res.104, also appears on Congress.gov, carry both pending a clean confirm. An active kinetic series with no new AUMF is the textbook WPR trigger, and the House has already moved 215 to 208.",
+      read:"The veto endgame is likely, but the vote itself is the story: every senator goes on the record about an active exchange with Iran during an election year. The de-escalation gives leadership a fresh reason to keep the floor vote parked. The variable the 2020 precedent cannot price is the GOP defection count after missiles hit GCC hosts.",
+      watch:["Senate floor scheduling this week","Which vehicle moves, S.J.Res.59 or S.J.Res.104","Veto threat language from the WH","GOP defection count after Kuwait/Bahrain"]
     },
     paths:[
-      {band:"LIKELY", name:"Senate passes, veto follows", text:"The 2020 pattern: both chambers pass, the President vetoes, override fails, the record stands.", trig:"Floor time announced for S.J.Res.193"},
+      {band:"LIKELY", name:"Senate passes, veto follows", text:"The 2020 pattern: both chambers pass, the President vetoes, override fails, the record stands.", trig:"Floor time announced for S.J.Res.59"},
       {band:"OPEN", name:"Leadership slow-walks", text:"Procedural delays push the privileged vote behind the 702 fight. The WPR becomes leverage in the surveillance negotiation.", trig:"702 motion scheduled first"},
       {band:"TAIL", name:"Override becomes thinkable", text:"A major escalation (US casualties, Kharg confirmed) moves 15+ Republicans. Constitutional collision in an election year.", trig:"Casualty report or export-infrastructure strike"}
     ]
@@ -415,42 +422,28 @@ const DESK = {
       {date:"Jun 7", cycle:"Overnight Desk", grav:55, cls:"TRIPWIRE ARMED", conf:"n/a", alert:false,
        text:"Timing fixed: 18:00 ET, futures and Asia open onto a weekend that added a ballistic-missile exchange. LIKELY path prewritten as crude up, chips heavy."},
       {date:"Jun 8", cycle:"Overnight Desk", grav:58, cls:"TRIPWIRE FIRED", conf:"FACT", alert:false,
-       text:"The reprice landed and the LIKELY branch is the one that hit. Brent gapped up about 4.9% to roughly $97.68, rebounding from a two-session decline. OPEC+ had added 188k b/d to July quotas into the same risk. The crude-up half of the prewritten path is FACT."}
+       text:"The reprice landed and the LIKELY branch is the one that hit. Brent gapped up about 4.9% to roughly $97.68, rebounding from a two-session decline. OPEC+ had added 188k b/d to July quotas into the same risk. The crude-up half of the prewritten path is FACT."},
+      {date:"Jun 9", cycle:"Overnight Desk", grav:50, cls:"REVERSED · REATTRIBUTED", conf:"FACT", alert:false,
+       text:"Monday's gap-up unwound. Brent fell below $90 on Tuesday as Israel and Iran agreed to halt attacks, reversing the crude-up move inside a day. Separately, memory names cratered (Micron -13.25%, SanDisk -11.39%, largest single-day since the US-China trade war) on an Nvidia memory-config rumor, an idiosyncratic driver, NOT the Gulf. The chips-heavy half looked like the prewritten path but had a different cause."}
     ],
     now:{
-      grav:58, status:"FIRED · LIKELY PATH", conf:"FACT",
-      text:"The Sunday-night tripwire fired as scripted. Brent gapped up about 4.9% to roughly $97.68 at the Monday open, rebounding from a two-session decline, on the Gulf exchange and the near-closure of the Strait of Hormuz. OPEC+ added 188k b/d for July into the same risk. The open question now is AI-complex follow-through at the US cash open.",
-      read:"Infera prewrote crude-up, chips-heavy as the LIKELY branch and that is the one that landed. The energy half is confirmed. The capex half is still resolving, so the thread stays live until the US cash session prints whether semis follow oil or decouple.",
-      watch:["Brent intraday hold above $97","Mega-cap AI names at the US cash open","Tanker insurance prints","OPEC+ supply commentary"]
+      grav:50, status:"UNWOUND · REATTRIBUTED", conf:"FACT",
+      text:"Monday's crude-up tripwire reversed. Brent fell below $90 Tuesday on the Israel-Iran mutual halt, unwinding the ~$97.68 gap-up inside a day. Memory and chip names sold off hard the same session (Micron -13.25%, SanDisk -11.39%), but the driver was an Nvidia memory-config rumor, not the Gulf. The two right-looking moves had the wrong causes for the prewritten thesis.",
+      read:"This is the calibration lesson in real time: the LIKELY branch read as confirmed Monday, then crude reversed on de-escalation and the chip drawdown turned out to be an idiosyncratic rumor. A path that prints as predicted is not always proof the mechanism held. The thread cools to 50 and the lesson goes to the Echo Chamber.",
+      watch:["Brent holding sub-$92 on the halt","Whether memory names keep falling on demand signals vs the rumor","Tanker insurance prints","CPI energy contribution Wed 6/10 (case B12)"]
     },
     paths:[
-      {band:"LIKELY", name:"Risk-off carries the week", text:"Crude holds the gap, semis stay heavy, the two stories feed each other into a risk-off week.", trig:"Brent holds +3% or more through the US session"},
-      {band:"OPEN", name:"Energy-only move", text:"Oil stays bid on the chokepoint while dip buyers reclaim the AI complex. The selloff narrows to a pure energy story.", trig:"SOX names green at the US open"},
-      {band:"TAIL", name:"Disorderly leg", text:"A new strike or a Hormuz closure attempt lands mid-session. Gap extends, circuit-breaker conversation returns.", trig:"CENTCOM or IRGC action during market hours"}
+      {band:"LIKELY", name:"De-escalation unwinds the premium", text:"The halt holds, crude bleeds the war premium, the energy story deflates to a slow grind.", trig:"Brent stays sub-$92 through the week"},
+      {band:"OPEN", name:"Chip story decouples downward", text:"Memory weakness runs on its own demand and pricing signals, independent of the Gulf, dragging the complex regardless of oil.", trig:"Further memory guidance cuts or Nvidia confirmation"},
+      {band:"TAIL", name:"Re-escalation snaps crude back", text:"The Apache cause turns hostile or a new Strait incident lands and crude re-gaps, re-coupling energy and risk.", trig:"CENTCOM hostile-fire confirmation or new kinetic event"}
     ]
   },
   {
-    id:"B08", featured:true, beat:"Executive visibility",
-    title:"Trump's week: quiet Sunday, loud Monday",
-    history:[
-      {date:"Jun 6", cycle:"Overnight Desk", grav:20, cls:"TBA / UNRESOLVED", conf:"WATCH", alert:false,
-       text:"No confirmed public events at run time. Weekend Bedminster travel pattern plausible but unconfirmed."},
-      {date:"Jun 7", cycle:"Midnight push", grav:52, cls:"TBA RESOLVED", conf:"REPORTED", alert:false,
-       text:"Factba.se midnight push resolves both days. Sunday: Bedminster only, executive time, no public events. Monday: tele-rally, then the NBA Finals at Madison Square Garden, in-town pool, return to the WH after."},
-      {date:"Jun 8", cycle:"Overnight Desk", grav:52, cls:"FIRMED · MULTI-SOURCE", conf:"REPORTED", alert:false,
-       text:"Now multi-source (NBA.com, CNN, CBS), not T4 alone. Game 3, Knicks vs Spurs, at MSG around 20:30 ET, with a hard security closure of the arena and an all-bag ban. He would be the first sitting president at an NBA Finals game. Confirm timing against WH guidance Monday."}
-    ],
-    now:{
-      grav:52, status:"MONDAY NIGHT", conf:"REPORTED",
-      text:"A high-visibility presidential appearance at a national broadcast event during an active Gulf exchange. Now firmed to Game 3, Knicks vs Spurs, at Madison Square Garden around 20:30 ET, with a hard security closure and an all-bag ban. First sitting president at an NBA Finals game. Reporting is multi-source, still confirm exact timing against WH guidance.",
-      read:"Split-screen risk is the story: the NBA Finals crowd shot against Gulf wire copy. Any courtside Iran statement becomes the night's clip before the game ends, and the security footprint itself is a secondary story.",
-      watch:["WH guidance Monday morning","Pool reports from MSG","Arena reaction clips","Any courtside or pre-game Iran statement"]
-    },
-    paths:[
-      {band:"LIKELY", name:"Appearance goes ahead", text:"The Game 3 visit happens as scheduled, a spectacle-politics beat with crowd-reaction coverage either way.", trig:"WH guidance confirms Monday AM"},
-      {band:"OPEN", name:"News made courtside", text:"An Iran statement or major announcement from MSG resets the Monday night cycle on the President's terms.", trig:"Pool note of planned remarks"},
-      {band:"TAIL", name:"Schedule slips", text:"A Gulf escalation pulls the President back to Washington and the empty seat becomes its own story.", trig:"New CENTCOM action Monday afternoon"}
-    ]
+    id:"B08", featured:false, beat:"Executive visibility",
+    title:"Trump at MSG Game 3, resolved",
+    grav:30, conf:"FACT",
+    hist:"Jun 6 TBA -> Jun 7 resolved -> Jun 8 firmed multi-source -> Jun 8 attended Game 3 Knicks-Spurs, booed during the anthem, first sitting president at an NBA Finals game.",
+    next:"Spent as a scheduled event. Residual is any courtside Iran remark resurfacing in coverage. Closed into history."
   },
   {
     id:"B09", featured:true, beat:"Treasury · financial statecraft",
@@ -459,13 +452,15 @@ const DESK = {
       {date:"Jun 7", cycle:"Overnight Desk", grav:55, cls:"NEW EVENT", conf:"REPORTED", alert:false,
        text:"First appearance on the board: the US will make frozen Iranian assets available to Gulf allies for rebuilding, with Bessent directing a damage-cost assessment. Single-outlet sourcing, no Treasury release yet."},
       {date:"Jun 8", cycle:"Overnight Desk", grav:55, cls:"CARRIED · NOW THE TALKS PRICE", conf:"REPORTED", alert:false,
-       text:"A Khamenei adviser explicitly ties resumption of talks to unfreezing billions in Iranian assets (CNN). The two sides are now mirror-imaged on the same pile of money: the US points it at Gulf rebuilding, Iran demands it back as the price of negotiating. This thread is now entangled with B01."}
+       text:"A Khamenei adviser explicitly ties resumption of talks to unfreezing billions in Iranian assets (CNN). The two sides are now mirror-imaged on the same pile of money: the US points it at Gulf rebuilding, Iran demands it back as the price of negotiating. This thread is now entangled with B01."},
+      {date:"Jun 9", cycle:"Overnight Desk", grav:58, cls:"SHARPENED · THE DEALBREAKER", conf:"REPORTED", alert:false,
+       text:"The figure is now explicit: about $24B. A Bessent directive dated 6/6 invokes all available authorities to assess Gulf war damage and steer the frozen assets to Kuwait, Bahrain and the UAE for repairs. Talks are reported bogged down over Tehran's insistence the same $24B be released to Iran. Related dated OFAC action: the IRGC Persian Gulf Strait Authority toll regime was added to the SDN list 5/28, though that is not the asset-redirect instrument. Gravity ticks 55 to 58."}
     ],
     now:{
-      grav:55, status:"THE TALKS PRICE", conf:"REPORTED",
-      text:"A financial-statecraft thread now sitting at the center of the diplomatic one. The US would point frozen Iranian assets at Gulf rebuilding while Iran demands the same assets unfrozen as the price of talks. Legal basis and mechanics still unspecified, no Treasury or OFAC instrument yet.",
-      read:"The Afghan DAB precedent says this is slow, litigated, and symbolic long before money moves. But the two demands now collide on the same assets, which makes the money the bargaining chip rather than a side issue. Whoever moves first on a legal instrument sets the frame.",
-      watch:["Treasury press page","OFAC notices","Iranian response in the Pakistan-mediated track","GCC confirmations"]
+      grav:58, status:"THE DEALBREAKER", conf:"REPORTED",
+      text:"The financial-statecraft thread is now the explicit obstacle to the diplomatic one. About $24B is the contested sum. A Bessent directive dated 6/6 would point those frozen assets at Gulf rebuilding under all available authorities, while Iran demands the same $24B released as the price of talks. The redirect has no legal instrument yet, though a related OFAC SDN designation (IRGC Persian Gulf Strait Authority, 5/28) shows Treasury is already operating in the space.",
+      read:"The Afghan DAB precedent says this is slow, litigated, and symbolic long before money moves. But the two demands now collide on the same $24B, which makes the money the bargaining chip rather than a side issue, and the de-escalation only sharpens it. Whoever moves first on a legal instrument sets the frame.",
+      watch:["Treasury press page, OFAC notices","Whether a redirect instrument or license appears","Iranian response in the Pakistan-mediated track","GCC damage-estimate confirmations"]
     },
     paths:[
       {band:"OPEN", name:"OFAC gives it legal form", text:"A notice or license framework appears and the mechanism becomes real policy with a paper trail.", trig:"Treasury / OFAC posting"},
@@ -478,7 +473,9 @@ const DESK = {
     title:"World Cup visas, 15 refused",
     history:[
       {date:"Jun 7", cycle:"Overnight Desk", grav:45, cls:"NEW EVENT", conf:"REPORTED", alert:false,
-       text:"First appearance: the US refuses visas to 15 members of Iran's 2026 World Cup delegation, per Iranian state media. No US confirmation."}
+       text:"First appearance: the US refuses visas to 15 members of Iran's 2026 World Cup delegation, per Iranian state media. No US confirmation."},
+      {date:"Jun 9", cycle:"Overnight Desk", grav:45, cls:"CARRIED · UNCONFIRMED", conf:"REPORTED", alert:false,
+       text:"Still adversarial-state-sourced with no US confirmation. The de-escalation could soften it or the visa refusal could become the standing irritant the calendar cannot move."}
     ],
     now:{
       grav:45, status:"NEW THREAD", conf:"REPORTED",
@@ -492,27 +489,46 @@ const DESK = {
       {band:"TAIL", name:"Iran withdraws", text:"Tehran pulls the team in protest and the tournament inherits the war's symbolism.", trig:"Iranian federation statement"}
     ]
   },
+  {
+    id:"B12", featured:true, beat:"Macro · the price level",
+    title:"CPI eve, the first energy-spike print",
+    history:[
+      {date:"Jun 9", cycle:"Overnight Desk", grav:62, cls:"NEW · PREWRITE ARMED", conf:"FACT", alert:false,
+       text:"Promoted to a featured thread on CPI eve. The May print lands Wed 6/10 at 8:30 AM ET. Consensus is a hot headline, about +0.5% month over month and 4.2% year over year, the highest since April 2023 per BofA, with core around +0.3% and 2.9%. The named drivers are the war's energy spike, with retail gasoline up roughly 9% month over month, and a second wave of tariff pass-through in apparel, furniture and IT."}
+    ],
+    now:{
+      grav:62, status:"LANDS WED 6/10 · 08:30 ET", conf:"FACT",
+      text:"The May CPI is the first inflation print to carry the war's energy spike in full, and the last major read before the next FOMC. Consensus headline is about +0.5% month over month and 4.2% year over year, the highest since April 2023, with core near +0.3% and 2.9%. Watched components: the energy and gasoline contribution, shelter, and a second tariff pass-through wave in core goods.",
+      read:"The forecast is REPORTED, the 8:30 release time is FACT, and the branches are prewritten. The useful split is headline versus core: a hot headline driven by gasoline is the war showing up in the data, while a hot core is the durable, harder-to-unwind story. Markets that read the core rather than the headline will be better positioned, the same lesson the B03 reversal taught a day early.",
+      watch:["BLS release 6/10 8:30 ET","Headline vs core split","Energy and gasoline contribution","Shelter and core-goods tariff pass-through","Rates and Fed-path reaction"]
+    },
+    paths:[
+      {band:"LIKELY", name:"Hot headline, sticky core", text:"Headline prints at or above 4.2% on gasoline while core holds near 2.9%. The war is visible, the trend is not yet broken.", trig:"Headline 4.2% or higher, core in line"},
+      {band:"OPEN", name:"Energy-only spike", text:"Headline runs hot but core comes in soft, framing the move as a contained energy shock the Fed can look through.", trig:"Core at or below 0.3% m/m"},
+      {band:"TAIL", name:"Broad reacceleration", text:"Core surprises to the upside on tariffs plus services, reviving the renewed-inflation thesis and repricing the Fed path.", trig:"Core above 0.4% m/m"}
+    ]
+  },
   /* ── background radiation: compact, not featured ── */
   {
     id:"B05", featured:false, beat:"Executive orders",
     title:"Schedule Policy/Career EO, about 8,000 positions",
     grav:48, conf:"FACT",
-    hist:"Jun 3 signed → Jun 6 no new EO → Jun 7 carried. Litigation exposure live.",
+    hist:"Jun 3 signed -> Jun 6 no new EO -> Jun 9 carried, litigation exposure live.",
     next:"Union and legal challenges, Federal Register publication, OPM guidance."
   },
   {
     id:"B06", featured:false, beat:"Georgia beat",
     title:"Lt-gov runoff, June 16",
     grav:45, conf:"FACT",
-    hist:"Primary cycle → runoff set → Jun 8: eight days out, ad-buy window.",
+    hist:"Primary cycle -> runoff set -> Jun 8 eight days out -> Jun 9 seven days out, ad-buy window.",
     next:"Ad buys, early-vote signals, county election board notices."
   },
   {
     id:"B07", featured:false, beat:"SCOTUS",
-    title:"June opinion watch, Tue/Thu cadence",
-    grav:25, conf:"n/a",
-    hist:"Jun 2 Alabama map emergency grant (6-3) → Jun 6-8 weekend quiet, no new emergency orders.",
-    next:"Opinion prep for Tue 6/9 and Thu 6/11. Any Iran, WPR, or 702-linked application."
+    title:"June opinion watch, Thu cadence",
+    grav:28, conf:"n/a",
+    hist:"Jun 2 Alabama map emergency grant (6-3) -> weekend quiet -> Jun 9 no opinion day; next handed-down day Thu 6/11 10:00 ET.",
+    next:"Thu 6/11 opinion day, 23 opinions outstanding including Trump v. Barbara (birthright), Watson v. RNC (mail ballots), Mullin v. Doe (TPS)."
   },
   {
     id:"B04", featured:false, beat:"Presidential schedule",
@@ -524,11 +540,12 @@ const DESK = {
   ],
   radar:{
     hits:0,
-    quiet:["PACER / CourtListener / RECAP: no unsealing transitions, no new weekend SCOTUS emergency order (latest grant remains the 6/2 Alabama map stay)","Federal Register Public Inspection: Monday preview thin at run time, re-poll on Morning Lock","NARA NDC: quiet"],
+    quiet:["PACER / CourtListener / RECAP: no unsealing transitions, no new SCOTUS emergency order since the 6/2 Alabama map stay","Federal Register: three flagged items publish 6/9 as scheduled (consular-fee schedule, DHS/HHS IIRIRA determination, NCUA preemption rule), scheduled publications not exposures","OFAC: the IRGC Persian Gulf Strait Authority SDN designation (5/28) is already public, no new asset-redirect instrument posted","NARA NDC and FOIA reading rooms: quiet"],
     prepoll:[
-      ["ODNI / Intel.gov","A §702 declassification timed to the Jun 12 lapse fight is the likeliest document surface to move first"],
-      ["DoD pressroom","War Powers 48-hour report obligation after the radar strikes and missile exchange"],
-      ["Treasury / OFAC","Any notice giving legal form to the frozen-assets move (case B09), now the named talks price"]
+      ["BLS","CPI (May) embargo lifts 6/10 at 8:30 ET, the next scheduled data exposure (case B12)"],
+      ["DoD pressroom","War Powers 48-hour report and a cause readout on the 6/9 Apache near the Strait of Hormuz"],
+      ["ODNI / Intel.gov","A §702 declassification timed to the Jun 12 lapse fight is still a likely document surface"],
+      ["Treasury / OFAC","Any notice giving legal form to the $24B asset move (case B09)"]
     ]
   },
   /* echoes: history rhyming with tonight. kinds:
@@ -537,21 +554,25 @@ const DESK = {
      ARTIFACT (an echo that produced a false signal)
      CALIBRATION (the desk's own past error, echoing as a lesson) */
   echoes:[
-    {kind:"PRECEDENT", now:{thread:"B01", text:"The same five-member trigger is armed tonight. If a session request lands this weekend, the Feb 28 script says it convenes within hours."},
+    {kind:"PRECEDENT", now:{thread:"B01", text:"A mutual halt is on the wire, but the same five-member trigger stays armed. A single new incident, like the 6/9 Apache loss turning out hostile, could re-arm the Feb 28 script within hours."},
      then:{date:"FEB 28, 2026", text:"Within hours of the US-Israeli strikes on Iran, five Security Council members (Bahrain, France, Russia, China, Colombia) forced an emergency UNSC session. Guterres warned of a chain of events nobody can control."}},
-    {kind:"PATTERN", now:{thread:"B01", text:"Jun 6-7 repeats the target set exactly: Ali Al Salem and 5th Fleet HQ. GCC statement language is the tell for how much escalation the hosts will tolerate."},
+    {kind:"PATTERN", now:{thread:"B01", text:"The March pattern repeated. Jun 7-8 was the heaviest exchange since April, then both sides halted. Gulf hosts absorbed the fire and talks survived, exactly as the spring volleys resolved."},
      then:{date:"MAR 2026", text:"Iran's missile volleys at Kuwait airport and Bahrain drew a GCC-EU extraordinary ministerial and joint condemnation. Gulf hosts absorbed the fire, talks survived."}},
-    {kind:"ARTIFACT", now:{thread:"B01", text:"Sharpened this cycle. The confirmed Kharg strikes (Mar 14, 90+ targets; Apr 7, 50+ targets) hit military sites and PRESERVED oil infrastructure; Iran says no oil-infra damage. The Jun 6 single-source oil-TERMINAL strike conflated those with the Jun 2 tanker interdiction. Three real events, echoed as one false one. Oil-terminal element stays WATCH."},
+    {kind:"ARTIFACT", now:{thread:"B01", text:"Still standing. The confirmed Kharg strikes (Mar 14, 90+ targets; Apr 7, 50+ targets) hit military sites and PRESERVED oil infrastructure; Iran says no oil-infra damage. The Jun 6 single-source oil-TERMINAL strike conflated those with the Jun 2 tanker interdiction. Three real events, echoed as one false one. Oil-terminal element stays WATCH."},
      then:{date:"JUN 2, 2026", text:"A Hellfire from a US fighter disabled a tanker heading for Kharg Island after it ignored blockade warnings. FACT, per CENTCOM. The confirmed Mar/Apr strikes were on military targets, not the oil terminal."}},
-    {kind:"PATTERN", now:{thread:"B03", text:"The pattern held to the letter. The prewritten LIKELY branch, crude up and chips heavy, is the one that fired: Brent +~4.9% to ~$97.68 at the Monday open. The Sunday-gap reprice behaved exactly as the precedent predicted."},
+    {kind:"ARTIFACT", now:{thread:"B03", text:"New this cycle. The prewritten crude-up, chips-heavy path read as confirmed Monday, then both halves dissolved: Brent reversed below $90 Tuesday on the mutual halt, and the chip crash (Micron -13.25%, SanDisk -11.39%) was an Nvidia memory-config rumor, not the Gulf. A path can print as predicted and still be the wrong mechanism. Confirm cause, not just direction."},
+     then:{date:"JUN 8-9, 2026", text:"Monday gapped Brent up ~4.9% to ~$97.68 on the Gulf exchange; the Sunday-gap PATTERN fired true. By Tuesday the de-escalation unwound the move and an idiosyncratic chip rumor carried the equity leg. Two right-looking moves, two wrong-for-the-thesis causes."}},
+    {kind:"PATTERN", now:{thread:"B03", text:"The Sunday-gap mechanic itself held: crude gapped up at the Monday open before the cash session could react. The structure is real even though this week's follow-through then unwound on diplomacy."},
      then:{date:"PRIOR HORMUZ SUNDAYS", text:"Past Hormuz-escalation weekends gapped crude up at the Sunday-night open before the cash session could react. The deferred-reprice mechanic is a recurring market structure, not a one-off."}},
-    {kind:"CALIBRATION", now:{thread:"B01", text:"Lesson still standing: chokepoint watches carry an escalation premium. Applied this cycle in reverse too, the desk eased B01 90 to 88 on a real mediation reopening rather than holding a stale high."},
+    {kind:"CALIBRATION", now:{thread:"B01", text:"Lesson still standing: chokepoint watches carry an escalation premium. Applied in reverse this week too, the desk eased B01 88 to 80 on a real mutual halt rather than holding a stale high."},
      then:{date:"JUN 5, 2026", text:"The Evening Close scored the Hormuz standing watch at gravity 30. Within 24 hours it was a kinetic exchange at 88. The board under-scored a live fuse by 58 points."}},
-    {kind:"PRECEDENT", now:{thread:"B02", text:"The LIKELY path is this playbook re-running at the June 12 wire: a clean short-term extension passing inside 48 hours of the deadline."},
+    {kind:"PRECEDENT", now:{thread:"B12", text:"The May print is the first to carry the war's energy spike in full. The precedent says gasoline does the visible headline work while core tells the durable story, the same headline-versus-core split the B03 reversal taught a day early."},
+     then:{date:"2022 OIL-SPIKE MONTHS", text:"Energy-driven CPI months printed hot headlines on gasoline while core ran cooler. Readers who faded the headline and watched core were better positioned than those who traded the top-line shock."}},
+    {kind:"PRECEDENT", now:{thread:"B02", text:"The LIKELY path is this playbook re-running at the June 12 wire: a clean short-term extension passing inside 48 hours of the deadline, with three days now left to file."},
      then:{date:"APR 2026", text:"Section 702 was extended short-term at the deadline after an identical standoff. The brink, then the punt."}},
-    {kind:"PRECEDENT", now:{thread:"B11", text:"The same arc is the LIKELY path now. The variable the precedent cannot price: the GOP defection count after missiles hit GCC hosts."},
+    {kind:"PRECEDENT", now:{thread:"B11", text:"The same arc is the LIKELY path now. The variable the precedent cannot price: the GOP defection count after missiles hit GCC hosts, and whether the de-escalation gives leadership cover to keep the vote parked."},
      then:{date:"2020", text:"An Iran War Powers Resolution passed both chambers, was vetoed, and the override failed. The record stood, the policy did not change."}},
-    {kind:"PRECEDENT", now:{thread:"B09", text:"Expect rhetoric to outrun mechanics here too. The announcement is the move, the money is years away."},
+    {kind:"PRECEDENT", now:{thread:"B09", text:"Expect rhetoric to outrun mechanics here too. The $24B announcement is the move, a legal instrument and any actual transfer are years away."},
      then:{date:"2022", text:"The Afghan DAB frozen-asset transfer: announced fast, then slow, litigated, and largely symbolic before any funds moved."}}
   ],
   sources:[
@@ -567,7 +588,16 @@ const DESK = {
     ["NPR, WPR vote","https://www.npr.org/2026/06/03/nx-s1-5845102/house-iran-war-powers-vote"],
     ["Trading Economics, Brent","https://tradingeconomics.com/commodity/brent-crude-oil"],
     ["White House actions","https://www.whitehouse.gov/presidential-actions/"],
-    ["CNN, SCOTUS Alabama map","https://www.cnn.com/2026/06/02/politics/supreme-court-june-trump"]
+    ["CNN, SCOTUS Alabama map","https://www.cnn.com/2026/06/02/politics/supreme-court-june-trump"],
+    ["NPR, Apache near Hormuz","https://www.npr.org/2026/06/09/nx-s1-5851482/trump-pilots-us-helicopter-crash"],
+    ["Times of Israel, Apache crash","https://www.timesofisrael.com/us-army-helicopter-crashes-near-strait-of-hormuz-trump-says-two-pilots-fine/"],
+    ["CNN, Israel-Iran halt liveblog","https://www.cnn.com/2026/06/07/world/live-news/iran-war-trump-israel-lebanon"],
+    ["NBC, Trump booed at MSG","https://www.nbcnews.com/politics/donald-trump/trump-booed-madison-square-garden-game-3-nba-finals-rcna348969"],
+    ["Fortune, frozen Iran assets to Gulf","https://fortune.com/2026/06/07/us-frozen-iran-assets-gulf-allies-reconstruction-treasury-secretary-bessent/"],
+    ["Congress.gov, S.J.Res.104","https://www.congress.gov/bill/119th-congress/senate-joint-resolution/104"],
+    ["Kiplinger, May CPI preview","https://www.kiplinger.com/investing/economy/cpi-report-may-2026-what-to-expect"],
+    ["BLS, CPI release schedule","https://www.bls.gov/schedule/news_release/cpi.htm"],
+    ["SCOTUSblog, opinion calendar","https://www.scotusblog.com/calendar/"]
   ]
 };
 </script>
