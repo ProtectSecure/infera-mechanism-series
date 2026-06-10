@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Field Note № 09 — The Rally That Faded by the Close · Tuesday, June 9, 2026</title>
+<meta name="description" content="At the open, markets bought a reported Iran ceasefire. By the close, the equity relief was gone: the S&P and Nasdaq finished red while oil kept its drop. An Evening Close field note on the day the market took its own optimism back, and why the machinery that would make the peace real never moved." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Palette chosen for the June 9 Evening Close: a cool ledger-paper ground, the look of a
+       trading screen at dusk. Two-thread color logic:
+       --loud (rally green) marks the spectacle thread: the morning relief, the optimism the cameras sold.
+       --quiet (oxblood) marks the mechanism thread: what the close gave back, and the parked machinery
+       (the unscheduled war-powers vote, the asset term with no legal form, the surveillance deadlock).
+       --alert (amber) is reserved for the one countdown genuinely running out: Section 702. */
+    --paper: #eef0ec;
+    --paper-soft: #e1e4dd;
+    --ink: #151916;
+    --ink-dim: #454d48;
+    --ink-faint: #868d87;
+    --rule: #ccd0c8;
+    --loud: #157f5d;     /* rally green, the morning optimism */
+    --quiet: #7a2230;    /* oxblood, the durable caution and the parked mechanisms */
+    --alert: #b9821a;    /* amber, the 702 countdown */
+    --accent: #5e6b60;   /* sage labels */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.62;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection { background: var(--quiet); color: var(--paper); }
+
+  /* nav header */
+  nav.strip {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 32px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-dim);
+    background: linear-gradient(to bottom, rgba(238,240,236,0.96), rgba(238,240,236,0));
+    backdrop-filter: blur(8px);
+  }
+  nav.strip a { color: var(--ink); text-decoration: none; transition: color 0.2s ease; }
+  nav.strip a:hover { color: var(--quiet); }
+  nav.strip .navlinks { display: flex; gap: 24px; align-items: center; }
+  nav.strip .stamp { color: var(--ink-faint); }
+  nav.strip .dot { width: 6px; height: 6px; background: var(--alert); border-radius: 50%; display: inline-block; margin-right: 8px; vertical-align: middle; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @media (max-width: 720px) { nav.strip .stamp { display: none; } nav.strip .navlinks { gap: 16px; } }
+
+  /* hero */
+  .hero { min-height: 100vh; display: grid; grid-template-rows: 1fr auto 1fr; padding: 90px 6vw 50px; position: relative; overflow: hidden; }
+  .hero .figure { position: absolute; right: -2vw; bottom: 3vh; width: clamp(320px, 48vw, 700px); z-index: 0; pointer-events: none; }
+  @media (max-width: 760px) { .hero .figure { opacity: 0.34; } }
+
+  .hero-content { grid-row: 2; text-align: center; position: relative; z-index: 2; }
+  .kicker { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink); background: var(--paper); display: inline-block; padding: 6px 14px; opacity: 0; animation: fadeUp 1s ease 0.3s forwards; }
+  h1.headline { font-family: 'Newsreader', serif; font-weight: 500; font-size: clamp(56px, 12vw, 164px); line-height: 0.95; letter-spacing: -0.02em; margin: 24px 0 22px; }
+  h1.headline .word { display: inline-block; opacity: 0; transform: translateY(40px); animation: dropIn 1.2s cubic-bezier(0.2,0.8,0.2,1) forwards; }
+  h1.headline .word:nth-child(1) { animation-delay: 0.6s; }
+  h1.headline .word:nth-child(2) { animation-delay: 1.2s; color: var(--loud); }
+  h1.headline .word:nth-child(3) { animation-delay: 1.8s; font-style: italic; color: var(--quiet); }
+  .hero-sub { font-family: 'Newsreader', serif; font-weight: 400; font-size: clamp(15px, 1.7vw, 21px); color: var(--ink-dim); max-width: 680px; margin: 0 auto; background: rgba(238,240,236,0.86); padding: 10px 16px; opacity: 0; animation: fadeUp 1.2s ease 2.3s forwards; }
+  .hero-foot { grid-row: 3; align-self: end; display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 2; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim); opacity: 0; animation: fadeUp 1s ease 3.1s forwards; }
+  .scroll-hint { animation: bob 2.2s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes dropIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* sections */
+  section { padding: 104px 6vw; position: relative; }
+  .measure { max-width: 690px; margin: 0 auto; }
+  .wide { max-width: 1040px; margin: 0 auto; }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 1s ease, transform 1s cubic-bezier(0.2,0.8,0.2,1); }
+  .reveal.on { opacity: 1; transform: translateY(0); }
+
+  .placard { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); display: flex; flex-wrap: wrap; gap: 8px 28px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 12px 0; margin: 0 0 44px; }
+  .placard b { color: var(--accent); font-weight: 600; }
+
+  .ex-kicker { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; margin-bottom: 18px; }
+  .ex-kicker.loud { color: var(--loud); }
+  .ex-kicker.quiet { color: var(--quiet); }
+  h2.ex-title { font-family: 'Newsreader', serif; font-weight: 500; font-size: clamp(32px, 4.6vw, 56px); line-height: 1.05; letter-spacing: -0.012em; margin-bottom: 26px; }
+  .lede { font-family: 'Newsreader', serif; font-weight: 400; font-size: clamp(18px, 2vw, 23px); line-height: 1.5; color: var(--ink); margin-bottom: 26px; }
+  p.body { color: var(--ink-dim); font-size: 16px; margin-bottom: 22px; }
+  p.body strong { color: var(--ink); font-weight: 600; }
+  .you { border-left: 3px solid var(--loud); background: var(--paper-soft); padding: 22px 26px; margin: 34px 0; font-family: 'Newsreader', serif; font-weight: 400; font-style: italic; font-size: clamp(17px, 1.8vw, 21px); line-height: 1.55; color: var(--ink); }
+  .you.q { border-left-color: var(--quiet); }
+  .you .tag { display: block; font-family: 'IBM Plex Mono', monospace; font-style: normal; font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--loud); margin-bottom: 10px; }
+  .you.q .tag { color: var(--quiet); }
+
+  .artifact { text-align: center; padding: 64px 0 54px; margin: 50px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); position: relative; overflow: hidden; }
+  .artifact .big { font-family: 'Newsreader', serif; font-weight: 400; font-size: clamp(52px, 11vw, 144px); line-height: 0.9; letter-spacing: -0.03em; position: relative; }
+  .artifact .big.loud { color: var(--loud); } .artifact .big.quiet { color: var(--quiet); } .artifact .big.alert { color: var(--alert); }
+  .artifact .cap { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-top: 22px; max-width: 660px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+
+  .splitfig { margin: 56px 0 18px; }
+  .splitcap { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); display: flex; justify-content: space-between; margin-top: 14px; }
+
+  .gapviz { margin: 56px 0 30px; }
+  .gaprow { display: grid; gap: 8px; margin-bottom: 36px; }
+  .gaprow .glabel { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); display: flex; justify-content: space-between; }
+  .gaprow .glabel span:last-child { color: var(--ink-faint); }
+  .bar { height: 12px; background: var(--paper); border: 1px solid var(--ink); position: relative; overflow: hidden; }
+  .bar i { position: absolute; inset: 0; right: auto; width: 0; transition: width 1.6s cubic-bezier(0.2,0.8,0.2,1); }
+  .bar i.loud { background: var(--loud); } .bar i.quiet { background: var(--quiet); } .bar i.alert { background: var(--alert); }
+  .gapnote { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); text-align: right; margin-top: -24px; }
+
+  .chainwrap { margin: 70px auto 20px; }
+  .chain-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); text-align: center; margin-bottom: 30px; }
+  svg text { font-family: 'IBM Plex Mono', monospace; }
+
+  .diptych { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 56px 0; }
+  .panel { padding: 46px 36px; }
+  .panel.left { background: var(--loud); color: #eaf5ef; }
+  .panel.right { background: var(--quiet); color: #f6eced; }
+  .panel .pk { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; margin-bottom: 18px; opacity: 0.85; }
+  .panel h3 { font-family: 'Newsreader', serif; font-weight: 500; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.16; margin-bottom: 16px; }
+  .panel p { font-size: 14.5px; opacity: 0.93; }
+  @media (max-width: 720px) { .diptych { grid-template-columns: 1fr; } }
+
+  .cliff { display: flex; align-items: baseline; justify-content: center; gap: 26px; margin: 52px 0; flex-wrap: wrap; }
+  .cliff .n { font-family: 'Newsreader', serif; font-weight: 400; font-size: clamp(86px, 13vw, 180px); line-height: 0.9; color: var(--alert); letter-spacing: -0.03em; }
+  .cliff .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim); max-width: 240px; line-height: 1.8; }
+
+  .votes { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin: 42px auto 10px; max-width: 560px; }
+  .votes .t { width: 14px; height: 26px; border: 1px solid var(--ink); }
+  .votes .t.yes { background: var(--quiet); border-color: var(--quiet); }
+  .votes .t.no { background: transparent; }
+  .votes .t.cross { background: var(--alert); border-color: var(--alert); }
+  .voteleg { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); text-align: center; margin-bottom: 48px; }
+  .voteleg em { color: var(--accent); font-style: normal; }
+
+  .ledger { width: 100%; border-collapse: collapse; margin: 44px 0 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .ledger th, .ledger td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  .ledger th { font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); border-bottom: 1px solid var(--ink); }
+  .ledger td .sub { color: var(--ink-faint); font-size: 10.5px; }
+  .ledger .pill { display: inline-block; padding: 1px 7px; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .ledger .pill.q { background: rgba(122,34,48,0.14); color: var(--quiet); }
+  .ledger .pill.l { background: rgba(21,127,93,0.14); color: var(--loud); }
+  @media (max-width: 680px) { .ledger { font-size: 10.5px; } .ledger th, .ledger td { padding: 8px 6px; } }
+
+  .colophon { background: var(--paper-soft); border-top: 1px solid var(--ink); }
+  .colophon h2 { font-family: 'Newsreader', serif; font-weight: 500; font-size: clamp(26px, 3vw, 38px); margin-bottom: 26px; }
+  .meter { margin: 40px 0; }
+  .meter .mlabel { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .honesty { border: 1px solid var(--alert); padding: 26px 30px; margin: 44px 0; font-size: 14px; color: var(--ink-dim); background: var(--paper); }
+  .honesty .hk { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--alert); margin-bottom: 14px; }
+
+  .sources { font-size: 13px; color: var(--ink-faint); line-height: 2; }
+  .sources a { color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .sources a:hover { color: var(--quiet); border-color: var(--quiet); }
+
+  footer.note-footer { padding: 56px 6vw 60px; text-align: center; background: var(--ink); color: var(--paper); font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
+  footer.note-footer .fnav { display: flex; flex-wrap: wrap; gap: 14px 32px; justify-content: center; margin-bottom: 34px; }
+  footer.note-footer .fnav a { color: var(--paper); text-decoration: none; border-bottom: 1px solid rgba(238,240,236,0.35); padding-bottom: 2px; transition: color 0.2s ease, border-color 0.2s ease; }
+  footer.note-footer .fnav a:hover { color: var(--loud); border-color: var(--loud); }
+  footer.note-footer .fdot { color: var(--alert); }
+  footer.note-footer .fcopy { margin-top: 18px; color: rgba(238,240,236,0.5); letter-spacing: 0.08em; text-transform: none; font-size: 10.5px; line-height: 1.7; }
+
+  .divider { display: flex; align-items: center; gap: 20px; justify-content: center; padding: 0 6vw; }
+  .divider::before, .divider::after { content: ''; height: 1px; background: var(--ink); opacity: 0.25; flex: 1; max-width: 200px; }
+  .divider span { color: var(--quiet); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<nav class="strip">
+  <a href="../index.html"><span class="dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="../index.html">← All Episodes</a>
+    <a href="index.html">Field Notes</a>
+    <span class="stamp">№ 09 · EVENING CLOSE · 06.09.2026</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <!-- Thesis image, no human figures: a market tape line climbs in rally green, then turns oxblood
+       and falls back below where it started. Behind it, three small stamped documents sit unmoved.
+       The argument restated wordlessly: the price went up and came back, the paperwork never moved. -->
+  <svg class="figure" viewBox="0 0 760 540" aria-hidden="true">
+    <line x1="40" y1="486" x2="720" y2="486" stroke="#ccd0c8" stroke-width="2"/>
+    <line x1="64" y1="120" x2="64" y2="486" stroke="#ccd0c8" stroke-width="2"/>
+    <!-- open level reference -->
+    <line x1="64" y1="330" x2="700" y2="330" stroke="#868d87" stroke-width="1" stroke-dasharray="3 6"/>
+    <text x="74" y="322" fill="#868d87" font-size="11" letter-spacing="1">OPEN</text>
+    <!-- the morning climb, rally green -->
+    <polyline points="64,330 150,300 230,250 300,210 360,196" fill="none" stroke="#157f5d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="360" cy="196" r="7" fill="#157f5d"/>
+    <text x="372" y="190" fill="#157f5d" font-size="11" letter-spacing="1">RELIEF</text>
+    <!-- the afternoon give-back, oxblood, falling below open -->
+    <polyline points="360,196 430,232 500,286 580,330 660,360" fill="none" stroke="#7a2230" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="660" cy="360" r="7" fill="#7a2230"/>
+    <text x="556" y="392" fill="#7a2230" font-size="11" letter-spacing="1">CLOSE · BELOW OPEN</text>
+    <!-- behind: three stamped documents that never moved -->
+    <g transform="translate(520 120)" opacity="0.9">
+      <rect x="0" y="40" width="120" height="92" fill="#e1e4dd" stroke="#7a2230" stroke-width="3"/>
+      <rect x="12" y="20" width="120" height="92" fill="#e8eae2" stroke="#7a2230" stroke-width="3"/>
+      <rect x="24" y="0" width="120" height="92" fill="#eef0ec" stroke="#7a2230" stroke-width="3"/>
+      <g stroke="#868d87" stroke-width="3">
+        <line x1="40" y1="24" x2="128" y2="24"/>
+        <line x1="40" y1="40" x2="128" y2="40"/>
+        <line x1="40" y1="56" x2="104" y2="56"/>
+      </g>
+      <circle cx="120" cy="64" r="18" fill="none" stroke="#7a2230" stroke-width="2.5" stroke-dasharray="4 5"/>
+      <text x="120" y="68" text-anchor="middle" fill="#7a2230" font-size="8" letter-spacing="1">UNSIGNED</text>
+    </g>
+    <!-- the brass clock still running -->
+    <g transform="translate(112 168)">
+      <circle cx="0" cy="0" r="30" fill="#eef0ec" stroke="#b9821a" stroke-width="3.5"/>
+      <line x1="0" y1="0" x2="0" y2="-19" stroke="#b9821a" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="14" y2="7" stroke="#b9821a" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="3" fill="#b9821a"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <div class="kicker">Bought at the open · sold by the close</div>
+    <h1 class="headline"><span class="word">The</span> <span class="word">Rally</span> <span class="word">Faded</span></h1>
+    <p class="hero-sub">At Tuesday's open, markets bought a reported Iran ceasefire: oil dropped hard and stocks rose about half a percent. By the bell the equity relief was gone. The S&amp;P and the Nasdaq closed lower while oil kept its fall, a split tape that says the durable money never quite believed a peace that has no signature. This is a field note about the day the market took its own optimism back, and about the machinery that would have made the peace real, which did not move at all.</p>
+  </div>
+  <div class="hero-foot">
+    <div>FIVE EXHIBITS</div>
+    <div class="scroll-hint">↓ ENTER</div>
+    <div>READING TIME · 8 MIN</div>
+  </div>
+</div>
+
+<!-- EXHIBIT 01 -->
+<section>
+  <div class="measure">
+    <div class="placard reveal"><span>EXHIBIT <b>01</b></span><span>CATALOG <b>T01</b></span><span>MEDIUM <b>ONE TAPE, TWO VERDICTS</b></span><span>CONFIDENCE <b>FACT (CLOSE) · REPORTED (CEASEFIRE)</b></span></div>
+    <div class="reveal">
+      <div class="ex-kicker loud">The story that took the oxygen</div>
+      <h2 class="ex-title">The market bought the ceasefire at lunch and gave it back by the close.</h2>
+      <p class="lede">In the morning the trade was simple. Israel and Iran were reported to have stopped trading blows, and a 60-day memorandum was said to be near: extend the truce, reopen the Strait of Hormuz, end the U.S. port blockade, start nuclear talks. Oil fell hard on the news and stocks opened up about half a percent. The relief was the headline, and the headline was on every screen.</p>
+      <p class="body">Then the equity relief drained out of the day. The S&amp;P 500 closed <strong>down 0.26 percent at 7,386.65</strong>. The Nasdaq closed <strong>down 0.97 percent at 25,678.82</strong>, the morning's chip-stock rally losing its legs. The Dow held a thin gain, up 0.17 percent. Oil, for its part, kept the drop: Brent settled at 91.45 dollars, down about 3 percent, and U.S. crude near 88 dollars. So the same news produced two different verdicts by the bell. The oil market priced relief and held it. The stock market priced relief and then took it back.</p>
+    </div>
+    <div class="artifact reveal">
+      <div class="big quiet">−0.97%</div>
+      <div class="cap">Nasdaq close on June 9, after opening up roughly +0.7% on the ceasefire relief · the rally did not survive the session</div>
+    </div>
+    <div class="you reveal">
+      <span class="tag">Why this reaches you</span>
+      If you watched only the morning, you saw a market cheering peace. If you saw only the close, you saw a market in retreat. Both were true on the same day, and the gap between them is the useful part. A one-day relief pop is the cameras reacting to a headline. What the money does by the bell, when traders have to carry their positions overnight, is the more honest read. On Tuesday the honest read was caution.
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- EXHIBIT 02 -->
+<section>
+  <div class="wide">
+    <div class="placard reveal"><span>EXHIBIT <b>02</b></span><span>CATALOG <b>T01</b></span><span>MEDIUM <b>THE DIVERGENCE</b></span><span>NOTE <b>TWO MARKETS, ONE HEADLINE</b></span></div>
+    <div class="measure reveal">
+      <div class="ex-kicker loud">A study in contrast</div>
+      <h2 class="ex-title">Oil kept the relief. Stocks gave it back. The split is the signal.</h2>
+      <p class="lede">When two markets read the same news in opposite directions by the close, the disagreement itself is information. Here is what each one was actually pricing.</p>
+    </div>
+    <div class="splitfig wide reveal">
+      <svg viewBox="0 0 1000 320" width="100%" role="img" aria-label="Two market paths on June 9: oil falls and stays down, equities rise then fall back below the open">
+        <line x1="60" y1="40" x2="60" y2="280" stroke="#ccd0c8" stroke-width="2"/>
+        <line x1="60" y1="160" x2="960" y2="160" stroke="#868d87" stroke-width="1" stroke-dasharray="3 6"/>
+        <text x="70" y="152" fill="#868d87" font-size="11">OPEN LEVEL</text>
+        <text x="70" y="52" fill="#868d87" font-size="10">AM</text>
+        <text x="918" y="52" fill="#868d87" font-size="10">CLOSE</text>
+        <!-- equities: up then down below open -->
+        <polyline points="60,160 230,120 400,96 560,140 740,184 940,206" fill="none" stroke="#157f5d" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="400,96 560,140 740,184 940,206" fill="none" stroke="#7a2230" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="940" cy="206" r="6" fill="#7a2230"/>
+        <text x="700" y="234" fill="#7a2230" font-size="12">EQUITIES · CLOSE BELOW OPEN</text>
+        <!-- oil: down and stays down -->
+        <polyline points="60,160 230,206 400,236 560,242 740,238 940,244" fill="none" stroke="#b9821a" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="940" cy="244" r="6" fill="#b9821a"/>
+        <text x="726" y="272" fill="#b9821a" font-size="12">OIL · STAYS DOWN (RELIEF HELD)</text>
+      </svg>
+      <div class="splitcap"><span>Shapes are schematic, not to scale</span><span>Source: end-of-day settles, June 9 2026</span></div>
+    </div>
+    <div class="measure reveal">
+      <p class="body">Read the two lines as two opinions. <strong>Oil fell and stayed down</strong> because the immediate fear it prices, a closed Strait of Hormuz and a supply shock, eased the moment the shooting reportedly stopped. That fear is a now-or-never question, and the answer on Tuesday was not now. <strong>Equities rose and then sank below the open</strong> because stocks price something slower: durable confidence, weeks and quarters of it. And the thing that would buy durable confidence, a signed deal with enforceable terms, did not arrive. A fresh headline that the President was again weighing strikes cut directly against the peace story in the afternoon, and the chip rally that had carried the morning ran out of buyers.</p>
+      <div class="you q">
+        <span class="tag">Why this reaches you</span>
+        You do not need a brokerage account for this to land on you. Oil holding its drop is the part that touches your gas tank and your grocery bill, and that relief is real for now. The stock market giving the rally back is the part that touches your retirement account and the mood of every company deciding whether to hire. When the fast market relaxes and the slow market does not, it usually means the danger eased but the uncertainty did not. That is a precise description of a ceasefire nobody has signed.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- EXHIBIT 03 -->
+<section>
+  <div class="wide">
+    <div class="placard reveal"><span>EXHIBIT <b>03</b></span><span>CATALOG <b>T05 / T06 / T01</b></span><span>MEDIUM <b>CAUSAL CHAIN</b></span><span>NOTE <b>WHY THE RELIEF FADED</b></span></div>
+    <div class="measure reveal">
+      <div class="ex-kicker quiet">The interconnection</div>
+      <h2 class="ex-title">The rally faded because the machinery that would make the peace real never moved.</h2>
+      <p class="lede">This is the line the separate stories hide. The market did not lose its nerve at random. It looked for the things that turn an announcement into a fact, and it did not find them, because all day Tuesday they sat exactly where they were.</p>
+    </div>
+    <div class="chainwrap reveal">
+      <div class="chain-label">One announcement · three missing signatures · follow the arrows</div>
+      <svg viewBox="0 0 1000 360" width="100%" role="img" aria-label="Diagram: a reported ceasefire depends on three mechanisms, all of which were parked on June 9, so the equity relief faded">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#454d48"/></marker>
+        </defs>
+        <!-- the announcement -->
+        <rect x="20" y="148" width="180" height="74" fill="#157f5d"/>
+        <text x="110" y="180" text-anchor="middle" fill="#eaf5ef" font-size="12">REPORTED CEASEFIRE</text>
+        <text x="110" y="200" text-anchor="middle" fill="#eaf5ef" font-size="10" opacity="0.9">THE MORNING RALLY</text>
+        <!-- three mechanisms, all parked -->
+        <rect x="430" y="20" width="270" height="74" fill="#eef0ec" stroke="#7a2230" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="565" y="48" text-anchor="middle" fill="#151916" font-size="11">WAR POWERS VOTE</text>
+        <text x="565" y="66" text-anchor="middle" fill="#7a2230" font-size="9.5">PASSED HOUSE · NO SENATE DATE</text>
+        <text x="565" y="82" text-anchor="middle" fill="#868d87" font-size="9">PARKED</text>
+        <rect x="430" y="143" width="270" height="74" fill="#eef0ec" stroke="#7a2230" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="565" y="171" text-anchor="middle" fill="#151916" font-size="11">$24B FROZEN-ASSET TERM</text>
+        <text x="565" y="189" text-anchor="middle" fill="#7a2230" font-size="9.5">DEMANDED · NO OFAC INSTRUMENT</text>
+        <text x="565" y="205" text-anchor="middle" fill="#868d87" font-size="9">PARKED</text>
+        <rect x="430" y="266" width="270" height="74" fill="#eef0ec" stroke="#7a2230" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="565" y="294" text-anchor="middle" fill="#151916" font-size="11">A SIGNED DEAL</text>
+        <text x="565" y="312" text-anchor="middle" fill="#7a2230" font-size="9.5">PROMISED IN "2 TO 3 DAYS"</text>
+        <text x="565" y="328" text-anchor="middle" fill="#868d87" font-size="9">NOT YET</text>
+        <!-- the outcome -->
+        <rect x="800" y="143" width="180" height="74" fill="#7a2230"/>
+        <text x="890" y="171" text-anchor="middle" fill="#f6eced" font-size="12">RELIEF FADES</text>
+        <text x="890" y="191" text-anchor="middle" fill="#f6eced" font-size="10" opacity="0.9">STOCKS CLOSE RED</text>
+        <g stroke="#454d48" stroke-width="1.2" fill="none" marker-end="url(#arr)">
+          <line x1="200" y1="175" x2="426" y2="57"/>
+          <line x1="200" y1="185" x2="426" y2="180"/>
+          <line x1="200" y1="195" x2="426" y2="303"/>
+          <line x1="700" y1="57" x2="796" y2="158"/>
+          <line x1="700" y1="180" x2="796" y2="180"/>
+          <line x1="700" y1="303" x2="796" y2="202"/>
+        </g>
+      </svg>
+    </div>
+    <div class="measure reveal">
+      <p class="body">Three levers turn a reported ceasefire into a real one, and on Tuesday all three were parked. The <strong>War Powers Resolution</strong> that would put Congress on record about the use of force passed the House on June 3 but still has no Senate floor date, and the firming truce gives leadership one more reason to keep it parked. The <strong>24-billion-dollar frozen-asset release</strong> that Iran is demanding as the price of talks has no legal instrument behind it: no Treasury license, no signed term, just a number in a negotiation. And the <strong>deal itself</strong> remains, in the President's own framing, two to three days away, which is where it has been for several news cycles. We named this exact gap on Monday in the note "Announced, Not Signed." On Tuesday the market read the same gap and priced it. <strong>The relief faded because the paperwork that would justify it does not exist yet.</strong> Noise and mechanism were not two stories. The mechanism is why the noise could not hold.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- EXHIBIT 04 -->
+<section>
+  <div class="measure">
+    <div class="placard reveal"><span>EXHIBIT <b>04</b></span><span>CATALOG <b>T02</b></span><span>MEDIUM <b>A COUNTDOWN</b></span><span>STATUS <b>LAPSES JUNE 12</b></span></div>
+    <div class="reveal">
+      <div class="ex-kicker quiet">What the cameras missed</div>
+      <h2 class="ex-title">A surveillance law is three days from going dark, jammed by three vetoes at once.</h2>
+      <p class="lede">Section 702 is the legal authority that lets U.S. intelligence agencies collect the communications of foreign targets without individual warrants, sweeping up Americans' messages on the other end in the process. It expires June 12. On Tuesday, with three days left, the Senate again held no vote that could save it, and by the close the reason was clear: this is a three-way jam where each side is blocking for a different reason.</p>
+      <p class="body">Here is the knot. <strong>Senate Democrats</strong> will not supply the votes to advance a reauthorization while Bill Pulte, the housing-finance regulator, sits as acting Director of National Intelligence, a fight about who runs the intelligence community. <strong>Seven Republicans</strong>, Hawley, Kennedy, Lee, Paul, Schmitt, Scott, and Tuberville, will not vote yes without a warrant requirement to protect Americans' incidentally collected messages. And the <strong>administration</strong> will not accept a warrant requirement. Three blocs, three motives, one expiring authority. Majority Leader Thune said the Senate will "take another run at it" next week, but next week is after the deadline. A privacy fight that refuses to sort by party, on a three-day clock, while the cameras face the market and the streets.</p>
+    </div>
+    <div class="cliff reveal">
+      <div class="n" id="cliff-n">3</div>
+      <div class="lbl">DAYS UNTIL SECTION 702 AUTHORITIES LAPSE · JUNE 12, 2026</div>
+    </div>
+    <div class="votes reveal" id="votefield" aria-label="Vote: 47 to advance, 52 against, including 7 Republican crossovers"></div>
+    <div class="voteleg reveal">47 ADVANCE · 52 REFUSE · <em>■ 7 REPUBLICAN CROSSOVERS</em> · A PRIVACY BLOC THAT CROSSES PARTY LINES</div>
+    <div class="you q reveal">
+      <span class="tag">Why this reaches you</span>
+      This touches you twice, and the touch does not wait for the louder stories. If the law lapses Friday, the intelligence community loses a tool it calls essential against foreign threats. If it is renewed under a contested acting chief and with no warrant requirement, the question becomes whether your incidentally collected messages are governed by clear rules or by one official's discretion. Either way the decision is being made this week, mostly off camera, by three groups who each have a reason to let the clock run.
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- EXHIBIT 05 -->
+<section>
+  <div class="wide">
+    <div class="placard reveal"><span>EXHIBIT <b>05</b></span><span>CATALOG <b>X01 / T03</b></span><span>MEDIUM <b>DIPTYCH</b></span><span>SUBJECT <b>WHAT HARDENED ON CAMERA, WHAT MOVED ON PAPER</b></span></div>
+    <div class="measure reveal">
+      <div class="ex-kicker loud">The other loud thread</div>
+      <h2 class="ex-title">The Los Angeles confrontation hardened into a lawsuit, and a $1.5 trillion bill kept moving behind a closed door.</h2>
+      <p class="lede">The market was not the only place where Tuesday's loud picture turned into something quieter and more durable by the close. Two other threads moved the same way: from spectacle into mechanism.</p>
+    </div>
+    <div class="diptych reveal">
+      <div class="panel left">
+        <div class="pk">ON CAMERA · THE STREET BECAME A FILING</div>
+        <h3>Los Angeles, now a court case in three more cities.</h3>
+        <p>Protests over immigration raids spread from Los Angeles to Boston, Chicago, and Seattle, with roughly 4,000 National Guard members and 700 Marines deployed. By the close the confrontation had a legal spine: California Governor Newsom filed suit against the President and the Defense Secretary, alleging the deployment violates the Posse Comitatus Act and the Tenth Amendment. The street is loud. The lawsuit, filed June 9, is the mechanism that will outlast the footage.</p>
+      </div>
+      <div class="panel right">
+        <div class="pk">OFF CAMERA · THE CLOSED ROOM</div>
+        <h3>A $1.5 trillion defense bill, still being marked up where no camera goes.</h3>
+        <p>The Senate Armed Services Committee continued its closed markup of the roughly 1.5 trillion dollar FY2027 defense authorization, about 750 billion of it for procurement including the "Golden Dome" missile-defense program, described as the largest year-over-year defense increase since World War Two. A White House push to route part of the topline through the partisan reconciliation process strains a normally bipartisan bill. The deliverable you can read, the post-markup summary, comes later and quieter.</p>
+      </div>
+    </div>
+    <div class="measure reveal">
+      <p class="body">Put the day's three loud threads next to each other and they share a shape. The ceasefire rally became a red close. The Los Angeles protest became a federal lawsuit. The defense debate became a closed markup. In each case the picture that led the broadcast was the start of the story, and the part that will actually decide it, a signature, a filing, a topline, moved somewhere quieter, or did not move at all. <strong>The footage is the question. The paperwork is the answer, and the answer takes longer.</strong></p>
+      <div class="you reveal">
+        <span class="tag">Why this reaches you</span>
+        You will get push alerts for the footage and almost none for the filings. But the filing is the part that sets what actually happens to your rights, your money, and your ballot. The lawsuit decides whether troops stay in a U.S. city. The markup decides what 1.5 trillion dollars of your money buys. The signature, if it comes, decides whether the cheaper gas at the pump lasts past the week. Watching the loud part is fine. Just do not mistake it for the decision.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><span>✦</span></div>
+
+<!-- COLOPHON -->
+<section class="colophon">
+  <div class="measure">
+    <div class="placard reveal"><span>COLOPHON</span><span>METHOD <b>ATTENTION GAP</b></span><span>CYCLE <b>EVENING CLOSE</b></span><span>NOTE <b>№ 09</b></span></div>
+    <div class="reveal">
+      <h2>How this note was made, and where it could be wrong.</h2>
+      <p class="body">Each morning Infera scores the day's scheduled events on a zero-to-one-hundred "coverage gravity" scale, a structured estimate of what deserves attention, with every point traced to something concrete. Each evening we compare that score to what newsrooms actually covered and to what the day's markets and outcomes actually did. The gaps are the product. This note is built from one gap in particular: the difference between the relief the cameras sold at midday and the caution the market settled on by the close. The midday read of this very cycle recorded an equity relief rally. The official close erased it. That correction is not an embarrassment to hide, it is the whole point of running the books twice, once at noon and once at night.</p>
+    </div>
+    <div class="gapviz reveal">
+      <div class="gaprow">
+        <div class="glabel"><span>CEASEFIRE RELIEF · coverage and intraday optimism</span><span>SATURATION</span></div>
+        <div class="bar"><i class="loud" data-w="100%"></i></div>
+        <div class="glabel" style="margin-top:10px;"><span>· of that relief still standing in equities at the close</span><span>GAVE IT BACK</span></div>
+        <div class="bar"><i class="quiet" data-w="12%"></i></div>
+      </div>
+      <div class="gaprow">
+        <div class="glabel"><span>THE PARKED MACHINERY · war-powers vote + asset term + §702 · institutional weight</span><span>HIGH</span></div>
+        <div class="bar"><i class="quiet" data-w="82%"></i></div>
+        <div class="glabel" style="margin-top:10px;"><span>· coverage received</span><span>TRACE</span></div>
+        <div class="bar"><i class="quiet" data-w="14%"></i></div>
+      </div>
+      <div class="gapnote">THE GAP IS THE STORY</div>
+    </div>
+    <div class="meter reveal">
+      <div class="mlabel"><span>SCAFFOLD BRANCHES THAT FIRED TODAY · HIT RATE</span><span>1 OF 1 · 100%</span></div>
+      <div class="bar"><i class="quiet" data-w="100%"></i></div>
+      <p class="body" style="margin-top:14px; font-size:13.5px;">We pre-write branching interpretations before events happen, then grade ourselves. Today the NFIB small-business gauge fired its prewritten "below average again" branch exactly: 95.3, a third straight month under the long-run average, with uncertainty still elevated. The larger calibration win is harder to score but worth naming: the Monday caution about an announced, not signed ceasefire was confirmed by Tuesday's tape inside a single session. Four scaffolds are armed and pending this week: the §702 cloture path, the closed NDAA markup summary, Wednesday's CPI inflation report, and the Treasury auctions. No misses today.</p>
+    </div>
+    <div class="honesty reveal">
+      <div class="hk">⚠ Honest limitation · read before trusting</div>
+      Four seams to show. First, the cause of the equity reversal is partly a narrative, not a proof: the close was driven by a fading chip-stock rally as much as by anything specific to Iran, and a headline about possible new strikes cut against the peace story in the afternoon. We attribute the give-back to caution about an unsigned deal, which the parked machinery supports, but a single session has many authors and we cannot rank them precisely. Second, the ceasefire is REPORTED, not FACT: it rests on reporting of a 60-day memorandum, not a signed deal, and a U.S. helicopter went down near the Strait of Hormuz on Tuesday morning, with the crew reported safe and the cause unknown. Third, the Los Angeles protests and the troop deployment were never on our morning board, because the board ranks the scheduled calendar and cannot anticipate spontaneous unrest, so we logged that as a coverage-type gap, not a scoring error. Fourth, two board rows are source-degraded and ungraded: the local Pennsylvania meetings were cached three days stale, and we could not confirm a Treasury 3-year auction result, so we did not grade its demand metrics. A museum that hides its restoration work is lying to you. This one shows the seams.
+    </div>
+    <div class="reveal">
+      <p class="body" style="font-family:'Newsreader',serif; font-style:italic; font-size:18px; color:var(--ink);">The line on the wall as you leave: the rally faded because relief is a feeling and a ceasefire is a document, and on Tuesday the feeling arrived hours before the document, which has not arrived at all. The market is patient about footage and impatient about signatures. So should you be.</p>
+    </div>
+    <div class="sources reveal" style="margin-top:50px;">
+      <strong style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--ink-faint);">PROVENANCE · PRIMARY &amp; CONTEMPORANEOUS SOURCES</strong><br>
+      <a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-june-09-2026">TheStreet · S&amp;P and Nasdaq close lower June 9</a> ·
+      <a href="https://www.cnbc.com/2026/06/09/oil-prices-iran-war-strait-hormuz-trump-israel-lebanon.html">CNBC · oil falls as Trump says an Iran deal is close, June 9</a> ·
+      <a href="https://www.cnbc.com/2026/06/08/stock-market-today-live-updates.html">CNBC · markets, chip-rebound fade</a> ·
+      <a href="https://www.cbsnews.com/news/senate-fisa-vote-extension/">CBS News · Senate §702 fails, 7 GOP crossovers</a> ·
+      <a href="https://rollcall.com/2026/06/05/fisa-reauthorization-stalls-in-early-morning-senate-vote/">Roll Call · FISA stalls, June 12 expiry</a> ·
+      <a href="https://www.congress.gov/bill/119th-congress/senate-joint-resolution/59">Congress.gov · S.J.Res.59, Iran War Powers</a> ·
+      <a href="https://www.pbs.org/newshour/nation/court-hearing-set-on-california-challenge-to-trumps-use-of-national-guard-and-marines-in-la">PBS NewsHour · California challenge to Guard and Marines in L.A.</a> ·
+      <a href="https://spacepolicyonline.com/events/sasc-markup-of-fy2027-ndaa-june-8-10-2026-dc/">SpacePolicyOnline · SASC markup June 8 to 10, closed</a> ·
+      <a href="https://investinglive.com/news/us-may-nfib-small-business-optimism-index-953-vs-960-expected-20260609/">InvestingLive · NFIB May 95.3 vs 96.0 expected</a> ·
+      <a href="https://www.cbsnews.com/live-updates/iran-war-us-trump-vance-ceasefire-strait-of-hormuz-deal-close/">CBS News · Iran ceasefire and Hormuz</a>
+    </div>
+  </div>
+</section>
+
+<footer class="note-footer">
+  <div class="fnav">
+    <a href="index.html">← Field Notes</a>
+    <a href="../index.html">Series Home</a>
+    <a href="08-under-the-noise.html">Prev · № 08 Under the Noise</a>
+    <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+  </div>
+  INFERA <span class="fdot">·</span> MECHANISM SERIES <span class="fdot">·</span> FIELD NOTE № 09 <span class="fdot">·</span> "THE RALLY THAT FADED BY THE CLOSE" <span class="fdot">·</span> EVENING CLOSE 06.09.2026
+  <div class="fcopy">© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com</div>
+</footer>
+
+<style id="infera-legal-footer">
+.legal-footer{
+  background:#06060a; color:rgba(168,162,152,.75);
+  font-family:'IBM Plex Sans', system-ui, sans-serif; font-size:11.5px; line-height:1.55;
+  padding:32px 6vw 36px;
+  border-top:1px solid rgba(168,162,152,.12);
+}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{
+  display:grid; grid-template-columns:1fr auto; gap:24px 32px;
+  padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08);
+  margin-bottom:14px;
+}
+.legal-footer .lf-brand{
+  font-family:'IBM Plex Mono', ui-monospace, monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.legal-footer .lf-brand b{color:#c8ff1e; font-family:inherit; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-disclaim{
+  font-size:11.5px; line-height:1.6; max-width:none; color:rgba(168,162,152,.62);
+}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+
+.legal-footer details.lf-more{margin-top:8px; padding:0}
+.legal-footer details.lf-more summary{
+  cursor:pointer; list-style:none;
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700;
+  display:inline-flex; align-items:center; gap:8px; padding:5px 0;
+}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+
+.legal-footer .lf-links{
+  display:flex; flex-wrap:wrap; gap:0 18px;
+  padding-top:14px; border-top:1px dashed rgba(168,162,152,.12);
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+
+@media (max-width:780px){
+  .legal-footer .lf-top{grid-template-columns:1fr}
+  .legal-footer{padding:26px 5vw 30px; font-size:11px}
+}
+@media (prefers-reduced-motion: reduce){
+  .legal-footer details.lf-more summary::before{transition:none}
+}
+
+.legal-footer .lf-infra{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:10px 14px 12px; margin-bottom:14px;
+  background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6);
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:560px){
+  .legal-footer .lf-infra{font-size:9px; gap:8px; padding:8px 10px 10px}
+}
+</style>
+
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+      <nav class="lf-infra" aria-label="Infrastructure links">
+        <span class="lf-infra-lbl">More from Infera</span>
+        <a href="../systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+        <a href="../claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+        <a href="../case-file.html">Your Case File</a><span class="lf-sep">·</span>
+        <a href="../founding.html">Founding 500</a><span class="lf-sep">·</span>
+        <a href="../field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+        <a href="../index.html#about">About</a>
+      </nav>
+
+    <div class="lf-top">
+      <div class="lf-brand">
+        <span>© 2026 <b>Infera</b></span>
+        <span class="sep">·</span>
+        <span>All rights reserved</span>
+        <span class="sep">·</span>
+        <em>The Mechanism Series™</em>
+      </div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis &mdash; <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided &ldquo;as is&rdquo; without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> &ldquo;Infera,&rdquo; &ldquo;The Mechanism Series,&rdquo; and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis (echo dots, provenance layer, evidence mode, chapter rails, claims atlas format, systems atlas format) are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission &mdash; usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for persona memory, reading log, and evidence-mode preference &mdash; none transmitted. Subscriber emails stored at Buttondown. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with: (1) the copyrighted work, (2) the allegedly infringing URL, (3) your contact info, (4) good-faith statement, (5) statement under penalty of perjury, (6) your signature. Knowingly false DMCA notices may incur liability under 17 U.S.C. § 512(f). Counter-notices follow § 512(g).</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action arising from these terms shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Underwriters do not see episodes prior to publication. Editorial decisions are independent.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication. AI does not author episodes.</p>
+          <p style="margin-top:10px; font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="../legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="../legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="../legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="../legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="../legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="../legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="../legal.html#unsubscribe">Unsubscribe</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+
+    <div class="lf-tail">
+      <em>Atlanta, GA · USA · v.2026.05</em>
+      <span>Last updated · 26 May 2026</span>
+    </div>
+  </div>
+</aside>
+
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('on');
+        e.target.querySelectorAll('.bar i').forEach(b => { requestAnimationFrame(() => { b.style.width = b.dataset.w; }); });
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.18 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // vote field: 47 advance, 52 refuse, of which 7 are GOP crossovers
+  const vf = document.getElementById('votefield');
+  if (vf) {
+    const ticks = [];
+    for (let i = 0; i < 47; i++) ticks.push('yes');
+    for (let i = 0; i < 45; i++) ticks.push('no');
+    for (let i = 0; i < 7; i++) ticks.push('cross');
+    ticks.forEach((cls, i) => {
+      const t = document.createElement('div');
+      t.className = 't ' + cls;
+      t.style.opacity = '0';
+      t.style.transition = 'opacity 0.4s ease ' + (i * 12) + 'ms';
+      vf.appendChild(t);
+    });
+    const vio = new IntersectionObserver((es) => {
+      es.forEach(e => { if (e.isIntersecting) { vf.querySelectorAll('.t').forEach(t => t.style.opacity = '1'); vio.unobserve(vf); } });
+    }, { threshold: 0.4 });
+    vio.observe(vf);
+  }
+
+  // countdown to June 12 lapse
+  (function(){
+    const lapse = new Date('2026-06-12T00:00:00-04:00');
+    const now = new Date();
+    let d = Math.ceil((lapse - now) / 86400000);
+    if (isNaN(d)) d = 3;
+    const el = document.getElementById('cliff-n');
+    if (el) {
+      if (d <= 0) { el.textContent = '0'; el.nextElementSibling.textContent = 'SECTION 702 AUTHORITIES HAVE REACHED THEIR JUNE 12 DEADLINE · CHECK CURRENT STATUS'; }
+      else { el.textContent = d; }
+    }
+  })();
+</script>
+</body>
+</html>
