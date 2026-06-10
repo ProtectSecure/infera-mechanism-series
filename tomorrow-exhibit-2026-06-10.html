@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Open Record Order · 06.10.2026 · The Foundry, Infera Tomorrow Board Exhibit</title>
+<meta name="description" content="Infera Tomorrow Board Exhibit for Wednesday June 10, 2026. CPI day rendered as a foundry: the inflation print is the furnace gauge, the Gulf blockade is the forge heat. Same shock, read three ways.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --iron:#0b0907; --iron2:#15110d; --iron3:#1f1812; --ash:#efe6d6; --ash2:#cdbfa9;
+  --ember:#ff6a1a; --molten:#ff9333; --amber:#ffc15e; --slag:#9a8d7c; --cool:#5d7a86;
+  --line:rgba(255,150,70,.16); --glow:rgba(255,106,26,.55);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--iron); color:var(--ash);
+  font-family:'Inter',system-ui,sans-serif; line-height:1.6; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;}
+a{color:var(--amber)}
+h1,h2,h3,h4{font-family:'Oswald',sans-serif; font-weight:600; letter-spacing:.01em; margin:0}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.serif{font-family:'Instrument Serif',Georgia,serif; font-style:italic}
+
+/* ambient forge heat */
+.forge-field{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+.forge-field .glowblob{position:absolute; border-radius:50%; filter:blur(70px); opacity:.5; mix-blend-mode:screen}
+.gb1{width:60vw; height:60vw; left:-15vw; top:-10vw; background:radial-gradient(circle,rgba(255,106,26,.34),transparent 65%); animation:drift1 26s ease-in-out infinite}
+.gb2{width:48vw; height:48vw; right:-12vw; top:30vh; background:radial-gradient(circle,rgba(255,60,20,.26),transparent 65%); animation:drift2 32s ease-in-out infinite}
+.gb3{width:40vw; height:40vw; left:20vw; bottom:-12vw; background:radial-gradient(circle,rgba(93,122,134,.22),transparent 65%); animation:drift1 38s ease-in-out infinite reverse}
+@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(6vw,4vh)}}
+@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-5vw,-5vh)}}
+.heat-shimmer{position:fixed; inset:0; z-index:1; pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,120,40,.012) 4px);
+  animation:shimmer 7s linear infinite; opacity:.7}
+@keyframes shimmer{0%{background-position:0 0}100%{background-position:0 -40px}}
+
+/* nav strip, house pattern */
+nav.strip{position:sticky; top:0; z-index:40; display:flex; align-items:center; justify-content:space-between;
+  gap:14px; flex-wrap:wrap; padding:11px 5vw; background:rgba(11,9,7,.86); backdrop-filter:blur(11px);
+  border-bottom:1px solid var(--line); font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.04em}
+nav.strip a{color:var(--ash); text-decoration:none; font-weight:700; display:inline-flex; align-items:center; gap:9px}
+nav.strip .dot{width:7px; height:7px; border-radius:50%; background:var(--ember); box-shadow:0 0 12px var(--glow); animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1; transform:scale(1)}50%{opacity:.45; transform:scale(.8)}}
+nav.strip .navlinks{display:flex; align-items:center; gap:18px; flex-wrap:wrap; color:var(--ash2)}
+nav.strip .navlinks a{color:var(--ash2); font-weight:500}
+nav.strip .navlinks a:hover{color:var(--amber)}
+nav.strip .stamp{color:var(--amber); border:1px solid rgba(255,193,94,.35); padding:3px 9px; font-weight:700; border-radius:2px}
+
+main{position:relative; z-index:2}
+.wrap{max-width:1180px; margin:0 auto; padding:0 5vw}
+
+/* hero / Act I */
+.hero{min-height:88vh; display:flex; flex-direction:column; justify-content:center; padding:9vh 0 6vh; position:relative}
+.kicker{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.32em; text-transform:uppercase; color:var(--ember); margin-bottom:22px; display:flex; gap:14px; flex-wrap:wrap; align-items:center}
+.kicker .chip{border:1px solid var(--line); padding:4px 10px; color:var(--ash2); letter-spacing:.18em}
+.hero h1{font-size:clamp(2.6rem,7vw,5.7rem); line-height:.98; font-weight:700; text-transform:uppercase; letter-spacing:-.01em}
+.hero h1 em{font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; text-transform:none; color:var(--molten); letter-spacing:0}
+.hero .sub{font-family:'Instrument Serif',serif; font-style:italic; font-size:clamp(1.15rem,2.4vw,1.7rem); color:var(--ash2); max-width:780px; margin-top:26px; line-height:1.45}
+.hero .meta{margin-top:34px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--slag); letter-spacing:.05em; display:flex; gap:8px 26px; flex-wrap:wrap}
+.hero .meta b{color:var(--amber)}
+.scrollcue{margin-top:48px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:var(--slag); display:flex; align-items:center; gap:12px}
+.scrollcue .bar{width:46px; height:1px; background:linear-gradient(90deg,var(--ember),transparent); position:relative; overflow:hidden}
+.scrollcue .bar::after{content:""; position:absolute; left:0; top:0; height:100%; width:14px; background:var(--ember); animation:scan 2.4s ease-in-out infinite}
+@keyframes scan{0%{left:-14px}100%{left:46px}}
+
+/* section frame */
+section.act{padding:9vh 0; border-top:1px solid var(--line); position:relative}
+.act-label{font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.3em; text-transform:uppercase; color:var(--ember); margin-bottom:10px}
+.act h2{font-size:clamp(1.8rem,4.2vw,3rem); text-transform:uppercase; line-height:1.02; font-weight:700}
+.act h2 em{font-family:'Instrument Serif',serif; font-style:italic; text-transform:none; color:var(--molten); font-weight:400}
+.act .dek{font-family:'Instrument Serif',serif; font-style:italic; color:var(--ash2); font-size:1.15rem; max-width:760px; margin-top:14px; line-height:1.5}
+
+/* the seam panel (Act II) */
+.seam{margin-top:42px; display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:stretch; border:1px solid var(--line); background:linear-gradient(180deg,rgba(31,24,18,.7),rgba(11,9,7,.4))}
+.seam .pane{padding:30px 30px}
+.seam .pane h3{font-size:1.15rem; text-transform:uppercase; color:var(--ash); letter-spacing:.04em}
+.seam .pane .tag{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; padding:3px 8px; border:1px solid var(--line); color:var(--amber); display:inline-block; margin-bottom:12px}
+.seam .pane p{font-size:.96rem; color:var(--ash2)}
+.seam .weld{width:3px; background:linear-gradient(180deg,transparent,var(--ember),var(--molten),var(--ember),transparent); position:relative; box-shadow:0 0 22px var(--glow)}
+.seam .weld::after{content:"SAME SHOCK"; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(90deg); white-space:nowrap; font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.3em; color:var(--iron); background:var(--ember); padding:4px 10px; border-radius:2px; font-weight:800}
+@media (max-width:760px){.seam{grid-template-columns:1fr}.seam .weld{width:100%; height:3px; background:linear-gradient(90deg,transparent,var(--ember),var(--molten),var(--ember),transparent)}.seam .weld::after{transform:translate(-50%,-50%)}}
+
+/* gauge */
+.gauge-row{display:grid; grid-template-columns:340px 1fr; gap:40px; align-items:center; margin-top:40px}
+@media (max-width:820px){.gauge-row{grid-template-columns:1fr}}
+.gauge-wrap{position:relative}
+.gauge-cap{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--slag); text-align:center; margin-top:8px}
+.gauge-read{font-family:'Oswald',sans-serif; font-size:2.2rem; color:var(--molten); text-align:center; font-weight:700; line-height:1}
+.needle{transform-box:fill-box; transform-origin:50% 92%; animation:swing 4.2s cubic-bezier(.5,0,.2,1) 1 forwards}
+@keyframes swing{0%{transform:rotate(-86deg)}55%{transform:rotate(28deg)}72%{transform:rotate(16deg)}100%{transform:rotate(22deg)}}
+
+/* TOP 5 ladder */
+.ladder{margin-top:40px; display:flex; flex-direction:column; gap:14px}
+.rung{position:relative; border:1px solid var(--line); background:linear-gradient(90deg,rgba(31,24,18,.55),rgba(11,9,7,.2)); padding:18px 20px; overflow:hidden; opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease}
+.rung.in{opacity:1; transform:none}
+.rung .fill{position:absolute; left:0; top:0; bottom:0; width:0; background:linear-gradient(90deg,rgba(255,106,26,.20),rgba(255,106,26,.04)); border-right:2px solid var(--ember); transition:width 1.3s cubic-bezier(.2,.7,.2,1)}
+.rung.in .fill{width:var(--w)}
+.rung .row1{position:relative; z-index:2; display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap}
+.rung .id{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.14em; color:var(--ember); font-weight:700}
+.rung h4{font-size:1.28rem; text-transform:uppercase; color:var(--ash); font-weight:600; line-height:1.05; flex:1; min-width:240px}
+.rung .grav{font-family:'Oswald',sans-serif; font-size:2.1rem; font-weight:700; color:var(--molten); line-height:1}
+.rung .grav small{font-size:.5em; color:var(--slag); font-family:'JetBrains Mono',monospace; letter-spacing:.1em}
+.rung .read{position:relative; z-index:2; font-family:'Instrument Serif',serif; font-style:italic; color:var(--ash2); margin-top:8px; font-size:1.02rem}
+.rung .lbls{position:relative; z-index:2; margin-top:10px; display:flex; gap:8px; flex-wrap:wrap}
+.conf{font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.12em; padding:3px 8px; border-radius:2px; font-weight:700; text-transform:uppercase}
+.conf.fact{background:rgba(93,122,134,.18); color:#8fb6c4; border:1px solid rgba(93,122,134,.4)}
+.conf.rep{background:rgba(255,193,94,.13); color:var(--amber); border:1px solid rgba(255,193,94,.4)}
+.conf.watch{background:rgba(255,106,26,.12); color:var(--molten); border:1px solid rgba(255,106,26,.4)}
+.conf.time{background:rgba(239,230,214,.06); color:var(--ash2); border:1px solid var(--line)}
+
+/* collision timeline */
+.timeline{margin-top:42px; border:1px solid var(--line); background:rgba(21,17,13,.6); padding:30px 26px 38px; position:relative}
+.tl-track{position:relative; height:120px; margin-top:30px; border-left:1px solid var(--line)}
+.tl-axis{position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--line)}
+.tl-now{position:absolute; top:0; bottom:0; width:2px; background:var(--ember); box-shadow:0 0 14px var(--glow); left:6%; animation:sweep 9s linear infinite}
+@keyframes sweep{0%{left:4%}100%{left:96%}}
+.tl-ev{position:absolute; bottom:1px; transform:translateX(-50%); text-align:center; width:120px}
+.tl-ev .stalk{width:2px; margin:0 auto; background:linear-gradient(180deg,var(--molten),rgba(255,106,26,.1)); }
+.tl-ev .dot{width:11px; height:11px; border-radius:50%; background:var(--ember); margin:0 auto 5px; box-shadow:0 0 10px var(--glow)}
+.tl-ev .t{font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--amber); letter-spacing:.05em}
+.tl-ev .n{font-size:11px; color:var(--ash2); line-height:1.2; margin-top:3px; display:block}
+.tl-ev .g{font-family:'Oswald',sans-serif; font-size:14px; color:var(--molten); font-weight:700}
+.tl-note{font-family:'Instrument Serif',serif; font-style:italic; color:var(--ash2); margin-top:30px; font-size:1.04rem; border-left:2px solid var(--ember); padding-left:16px}
+
+/* threads (compounding) */
+.threads{margin-top:42px; display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--line)}
+.threads .col{padding:26px 24px; border-right:1px solid var(--line)}
+.threads .col:last-child{border-right:none}
+.threads .col h3{font-size:1.05rem; text-transform:uppercase; letter-spacing:.03em; margin-bottom:6px}
+.threads .col .sub{font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--slag); margin-bottom:16px}
+.threads .knew h3{color:var(--slag)} .threads .learned h3{color:var(--molten)} .threads .next h3{color:var(--amber)}
+.threads .col.learned{background:rgba(255,106,26,.05)}
+.threads ul{margin:0; padding:0; list-style:none}
+.threads li{font-size:.92rem; color:var(--ash2); padding:10px 0; border-bottom:1px dashed var(--line)}
+.threads li:last-child{border-bottom:none}
+.threads li b{color:var(--ash); font-weight:600}
+.threads li .nc{display:block; margin-top:4px; font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--ember)}
+@media (max-width:760px){.threads{grid-template-columns:1fr}.threads .col{border-right:none; border-bottom:1px solid var(--line)}}
+
+/* full roster table */
+.roster{margin-top:36px; overflow-x:auto; border:1px solid var(--line)}
+table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:680px}
+thead th{font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--slag); text-align:left; padding:13px 14px; border-bottom:1px solid var(--line); background:rgba(21,17,13,.7)}
+tbody td{padding:12px 14px; border-bottom:1px solid rgba(255,150,70,.08); color:var(--ash2); vertical-align:top}
+tbody tr:hover{background:rgba(255,106,26,.05)}
+td.id{font-family:'JetBrains Mono',monospace; color:var(--ember); font-weight:700; white-space:nowrap}
+td.ev{color:var(--ash)}
+td.sc{font-family:'Oswald',sans-serif; font-size:1.15rem; color:var(--molten); font-weight:700}
+.tierpill{font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.1em; padding:3px 8px; border-radius:2px; text-transform:uppercase; font-weight:700; white-space:nowrap}
+.t-alert{background:rgba(255,60,20,.16); color:#ff7a4a; border:1px solid rgba(255,60,20,.45)}
+.t-high{background:rgba(255,147,51,.14); color:var(--molten); border:1px solid rgba(255,147,51,.4)}
+.t-likely{background:rgba(255,193,94,.12); color:var(--amber); border:1px solid rgba(255,193,94,.35)}
+.t-watch{background:rgba(93,122,134,.16); color:#8fb6c4; border:1px solid rgba(93,122,134,.4)}
+.t-low{background:rgba(239,230,214,.05); color:var(--slag); border:1px solid var(--line)}
+
+.curatornote{margin-top:38px; border-left:3px solid var(--ember); background:rgba(255,106,26,.05); padding:22px 26px; font-family:'Instrument Serif',serif; font-style:italic; font-size:1.1rem; color:var(--ash)}
+.curatornote .who{font-family:'JetBrains Mono',monospace; font-style:normal; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--ember); margin-top:12px}
+
+.crosslink{margin-top:30px; text-align:center; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.08em}
+.crosslink a{color:var(--molten); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:3px}
+.crosslink a:hover{color:var(--amber)}
+
+/* footnav */
+nav.footnav{display:grid; grid-template-columns:1fr 1fr; gap:26px; padding:46px 0 18px; border-top:1px solid var(--line); margin-top:30px}
+nav.footnav h5{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--slag); margin:0 0 12px}
+nav.footnav a{display:block; color:var(--ash2); text-decoration:none; font-size:14px; padding:5px 0}
+nav.footnav a:hover{color:var(--molten)}
+.postfoot{padding:18px 0 40px; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--slag); letter-spacing:.04em; line-height:1.7}
+@media (max-width:640px){nav.footnav{grid-template-columns:1fr}}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:none !important}
+  .rung{opacity:1; transform:none}
+  .rung .fill{width:var(--w)}
+  .needle{transform:rotate(22deg)}
+  .tl-now{left:50%}
+  .scrollcue .bar::after{display:none}
+}
+</style>
+</head>
+<body>
+<div class="forge-field" aria-hidden="true">
+  <div class="glowblob gb1"></div><div class="glowblob gb2"></div><div class="glowblob gb3"></div>
+</div>
+<div class="heat-shimmer" aria-hidden="true"></div>
+
+<nav class="strip" aria-label="Series navigation">
+  <a href="index.html"><span class="dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="index.html">← All Episodes</a>
+    <a href="field-notes/index.html">Field Notes</a>
+    <span class="stamp">EXHIBIT · TOMORROW BOARD · 06.10.2026</span>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+<!-- ACT I · THE HOOK -->
+<header class="hero">
+  <div class="kicker">
+    <span>The Open Record Order</span>
+    <span class="chip">Wed · June 10 · 2026</span>
+    <span class="chip">The Foundry</span>
+    <span class="chip">Exhibit A of two imaginations</span>
+  </div>
+  <h1>One shock,<br>heated until it <em>reads three ways</em></h1>
+  <p class="sub">Tomorrow is CPI day. The inflation print, the Gulf blockade, and the crude inventory line are not three stories. They are one piece of metal pulled from the same fire, and the gauge that measures its temperature reports at 8:30 in the morning.</p>
+  <div class="meta">
+    <span><b>9</b> civic dimensions</span>
+    <span><b>24</b> tracked items</span>
+    <span><b>2</b> threads above gravity 80</span>
+    <span>Source of truth · 4:09 PM ET data build</span>
+    <span>Labels · FACT / REPORTED / WATCH</span>
+  </div>
+  <div class="scrollcue"><span class="bar"></span>Walk the floor</div>
+</header>
+
+<!-- ACT II · THE SEAM -->
+<section class="act" id="seam">
+  <div class="act-label">Act II · The Weld</div>
+  <h2>Do not cover them <em>apart</em></h2>
+  <p class="dek">The day's two heaviest threads share a single heat source. The CPI energy component is literally priced by the Strait of Hormuz. Reporting the print and the crisis as separate items misses the only story that matters tomorrow, the seam between them.</p>
+
+  <div class="seam">
+    <div class="pane">
+      <span class="tag">T01 · Gravity 82 · FACT / REPORTED</span>
+      <h3>CPI (May) · 8:30 AM</h3>
+      <p>Consensus reads plus 0.5 percent month over month and 4.2 percent year over year on the headline, which would be the largest annual gain since April 2023, with core at plus 0.3 percent. Two drivers are stacked, the Iran energy spike feeding gasoline and a second wave of tariff pass-through. Ship the energy branch if gasoline carries the headline; the tariff branch is the quieter burden-shift read.</p>
+    </div>
+    <div class="weld" aria-hidden="true"></div>
+    <div class="pane">
+      <span class="tag">T02 · Gravity 80 · REPORTED / FACT</span>
+      <h3>Iran-US ceasefire · Hormuz · intraday</h3>
+      <p>Trump is floating a signed deal in two or three days. The Israel-Iran mutual halt holds, but Iran conditions it on Israeli strikes in Lebanon stopping, and the dual naval blockade keeps the Strait effectively closed. The 24 billion dollar frozen-asset release is the named talks price. A fragile halt riding on a promise, not a signed text, with Lebanon as the trip wire.</p>
+    </div>
+  </div>
+  <p class="dek" style="margin-top:22px">The under-covered risk is the supply-side mirror. The EIA petroleum report at 10:30 AM quantifies the same energy move and gets buried between the two giants. Three reads of one shock: the CPI energy line, the EIA inventories, and the Hormuz blockade.</p>
+</section>
+
+<!-- ACT III · THE GAUGE -->
+<section class="act" id="gauge">
+  <div class="act-label">Act III · The Gauge</div>
+  <h2>The furnace reports at <em>8:30</em></h2>
+  <p class="dek">A once-since-2023 headline captures essentially all national economic attention from the open. Nothing else is scheduled at 8:30 that competes. The needle below is a planning-time estimate, not a forecast; the Morning Lock refreshes it before the print.</p>
+
+  <div class="gauge-row">
+    <div class="gauge-wrap">
+      <svg viewBox="0 0 260 170" width="100%" role="img" aria-label="Pressure gauge illustration showing CPI consensus near the upper band">
+        <defs>
+          <linearGradient id="arc" x1="0" x2="1">
+            <stop offset="0" stop-color="#5d7a86"/><stop offset="0.55" stop-color="#ffc15e"/><stop offset="1" stop-color="#ff3c14"/>
+          </linearGradient>
+        </defs>
+        <path d="M30 140 A100 100 0 0 1 230 140" fill="none" stroke="rgba(255,150,70,.12)" stroke-width="22"/>
+        <path d="M30 140 A100 100 0 0 1 230 140" fill="none" stroke="url(#arc)" stroke-width="6" stroke-linecap="round"/>
+        <text x="26" y="158" fill="#5d7a86" font-family="JetBrains Mono" font-size="9">COOL</text>
+        <text x="120" y="34" fill="#ffc15e" font-family="JetBrains Mono" font-size="9" text-anchor="middle">4.2% Y/Y</text>
+        <text x="214" y="158" fill="#ff3c14" font-family="JetBrains Mono" font-size="9" text-anchor="end">HOT</text>
+        <g class="needle">
+          <line x1="130" y1="140" x2="130" y2="56" stroke="#ff6a1a" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="130" cy="140" r="9" fill="#ff9333"/>
+          <circle cx="130" cy="140" r="3.5" fill="#0b0907"/>
+        </g>
+      </svg>
+      <div class="gauge-read">82</div>
+      <div class="gauge-cap">CPI · coverage gravity</div>
+    </div>
+    <div>
+      <p class="dek" style="margin-top:0">Why now. The April 2026 print ran at the fastest annual pace in roughly two years on energy. The recurring shape is eve-prep, then an energy-led headline. The new variable tomorrow is the simultaneous tariff pass-through wave landing on top of the Gulf spike. Two checkpoints follow the print: the EIA inventories at 10:30 AM, which mirror the energy line from the supply side, and the Treasury 10-year auction at 1 PM, a clean referendum on whether buyers demand more yield after the number.</p>
+      <p class="dek">Next checkpoint: the 8:30 AM release, then PPI on Thursday June 11 tells you who absorbs the cost.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ACT IV · THE BREAKER: TOP 5 LADDER -->
+<section class="act" id="ladder">
+  <div class="act-label">Act IV · The Ladder</div>
+  <h2>Five exhibits, ranked by <em>heat</em></h2>
+  <p class="dek">Gravity is mass, not merit. It estimates which events will bend tomorrow's narrative, not which matter most. Each bar grows to its score as you arrive at it.</p>
+
+  <div class="ladder" id="ladderEl">
+    <article class="rung" style="--w:100%">
+      <div class="fill"></div>
+      <div class="row1"><span class="id">T01</span><h4>CPI (May), 8:30 AM</h4><span class="grav">82<small>/100</small></span></div>
+      <p class="read">The inflation number and the Gulf crisis are the same story split in two; the energy component is priced by the Hormuz blockade.</p>
+      <div class="lbls"><span class="conf fact">FACT</span><span class="conf rep">REPORTED</span><span class="conf time">8:30 AM ET</span></div>
+    </article>
+    <article class="rung" style="--w:97.5%">
+      <div class="fill"></div>
+      <div class="row1"><span class="id">T02</span><h4>Iran-US ceasefire and Hormuz blockade</h4><span class="grav">80<small>/100</small></span></div>
+      <p class="read">A fragile halt riding on a promise, not a signed text, with Lebanon as the trip wire.</p>
+      <div class="lbls"><span class="conf rep">REPORTED</span><span class="conf fact">FACT</span><span class="conf time">Intraday</span></div>
+    </article>
+    <article class="rung" style="--w:87.8%">
+      <div class="fill"></div>
+      <div class="row1"><span class="id">T03</span><h4>FISA §702 lapse countdown, 2 days</h4><span class="grav">72<small>/100</small></span></div>
+      <p class="read">A core surveillance authority is closer to going dark than the calendar implies; watch for a declassification timed to move votes.</p>
+      <div class="lbls"><span class="conf fact">FACT</span><span class="conf time">Deadline June 12</span></div>
+    </article>
+    <article class="rung" style="--w:80.5%">
+      <div class="fill"></div>
+      <div class="row1"><span class="id">T05</span><h4>DoD Section 1260H China designation publishes</h4><span class="grav">66<small>/100</small></span></div>
+      <p class="read">A list that normally drives a week of corporate and Hill reaction, at risk of under-coverage under a hot CPI and a live Gulf crisis.</p>
+      <div class="lbls"><span class="conf fact">FACT</span><span class="conf watch">WATCH</span><span class="conf time">FR Doc 2026-11571</span></div>
+    </article>
+    <article class="rung" style="--w:78%">
+      <div class="fill"></div>
+      <div class="row1"><span class="id">T04</span><h4>SASC NDAA FY2027 markup wraps, 9 AM</h4><span class="grav">64<small>/100</small></span></div>
+      <p class="read">The room stays closed, so the news is the released topline and the Iran and Indo-Pacific provisions, not testimony.</p>
+      <div class="lbls"><span class="conf fact">FACT</span><span class="conf time">9:00 AM · SR-222</span></div>
+    </article>
+  </div>
+</section>
+
+<!-- ACT V (part) · COLLISION TIMELINE -->
+<section class="act" id="collision">
+  <div class="act-label">Act V · The Floor Clock</div>
+  <h2>8:30 owns the day; Iran <em>overhangs</em> it</h2>
+  <p class="dek">There is no three-item, over-70, same-hour clash on the clock tomorrow. The real collision is structural. One fixed-time giant at the open, one unscheduled giant that can resolve at any hour and instantly reprice the first.</p>
+
+  <div class="timeline">
+    <div class="tl-track" aria-hidden="true">
+      <div class="tl-axis"></div>
+      <div class="tl-now"></div>
+      <div class="tl-ev" style="left:8%"><div class="stalk" style="height:96px"></div><div class="dot"></div><div class="t">8:30 AM</div><span class="n">CPI (May)</span><span class="g">82</span></div>
+      <div class="tl-ev" style="left:30%"><div class="stalk" style="height:70px"></div><div class="dot"></div><div class="t">9:00 AM</div><span class="n">NDAA wrap</span><span class="g">64</span></div>
+      <div class="tl-ev" style="left:46%"><div class="stalk" style="height:50px"></div><div class="dot"></div><div class="t">10:30 AM</div><span class="n">EIA crude</span><span class="g">48</span></div>
+      <div class="tl-ev" style="left:66%"><div class="stalk" style="height:52px"></div><div class="dot"></div><div class="t">1:00 PM</div><span class="n">10-yr auction + Peoples Gas</span><span class="g">46/50</span></div>
+      <div class="tl-ev" style="left:88%"><div class="stalk" style="height:48px"></div><div class="dot"></div><div class="t">6:00 PM</div><span class="n">Peoples Gas #2</span><span class="g">50</span></div>
+    </div>
+    <p class="tl-note">The sweep is the Iran thread. It carries no fixed clock time and can land at any hour. A ceasefire headline at 11 AM would retroactively reframe the 8:30 print. Meanwhile the 9 to 10:30 window stacks the security mechanisms, NDAA topline, the China designation, EIA crude, that a once-since-2023 inflation number will starve of coverage. The China designation (T05) is the most under-covered high-value item on the floor.</p>
+  </div>
+</section>
+
+<!-- COMPOUNDING THREADS -->
+<section class="act" id="threads">
+  <div class="act-label">The Running Threads · compounding from 06.09</div>
+  <h2>What we knew, what we <em>learned</em>, what we watch</h2>
+  <p class="dek">Yesterday's exhibit, The Archival Ledger, held a ceasefire announced but not signed and a surveillance law four days from lapsing standing in its shade. Here is how the metal moved overnight.</p>
+
+  <div class="threads">
+    <div class="col knew">
+      <h3>What we knew</h3>
+      <div class="sub">Carried from 06.09</div>
+      <ul>
+        <li><b>Iran-US.</b> A ceasefire announced but not signed; the energy spike already feeding the inflation read.</li>
+        <li><b>FISA §702.</b> Four days to the June 12 deadline, the 47-52 cloture failure standing, SAFE Act as the live vehicle.</li>
+        <li><b>CPI.</b> Yesterday was CPI-eve, no print, prep only.</li>
+        <li><b>Environment / utilities.</b> The dimension was dark on the 06.09 board.</li>
+      </ul>
+    </div>
+    <div class="col learned">
+      <h3>What we learned today</h3>
+      <div class="sub">New on the 06.10 build</div>
+      <ul>
+        <li><b>It is CPI day now.</b> The May print lands tomorrow 8:30 AM and becomes the board's anchor.<span class="nc">New · gravity 82</span></li>
+        <li><b>The blockade prices the print.</b> The dual naval blockade keeps Hormuz closed; energy now literally sets the CPI energy line.<span class="nc">Hardened · same shock</span></li>
+        <li><b>Energy-cost convergence appears.</b> ENVIRONMENT_UTILITIES is no longer dark: PA PUC Peoples Gas hearings and the EIA petroleum report both fire, both downstream of the Gulf shock.<span class="nc">Newly discovered</span></li>
+        <li><b>702 clock tightens.</b> Now two days out; the Pulte acting-DNI fight still entangles the Democratic count.<span class="nc">Advanced 2 days</span></li>
+      </ul>
+    </div>
+    <div class="col next">
+      <h3>What we watch next</h3>
+      <div class="sub">Next checkpoints</div>
+      <ul>
+        <li><b>Iran-US.</b> The CENTCOM or Treasury readout that hardens or breaks the halt.<span class="nc">Next · 48-hour durability</span></li>
+        <li><b>Section 702.</b> Any ODNI declassification timed to the June 12 lapse fight.<span class="nc">Next · 2 days</span></li>
+        <li><b>Frozen assets.</b> The 24 billion is the talks price, but no OFAC instrument has given it legal form.<span class="nc">News when one does</span></li>
+        <li><b>PPI (May).</b> Thursday June 11 tells you who absorbs the cost; prep the margin-squeeze branch now.<span class="nc">Next · June 11</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FULL ROSTER -->
+<section class="act" id="roster">
+  <div class="act-label">The Full Floor · all tracked items</div>
+  <h2>Every item, <em>weighed</em></h2>
+  <p class="dek">The complete Open Record Order for June 10. County L2 rows fall back to cached snapshots where the OData and RSS tenants were unreachable, and are flagged accordingly. Re-poll on the Overnight Desk.</p>
+
+  <div class="roster">
+    <table>
+      <thead><tr><th>ID</th><th>Time</th><th>Event</th><th>Gravity</th><th>Tier</th><th>Label</th></tr></thead>
+      <tbody>
+        <tr><td class="id">T01</td><td>8:30 AM</td><td class="ev">CPI (May); consensus +0.5% m/m, 4.2% y/y headline, core +0.3%</td><td class="sc">82</td><td><span class="tierpill t-alert">Alert</span></td><td>FACT/REP</td></tr>
+        <tr><td class="id">T02</td><td>Intraday</td><td class="ev">Iran-US ceasefire and Hormuz blockade; signed deal floated "2 or 3 days"</td><td class="sc">80</td><td><span class="tierpill t-alert">Alert</span></td><td>REP/FACT</td></tr>
+        <tr><td class="id">T03</td><td>2 days out</td><td class="ev">FISA §702 lapse countdown; SAFE Act the live vehicle, June 12 deadline</td><td class="sc">72</td><td><span class="tierpill t-high">High</span></td><td>FACT</td></tr>
+        <tr><td class="id">T05</td><td>publishes</td><td class="ev">DoD Section 1260H China designation list (FR Doc 2026-11571)</td><td class="sc">66</td><td><span class="tierpill t-high">High</span></td><td>FACT/WATCH</td></tr>
+        <tr><td class="id">T04</td><td>9:00 AM</td><td class="ev">SASC NDAA FY2027 markup wraps, closed, SR-222; ~$1.5T request</td><td class="sc">64</td><td><span class="tierpill t-high">High</span></td><td>FACT</td></tr>
+        <tr><td class="id">T06</td><td>no floor date</td><td class="ev">Senate War Powers vote watch; veto math is the story, not the date</td><td class="sc">56</td><td><span class="tierpill t-likely">Likely</span></td><td>FACT</td></tr>
+        <tr><td class="id">T07</td><td>pending</td><td class="ev">Frozen Iranian assets, $24B, now the explicit talks price; no OFAC instrument yet</td><td class="sc">54</td><td><span class="tierpill t-likely">Likely</span></td><td>REP/FACT</td></tr>
+        <tr><td class="id">S01</td><td>1 PM + 6 PM</td><td class="ev">PA PUC Peoples Gas rate hearings, Westmoreland Co.; ~13.1% residential increase</td><td class="sc">50</td><td><span class="tierpill t-likely">Likely</span></td><td>FACT</td></tr>
+        <tr><td class="id">T09</td><td>10:30 AM</td><td class="ev">EIA Weekly Petroleum Status Report; supply-side mirror of the energy shock</td><td class="sc">48</td><td><span class="tierpill t-likely">Likely</span></td><td>FACT</td></tr>
+        <tr><td class="id">T08</td><td>1:00 PM</td><td class="ev">Treasury 10-year note auction; tail and bid-to-cover a referendum on the print</td><td class="sc">46</td><td><span class="tierpill t-likely">Likely</span></td><td>FACT/WATCH</td></tr>
+        <tr><td class="id">T13</td><td>6 days out</td><td class="ev">Georgia Lt. Governor runoff runup; pre-position the turnout-collapse curve</td><td class="sc">45</td><td><span class="tierpill t-watch">Watch</span></td><td>FACT</td></tr>
+        <tr><td class="id">T16</td><td>signed</td><td class="ev">Schedule Policy/Career EO litigation; which court moves first on a TRO</td><td class="sc">44</td><td><span class="tierpill t-watch">Watch</span></td><td>FACT/WATCH</td></tr>
+        <tr><td class="id">T12</td><td>eff. July 1</td><td class="ev">Consular $750 line-skip fee aftermath; comments due July 9</td><td class="sc">44</td><td><span class="tierpill t-watch">Watch</span></td><td>FACT</td></tr>
+        <tr><td class="id">T11</td><td>notice</td><td class="ev">HHS "Chronic Disease of Addiction" framing notice; PI status not re-verified</td><td class="sc">40</td><td><span class="tierpill t-watch">Watch</span></td><td>WATCH</td></tr>
+        <tr><td class="id">T14</td><td>eve</td><td class="ev">PPI (May) eve; producer prices Thursday tell you who absorbs the cost</td><td class="sc">40</td><td><span class="tierpill t-watch">Watch</span></td><td>FACT</td></tr>
+        <tr><td class="id">T10</td><td>publishes</td><td class="ev">TSA over-the-road bus exemption; low-salience security-burden carve-out</td><td class="sc">38</td><td><span class="tierpill t-watch">Watch</span></td><td>FACT/WATCH</td></tr>
+        <tr><td class="id">T15</td><td>eve</td><td class="ev">SCOTUS opinion-day eve; next handed-down day Thu 6/11 10 AM, birthright/mail-ballot/TPS outstanding</td><td class="sc">38</td><td><span class="tierpill t-watch">Watch</span></td><td>FACT</td></tr>
+        <tr><td class="id">L01</td><td>10 AM</td><td class="ev">Pittsburgh City Council Standing Committees · cached</td><td class="sc">36</td><td><span class="tierpill t-low">Low</span></td><td>cached</td></tr>
+        <tr><td class="id">L03</td><td>1:30 PM</td><td class="ev">Bucks County Prison Oversight Board · custody-condition watch · cached</td><td class="sc">34</td><td><span class="tierpill t-low">Low</span></td><td>cached</td></tr>
+        <tr><td class="id">L04</td><td>8:30/9:15 AM</td><td class="ev">Lancaster County Assessment Appeals + Commissioners · cached</td><td class="sc">30</td><td><span class="tierpill t-low">Low</span></td><td>cached</td></tr>
+        <tr><td class="id">L05</td><td>10 AM</td><td class="ev">Dauphin County Commissioners' Workshop · projected cadence</td><td class="sc">24</td><td><span class="tierpill t-low">Low</span></td><td>projected</td></tr>
+        <tr><td class="id">L06</td><td>3 PM</td><td class="ev">Delaware County UCC Board of Appeals · Crozer Health spine county · cached</td><td class="sc">22</td><td><span class="tierpill t-low">Low</span></td><td>cached</td></tr>
+        <tr><td class="id">L02</td><td>2 PM</td><td class="ev">Pittsburgh Council Briefing PCSI · cached</td><td class="sc">20</td><td><span class="tierpill t-low">Low</span></td><td>cached</td></tr>
+        <tr><td class="id">L07</td><td>10 AM</td><td class="ev">Bucks County Parks & Rec Board · cached</td><td class="sc">14</td><td><span class="tierpill t-low">Low</span></td><td>cached</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="curatornote">
+    Tomorrow is a money-and-security day with the inflation print on top. PUBLIC_MONEY and PUBLIC_SAFETY dominate the floor, and for the first time this week the energy theme runs clean across two layers of government: a federal data line, a federal supply print, and a state utility-burden hearing, all keyed to the same blockade. We observe the machinery. We do not pick a team.
+    <div class="who">Infera · curator's wall label</div>
+  </div>
+
+  <div class="crosslink">
+    See the other imagination of today's board → <a href="tomorrow-exhibit-2026-06-10-alt.html">The Tide Chart</a>, the same floor rendered as a cold hydrographic survey of the Strait.
+  </div>
+</section>
+
+<!-- FOOTER NAV -->
+<nav class="footnav" aria-label="Post navigation">
+  <div>
+    <h5>This sequence</h5>
+    <a href="tomorrow-exhibit-2026-06-09.html">← Prev · The Open Record Order, 06.09.2026 (The Archival Ledger)</a>
+    <a href="tomorrow-exhibit-2026-06-10-alt.html">Today's other imagination · The Tide Chart →</a>
+    <a href="field-notes/index.html">← Field Notes index</a>
+  </div>
+  <div>
+    <h5>Elsewhere</h5>
+    <a href="index.html">Series Home</a>
+    <a href="systems-atlas.html">Systems Atlas</a>
+    <a href="legal.html">Legal · Privacy</a>
+    <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+  </div>
+</nav>
+<div class="postfoot">
+  © 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com<br>
+  The Open Record Order is Infera's public-source emulation of a newsroom assignment desk. Gravity scores are planning-time estimates, not predictions. Gravity is not accuracy.
+</div>
+
+</div><!-- /wrap -->
+</main>
+
+<script>
+(function(){
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.rung').forEach(function(r){r.classList.add('in')});
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.25});
+  document.querySelectorAll('.rung').forEach(function(r){ io.observe(r); });
+})();
+</script>
+
+<style id="infera-legal-footer">
+.legal-footer{background:#06060a; color:rgba(168,162,152,.75); font-family:'Inter', system-ui, sans-serif; font-size:11.5px; line-height:1.55; padding:32px 6vw 36px; border-top:1px solid rgba(168,162,152,.12);}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{display:grid; grid-template-columns:1fr auto; gap:24px 32px; padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08); margin-bottom:14px;}
+.legal-footer .lf-brand{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700; display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+.legal-footer .lf-brand b{color:#c8ff1e; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; padding:3px 8px; border:1px solid rgba(168,162,152,.18); white-space:nowrap}
+.legal-footer .lf-disclaim{font-size:11.5px; line-height:1.6; color:rgba(168,162,152,.62);}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+.legal-footer details.lf-more{margin-top:8px}
+.legal-footer details.lf-more summary{cursor:pointer; list-style:none; font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700; display:inline-flex; align-items:center; gap:8px; padding:5px 0;}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+.legal-footer .lf-links{display:flex; flex-wrap:wrap; gap:0 18px; padding-top:14px; border-top:1px dashed rgba(168,162,152,.12); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+.legal-footer .lf-infra{display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:10px 14px 12px; margin-bottom:14px; background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:780px){.legal-footer .lf-top{grid-template-columns:1fr}.legal-footer{padding:26px 5vw 30px; font-size:11px}}
+@media (prefers-reduced-motion: reduce){.legal-footer details.lf-more summary::before{transition:none}}
+</style>
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+    <nav class="lf-infra" aria-label="Infrastructure links">
+      <span class="lf-infra-lbl">More from Infera</span>
+      <a href="systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+      <a href="claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+      <a href="case-file.html">Your Case File</a><span class="lf-sep">·</span>
+      <a href="founding.html">Founding 500</a><span class="lf-sep">·</span>
+      <a href="field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+      <a href="index.html#about">About</a>
+    </nav>
+    <div class="lf-top">
+      <div class="lf-brand"><span>© 2026 <b>Infera</b></span><span class="sep">·</span><span>All rights reserved</span><span class="sep">·</span><em>The Mechanism Series™</em></div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis, <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided "as is" without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> "Infera," "The Mechanism Series," and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong>Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission, usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong>Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for reading preferences, none transmitted. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong>DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with the required statutory elements under 17 U.S.C. § 512. Knowingly false notices may incur liability under § 512(f).</p>
+          <p><strong>Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong>Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Editorial decisions are independent.</p>
+          <p><strong>AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication.</p>
+          <p style="margin-top:10px; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+    <div class="lf-tail"><em>Atlanta, GA · USA · v.2026.05</em><span>Last updated · 26 May 2026</span></div>
+  </div>
+</aside>
+
+</body>
+</html>
