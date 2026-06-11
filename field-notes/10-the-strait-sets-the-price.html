@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Note № 10 · The Strait Sets the Price · Infera Mechanism Series</title>
+<meta name="description" content="Evening Close, June 11 2026. One closed strait priced the whole board: a record producer-price print, a four-month high in jobless claims, an undecided Fed-firing case, and a surveillance law going dark, all downstream of the Strait of Hormuz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Spectral:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     PALETTE · chosen for this note. Maritime chokepoint pricing inflation.
+     Two-thread color logic:
+       --loud  (vermillion) marks the SPECTACLE thread: the strikes, the war pictures, the cameras.
+       --quiet (steel-teal) marks the MECHANISM thread: the upstream paper the price runs through,
+               PPI, jobless claims, the undecided Fed case.
+       --alert (amber) is reserved for the one authority literally going dark: Section 702.
+     Flat editorial-poster discipline: 6 values, no gradients-as-decoration.
+     TYPE · fresh pairing for this note: Fraunces (display), Spectral (body), JetBrains Mono (labels).
+     ============================================================ */
+  :root {
+    --paper: #f3efe6;
+    --paper-soft: #e8e2d5;
+    --ink: #14181c;
+    --ink-dim: #43494e;
+    --ink-faint: #8a8f86;
+    --rule: #cfc8b8;
+    --loud: #c64329;   /* vermillion, the strikes and the cameras */
+    --quiet: #1f6f74;  /* steel-teal, the upstream mechanism */
+    --alert: #c8951f;  /* amber, the 702 countdown going dark */
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Spectral', Georgia, serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--quiet); color: var(--paper); }
+
+  /* nav strip */
+  nav.strip {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-dim);
+    background: linear-gradient(to bottom, rgba(243,239,230,0.96), rgba(243,239,230,0));
+    backdrop-filter: blur(8px);
+  }
+  nav.strip a { color: var(--ink); text-decoration: none; transition: color 0.2s ease; }
+  nav.strip a:hover { color: var(--quiet); }
+  nav.strip .navlinks { display: flex; gap: 24px; align-items: center; }
+  nav.strip .stamp { color: var(--ink-faint); }
+  nav.strip .dot { width: 6px; height: 6px; background: var(--alert); border-radius: 50%; display: inline-block; margin-right: 8px; vertical-align: middle; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @media (max-width: 720px) { nav.strip .stamp { display: none; } nav.strip .navlinks { gap: 16px; } }
+
+  /* hero */
+  .hero { min-height: 100vh; display: grid; grid-template-rows: 1fr auto 1fr; padding: 90px 6vw 50px; position: relative; overflow: hidden; }
+  .hero .figure { position: absolute; right: -1vw; bottom: 4vh; width: clamp(320px, 50vw, 720px); z-index: 0; pointer-events: none; }
+  @media (max-width: 760px) { .hero .figure { opacity: 0.32; } }
+  .hero-content { grid-row: 2; text-align: center; position: relative; z-index: 2; }
+  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink); background: var(--paper); display: inline-block; padding: 6px 14px; opacity: 0; animation: fadeUp 1s ease 0.3s forwards; }
+  h1.headline { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(54px, 12vw, 158px); line-height: 0.94; letter-spacing: -0.02em; margin: 22px 0 22px; }
+  h1.headline .word { display: inline-block; opacity: 0; transform: translateY(40px); animation: dropIn 1.2s cubic-bezier(0.2,0.8,0.2,1) forwards; }
+  h1.headline .word:nth-child(1) { animation-delay: 0.6s; }
+  h1.headline .word:nth-child(2) { animation-delay: 1.2s; color: var(--quiet); }
+  h1.headline .word:nth-child(3) { animation-delay: 1.8s; font-style: italic; color: var(--loud); }
+  .hero-sub { font-family: 'Spectral', serif; font-weight: 400; font-size: clamp(15px, 1.7vw, 21px); color: var(--ink-dim); max-width: 700px; margin: 0 auto; background: rgba(243,239,230,0.86); padding: 10px 16px; opacity: 0; animation: fadeUp 1.2s ease 2.3s forwards; }
+  .hero-foot { grid-row: 3; align-self: end; display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 2; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim); opacity: 0; animation: fadeUp 1s ease 3.1s forwards; }
+  .scroll-hint { animation: bob 2.2s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes dropIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* sections */
+  main { max-width: 1180px; margin: 0 auto; padding: 0 6vw; }
+  .band { padding: 70px 0; border-top: 1px solid var(--rule); }
+  .standfirst { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(22px, 3.2vw, 38px); line-height: 1.3; letter-spacing: -0.01em; max-width: 920px; }
+  .standfirst .hl-loud { color: var(--loud); }
+  .standfirst .hl-quiet { color: var(--quiet); font-style: italic; }
+  .oneline { font-family: 'Spectral', serif; font-size: clamp(16px, 1.8vw, 19px); color: var(--ink-dim); max-width: 820px; margin-top: 26px; }
+
+  .exhibit { padding: 64px 0; border-top: 1px solid var(--rule); }
+  .placard { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); display: flex; flex-wrap: wrap; gap: 8px 28px; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 12px 0; margin: 0 0 30px; }
+  .placard b { color: var(--ink-dim); font-weight: 500; }
+  .ex-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.2em; color: var(--ink-faint); }
+  .ex-kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin: 6px 0 14px; }
+  .ex-kicker.loud { color: var(--loud); }
+  .ex-kicker.quiet { color: var(--quiet); }
+  .ex-kicker.alert { color: var(--alert); }
+  h2.ex-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(28px, 4vw, 48px); line-height: 1.05; letter-spacing: -0.015em; margin-bottom: 22px; }
+  .lede { font-family: 'Spectral', serif; font-weight: 400; font-size: clamp(18px, 2vw, 23px); line-height: 1.5; color: var(--ink); margin-bottom: 24px; }
+  p.body { color: var(--ink-dim); font-size: 16.5px; margin-bottom: 20px; max-width: 760px; }
+  p.body strong { color: var(--ink); font-weight: 600; }
+  .conf { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; vertical-align: middle; }
+  .conf.fact { background: rgba(31,111,116,0.14); color: var(--quiet); }
+  .conf.rep { background: rgba(200,149,31,0.16); color: #9a6f12; }
+  .conf.watch { background: rgba(198,67,41,0.12); color: var(--loud); }
+
+  .you { border-left: 3px solid var(--quiet); background: var(--paper-soft); padding: 22px 26px; margin: 30px 0; font-family: 'Spectral', serif; font-weight: 400; font-style: italic; font-size: clamp(17px, 1.8vw, 21px); line-height: 1.55; color: var(--ink); max-width: 820px; }
+  .you.l { border-left-color: var(--loud); }
+  .you.a { border-left-color: var(--alert); }
+  .you .tag { display: block; font-family: 'JetBrains Mono', monospace; font-style: normal; font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--quiet); margin-bottom: 10px; }
+  .you.l .tag { color: var(--loud); }
+  .you.a .tag { color: var(--alert); }
+
+  .artifact { text-align: center; padding: 56px 0 48px; margin: 44px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+  .artifact .big { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(56px, 12vw, 132px); line-height: 0.9; letter-spacing: -0.02em; }
+  .artifact .big.loud { color: var(--loud); } .artifact .big.quiet { color: var(--quiet); } .artifact .big.alert { color: var(--alert); }
+  .artifact .cap { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-top: 20px; max-width: 680px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+
+  /* causal chain */
+  .chain { padding: 70px 0; border-top: 2px solid var(--ink); }
+  .chain h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(28px, 4.4vw, 54px); line-height: 1.0; letter-spacing: -0.015em; margin-bottom: 12px; }
+  .chain .sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 36px; }
+  .step { display: grid; grid-template-columns: 130px 1fr; gap: 18px 26px; padding: 22px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  .step .dist { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--quiet); padding-top: 3px; }
+  .step.l .dist { color: var(--loud); }
+  .step.a .dist { color: var(--alert); }
+  .step .txt { font-family: 'Spectral', serif; font-size: 17px; color: var(--ink-dim); }
+  .step .txt b { color: var(--ink); font-weight: 600; }
+  @media (max-width: 640px) { .step { grid-template-columns: 1fr; gap: 6px; } }
+  .thesisline { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: clamp(22px, 3.4vw, 40px); line-height: 1.25; margin-top: 40px; max-width: 940px; }
+  .thesisline b { font-style: normal; font-weight: 600; color: var(--loud); }
+
+  /* placards: scaffold + honesty */
+  .ledger { padding: 64px 0; border-top: 1px solid var(--rule); }
+  .ledger h3, .honesty h3 { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); margin-bottom: 22px; }
+  table.scaf { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  table.scaf th, table.scaf td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  table.scaf th { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); }
+  table.scaf td { color: var(--ink-dim); font-family: 'Spectral', serif; }
+  table.scaf td b { color: var(--ink); }
+  .hit { color: var(--quiet); font-weight: 600; }
+  .pend { color: var(--alert); font-weight: 600; }
+  .scafsum { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-dim); margin-top: 20px; }
+
+  .honesty { padding: 40px 0 64px; }
+  .honesty .box { border: 1px solid var(--alert); background: rgba(200,149,31,0.06); padding: 26px 28px; }
+  .honesty .box .hd { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #9a6f12; margin-bottom: 14px; }
+  .honesty .box p { font-family: 'Spectral', serif; font-size: 15.5px; color: var(--ink-dim); margin-bottom: 12px; }
+  .honesty .box p strong { color: var(--ink); }
+
+  /* colophon */
+  .colophon { padding: 70px 0; border-top: 2px solid var(--ink); }
+  .colophon .lab { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 22px; }
+  .colophon p { font-family: 'Spectral', serif; font-size: 16px; color: var(--ink-dim); max-width: 820px; margin-bottom: 18px; }
+  .colophon .payoff { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: clamp(22px, 3.2vw, 36px); line-height: 1.3; color: var(--ink); max-width: 880px; }
+  .colophon .payoff b { font-style: normal; font-weight: 600; color: var(--loud); }
+
+  /* footer */
+  footer.note-footer { padding: 56px 6vw 60px; text-align: center; background: var(--ink); color: var(--paper); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
+  footer.note-footer .fnav { display: flex; flex-wrap: wrap; gap: 14px 32px; justify-content: center; margin-bottom: 34px; }
+  footer.note-footer .fnav a { color: var(--paper); text-decoration: none; border-bottom: 1px solid rgba(243,239,230,0.35); padding-bottom: 2px; transition: color 0.2s ease, border-color 0.2s ease; }
+  footer.note-footer .fnav a:hover { color: var(--loud); border-color: var(--loud); }
+  footer.note-footer .fdot { color: var(--alert); }
+  footer.note-footer .fcopy { margin-top: 18px; color: rgba(243,239,230,0.5); letter-spacing: 0.08em; text-transform: none; font-size: 10.5px; line-height: 1.7; }
+
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } h1.headline .word, .kicker, .hero-sub, .hero-foot { animation: none !important; opacity: 1 !important; transform: none !important; } }
+</style>
+</head>
+<body>
+
+<nav class="strip">
+  <a href="../index.html"><span class="dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="../index.html">← All Episodes</a>
+    <a href="index.html">Field Notes</a>
+    <span class="stamp">№ 10 · EVENING CLOSE · 06.11.2026</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <!-- Thesis image, no human figures: a narrow strait of water between two flat headlands.
+       A single tanker silhouette sits in the channel. From the channel, a price bar rises tall
+       out of the frame. Below the waterline, three small stacked documents sit unmoved
+       (the producer-price sheet, the claims report, the undecided opinion). The argument
+       restated wordlessly: the narrow water sets the tall price; the paper underneath is where it lands. -->
+  <svg class="figure" viewBox="0 0 780 560" aria-hidden="true">
+    <!-- left headland -->
+    <path d="M0,300 L250,300 L250,560 L0,560 Z" fill="#dfd8c7"/>
+    <path d="M0,300 L250,300 L250,330 L0,330 Z" fill="#cfc8b8"/>
+    <!-- right headland -->
+    <path d="M530,300 L780,300 L780,560 L530,560 Z" fill="#dfd8c7"/>
+    <path d="M530,300 L780,300 L780,330 L530,330 Z" fill="#cfc8b8"/>
+    <!-- water channel -->
+    <rect x="250" y="300" width="280" height="260" fill="#1f6f74" opacity="0.16"/>
+    <line x1="250" y1="300" x2="250" y2="560" stroke="#1f6f74" stroke-width="2" opacity="0.5"/>
+    <line x1="530" y1="300" x2="530" y2="560" stroke="#1f6f74" stroke-width="2" opacity="0.5"/>
+    <!-- tanker in the channel -->
+    <g opacity="0.92">
+      <path d="M300,372 L470,372 L452,398 L318,398 Z" fill="#14181c"/>
+      <rect x="420" y="350" width="34" height="24" fill="#14181c"/>
+      <rect x="430" y="338" width="8" height="14" fill="#14181c"/>
+    </g>
+    <!-- a small strike flash (loud thread) near the tanker -->
+    <path d="M392,360 l10,-26 l4,18 l16,-6 l-14,22 l8,2 l-22,16 l4,-18 l-12,2 Z" fill="#c64329"/>
+    <!-- price bar rising out of the channel -->
+    <rect x="372" y="40" width="36" height="262" fill="#c64329"/>
+    <path d="M360,72 L390,30 L420,72 Z" fill="#c64329"/>
+    <!-- quiet stacked documents below the waterline -->
+    <g opacity="0.9">
+      <rect x="286" y="470" width="86" height="62" fill="#f3efe6" stroke="#1f6f74" stroke-width="2"/>
+      <rect x="300" y="486" width="86" height="62" fill="#f3efe6" stroke="#1f6f74" stroke-width="2"/>
+      <rect x="314" y="502" width="86" height="62" fill="#f3efe6" stroke="#1f6f74" stroke-width="2"/>
+      <line x1="326" y1="516" x2="386" y2="516" stroke="#1f6f74" stroke-width="2" opacity="0.6"/>
+      <line x1="326" y1="528" x2="386" y2="528" stroke="#1f6f74" stroke-width="2" opacity="0.6"/>
+      <line x1="326" y1="540" x2="372" y2="540" stroke="#1f6f74" stroke-width="2" opacity="0.6"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <span class="kicker">Infera Field Note № 10 · Evening Close · June 11, 2026</span>
+    <h1 class="headline"><span class="word">The Strait</span> <span class="word">Sets the</span> <span class="word">Price</span></h1>
+    <p class="hero-sub">A second day of strikes closed the Strait of Hormuz, and the cameras stayed at sea. The same shock priced a record producer-price print, a four-month high in jobless claims, an undecided Fed-firing case, and a Pittsburgh gas bill. One chokepoint, measured at five distances.</p>
+  </div>
+  <div class="hero-foot">
+    <span>What the cameras missed · 06.11.2026</span>
+    <span class="scroll-hint">scroll ↓</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- STANDFIRST -->
+  <section class="band">
+    <p class="standfirst reveal">Two pictures owned the day, both of <span class="hl-loud">war at sea</span>. Underneath them, the machinery that the war actually moves kept running: <span class="hl-quiet">a record wholesale-price report, claims at a four-month high, a Supreme Court term jamming toward a Fed-independence cliff, and a surveillance law going dark.</span></p>
+    <p class="oneline reveal">This is the Evening Close. It compares what the morning board predicted to what the day delivered, then asks the only question that matters by nightfall: which consequential thing moved while everyone was looking somewhere else. On June 11, almost all of it was the same thing, seen from different distances. The closest distance was a strait. The farthest was your gas bill.</p>
+  </section>
+
+  <!-- EXHIBIT 01 · PPI -->
+  <section class="exhibit reveal">
+    <div class="placard">
+      <span class="ex-num">EXHIBIT 01</span>
+      <span><b>CATALOG</b> T04 · PPI MAY 2026</span>
+      <span><b>MEDIUM</b> Federal data release, BLS</span>
+      <span><b>PROVENANCE</b> Predicted gravity 78 · Coverage ~3</span>
+    </div>
+    <div class="ex-kicker quiet">Quiet thread · what the cameras missed</div>
+    <h2 class="ex-title">A record monthly goods price jump, while the cameras were at sea</h2>
+    <p class="lede">The Producer Price Index is the wholesale, factory-gate cousin of the consumer inflation number. It measures what producers receive before a cost reaches the store shelf, which makes it the pipeline read on where consumer prices go next. In May, it ran hot.</p>
+    <p class="body">Final demand rose 1.1 percent in a single month and 6.5 percent over the year, the largest annual rise since November 2022. <strong>Final demand goods jumped 2.8 percent, the largest monthly increase since the series began in December 2009</strong>, with unprocessed energy materials up 6.9 percent and stage-one intermediate goods up 3.2 percent, also a record. <span class="conf fact">Fact</span></p>
+    <p class="body">In plain terms: the 4.2 percent consumer inflation reading from the day before is very likely not the peak, because the cost is still building one stage upstream. <span class="conf watch">Inference</span> And the energy line carrying it is the same Strait of Hormuz shock wearing a different suit. This landed the same morning US forces sank an Iranian vessel, so it drew moderate coverage at best.</p>
+    <div class="you q">
+      <span class="tag">Why this reaches you</span>
+      The price you pay at the register lags the price the factory pays by about a month. A record jump in goods prices upstream is a forecast of your next grocery run, your next repair bill, your next insurance notice. The cameras showed you the war. This number is the war arriving at your kitchen, with a delay.
+    </div>
+    <div class="artifact">
+      <div class="big quiet">+6.5%</div>
+      <div class="cap">Producer prices, year over year, May 2026. The largest annual gain since November 2022. Goods alone rose 2.8 percent in a single month, the biggest on record since 2009.</div>
+    </div>
+  </section>
+
+  <!-- EXHIBIT 02 · SCOTUS -->
+  <section class="exhibit reveal">
+    <div class="placard">
+      <span class="ex-num">EXHIBIT 02</span>
+      <span><b>CATALOG</b> T03 · SCOTUS OPINION DAY</span>
+      <span><b>MEDIUM</b> Supreme Court bench session</span>
+      <span><b>PROVENANCE</b> Predicted gravity 80 · Coverage low</span>
+    </div>
+    <div class="ex-kicker quiet">Quiet thread · the non-event that is the story</div>
+    <h2 class="ex-title">The opinion day that passed without the case that matters most</h2>
+    <p class="lede">Thursday was one of only three opinion days left in the term. The Court took the bench. The case markets were watching did not come down.</p>
+    <p class="body">Trump v. Cook asks whether the President can remove a Federal Reserve governor, the first such attempt in the Fed's history. It was not handed down June 11 and remains pending. <span class="conf fact">Fact</span> That non-event is the story. With roughly 23 cases outstanding and only June 18 and June 25 remaining, the heaviest decisions of the year, Fed independence, birthright citizenship, and a ballot-counting case, are now compressed into the term's final two days.</p>
+    <p class="body">The collision Infera flagged as low-probability but high-consequence, a Fed-firing ruling landing the morning after a hot inflation print and fusing monetary independence with the price story into one market event, did not happen today. <strong>It was deferred, not defused.</strong> The clock just got shorter and the docket got heavier. The specific opinions that did drop could not be confirmed from public sources at close, so we mark this exhibit source-degraded and tell you so.</p>
+    <div class="you q">
+      <span class="tag">Why this reaches you</span>
+      Whether the President can fire a Fed governor decides who controls interest rates, which decides the rate on your mortgage, your car loan, and your savings. The Court holding that question for the last days of June means the single most consequential economic ruling of the year will land in a two-day pileup, with the least time for anyone, including you, to see it coming.
+    </div>
+  </section>
+
+  <!-- EXHIBIT 03 · JOBLESS CLAIMS -->
+  <section class="exhibit reveal">
+    <div class="placard">
+      <span class="ex-num">EXHIBIT 03</span>
+      <span><b>CATALOG</b> T09 · INITIAL JOBLESS CLAIMS</span>
+      <span><b>MEDIUM</b> Federal data release, DOL</span>
+      <span><b>PROVENANCE</b> Predicted gravity 48 · Coverage ~2</span>
+    </div>
+    <div class="ex-kicker quiet">Quiet thread · the tripwire</div>
+    <h2 class="ex-title">The recession tripwire ticked, and almost no one carried it</h2>
+    <p class="lede">Initial jobless claims came in at 229,000 for the week ending June 6, above the 220,000 economists expected and the highest reading since February 7.</p>
+    <p class="body">One week is not a trend. But claims are the earliest place an energy-and-inflation shock shows up in the labor market, and they moved the wrong way on the same morning producer prices ran hot. <span class="conf fact">Fact</span> The two readings point in opposite directions for the Federal Reserve: prices say tighten, jobs say be careful. That tension is the whole story of the second half of the year, and it surfaced today in a release almost no one outside the wire desks carried on its own.</p>
+    <div class="you q">
+      <span class="tag">Why this reaches you</span>
+      Claims are the number that moves before the headlines about layoffs do. If you want the earliest honest signal of whether the job market is softening under the price shock, it is not a cable segment, it is this line, released every Thursday at 8:30 in the morning, and this week it ticked up.
+    </div>
+  </section>
+
+  <!-- EXHIBIT 04 · IRAN / HORMUZ -->
+  <section class="exhibit reveal">
+    <div class="placard">
+      <span class="ex-num">EXHIBIT 04</span>
+      <span><b>CATALOG</b> T01 · IRAN-US HORMUZ CRISIS</span>
+      <span><b>MEDIUM</b> Military action, Gulf of Oman</span>
+      <span><b>PROVENANCE</b> Predicted gravity 90 · Coverage very high</span>
+    </div>
+    <div class="ex-kicker loud">Loud thread · the story that took the oxygen</div>
+    <h2 class="ex-title">The strikes that closed the strait</h2>
+    <p class="lede">For a second straight day, the United States and Iran traded fire, and the chokepoint that prices the world's oil went dark.</p>
+    <p class="body">US forces sank an Iranian cargo vessel in the Gulf of Oman and struck the Palau-flagged tanker MT Settebello off the coast of Oman, killing three Indian sailors and drawing a formal protest from India. <span class="conf rep">Reported</span> Iran said it had fully closed the Strait of Hormuz after overnight US strikes; explosions were reported across Iran in the early hours. Trump threatened the Kharg Island export terminal while signaling reduced appetite for a wider war, and the UAE and Iran held rare direct talks. <span class="conf rep">Reported</span></p>
+    <p class="body">This is not a spectacle that stole attention it did not deserve. <strong>It is a genuine, correctly scored Alert-tier event that simply consumed the available oxygen.</strong> The honest note is not that the board mis-ranked it. It is that everything else in this note lived in its shadow, and most of those things are the same shock measured somewhere quieter.</p>
+    <p class="body">The more revealing tell is what the tape did with all of it. A second day of strikes, a record goods PPI, claims at a four-month high, and the major US equity indexes still closed higher: the S&P 500 up 0.21 percent, the Dow up 0.45 percent, the Nasdaq up 0.26 percent, while small caps fell 1.10 percent. Oil carried the war premium; stocks priced calm. <span class="conf fact">Fact</span></p>
+    <div class="you l">
+      <span class="tag">Why this reaches you</span>
+      When the spectacle is loudest and the indexes are greenest, that gap is usually where the risk is hiding, not where it has gone. The oil market and the stock market told you two different stories on June 11. At least one of them is wrong, and you are invested in the answer whether you follow markets or not.
+    </div>
+    <div class="artifact">
+      <div class="big loud">+0.21%</div>
+      <div class="cap">The S&P 500 close on a day of a second-round US-Iran exchange, a declared Hormuz closure, and a record producer-price print. The indexes that would not flinch.</div>
+    </div>
+  </section>
+
+  <!-- EXHIBIT 05 · FISA 702 -->
+  <section class="exhibit reveal">
+    <div class="placard">
+      <span class="ex-num">EXHIBIT 05</span>
+      <span><b>CATALOG</b> T02 · FISA SECTION 702</span>
+      <span><b>MEDIUM</b> House and Senate floor votes</span>
+      <span><b>PROVENANCE</b> Predicted gravity 84 · Coverage high</span>
+    </div>
+    <div class="ex-kicker alert">Alert thread · the mechanism that broke through</div>
+    <h2 class="ex-title">A surveillance law ran out of road, and this time the cameras caught it</h2>
+    <p class="lede">Section 702 is the legal authority that lets US intelligence agencies collect the communications of foreign targets without individual warrants, sweeping in Americans' messages on the other end. On June 11 it ran out of legislative road.</p>
+    <p class="body">The House rejected a short-term extension on a 198 to 218 vote. The Senate's motion to proceed failed 47 to 52, with seven Republicans crossing. <span class="conf fact">Fact</span> The authority lapses Friday, June 12. The jam is a three-way standoff: Democrats withheld votes over Bill Pulte installed as acting Director of National Intelligence, conservatives wanted warrant reforms, and the administration refused them. Three vetoes, three motives, one expiring power.</p>
+    <p class="body">Here is the calibration note worth keeping. <strong>Two days ago, Infera flagged this exact countdown as a "cameras missed" story, buried under roughly two outlets.</strong> At the deadline, it broke into mainstream coverage across Axios, The Hill, NBC, and others. The gravity call held; the coverage caught up. Sometimes the buried story is not buried forever, it is just early.</p>
+    <div class="you a">
+      <span class="tag">Why this reaches you</span>
+      If 702 lapses, the government loses a tool it calls essential, and the fight over whether your own messages get swept up without a warrant moves from theory to live consequence. Whatever side of that you land on, this is the rare mechanism story that reached daylight on its own. Watch whether a stopgap appears before midnight Friday.
+    </div>
+  </section>
+
+</main>
+
+<!-- CAUSAL CHAIN -->
+<section class="chain" style="max-width:1180px;margin:0 auto;padding-left:6vw;padding-right:6vw;">
+  <h2 class="reveal">One chokepoint, five distances</h2>
+  <div class="sub reveal">The interconnection is the product · the news shows the strait as a war · Infera shows it as the cause</div>
+
+  <div class="step l reveal">
+    <div class="dist">At the strait</div>
+    <div class="txt"><b>Iran declares Hormuz closed</b> after a second day of US strikes (T01). The war-risk premium re-expands into the price of oil. This is the picture the cameras carried.</div>
+  </div>
+  <div class="step reveal">
+    <div class="dist">One stage upstream</div>
+    <div class="txt"><b>Producer goods prices post a record monthly jump</b> (T04), the largest annual PPI in over three years. The energy shock, measured at the factory gate.</div>
+  </div>
+  <div class="step reveal">
+    <div class="dist">At the consumer</div>
+    <div class="txt">It becomes the 4.2 percent consumer inflation reading from the day before, and it lands by name on Pittsburgh-area households at the <b>Peoples Natural Gas rate hearing</b> (S01), where a 13.8 percent increase is on the table.</div>
+  </div>
+  <div class="step a reveal">
+    <div class="dist">At the backstop</div>
+    <div class="txt">The Federal Reserve is the institution that answers an inflation shock, which is exactly why a pending Supreme Court case on whether the President can fire a Fed governor (T03) sits underneath all of it, <b>undecided</b>.</div>
+  </div>
+  <div class="step a reveal">
+    <div class="dist">On its own clock</div>
+    <div class="txt">Beside them, <b>Section 702 surveillance authority ran out of road</b> (T02), the one big mechanism story that, this time, the cameras actually caught.</div>
+  </div>
+
+  <p class="thesisline reveal">The news showed the strait as a war. Infera shows it as the upstream cause of the inflation print, the gas bill, the Fed-independence case, and the market's strange calm. <b>One closed strait priced the whole board.</b></p>
+</section>
+
+<main>
+  <!-- SCAFFOLD LEDGER -->
+  <section class="ledger reveal">
+    <h3>Scaffold calibration log</h3>
+    <table class="scaf">
+      <thead>
+        <tr><th>Scaffold</th><th>Branch that landed</th><th>Result</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b>iran-hormuz-intraday</b></td><td>Fray, new kinetic incident</td><td class="hit">scaffold-hit</td><td>Second-day strikes, vessel sunk, Hormuz declared closed. The fray branch fired again as written.</td></tr>
+        <tr><td><b>fisa-702-deadline-window</b></td><td>Hard lapse looms</td><td class="hit">scaffold-hit</td><td>House 198 to 218 and Senate 47 to 52 both failed. Authority lapses June 12.</td></tr>
+        <tr><td><b>ppi-may-2026</b></td><td>Hot, energy-driven</td><td class="hit">scaffold-hit</td><td>+1.1% m/m, +6.5% y/y, goods +2.8% record, energy +6.9%. The most-likely branch fired.</td></tr>
+        <tr><td><b>scotus-opinion-day</b></td><td>Cook not handed down</td><td class="pend">scaffold-pending</td><td>Opinion day occurred; the marquee case deferred to June 18 or 25. Grade then.</td></tr>
+        <tr><td><b>treasury-30yr-auction</b></td><td>Results not retrieved</td><td class="pend">pending · degraded</td><td>Auction held; demand metrics not confirmable this run. Not graded.</td></tr>
+      </tbody>
+    </table>
+    <div class="scafsum">Scaffolds fired today: 3 · Hits: 3 · Hit rate 100% of fired · Two pending · No misses · No BREAKING-class event escaped the board today</div>
+  </section>
+
+  <!-- HONESTY PLACARD -->
+  <section class="honesty reveal">
+    <div class="box">
+      <div class="hd">⚠ Honest limitation · read before trusting</div>
+      <p><strong>What is solid.</strong> Three marquee rows resolved with confirmable public actuals: the Iran-Hormuz strikes, the FISA 702 votes, and the PPI release. The market closes and jobless-claims figure are from public reporting. Those carry FACT or REPORTED labels in the exhibits above.</p>
+      <p><strong>What is not.</strong> Several rows could not be confirmed from public sources at close and are deliberately not graded: the specific Supreme Court opinions handed down June 11, the House Appropriations defense markup outcome, the 30-year Treasury auction metrics, the EIA natural-gas storage print, the Federal Register public-inspection list, the North Carolina budget movement, and the cached local Pennsylvania and North Carolina meetings. Where we say "source-degraded," we mean we could not verify it, not that nothing happened.</p>
+      <p><strong>What is inference.</strong> The claim that the inflation peak is not in, and the reading of the equity-versus-oil split as a risk tell, are interpretations, labeled as such. The causal chain is a thesis about how one shock travels, not a claim that each step caused the next with certainty. The figures are arithmetic; the connective line is an argument.</p>
+    </div>
+  </section>
+
+  <!-- COLOPHON -->
+  <section class="colophon">
+    <div class="lab">Colophon · method and title</div>
+    <p>This note is the Evening Close for Thursday, June 11, 2026. It reconciles the morning Tomorrow Board (28 rows) against end-of-day actuals scanned across AP, Reuters, Bloomberg, NYT, WaPo, AJC and trade press. Gravity scores come from Infera's coverage-gravity rubric, where every point is sourced to a structural feature of the event, not a vibe. Confidence labels throughout: FACT, REPORTED, WATCH.</p>
+    <p>The two-color logic of this note: vermillion marks the loud thread, the strikes and the cameras; steel-teal marks the quiet thread, the upstream paper the price runs through; amber is reserved for the one authority literally going dark.</p>
+    <p class="payoff">We began with a strait, a narrow stretch of water most people never think about. By nightfall it had set the price of oil, the price at the factory gate, the price on a Pittsburgh gas bill, and the stakes of a case the Court has not yet decided. <b>The strait sets the price.</b> The cameras were pointed at the water. The bill arrives later, somewhere quieter.</p>
+  </section>
+</main>
+
+<footer class="note-footer">
+  <div class="fnav">
+    <a href="index.html">← Field Notes</a>
+    <a href="../index.html">Series Home</a>
+    <a href="09-the-rally-that-faded.html">Prev · № 09 The Rally That Faded</a>
+    <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+  </div>
+  INFERA <span class="fdot">·</span> MECHANISM SERIES <span class="fdot">·</span> FIELD NOTE № 10 <span class="fdot">·</span> "THE STRAIT SETS THE PRICE" <span class="fdot">·</span> EVENING CLOSE 06.11.2026
+  <div class="fcopy">© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com</div>
+</footer>
+
+<style id="infera-legal-footer">
+.legal-footer{
+  background:#06060a; color:rgba(168,162,152,.75);
+  font-family:'IBM Plex Sans', system-ui, sans-serif; font-size:11.5px; line-height:1.55;
+  padding:32px 6vw 36px;
+  border-top:1px solid rgba(168,162,152,.12);
+}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{
+  display:grid; grid-template-columns:1fr auto; gap:24px 32px;
+  padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08);
+  margin-bottom:14px;
+}
+.legal-footer .lf-brand{
+  font-family:'IBM Plex Mono', ui-monospace, monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.legal-footer .lf-brand b{color:#c8ff1e; font-family:inherit; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-disclaim{
+  font-size:11.5px; line-height:1.6; max-width:none; color:rgba(168,162,152,.62);
+}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+
+.legal-footer details.lf-more{margin-top:8px; padding:0}
+.legal-footer details.lf-more summary{
+  cursor:pointer; list-style:none;
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700;
+  display:inline-flex; align-items:center; gap:8px; padding:5px 0;
+}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+
+.legal-footer .lf-links{
+  display:flex; flex-wrap:wrap; gap:0 18px;
+  padding-top:14px; border-top:1px dashed rgba(168,162,152,.12);
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+
+@media (max-width:780px){
+  .legal-footer .lf-top{grid-template-columns:1fr}
+  .legal-footer{padding:26px 5vw 30px; font-size:11px}
+}
+@media (prefers-reduced-motion: reduce){
+  .legal-footer details.lf-more summary::before{transition:none}
+}
+
+.legal-footer .lf-infra{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:10px 14px 12px; margin-bottom:14px;
+  background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6);
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:560px){
+  .legal-footer .lf-infra{font-size:9px; gap:8px; padding:8px 10px 10px}
+}
+</style>
+
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+      <nav class="lf-infra" aria-label="Infrastructure links">
+        <span class="lf-infra-lbl">More from Infera</span>
+        <a href="../systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+        <a href="../claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+        <a href="../case-file.html">Your Case File</a><span class="lf-sep">·</span>
+        <a href="../founding.html">Founding 500</a><span class="lf-sep">·</span>
+        <a href="../field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+        <a href="../index.html#about">About</a>
+      </nav>
+
+    <div class="lf-top">
+      <div class="lf-brand">
+        <span>© 2026 <b>Infera</b></span>
+        <span class="sep">·</span>
+        <span>All rights reserved</span>
+        <span class="sep">·</span>
+        <em>The Mechanism Series™</em>
+      </div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis &mdash; <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided &ldquo;as is&rdquo; without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> &ldquo;Infera,&rdquo; &ldquo;The Mechanism Series,&rdquo; and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis (echo dots, provenance layer, evidence mode, chapter rails, claims atlas format, systems atlas format) are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission &mdash; usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for persona memory, reading log, and evidence-mode preference &mdash; none transmitted. Subscriber emails stored at Buttondown. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with: (1) the copyrighted work, (2) the allegedly infringing URL, (3) your contact info, (4) good-faith statement, (5) statement under penalty of perjury, (6) your signature. Knowingly false DMCA notices may incur liability under 17 U.S.C. § 512(f). Counter-notices follow § 512(g).</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action arising from these terms shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Underwriters do not see episodes prior to publication. Editorial decisions are independent.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication. AI does not author episodes.</p>
+          <p style="margin-top:10px; font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="../legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="../legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="../legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="../legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="../legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="../legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="../legal.html#unsubscribe">Unsubscribe</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+
+    <div class="lf-tail">
+      <em>Atlanta, GA · USA · v.2026.05</em>
+      <span>Last updated · 26 May 2026</span>
+    </div>
+  </div>
+</aside>
+
+
+<script>
+  (function(){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  })();
+</script>
+</body>
+</html>
