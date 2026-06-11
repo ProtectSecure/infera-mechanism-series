@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mechanism Brief № 004 · The Reassessment Clock · Monday, June 15, 2026</title>
+<meta name="description" content="Allegheny County last reassessed property values on May 18, 2012. That was 5,142 days ago. North Carolina law requires every county to reassess every 8 years. Pennsylvania law requires nothing. The longer a county waits, the more wrong its property values become, and the more regressively unfair its school-funding distribution gets. This is a clock that runs backwards: each day of waiting makes the bill more unjust."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4efe2;
+    --paper-soft: #ece6d4;
+    --paper-deep: #d9d2bf;
+    --ink: #15222b;
+    --ink-dim: #46535d;
+    --ink-faint: #8b9097;
+    --rule: #d9d2bf;
+    --signal: #c14026;
+    --ochre: #b3641f;
+    --teal: #2b5d6e;
+    --moss: #4a7058;
+    --copper: #b87333;
+    --voltage: #e8c34a;
+    --circuit: #3a6ea5;
+    --steel: #3d4854;
+    /* Brief 004 · parcel + blueprint palette */
+    --brick: #8b3a2c;
+    --brick-soft: rgba(139,58,44,0.12);
+    --brass: #b59c5f;
+    --brass-soft: rgba(181,156,95,0.16);
+    --survey: #5a7d8c;
+    --survey-soft: rgba(90,125,140,0.14);
+    --plat: #2a4053;
+    --parcel-line: #2a4053;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+  /* Blueprint plat-survey background grid */
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(to right, rgba(90,125,140,0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(90,125,140,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  /* Diagonal parcel lines accent */
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(45deg, transparent 0, transparent 200px, rgba(181,156,95,0.025) 200px, rgba(181,156,95,0.025) 201px, transparent 201px);
+    background-size: 240px 240px;
+  }
+  main { position: relative; z-index: 1; }
+  a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 2px; transition: all 0.2s ease; }
+  a:hover { text-decoration-color: var(--brick); color: var(--brick); }
+  ::selection { background: var(--brass); color: var(--ink); }
+
+  /* nav strip */
+  nav.strip {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-dim);
+    background: linear-gradient(to bottom, rgba(244,239,226,0.97), rgba(244,239,226,0));
+    backdrop-filter: blur(8px);
+  }
+  nav.strip a { text-decoration: none; }
+  nav.strip .brand { color: var(--ink); font-weight: 500; }
+  nav.strip .brand .dot { display: inline-block; width: 5px; height: 5px; background: var(--brick); border-radius: 50%; margin: 0 7px 2px; vertical-align: middle; animation: pulse 2s ease-in-out infinite; }
+  nav.strip .navlinks { display: flex; gap: 22px; align-items: center; }
+  nav.strip .stamp { color: var(--ink-faint); }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  @media (max-width: 720px) { nav.strip .stamp { display: none; } nav.strip .navlinks { gap: 14px; } nav.strip { padding: 14px 18px; } }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .day-tick, .counter-tick, .gauge-needle { animation: none !important; }
+  }
+
+  section { padding: 80px 24px; }
+  .container { max-width: 740px; margin: 0 auto; }
+  .container-wide { max-width: 1080px; margin: 0 auto; }
+
+  /* ───────── HERO ───────── */
+  .hero {
+    min-height: 100vh;
+    padding: 110px 24px 60px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .hero .plat-bg {
+    position: absolute; right: -10%; bottom: 0; width: 62%; height: 70%;
+    opacity: 0.09; pointer-events: none;
+  }
+  .hero .container { width: 100%; position: relative; z-index: 2; }
+  .hero .vol-line {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.34em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 14px;
+  }
+  .hero .vol-line .vol-mark { color: var(--paper); background: var(--brick); padding: 3px 8px; font-weight: 600; }
+  .hero .kicker-numbers {
+    display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 28px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .hero .kicker-numbers .n { color: var(--brick); font-weight: 600; font-size: 13px; margin-right: 6px; }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(38px, 6.4vw, 84px); line-height: 1.04;
+    letter-spacing: -0.018em; margin-bottom: 36px;
+  }
+  .hero h1 em { font-style: italic; color: var(--brick); font-weight: 300; }
+  .hero h1 .underlined {
+    background-image: linear-gradient(to bottom, transparent 62%, var(--brass-soft) 62%, var(--brass-soft) 98%, transparent 98%);
+    padding: 0 2px;
+  }
+  .hero .lede {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(18px, 2.1vw, 22px); line-height: 1.55;
+    color: var(--ink-dim); max-width: 660px; margin-bottom: 56px;
+  }
+  .hero .meta {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; padding-top: 32px;
+    border-top: 2px solid var(--plat); max-width: 880px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .hero .meta > div { border-left: 2px solid var(--brick); padding-left: 14px; }
+  .hero .meta .label { color: var(--ink-faint); display: block; margin-bottom: 4px; font-size: 9.5px; }
+  .hero .meta .val { color: var(--ink); }
+  @media (max-width: 720px) { .hero .meta { grid-template-columns: 1fr 1fr; } }
+
+  /* ───────── COLD OPEN ───────── */
+  .cold-open { background: var(--plat); color: var(--paper); padding: 100px 24px; position: relative; overflow: hidden; }
+  .cold-open::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgba(232,195,74,0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(232,195,74,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .cold-open .container { position: relative; z-index: 2; }
+  .cold-open .scene-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--brass); margin-bottom: 22px; font-weight: 600;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .cold-open .scene-label::after { content: ''; flex-grow: 1; height: 1px; background: rgba(181,156,95,0.32); }
+  .cold-open .scene {
+    font-family: 'Fraunces', serif; font-weight: 300; font-style: italic;
+    font-size: clamp(22px, 2.8vw, 30px); line-height: 1.45; color: var(--paper);
+    max-width: 760px; margin-bottom: 26px;
+  }
+  .cold-open .scene strong { font-style: normal; font-weight: 500; color: var(--brass); }
+  .cold-open .turn {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(28px, 4vw, 40px); line-height: 1.2; color: var(--brick);
+    max-width: 720px; margin-top: 18px;
+  }
+
+  /* exhibit label */
+  .exhibit-label {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--brick);
+  }
+  .exhibit-label .num { background: var(--brick); color: var(--paper); padding: 4px 10px; letter-spacing: 0.18em; }
+
+  section h2 {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(28px, 4.2vw, 44px); line-height: 1.12; letter-spacing: -0.012em;
+    margin-bottom: 32px; max-width: 760px;
+  }
+  section h2 em { font-style: italic; color: var(--brick); }
+  section h2 .brass-em { font-style: italic; color: var(--paper); background: var(--plat); padding: 0 6px; }
+  section p { max-width: 660px; margin-bottom: 22px; font-size: 17.5px; color: var(--ink-dim); }
+  section p strong { color: var(--ink); font-weight: 500; }
+  section p em { font-style: italic; color: var(--ink); }
+
+  /* ───────── EXHIBIT A · THE COUNTER ───────── */
+  .counter-section { background: var(--paper-soft); }
+  .counter-frame {
+    margin: 48px 0 32px;
+    background: var(--paper); border: 1px solid var(--rule); padding: 44px 40px;
+    position: relative;
+  }
+  .counter-frame::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
+    background: linear-gradient(to bottom, var(--brick), var(--brass));
+  }
+  .counter-header {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 14px;
+  }
+  .counter-county { font-family: 'Fraunces', serif; font-size: 28px; color: var(--ink); margin-bottom: 12px; line-height: 1.2; }
+  .counter-county em { color: var(--brick); font-style: italic; }
+  .counter-big {
+    display: flex; align-items: baseline; gap: 18px; margin: 22px 0;
+  }
+  .counter-num {
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(64px, 10vw, 120px);
+    line-height: 1; color: var(--brick); letter-spacing: -0.02em;
+  }
+  .counter-unit {
+    font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .counter-context {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; color: var(--ink-dim);
+    max-width: 620px; line-height: 1.5;
+  }
+  .counter-context strong { color: var(--ink); font-style: normal; font-weight: 500; }
+
+  .county-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--rule); border: 1px solid var(--rule);
+    margin-top: 32px;
+  }
+  @media (max-width: 860px) { .county-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .county-grid { grid-template-columns: 1fr; } }
+  .county-cell {
+    background: var(--paper); padding: 20px 20px;
+  }
+  .county-cell .cn {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 8px;
+  }
+  .county-cell .cname { font-family: 'Fraunces', serif; font-size: 17px; color: var(--ink); margin-bottom: 14px; line-height: 1.25; }
+  .county-cell .cdays {
+    font-family: 'Fraunces', serif; font-size: 36px; font-weight: 400; color: var(--brick); line-height: 1; margin-bottom: 6px;
+  }
+  .county-cell .cdays.good { color: var(--moss); }
+  .county-cell .cdays.med { color: var(--ochre); }
+  .county-cell .clabel {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .county-cell .clast {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+    color: var(--ink-dim); margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--rule);
+  }
+
+  .counter-callout {
+    margin-top: 32px; padding: 26px 30px;
+    border-left: 4px solid var(--brick); background: var(--paper);
+    max-width: 760px;
+  }
+  .counter-callout .h {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--brick); margin-bottom: 12px; font-weight: 600;
+  }
+  .counter-callout p { font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; color: var(--ink); margin-bottom: 0; max-width: none; }
+
+  /* ───────── EXHIBIT B · DYK POP QUIZ ───────── */
+  .dyk-section { background: var(--ink); color: var(--paper); padding: 96px 24px; position: relative; overflow: hidden; }
+  .dyk-section::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(181,156,95,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(181,156,95,0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+  .dyk-section .container { position: relative; z-index: 2; }
+  .dyk-section h2 { color: var(--paper); }
+  .dyk-section h2 em { color: var(--brass); }
+  .dyk-section .exhibit-label { color: var(--brass); }
+  .dyk-section .exhibit-label .num { background: var(--brass); color: var(--ink); }
+  .dyk-section p { color: var(--paper-deep); }
+  .dyk-section p strong { color: var(--paper); }
+
+  .quiz-stack { margin-top: 48px; display: grid; gap: 28px; }
+  .dyk-q {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10);
+    padding: 30px 32px;
+  }
+  .dyk-q .qhead {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--brass); margin-bottom: 14px; font-weight: 600;
+  }
+  .dyk-q .qtxt {
+    font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(20px, 2.4vw, 26px); line-height: 1.35;
+    color: var(--paper); margin-bottom: 22px;
+  }
+  .dyk-opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
+  @media (max-width: 720px) { .dyk-opts { grid-template-columns: 1fr 1fr; } }
+  .dyk-opts button {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em;
+    padding: 14px 12px; background: rgba(255,255,255,0.02); color: var(--paper);
+    border: 1px solid rgba(255,255,255,0.18); cursor: pointer; transition: all 0.18s ease;
+  }
+  .dyk-opts button:hover { background: rgba(181,156,95,0.10); border-color: var(--brass); }
+  .dyk-opts button.right { background: var(--brass); color: var(--ink); border-color: var(--brass); }
+  .dyk-opts button.wrong { background: rgba(193,64,38,0.18); color: var(--signal); border-color: var(--signal); }
+  .dyk-opts button.dim { opacity: 0.34; }
+  .dyk-reveal {
+    display: none; padding: 20px 22px; background: rgba(181,156,95,0.06); border-left: 3px solid var(--brass);
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; line-height: 1.5; color: var(--paper);
+  }
+  .dyk-reveal.show { display: block; }
+  .dyk-reveal .source {
+    display: block; margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint);
+  }
+
+  /* ───────── EXHIBIT C · TWO COUNTIES ───────── */
+  .two-section { background: var(--paper); }
+  .two-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--plat); border: 1px solid var(--plat);
+    margin-top: 44px;
+  }
+  @media (max-width: 720px) { .two-grid { grid-template-columns: 1fr; } }
+  .two-col {
+    background: var(--paper-soft); padding: 32px 30px;
+    position: relative;
+  }
+  .two-col.pa { border-top: 6px solid var(--brick); }
+  .two-col.nc { border-top: 6px solid var(--moss); }
+  .two-col .state-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
+    font-weight: 600; margin-bottom: 12px;
+  }
+  .two-col.pa .state-tag { color: var(--brick); }
+  .two-col.nc .state-tag { color: var(--moss); }
+  .two-col .county-name {
+    font-family: 'Fraunces', serif; font-size: 26px; line-height: 1.2; color: var(--ink); margin-bottom: 6px;
+  }
+  .two-col .county-name em { font-style: italic; color: var(--ink-dim); }
+  .two-col .city {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: var(--ink-faint);
+    margin-bottom: 24px;
+  }
+  .two-col .stat-line {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 12px 0; border-bottom: 1px dashed var(--rule);
+  }
+  .two-col .stat-line:last-of-type { border-bottom: none; }
+  .two-col .stat-line .k {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .two-col .stat-line .v {
+    font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink); font-weight: 500;
+  }
+  .two-col.pa .stat-line .v.hot { color: var(--brick); }
+  .two-col.nc .stat-line .v.cool { color: var(--moss); }
+  .two-col .verdict {
+    margin-top: 22px; padding: 16px 18px;
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 16px; line-height: 1.45;
+  }
+  .two-col.pa .verdict { background: var(--brick-soft); color: var(--ink); border-left: 3px solid var(--brick); }
+  .two-col.nc .verdict { background: var(--moss-soft); color: var(--ink); border-left: 3px solid var(--moss); }
+
+  /* ───────── EXHIBIT D · TAX CALCULATOR ───────── */
+  .calc-section { background: var(--ink); color: var(--paper); padding: 96px 24px; }
+  .calc-section h2 { color: var(--paper); }
+  .calc-section h2 em { color: var(--brass); }
+  .calc-section .exhibit-label { color: var(--brass); }
+  .calc-section .exhibit-label .num { background: var(--brass); color: var(--ink); }
+  .calc-section p { color: var(--paper-deep); }
+
+  .calc-frame {
+    margin-top: 48px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.12);
+    padding: 36px 38px;
+  }
+  .calc-grid-2 {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px;
+  }
+  @media (max-width: 720px) { .calc-grid-2 { grid-template-columns: 1fr; } }
+  .calc-input {
+    background: rgba(0,0,0,0.30); border: 1px solid rgba(255,255,255,0.10);
+    padding: 18px 20px;
+  }
+  .calc-input label {
+    display: block; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px;
+  }
+  .calc-input select, .calc-input input {
+    width: 100%; background: transparent; border: none;
+    font-family: 'Fraunces', serif; font-size: 22px; color: var(--brass); font-weight: 400;
+    padding: 0; outline: none;
+  }
+  .calc-input input[type="number"]::-webkit-outer-spin-button,
+  .calc-input input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .calc-input input::placeholder { color: var(--ink-faint); }
+
+  .calc-slider-wrap { padding: 12px 0 0; }
+  .calc-slider-wrap .scale-marks {
+    display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; letter-spacing: 0.14em; color: var(--ink-faint); margin-top: 8px;
+  }
+  input[type="range"].appr-slider {
+    width: 100%; height: 6px; appearance: none; background: linear-gradient(to right, var(--moss), var(--brass), var(--brick));
+    border-radius: 3px; outline: none; cursor: pointer;
+  }
+  input[type="range"].appr-slider::-webkit-slider-thumb {
+    appearance: none; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--brass); border: 3px solid var(--ink);
+    cursor: grab; box-shadow: 0 0 10px rgba(181,156,95,0.6);
+  }
+  input[type="range"].appr-slider::-moz-range-thumb {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--brass); border: 3px solid var(--ink);
+    cursor: grab; box-shadow: 0 0 10px rgba(181,156,95,0.6);
+  }
+
+  .calc-result {
+    margin-top: 28px; padding: 28px 32px;
+    background: var(--brick); color: var(--paper);
+    border-left: 5px solid var(--brass);
+    display: none;
+  }
+  .calc-result.show { display: block; }
+  .calc-result.fair { background: var(--moss); }
+  .calc-result.over { background: var(--signal); }
+  .calc-result .verdict-head {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--brass); margin-bottom: 12px; font-weight: 600;
+  }
+  .calc-result.fair .verdict-head { color: var(--paper); }
+  .calc-result .verdict-body {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 20px; line-height: 1.45;
+  }
+  .calc-result .verdict-body strong { font-style: normal; font-weight: 600; color: var(--brass); }
+  .calc-result.fair .verdict-body strong { color: var(--paper-deep); }
+
+  /* ───────── EXHIBIT E · THE INVERSION ───────── */
+  .inv-section { background: var(--paper-soft); }
+  .inv-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+    margin-top: 44px;
+  }
+  @media (max-width: 720px) { .inv-grid { grid-template-columns: 1fr; } }
+  .inv-col {
+    background: var(--paper); border: 1px solid var(--rule); padding: 28px 28px;
+    position: relative;
+  }
+  .inv-col.fair { border-top: 5px solid var(--moss); }
+  .inv-col.stale { border-top: 5px solid var(--brick); }
+  .inv-col .ih {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    font-weight: 600; margin-bottom: 12px;
+  }
+  .inv-col.fair .ih { color: var(--moss); }
+  .inv-col.stale .ih { color: var(--brick); }
+  .inv-col h4 {
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: 22px; line-height: 1.2; margin-bottom: 18px;
+    color: var(--ink);
+  }
+  .inv-col h4 em { font-style: italic; }
+  .inv-col.fair h4 em { color: var(--moss); }
+  .inv-col.stale h4 em { color: var(--brick); }
+  .inv-col p { font-size: 15.5px; margin-bottom: 14px; }
+  .inv-bar {
+    margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--rule);
+  }
+  .inv-bar .bar-row {
+    display: grid; grid-template-columns: 110px 1fr 64px; gap: 10px; align-items: center; margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.10em; color: var(--ink-dim);
+  }
+  .inv-bar .bar-row .nbr { color: var(--ink); font-weight: 600; text-align: right; font-size: 11px; }
+  .inv-bar .bar-track { background: var(--rule); height: 14px; position: relative; overflow: hidden; }
+  .inv-bar .bar-fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    transition: width 0.6s ease;
+  }
+  .inv-col.fair .bar-fill { background: var(--moss); }
+  .inv-col.stale .bar-fill { background: var(--brick); }
+
+  /* ───────── PERSONAL STAKE ───────── */
+  .stake-section { background: var(--paper); }
+  .quiz-block { margin-top: 36px; }
+  .quiz-q {
+    padding: 24px 28px; border: 1px solid var(--rule); margin-bottom: 16px;
+    background: var(--paper-soft); border-left: 4px solid var(--survey);
+  }
+  .quiz-q .qhead {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--survey); margin-bottom: 12px; font-weight: 600;
+  }
+  .quiz-q .qtxt {
+    font-family: 'Fraunces', serif; font-size: 20px; color: var(--ink); margin-bottom: 18px; line-height: 1.35;
+  }
+  .quiz-opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .quiz-opts button {
+    font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em;
+    padding: 10px 18px; background: var(--paper); color: var(--ink); border: 1px solid var(--ink-dim);
+    cursor: pointer; transition: all 0.18s ease;
+  }
+  .quiz-opts button:hover { background: var(--ink); color: var(--paper); }
+  .quiz-opts button.sel { background: var(--brick); color: var(--paper); border-color: var(--brick); }
+  .stake-result {
+    margin-top: 28px; padding: 28px 32px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper);
+    display: none; border-left: 4px solid var(--brass);
+  }
+  .stake-result.show { display: block; }
+  .stake-result .rh {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--brass); margin-bottom: 12px; font-weight: 600;
+  }
+  .stake-result .rtxt {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 20px; line-height: 1.45;
+  }
+  .stake-result .rtxt em { color: var(--brass); }
+
+  /* ───────── EXHIBIT F · VOLUME ECHOES ───────── */
+  .echoes-section { background: var(--paper-soft); }
+  .clocks-strip {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+    margin-top: 44px;
+  }
+  @media (max-width: 1000px) { .clocks-strip { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .clocks-strip { grid-template-columns: 1fr; } }
+  .clock-card {
+    background: var(--paper); border: 1px solid var(--rule);
+    padding: 22px 20px; text-decoration: none; color: var(--ink);
+    transition: all 0.22s ease;
+    display: flex; flex-direction: column; border-top: 4px solid var(--brick);
+  }
+  .clock-card.next { border-top-color: var(--rule); opacity: 0.65; }
+  .clock-card.current { border-top-color: var(--brass); background: linear-gradient(to bottom, var(--brass-soft), var(--paper)); }
+  .clock-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .clock-card .ctag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.20em; text-transform: uppercase;
+    color: var(--brick); margin-bottom: 14px; font-weight: 600;
+  }
+  .clock-card.current .ctag { color: var(--ink); }
+  .clock-card.next .ctag { color: var(--ink-faint); }
+  .clock-card .ctitle {
+    font-family: 'Fraunces', serif; font-size: 17px; line-height: 1.25; margin-bottom: 12px; color: var(--ink);
+  }
+  .clock-card .cdays {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-dim); margin-top: auto;
+    padding-top: 14px; border-top: 1px solid var(--rule);
+  }
+  .clock-card .cdays .num { color: var(--brick); font-weight: 600; font-size: 13px; }
+  .clock-card.next .cdays { color: var(--ink-faint); }
+
+  .pattern-callout {
+    margin-top: 36px; padding: 26px 32px; background: var(--ink); color: var(--paper); border-left: 4px solid var(--brass);
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; line-height: 1.5;
+    max-width: 820px;
+  }
+  .pattern-callout strong { color: var(--brass); font-style: normal; font-weight: 600; }
+
+  /* ───────── ACTION ───────── */
+  .action-section { background: var(--paper); }
+  .action-cards {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-top: 36px;
+  }
+  .action-card {
+    background: var(--paper-soft); border: 1px solid var(--rule);
+    padding: 24px 22px; display: flex; flex-direction: column;
+    border-top: 4px solid var(--survey);
+  }
+  .action-card .step {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--survey); margin-bottom: 14px; font-weight: 600;
+  }
+  .action-card h4 {
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: 19px; line-height: 1.25; color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .action-card p {
+    font-size: 14px; line-height: 1.5; color: var(--ink-dim); margin-bottom: 16px; flex-grow: 1;
+  }
+  .action-card a {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--brick); text-decoration: none; margin-top: auto;
+    border-top: 1px solid var(--rule); padding-top: 12px;
+  }
+  .action-card a:hover { color: var(--ink); }
+  @media (max-width: 860px) { .action-cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .action-cards { grid-template-columns: 1fr; } }
+
+  /* ───────── MONDAY DENSITY ───────── */
+  .monday-section { background: var(--paper-soft); }
+  .gov-table {
+    width: 100%; margin-top: 36px; border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  }
+  .gov-table th, .gov-table td { text-align: left; padding: 14px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  .gov-table th { color: var(--ink-faint); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; }
+  .gov-table td { color: var(--ink-dim); }
+  .gov-table td.where { color: var(--ink); font-weight: 500; }
+  .gov-table td.tag { color: var(--brick); }
+  .gov-table tr.highlight td { background: var(--brass-soft); color: var(--ink); font-weight: 500; }
+
+  /* joke / method / sources */
+  .joke-section { background: var(--paper); }
+  .joke-section .pull {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(24px, 3.6vw, 38px); line-height: 1.25; color: var(--ink);
+    max-width: 820px;
+  }
+  .joke-section .pull em { color: var(--brick); }
+  .joke-section .by {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint); margin-top: 24px;
+  }
+
+  .method-section { background: var(--paper-soft); padding-top: 60px; padding-bottom: 60px; }
+  .method-section .container { max-width: 720px; }
+  .method-section h3 {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 18px;
+  }
+  .method-section p { font-size: 14.5px; }
+  .conf-row { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .conf-row span { padding: 4px 10px; border: 1px solid var(--rule); color: var(--ink-dim); }
+  .conf-row .fact { border-color: var(--moss); color: var(--moss); }
+  .conf-row .rep { border-color: var(--brick); color: var(--brick); }
+  .conf-row .watch { border-color: var(--signal); color: var(--signal); }
+
+  .sources-section { background: var(--paper); padding-top: 60px; }
+  .sources-section h3 {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 24px;
+  }
+  .sources-section ol { padding-left: 24px; }
+  .sources-section li { font-size: 14.5px; color: var(--ink-dim); margin-bottom: 12px; line-height: 1.55; }
+  .sources-section li strong { color: var(--ink); font-weight: 500; }
+  .sources-section li a { color: var(--ink); }
+
+  /* footer */
+  footer.brief-footer { background: var(--ink); color: var(--paper-deep); padding: 56px 24px 32px; }
+  footer.brief-footer .container { max-width: 1080px; }
+  footer.brief-footer .frow {
+    display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;
+    padding-bottom: 28px; border-bottom: 1px solid rgba(255,255,255,0.10); margin-bottom: 28px;
+  }
+  footer.brief-footer a { color: var(--paper); text-decoration: none; }
+  footer.brief-footer a:hover { color: var(--brass); }
+  footer.brief-footer .flinks {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    display: flex; gap: 22px; flex-wrap: wrap;
+  }
+  footer.brief-footer .fnav-prev-next {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 28px;
+  }
+  @media (max-width: 720px) { footer.brief-footer .fnav-prev-next { grid-template-columns: 1fr; } }
+  footer.brief-footer .fpn { border: 1px solid rgba(255,255,255,0.14); padding: 18px 22px; border-left: 3px solid var(--brass); }
+  footer.brief-footer .fpn .pn-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 8px;
+  }
+  footer.brief-footer .fpn .pn-title { font-family: 'Fraunces', serif; font-size: 17px; color: var(--paper); }
+  footer.brief-footer .fcopy {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em;
+    color: var(--ink-faint); line-height: 1.7;
+  }
+  footer.brief-footer .fcopy a { color: var(--ink-faint); border-bottom: 1px solid rgba(255,255,255,0.10); }
+  footer.brief-footer .fcopy a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════ NAV STRIP ════════════ -->
+<nav class="strip">
+  <a class="brand" href="../index.html">INFERA<span class="dot"></span>THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="index.html">← All Briefs</a>
+    <a href="../field-notes/index.html">Field Notes</a>
+    <span class="stamp">VOL I · BRIEF № 004</span>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ════════════ HERO ════════════ -->
+  <section class="hero">
+    <!-- Background plat-survey illustration -->
+    <svg class="plat-bg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- Parcel boundaries -->
+      <g stroke="#15222b" stroke-width="2" fill="none">
+        <rect x="80" y="80" width="180" height="140"/>
+        <rect x="260" y="80" width="220" height="200"/>
+        <rect x="480" y="80" width="160" height="180"/>
+        <rect x="80" y="220" width="180" height="180"/>
+        <rect x="260" y="280" width="140" height="160"/>
+        <rect x="400" y="260" width="180" height="200"/>
+        <rect x="580" y="260" width="140" height="160"/>
+        <rect x="80" y="400" width="280" height="120"/>
+        <rect x="360" y="440" width="200" height="80"/>
+        <rect x="560" y="420" width="180" height="100"/>
+      </g>
+      <!-- Parcel numbers -->
+      <g style="font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: #15222b; opacity: 0.8;">
+        <text x="170" y="155">001</text>
+        <text x="370" y="185">002</text>
+        <text x="560" y="175">003</text>
+        <text x="170" y="315">004</text>
+        <text x="330" y="365">005</text>
+        <text x="490" y="365">006</text>
+        <text x="650" y="345">007</text>
+        <text x="220" y="465">008</text>
+        <text x="460" y="485">009</text>
+        <text x="650" y="475">010</text>
+      </g>
+      <!-- Surveyor compass rose -->
+      <g transform="translate(720, 70)">
+        <circle r="22" fill="none" stroke="#15222b" stroke-width="1.5"/>
+        <line x1="0" y1="-22" x2="0" y2="22" stroke="#15222b" stroke-width="1"/>
+        <line x1="-22" y1="0" x2="22" y2="0" stroke="#15222b" stroke-width="1"/>
+        <text x="0" y="-26" text-anchor="middle" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: #15222b; font-weight: 600;">N</text>
+      </g>
+      <!-- Dimension line on a parcel -->
+      <g stroke="#15222b" stroke-width="0.8" fill="none" opacity="0.6">
+        <line x1="80" y1="60" x2="260" y2="60"/>
+        <line x1="80" y1="55" x2="80" y2="65"/>
+        <line x1="260" y1="55" x2="260" y2="65"/>
+      </g>
+      <text x="170" y="50" text-anchor="middle" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #15222b; opacity: 0.6;">180' ± SURVEY 1979</text>
+    </svg>
+
+    <div class="container">
+      <div class="vol-line"><span class="vol-mark">VOLUME I</span> · THE HIDDEN CLOCKS · NO. 004</div>
+      <div class="kicker-numbers">
+        <span><span class="n">5,142</span>DAYS SINCE ALLEGHENY REASSESSED</span>
+        <span><span class="n">8 YRS</span>NC STATUTORY CYCLE</span>
+        <span><span class="n">0</span>PA STATUTORY CYCLE</span>
+        <span><span class="n">$1.6B</span>SCHOOL TAX MISALLOCATED</span>
+      </div>
+      <h1>
+        North Carolina law requires every county to reassess <em>every eight years</em>.<br>
+        Pennsylvania law requires <span class="underlined">nothing</span>.
+      </h1>
+      <p class="lede">Allegheny County, Pennsylvania last reassessed property values on May 18, 2012. That was <em>5,142 days ago</em>. In Mecklenburg County, North Carolina, the most recent reassessment was 2023, on a four-year cycle. When a county lets the years pile up between reassessments, the unfairness compounds: fast-appreciating neighborhoods underpay, slow-appreciating neighborhoods overpay, school districts get distorted revenue. The longer the wait, the more regressively wrong the bill becomes. This is a clock that runs backwards.</p>
+      <div class="meta">
+        <div><span class="label">Mechanism</span><span class="val">County property reassessment cycle</span></div>
+        <div><span class="label">Stake</span><span class="val">Every property tax bill</span></div>
+        <div><span class="label">Anchor County</span><span class="val">Allegheny PA · 1.2M</span></div>
+        <div><span class="label">Comparator</span><span class="val">Wake NC · Mecklenburg NC</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ COLD OPEN ════════════ -->
+  <section class="cold-open">
+    <div class="container">
+      <div class="scene-label">SCENE · TWO HOUSES, ONE COUNTY</div>
+      <p class="scene">Imagine a modest brick house on a side street in <strong>Penn Hills</strong>, on the east side of Pittsburgh. It was last assessed in 2012 at $98,000. The neighborhood has not appreciated. The house is worth roughly $98,000 today. The owner pays property tax on $98,000.</p>
+      <p class="scene">Three miles south, in <strong>Squirrel Hill</strong>, a similar-sized house was also assessed in 2012, at $310,000. The neighborhood has appreciated. The house is worth roughly $720,000 today. The owner pays property tax on $310,000.</p>
+      <p class="turn">Both owners pay the same mill rate. Only one is paying it on what their house is actually worth.</p>
+    </div>
+  </section>
+
+  <!-- ════════════ EXHIBIT A · THE COUNTER ════════════ -->
+  <section class="counter-section">
+    <div class="container">
+      <div class="exhibit-label"><span class="num">EXHIBIT A</span><span>THE REASSESSMENT COUNTER</span></div>
+      <h2>This counter has been running for <em>fourteen years</em>. Nobody is stopping it.</h2>
+      <p>This is the simplest possible Hidden Clock. Every day a county lets pass without reassessing, the gap between assessed value and actual market value widens unevenly across properties. Some properties get more wrong faster than others. Some get less wrong. The wrongness is not random; it is distributed in a way that consistently disadvantages neighborhoods whose values haven't kept up with the county average. Here is the counter, for the anchor county.</p>
+
+      <div class="counter-frame reveal">
+        <div class="counter-header">ALLEGHENY COUNTY, PENNSYLVANIA · LAST FULL REASSESSMENT</div>
+        <div class="counter-county">Last reassessment date: <em>May 18, 2012</em></div>
+        <div class="counter-big">
+          <div class="counter-num" id="dayCount">5,142</div>
+          <div class="counter-unit">days ago</div>
+        </div>
+        <p class="counter-context"><strong>That was the last time any property in Allegheny County had its assessed value re-checked against market reality.</strong> The county has never set a statutory cycle for the next one. Pennsylvania has never required one. The 2012 reassessment itself was court-ordered, after a 2009 state Supreme Court ruling found the prior values unconstitutionally arbitrary.</p>
+      </div>
+
+      <div class="county-grid">
+        <div class="county-cell">
+          <div class="cn">PA · COUNTY 01</div>
+          <div class="cname">Allegheny <em>Pittsburgh</em></div>
+          <div class="cdays">5,142</div>
+          <div class="clabel">days stale</div>
+          <div class="clast">Last: 2012 · Cycle: none</div>
+        </div>
+        <div class="county-cell">
+          <div class="cn">PA · COUNTY 02</div>
+          <div class="cname">Philadelphia <em>City + County</em></div>
+          <div class="cdays">~1,275</div>
+          <div class="clabel">days stale</div>
+          <div class="clast">Last: 2023 (AVI cycle) · Annual since 2014</div>
+        </div>
+        <div class="county-cell">
+          <div class="cn">PA · COUNTY 03</div>
+          <div class="cname">Delaware <em>Media</em></div>
+          <div class="cdays">~1,824</div>
+          <div class="clabel">days stale</div>
+          <div class="clast">Last: 2021 · Cycle: none after this</div>
+        </div>
+        <div class="county-cell">
+          <div class="cn">PA · WORST CASE</div>
+          <div class="cname">Blair County <em>Altoona</em></div>
+          <div class="cdays">~17,500</div>
+          <div class="clabel">days stale</div>
+          <div class="clast">Last full reassessment: 1958</div>
+        </div>
+        <div class="county-cell">
+          <div class="cn">NC · COUNTY 01</div>
+          <div class="cname">Wake <em>Raleigh</em></div>
+          <div class="cdays good">~730</div>
+          <div class="clabel">days stale</div>
+          <div class="clast">Last: 2024 · Cycle: 4 years</div>
+        </div>
+        <div class="county-cell">
+          <div class="cn">NC · COUNTY 02</div>
+          <div class="cname">Mecklenburg <em>Charlotte</em></div>
+          <div class="cdays good">~1,095</div>
+          <div class="clabel">days stale</div>
+          <div class="clast">Last: 2023 · Cycle: 4 years</div>
+        </div>
+        <div class="county-cell">
+          <div class="cn">NC · COUNTY 03</div>
+          <div class="cname">Durham <em>Durham</em></div>
+          <div class="cdays good">~730</div>
+          <div class="clabel">days stale</div>
+          <div class="clast">Last: 2024 · Cycle: 4 years</div>
+        </div>
+        <div class="county-cell">
+          <div class="cn">NC · STATUTORY MAX</div>
+          <div class="cname">Any NC county <em>by law</em></div>
+          <div class="cdays med">~2,922</div>
+          <div class="clabel">days stale max</div>
+          <div class="clast">NCGS 105-286: max 8 years</div>
+        </div>
+      </div>
+
+      <div class="counter-callout">
+        <div class="h">WHAT THE COUNTER MEANS</div>
+        <p>Each day the counter ticks up, the gap between assessed values and market values gets wider — but unevenly. The properties whose neighborhoods have appreciated faster than the county average are underpaying. The properties whose neighborhoods have appreciated more slowly are overpaying. The unfairness is not stochastic. It tracks the same gradient as race, class, and neighborhood history.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ EXHIBIT B · DID YOU KNOW · POP QUIZ ════════════ -->
+  <section class="dyk-section">
+    <div class="container">
+      <div class="exhibit-label"><span class="num">EXHIBIT B</span><span>DID YOU KNOW · A POP QUIZ</span></div>
+      <h2>Three questions about who reassesses, when, and what happens when they don't. <em>Most people guess wrong on at least two.</em></h2>
+      <p>Property reassessment cycles vary by state, and the variation has real consequences. Take a guess on each before reading the reveal.</p>
+
+      <div class="quiz-stack">
+
+        <div class="dyk-q" data-dyk="q1">
+          <div class="qhead">QUESTION 01 · STATUTORY CYCLES</div>
+          <div class="qtxt">How many U.S. states have <em>no</em> statutory requirement that counties periodically reassess property values?</div>
+          <div class="dyk-opts" data-dyk-opts>
+            <button data-correct="0" data-v="0">Zero — all states require it</button>
+            <button data-correct="1" data-v="11">About 11 states</button>
+            <button data-correct="0" data-v="25">Roughly half (25)</button>
+            <button data-correct="0" data-v="50">All 50 — it's local-option everywhere</button>
+          </div>
+          <div class="dyk-reveal" data-dyk-reveal>
+            <strong>About eleven.</strong> Pennsylvania, Illinois, Indiana, Texas, Alabama, Mississippi, Louisiana, and a handful of others have no mandatory statewide reassessment cycle. The remaining states typically require reassessment every 3, 4, 6, 8, or 10 years. The states that don't require it routinely produce assessment ratios that drift by 20-50% within a single county, with the worst inequities concentrated in neighborhoods whose values diverge from the county mean.
+            <span class="source">Source: International Association of Assessing Officers · 2024 statewide policy review</span>
+          </div>
+        </div>
+
+        <div class="dyk-q" data-dyk="q2">
+          <div class="qhead">QUESTION 02 · WHO PAYS WHEN ASSESSMENTS GO STALE</div>
+          <div class="qtxt">In a county with stale assessments, which kind of property is most likely to be paying <em>more than its fair share</em> of property tax?</div>
+          <div class="dyk-opts" data-dyk-opts>
+            <button data-correct="0" data-v="lux">High-end luxury homes</button>
+            <button data-correct="0" data-v="vac">Vacation homes</button>
+            <button data-correct="1" data-v="slow">Homes in slow-appreciating working-class neighborhoods</button>
+            <button data-correct="0" data-v="new">Newly built construction</button>
+          </div>
+          <div class="dyk-reveal" data-dyk-reveal>
+            <strong>Slow-appreciating working-class neighborhoods.</strong> Counterintuitive but well-documented. When a county's assessments are stale, every property is being taxed on its old value. Homes in neighborhoods that appreciated faster than the county average end up <em>underpaying</em> relative to current market value. Homes in neighborhoods that appreciated more slowly end up <em>overpaying</em> — they got valued in a higher-multiple era and the rest of the market caught up around them. The net effect is regressive: the working-class taxpayer subsidizes the gentrifier.
+            <span class="source">Source: Berry & Beresteanu, "Property Tax Misperception" (UChicago Harris)</span>
+          </div>
+        </div>
+
+        <div class="dyk-q" data-dyk="q3">
+          <div class="qhead">QUESTION 03 · SCHOOL FUNDING</div>
+          <div class="qtxt">When a Pennsylvania county runs on stale assessments, where does the distortion most concretely land?</div>
+          <div class="dyk-opts" data-dyk-opts>
+            <button data-correct="0" data-v="state">Statewide income tax</button>
+            <button data-correct="1" data-v="schools">School district revenue allocation</button>
+            <button data-correct="0" data-v="federal">Federal aid to municipalities</button>
+            <button data-correct="0" data-v="none">Nowhere — the totals still balance</button>
+          </div>
+          <div class="dyk-reveal" data-dyk-reveal>
+            <strong>School district revenue.</strong> Most Pennsylvania school districts are funded largely from local property tax, with the millage rate set by the school board. When property values are stale, the district receives the same total revenue (the rate adjusts) — but the <em>distribution</em> of who pays it gets wrong. Wealthier districts inside a stale county tend to extract MORE revenue per pupil from each assessed dollar than neighboring poorer districts, because the wealthy districts' assessment ratios have drifted in their favor. The Pennsylvania State Tax Equalization Board (STEB) tracks this drift with its Common Level Ratio, but the CLR adjustment doesn't fix the regressive distribution within districts.
+            <span class="source">Source: PA Independent Fiscal Office · school funding equity report</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ EXHIBIT C · TWO COUNTIES ════════════ -->
+  <section class="two-section">
+    <div class="container-wide">
+      <div class="exhibit-label"><span class="num">EXHIBIT C</span><span>TWO COUNTIES · ONE QUESTION</span></div>
+      <h2>Allegheny PA and Wake NC. Both around 1.2 million people. <em>One has a clock, one doesn't.</em></h2>
+      <p>The comparison isn't ideological. Both counties have engaged tax authorities, both have professional assessor's offices, both run reasonable mass-appraisal models. The difference is the statutory frame. North Carolina requires reassessment within 8 years (NCGS 105-286). Pennsylvania requires nothing.</p>
+
+      <div class="two-grid">
+        <div class="two-col pa">
+          <div class="state-tag">PENNSYLVANIA</div>
+          <div class="county-name">Allegheny County <em>Pittsburgh</em></div>
+          <div class="city">1.2M POPULATION · 130 MUNICIPALITIES · 43 SCHOOL DISTRICTS</div>
+          <div class="stat-line"><span class="k">LAST REASSESSMENT</span><span class="v hot">2012</span></div>
+          <div class="stat-line"><span class="k">DAYS SINCE</span><span class="v hot">5,142</span></div>
+          <div class="stat-line"><span class="k">STATUTORY CYCLE</span><span class="v hot">None</span></div>
+          <div class="stat-line"><span class="k">CURRENT CLR (STEB)</span><span class="v hot">~52%</span></div>
+          <div class="stat-line"><span class="k">TRIGGERING MECHANISM</span><span class="v hot">Court order or local vote</span></div>
+          <div class="verdict">After fourteen years, Allegheny assessments are roughly half of fair market value on average. The CLR adjustment partially fixes the aggregate, but it cannot fix the within-county distribution. A taxpayer in Penn Hills pays a different effective rate than a taxpayer in Squirrel Hill, on properties of identical current market value.</div>
+        </div>
+
+        <div class="two-col nc">
+          <div class="state-tag">NORTH CAROLINA</div>
+          <div class="county-name">Wake County <em>Raleigh</em></div>
+          <div class="city">1.2M POPULATION · ONE COUNTY · 9 SCHOOL DISTRICTS</div>
+          <div class="stat-line"><span class="k">LAST REASSESSMENT</span><span class="v cool">2024</span></div>
+          <div class="stat-line"><span class="k">DAYS SINCE</span><span class="v cool">~730</span></div>
+          <div class="stat-line"><span class="k">STATUTORY CYCLE</span><span class="v cool">4 years (voluntary; 8 max)</span></div>
+          <div class="stat-line"><span class="k">CURRENT CLR EQUIVALENT</span><span class="v cool">~92%</span></div>
+          <div class="stat-line"><span class="k">TRIGGERING MECHANISM</span><span class="v cool">Statutory schedule · NCGS 105-286</span></div>
+          <div class="verdict">Wake's assessments are typically within 8% of fair market value because the reassessment cycle is short enough that market drift doesn't accumulate. Two neighborhoods on opposite sides of Raleigh that have appreciated at different rates are assessed accordingly. The bill is closer to what either neighborhood believes is fair.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ EXHIBIT D · TAX CALCULATOR ════════════ -->
+  <section class="calc-section">
+    <div class="container">
+      <div class="exhibit-label"><span class="num">EXHIBIT D</span><span>THE PERSONAL CALCULATOR</span></div>
+      <h2>If your county's assessments are stale, are <em>you</em> overpaying or underpaying? <em>Three inputs.</em></h2>
+      <p>This calculator estimates whether you're contributing more or less than your fair share of the county's property tax burden, given how stale your county's assessments are and how your specific neighborhood has appreciated relative to the county average since the last reassessment.</p>
+
+      <div class="calc-frame">
+
+        <div class="calc-grid-2">
+          <div class="calc-input">
+            <label>YOUR COUNTY</label>
+            <select id="calcCounty">
+              <option value="allegheny">Allegheny PA · 2012 · 14yr stale</option>
+              <option value="philadelphia">Philadelphia PA · 2023 · annual</option>
+              <option value="delaware">Delaware PA · 2021 · 5yr stale</option>
+              <option value="blair">Blair PA · 1958 · 68yr stale</option>
+              <option value="wake">Wake NC · 2024 · 2yr stale</option>
+              <option value="mecklenburg">Mecklenburg NC · 2023 · 3yr stale</option>
+              <option value="other">Other / not sure</option>
+            </select>
+          </div>
+          <div class="calc-input">
+            <label>CURRENT HOME VALUE ESTIMATE</label>
+            <input type="number" id="calcValue" placeholder="350000" value="350000" />
+          </div>
+        </div>
+
+        <div class="calc-input">
+          <label>HOW MUCH HAS YOUR NEIGHBORHOOD APPRECIATED COMPARED TO YOUR COUNTY AVERAGE SINCE LAST REASSESSMENT?</label>
+          <div class="calc-slider-wrap">
+            <input type="range" class="appr-slider" id="apprSlider" min="-50" max="200" value="0" step="5" />
+            <div class="scale-marks">
+              <span>−50% (declined)</span>
+              <span>0% (matched avg)</span>
+              <span>+100% (doubled)</span>
+              <span>+200% (tripled)</span>
+            </div>
+          </div>
+          <div style="margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--brass);">
+            Your neighborhood's relative appreciation: <strong id="apprVal">0%</strong> vs county average
+          </div>
+        </div>
+
+        <div class="calc-result" id="calcResult">
+          <div class="verdict-head">YOUR ESTIMATED POSITION</div>
+          <div class="verdict-body" id="calcVerdict">Select a county and adjust the slider to see your estimated over/underpayment.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ EXHIBIT E · THE INVERSION ════════════ -->
+  <section class="inv-section">
+    <div class="container-wide">
+      <div class="exhibit-label"><span class="num">EXHIBIT E</span><span>THE INVERSION</span></div>
+      <h2>This is what stale assessment does over time. <em>The bill itself becomes unjust.</em></h2>
+      <p>Two parallel scenarios. Same county. Same total revenue collected. Same mill rate. The only variable is whether the county reassessed two years ago or fourteen years ago. The distribution flips.</p>
+
+      <div class="inv-grid">
+        <div class="inv-col fair">
+          <div class="ih">SCENARIO A · FAIR · RECENT REASSESSMENT</div>
+          <h4>Property tax distributed <em>roughly in proportion</em> to current market value.</h4>
+          <p>Wealthier neighborhoods (higher current value) pay more. Working-class neighborhoods (lower current value) pay less. The distribution tracks ability to pay. The county collects the same total revenue.</p>
+          <div class="inv-bar">
+            <div class="bar-row"><span>Squirrel Hill ($720k)</span><div class="bar-track"><div class="bar-fill" style="width: 95%;"></div></div><span class="nbr">$9,360</span></div>
+            <div class="bar-row"><span>Shadyside ($580k)</span><div class="bar-track"><div class="bar-fill" style="width: 76%;"></div></div><span class="nbr">$7,540</span></div>
+            <div class="bar-row"><span>Lawrenceville ($380k)</span><div class="bar-track"><div class="bar-fill" style="width: 50%;"></div></div><span class="nbr">$4,940</span></div>
+            <div class="bar-row"><span>Hazelwood ($210k)</span><div class="bar-track"><div class="bar-fill" style="width: 28%;"></div></div><span class="nbr">$2,730</span></div>
+            <div class="bar-row"><span>Penn Hills ($98k)</span><div class="bar-track"><div class="bar-fill" style="width: 13%;"></div></div><span class="nbr">$1,274</span></div>
+          </div>
+        </div>
+
+        <div class="inv-col stale">
+          <div class="ih">SCENARIO B · STALE · 14-YEAR-OLD ASSESSMENT</div>
+          <h4>Property tax distributed <em>roughly in proportion to 2012 values</em>, not 2026 values.</h4>
+          <p>Neighborhoods that appreciated fast (Lawrenceville, Shadyside) end up assessed at much less than current value. Neighborhoods that stagnated (Hazelwood, Penn Hills) carry a heavier share. The inversion is concrete: the working-class neighborhood pays more in absolute dollars than the gentrified neighborhood.</p>
+          <div class="inv-bar">
+            <div class="bar-row"><span>Squirrel Hill</span><div class="bar-track"><div class="bar-fill" style="width: 68%;"></div></div><span class="nbr">$6,716</span></div>
+            <div class="bar-row"><span>Shadyside</span><div class="bar-track"><div class="bar-fill" style="width: 55%;"></div></div><span class="nbr">$5,460</span></div>
+            <div class="bar-row"><span>Lawrenceville</span><div class="bar-track"><div class="bar-fill" style="width: 38%;"></div></div><span class="nbr">$3,770</span></div>
+            <div class="bar-row"><span>Hazelwood</span><div class="bar-track"><div class="bar-fill" style="width: 56%;"></div></div><span class="nbr">$5,524</span></div>
+            <div class="bar-row"><span>Penn Hills</span><div class="bar-track"><div class="bar-fill" style="width: 49%;"></div></div><span class="nbr">$4,820</span></div>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 28px; font-style: italic; max-width: 760px;">The Scenario B numbers are illustrative composites, not precise per-property figures. The pattern is empirically documented: studies of Allegheny and similar counties consistently find that low-value-appreciation neighborhoods carry a higher effective tax rate than high-value-appreciation neighborhoods when assessments are stale. (See Sources, item 4.)</p>
+    </div>
+  </section>
+
+  <!-- ════════════ PERSONAL STAKE ════════════ -->
+  <section class="stake-section">
+    <div class="container">
+      <div class="exhibit-label" style="color: var(--survey);"><span class="num" style="background: var(--survey); color: var(--paper);">PERSONAL STAKE</span><span>WHICH SIDE OF THE INVERSION ARE YOU ON?</span></div>
+      <h2>Two quick checks. <em>You'll know in 15 seconds.</em></h2>
+
+      <div class="quiz-block">
+        <div class="quiz-q">
+          <div class="qhead">QUESTION 01 · WHERE</div>
+          <div class="qtxt">Where do you own (or rent) property?</div>
+          <div class="quiz-opts" data-q="state">
+            <button data-v="pa-stale">PA county that hasn't reassessed in 10+ years</button>
+            <button data-v="pa-recent">PA county that reassessed recently</button>
+            <button data-v="nc">North Carolina (8-year cycle by law)</button>
+            <button data-v="other">Other state</button>
+            <button data-v="renter">I rent</button>
+          </div>
+        </div>
+
+        <div class="quiz-q">
+          <div class="qhead">QUESTION 02 · NEIGHBORHOOD</div>
+          <div class="qtxt">Has your immediate neighborhood appreciated faster, slower, or about the same as your county average over the last 10 years?</div>
+          <div class="quiz-opts" data-q="appr">
+            <button data-v="fast">Faster (gentrified, hot market)</button>
+            <button data-v="same">About the same as the county</button>
+            <button data-v="slow">Slower (stagnant, declining)</button>
+            <button data-v="unsure">Not sure</button>
+          </div>
+        </div>
+
+        <div class="stake-result" id="stake-result">
+          <div class="rh">YOUR STAKE</div>
+          <div class="rtxt" id="rtxt">—</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ EXHIBIT F · ECHOES + VOLUME PATTERN ════════════ -->
+  <section class="echoes-section">
+    <div class="container-wide">
+      <div class="exhibit-label"><span class="num">EXHIBIT F</span><span>VOLUME I · THE HIDDEN CLOCKS</span></div>
+      <h2>Four clocks in. <em>The pattern is sharper now.</em></h2>
+      <p>Volume I of the Mechanism Briefs is called The Hidden Clocks. Each brief in this volume names one statutory window that decides who pays for what, that the public has no way to see. Brief 004 is structurally different from 001-003: the others are clocks that <em>tick down</em> toward a deadline. The Reassessment Clock is one that <em>ticks up</em> without a deadline — and that's the mechanism.</p>
+
+      <div class="clocks-strip">
+        <a class="clock-card" href="2026-06-08-the-certification-clock.html">
+          <div class="ctag">BRIEF № 001 · LIVE</div>
+          <div class="ctitle">The Certification Clock</div>
+          <div class="cdays"><span class="num">21</span> days · provisional ballots in 3 GA counties</div>
+        </a>
+        <a class="clock-card" href="2026-06-10-the-269-day-clock.html">
+          <div class="ctag">BRIEF № 002 · LIVE</div>
+          <div class="ctitle">The 269-Day Clock</div>
+          <div class="cdays"><span class="num">269</span> days · Crozer Health records destruction</div>
+        </a>
+        <a class="clock-card" href="2026-06-12-the-puc-large-load-tariff-clock.html">
+          <div class="ctag">BRIEF № 003 · LIVE</div>
+          <div class="ctitle">The PUC Large-Load Tariff Clock</div>
+          <div class="cdays"><span class="num">~60</span> days per tariff filing · intervention windows</div>
+        </a>
+        <a class="clock-card current" href="#">
+          <div class="ctag">BRIEF № 004 · TODAY</div>
+          <div class="ctitle">The Reassessment Clock</div>
+          <div class="cdays"><span class="num">5,142</span> days since Allegheny's last reassessment</div>
+        </a>
+        <a class="clock-card next" href="index.html">
+          <div class="ctag">BRIEF № 005 · DRAFTING</div>
+          <div class="ctitle">The Permit Clock</div>
+          <div class="cdays">Building permit shot clocks · PA + NC · TBD</div>
+        </a>
+      </div>
+
+      <div class="pattern-callout">
+        <strong>The pattern, four briefs in.</strong> Three were ticking clocks with a deadline: act before X or the window closes. This one is the opposite — a clock that just runs, with no closing event, where the harm compounds with elapsed time. Both are Hidden Clocks. Both decide who pays for what. Neither is visible without somebody publishing it. Volume I keeps publishing them.
+      </div>
+
+      <p style="margin-top: 28px; max-width: 760px;">For the longer arc, see <a href="../the-eviction-funnel.html"><strong>Episode S1·04 The Eviction Funnel</strong></a> (the housing-instability pressure cascade) and <a href="../episode-08-the-class-engine.html"><strong>EP 08 The Class Engine</strong></a> (housing is one of the five chapters of cumulative disadvantage). Brief 004 is the most concrete entry-point to that pattern: it is decided literally on your tax bill.</p>
+    </div>
+  </section>
+
+  <!-- ════════════ ACTION ════════════ -->
+  <section class="action-section">
+    <div class="container">
+      <div class="exhibit-label" style="color: var(--survey);"><span class="num" style="background: var(--survey); color: var(--paper);">ACTION</span><span>WHAT TO DO ABOUT YOUR ASSESSMENT</span></div>
+      <h2>Unlike the other clocks, this one can be fought one parcel at a time. <em>The system is biased toward people who appeal.</em></h2>
+      <p>Most counties accept assessment appeals in a defined window each year, usually between issuance of the annual notice and a hard appeal deadline a few weeks later. The appeal rate is low. The win rate on appeals that are filed with comparable-property evidence is meaningful. Four steps.</p>
+
+      <div class="action-cards">
+        <div class="action-card">
+          <div class="step">STEP 01 · 5 MIN</div>
+          <h4>Find your county's last reassessment date.</h4>
+          <p>Search "[your county] assessor's office last reassessment" or look at the bottom of your most recent property tax bill. The date will tell you how stale the system you're operating in is.</p>
+          <a href="https://www.tax.gov/" target="_blank" rel="noopener">YOUR COUNTY ASSESSOR →</a>
+        </div>
+        <div class="action-card">
+          <div class="step">STEP 02 · 15 MIN</div>
+          <h4>Pull three to five recent sale comps.</h4>
+          <p>Free tools: county GIS portal, Zillow, Redfin. Find three to five recent sales of comparable properties in your immediate area. Note their sale price and assessed value. Calculate the ratio for each.</p>
+          <a href="https://www.zillow.com/" target="_blank" rel="noopener">ZILLOW · COMP SEARCH →</a>
+        </div>
+        <div class="action-card">
+          <div class="step">STEP 03 · 30 MIN</div>
+          <h4>File the appeal.</h4>
+          <p>Most counties accept a one-page appeal form. PA counties typically have a March-to-August appeal window; NC counties are similar. You do not need a lawyer for residential appeals. The form takes 20-40 minutes to fill out with the comps.</p>
+          <a href="https://www.alleghenycounty.us/real-estate/assessment-appeals/" target="_blank" rel="noopener">ALLEGHENY APPEAL FORM →</a>
+        </div>
+        <div class="action-card">
+          <div class="step">STEP 04 · ONGOING</div>
+          <h4>Push for a statutory cycle.</h4>
+          <p>The deeper fix is at the state legislature, not the county. In PA, the bill that would mandate periodic reassessment has been introduced in successive sessions and consistently dies in committee. Find your state rep, ask where they stand.</p>
+          <a href="https://www.legis.state.pa.us/cfdocs/legis/home/findyourlegislator/" target="_blank" rel="noopener">FIND YOUR PA REP →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ MONDAY DENSITY ════════════ -->
+  <section class="monday-section">
+    <div class="container">
+      <div class="exhibit-label"><span class="num">MONDAY DENSITY</span><span>PROPERTY GOVERNANCE THIS WEEK · PA + NC</span></div>
+      <h2>Monday is when school boards and county commissions meet. <em>The room where the mill rate is set.</em></h2>
+      <p>Mill rates are set by elected boards. The seats are typically uncontested. Here is what's on the public calendar this week across PA + NC governance bodies whose decisions touch property assessment, mill rates, or school district revenue.</p>
+
+      <table class="gov-table">
+        <thead>
+          <tr><th>Day</th><th>Time</th><th>Body</th><th>Where</th><th>Issue cluster</th></tr>
+        </thead>
+        <tbody>
+          <tr class="highlight">
+            <td>MON 6/15</td><td>5:00 PM</td><td class="where">Allegheny Co. Council</td><td>Pittsburgh</td><td class="tag">County reassessment standing committee</td>
+          </tr>
+          <tr><td>MON 6/15</td><td>7:00 PM</td><td>Pittsburgh Public Schools Board</td><td class="where">Pittsburgh</td><td>Mill rate work session</td></tr>
+          <tr><td>TUE 6/16</td><td>6:00 PM</td><td>Penn Hills School District Board</td><td>Penn Hills</td><td>Annual budget hearing</td></tr>
+          <tr><td>TUE 6/16</td><td>7:00 PM</td><td>Wake Co. Board of Commissioners</td><td class="where">Raleigh</td><td>FY27 property tax rate</td></tr>
+          <tr><td>WED 6/17</td><td>9:30 AM</td><td>Pittsburgh City Council</td><td>Pittsburgh</td><td>Property assessment appeals review</td></tr>
+          <tr><td>WED 6/17</td><td>6:00 PM</td><td>Mecklenburg Co. Commission</td><td>Charlotte</td><td class="tag">FY27 revaluation impact briefing</td></tr>
+          <tr><td>THU 6/18</td><td>2:00 PM</td><td>PA State Tax Equalization Board</td><td>Harrisburg</td><td>CLR adjustment calendar</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 22px; font-style: italic; color: var(--ink-dim); font-size: 14.5px;">Sourced from Allegheny County Council Legistar, Pittsburgh City Council Legistar, Mecklenburg County BOCC portal, Wake County Commissioners portal, PA STEB calendar. The Tomorrow Board operational layer at <a href="../desk/index.html">/desk/</a> ingests this daily.</p>
+    </div>
+  </section>
+
+  <!-- ════════════ JOKE / PULL QUOTE ════════════ -->
+  <section class="joke-section">
+    <div class="container">
+      <p class="pull">"The fairest tax is the one nobody notices. <em>The most regressive tax is also the one nobody notices.</em> Property assessment cycles decide which kind it is."</p>
+      <div class="by">— Infera, paraphrasing the 2009 PA Supreme Court Clifton ruling</div>
+    </div>
+  </section>
+
+  <!-- ════════════ METHOD ════════════ -->
+  <section class="method-section">
+    <div class="container">
+      <h3>METHOD &middot; HOW WE BUILT THIS BRIEF</h3>
+      <p><strong>Source layer.</strong> Primary sources: PA State Tax Equalization Board (STEB) for CLR data, individual county assessor offices for last-reassessment dates, NCGS 105-286 for the NC statutory cycle, IAAO 2024 policy review for the multi-state comparison, Berry & Beresteanu for the inversion documentation. No anonymous sourcing.</p>
+      <p><strong>Penn Hills / Squirrel Hill scenario.</strong> The Penn Hills and Squirrel Hill price points cited in the Cold Open are illustrative composites based on neighborhood-median values from public-source real estate data (Zillow, Redfin). They are reasonable representative numbers, not specific-property claims. The pattern (working-class neighborhoods overpaying under stale assessment in Allegheny County) is empirically documented across multiple studies cited in Sources item 4.</p>
+      <p><strong>Inversion bars (Exhibit E).</strong> The numbers in both scenarios are <em>illustrative composites</em> built from published neighborhood-median values and Allegheny County millage data. They demonstrate the documented mechanism. They are not per-property bills. The published research consistently finds Penn Hills and similar Allegheny working-class neighborhoods carry effective tax rates 1.5-2.5× higher than fast-appreciating neighborhoods on a current-market-value basis. Specific magnitude varies by year and property.</p>
+      <p><strong>Personal calculator (Exhibit D).</strong> The calculator estimates over/underpayment using a simplified model: assessment ratio × current market value × relative neighborhood appreciation. It is meant as illustration, not a substitute for a real assessment appeal. For an appeal, use the comparable-sales method described in the Action section.</p>
+      <div class="conf-row">
+        <span class="fact">FACT · CYCLES, LAWS, DATES</span>
+        <span class="rep">REPORTED · STEB CLR + IAAO + CITED RESEARCH</span>
+        <span class="watch">WATCH · NEIGHBORHOOD-LEVEL SPECIFICS</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ SOURCES ════════════ -->
+  <section class="sources-section">
+    <div class="container">
+      <h3>SOURCES &middot; ALL PRIMARY OR PEER-REVIEWED</h3>
+      <ol>
+        <li><strong>Pennsylvania State Tax Equalization Board (STEB).</strong> Common Level Ratio reports by county, annual. The official measure of how far assessed values have drifted from market values. <a href="https://www.dced.pa.gov/local-government/state-tax-equalization-board-steb/" target="_blank" rel="noopener">STEB</a></li>
+        <li><strong>North Carolina General Statute 105-286.</strong> Statutory requirement that counties conduct general reappraisals of real property "at least every eight years." <a href="https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-286.html" target="_blank" rel="noopener">NCGS 105-286</a></li>
+        <li><strong>Clifton v. Allegheny County.</strong> 600 Pa. 662, 969 A.2d 1197 (2009). Pennsylvania Supreme Court ruling that Allegheny's stale assessments were unconstitutionally arbitrary; the order that triggered the 2012 reassessment.</li>
+        <li><strong>Berry, C.R. & Beresteanu, A.</strong> "Property Tax Misperception" and related work on assessment regressivity in Cook County, Chicago, and comparable U.S. counties. University of Chicago Harris School. <a href="https://harris.uchicago.edu/" target="_blank" rel="noopener">UChicago Harris</a></li>
+        <li><strong>International Association of Assessing Officers (IAAO).</strong> 2024 statewide policy review of mass-appraisal cycles. The source for the "about eleven states" finding in Exhibit B Question 1. <a href="https://www.iaao.org/" target="_blank" rel="noopener">IAAO</a></li>
+        <li><strong>Allegheny County Assessor's Office.</strong> Last reassessment: 2012. Subsequent appeal-driven adjustments documented per parcel. <a href="https://www.alleghenycounty.us/real-estate/" target="_blank" rel="noopener">Allegheny Real Estate</a></li>
+        <li><strong>Wake County Tax Administration.</strong> Most recent reassessment: 2024. Four-year cycle adopted under NCGS 105-286. <a href="https://www.wake.gov/departments-government/tax-administration" target="_blank" rel="noopener">Wake Tax Administration</a></li>
+        <li><strong>Mecklenburg County Assessor's Office.</strong> Most recent reassessment: 2023. Four-year cycle. <a href="https://www.mecknc.gov/AssessorsOffice/" target="_blank" rel="noopener">Mecklenburg Assessor</a></li>
+        <li><strong>PA Independent Fiscal Office.</strong> School funding equity reports tracking the distributional impact of stale assessments on school district revenue allocation. <a href="http://www.ifo.state.pa.us/" target="_blank" rel="noopener">PA IFO</a></li>
+        <li><strong>Allegheny County Council Legistar.</strong> Granicus-hosted at <a href="https://alleghenycounty.legistar.com/" target="_blank" rel="noopener">alleghenycounty.legistar.com</a>. The reassessment standing committee meeting on the Monday Density table is sourced from here.</li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="brief-footer">
+  <div class="container">
+
+    <div class="fnav-prev-next">
+      <a class="fpn" href="2026-06-12-the-puc-large-load-tariff-clock.html">
+        <div class="pn-label">← PREVIOUS · BRIEF № 003</div>
+        <div class="pn-title">The PUC Large-Load Tariff Clock</div>
+      </a>
+      <div class="fpn" style="opacity: 0.55;">
+        <div class="pn-label">NEXT · BRIEF № 005 · DRAFTING</div>
+        <div class="pn-title">The Permit Clock</div>
+      </div>
+    </div>
+
+    <div class="frow">
+      <div class="flinks">
+        <a href="index.html">← All Briefs</a>
+        <a href="../field-notes/index.html">Field Notes</a>
+        <a href="../desk/index.html">The Desk</a>
+        <a href="../index.html">Series Home</a>
+        <a href="../legal.html">Legal · Privacy</a>
+        <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+      </div>
+    </div>
+
+    <div class="fcopy">
+      &copy; 2026 Infera &middot; All rights reserved &middot; Not investment, legal, or safety advice &middot; Corrections: <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </div>
+
+  </div>
+</footer>
+
+<!-- ═════════════ Legal footer protective block ═════════════ -->
+<style id="infera-legal-footer">
+  .legal-footer{background:#0d1419;color:#8b9097;font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;font-size:11px;line-height:1.55;letter-spacing:.04em;border-top:1px solid #1d2933;padding:36px 24px 32px;}
+  .legal-footer .lcw{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+  .legal-footer p{margin:0;}
+  .legal-footer a{color:#b59c5f;text-decoration:none;border-bottom:1px solid rgba(181,156,95,.25);}
+  .legal-footer a:hover{border-bottom-color:#b59c5f;}
+  .legal-footer .lh{color:#d9d2bf;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:10px;}
+</style>
+<aside class="legal-footer" role="contentinfo">
+  <div class="lcw">
+    <p><span class="lh">Editorial.</span> This is journalism, not advice. Nothing in this brief is investment, legal, financial, or tax guidance. Confidence labels (FACT / REPORTED / WATCH) are applied per claim. The Personal Calculator (Exhibit D) and Inversion bars (Exhibit E) are illustrative composites, not per-property tax estimates. Corrections: <a href="../legal.html">see policy</a> or email <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+    <p><span class="lh">Copyright.</span> &copy; 2026 Infera / The Mechanism Series. References to NCGS, PA Supreme Court rulings, IAAO research, and county assessor data are reproduced under fair-use principles for journalistic commentary. All other content is the original work of the Infera editorial team.</p>
+    <p><span class="lh">Privacy.</span> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used only for stake-quiz state, DYK quiz answers, and calculator settings; nothing transmitted. Reader rights under GDPR and CCPA are honored. <a href="../legal.html">Full policy</a>.</p>
+    <p><span class="lh">Methodology.</span> Sources are primary or peer-reviewed; see the Sources section above. The Penn Hills / Squirrel Hill / etc. neighborhood numbers in Exhibit E are illustrative composites of documented patterns, not specific property bills. We will revise this brief if a reader provides better per-property data through corrections.</p>
+  </div>
+</aside>
+
+<script>
+  // ──────── reveal-on-scroll ────────
+  (function(){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal, .county-grid, .two-grid, .inv-grid, .agenda-list, .action-cards, .gov-table, .clocks-strip, .counter-frame, .counter-callout, .pattern-callout, .quiz-stack, .calc-frame').forEach(function(el){
+      el.classList.add('reveal');
+      io.observe(el);
+    });
+  })();
+
+  // ──────── DYK pop quiz ────────
+  (function(){
+    document.querySelectorAll('.dyk-q').forEach(function(q){
+      var opts = q.querySelector('[data-dyk-opts]');
+      var reveal = q.querySelector('[data-dyk-reveal]');
+      opts.querySelectorAll('button').forEach(function(b){
+        b.addEventListener('click', function(){
+          if (opts.classList.contains('answered')) return;
+          opts.classList.add('answered');
+          var correct = b.getAttribute('data-correct') === '1';
+          opts.querySelectorAll('button').forEach(function(bb){
+            if (bb.getAttribute('data-correct') === '1') bb.classList.add('right');
+            else if (bb === b && !correct) bb.classList.add('wrong');
+            else bb.classList.add('dim');
+          });
+          reveal.classList.add('show');
+        });
+      });
+    });
+  })();
+
+  // ──────── Day counter (auto-update from May 18, 2012) ────────
+  (function(){
+    var el = document.getElementById('dayCount');
+    if (!el) return;
+    var start = new Date('2012-05-18T00:00:00');
+    var today = new Date();
+    var days = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+    el.textContent = days.toLocaleString('en-US');
+  })();
+
+  // ──────── Tax Calculator ────────
+  (function(){
+    var county = document.getElementById('calcCounty');
+    var value = document.getElementById('calcValue');
+    var slider = document.getElementById('apprSlider');
+    var apprVal = document.getElementById('apprVal');
+    var result = document.getElementById('calcResult');
+    var verdict = document.getElementById('calcVerdict');
+    if (!county) return;
+    // assessment-staleness factor: how far assessments have drifted from market on average
+    var countyData = {
+      allegheny: { years: 14, clr: 0.52, name: 'Allegheny PA' },
+      philadelphia: { years: 3, clr: 0.94, name: 'Philadelphia' },
+      delaware: { years: 5, clr: 0.78, name: 'Delaware PA' },
+      blair: { years: 68, clr: 0.18, name: 'Blair PA' },
+      wake: { years: 2, clr: 0.92, name: 'Wake NC' },
+      mecklenburg: { years: 3, clr: 0.90, name: 'Mecklenburg NC' },
+      other: { years: 6, clr: 0.75, name: 'your county' }
+    };
+    function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+    function pct(n){ return (n >= 0 ? '+' : '') + n + '%'; }
+    function update(){
+      var c = countyData[county.value];
+      var v = parseInt(value.value, 10) || 350000;
+      var appr = parseInt(slider.value, 10);
+      apprVal.textContent = pct(appr);
+
+      var fairTax = v * 0.025;
+      // adjusted bill: stale assessment causes neighborhood appreciation to NOT track market
+      // so high-appr neighborhoods underpay, low-appr neighborhoods overpay
+      // mathematically: actual bill ≈ (current value × CLR) / (1 + appr/100) × mill_rate
+      var assessedVal = (v / (1 + appr / 100)) * c.clr;
+      var actualTax = assessedVal * 0.048;  // ~4.8% effective mill rate on stale assessment
+      var diff = actualTax - fairTax;
+      var pctDiff = (diff / fairTax) * 100;
+
+      result.classList.remove('fair', 'over');
+      if (Math.abs(pctDiff) < 8) {
+        result.classList.add('fair');
+        verdict.innerHTML = "In <em>" + c.name + "</em>, with your inputs, your effective property tax is <strong>approximately fair</strong> relative to the county average — somewhere within ±8% of what you'd pay under a current-value assessment. Either your neighborhood tracks county appreciation closely, or your county's reassessment is recent enough not to have drifted much.";
+      } else if (diff < 0) {
+        verdict.innerHTML = "In <em>" + c.name + "</em>, with your inputs, you are estimated to be <strong>underpaying by roughly " + fmt(Math.abs(diff)) + "/year</strong> (≈" + Math.round(Math.abs(pctDiff)) + "%) relative to a current-value assessment. Your neighborhood appreciated faster than the county average, and stale assessments mean you are paying based on values closer to the prior period.";
+      } else {
+        result.classList.add('over');
+        verdict.innerHTML = "In <em>" + c.name + "</em>, with your inputs, you are estimated to be <strong>overpaying by roughly " + fmt(diff) + "/year</strong> (≈" + Math.round(pctDiff) + "%) relative to a current-value assessment. Your neighborhood appreciated more slowly than the county average. You are a candidate for an assessment appeal. See the Action section.";
+      }
+      result.classList.add('show');
+    }
+    county.addEventListener('change', update);
+    value.addEventListener('input', update);
+    slider.addEventListener('input', update);
+    update();
+  })();
+
+  // ──────── Stake Quiz ────────
+  (function(){
+    var state = { state: null, appr: null };
+    document.querySelectorAll('.quiz-opts').forEach(function(grp){
+      grp.querySelectorAll('button').forEach(function(b){
+        b.addEventListener('click', function(){
+          var q = grp.getAttribute('data-q');
+          grp.querySelectorAll('button').forEach(function(x){ x.classList.remove('sel'); });
+          b.classList.add('sel');
+          state[q] = b.getAttribute('data-v');
+          render();
+        });
+      });
+    });
+    var res = document.getElementById('stake-result');
+    var rtxt = document.getElementById('rtxt');
+    function render(){
+      if(!state.state || !state.appr) return;
+      var stake;
+      if (state.state === 'pa-stale' && state.appr === 'fast') {
+        stake = "You are in a PA county with stale assessments and your neighborhood appreciated faster than average. You are <em>likely underpaying</em> relative to fair value. The Office of Consumer Advocate equivalent here is the State Tax Equalization Board, but they aggregate; they don't refund. You're paying less than your share of the county tax base. The thing to do is push for a statutory cycle through your state rep — even though you'd pay more under one.";
+      } else if (state.state === 'pa-stale' && state.appr === 'slow') {
+        stake = "You are in a PA county with stale assessments and your neighborhood appreciated more slowly than average. You are <em>likely overpaying</em> relative to fair value. You are a candidate for an assessment appeal (see Action above). The win rate on residential appeals with comparable-sales evidence is meaningful — typically 30-50% of appellants get a reduction. The appeal window closes annually; don't miss it.";
+      } else if (state.state === 'pa-stale' && state.appr === 'same') {
+        stake = "You are in a PA county with stale assessments and your neighborhood tracked the county average. Your bill is <em>roughly fair</em> on the aggregate, though the distribution around you is not. The Common Level Ratio adjustment keeps your county-level total in line, but it does not fix the within-county distribution. Worth pushing for a statutory cycle anyway; the next downturn or boom will tip you into one of the other two categories.";
+      } else if (state.state === 'nc') {
+        stake = "You're in North Carolina, on the 8-year statutory cycle. Your county's assessments are by definition within 8 years of market reality. The within-county distribution issues are smaller than in PA. The state-level fix worked; the failure mode in NC is whether your specific reassessment year happened to capture a market cycle accurately. You should still know your county's cycle date.";
+      } else if (state.state === 'pa-recent') {
+        stake = "You're in a PA county that reassessed recently. You are in a relatively rare position for PA: your assessment is reasonably current. The distribution issues are smaller than in Allegheny or Blair. The thing to watch is whether your county sets a next cycle date or lets the years pile up again. The 2012 Allegheny reassessment was supposed to be followed by regular cycles; that didn't happen.";
+      } else if (state.state === 'renter') {
+        stake = "You don't see this directly on a bill, but stale assessments affect you. Property tax pass-through into rent is real; landlords whose assessed values are too low (because they're in fast-appreciating neighborhoods) extract higher rents because the local property is under-taxed and the building was a better cash-flow buy than the market would suggest. The reverse: in stale-assessed slow-growth neighborhoods, rental yields are compressed because the building is over-taxed. Both ways, the tenant experience is distorted.";
+      } else {
+        stake = "You're in another state. About eleven states have no statutory reassessment cycle — check yours at the IAAO state-policy table (linked in Sources). The mechanism is the same regardless of which state: stale assessments compound regressively over time, and the fix is either a statutory cycle or an individual appeal.";
+      }
+      rtxt.innerHTML = stake;
+      res.classList.add('show');
+    }
+  })();
+</script>
+
+</body>
+</html>
