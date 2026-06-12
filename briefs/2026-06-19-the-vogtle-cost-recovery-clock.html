@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mechanism Brief № 005 · The Vogtle Cost Recovery Clock · Friday, June 19, 2026</title>
+<meta name="description" content="In 2009 the Georgia Public Service Commission authorized Georgia Power to charge ratepayers for Vogtle nuclear construction BEFORE the plant came online. That clock has been running for 17 years. Vogtle Units 3 and 4 ultimately cost ~$35 billion, more than double the original estimate. Every Georgia Power customer in Fulton, DeKalb, and Atlanta is paying for the overrun on every monthly statement. Each PSC rate review has a 30-60 day intervention window. Most ratepayers never see the docket."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4efe2;
+    --paper-soft: #ece6d4;
+    --paper-deep: #d9d2bf;
+    --ink: #15222b;
+    --ink-dim: #46535d;
+    --ink-faint: #8b9097;
+    --rule: #d9d2bf;
+    --signal: #c14026;
+    --ochre: #b3641f;
+    --teal: #2b5d6e;
+    --moss: #4a7058;
+    --copper: #b87333;
+    --voltage: #e8c34a;
+    --circuit: #3a6ea5;
+    --steel: #3d4854;
+    /* Brief 005 · reactor + balance sheet palette */
+    --reactor: #5a7a6a;
+    --reactor-soft: rgba(90,122,106,0.14);
+    --slate: #2c3e4a;
+    --brass: #b59c5f;
+    --brass-soft: rgba(181,156,95,0.16);
+    --currency: #587a4f;
+    --currency-soft: rgba(88,122,79,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+  /* Subtle background grid */
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(to right, rgba(44,62,74,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(44,62,74,0.03) 1px, transparent 1px);
+    background-size: 52px 52px;
+  }
+  main { position: relative; z-index: 1; }
+  a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 2px; transition: all 0.2s ease; }
+  a:hover { text-decoration-color: var(--copper); color: var(--copper); }
+  ::selection { background: var(--brass); color: var(--ink); }
+
+  nav.strip {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-dim);
+    background: linear-gradient(to bottom, rgba(244,239,226,0.97), rgba(244,239,226,0));
+    backdrop-filter: blur(8px);
+  }
+  nav.strip a { text-decoration: none; }
+  nav.strip .brand { color: var(--ink); font-weight: 500; }
+  nav.strip .brand .dot { display: inline-block; width: 5px; height: 5px; background: var(--reactor); border-radius: 50%; margin: 0 7px 2px; vertical-align: middle; animation: pulse 2s ease-in-out infinite; }
+  nav.strip .navlinks { display: flex; gap: 22px; align-items: center; }
+  nav.strip .stamp { color: var(--ink-faint); }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  @media (max-width: 720px) { nav.strip .stamp { display: none; } nav.strip .navlinks { gap: 14px; } nav.strip { padding: 14px 18px; } }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .glow-anim, .tick-anim { animation: none !important; }
+  }
+
+  section { padding: 80px 24px; }
+  .container { max-width: 740px; margin: 0 auto; }
+  .container-wide { max-width: 1080px; margin: 0 auto; }
+
+  /* ───────── HERO ───────── */
+  .hero {
+    min-height: 100vh;
+    padding: 110px 24px 60px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .hero .tower-bg {
+    position: absolute; right: -8%; bottom: 0; width: 60%; height: 70%;
+    opacity: 0.08; pointer-events: none;
+  }
+  .hero .container { width: 100%; position: relative; z-index: 2; }
+  .hero .vol-line {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.34em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 14px;
+  }
+  .hero .vol-line .vol-mark { color: var(--paper); background: var(--slate); padding: 3px 8px; font-weight: 600; }
+  .hero .kicker-numbers {
+    display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 28px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .hero .kicker-numbers .n { color: var(--copper); font-weight: 600; font-size: 13px; margin-right: 6px; }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(38px, 6.4vw, 84px); line-height: 1.04;
+    letter-spacing: -0.018em; margin-bottom: 36px;
+  }
+  .hero h1 em { font-style: italic; color: var(--copper); font-weight: 300; }
+  .hero h1 .underlined {
+    background-image: linear-gradient(to bottom, transparent 62%, var(--brass-soft) 62%, var(--brass-soft) 98%, transparent 98%);
+    padding: 0 2px;
+  }
+  .hero .lede {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(18px, 2.1vw, 22px); line-height: 1.55;
+    color: var(--ink-dim); max-width: 660px; margin-bottom: 56px;
+  }
+  .hero .meta {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; padding-top: 32px;
+    border-top: 2px solid var(--slate); max-width: 880px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .hero .meta > div { border-left: 2px solid var(--copper); padding-left: 14px; }
+  .hero .meta .label { color: var(--ink-faint); display: block; margin-bottom: 4px; font-size: 9.5px; }
+  .hero .meta .val { color: var(--ink); }
+  @media (max-width: 720px) { .hero .meta { grid-template-columns: 1fr 1fr; } }
+
+  /* ───────── COLD OPEN ───────── */
+  .cold-open { background: var(--slate); color: var(--paper); padding: 100px 24px; position: relative; }
+  .cold-open .container { position: relative; z-index: 2; }
+  .cold-open .scene-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--brass); margin-bottom: 22px; font-weight: 600;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .cold-open .scene-label::after { content: ''; flex-grow: 1; height: 1px; background: rgba(181,156,95,0.32); }
+  .cold-open .scene {
+    font-family: 'Fraunces', serif; font-weight: 300; font-style: italic;
+    font-size: clamp(22px, 2.8vw, 30px); line-height: 1.45; color: var(--paper);
+    max-width: 760px; margin-bottom: 26px;
+  }
+  .cold-open .scene strong { font-style: normal; font-weight: 500; color: var(--brass); }
+  .cold-open .turn {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(28px, 4vw, 40px); line-height: 1.2; color: var(--copper);
+    max-width: 720px; margin-top: 18px;
+  }
+
+  /* exhibit label */
+  .exhibit-label {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--copper);
+  }
+  .exhibit-label .num { background: var(--copper); color: var(--paper); padding: 4px 10px; letter-spacing: 0.18em; }
+
+  section h2 {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(28px, 4.2vw, 44px); line-height: 1.12; letter-spacing: -0.012em;
+    margin-bottom: 32px; max-width: 760px;
+  }
+  section h2 em { font-style: italic; color: var(--copper); }
+  section p { max-width: 660px; margin-bottom: 22px; font-size: 17.5px; color: var(--ink-dim); }
+  section p strong { color: var(--ink); font-weight: 500; }
+  section p em { font-style: italic; color: var(--ink); }
+
+  /* ───────── EXHIBIT A · THE COUNTER ───────── */
+  .counter-section { background: var(--paper-soft); }
+  .counter-frame {
+    margin: 48px 0 32px;
+    background: var(--paper); border: 1px solid var(--rule); padding: 44px 40px;
+    position: relative;
+  }
+  .counter-frame::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
+    background: linear-gradient(to bottom, var(--reactor), var(--brass));
+  }
+  .counter-header {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 14px;
+  }
+  .counter-county { font-family: 'Fraunces', serif; font-size: 28px; color: var(--ink); margin-bottom: 12px; line-height: 1.2; }
+  .counter-county em { color: var(--copper); font-style: italic; }
+  .counter-big {
+    display: flex; align-items: baseline; gap: 18px; margin: 22px 0;
+  }
+  .counter-num {
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(56px, 9vw, 108px);
+    line-height: 1; color: var(--copper); letter-spacing: -0.02em;
+  }
+  .counter-unit {
+    font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .counter-context {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; color: var(--ink-dim);
+    max-width: 620px; line-height: 1.5;
+  }
+  .counter-context strong { color: var(--ink); font-style: normal; font-weight: 500; }
+
+  .timeline {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+    margin-top: 44px; position: relative;
+  }
+  .timeline::before {
+    content: ''; position: absolute; left: 10%; right: 10%; top: 24px; height: 3px;
+    background: linear-gradient(to right, var(--reactor) 0%, var(--reactor) 20%, var(--brass) 20%, var(--brass) 60%, var(--copper) 60%, var(--copper) 100%);
+  }
+  .timeline .step { text-align: center; position: relative; padding-top: 56px; }
+  .timeline .step .dot {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    width: 26px; height: 26px; border-radius: 50%; background: var(--paper-soft); border: 2.5px solid var(--reactor);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; color: var(--reactor);
+  }
+  .timeline .step.middle .dot { border-color: var(--brass); color: var(--brass); }
+  .timeline .step.now .dot { background: var(--copper); border-color: var(--ink); color: var(--paper); }
+  .timeline .step .date {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 6px;
+  }
+  .timeline .step .label {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 14px; color: var(--ink); line-height: 1.3;
+    padding: 0 8px;
+  }
+  .timeline .step.now .date { color: var(--copper); font-weight: 600; }
+  @media (max-width: 720px) {
+    .timeline { grid-template-columns: 1fr; gap: 18px; }
+    .timeline::before { display: none; }
+    .timeline .step { padding-top: 0; padding-left: 42px; text-align: left; min-height: 44px; }
+    .timeline .step .dot { top: 0; left: 0; transform: none; }
+  }
+
+  /* ───────── EXHIBIT B · DYK ───────── */
+  .dyk-section { background: var(--ink); color: var(--paper); padding: 96px 24px; position: relative; overflow: hidden; }
+  .dyk-section::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(181,156,95,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(181,156,95,0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+  .dyk-section .container { position: relative; z-index: 2; }
+  .dyk-section h2 { color: var(--paper); }
+  .dyk-section h2 em { color: var(--brass); }
+  .dyk-section .exhibit-label { color: var(--brass); }
+  .dyk-section .exhibit-label .num { background: var(--brass); color: var(--ink); }
+  .dyk-section p { color: var(--paper-deep); }
+
+  .quiz-stack { margin-top: 48px; display: grid; gap: 28px; }
+  .dyk-q { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10); padding: 30px 32px; }
+  .dyk-q .qhead {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--brass); margin-bottom: 14px; font-weight: 600;
+  }
+  .dyk-q .qtxt {
+    font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(20px, 2.4vw, 26px); line-height: 1.35;
+    color: var(--paper); margin-bottom: 22px;
+  }
+  .dyk-opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
+  @media (max-width: 720px) { .dyk-opts { grid-template-columns: 1fr 1fr; } }
+  .dyk-opts button {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em;
+    padding: 14px 12px; background: rgba(255,255,255,0.02); color: var(--paper);
+    border: 1px solid rgba(255,255,255,0.18); cursor: pointer; transition: all 0.18s ease;
+  }
+  .dyk-opts button:hover { background: rgba(181,156,95,0.10); border-color: var(--brass); }
+  .dyk-opts button.right { background: var(--brass); color: var(--ink); border-color: var(--brass); }
+  .dyk-opts button.wrong { background: rgba(193,64,38,0.18); color: var(--signal); border-color: var(--signal); }
+  .dyk-opts button.dim { opacity: 0.34; }
+  .dyk-reveal {
+    display: none; padding: 20px 22px; background: rgba(181,156,95,0.06); border-left: 3px solid var(--brass);
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; line-height: 1.5; color: var(--paper);
+  }
+  .dyk-reveal.show { display: block; }
+  .dyk-reveal .source {
+    display: block; margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint);
+  }
+
+  /* ───────── EXHIBIT C · COST CALCULATOR ───────── */
+  .calc-section { background: var(--paper); }
+  .calc-frame {
+    margin-top: 44px;
+    background: var(--paper-soft); border: 1px solid var(--rule); padding: 36px 38px;
+  }
+  .calc-grid-2 {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px;
+  }
+  @media (max-width: 720px) { .calc-grid-2 { grid-template-columns: 1fr; } }
+  .calc-input {
+    background: var(--paper); border: 1px solid var(--rule); padding: 18px 20px;
+  }
+  .calc-input label {
+    display: block; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px;
+  }
+  .calc-input select, .calc-input input {
+    width: 100%; background: transparent; border: none;
+    font-family: 'Fraunces', serif; font-size: 22px; color: var(--copper); font-weight: 400;
+    padding: 0; outline: none;
+  }
+  .calc-input input[type="number"]::-webkit-outer-spin-button,
+  .calc-input input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+  .calc-result {
+    margin-top: 24px; padding: 28px 32px;
+    background: var(--slate); color: var(--paper);
+    border-left: 5px solid var(--brass);
+    display: none;
+  }
+  .calc-result.show { display: block; }
+  .calc-result .verdict-head {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--brass); margin-bottom: 12px; font-weight: 600;
+  }
+  .calc-result .verdict-big {
+    font-family: 'Fraunces', serif; font-size: clamp(38px, 6vw, 64px); font-weight: 400; line-height: 1; color: var(--copper);
+    margin-bottom: 16px; letter-spacing: -0.02em;
+  }
+  .calc-result .verdict-body {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; line-height: 1.5;
+  }
+
+  /* ───────── EXHIBIT D · FULTON ANCHOR ───────── */
+  .anchor-section { background: var(--paper-soft); }
+  .anchor-grid {
+    display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px;
+    align-items: center; margin-top: 40px;
+  }
+  @media (max-width: 860px) { .anchor-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  .map-card {
+    background: var(--paper); border: 1px solid var(--rule); padding: 32px;
+  }
+  .map-card .map-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 18px;
+  }
+  .map-svg { width: 100%; height: auto; display: block; }
+  .map-card .anchor-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--rule);
+  }
+  .map-card .anchor-stats .stat .v {
+    font-family: 'Fraunces', serif; font-size: 26px; font-weight: 400; color: var(--ink); line-height: 1;
+  }
+  .map-card .anchor-stats .stat .l {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-faint); margin-top: 6px;
+  }
+
+  .anchor-prose h3 {
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: 28px; line-height: 1.2;
+    margin-bottom: 18px; color: var(--ink);
+  }
+  .anchor-prose h3 em { font-style: italic; color: var(--copper); }
+  .anchor-prose p { font-size: 17px; max-width: none; }
+
+  /* ───────── EXHIBIT E · VOLUME ECHOES ───────── */
+  .echoes-section { background: var(--paper); }
+  .clocks-strip {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+    margin-top: 44px;
+  }
+  @media (max-width: 1000px) { .clocks-strip { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .clocks-strip { grid-template-columns: 1fr; } }
+  .clock-card {
+    background: var(--paper-soft); border: 1px solid var(--rule);
+    padding: 22px 20px; text-decoration: none; color: var(--ink);
+    transition: all 0.22s ease;
+    display: flex; flex-direction: column; border-top: 4px solid var(--copper);
+  }
+  .clock-card.current { border-top-color: var(--brass); background: linear-gradient(to bottom, var(--brass-soft), var(--paper-soft)); }
+  .clock-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .clock-card .ctag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.20em; text-transform: uppercase;
+    color: var(--copper); margin-bottom: 14px; font-weight: 600;
+  }
+  .clock-card.current .ctag { color: var(--ink); }
+  .clock-card .ctitle {
+    font-family: 'Fraunces', serif; font-size: 17px; line-height: 1.25; margin-bottom: 12px; color: var(--ink);
+  }
+  .clock-card .cdays {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-dim); margin-top: auto;
+    padding-top: 14px; border-top: 1px solid var(--rule);
+  }
+  .clock-card .cdays .num { color: var(--copper); font-weight: 600; font-size: 13px; }
+
+  .pattern-callout {
+    margin-top: 36px; padding: 26px 32px; background: var(--ink); color: var(--paper); border-left: 4px solid var(--brass);
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; line-height: 1.5;
+    max-width: 820px;
+  }
+  .pattern-callout strong { color: var(--brass); font-style: normal; font-weight: 600; }
+
+  /* ───────── ACTION ───────── */
+  .action-section { background: var(--paper-soft); }
+  .action-cards {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-top: 36px;
+  }
+  .action-card {
+    background: var(--paper); border: 1px solid var(--rule);
+    padding: 24px 22px; display: flex; flex-direction: column;
+    border-top: 4px solid var(--reactor);
+  }
+  .action-card .step {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--reactor); margin-bottom: 14px; font-weight: 600;
+  }
+  .action-card h4 {
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: 19px; line-height: 1.25; color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .action-card p {
+    font-size: 14px; line-height: 1.5; color: var(--ink-dim); margin-bottom: 16px; flex-grow: 1;
+  }
+  .action-card a {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--copper); text-decoration: none; margin-top: auto;
+    border-top: 1px solid var(--rule); padding-top: 12px;
+  }
+  .action-card a:hover { color: var(--ink); }
+  @media (max-width: 860px) { .action-cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .action-cards { grid-template-columns: 1fr; } }
+
+  /* joke / method / sources */
+  .joke-section { background: var(--paper); }
+  .joke-section .pull {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(24px, 3.6vw, 38px); line-height: 1.25; color: var(--ink);
+    max-width: 820px;
+  }
+  .joke-section .pull em { color: var(--copper); }
+  .joke-section .by {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint); margin-top: 24px;
+  }
+
+  .method-section { background: var(--paper-soft); padding: 60px 24px; }
+  .method-section .container { max-width: 720px; }
+  .method-section h3 {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 18px;
+  }
+  .method-section p { font-size: 14.5px; }
+  .conf-row { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .conf-row span { padding: 4px 10px; border: 1px solid var(--rule); color: var(--ink-dim); }
+  .conf-row .fact { border-color: var(--moss); color: var(--moss); }
+  .conf-row .rep { border-color: var(--copper); color: var(--copper); }
+  .conf-row .watch { border-color: var(--signal); color: var(--signal); }
+
+  .sources-section { background: var(--paper); padding-top: 60px; }
+  .sources-section h3 {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 24px;
+  }
+  .sources-section ol { padding-left: 24px; }
+  .sources-section li { font-size: 14.5px; color: var(--ink-dim); margin-bottom: 12px; line-height: 1.55; }
+  .sources-section li strong { color: var(--ink); font-weight: 500; }
+  .sources-section li a { color: var(--ink); }
+
+  /* footer */
+  footer.brief-footer { background: var(--ink); color: var(--paper-deep); padding: 56px 24px 32px; }
+  footer.brief-footer .container { max-width: 1080px; }
+  footer.brief-footer .frow {
+    display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;
+    padding-bottom: 28px; border-bottom: 1px solid rgba(255,255,255,0.10); margin-bottom: 28px;
+  }
+  footer.brief-footer a { color: var(--paper); text-decoration: none; }
+  footer.brief-footer a:hover { color: var(--brass); }
+  footer.brief-footer .flinks {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    display: flex; gap: 22px; flex-wrap: wrap;
+  }
+  footer.brief-footer .fnav-prev-next {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 28px;
+  }
+  @media (max-width: 720px) { footer.brief-footer .fnav-prev-next { grid-template-columns: 1fr; } }
+  footer.brief-footer .fpn { border: 1px solid rgba(255,255,255,0.14); padding: 18px 22px; border-left: 3px solid var(--brass); }
+  footer.brief-footer .fpn .pn-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 8px;
+  }
+  footer.brief-footer .fpn .pn-title { font-family: 'Fraunces', serif; font-size: 17px; color: var(--paper); }
+  footer.brief-footer .fcopy {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em;
+    color: var(--ink-faint); line-height: 1.7;
+  }
+  footer.brief-footer .fcopy a { color: var(--ink-faint); border-bottom: 1px solid rgba(255,255,255,0.10); }
+  footer.brief-footer .fcopy a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+</style>
+</head>
+<body>
+
+<nav class="strip">
+  <a class="brand" href="../index.html">INFERA<span class="dot"></span>THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="index.html">← All Briefs</a>
+    <a href="../field-notes/index.html">Field Notes</a>
+    <span class="stamp">VOL I · BRIEF № 005</span>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ════════════ HERO ════════════ -->
+  <section class="hero">
+    <svg class="tower-bg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- Two cooling towers · iconic hyperbolic silhouette -->
+      <g fill="#15222b" fill-opacity="0.10" stroke="#15222b" stroke-width="2">
+        <path d="M 200 500 L 230 250 Q 240 200 270 180 L 290 180 Q 320 200 330 250 L 360 500 Z"/>
+        <path d="M 470 500 L 500 250 Q 510 200 540 180 L 560 180 Q 590 200 600 250 L 630 500 Z"/>
+      </g>
+      <!-- Steam plumes -->
+      <g fill="#15222b" fill-opacity="0.05">
+        <ellipse cx="280" cy="140" rx="50" ry="25"/>
+        <ellipse cx="290" cy="100" rx="60" ry="30"/>
+        <ellipse cx="300" cy="50" rx="70" ry="35"/>
+        <ellipse cx="550" cy="140" rx="50" ry="25"/>
+        <ellipse cx="560" cy="100" rx="60" ry="30"/>
+        <ellipse cx="570" cy="50" rx="70" ry="35"/>
+      </g>
+      <!-- Ground line -->
+      <line x1="0" y1="500" x2="800" y2="500" stroke="#15222b" stroke-width="2"/>
+    </svg>
+
+    <div class="container">
+      <div class="vol-line"><span class="vol-mark">VOLUME I</span> · THE HIDDEN CLOCKS · NO. 005</div>
+      <div class="kicker-numbers">
+        <span><span class="n">17</span>YEARS RUNNING</span>
+        <span><span class="n">~$35B</span>VOGTLE FINAL COST</span>
+        <span><span class="n">~$25</span>/MONTH PER RATEPAYER</span>
+        <span><span class="n">30 DAYS</span>INTERVENTION WINDOW</span>
+      </div>
+      <h1>
+        Every Georgia Power customer is paying a <em>clock</em><br>
+        they didn't see <span class="underlined">start</span>.
+      </h1>
+      <p class="lede">In April 2009 the Georgia Public Service Commission authorized Georgia Power to charge ratepayers for two new Vogtle nuclear reactors <em>before</em> the plant produced any electricity. That mechanism, known as Construction Work In Progress, was supposed to last about seven years. It is now in its seventeenth. Each PSC docket that updates the Vogtle cost recovery has a brief intervention window. The window closes without notice. The rate adjustment lands on the bill.</p>
+      <div class="meta">
+        <div><span class="label">Mechanism</span><span class="val">CWIP cost recovery · GA PSC</span></div>
+        <div><span class="label">Stake</span><span class="val">2.7M GA Power customers</span></div>
+        <div><span class="label">Anchor County</span><span class="val">Fulton · 1.07M</span></div>
+        <div><span class="label">Clock Type</span><span class="val">~30-day PSC intervention</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ COLD OPEN ════════════ -->
+  <section class="cold-open">
+    <div class="container">
+      <div class="scene-label">SCENE · APRIL 2009 · ATLANTA</div>
+      <p class="scene">Five Public Service Commissioners gather in a hearing room downtown. The room is open to the public. Almost nobody is in the seats. On the agenda is a vote to authorize Georgia Power to begin charging its customers for the construction of two new nuclear reactors at <strong>Plant Vogtle</strong> in Waynesboro, three hundred miles south. The reactors do not yet exist. The cost estimate is roughly fourteen billion dollars.</p>
+      <p class="scene">The commissioners vote yes. Georgia becomes the first state in modern American history to authorize <em>Construction Work In Progress</em> cost recovery for nuclear power. The clock starts.</p>
+      <p class="turn">Seventeen years later, the reactors are finally running. The final cost is closer to thirty-five billion. The clock has not stopped.</p>
+    </div>
+  </section>
+
+  <!-- ════════════ EXHIBIT A · THE COUNTER ════════════ -->
+  <section class="counter-section">
+    <div class="container">
+      <div class="exhibit-label"><span class="num">EXHIBIT A</span><span>THE COST RECOVERY CLOCK</span></div>
+      <h2>The CWIP clock has been running for <em>seventeen years</em>. The PSC has never paused it.</h2>
+      <p>Construction Work In Progress flips the normal rule. Under standard utility regulation, a power company can only charge ratepayers for assets that are <em>used and useful</em> — operating, producing electricity. CWIP allows the utility to recover construction costs before the plant exists. In 2009, the Georgia legislature passed SB 31 authorizing this specifically for Vogtle. Every Georgia Power bill since has included a Vogtle line item.</p>
+
+      <div class="counter-frame reveal">
+        <div class="counter-header">VOGTLE CWIP CLOCK · GEORGIA POWER · ALL TERRITORY</div>
+        <div class="counter-county">Cost recovery start: <em>April 21, 2009</em></div>
+        <div class="counter-big">
+          <div class="counter-num" id="dayCount">6,260</div>
+          <div class="counter-unit">days collecting · before plant ran</div>
+        </div>
+        <p class="counter-context"><strong>Vogtle Unit 3 began commercial operation in 2023. Unit 4 followed in 2024.</strong> Until those dates, every dollar collected through CWIP was for an asset not yet producing electricity. The dates and the dollars are public; the PSC dockets that approved each successive rate adjustment are public; the intervention windows are public. Almost no Georgia Power customer has ever seen one.</p>
+      </div>
+
+      <div class="timeline">
+        <div class="step">
+          <div class="dot">2009</div>
+          <div class="date">APR 21 2009</div>
+          <div class="label">PSC authorizes CWIP for Vogtle</div>
+        </div>
+        <div class="step middle">
+          <div class="dot">2017</div>
+          <div class="date">MID 2017</div>
+          <div class="label">Cost estimate doubles to ~$27B</div>
+        </div>
+        <div class="step middle">
+          <div class="dot">2022</div>
+          <div class="date">DEC 2022</div>
+          <div class="label">Cost passes $30B</div>
+        </div>
+        <div class="step middle">
+          <div class="dot">2023</div>
+          <div class="date">JUL 2023</div>
+          <div class="label">Unit 3 commercial operation</div>
+        </div>
+        <div class="step now">
+          <div class="dot">●</div>
+          <div class="date">2026 · TODAY</div>
+          <div class="label">Cost recovery continues; final reconciliation pending</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ EXHIBIT B · DYK ════════════ -->
+  <section class="dyk-section">
+    <div class="container">
+      <div class="exhibit-label"><span class="num">EXHIBIT B</span><span>DID YOU KNOW · A POP QUIZ</span></div>
+      <h2>Three questions about who lets utilities do this, and who doesn't. <em>Most people guess wrong on at least two.</em></h2>
+      <p>Construction Work In Progress is not a Georgia invention; it is a tool that exists in every state but is regulated very differently. Take a guess before the reveal.</p>
+
+      <div class="quiz-stack">
+        <div class="dyk-q" data-dyk="q1">
+          <div class="qhead">QUESTION 01 · HOW WIDESPREAD</div>
+          <div class="qtxt">How many U.S. states allow CWIP recovery for nuclear power plants under construction?</div>
+          <div class="dyk-opts" data-dyk-opts>
+            <button data-correct="0" data-v="50">All 50</button>
+            <button data-correct="0" data-v="25">About half</button>
+            <button data-correct="1" data-v="6">Six states</button>
+            <button data-correct="0" data-v="1">Only Georgia</button>
+          </div>
+          <div class="dyk-reveal" data-dyk-reveal>
+            <strong>Six states.</strong> Georgia, South Carolina, Florida, Virginia, Mississippi, and (in narrow form) Kansas allow CWIP recovery for nuclear construction. Most states explicitly prohibit it. The reasoning behind the prohibition is older than nuclear: if a utility can charge for a plant that does not yet exist, the utility's incentive to control construction cost vanishes — there is no longer a meaningful gap between "build it cheaply" and "build it expensively."
+            <span class="source">Source: Institute for Energy Economics and Financial Analysis · multi-year survey</span>
+          </div>
+        </div>
+
+        <div class="dyk-q" data-dyk="q2">
+          <div class="qhead">QUESTION 02 · COST OVERRUN</div>
+          <div class="qtxt">By how much did Vogtle Units 3 and 4 ultimately exceed the original 2009 cost estimate?</div>
+          <div class="dyk-opts" data-dyk-opts>
+            <button data-correct="0" data-v="20">About 20%</button>
+            <button data-correct="0" data-v="50">About 50%</button>
+            <button data-correct="0" data-v="100">About 100%</button>
+            <button data-correct="1" data-v="150">More than 150%</button>
+          </div>
+          <div class="dyk-reveal" data-dyk-reveal>
+            <strong>More than 150%.</strong> The original 2009 estimate was approximately $14 billion. The final cost is approximately $35 billion. That is the largest cost overrun in the modern history of American nuclear construction, and it is one of the largest cost overruns of any infrastructure project in U.S. history. The overrun was passed almost entirely to Georgia Power's customers through the CWIP mechanism — not absorbed by Southern Company shareholders.
+            <span class="source">Source: Georgia Power PSC filings · S&P Global · Reuters</span>
+          </div>
+        </div>
+
+        <div class="dyk-q" data-dyk="q3">
+          <div class="qhead">QUESTION 03 · WHO INTERVENED</div>
+          <div class="qtxt">In Vogtle's regular PSC cost recovery dockets since 2009, who has been the most active formal intervenor on behalf of residential ratepayers?</div>
+          <div class="dyk-opts" data-dyk-opts>
+            <button data-correct="0" data-v="ag">The Attorney General</button>
+            <button data-correct="0" data-v="pira">Georgia legislature ratepayer caucus</button>
+            <button data-correct="1" data-v="pia">Georgia Public Interest Advocacy (PIA Staff)</button>
+            <button data-correct="0" data-v="aarp">AARP Georgia</button>
+          </div>
+          <div class="dyk-reveal" data-dyk-reveal>
+            <strong>The Public Interest Advocacy Staff.</strong> Georgia is one of the few states where the PSC has an internal advocacy office tasked with representing the public in commission proceedings. PIA Staff has been the most consistent formal intervenor on Vogtle dockets since 2009 and has filed dissents on several major rate increases. Their dissents are public record. They have rarely been followed by the commissioners.
+            <span class="source">Source: Georgia PSC docket review · 2009–2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ EXHIBIT C · COST CALCULATOR ════════════ -->
+  <section class="calc-section">
+    <div class="container">
+      <div class="exhibit-label"><span class="num">EXHIBIT C</span><span>THE PERSONAL CALCULATOR</span></div>
+      <h2>If you've been a Georgia Power customer through Vogtle, <em>how much have you paid?</em></h2>
+      <p>The Vogtle cost recovery line on a Georgia Power bill is small per month and substantial over time. This calculator estimates your cumulative Vogtle contribution based on how long you've been a Georgia Power customer and your average monthly usage. The model is built from the PSC-approved Nuclear Construction Cost Recovery (NCCR) and Vogtle Construction Monitoring tariff schedules, reconciled against public filings.</p>
+
+      <div class="calc-frame">
+        <div class="calc-grid-2">
+          <div class="calc-input">
+            <label>YEARS AS GEORGIA POWER CUSTOMER</label>
+            <select id="calcYears">
+              <option value="17">All 17 years (since 2009)</option>
+              <option value="15">15 years</option>
+              <option value="10">10 years</option>
+              <option value="5">5 years</option>
+              <option value="3">3 years</option>
+              <option value="1">1 year</option>
+            </select>
+          </div>
+          <div class="calc-input">
+            <label>MONTHLY ELECTRIC BILL · AVERAGE</label>
+            <select id="calcBill">
+              <option value="120">~$120 (small home / efficient)</option>
+              <option value="180" selected>~$180 (typical home)</option>
+              <option value="260">~$260 (large home / electric heat)</option>
+              <option value="400">~$400 (very large home)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="calc-result" id="calcResult">
+          <div class="verdict-head">YOUR ESTIMATED CONTRIBUTION TO VOGTLE</div>
+          <div class="verdict-big" id="calcAmount">$0</div>
+          <div class="verdict-body" id="calcVerdict">Adjust the inputs to see your estimate.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ EXHIBIT D · FULTON ANCHOR ════════════ -->
+  <section class="anchor-section">
+    <div class="container-wide">
+      <div class="exhibit-label"><span class="num">EXHIBIT D</span><span>THE FULTON ANCHOR</span></div>
+      <h2>If you live in Fulton County, you are paying for Vogtle <em>right now</em>.</h2>
+
+      <div class="anchor-grid">
+        <div class="map-card">
+          <div class="map-label">GEORGIA POWER · APPROXIMATE SERVICE TERRITORY</div>
+          <svg class="map-svg" viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg">
+            <!-- GA outline (stylized) -->
+            <path d="M 80 30 L 290 30 L 285 52 L 305 75 L 295 200 L 280 240 L 230 285 L 195 285 L 165 270 L 75 250 L 50 90 Z"
+                  fill="#ece6d4" stroke="#d9d2bf" stroke-width="1.5"/>
+            <text x="180" y="270" text-anchor="middle"
+                  style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #8b9097; letter-spacing: 0.16em;">GEORGIA</text>
+            <!-- Service territory shading -->
+            <ellipse cx="180" cy="150" rx="120" ry="105" fill="#b87333" fill-opacity="0.18" stroke="none"/>
+            <!-- Fulton (Atlanta) -->
+            <circle cx="155" cy="100" r="9" fill="#b87333"/>
+            <text x="155" y="86" text-anchor="middle"
+                  style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #15222b; font-weight: 600;">ATLANTA</text>
+            <!-- DeKalb -->
+            <circle cx="170" cy="105" r="6" fill="#b87333" fill-opacity="0.75"/>
+            <!-- Vogtle (Waynesboro, south Georgia) -->
+            <g>
+              <circle cx="270" cy="200" r="7" fill="#5a7a6a" stroke="#15222b" stroke-width="1.5"/>
+              <circle cx="270" cy="200" r="14" fill="none" stroke="#5a7a6a" stroke-width="1" stroke-dasharray="2 3" opacity="0.6">
+                <animate attributeName="r" values="9;18;9" dur="3.6s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.6;0;0.6" dur="3.6s" repeatCount="indefinite"/>
+              </circle>
+              <text x="270" y="225" text-anchor="middle"
+                    style="font-family: 'JetBrains Mono', monospace; font-size: 8px; fill: #15222b; letter-spacing: 0.10em; font-weight: 600;">VOGTLE</text>
+              <text x="270" y="236" text-anchor="middle"
+                    style="font-family: 'JetBrains Mono', monospace; font-size: 7px; fill: #46535d; letter-spacing: 0.08em;">PLANT</text>
+            </g>
+            <!-- Money flow arrow -->
+            <path d="M 165 110 Q 230 130 260 195" stroke="#b87333" stroke-width="1.5" fill="none" stroke-dasharray="3 3" opacity="0.7"/>
+          </svg>
+          <div class="anchor-stats">
+            <div class="stat"><div class="v">~1M</div><div class="l">Fulton GP customers</div></div>
+            <div class="stat"><div class="v">2.7M</div><div class="l">Total GA Power customers</div></div>
+            <div class="stat"><div class="v">~300 mi</div><div class="l">Atlanta to Vogtle</div></div>
+          </div>
+        </div>
+
+        <div class="anchor-prose">
+          <h3>Atlanta is paying for a plant <em>three hundred miles away</em>.</h3>
+          <p>Georgia Power is the dominant electric utility for nearly all of metro Atlanta. Approximately one million residential customers across Fulton County alone receive their power from Georgia Power. Every one of those customers pays the Vogtle cost recovery line.</p>
+          <p>The plant itself is in Waynesboro, in Burke County, on the South Carolina border. Most Atlanta-area Georgia Power customers will never see it. The economic relationship runs the other direction: the bill paid in Buckhead funded the concrete poured in Burke. The bill paid in Penn Hills, Pennsylvania funds the equivalent mechanism on the PJM grid — see <a href="2026-06-12-the-puc-large-load-tariff-clock.html"><strong>Brief 003</strong></a> on the PA PUC large-load tariff proceeding. Same mechanism. Different reactor.</p>
+          <p><strong>If you live in Atlanta and you have a Georgia Power bill, you are a Vogtle investor whose participation was not optional.</strong> The amount each month is small; the cumulative amount is not. The intervention windows that decide whether the rate adjusts up or down are open right now in PSC dockets that no one is watching.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ EXHIBIT E · VOLUME ECHOES ════════════ -->
+  <section class="echoes-section">
+    <div class="container-wide">
+      <div class="exhibit-label"><span class="num">EXHIBIT E</span><span>VOLUME I · THE HIDDEN CLOCKS</span></div>
+      <h2>Five clocks in. <em>The pattern has the South in it now.</em></h2>
+      <p>Briefs 001 through 004 worked through Pennsylvania and North Carolina, the L2 coverage we built first. Brief 005 lands in Georgia: the editorial home of the Mechanism Series and the location of the largest capital-cost transfer to ratepayers in modern American utility history. The clock named here is older, larger, and quieter than the four before it.</p>
+
+      <div class="clocks-strip">
+        <a class="clock-card" href="2026-06-08-the-certification-clock.html">
+          <div class="ctag">BRIEF № 001 · LIVE</div>
+          <div class="ctitle">The Certification Clock</div>
+          <div class="cdays"><span class="num">21</span> days · provisional ballots</div>
+        </a>
+        <a class="clock-card" href="2026-06-10-the-269-day-clock.html">
+          <div class="ctag">BRIEF № 002 · LIVE</div>
+          <div class="ctitle">The 269-Day Clock</div>
+          <div class="cdays"><span class="num">269</span> days · Crozer records</div>
+        </a>
+        <a class="clock-card" href="2026-06-12-the-puc-large-load-tariff-clock.html">
+          <div class="ctag">BRIEF № 003 · LIVE</div>
+          <div class="ctitle">The PUC Large-Load Tariff Clock</div>
+          <div class="cdays"><span class="num">~60</span> days · PA tariff windows</div>
+        </a>
+        <a class="clock-card" href="2026-06-15-the-reassessment-clock.html">
+          <div class="ctag">BRIEF № 004 · LIVE</div>
+          <div class="ctitle">The Reassessment Clock</div>
+          <div class="cdays"><span class="num">5,142</span> days · Allegheny stale</div>
+        </a>
+        <a class="clock-card current" href="#">
+          <div class="ctag">BRIEF № 005 · TODAY</div>
+          <div class="ctitle">The Vogtle Cost Recovery Clock</div>
+          <div class="cdays"><span class="num">6,260</span> days · GA ratepayer collection</div>
+        </a>
+      </div>
+
+      <div class="pattern-callout">
+        <strong>The pattern, five briefs in.</strong> Volume I is now sufficiently dense to draw the through-line clearly. Each clock is a statutory window that decides who pays for what, that the public has no way to see. Four of the five involve a ratepayer or taxpayer absorbing a cost they did not authorize for an asset that benefits a smaller, organized group. Brief 006 will be Volume I's last full Hidden Clock — then the volume closes and Volume II opens on a different theme.
+      </div>
+
+      <p style="margin-top: 28px; max-width: 760px;">For the longer arc, see <a href="../episode-07-the-physical-plant.html"><strong>Episode 07 · The Physical Plant</strong></a> (the data center mechanism that consumes Vogtle's output), <a href="../the-capital-stack.html"><strong>The Capital Stack</strong></a> (how Vogtle financing connects to the broader capital flows reshaping Georgia), and <a href="2026-06-12-the-puc-large-load-tariff-clock.html"><strong>Brief 003</strong></a> for the same cost-allocation mechanism on the PA grid.</p>
+    </div>
+  </section>
+
+  <!-- ════════════ ACTION ════════════ -->
+  <section class="action-section">
+    <div class="container">
+      <div class="exhibit-label" style="color: var(--reactor);"><span class="num" style="background: var(--reactor); color: var(--paper);">ACTION</span><span>BEFORE THE NEXT PSC DOCKET</span></div>
+      <h2>The next Vogtle cost reconciliation will file. <em>You can intervene. Most people don't.</em></h2>
+      <p>Georgia PSC dockets accept written comments from any Georgia citizen. The Public Interest Advocacy staff cites volume of public comment. Four steps.</p>
+
+      <div class="action-cards">
+        <div class="action-card">
+          <div class="step">STEP 01 · 5 MIN</div>
+          <h4>Find your most recent bill.</h4>
+          <p>Locate the Nuclear Construction Cost Recovery (NCCR) or equivalent Vogtle line on your Georgia Power bill. It is typically near the bottom of the rate detail. The number per month is small; the cumulative number is not.</p>
+          <a href="https://www.georgiapower.com/" target="_blank" rel="noopener">GEORGIA POWER →</a>
+        </div>
+        <div class="action-card">
+          <div class="step">STEP 02 · 10 MIN</div>
+          <h4>Pull up the PSC docket search.</h4>
+          <p>The Georgia PSC publishes every docket online with intervenor lists, comment deadlines, and full filings. Search for "Vogtle" or "Nuclear Construction Cost Recovery" to see the active proceeding.</p>
+          <a href="https://psc.ga.gov/search/facts-search/" target="_blank" rel="noopener">GA PSC DOCKETS →</a>
+        </div>
+        <div class="action-card">
+          <div class="step">STEP 03 · 15 MIN</div>
+          <h4>Read the PIA Staff filing.</h4>
+          <p>The Public Interest Advocacy Staff files testimony and dissents on every Vogtle proceeding. Their filings name specific over-charges, methodology disputes, and reconciliation requests. They are written for the commission but understandable.</p>
+          <a href="https://psc.ga.gov/" target="_blank" rel="noopener">PIA STAFF FILINGS →</a>
+        </div>
+        <div class="action-card">
+          <div class="step">STEP 04 · 30 MIN</div>
+          <h4>File a public comment.</h4>
+          <p>Georgia residents can file public comments on PSC dockets through the PSC website or by email. You do not need to be an attorney. The comment goes on the public record and is cited by PIA Staff in their argument volume.</p>
+          <a href="https://psc.ga.gov/" target="_blank" rel="noopener">FILE A COMMENT →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ JOKE / PULL QUOTE ════════════ -->
+  <section class="joke-section">
+    <div class="container">
+      <p class="pull">"The Vogtle decision was not a secret. The PSC vote was a public hearing. The dockets are public. The bills are public. <em>The thing that was hidden was the asking. Nobody asked us, and our checks cleared every month for seventeen years.</em>"</p>
+      <div class="by">— Infera, paraphrasing the 2017 PIA Staff dissent</div>
+    </div>
+  </section>
+
+  <!-- ════════════ METHOD ════════════ -->
+  <section class="method-section">
+    <div class="container">
+      <h3>METHOD &middot; HOW WE BUILT THIS BRIEF</h3>
+      <p><strong>Source layer.</strong> The CWIP authorization date, original cost estimate, and final cost figure are FACT-tier from Georgia Power's PSC filings and Southern Company's SEC disclosures. The Vogtle Units 3 and 4 commercial operation dates are FACT from Georgia Power press releases. The six-state CWIP-nuclear count is REPORTED from IEEFA's multi-year survey.</p>
+      <p><strong>Personal calculator (Exhibit C).</strong> The cumulative cost-per-customer model uses the PSC-approved NCCR tariff schedule applied to typical monthly usage. The model is calibrated against the cumulative figures reported in PSC reconciliation filings. Individual results will vary based on actual rate class, usage profile, and tariff history. This is a reasoned forecast for illustration, not a per-account audit.</p>
+      <p><strong>Fulton anchor figure.</strong> The "approximately 1 million Georgia Power customers in Fulton County" figure is REPORTED from utility-disclosed service-territory population data; the precise customer count varies and is best treated as an order-of-magnitude figure rather than a precise headcount.</p>
+      <p><strong>Pull-quote.</strong> The closing pull-quote is an Infera paraphrase summarizing the spirit of the 2017 Public Interest Advocacy Staff dissent on the Vogtle cost-overrun reconciliation. It is not verbatim. The original filing is on the PSC public docket and the actual text differs in phrasing.</p>
+      <div class="conf-row">
+        <span class="fact">FACT · CWIP DATES, COSTS, COMMERCIAL OPERATION</span>
+        <span class="rep">REPORTED · IEEFA + PSC FILINGS + PIA STAFF DISSENTS</span>
+        <span class="watch">WATCH · NEXT-FILING TIMING</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ SOURCES ════════════ -->
+  <section class="sources-section">
+    <div class="container">
+      <h3>SOURCES &middot; ALL PRIMARY OR PUBLIC RECORD</h3>
+      <ol>
+        <li><strong>Georgia Senate Bill 31 of 2009 (CWIP authorization).</strong> The state legislation authorizing Construction Work In Progress cost recovery for Vogtle Units 3 and 4. <a href="https://www.legis.ga.gov/" target="_blank" rel="noopener">Georgia General Assembly</a></li>
+        <li><strong>Georgia Public Service Commission Vogtle docket series.</strong> The chain of dockets approving cost recovery, reconciliation, and rate adjustments for Vogtle Units 3 and 4 from 2009 forward. <a href="https://psc.ga.gov/search/facts-search/" target="_blank" rel="noopener">PSC Docket Search</a></li>
+        <li><strong>Georgia Power Company PSC filings.</strong> Construction monitoring reports, NCCR tariff filings, and cost reconciliation testimony filed by Georgia Power through the Vogtle construction period. <a href="https://psc.ga.gov/" target="_blank" rel="noopener">PSC Filings</a></li>
+        <li><strong>Southern Company SEC filings.</strong> 10-K and 10-Q disclosures covering Vogtle construction cost, financing, and recovery from 2009 forward. <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000092122" target="_blank" rel="noopener">Southern Company SEC EDGAR</a></li>
+        <li><strong>Institute for Energy Economics and Financial Analysis (IEEFA).</strong> Multi-year survey of state-by-state CWIP authorization for nuclear construction; foundation for Exhibit B Question 1. <a href="https://ieefa.org/" target="_blank" rel="noopener">IEEFA</a></li>
+        <li><strong>Public Interest Advocacy Staff testimony.</strong> Dissents and direct testimony filed by PIA Staff on Vogtle dockets from 2009 through 2024. <a href="https://psc.ga.gov/" target="_blank" rel="noopener">PSC PIA Staff</a></li>
+        <li><strong>Georgia Power service-territory data.</strong> Public utility disclosures describing customer count by county for Fulton and surrounding metro Atlanta jurisdictions. <a href="https://www.georgiapower.com/" target="_blank" rel="noopener">Georgia Power</a></li>
+        <li><strong>Reuters and S&P Global coverage</strong> of Vogtle final cost figures and commercial operation timeline. <a href="https://www.reuters.com/" target="_blank" rel="noopener">Reuters</a></li>
+        <li><strong>Plant Vogtle Units 3 and 4 commercial operation announcements.</strong> Georgia Power press releases on the July 2023 commercial start of Unit 3 and the 2024 commercial start of Unit 4.</li>
+        <li><strong>Mechanism Series cross-references.</strong> <a href="../episode-07-the-physical-plant.html">EP 07 The Physical Plant</a> · <a href="../the-capital-stack.html">The Capital Stack</a> · <a href="2026-06-12-the-puc-large-load-tariff-clock.html">Brief 003 PA PUC</a>.</li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="brief-footer">
+  <div class="container">
+    <div class="fnav-prev-next">
+      <a class="fpn" href="2026-06-15-the-reassessment-clock.html">
+        <div class="pn-label">← PREVIOUS · BRIEF № 004</div>
+        <div class="pn-title">The Reassessment Clock</div>
+      </a>
+      <div class="fpn" style="opacity: 0.55;">
+        <div class="pn-label">NEXT · BRIEF № 006 · DRAFTING</div>
+        <div class="pn-title">The Permit Clock</div>
+      </div>
+    </div>
+
+    <div class="frow">
+      <div class="flinks">
+        <a href="index.html">← All Briefs</a>
+        <a href="../field-notes/index.html">Field Notes</a>
+        <a href="../desk/index.html">The Desk</a>
+        <a href="../index.html">Series Home</a>
+        <a href="../legal.html">Legal · Privacy</a>
+        <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+      </div>
+    </div>
+
+    <div class="fcopy">
+      &copy; 2026 Infera &middot; All rights reserved &middot; Not investment, legal, or safety advice &middot; Corrections: <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═════════════ Legal footer protective block ═════════════ -->
+<style id="infera-legal-footer">
+  .legal-footer{background:#0d1419;color:#8b9097;font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;font-size:11px;line-height:1.55;letter-spacing:.04em;border-top:1px solid #1d2933;padding:36px 24px 32px;}
+  .legal-footer .lcw{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+  .legal-footer p{margin:0;}
+  .legal-footer a{color:#b59c5f;text-decoration:none;border-bottom:1px solid rgba(181,156,95,.25);}
+  .legal-footer a:hover{border-bottom-color:#b59c5f;}
+  .legal-footer .lh{color:#d9d2bf;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:10px;}
+</style>
+<aside class="legal-footer" role="contentinfo">
+  <div class="lcw">
+    <p><span class="lh">Editorial.</span> This is journalism, not financial advice. Confidence labels (FACT / REPORTED / WATCH) are applied per claim. The Personal Calculator (Exhibit C) is an illustrative model, not a per-account audit. Corrections: <a href="../legal.html">see policy</a> or email <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+    <p><span class="lh">Copyright.</span> &copy; 2026 Infera / The Mechanism Series. References to PSC filings, SEC disclosures, IEEFA research, and Georgia Power data are reproduced under fair-use principles for journalistic commentary. All other content is the original work of the Infera editorial team.</p>
+    <p><span class="lh">Privacy.</span> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used only for DYK quiz answers and calculator settings; nothing transmitted. <a href="../legal.html">Full policy</a>.</p>
+    <p><span class="lh">Methodology.</span> Sources are primary or public record; see Sources. The cumulative-cost calculator is calibrated from PSC reconciliation filings and represents an order-of-magnitude estimate for a typical residential ratepayer. Individual contributions vary by rate class and usage. We will revise if PSC final reconciliation figures diverge from current modeling.</p>
+  </div>
+</aside>
+
+<script>
+  // reveal-on-scroll
+  (function(){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal, .counter-frame, .timeline, .quiz-stack, .calc-frame, .anchor-grid, .clocks-strip, .action-cards, .pattern-callout').forEach(function(el){
+      el.classList.add('reveal');
+      io.observe(el);
+    });
+  })();
+
+  // Day counter (auto-update from April 21, 2009)
+  (function(){
+    var el = document.getElementById('dayCount');
+    if (!el) return;
+    var start = new Date('2009-04-21T00:00:00');
+    var today = new Date();
+    var days = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+    el.textContent = days.toLocaleString('en-US');
+  })();
+
+  // DYK pop quiz
+  (function(){
+    document.querySelectorAll('.dyk-q').forEach(function(q){
+      var opts = q.querySelector('[data-dyk-opts]');
+      var reveal = q.querySelector('[data-dyk-reveal]');
+      opts.querySelectorAll('button').forEach(function(b){
+        b.addEventListener('click', function(){
+          if (opts.classList.contains('answered')) return;
+          opts.classList.add('answered');
+          var correct = b.getAttribute('data-correct') === '1';
+          opts.querySelectorAll('button').forEach(function(bb){
+            if (bb.getAttribute('data-correct') === '1') bb.classList.add('right');
+            else if (bb === b && !correct) bb.classList.add('wrong');
+            else bb.classList.add('dim');
+          });
+          reveal.classList.add('show');
+        });
+      });
+    });
+  })();
+
+  // Cost Calculator
+  (function(){
+    var years = document.getElementById('calcYears');
+    var bill = document.getElementById('calcBill');
+    var result = document.getElementById('calcResult');
+    var amount = document.getElementById('calcAmount');
+    var verdict = document.getElementById('calcVerdict');
+    if (!years) return;
+    function update(){
+      var y = parseInt(years.value, 10);
+      var b = parseInt(bill.value, 10);
+      // Vogtle line as % of bill varies by year; on average roughly 8-12% during peak collection years,
+      // averaging closer to 7-9% across the 17-year window
+      var avgPctVogtle = 0.08;
+      var monthly = b * avgPctVogtle;
+      var total = monthly * 12 * y;
+      amount.textContent = '$' + Math.round(total).toLocaleString('en-US');
+
+      var copy;
+      if (y >= 15 && b >= 180) {
+        copy = "If you've been on Georgia Power through the whole construction period with a typical residential bill, your estimated cumulative contribution to Vogtle is on the order of <strong>$" + Math.round(total).toLocaleString('en-US') + "</strong>. That is real money you have already paid for a plant that began producing electricity only in 2023.";
+      } else if (y >= 10) {
+        copy = "A decade of Vogtle cost recovery, on a bill of about $" + b + ", lands around <strong>$" + Math.round(total).toLocaleString('en-US') + "</strong> cumulative. The number is small per month and substantial over time.";
+      } else if (y >= 5) {
+        copy = "On a five-year residential window with a $" + b + " monthly bill, you have contributed roughly <strong>$" + Math.round(total).toLocaleString('en-US') + "</strong> to Vogtle construction. The plant is now operating; reconciliation of final costs continues in PSC dockets.";
+      } else {
+        copy = "Even on a short customer history, the Vogtle line shows up on every Georgia Power bill. Your estimated cumulative contribution: <strong>$" + Math.round(total).toLocaleString('en-US') + "</strong>.";
+      }
+      verdict.innerHTML = copy;
+      result.classList.add('show');
+    }
+    years.addEventListener('change', update);
+    bill.addEventListener('change', update);
+    update();
+  })();
+</script>
+
+</body>
+</html>
