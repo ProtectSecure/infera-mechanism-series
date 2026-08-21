@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THE COPY CENSUS · construction preview · The Mechanism Series · Infera</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;700&family=Libre+Caslon+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FBF7EB;--ink:#141310;--chart:#C8FF1E;--cobalt:#1D4FD7;--pink:#FF2E88;
+  --mono:'JetBrains Mono',monospace;--disp:'Archivo Black',sans-serif;--serif:'Libre Caslon Text',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--mono)}
+::selection{background:var(--chart)}
+.wrap{max-width:960px;margin:0 auto;padding:0 5vw}
+section{min-height:100vh;padding:12vh 0 12vh;position:relative}
+.eno{font-family:var(--disp);font-size:12px;letter-spacing:.3em;background:var(--ink);color:var(--paper);
+  display:inline-block;padding:7px 13px;transform:rotate(-1.2deg)}
+.eno.c{background:var(--cobalt)} .eno.p{background:var(--pink);color:#fff} .eno.g{background:var(--chart);color:var(--ink)}
+h1{font-family:var(--disp);font-size:clamp(40px,8vw,96px);line-height:.92;margin:22px 0 16px;letter-spacing:-.01em}
+h2{font-family:var(--disp);font-size:clamp(26px,4.6vw,54px);line-height:.96;margin:18px 0 20px}
+h1 em,h2 em{font-family:var(--serif);font-style:italic;font-weight:400}
+.lede{font-family:var(--serif);font-size:17px;line-height:1.75;max-width:620px}
+.lede b{font-family:var(--mono);font-size:13px;background:var(--chart);padding:1px 5px}
+.box{border:3px solid var(--ink);background:#fff;box-shadow:9px 9px 0 var(--ink);padding:18px 20px}
+.box+.box{margin-top:16px}
+.chip{display:inline-block;font-size:9.5px;letter-spacing:.16em;border:2px solid var(--ink);padding:3px 8px;margin:0 6px 6px 0;background:#fff;font-weight:700}
+.chip.f{background:var(--chart)} .chip.i{background:var(--pink);color:#fff} .chip.x{background:var(--cobalt);color:#fff} .chip.pr{background:#e8e2d2;font-style:italic}
+.btn{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;background:var(--ink);color:var(--paper);
+  border:3px solid var(--ink);padding:11px 18px;cursor:pointer;box-shadow:6px 6px 0 rgba(20,19,16,.25);transition:.1s}
+.btn:hover{background:var(--cobalt);border-color:var(--cobalt)}
+.btn:active{transform:translate(4px,4px);box-shadow:1px 1px 0 rgba(20,19,16,.25)}
+.btn.g{background:var(--chart);color:var(--ink);border-color:var(--ink)}
+.btn.g:hover{background:var(--pink);color:#fff}
+.reveal{opacity:0;max-height:0;overflow:hidden;transition:opacity .7s,max-height .7s ease,margin .7s}
+.reveal.on{opacity:1;max-height:4200px;margin-top:16px}
+.rv{opacity:0;transform:translateY(26px);transition:.7s cubic-bezier(.2,.9,.2,1)}
+.rv.in{opacity:1;transform:none}
+/* rail */
+#rail{position:fixed;left:14px;top:50%;transform:translateY(-50%);z-index:9;display:flex;flex-direction:column;gap:10px}
+#rail a{width:14px;height:14px;border:2.5px solid var(--ink);background:#fff;display:block;transition:.2s}
+#rail a.on{background:var(--chart);transform:rotate(45deg)}
+@media(max-width:900px){#rail{display:none}}
+/* field notes */
+.note{border:3px solid var(--ink);background:var(--ink);color:var(--paper);padding:18px 20px;box-shadow:9px 9px 0 var(--chart);margin:8vh 0}
+.note::before{content:"◉ FIELD NOTE · DOCUMENTED";display:block;font-size:9px;letter-spacing:.26em;color:var(--chart);margin-bottom:9px;font-weight:700}
+.note b{color:var(--chart)} .note .src{display:block;margin-top:8px;font-size:9px;letter-spacing:.14em;opacity:.6}
+.note .lede2{font-family:var(--serif);font-size:14.5px;line-height:1.7}
+/* E1 diff */
+.sent{font-family:var(--serif);font-size:clamp(15px,2.4vw,21px);line-height:1.6;padding:14px 16px;border:3px solid var(--ink);background:#fff;position:relative}
+.sent .yr{position:absolute;top:-14px;left:12px;font-family:var(--mono);font-size:10px;letter-spacing:.2em;background:var(--cobalt);color:#fff;padding:3px 8px}
+.sent.two .yr{background:var(--pink)}
+.sent span.scan{background:var(--chart)}
+.bigzero{font-family:var(--disp);font-size:clamp(48px,9vw,120px);color:var(--pink)}
+/* E2 echo */
+.abwrap{display:flex;gap:20px;flex-wrap:wrap}
+.wave{flex:1;min-width:240px;border:3px solid var(--ink);background:#fff;box-shadow:8px 8px 0 var(--ink);padding:16px;cursor:pointer;transition:.15s}
+.wave:hover{transform:translateY(-4px)}
+.wave.picked{background:var(--chart)}
+.wave .bars{display:flex;align-items:flex-end;gap:3px;height:90px;margin:10px 0}
+.wave .bars i{flex:1;background:var(--ink)}
+.wave h4{font-size:11px;letter-spacing:.18em}
+/* E3 memory */
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:640px}
+.mc{height:92px;perspective:600px;cursor:pointer}
+.mc .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.mc.up .in,.mc.done .in{transform:rotateY(180deg)}
+.mc .f,.mc .b{position:absolute;inset:0;backface-visibility:hidden;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;font-size:9.5px;line-height:1.3;padding:6px;font-weight:700}
+.mc .f{background:var(--ink);color:var(--paper);font-family:var(--disp);font-size:18px}
+.mc .b{background:#fff;transform:rotateY(180deg)}
+.mc.done .b{background:var(--chart)}
+.mc.copy .b{box-shadow:inset 0 0 0 3px var(--cobalt)}
+.mc.law .b{box-shadow:inset 0 0 0 3px var(--pink)}
+/* E4 price */
+.guessrow{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+input[type=range].g{-webkit-appearance:none;width:min(380px,70vw);height:26px;background:transparent}
+input[type=range].g::-webkit-slider-runnable-track{height:6px;background:var(--ink)}
+input[type=range].g::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-11px;background:var(--chart);border:3px solid var(--ink);cursor:grab;box-shadow:3px 3px 0 var(--ink)}
+.big{font-family:var(--disp);font-size:clamp(34px,6vw,72px)}
+.cascade{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px}
+.plate{border:3px solid var(--ink);background:#fff;box-shadow:7px 7px 0 var(--pink);padding:10px 16px;opacity:0;transform:translateY(14px);transition:.5s}
+.plate.on{opacity:1;transform:none}
+.plate .n{font-family:var(--disp);font-size:clamp(22px,3.6vw,40px)}
+.plate small{display:block;font-size:9px;letter-spacing:.16em;margin-top:4px}
+.doors2{display:flex;gap:22px;margin:18px 0 6px;flex-wrap:wrap}
+.door2{width:150px;border:3px solid var(--ink);background:#fff;box-shadow:8px 8px 0 var(--ink);padding:12px;cursor:pointer;text-align:center;transition:.15s}
+.door2:hover{transform:translateY(-4px)}
+.door2 .slab2{height:100px;border:3px solid var(--ink);margin:8px 0;background:var(--chart);position:relative}
+.door2.emp .slab2{background:var(--pink)}
+.door2.emp .slab2::before{content:"✕ ✕ ✕";position:absolute;top:42%;left:0;right:0;color:#fff}
+.door2 h5{font-size:10px;letter-spacing:.16em}
+/* E5 original */
+.six{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;max-width:640px}
+.blk{aspect-ratio:1;border:3px solid var(--ink);background:var(--cobalt);cursor:pointer;position:relative;transition:.2s}
+.blk::after{content:"you.wav";position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:8.5px;color:#fff;letter-spacing:.08em}
+.blk.st::before{content:"COPY";position:absolute;top:34%;left:0;right:0;text-align:center;font-family:var(--disp);color:var(--chart);font-size:13px;letter-spacing:.1em}
+.strip2{display:flex;gap:26px;flex-wrap:wrap;margin-top:18px}
+.gcol{width:200px}
+.gch{height:26px;border:3px solid var(--ink);margin-bottom:7px;background:#fff;font-size:8.5px;display:flex;align-items:center;padding-left:8px;font-weight:700}
+.tape2 .gch:nth-child(3){filter:blur(.5px);opacity:.85}
+.tape2 .gch:nth-child(4){filter:blur(1.1px);opacity:.65}
+.tape2 .gch:nth-child(5){filter:blur(2px);opacity:.42}
+.file2 .gch{background:var(--chart)}
+/* E6 coverage */
+.covwrap{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.bodymap{display:grid;grid-template-columns:repeat(3,110px);gap:8px}
+.zone{height:74px;border:3px solid var(--ink);background:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-size:9px;font-weight:700;letter-spacing:.08em;padding:4px;transition:.3s;position:relative}
+.zone.lit{background:var(--chart)}
+.zone.gap2{background:var(--pink);color:#fff;animation:blinkg 1.2s steps(1) infinite}
+@keyframes blinkg{50%{background:#fff;color:var(--ink)}}
+.laws{max-width:330px;display:flex;flex-wrap:wrap;gap:8px}
+.law{border:2.5px solid var(--ink);background:#fff;padding:6px 9px;font-size:9.5px;font-weight:700;cursor:pointer;box-shadow:4px 4px 0 rgba(20,19,16,.2);transition:.15s}
+.law:hover{transform:translateY(-3px)}
+.law.used{background:var(--cobalt);color:#fff;box-shadow:none;transform:none}
+.law.prp{border-style:dashed;font-style:italic}
+.covstat{font-family:var(--disp);font-size:22px;margin-top:12px}
+/* meter + footer */
+.meter2{font-family:var(--disp);font-size:clamp(30px,5vw,60px);border:3px solid var(--ink);background:#fff;display:inline-block;padding:12px 24px;box-shadow:9px 9px 0 var(--cobalt)}
+.meter2 small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;margin-top:6px}
+
+/* ---- echo dots: series connective tissue ---- */
+.echoRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:2px dashed rgba(20,19,16,.25)}
+.echoRow::before{content:"ECHOES";font-size:8.5px;letter-spacing:.28em;align-self:center;opacity:.5;font-weight:700;margin-right:2px}
+.echo{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;letter-spacing:.1em;font-weight:700;
+  border:2.5px solid var(--ink);background:#fff;padding:5px 9px;cursor:pointer;transition:.15s;box-shadow:3px 3px 0 rgba(20,19,16,.18)}
+.echo:hover{transform:translateY(-3px);background:var(--chart)}
+.echo i{width:8px;height:8px;border-radius:50%;background:var(--cobalt);display:inline-block;flex:none;animation:epulse 2.4s ease-in-out infinite}
+.echo.s1 i{background:var(--pink)} .echo.fw i{background:var(--chart);border:2px solid var(--ink)}
+@keyframes epulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.55}}
+.mcecho{display:block;margin-top:5px;font-size:7.8px;letter-spacing:.06em;color:var(--cobalt);font-weight:700}
+.constellation{margin-top:26px;border:3px solid var(--ink);background:#fff;box-shadow:9px 9px 0 var(--chart);padding:14px 16px;font-size:10px;letter-spacing:.1em;line-height:2.1}
+.constellation b{background:var(--ink);color:var(--paper);padding:2px 7px}
+.constellation .you{background:var(--pink);color:#fff;padding:2px 7px;font-weight:700}
+footer{background:var(--ink);color:var(--paper);padding:40px 5vw;font-size:11px;letter-spacing:.12em;line-height:2}
+footer b{color:var(--chart)}
+#factPop{position:fixed;z-index:12;left:50%;bottom:18px;transform:translateX(-50%) translateY(14px);width:min(560px,90vw);
+  background:#fff;border:3px solid var(--ink);box-shadow:8px 8px 0 var(--cobalt);padding:15px 42px 13px 17px;font-size:12px;line-height:1.65;opacity:0;pointer-events:none;transition:.3s}
+#factPop.on{opacity:1;pointer-events:auto;transform:translateX(-50%)}
+#factPop button{position:absolute;top:7px;right:10px;background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:14px}
+.mark{position:absolute;top:10vh;right:5vw;font-family:var(--disp);font-size:11px;letter-spacing:.24em;opacity:.35;transform:rotate(90deg);transform-origin:right}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script async src="https://plausible.io/js/pa-VnjVxVmGczy7J57pKSDnH.js"></script>
+</head>
+<body>
+<nav id="rail"></nav>
+
+<!-- ============ HERO ============ -->
+<section id="s0">
+  <div class="wrap">
+    <span class="eno">EP 09 · CONSTRUCTION PREVIEW · PUBLIC · v0.6</span>
+    <span class="eno g">SIX EXHIBITS THAT TEST YOU BACK</span>
+    <h1>THE COPY<br>CENSUS<em>.</em></h1>
+    <p class="lede">An accounting of every you currently in circulation — run as an examination.
+    Each exhibit is a small test. <b>Every test is rigged.</b> Failing them is the point:
+    what you can't spot, pick, price, or find is exactly what the systems in this episode already have.
+    Documented throughout — <span class="chip f">FACT</span><span class="chip i">INFERENCE</span><span class="chip pr">PROPOSED</span></p>
+    <div class="echoRow" data-echo="hero"></div>
+  </div>
+</section>
+
+<!-- ============ E-01 · SPOT THE DIFFERENCE ============ -->
+<section id="s1">
+  <div class="mark">EXHIBIT 01</div>
+  <div class="wrap">
+    <span class="eno c">E-01 · SPOT THE DIFFERENCE</span>
+    <h2>Two sentences,<br>28 years apart.</h2>
+    <div class="box rv">
+      <div class="sent"><span class="yr">1998</span><span id="sA">“This call may be recorded for quality and training purposes.”</span></div>
+      <div style="height:16px"></div>
+      <div class="sent two"><span class="yr">2026</span><span id="sB">“This call may be recorded for quality and training purposes.”</span></div>
+      <div style="margin-top:16px"><button class="btn g" id="runDiff">RUN THE DIFF ▸</button></div>
+      <div class="reveal" id="r1">
+        <div class="bigzero">0 DIFFERENCES</div>
+        <p class="lede">The sentence never changed. <b>The word "training" changed species.</b>
+        In 1998 it meant coaching staff. Today, contact-center platforms openly market call recordings
+        as training data for speech and agent-assist AI models — disclosed in vendor terms.
+        In most US states, one-party consent means the company's consent suffices.
+        <span class="chip f">FACT-PATTERN · VENDOR TERMS + STATE STATUTES · T2</span></p><div class="echoRow" data-echo="e1"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="note rv"><span class="lede2"><b>It is already illegal to robocall you in a cloned voice.</b> In February 2024 the FCC ruled AI-generated voices fall under the TCPA — after a fake presidential voice told New Hampshire voters to stay home; the consultant behind it drew a proposed $6M fine.</span><span class="src">FCC DECLARATORY RULING · FEB 2024 · T1 ■ FACT</span></div></div>
+
+<!-- ============ E-02 · THE ECHO TEST ============ -->
+<section id="s2">
+  <div class="mark">EXHIBIT 02</div>
+  <div class="wrap">
+    <span class="eno p">E-02 · THE ECHO TEST</span>
+    <h2>Which one is <em>your</em> voice?</h2>
+    <p class="lede">Two frequency profiles of the same sentence, same speaker: you. Pick yours.</p>
+    <div class="abwrap" style="margin-top:18px">
+      <div class="wave rv" data-w="bone"><h4>PROFILE A</h4><div class="bars" id="wA"></div><span class="chip x">WARM · LOW-WEIGHTED</span></div>
+      <div class="wave rv" data-w="air"><h4>PROFILE B</h4><div class="bars" id="wB"></div><span class="chip x">BRIGHT · HIGH-WEIGHTED</span></div>
+    </div>
+    <div class="reveal" id="r2"><div class="box">
+      <p class="lede" id="r2txt"></p>
+      <p class="lede" style="margin-top:10px">You hear yourself through <b>bone conduction</b> — lower and warmer than the air version that leaves your mouth.
+      Every recording, every voiceprint, every model is built from the air version — <b>the you that strangers know and you don't.</b>
+      Banks enroll that stranger as your password. <span class="chip f">FACT · PSYCHOACOUSTICS + VOICE-BIOMETRIC DEPLOYMENTS</span></p><div class="echoRow" data-echo="e2"></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ E-03 · THE MATCHING CENSUS ============ -->
+<section id="s3">
+  <div class="mark">EXHIBIT 03</div>
+  <div class="wrap">
+    <span class="eno">E-03 · THE CENSUS · A MATCHING EXAM</span>
+    <h2>Eight copies of you exist.<br><em>Pair each with its paper trail.</em></h2>
+    <p class="lede">Flip two at a time: match the <b style="background:#dbe4ff">COPY CLASS</b> to the <b style="background:#ffd7e8">LEGAL ANCHOR</b> that documents it. All sixteen cards are true.</p>
+    <div style="margin:14px 0"><span class="eno g">MATCHED: <span id="mN">0</span> / 8</span></div>
+    <div class="mem" id="mem"></div>
+    <div class="reveal" id="r3"><div class="box"><p class="lede"><b>CENSUS COMPLETE.</b> Eight standing copies, zero of which required your signature today.
+    <span class="chip i">INFERENCE</span> "You" is now the smallest minority shareholder in the population of you.</p><div class="echoRow" data-echo="e3"></div></div></div>
+  </div>
+</section>
+
+<div class="wrap"><div class="note rv"><span class="lede2"><b>Your face is likely in a search engine you never joined.</b> Clearview AI scraped billions of public photos into a face-search index; Illinois' BIPA forced settlement limits on private sales — the same statute behind Meta's $650M face-tagging settlement.</span><span class="src">BIPA LITIGATION RECORD · T1 COURT ■ FACT</span></div></div>
+
+<!-- ============ E-04 · THE PRICE IS WRONG ============ -->
+<section id="s4">
+  <div class="mark">EXHIBIT 04</div>
+  <div class="wrap">
+    <span class="eno c">E-04 · THE PRICE IS WRONG</span>
+    <h2>17,000 working lives.<br>600 million messages.<br><em>Guess the clearing price.</em></h2>
+    <div class="box rv">
+      <div class="guessrow"><input type="range" class="g" id="guess" min="1000000" max="1000000000" step="1000000" value="250000000">
+      <span class="big">$<span id="gVal">250M</span></span>
+      <button class="btn g" id="lockG">LOCK IT IN ▸</button></div>
+      <div class="reveal" id="r4">
+        <p class="lede" id="offBy"></p>
+        <div class="big" style="color:var(--cobalt)">SOLD: $10,000,000</div>
+        <p class="lede">Winning bidder Google, August 14 — Spirit's bankruptcy estate, SDNY 25-11897. Now watch the division:</p>
+        <div class="cascade">
+          <div class="plate" id="p1"><span class="n">$588</span><small>PER COMPLETE WORKING LIFE ($10M ÷ 17,000)</small></div>
+          <div class="plate" id="p2"><span class="n">1.67¢</span><small>PER WORKPLACE MESSAGE ($10M ÷ 600M)</small></div>
+          <div class="plate" id="p3"><span class="n">~100M</span><small>BYSTANDER PASSENGER NAMES IN THE CORPUS</small></div>
+        </div>
+        <div class="echoRow" data-echo="e4"></div>
+        <p class="lede" style="margin-top:14px"><b>The riddle of the two doors:</b> the same estate, two kinds of people. One word decides who gets a privacy ombudsman. Pick your door.</p>
+        <div class="doors2">
+          <div class="door2" data-door="c"><h5>DOOR ONE · "CONSUMER"</h5><div class="slab2"></div>§363 path</div>
+          <div class="door2 emp" data-door="e"><h5>DOOR TWO · "EMPLOYEE"</h5><div class="slab2"></div>§101(41A) scope</div>
+        </div>
+        <div class="reveal" id="r4b"><div class="box" style="margin-top:14px"><p class="lede" id="doorTxt"></p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="note rv"><span class="lede2"><b>Precedent: when 23andMe entered bankruptcy in 2025, customer DNA was the asset</b> — and the process leaned on the Bankruptcy Code's §363 consumer-privacy ombudsman. Consumers had a door. Spirit's employees, scoped out of "consumer," test whether they get one — September 9. This construction ships carrying the scored pre-registration either way.</span><span class="src">23ANDME CH.11 2025 · 11 U.S.C. §363 · SDNY 25-11897 · T1 ■ FACT</span></div></div>
+
+<!-- ============ E-05 · FIND THE ORIGINAL ============ -->
+<section id="s5">
+  <div class="mark">EXHIBIT 05</div>
+  <div class="wrap">
+    <span class="eno p">E-05 · FIND THE ORIGINAL</span>
+    <h2>Six files. One is the original.<br><em>Click it.</em></h2>
+    <div class="six rv" id="six">
+      <div class="blk"></div><div class="blk"></div><div class="blk"></div>
+      <div class="blk"></div><div class="blk"></div><div class="blk"></div>
+    </div>
+    <div class="reveal" id="r5"><div class="box">
+      <p class="lede"><b>Trick question — sha-256 identical, all six.</b> In a lossless system, generation 10,000 is bit-for-bit generation 1.
+      Analog copying decayed, and the decay was a receipt: the original stayed findable — the cleanest one in the pile.
+      Perfect fidelity erases that gradient. <b>"Original" stops being a findable property and becomes a claim you must prove.</b>
+      <span class="chip f">FACT · INFORMATION-THEORY CANON · T1</span></p>
+      <div class="strip2">
+        <div class="gcol tape2"><div class="chip x">TAPE · GEN 1–5</div><div class="gch">GEN 1 · voice, warm</div><div class="gch">GEN 2 · hiss arrives</div><div class="gch">GEN 3 · consonants soften</div><div class="gch">GEN 4 · who is this?</div><div class="gch">GEN 5 · ghost</div></div>
+        <div class="gcol file2"><div class="chip x">FILE · GEN 10,000</div><div class="gch">GEN 1 · you.wav</div><div class="gch">GEN 500 · you.wav</div><div class="gch">GEN 10,000 · you.wav</div><div class="gch">sha-256: IDENTICAL</div></div>
+      </div>
+      <p class="lede" style="margin-top:12px"><span class="chip f">FACT</span> Lossless duplication means every safeguard must bind <b>every copy, forever</b> — one leak is total.
+      <span class="chip i">INFERENCE</span> Rights that attach to the person, not the file, are the only ones that travel with the copies. Which is the final exhibit.</p><div class="echoRow" data-echo="e5"></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ E-06 · THE COVERAGE PUZZLE ============ -->
+<section id="s6">
+  <div class="mark">EXHIBIT 06</div>
+  <div class="wrap">
+    <span class="eno">E-06 · THE COVERAGE PUZZLE</span>
+    <h2>Twelve protections.<br>Twelve zones of you.<br><em>Place every patch.</em></h2>
+    <p class="lede">Tap each law to stitch it over the zones it actually covers. When the box is empty, whatever never lit up is the gap map.
+    <span class="chip x">ILLUSTRATIVE MAP · JURISDICTION-SIMPLIFIED · TAP ANY PLACED LAW FOR ITS RECORD</span></p>
+    <div class="covwrap" style="margin-top:16px">
+      <div><div class="bodymap" id="bodymap"></div><div class="covstat" id="covstat"></div><div class="echoRow" data-echo="e6"></div></div>
+      <div class="laws" id="laws"></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="note rv"><span class="lede2"><b>The oldest derivative-person law is 55.</b> The Fair Credit Reporting Act (1970) gave you access, correction, and adverse-action rights over the credit copy of you — proof such rights are legislatively possible. The question was never feasibility. It was scope.</span><span class="src">FCRA 1970 · T1 STATUTE ■ FACT</span></div></div>
+
+<!-- ============ CLOSER ============ -->
+<section id="s7" style="min-height:70vh">
+  <div class="wrap">
+    <span class="eno g">FINAL EXHIBIT · NO INTERACTION AVAILABLE</span>
+    <h2>The one exhibit<br>you can't touch.</h2>
+    <p class="lede">Every test above waited for you. This one doesn't. It was running before you scrolled here
+    and it will keep running after you close the tab — the recurring cost of keeping the <b>real</b> you coherent online.</p>
+    <div style="margin-top:18px" class="meter2">$<span id="rent">0.0000</span><small>YOUR IDENTITY RENT SINCE YOU BEGAN THE EXAM · MEDIAN STACK · STILL RUNNING</small></div>
+    <p class="lede" style="margin-top:22px;font-family:var(--serif);font-style:italic;font-size:20px">next on infera → EP 10 · THE SUBSCRIPTION SELF: <b style="font-style:normal">"you left this running."</b></p>
+    <div class="echoRow" data-echo="closer"></div>
+    <div class="constellation rv">THE ROUTE THIS PAGE SITS ON · <b>S1·04 THE TRICKLE</b> wages flatten → <b>EP 02 PERSONHOOD INC.</b> the composite is assembled → <b>EP 05 REPLAYABLE CITY</b> the record persists → <b>EP 06 COMPOSITE STATE</b> the civic copy → <b>EP 07 PHYSICAL PLANT</b> the racks it runs on → <b>EP 08 CLASS ENGINE</b> the sort → <span class="you">EP 09 · YOU ARE HERE · the copies get counted and priced</span> → <b>EP 10 SUBSCRIPTION SELF</b> the rent → <b>EP 11 AFTERLIFE</b> the copies outlive → <b>EP 12 GOVERNANCE LAYER</b> the quilt gets finished, or doesn't</div>
+  </div>
+</section>
+
+<footer>
+  THE COPY CENSUS · EXAM EDITION v0.6 · <b>EP 09 CONSTRUCTION PREVIEW</b> · A PUBLIC MOCKUP FROM THE DESK — THE FULL EPISODE SHIPS WITH THE SEPT 9 SCORED PRE-REGISTRATION<br>
+  SIX RIGGED TESTS · EVERY EXHIBIT DOCUMENTED · STAMPS: FACT / INFERENCE / PROPOSED / VERIFY ·
+  SPIRIT ARITHMETIC DERIVED FROM SDNY 25-11897 COURT RECORD · SHIPS WITH THE SEPT 9 SCORED PRE-REGISTRATION ON EVERY BRANCH
+</footer>
+
+<div id="factPop"><button id="fpX">✕</button><span id="fpBody"></span></div>
+
+<script>
+(function(){
+"use strict";
+/* rail + reveals */
+var secs=[].slice.call(document.querySelectorAll('section'));
+var rail=document.getElementById('rail');
+secs.forEach(function(s,i){var a=document.createElement('a');a.href='#'+s.id;rail.appendChild(a);});
+var links=[].slice.call(rail.children);
+var io=new IntersectionObserver(function(es){es.forEach(function(en){
+  if(en.isIntersecting){en.target.classList.add('in');
+    var idx=secs.indexOf(en.target);
+    if(idx>-1){links.forEach(function(l,j){l.classList.toggle('on',j===idx);});}}
+});},{threshold:.2});
+secs.forEach(function(s){io.observe(s);});
+document.querySelectorAll('.rv,.note').forEach(function(el){io.observe(el);});
+
+/* E1 diff */
+document.getElementById('runDiff').addEventListener('click',function(){
+  var A=document.getElementById('sA'),B=document.getElementById('sB'),t=A.textContent,i=0;
+  var iv=setInterval(function(){
+    i++;
+    A.innerHTML='<span class="scan">'+t.slice(0,i)+'</span>'+t.slice(i);
+    B.innerHTML='<span class="scan">'+t.slice(0,i)+'</span>'+t.slice(i);
+    if(i>=t.length){clearInterval(iv);A.textContent=t;B.textContent=t;
+      document.getElementById('r1').classList.add('on');}
+  },14);
+});
+
+/* E2 waves */
+function bars(el,profile){var h='';for(var i=0;i<26;i++){
+  var v = profile==='bone' ? 20+70*Math.exp(-Math.pow((i-6)/7,2)) : 14+66*Math.exp(-Math.pow((i-17)/6,2));
+  h+='<i style="height:'+(v+Math.random()*10)+'%"></i>';}el.innerHTML=h;}
+bars(document.getElementById('wA'),'bone');bars(document.getElementById('wB'),'air');
+document.querySelectorAll('.wave').forEach(function(w){
+  w.addEventListener('click',function(){
+    document.querySelectorAll('.wave').forEach(function(x){x.classList.remove('picked');});
+    w.classList.add('picked');
+    var bone=w.getAttribute('data-w')==='bone';
+    document.getElementById('r2txt').innerHTML= bone
+      ? '<b>You picked the bone version</b> — most people do. It\'s the you only you have ever heard.'
+      : '<b>You picked the air version</b> — the broadcast you. Rare choice; most people don\'t recognize it as home.';
+    document.getElementById('r2').classList.add('on');
+  });
+});
+
+/* E3 matching */
+var PAIRS=[
+ ['VOICEPRINT','Bank voice-ID + call-center recordings — standardized biometric, stored server-side','VENDOR/BANK DISCLOSURES','● EP 06 · the civic enrollment desk'],
+ ['FACE EMBEDDING','Scraped-photo face indexes, billions of images — first limits forced by BIPA suits','BIPA COURT RECORD','● EP 05 · the camera-density map'],
+ ['BROKER PROFILE','Thousand-attribute dossiers — public broker registry + one-stop deletion (CA)','CCPA/CPRA REGISTRY','● EP 02 · the composite\'s suppliers'],
+ ['CREDIT FILE','Scored derivative with mandated access + dispute rights since 1970','FCRA','● EP 08 + S1·04 · the score meets the wage line'],
+ ['WORK CORPUS','Employer-owned workplace messages — the asset class Spirit\'s estate sold','SDNY 25-11897','● BRIEF № 006 · the bankruptcy estate of you'],
+ ['MEETING CLONES','Recordings + auto-transcripts persisting under org retention policies','PLATFORM TERMS','● EP 07 · stored on the racks you pay for'],
+ ['DNA COPY','Consumer genomics — asset-listed in bankruptcy, guarded by §363 ombudsman','23ANDME CH.11 2025','● EP 11 · the copy that outlives (ahead)'],
+ ['LOCATION TRAIL','Ad-tech pings resold downstream — first fences from FTC broker actions','FTC ENFORCEMENT','● THE CORRIDOR · movement as the first signal']];
+var mem=document.getElementById('mem'), cards=[];
+PAIRS.forEach(function(p,i){
+  cards.push({k:i,t:p[0],cls:'copy'});
+  cards.push({k:i,t:p[2],cls:'law'});
+});
+cards.sort(function(){return Math.random()-.5;});
+var up=[], matched=0, mN=document.getElementById('mN');
+cards.forEach(function(c){
+  var d=document.createElement('div'); d.className='mc '+c.cls; d._k=c.k;
+  d.innerHTML='<div class="in"><div class="f">?</div><div class="b">'+c.t+'</div></div>';
+  d.addEventListener('click',function(){
+    if(d.classList.contains('done')||d.classList.contains('up')||up.length===2)return;
+    d.classList.add('up'); up.push(d);
+    if(up.length===2){
+      if(up[0]._k===up[1]._k){up.forEach(function(x){x.classList.remove('up');x.classList.add('done');var bb=x.querySelector('.b');if(!bb.querySelector('.mcecho'))bb.innerHTML+='<span class="mcecho">'+PAIRS[x._k][3]+'</span>';});
+        mN.textContent=++matched; up=[];
+        if(matched===8)document.getElementById('r3').classList.add('on');}
+      else{setTimeout(function(){up.forEach(function(x){x.classList.remove('up');});up=[];},800);}
+    }
+  });
+  mem.appendChild(d);
+});
+
+/* E4 price */
+var guess=document.getElementById('guess'), gVal=document.getElementById('gVal');
+function fm(v){return v>=1e9?(v/1e9).toFixed(1)+'B':(v/1e6)+'M';}
+guess.addEventListener('input',function(){gVal.textContent=fm(+guess.value);});
+document.getElementById('lockG').addEventListener('click',function(){
+  var g=+guess.value, off=(g/1e7);
+  document.getElementById('offBy').innerHTML='Your guess: <b>$'+fm(g)+'</b> — '+
+    (g>1e7?('<b>'+off.toFixed(0)+'× above</b> what the court cleared.'):(g<1e7?'below the clearing price — the market disagreed with you in the other direction.':'exactly right. suspicious.'));
+  document.getElementById('r4').classList.add('on');
+  [1,2,3].forEach(function(n,i){setTimeout(function(){document.getElementById('p'+n).classList.add('on');},400+i*350);});
+});
+document.querySelectorAll('.door2').forEach(function(d){
+  d.addEventListener('click',function(){
+    var c=d.getAttribute('data-door')==='c';
+    document.getElementById('doorTxt').innerHTML= c
+      ? '<b>The consumer door opens.</b> §363\'s consumer-privacy ombudsman — the safeguard that guarded 23andMe\'s DNA sale — attaches to "consumers." If your data entered as a customer, this is your path.'
+      : '<b>The employee door is where the fight is.</b> §101(41A) scopes "consumer" so that workers\' own corpus may fall outside the ombudsman\'s reach. The union\'s referential-integrity objection asks whether de-identified workers can be re-linked. <b>Decided September 9.</b>';
+    document.getElementById('r4b').classList.add('on');
+  });
+});
+
+/* E5 six */
+document.getElementById('six').addEventListener('click',function(e){
+  var b=e.target.closest('.blk'); if(!b)return;
+  var all=document.querySelectorAll('#six .blk');
+  all.forEach(function(x,i){setTimeout(function(){x.classList.add('st');},i*120);});
+  setTimeout(function(){document.getElementById('r5').classList.add('on');},800);
+});
+
+/* E6 coverage */
+var ZONES=['VOICE','FACE','DNA','CREDIT FILE','LOCATION','WORK MSGS','PHOTOS','MEETINGS','BROKER FILE','LIKENESS','BIOMETRICS','AUTOMATED DECISIONS'];
+var LAWS=[
+ ['FCRA 1970',[3,11],'US · access, dispute & adverse-action rights over the credit copy of you.','FACT',0],
+ ['GDPR 15–22',[0,1,2,3,4,5,6,7,8,9,10,11],'EU residents · access, erasure, portability, objection to automated decisions.','FACT',0],
+ ['CCPA/CPRA',[4,6,8],'California · know / delete / opt-out of sale; broker registry + one-stop deletion.','FACT',0],
+ ['BIPA 2008',[1,10],'Illinois · biometric consent, private right of action — Clearview limits, Meta $650M.','FACT',0],
+ ['ELVIS ACT 2024',[0,9],'Tennessee · first US statute adding voice (incl. AI simulation) to likeness.','FACT',0],
+ ['FCC·TCPA 2024',[0],'US · AI-cloned voices in robocalls illegal; NH case drew proposed $6M fine.','FACT',0],
+ ['EU AI ACT 2024',[9],'EU · transparency & labeling duties for deepfakes, phasing in.','FACT',0],
+ ['SAG-AFTRA 2023',[0,9],'Performers · consent + compensation for digital replicas.','FACT',0],
+ ['§363 OMBUDSMAN',[2],'US bankruptcy · consumer-privacy ombudsman; guarded the 23andMe DNA sale. Spirit tests its employee edge Sept 9.','FACT',0],
+ ['NO FAKES (prop.)',[0,9],'US federal proposal · property-style right in voice & likeness. Not yet law.','PROPOSED',1],
+ ['DENMARK (2025)',[1,0],'Denmark · initiative for citizen copyright in face & voice. In progress.','PROPOSED',1],
+ ['CO AI ACT',[11],'Colorado · algorithmic-discrimination duties (eff. 2026) — VERIFY at render.','VERIFY',1]];
+var bm=document.getElementById('bodymap'), zs=[];
+ZONES.forEach(function(z){var d=document.createElement('div');d.className='zone';d.textContent=z;bm.appendChild(d);zs.push(d);});
+var lawsEl=document.getElementById('laws'), placed=0, covered={};
+LAWS.forEach(function(L){
+  var d=document.createElement('div'); d.className='law'+(L[4]?' prp':'');
+  d.textContent=L[0];
+  d._detail='<b>'+L[0]+'</b> — '+L[2]+'<span style="display:block;margin-top:6px;font-size:9px;letter-spacing:.14em;opacity:.6">STAMP: '+L[3]+'</span>';
+  d.addEventListener('click',function(){
+    if(!d.classList.contains('used')){
+      d.classList.add('used'); placed++;
+      L[1].forEach(function(zi){zs[zi].classList.add('lit');covered[zi]=1;});
+      if(placed===LAWS.length){
+        var gaps=0;
+        zs.forEach(function(z,zi){if(!covered[zi]){z.classList.add('gap2');gaps++;}});
+        document.getElementById('covstat').innerHTML= gaps
+          ? gaps+' ZONE'+(gaps>1?'S':'')+' NEVER LIT — <span style="color:var(--pink)">the gaps are where you live.</span>'
+          : 'FULL BOARD LIT — but only if you live in every jurisdiction at once. <span style="color:var(--pink)">You don\'t. The gaps are where you live.</span>';
+      }
+    }
+    var fp=document.getElementById('factPop');
+    document.getElementById('fpBody').innerHTML=d._detail;
+    fp.classList.add('on');
+  });
+  lawsEl.appendChild(d);
+});
+document.getElementById('fpX').addEventListener('click',function(){document.getElementById('factPop').classList.remove('on');});
+
+
+/* ---- echo dots: two-season connective tissue ---- */
+var ECHOES={
+ hero:[['EP 08 · THE CLASS ENGINE','','You arrived through EP 08\'s threshold button — the finale ends on the door this page opens. The class the engine sorted now gets its copies counted and priced.'],
+       ['ATLAS · DERIVATIVE DATA','','This page is the Extension node on the Systems Atlas — edges back to EP 02, 06, 07, 08; forward to EP 10 and 11.']],
+ e1:[['EP 02 · PERSONHOOD INC.','','The composite was assembled from receipts. The recorded line is receipt № 1 — the oldest consent sentence in the file.'],
+     ['EP 05 · THE REPLAYABLE CITY','','Retention math: the recording persists exactly as long as the policy says — which EP 05 showed is usually longer than anyone remembers agreeing to.']],
+ e2:[['EP 06 · THE COMPOSITE STATE','','The civic side of the same enrollment: agency phone trees and benefits lines build voiceprints too — cabinet twelve of the eleven you met in EP 06.'],
+     ['EP 03 · THE TRUST MARKET','','A voiceprint is a trust credential. EP 03 mapped what happens when trust becomes a market — your voice just listed.']],
+ e3:[['EP 08 · THE CLASS ENGINE','','Eight copies, one sort: these are the instruments the engine reads when it maps a trajectory. The census is the engine\'s parts list.']],
+ e4:[['BRIEF № 006 · THE BANKRUPTCY ESTATE OF YOU','','The full case file — auction room, manifest, unicity meter, the door with no handle — published as this episode\'s nonfiction sibling.'],
+     ['S1·04 · THE TRICKLE','fw0','$588 lands differently under a flat wage line. The Trickle households are the denominator under every number on this page.','s1'],
+     ['EP 08 · THE CLASS ENGINE','','Cumulative disadvantage now has a wholesale unit price. The sort of EP 08, invoiced.']],
+ e5:[['EP 05 · THE REPLAYABLE CITY','','The Jan 6 reconstruction worked because the copies were lossless — replay is what perfect fidelity is for. EP 05 was this exhibit at city scale.'],
+     ['EP 11 · THE AFTERLIFE (AHEAD)','fw','If generation 10,000 equals generation 1, the copy has no reason to stop at your lifetime. EP 11 is this exhibit with a calendar.']],
+ e6:[['EP 06 · THE COMPOSITE STATE','','Eleven cabinets there; twelve zones here. The coverage puzzle is EP 06\'s filing system, seen from the rights side.'],
+     ['S1·05 · THE PROVISIONAL BALLOT','','The AUTOMATED DECISIONS zone in civic clothing: verification gaps decided who voted provisionally. Same gap map, higher stakes.','s1'],
+     ['EP 12 · THE GOVERNANCE LAYER (AHEAD)','fw','The unfinished quilt is EP 12\'s opening inventory. Season II ends where this puzzle stops.']],
+ closer:[['EP 07 · THE PHYSICAL PLANT','','The data-center tax rides your electric bill; identity rent rides your card. EP 07 + this meter = the compounding stack, itemized.'],
+     ['S1·04 · THE TRICKLE','','Wages flat, meters running — the stack lands on the households The Trickle followed first.','s1'],
+     ['EP 10 · THE SUBSCRIPTION SELF (NEXT)','fw','The meter doesn\'t stop at the footer. EP 10 opens on this exact figure: you left this running.']]
+};
+Object.keys(ECHOES).forEach(function(k){
+  var row=document.querySelector('.echoRow[data-echo="'+k+'"]'); if(!row)return;
+  ECHOES[k].forEach(function(e){
+    var cls = (e[3]==='s1'||e[1]==='fw0')?'s1':(e[1]==='fw'?'fw':'');
+    var d=document.createElement('span'); d.className='echo '+cls;
+    d.innerHTML='<i></i>'+e[0];
+    d._detail='<b>'+e[0]+'</b> — '+e[2]+'<span style="display:block;margin-top:6px;font-size:9px;letter-spacing:.14em;opacity:.6">ECHO DOT · TAP-THROUGH IN PRODUCTION BUILD</span>';
+    d.addEventListener('click',function(){
+      document.getElementById('fpBody').innerHTML=d._detail;
+      document.getElementById('factPop').classList.add('on');
+    });
+    row.appendChild(d);
+  });
+});
+
+/* rent */
+var rent=document.getElementById('rent'), t0=performance.now();
+setInterval(function(){rent.textContent=((performance.now()-t0)/1000*(34*12/365/24/3600)).toFixed(4);},120);
+})();
+</script>
+</body>
+</html>
