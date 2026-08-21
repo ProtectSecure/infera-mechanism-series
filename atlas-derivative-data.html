@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DERIVATIVE DATA · Systems Atlas · Infera Mechanism Series</title>
+<meta name="description" content="A derivative is information manufactured from records rather than contained in them. Three laws govern it. One of them, we regulated in 1970 — then forgot we had.">
+<link rel="canonical" href="https://series.melophon.com/atlas-derivative-data.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Infera · The Mechanism Series">
+<meta property="og:title" content="Derivative Data — Systems Atlas Node">
+<meta property="og:description" content="We regulated the first derivative person in 1970. Then we forgot we'd done it.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0A0A0A;--paper:#FBF7EB;--paper2:#F3EEDC;--cha:#C8FF1E;--pnk:#FF1A6B;--blu:#1E3CFF;--yel:#FFD500;--gray:#57534A;--gray2:#8C877A;--grayD:#96917F;--maxw:1120px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:'Space Grotesk',sans-serif;font-size:17px;line-height:1.55;overflow-x:hidden}
+::selection{background:var(--cha);color:var(--ink)}
+.mono{font-family:'JetBrains Mono',monospace}
+.ab{font-family:'Archivo Black',sans-serif;letter-spacing:-.01em;line-height:1.03}
+.serif{font-family:'Instrument Serif',serif;font-style:italic}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--blu);outline-offset:3px}
+.chrome{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;justify-content:space-between;padding:14px 4vw;background:color-mix(in srgb,var(--ink) 86%,transparent);backdrop-filter:blur(10px);border-bottom:3px solid var(--paper)}
+.light-on .chrome{background:color-mix(in srgb,var(--paper) 88%,transparent);border-color:var(--ink);color:var(--ink)}
+.wm{font-size:12px;letter-spacing:.14em}.wm b{font-weight:700}.wm span{color:var(--gray2)}
+.case{font-size:11px;letter-spacing:.12em;border:2px solid currentColor;padding:5px 9px;display:flex;gap:7px;align-items:center}
+.case i{width:9px;height:9px;background:var(--cha)}
+.slide{min-height:100vh;display:flex;align-items:center;padding:130px 4vw 110px}
+.slide.light{background:var(--paper);color:var(--ink)}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto}
+.stageno{font-size:12px;letter-spacing:.16em;color:var(--gray2);margin-bottom:10px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.stageno b{font-size:34px;color:var(--cha);font-family:'Archivo Black'}
+h1.h-xl{font-size:clamp(40px,7.6vw,94px)}
+h2.h-lg{font-size:clamp(30px,5vw,58px)}
+.hl-c{background:var(--cha);color:var(--ink);padding:0 .1em}
+.hl-p{background:var(--pnk);color:var(--ink);padding:0 .1em}
+.hl-y{background:var(--yel);color:var(--ink);padding:0 .1em}
+.t-p{color:var(--pnk)}.t-c{color:var(--cha)}.t-b{color:var(--blu)}.t-y{color:var(--yel)}
+.lede{font-size:clamp(18px,2.1vw,23px);max-width:800px;margin-top:16px}
+.serif-line{font-family:'Instrument Serif';font-style:italic;font-size:clamp(22px,3vw,36px);line-height:1.25}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s,transform .6s}
+.reveal.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{transition:none;opacity:1;transform:none}}
+.tag{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.1em;border:2px solid currentColor;padding:6px 11px}
+.defplate{border:4px solid var(--paper);padding:24px 26px;margin-top:28px;max-width:860px}
+.defplate .d{font-size:clamp(18px,2.3vw,25px)}
+.laws{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+@media(max-width:900px){.laws{grid-template-columns:1fr}}
+.law{border:3px solid var(--paper);padding:20px;position:relative}
+.law .no{font-family:'Archivo Black';font-size:44px;color:var(--cha)}
+.law h5{font-family:'Archivo Black';font-size:clamp(16px,1.9vw,20px);margin:8px 0}
+.law p{font-size:14px;color:#DCD7C6}
+/* orrery */
+.orrbox{display:grid;grid-template-columns:1.2fr 1fr;gap:34px;margin-top:26px;align-items:start}
+@media(max-width:900px){.orrbox{grid-template-columns:1fr}}
+#orrery{width:100%;max-width:620px;display:block;margin:0 auto}
+#orrery .orbit{fill:none;stroke:#3a382f;stroke-width:1.5}
+#orrery .obj{cursor:pointer}
+#orrery .obj rect{stroke:var(--ink);stroke-width:2}
+#orrery .obj text{font-family:'JetBrains Mono';font-size:9px;letter-spacing:.08em;fill:var(--paper);text-anchor:middle}
+#orrery .chord{stroke:#57534a;stroke-width:1.5;stroke-dasharray:4 5;fill:none}
+.objpanel{border:3px solid var(--paper);padding:20px;min-height:290px}
+.objpanel h4{font-family:'Archivo Black';font-size:clamp(19px,2.4vw,26px)}
+.objpanel .row{display:flex;justify-content:space-between;gap:12px;border-top:2px solid #3a382f;padding:9px 0;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.05em}
+.objpanel .row span:last-child{color:#DCD7C6;text-align:right}
+.bm{display:inline-flex;gap:5px}
+.bm i{width:22px;height:22px;border:2px solid var(--paper);display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono';font-size:10px;font-style:normal}
+.bm i.f{background:var(--cha);color:var(--ink);border-color:var(--cha)}
+.bm i.h{background:var(--pnk);color:var(--ink);border-color:var(--pnk)}
+.timedrag{margin-top:16px}
+input[type=range]{width:100%;accent-color:var(--pnk);height:34px}
+.tlab{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.1em;display:flex;justify-content:space-between;color:var(--grayD)}
+/* rights strip */
+.strip{overflow-x:auto;margin-top:26px}
+.stript{border-collapse:collapse;width:100%;min-width:640px;font-family:'JetBrains Mono';font-size:12px}
+.stript th,.stript td{border:2px solid var(--ink);padding:10px 12px;text-align:center;letter-spacing:.04em}
+.stript th{background:var(--ink);color:var(--paper)}
+.stript td:first-child,.stript th:first-child{text-align:left}
+.stript .yes{background:var(--cha);font-weight:700}
+.stript .part{background:var(--yel)}
+.stript .no{color:#B7B09B}
+.stript th button{background:none;border:0;color:inherit;font:inherit;letter-spacing:inherit;cursor:pointer;text-decoration:underline dotted}
+.stript td.dim{opacity:.22}
+.stripnote{font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.05em;color:var(--gray);margin-top:14px;min-height:40px}
+.era{display:flex;gap:14px;align-items:center;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.1em;margin-top:26px;color:var(--gray)}
+.era b{color:var(--ink)}
+/* case file */
+.cf{display:grid;grid-template-columns:1fr 1fr;gap:0;border:3px solid var(--ink);margin-top:26px}
+@media(max-width:820px){.cf{grid-template-columns:1fr}}
+.cf .col{padding:20px}
+.cf .col+.col{border-left:3px solid var(--ink)}
+@media(max-width:820px){.cf .col+.col{border-left:0;border-top:3px solid var(--ink)}}
+.cf h5{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.14em;margin-bottom:14px}
+.cfrow{border-top:2px solid #DDD6C2;padding:10px 0;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.04em}
+.cfrow .meta{color:var(--gray2);font-size:10.5px;margin-top:4px;display:flex;gap:10px;flex-wrap:wrap}
+.cfrow .meta b{color:var(--pnk)}
+.correct{border:2px solid var(--ink);background:none;font-family:'JetBrains Mono';font-size:10px;letter-spacing:.1em;padding:4px 8px;margin-top:6px}
+footer{background:var(--ink);color:var(--grayD);padding:60px 4vw;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.08em;border-top:8px solid var(--cha)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+</style>
+<script async src="https://plausible.io/js/pa-VnjVxVmGczy7J57pKSDnH.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+<div class="chrome">
+  <div class="wm mono"><b>INFERA</b> <span>· SYSTEMS ATLAS</span></div>
+  <div class="case mono"><i></i>NODE · DERIVATIVE DATA</div>
+</div>
+
+<!-- 00 THE NODE -->
+<section class="slide" id="s00">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>00</b> ATLAS NODE · SEASON II SPINE <span class="tag" style="border-color:var(--cha);color:var(--cha)">THE DERIVATIVE PERSON</span></div>
+    <h1 class="ab h-xl reveal">DERIVATIVE <span class="hl-c">DATA</span></h1>
+    <div class="defplate reveal">
+      <p class="d"><b>Definition ·</b> information <em>manufactured from</em> records rather than <em>contained in</em> them — a score, a portrait, a memory, a forecast, a deidentified-but-linked corpus. The person supplies the life. An institution manufactures the derivative. <span class="t-p">The derivative is the thing that acts.</span></p>
+    </div>
+    <div class="laws reveal">
+      <div class="law"><div class="no ab">I</div><h5 class="ab">DERIVATIVES OUTRANK THEIR SOURCES</h5><p>The score matters more than the payments. The portrait feels truer than the chats. The forecast borrows more than the bookings earned. Institutions prefer the derivative — it's cheaper to read.</p></div>
+      <div class="law"><div class="no ab">II</div><h5 class="ab">DERIVATIVES TRAVEL WHERE FACTS CAN'T</h5><p>A payment history stays at one bank; the score walks into every lender, landlord, insurer, and carrier in the country. Portability without consent is the derivative's physics.</p></div>
+      <div class="law"><div class="no ab">III</div><h5 class="ab">DELETING THE SOURCE DOESN'T DELETE THE DERIVATIVE</h5><p>The chat is erased; the memory persists. The memory is erased; what training absorbed persists. The company dies; its corpus goes to auction. Unlearning is immature. Sold corpora don't come home.</p></div>
+    </div>
+    <p class="serif-line reveal" style="margin-top:30px">We regulated the first derivative person in 1970. <span class="t-y">Then we forgot we'd done it.</span></p>
+  </div>
+</section>
+
+<!-- 01 ORRERY -->
+<section class="slide" id="s01">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>01</b> THE DERIVATIVE ORRERY · DISTANCE = DISTANCE FROM YOUR CONTROL</div>
+    <h2 class="ab h-lg reveal">FIVE OBJECTS<br><span class="hl-p">ORBIT YOU.</span></h2>
+    <p class="lede reveal">Drag time. Watch the objects appear as they were invented — and drift outward as they're transferred, sold, or absorbed into training. Click any object for its file.</p>
+    <div class="orrbox reveal">
+      <div>
+        <svg id="orrery" viewBox="0 0 640 640" role="img" aria-label="Orrery of derivative objects around a person"></svg>
+        <div class="timedrag">
+          <div class="tlab mono"><span>1970</span><span id="yr">2026</span><span>2026</span></div>
+          <input type="range" id="time" min="1970" max="2026" value="2026" aria-label="Year">
+        </div>
+      </div>
+      <div class="objpanel" id="objpanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 RIGHTS STRIP -->
+<section class="slide light" id="s02">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>02</b> THE RIGHTS STRIP · 1970 → 2026 <span class="tag">THE THESIS WALL</span></div>
+    <h2 class="ab h-lg reveal">ONE DERIVATIVE GOT RIGHTS.<br><span class="hl-y">THE REST SHIPPED NAKED.</span></h2>
+    <p class="lede reveal">FCRA (1970) and ECOA (1974) bolted five rights onto the credit score. Tap a right and see where it legally sticks today. The empty cells are the season's argument.</p>
+    <div class="strip reveal">
+      <table class="stript" id="stript" aria-label="Rights by derivative object">
+        <tr><th>OBJECT · BORN</th>
+            <th><button data-r="1">INSPECT</button></th>
+            <th><button data-r="2">CORRECT</button></th>
+            <th><button data-r="3">PORT</button></th>
+            <th><button data-r="4">EXPIRE</button></th>
+            <th><button data-r="5">DELETE</button></th></tr>
+        <tr><td>CREDIT SCORE · 1970s→89</td><td class="yes">■ FCRA</td><td class="yes">■ DISPUTE</td><td class="part">◪ IT PORTS ITSELF</td><td class="yes">■ 7/10-YR AGE-OFF</td><td class="no">□</td></tr>
+        <tr><td>AI MEMORY · 2023</td><td class="part">◪ PARTIAL UI</td><td class="part">◪ EDITABLE STORE</td><td class="part">◪ EXPORT ≠ CONTINUITY</td><td class="no">□</td><td class="part">◪ STORE ONLY — NOT WEIGHTS</td></tr>
+        <tr><td>AI PORTRAIT · 2025</td><td class="no">□</td><td class="no">□ *</td><td class="no">□</td><td class="no">□</td><td class="no">□</td></tr>
+        <tr><td>SOLD CORPUS · 2026</td><td class="no">□</td><td class="no">□</td><td class="no">□ IT PORTS WITHOUT YOU</td><td class="no">□</td><td class="no">□</td></tr>
+        <tr><td>REVENUE FORECAST · 2010s</td><td class="no">□</td><td class="no">□</td><td class="no">□</td><td class="no">□</td><td class="no">□</td></tr>
+      </table>
+      <p class="stripnote mono" id="stripnote">* COLORADO'S AI ACT (HIGH-RISK DECISIONS: DUTIES TO DISCLOSE, ASSESS, CORRECT, APPEAL) — EFFECTIVE-DATE STATUS: <b>VERIFY BEFORE PUBLISH</b>. GDPR ART. 22 APPLIES ABROAD. NOTHING FEDERAL REACHES ROWS 3–5.</p>
+      <div class="era mono"><b>1970</b> — CONGRESS ATTACHES DUE PROCESS TO A MANUFACTURED NUMBER · <b>2026</b> — THE NEWEST DERIVATIVES CARRY NONE OF IT. THE PRECEDENT EXISTS. <span class="tag" style="margin-left:6px">CONSTRUCTIVE, NOT UTOPIAN</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 CHIP GRAMMAR + CASE FILE -->
+<section class="slide light" id="s03">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>03</b> THE CHIP GRAMMAR · GOVERNANCE AS PRODUCT BEHAVIOR</div>
+    <h2 class="ab h-lg reveal">EVERY DERIVATIVE GETS A CHIP.<br><span class="hl-c">STARTING WITH OURS.</span></h2>
+    <p class="lede reveal">Season-wide, every derivative object renders its Rights Bitmask — <span class="mono">[I]nspect · [C]orrect · [P]ort · [E]xpire · [D]elete</span> — filled or hollow. And the standard applies to Infera first: the Case File splits what you did from what we inferred, and our inferences expire on a visible timer.</p>
+    <div class="cf reveal">
+      <div class="col">
+        <h5 class="mono">WHAT YOU DID · OBSERVED</h5>
+        <div class="cfrow">READ: THE TRUST MARKET · EP 03<div class="meta"><span>SOURCE · SESSION LOG</span><span>TIER · OBSERVED</span></div></div>
+        <div class="cfrow">RAN: DEIDENTIFICATION TEST · 6 FIELDS STRIPPED<div class="meta"><span>SOURCE · EXHIBIT TELEMETRY</span><span>TIER · OBSERVED</span></div></div>
+        <div class="cfrow">SAVED: BRIEF · BANKRUPTCY ESTATE<div class="meta"><span>SOURCE · ACTION</span><span>TIER · OBSERVED</span></div></div>
+      </div>
+      <div class="col">
+        <h5 class="mono">WHAT INFERA INFERRED · DERIVED</h5>
+        <div class="cfrow">INTEREST · DATA GOVERNANCE: HIGH<div class="meta"><span>METHOD · READ-DEPTH MODEL</span><span>CONF · 0.74</span><span>EXPIRES · <b id="exp1">30D</b></span></div><button class="correct mono">CORRECT THIS</button></div>
+        <div class="cfrow">PERSONA TIER · RESEARCHER<div class="meta"><span>METHOD · SESSION CLUSTERING</span><span>CONF · 0.61</span><span>EXPIRES · <b id="exp2">30D</b></span></div><button class="correct mono">CORRECT THIS</button></div>
+        <div class="cfrow" style="color:var(--gray2)">NOTHING ELSE. IF IT'S NOT LISTED, WE DIDN'T KEEP IT.</div>
+      </div>
+    </div>
+    <p class="serif-line reveal" style="margin-top:26px">The first system in the season to grant all five rights <span class="t-b">should be us.</span></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b style="color:var(--paper)">INFERA</b> · SYSTEMS ATLAS · NODE: DERIVATIVE DATA</div>
+    <div>SEASON II · THE DERIVATIVE PERSON · LAWS I–III</div>
+    <div>FIRST BRIEF · THE BANKRUPTCY ESTATE OF YOU · SEPT 9</div>
+    <div>MEASUREMENT · COOKIELESS AGGREGATE COUNTS · NO COOKIES · NO IDs</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+var slides=[].slice.call(document.querySelectorAll('.slide'));
+function onScroll(){
+  var y=scrollY,idx=0;
+  slides.forEach(function(s,i){if(s.offsetTop-innerHeight*0.5<=y)idx=i;});
+  document.body.classList.toggle('light-on',slides[idx].classList.contains('light'));
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ORRERY */
+(function(){
+  var svg=document.getElementById('orrery');
+  var NS='http://www.w3.org/2000/svg';
+  var CX=320,CY=320;
+  var objs=[
+    {id:'score',name:'CREDIT SCORE',born:1970,orbit:120,ang:-40,col:'#C8FF1E',holder:'BUREAUS · LENDERS',bm:[1,1,.5,1,0],
+     def:'The oldest derivative — and the only one with a rights regime (FCRA 1970 · ECOA 1974).',feeds:'FEEDS · UNDERWRITING, INSURANCE, HOUSING SCREENS'},
+    {id:'forecast',name:'REVENUE FORECAST',born:2012,orbit:275,ang:200,col:'#FFD500',holder:'DATA VENDORS · DSCR LENDERS',bm:[0,0,0,0,0],
+     def:'A prediction about an asset\u2019s future, borrowed against as if it were history. No appraisal-independence regime governs it.',feeds:'FEEDS · DSCR LOANS, LISTINGS, SECURITIZATION'},
+    {id:'memory',name:'AI MEMORY',born:2023,orbit:180,ang:80,col:'#1E3CFF',holder:'ASSISTANT PROVIDERS',bm:[.5,.5,.5,0,.5],
+     def:'Accumulated context: files, preferences, corrections, relationship. Exportable is not portable; deletable is not unlearnable.',feeds:'FEEDS · PORTRAITS, PERSONALIZATION, RETENTION ECONOMICS'},
+    {id:'portrait',name:'AI PORTRAIT',born:2025,orbit:225,ang:150,col:'#FF1A6B',holder:'WHOEVER RUNS THE PROMPT',bm:[0,0,0,0,0],
+     def:'Evidence-cited synthesis of a person that was never collected as a fact — data created at read time. FCRA tripwire if used for decisions.',feeds:'FEEDS · HIRING, LENDING, INVESTIGATION — THE WATCH ITEM'},
+    {id:'corpus',name:'SOLD CORPUS',born:2026,orbit:295,ang:320,col:'#FBF7EB',holder:'THE ESTATE → THE BUYER',bm:[0,0,0,0,0],
+     def:'A company\u2019s relational memory as an estate asset — deidentified, referential integrity preserved, priced at auction. Decision: Sept 9.',feeds:'FEEDS · MODEL TRAINING · THE BANKRUPTCY ESTATE OF YOU'}
+  ];
+  var chords=[['corpus','portrait'],['memory','portrait'],['portrait','score'],['forecast','score']];
+  // orbits
+  [120,180,225,275,295].forEach(function(r){
+    var c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',CX);c.setAttribute('cy',CY);c.setAttribute('r',r);c.setAttribute('class','orbit');
+    svg.appendChild(c);
+  });
+  // chords
+  var chordEls={};
+  function pos(o){var a=o.ang*Math.PI/180;return[CX+Math.cos(a)*o.orbit,CY+Math.sin(a)*o.orbit];}
+  chords.forEach(function(ch){
+    var a=objs.find(function(o){return o.id===ch[0]}),b=objs.find(function(o){return o.id===ch[1]});
+    var p1=pos(a),p2=pos(b);
+    var l=document.createElementNS(NS,'line');
+    l.setAttribute('x1',p1[0]);l.setAttribute('y1',p1[1]);l.setAttribute('x2',p2[0]);l.setAttribute('y2',p2[1]);
+    l.setAttribute('class','chord');svg.appendChild(l);
+    chordEls[ch.join('-')]=l;
+  });
+  // person
+  var pg=document.createElementNS(NS,'g');
+  var head=document.createElementNS(NS,'circle');
+  head.setAttribute('cx',CX);head.setAttribute('cy',CY-16);head.setAttribute('r',13);
+  head.setAttribute('fill','none');head.setAttribute('stroke','#FBF7EB');head.setAttribute('stroke-width',3);
+  var body=document.createElementNS(NS,'rect');
+  body.setAttribute('x',CX-18);body.setAttribute('y',CY+2);body.setAttribute('width',36);body.setAttribute('height',26);
+  body.setAttribute('rx',9);body.setAttribute('fill','none');body.setAttribute('stroke','#FBF7EB');body.setAttribute('stroke-width',3);
+  var yl=document.createElementNS(NS,'text');
+  yl.setAttribute('x',CX);yl.setAttribute('y',CY+52);yl.setAttribute('text-anchor','middle');
+  yl.setAttribute('style','font-family:JetBrains Mono;font-size:10px;letter-spacing:.14em;fill:#8C877A');
+  yl.textContent='YOU';
+  pg.appendChild(head);pg.appendChild(body);pg.appendChild(yl);svg.appendChild(pg);
+  // objects
+  var groups={};
+  objs.forEach(function(o){
+    var g=document.createElementNS(NS,'g');g.setAttribute('class','obj');g.setAttribute('tabindex','0');
+    g.setAttribute('role','button');g.setAttribute('aria-label',o.name);
+    var p=pos(o);
+    var r=document.createElementNS(NS,'rect');
+    r.setAttribute('x',p[0]-46);r.setAttribute('y',p[1]-16);r.setAttribute('width',92);r.setAttribute('height',32);
+    r.setAttribute('fill',o.col);
+    var t=document.createElementNS(NS,'text');
+    t.setAttribute('x',p[0]);t.setAttribute('y',p[1]+3.5);t.textContent=o.name;
+    t.setAttribute('style','fill:#0A0A0A');
+    g.appendChild(r);g.appendChild(t);svg.appendChild(g);
+    groups[o.id]=g;
+    function sel(){setObj(o.id);}
+    g.addEventListener('click',sel);
+    g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();sel();}});
+  });
+  var panel=document.getElementById('objpanel');
+  function bmHTML(bm){
+    var L=['I','C','P','E','D'];
+    return '<span class="bm">'+bm.map(function(v,i){
+      return '<i class="'+(v===1?'f':(v===.5?'h':''))+'">'+L[i]+'</i>';
+    }).join('')+'</span>';
+  }
+  function setObj(id){
+    var o=objs.find(function(x){return x.id===id});
+    objs.forEach(function(x){groups[x.id].querySelector('rect').setAttribute('stroke-width',x.id===id?4:2)});
+    panel.innerHTML='<h4 class="ab">'+o.name+'</h4>'+
+      '<div class="row"><span>BORN</span><span>'+o.born+'</span></div>'+
+      '<div class="row"><span>HOLDER</span><span>'+o.holder+'</span></div>'+
+      '<div class="row"><span>RIGHTS</span><span>'+bmHTML(o.bm)+'</span></div>'+
+      '<div class="row" style="display:block"><span style="color:#8C877A">FILE</span><p style="font-family:Space Grotesk;font-size:14.5px;margin-top:6px;color:#DCD7C6">'+o.def+'</p></div>'+
+      '<div class="row"><span style="color:#8C877A">'+o.feeds+'</span><span></span></div>';
+  }
+  setObj('corpus');
+  // time
+  var tm=document.getElementById('time'),yr=document.getElementById('yr');
+  function setYear(y){
+    yr.textContent=y;
+    objs.forEach(function(o){
+      groups[o.id].style.opacity = y>=o.born ? 1 : .08;
+      groups[o.id].style.pointerEvents = y>=o.born ? 'auto' : 'none';
+    });
+    for(var k in chordEls){
+      var ids=k.split('-');
+      var ok=ids.every(function(id){return y>=objs.find(function(o){return o.id===id}).born});
+      chordEls[k].style.opacity=ok?1:.06;
+    }
+  }
+  tm.addEventListener('input',function(){setYear(+tm.value)});
+  setYear(2026);
+})();
+
+/* RIGHTS STRIP highlight */
+(function(){
+  var tbl=document.getElementById('stript'),note=document.getElementById('stripnote');
+  var msgs={
+    1:'INSPECT · THE SCORE HAS A STATUTORY FILE-DISCLOSURE RIGHT. MEMORY: PARTIAL, PRODUCT-DEPENDENT. THE PORTRAIT, THE CORPUS, THE FORECAST: NOTHING GUARANTEES YOU EVER SEE THEM.',
+    2:'CORRECT · FCRA DISPUTE IS THE TEMPLATE. * THE PORTRAIT GAINS A CORRECTION PATH ONLY WHERE HIGH-RISK-AI LAW APPLIES — VERIFY COLORADO STATUS.',
+    3:'PORT · THE SCORE PORTS ITSELF — WITHOUT YOU. MEMORY EXPORTS FILES, NOT CONTINUITY. THE CORPUS PORTS AT AUCTION. PORTABILITY EXISTS EVERYWHERE EXCEPT WHERE YOU HOLD THE HANDLE.',
+    4:'EXPIRE · ONLY THE SCORE AGES OFF BY LAW (7/10 YEARS). NOTHING ELSE ON THIS WALL HAS AN EXPIRY DATE.',
+    5:'DELETE · NO ROW HAS A FULL DELETE. MEMORY DELETES THE STORE, NOT THE WEIGHTS — MACHINE UNLEARNING IS IMMATURE.'
+  };
+  tbl.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-r]');if(!b)return;
+    var r=+b.dataset.r;
+    [].slice.call(tbl.rows).forEach(function(row,ri){
+      if(ri===0)return;
+      [].slice.call(row.cells).forEach(function(c,ci){
+        c.classList.toggle('dim', ci!==0 && ci!==r);
+      });
+    });
+    note.innerHTML=msgs[r];
+  });
+})();
+
+/* case file expiry timers */
+(function(){
+  var t0=Date.now(), span=30*864e5;
+  function tick(){
+    var left=Math.max(0,span-(Date.now()-t0));
+    var d=Math.floor(left/864e5),h=Math.floor(left%864e5/36e5);
+    var txt=d+'D '+h+'H';
+    document.getElementById('exp1').textContent=txt;
+    document.getElementById('exp2').textContent=txt;
+  }
+  tick();setInterval(tick,60000);
+})();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE TRICKLE · PART TWO — THE CORRIDOR · Infera Mechanism Series</title>
+<meta name="description" content="An interactive editorial investigation: one campus lost a quarter of its workforce. The housing dashboard says nothing happened. The rent checks say otherwise.">
+<link rel="canonical" href="https://series.melophon.com/episode-05-2-the-trickle-part-two.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Infera · The Mechanism Series">
+<meta property="og:title" content="The Trickle, Part Two — The Corridor">
+<meta property="og:description" content="One campus lost a quarter of its workforce. The housing dashboard says nothing happened. The rent checks say otherwise. A pre-registered investigation.">
+<meta property="og:url" content="https://series.melophon.com/episode-05-2-the-trickle-part-two.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Trickle, Part Two — The Corridor">
+<meta name="twitter:description" content="The market said nothing happened. The rent checks said otherwise.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A0A0A; --paper:#FBF7EB; --paper2:#F3EEDC;
+  --cha:#C8FF1E; --pnk:#FF1A6B; --blu:#1E3CFF; --yel:#FFD500; --red:#E01A1A;
+  --gray:#57534A; --gray2:#8C877A; --grayD:#96917F;
+  --u:min(1vw,10.8px); --maxw:1120px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-size:17px;line-height:1.55;overflow-x:hidden}
+::selection{background:var(--cha);color:var(--ink)}
+.mono{font-family:'JetBrains Mono',monospace}
+.serif{font-family:'Instrument Serif',serif;font-style:italic}
+.ab{font-family:'Archivo Black',sans-serif;letter-spacing:-.01em;line-height:1.02}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--blu);outline-offset:3px}
+
+/* ---------- chrome ---------- */
+.chrome{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 4vw;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:3px solid var(--ink)}
+.dark-on .chrome{background:color-mix(in srgb,var(--ink) 86%,transparent);border-color:var(--paper);color:var(--paper)}
+.wm{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.14em}
+.wm b{font-weight:700}
+.wm span{color:var(--gray2)}
+.chrome-r{display:flex;gap:12px;align-items:center}
+.case{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.12em;border:2px solid currentColor;padding:5px 9px;display:flex;gap:7px;align-items:center;white-space:nowrap}
+.case i{width:9px;height:9px;background:var(--pnk);display:inline-block}
+.evtoggle{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;border:2px solid currentColor;background:none;color:inherit;padding:5px 10px}
+.evtoggle[aria-pressed="true"]{background:var(--cha);color:var(--ink);border-color:var(--ink)}
+.rail{position:fixed;left:max(10px,2vw);top:50%;transform:translateY(-50%);z-index:80;display:flex;flex-direction:column;gap:9px}
+.rail a{width:13px;height:13px;border:2px solid var(--ink);display:block;background:transparent}
+.dark-on .rail a{border-color:var(--paper)}
+.rail a.done{background:var(--ink)}
+.dark-on .rail a.done{background:var(--paper)}
+.rail a.cur{background:var(--pnk)!important;border-color:currentColor}
+.progress{position:fixed;left:0;bottom:0;height:8px;background:var(--pnk);width:0;z-index:95}
+.progress-track{position:fixed;left:0;bottom:8px;height:2px;width:100%;background:var(--ink);z-index:95}
+
+/* ---------- slides ---------- */
+.slide{min-height:100vh;display:flex;align-items:center;position:relative;padding:130px 4vw 110px}
+.slide.dark{background:var(--ink);color:var(--paper)}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;position:relative}
+.stageno{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.16em;color:var(--gray2);margin-bottom:10px;display:flex;gap:12px;align-items:center}
+.stageno b{font-size:34px;color:var(--pnk);font-family:'Archivo Black';letter-spacing:0}
+.rule{height:8px;background:currentColor;margin:26px 0}
+.rule.thin{height:3px}
+h1.h-xl{font-size:clamp(44px,8.4vw,104px)}
+h2.h-lg{font-size:clamp(34px,5.6vw,66px)}
+h3.h-md{font-size:clamp(22px,3vw,34px)}
+.hl-c{background:var(--cha);color:var(--ink);padding:0 .1em}
+.hl-p{background:var(--pnk);color:var(--ink);padding:0 .1em}
+.hl-y{background:var(--yel);color:var(--ink);padding:0 .1em}
+.hl-b{background:var(--blu);color:var(--paper);padding:0 .1em}
+.t-p{color:var(--pnk)}.t-c{color:var(--cha)}.t-b{color:var(--blu)}.t-y{color:var(--yel)}.t-g{color:var(--gray2)}
+.lede{font-size:clamp(19px,2.2vw,24px);max-width:760px;margin-top:18px}
+.serif-line{font-family:'Instrument Serif';font-style:italic;font-size:clamp(24px,3.4vw,40px);line-height:1.25}
+.kicker{font-family:'JetBrains Mono';font-size:13px;letter-spacing:.14em;margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.reveal.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{transition:none;opacity:1;transform:none}}
+
+/* tier / evidence chips */
+.tier{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono';font-size:10px;letter-spacing:.1em;border:1.5px solid currentColor;padding:2px 7px;margin-left:8px;vertical-align:middle}
+.ev-hide .tier,.ev-hide .srcnote{display:none}
+.srcnote{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:var(--gray2);margin-top:8px;display:flex;gap:8px;align-items:flex-start}
+.srcnote::before{content:"";width:9px;height:9px;background:var(--cha);flex:0 0 auto;margin-top:3px}
+.slide.dark .srcnote{color:var(--grayD)}
+
+/* instrument readout */
+.instr{display:inline-block}
+.instr .lab{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.14em;color:var(--gray2)}
+.instr .val{font-family:'JetBrains Mono';font-weight:700;font-size:clamp(20px,2.6vw,30px);letter-spacing:.02em;border-bottom:3px solid currentColor;padding-bottom:4px}
+.stampx{display:inline-block;font-family:'Archivo Black';font-size:clamp(15px,1.8vw,21px);letter-spacing:.06em;border:5px solid currentColor;padding:8px 16px;transform:rotate(-2deg)}
+.tag{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.1em;border:2px solid currentColor;padding:6px 11px}
+.tag.fill-y{background:var(--yel);color:var(--ink);border-color:var(--ink)}
+.tag.fill-c{background:var(--cha);color:var(--ink);border-color:var(--ink)}
+.tag.fill-p{background:var(--pnk);color:var(--ink);border-color:var(--ink)}
+
+/* ============ 00 COLD OPEN ============ */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:0;border:4px solid var(--paper);margin:34px 0}
+@media(max-width:860px){.split{grid-template-columns:1fr}}
+.split .cell{padding:30px 26px}
+.cell.dash{background:var(--paper);color:var(--ink)}
+.cell.ledger{background:var(--ink);color:var(--paper);border-left:4px solid var(--paper)}
+@media(max-width:860px){.cell.ledger{border-left:none;border-top:4px solid var(--paper)}}
+.cell h4{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.16em;margin-bottom:18px}
+.bigrow{display:flex;justify-content:space-between;align-items:baseline;font-family:'JetBrains Mono';padding:9px 0;border-bottom:2px solid currentColor;font-size:15px}
+.bigrow b{font-size:clamp(20px,2.4vw,28px);font-weight:700}
+.ledger .money{font-family:'Archivo Black';font-size:clamp(40px,5.4vw,66px);color:var(--pnk);margin:14px 0 6px}
+.blink{display:inline-block;width:14px;height:14px;background:var(--cha);animation:bl 1.1s steps(1) infinite;vertical-align:middle;margin-left:10px}
+@keyframes bl{50%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.blink{animation:none}}
+
+/* ============ 01 LAG CLOCK ============ */
+.clockbox{border:3px solid currentColor;padding:28px;margin-top:30px}
+.trackrow{margin:26px 0}
+.trackrow .tl{position:relative;height:64px;border-bottom:3px solid currentColor}
+.trackrow .city{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.14em;margin-bottom:8px}
+.beat{position:absolute;bottom:0;transform:translateX(-50%);text-align:center}
+.beat .dot{width:15px;height:15px;margin:0 auto 6px;background:var(--gray2)}
+.beat.hit .dot{background:var(--pnk)}
+.beat.hit.good .dot{background:var(--cha)}
+.beat small{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.08em;display:block;color:var(--grayD);white-space:nowrap}
+.needle{position:absolute;top:-14px;bottom:-14px;width:4px;background:var(--yel);transform:translateX(-50%)}
+.needle::after{content:"NOW";position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono';font-size:10px;letter-spacing:.14em;color:var(--yel)}
+input[type=range]{width:100%;accent-color:var(--pnk);height:34px}
+.clockread{font-family:'JetBrains Mono';font-size:13px;letter-spacing:.06em;margin-top:12px;min-height:44px}
+.big8{font-family:'Archivo Black';font-size:clamp(90px,16vw,200px);line-height:.9;color:var(--pnk)}
+
+/* ============ 02 CORRIDOR ============ */
+.mapbox{border:3px solid var(--paper);padding:26px;position:relative}
+.zips{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}
+@media(max-width:720px){.zips{grid-template-columns:repeat(2,1fr)}}
+.zip{border:2px solid var(--paper);padding:14px 10px;text-align:center;font-family:'JetBrains Mono'}
+.zip b{display:block;font-size:clamp(17px,2vw,22px);letter-spacing:.06em}
+.zip small{font-size:10px;letter-spacing:.1em;color:var(--grayD)}
+.campus{border:3px solid var(--cha);color:var(--cha);padding:14px 18px;font-family:'JetBrains Mono';letter-spacing:.12em;display:inline-flex;gap:12px;align-items:center;margin-bottom:10px}
+.campus i{width:11px;height:11px;background:var(--cha)}
+.wave{display:flex;gap:14px;flex-wrap:wrap;margin-top:20px}
+.wave .ev{border:2px solid var(--paper);padding:10px 14px;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.06em}
+.wave .ev b{color:var(--pnk)}
+.counters{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px}
+@media(max-width:820px){.counters{grid-template-columns:1fr 1fr}}
+.cnt .n{font-family:'Archivo Black';font-size:clamp(30px,4.6vw,54px);color:var(--pnk)}
+.cnt .n.c{color:var(--cha)}
+.cnt .l{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;color:var(--grayD);margin-top:4px}
+
+/* ============ 03 BUFFER ============ */
+.bufbox{border:3px solid var(--ink);padding:26px;margin-top:26px}
+.cohorts{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.cohorts button{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.08em;border:2px solid var(--ink);background:none;padding:9px 14px}
+.cohorts button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.bufsvgwrap{overflow-x:auto}
+#bufsvg text{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.06em}
+#bufsvg .path{stroke:var(--gray2);stroke-width:3;fill:none;opacity:.35;transition:opacity .35s,stroke .35s}
+#bufsvg .path.hot{opacity:1}
+.bufread{font-family:'Space Grotesk';margin-top:16px;min-height:56px;max-width:760px}
+
+/* ============ 04 RUNWAY ============ */
+.runbox{border:3px solid var(--ink);padding:28px;background:var(--paper2)}
+.runin{display:grid;grid-template-columns:1.2fr 1fr;gap:34px}
+@media(max-width:860px){.runin{grid-template-columns:1fr}}
+.ctrl{margin-bottom:18px}
+.ctrl label{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.1em;display:flex;justify-content:space-between;margin-bottom:6px}
+.tgl{display:flex;align-items:center;justify-content:space-between;border-top:2px solid var(--ink);padding:11px 0;font-family:'JetBrains Mono';font-size:12.5px;letter-spacing:.05em;gap:10px}
+.tgl .sw{flex:0 0 auto;width:52px;height:26px;border:2px solid var(--ink);background:none;position:relative}
+.tgl .sw::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;background:var(--ink);transition:left .18s}
+.tgl .sw[aria-pressed="true"]{background:var(--yel)}
+.tgl .sw[aria-pressed="true"]::after{left:28px}
+.gauge{border:3px solid var(--ink);padding:20px}
+.gauge .lab{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.14em;color:var(--gray)}
+.gauge .months{font-family:'Archivo Black';font-size:clamp(52px,8vw,92px);line-height:1}
+.gtrack{height:22px;border:2px solid var(--ink);margin:14px 0;position:relative;overflow:hidden}
+.gfill{position:absolute;inset:0;width:60%;background:var(--cha);transition:width .3s}
+.gfill.warn{background:var(--yel)}
+.gfill.crit{background:var(--pnk)}
+.firestrip{margin-top:16px;font-family:'JetBrains Mono';font-size:12px;line-height:2;letter-spacing:.04em}
+.firestrip b{color:var(--pnk)}
+.counterp{margin-top:20px;border-top:3px solid var(--ink);padding-top:14px;font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.05em;color:var(--gray)}
+.counterp b{color:var(--ink)}
+
+/* ============ 05 CASCADE ============ */
+.cascadebox{border:3px solid var(--paper);padding:30px;position:relative}
+.firebtn{font-family:'Archivo Black';font-size:clamp(16px,2vw,22px);letter-spacing:.04em;background:var(--pnk);color:var(--ink);border:3px solid var(--paper);padding:16px 26px}
+.firebtn:disabled{opacity:.45;cursor:default}
+.resetbtn{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.1em;background:none;color:var(--paper);border:2px solid var(--paper);padding:10px 16px;margin-left:12px}
+.dominoes{position:relative;margin-top:34px}
+.dom{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:18px 0;border-top:2px solid #3a382f;opacity:.32;transition:opacity .45s;position:relative}
+.dom.tipped{opacity:1}
+.dom .dno{font-family:'Archivo Black';font-size:30px;color:var(--paper);transition:color .3s}
+.dom.tipped .dno{color:var(--pnk)}
+.dom .lag{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.1em;color:var(--grayD);display:block;margin-top:4px}
+.dom h5{font-family:'Archivo Black';font-size:clamp(17px,2.1vw,22px);margin-bottom:6px}
+.dom p{font-size:15px;max-width:680px;color:#DCD7C6}
+.dom .fx{margin-top:8px;display:none}
+.dom.tipped .fx{display:inline-flex}
+.echo{background:var(--pnk);color:var(--ink);border:none;animation:pulse 1.6s ease infinite}
+@keyframes pulse{50%{transform:scale(1.05)}}
+@media(prefers-reduced-motion:reduce){.echo{animation:none}}
+#loopsvg{position:absolute;left:0;top:0;pointer-events:none}
+#loopsvg path{fill:none;stroke-width:3;stroke-dasharray:1000;stroke-dashoffset:1000}
+#loopsvg path.draw{transition:stroke-dashoffset 1.4s ease}
+#loopsvg text{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.08em}
+.cascade-end{margin-top:26px;display:none}
+.cascade-end.on{display:block}
+
+/* ============ 06 WATERLINE ============ */
+.waterbox{margin-top:26px;position:relative}
+.waterline{display:flex;align-items:center;gap:16px;margin:26px 0}
+.waterline .wl{flex:1;height:6px;background:var(--blu)}
+.waterline span{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.14em;color:var(--blu);white-space:nowrap}
+.rung{display:grid;grid-template-columns:54px 1fr auto;gap:16px;align-items:start;padding:15px 0;border-bottom:2px solid #DDD6C2}
+.rung .rn{font-family:'Archivo Black';font-size:22px;color:var(--gray2)}
+.rung h6{font-family:'JetBrains Mono';font-weight:700;font-size:14px;letter-spacing:.05em}
+.rung p{font-size:14px;color:var(--gray);max-width:640px}
+.rung .lg{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.08em;color:var(--gray2);white-space:nowrap;padding-top:3px}
+.rung.above{opacity:.55}
+.tues{display:flex;gap:8px;align-items:center;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;color:var(--gray2);margin:18px 0}
+.tues i{width:10px;height:10px;background:var(--ink)}
+.dialbox{border:3px solid var(--ink);padding:24px;margin-top:30px}
+.dialread{display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.08em;margin-top:8px}
+.dialstate{font-family:'Archivo Black';font-size:clamp(20px,3vw,30px);margin-top:14px;min-height:44px}
+.redres{border:3px dashed var(--red);color:var(--red);padding:14px 18px;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.08em;margin-top:26px}
+
+/* ============ 07 ATTENTION ============ */
+.attn{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:30px}
+@media(max-width:820px){.attn{grid-template-columns:1fr}}
+.abar{border:3px solid var(--paper);padding:22px}
+.abar .city{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.14em;margin-bottom:14px}
+.abar .barzone{height:150px;display:flex;align-items:flex-end}
+.abar .bar{width:100%;background:var(--blu);height:88%}
+.abar.atl .bar{height:14%;background:var(--pnk)}
+.abar .note{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.08em;color:var(--grayD);margin-top:12px}
+.pending{border:2px dashed var(--paper);padding:10px 14px;display:inline-block;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.12em;margin-top:18px}
+
+/* ============ 08 WATCH ============ */
+.watch{border:4px solid var(--ink);padding:30px;background:var(--paper)}
+.branches{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+@media(max-width:900px){.branches{grid-template-columns:1fr}}
+.branch{border:3px solid var(--ink);padding:18px;background:var(--paper);box-shadow:10px 12px 0 var(--ink)}
+.branch h5{font-family:'Archivo Black';font-size:17px;margin-bottom:8px}
+.branch p{font-size:14px;color:var(--gray)}
+.branch .bt{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.12em;margin-bottom:10px;display:inline-block;padding:3px 8px;border:2px solid var(--ink)}
+.metricgrid{margin-top:26px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-family:'JetBrains Mono';font-size:12px}
+th,td{border:2px solid var(--ink);padding:9px 11px;text-align:left;letter-spacing:.03em}
+th{background:var(--ink);color:var(--paper);font-weight:700;letter-spacing:.08em}
+td.await{color:var(--gray2)}
+.regstamp{margin-top:24px}
+
+/* ============ 09 RESTRAINT/SOURCES ============ */
+.restraint{border:3px solid var(--paper);padding:26px}
+.restraint li{font-size:15px;margin:10px 0 10px 20px;color:#DCD7C6}
+.hostile{border-left:10px solid var(--yel);padding:18px 22px;margin-top:28px;background:#141410}
+.hostile .q{font-family:'Instrument Serif';font-style:italic;font-size:clamp(18px,2.4vw,24px);color:var(--paper)}
+.hostile .a{font-family:'JetBrains Mono';font-size:12.5px;letter-spacing:.04em;color:var(--grayD);margin-top:12px}
+.srcs{margin-top:30px}
+.srcs td:first-child{white-space:nowrap}
+.slide.dark table th{background:var(--paper);color:var(--ink)}
+.slide.dark table th,.slide.dark table td{border-color:var(--paper)}
+.field{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
+@media(max-width:900px){.field{grid-template-columns:1fr}}
+.fcard{border:2px solid var(--paper);padding:18px}
+.fcard h6{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.12em;color:var(--cha);margin-bottom:10px}
+.fcard p{font-size:14px;color:#DCD7C6}
+footer{background:var(--ink);color:var(--grayD);padding:60px 4vw;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.08em;border-top:8px solid var(--pnk)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+/* ---- cold open v2 ---- */
+.dstamp{font-size:14px;letter-spacing:.14em;color:var(--cha);min-height:22px;margin-bottom:18px}
+.rif{background:var(--paper);color:var(--ink);border:3px solid var(--paper);max-width:640px;padding:22px 24px;opacity:0;transform:translateY(18px) rotate(-.6deg);transition:opacity .5s,transform .5s;box-shadow:12px 14px 0 rgba(200,255,30,.25)}
+.rif.on{opacity:1;transform:rotate(-.6deg)}
+.rif-head{font-size:10px;letter-spacing:.12em;color:var(--gray)}
+.rif-sub{font-size:clamp(17px,2.2vw,22px);margin:10px 0 12px}
+.rif-row{font-size:12.5px;letter-spacing:.06em;padding:7px 0;border-top:2px solid var(--ink);display:flex;gap:10px;align-items:center}
+.redact{display:inline-block;height:14px;background:var(--ink)}
+.flatline{width:100%;margin-top:12px;background:var(--ink);display:block}
+.rif-cap{font-size:10.5px;letter-spacing:.1em;color:var(--gray);margin-top:8px}
+.picks{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;opacity:0;transition:opacity .5s}
+.picks.on{opacity:1}
+@media(max-width:760px){.picks{grid-template-columns:1fr}}
+.pick{background:none;border:3px solid var(--paper);color:var(--paper);padding:18px 14px;text-align:left;font-size:11px;letter-spacing:.08em;line-height:1.6}
+.pick b{display:block;font-size:clamp(16px,2vw,21px);margin-bottom:6px}
+.pick:hover,.pick[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.youres{margin-top:30px}
+.ytrack{position:relative;height:30px;border:3px solid var(--paper);margin-bottom:12px}
+.yfill{position:absolute;inset:0;width:0;background:var(--cha);transition:width 1.4s ease}
+.ymark{position:absolute;top:100%;margin-top:6px;font-size:10.5px;letter-spacing:.1em;color:var(--pnk);white-space:nowrap;transform:translateX(-50%)}
+.yline{font-size:13px;letter-spacing:.07em;margin:20px 0 6px;min-height:20px}
+.dotfield{display:grid;grid-template-columns:repeat(30,1fr);gap:5px;margin:16px 0 8px;max-width:820px}
+.dotfield i{width:100%;aspect-ratio:1;background:#2a2a24;transition:background .2s}
+.dotfield i.lit{background:var(--pnk)}
+.dotfield i.you{outline:3px solid var(--cha);outline-offset:1px}
+.split-mini{display:grid;grid-template-columns:1fr 1fr;gap:0;border:3px solid var(--paper);margin-top:26px}
+@media(max-width:760px){.split-mini{grid-template-columns:1fr}}
+.sm-dash{padding:14px 16px;background:var(--paper);color:var(--ink);font-size:12px;letter-spacing:.07em}
+.sm-ledger{padding:14px 16px;background:var(--ink);color:var(--pnk);font-size:12px;letter-spacing:.07em;border-left:3px solid var(--paper)}
+@media(max-width:760px){.sm-ledger{border-left:none;border-top:3px solid var(--paper)}}
+/* ---- pressure clocks ---- */
+.clockgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin:20px 0}
+@media(max-width:760px){.clockgrid{grid-template-columns:1fr}}
+.dialsvg{width:100%;max-width:340px;display:block;margin:0 auto}
+.dialsvg .pnum{font-family:'Archivo Black';fill:currentColor}
+.dialsvg .plab{font-family:'JetBrains Mono';letter-spacing:.2em;fill:var(--gray2)}
+.dialsvg .pring{stroke:#8C877A;transition:stroke .3s}
+.cname{text-align:center;font-size:12px;letter-spacing:.14em;margin-top:6px}
+.clockctl{display:flex;gap:16px;align-items:center;margin-top:8px}
+.playbtn{background:var(--pnk);color:var(--ink);border:3px solid currentColor;padding:12px 18px;font-size:13px;letter-spacing:.08em;white-space:nowrap}
+.playbtn[aria-pressed="true"]{background:var(--yel)}
+.clocklegend{font-size:11px;letter-spacing:.06em;line-height:2.1;margin-top:12px;columns:2;column-gap:34px}
+@media(max-width:760px){.clocklegend{columns:1}}
+.clocklegend span{display:block;opacity:.35;transition:opacity .3s}
+.clocklegend span.hit{opacity:1}
+.clocklegend b{color:var(--pnk)}
+.pullverdict{margin-top:16px;border:3px solid var(--ink);padding:14px 16px;font-size:12px;letter-spacing:.05em;line-height:1.9;background:var(--paper)}
+
+</style>
+<script async src="https://plausible.io/js/pa-VnjVxVmGczy7J57pKSDnH.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body class="ev-hide">
+
+<div class="chrome">
+  <div class="wm mono"><b>INFERA</b> <span>· THE MECHANISM SERIES</span></div>
+  <div class="chrome-r">
+    <button class="evtoggle mono" id="evbtn" aria-pressed="false">EVIDENCE MODE · OFF</button>
+    <div class="case mono"><i></i>CASE Nº EP-05·2</div>
+  </div>
+</div>
+<nav class="rail" aria-label="Chapters" id="rail"></nav>
+<div class="progress-track"></div><div class="progress" id="prog"></div>
+
+<!-- ================= 00 COLD OPEN ================= -->
+<section class="slide dark" id="s00" data-ch="00">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>00</b> COLD OPEN · THE NOTICE <span class="tag" style="border-color:var(--cha);color:var(--cha)">PART TWO · THE CORRIDOR</span></div>
+    <div class="dstamp mono" id="dstamp" aria-live="polite"></div>
+    <div class="rif" id="rif">
+      <div class="rif-head mono">U.S. DEPARTMENT OF HEALTH &amp; HUMAN SERVICES<br>CENTERS FOR DISEASE CONTROL · CLIFTON RD · ATLANTA</div>
+      <div class="rif-sub ab">NOTICE OF SEPARATION · REDUCTION IN FORCE</div>
+      <div class="rif-row mono">TO: <span class="redact" style="width:180px"></span></div>
+      <div class="rif-row mono">POSITION: <span class="redact" style="width:240px"></span> · PUBLIC HEALTH</div>
+      <div class="rif-row mono">EFFECTIVE: <b class="t-p">60 DAYS FROM RECEIPT</b></div>
+      <svg class="flatline" viewBox="0 0 560 60" aria-hidden="true"><polyline points="0,30 40,28 80,31 120,29 160,30 200,27 240,30 280,29" fill="none" stroke="#C8FF1E" stroke-width="3"/><line id="flx" x1="280" y1="30" x2="280" y2="30" stroke="#FF1A6B" stroke-width="3"/></svg>
+      <div class="mono rif-cap">INCOME · <span class="t-c">RECORDED</span> → <span class="t-p" id="flword"></span> <span class="tier">DRAMATIZATION · COMPOSITE OF THE APR 1 + OCT 10 NOTICES</span></div>
+    </div>
+    <h1 class="ab h-lg" id="pickq" style="margin-top:34px;opacity:0;transition:opacity .5s">THIS IS NOW <span class="hl-p">YOUR ENVELOPE.</span><br>HOW MUCH CUSHION DO YOU HAVE?</h1>
+    <div class="picks" id="picks" role="group" aria-label="Choose a household">
+      <button class="pick mono" data-p="rent"><b class="ab">RENTER</b><span>EARLY-CAREER SCIENTIST<br>CUSHION ≈ 1–2 MO</span></button>
+      <button class="pick mono" data-p="thin"><b class="ab">BOUGHT 2021</b><span>THIN EQUITY · 3% RATE<br>CUSHION ≈ 3–4 MO</span></button>
+      <button class="pick mono" data-p="deep"><b class="ab">BOUGHT 2009</b><span>DEEP EQUITY<br>CUSHION ≈ 6+ MO</span></button>
+    </div>
+    <div class="youres" id="youres" hidden>
+      <div class="ytrack"><div class="yfill" id="yfill"></div><div class="ymark mono" id="ymark"></div></div>
+      <p class="mono yline" id="yline1"></p>
+      <p class="mono yline t-p" id="yline2"></p>
+      <div class="dotfield" id="dotfield" aria-label="Roughly three thousand corridor households, one dot per ten"></div>
+      <p class="mono yline t-g">≈3,000+ HOUSEHOLDS AROUND ONE CAMPUS · 1 DOT = 10 · <span class="t-c">THE OUTLINED DOT IS YOU</span></p>
+      <div class="split-mini reveal on">
+        <div class="mono sm-dash">THE DASHBOARD, ONE MILE AWAY · "SELLERS' MARKET" · 99% OF ASK</div>
+        <div class="mono sm-ledger">THE LEDGER, SAME MILE · <b>$200,000+</b> IN RENT PAID BY MUTUAL AID</div>
+      </div>
+      <p class="serif-line" style="margin-top:22px">Both instruments are describing <span class="t-p">your street.</span> One of them can't see you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 01 THE LAG ================= -->
+<section class="slide" id="s01" data-ch="01">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>01</b> WHAT PART ONE LEARNED · WASHINGTON, D.C.</div>
+    <h2 class="ab h-lg reveal">EVERY DENIAL WAS<br><span class="hl-y">JUST EARLY.</span></h2>
+    <p class="lede reveal">D.C.'s trickle ran in three acts. Drag the clock — then watch Atlanta's copy of it, offset by two quarters.</p>
+
+    <div class="clockbox reveal">
+      <div class="kicker mono">EXHIBIT 01 · TWO CITIES · <span class="t-c">ONE CLOCK</span> · TWO PRESSURES <span class="tier">ILLUSTRATIVE PRESSURE INDEX</span></div>
+      <div class="clockgrid">
+        <div class="clockcell">
+          <svg viewBox="0 0 300 300" class="dialsvg" id="dial-dc" role="img" aria-label="Washington pressure clock">
+            <circle cx="150" cy="150" r="132" fill="none" stroke="currentColor" stroke-width="2" opacity=".35"/>
+            <g class="ticks"></g>
+            <circle class="pring" cx="150" cy="150" r="112" fill="none" stroke-width="12" transform="rotate(-90 150 150)"/>
+            <g class="marks"></g>
+            <line class="nowtick" x1="150" y1="18" x2="150" y2="40" stroke="#FFD500" stroke-width="4"/>
+            <line class="hand" x1="150" y1="150" x2="150" y2="44" stroke="currentColor" stroke-width="4"/>
+            <circle cx="150" cy="150" r="7" fill="currentColor"/>
+            <text x="150" y="205" text-anchor="middle" class="pnum" font-size="44">0</text>
+            <text x="150" y="228" text-anchor="middle" class="plab" font-size="11">PRESSURE</text>
+          </svg>
+          <div class="cname mono">WASHINGTON, D.C.</div>
+        </div>
+        <div class="clockcell">
+          <svg viewBox="0 0 300 300" class="dialsvg" id="dial-atl" role="img" aria-label="Atlanta pressure clock">
+            <circle cx="150" cy="150" r="132" fill="none" stroke="currentColor" stroke-width="2" opacity=".35"/>
+            <g class="ticks"></g>
+            <circle class="pring" cx="150" cy="150" r="112" fill="none" stroke-width="12" transform="rotate(-90 150 150)"/>
+            <g class="marks"></g>
+            <line class="nowtick" x1="150" y1="18" x2="150" y2="40" stroke="#FFD500" stroke-width="4"/>
+            <line class="hand" x1="150" y1="150" x2="150" y2="44" stroke="currentColor" stroke-width="4"/>
+            <circle cx="150" cy="150" r="7" fill="currentColor"/>
+            <text x="150" y="205" text-anchor="middle" class="pnum" font-size="44">0</text>
+            <text x="150" y="228" text-anchor="middle" class="plab" font-size="11">PRESSURE</text>
+          </svg>
+          <div class="cname mono">ATLANTA · THE CORRIDOR</div>
+        </div>
+      </div>
+      <div class="clockctl">
+        <button class="playbtn mono" id="play" aria-pressed="false">&#9654; RUN THE CLOCK</button>
+        <input type="range" id="clock" min="0" max="100" value="0" aria-label="Master timeline Jan 2025 to Dec 2026">
+      </div>
+      <div class="clockread mono" id="clockread"></div>
+      <div class="clocklegend mono" id="clocklegend"></div>
+      <p class="srcnote">SAME HAND · SAME RATE — THE DIALS MEASURE 24 MONTHS, JAN '25 → DEC '26. PRESSURE IS AN ILLUSTRATIVE INDEX BUILT FROM THE DOCUMENTED BEATS; THE BEATS ARE SOURCED, THE CURVE IS A MODEL. <span class="tier">SVNIF · MODELED</span></p>
+    </div>
+
+    <div class="grid2" style="margin-top:44px;align-items:center">
+      <div class="reveal">
+        <div class="big8 ab">8×</div>
+        <p class="mono" style="font-size:13px;letter-spacing:.08em;max-width:420px">THE RECEIPT — BY NOV 2025, THE D.C. REGION'S UNEMPLOYMENT RATE HAD CLIMBED <b>EIGHT TIMES FASTER</b> THAN THE NATIONAL AVERAGE SINCE JANUARY.</p>
+        <p class="srcnote">SRC · BROOKINGS VIA WASHINGTON BLADE, NOV 2025 <span class="tier">T2</span></p>
+      </div>
+      <div class="reveal">
+        <span class="stampx" style="color:var(--pnk)">THE LAG IS THE STORY</span>
+        <p class="lede" style="margin-top:22px">The debunk period wasn't wrong about the data it had. It was early. Part Two is built so Atlanta's answer is on the record <em>before</em> the narrative forms — either way.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 THE CORRIDOR ================= -->
+<section class="slide dark" id="s02" data-ch="02">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>02</b> THE CORRIDOR · ONE CAMPUS, FOUR ZIPS</div>
+    <h2 class="ab h-lg reveal">D.C. WAS WIDE AND SHALLOW.<br>ATLANTA IS <span class="hl-p">NARROW AND DEEP.</span></h2>
+    <p class="lede reveal">Federal workers were ~9% of a huge, diversified D.C. economy. Atlanta's shock concentrates on one campus and the four ZIP codes around it — a corridor a metro dashboard cannot see.</p>
+
+    <div class="mapbox reveal" style="margin-top:30px">
+      <div class="campus mono"><i></i>CDC · CLIFTON RD CAMPUS · ~13,000 EMPLOYEES · ~10,000 IN GEORGIA <span class="tier" style="color:var(--cha)">T1</span></div>
+      <div class="zips">
+        <div class="zip"><b>30329</b><small>CLIFTON / EMORY N</small></div>
+        <div class="zip"><b>30033</b><small>N DECATUR</small></div>
+        <div class="zip"><b>30030</b><small>CITY OF DECATUR</small></div>
+        <div class="zip"><b>30307</b><small>LAKE CLAIRE / CANDLER PK</small></div>
+      </div>
+      <div class="wave">
+        <div class="ev">FEB '25 · PROBATIONARY CUTS</div>
+        <div class="ev">APR 1 '25 · <b>−2,400</b> RIF (≈800 RESCINDED)</div>
+        <div class="ev">OCT 10 '25 · <b>−1,300</b> DURING SHUTDOWN <span class="tier">T1 · COURT FILING</span></div>
+      </div>
+    </div>
+
+    <div class="counters reveal">
+      <div class="cnt"><div class="n">−3,000+</div><div class="l mono">CONFIRMED GONE BY END OF 2025 · ~¼ OF WORKFORCE <span class="tier">T2</span></div></div>
+      <div class="cnt"><div class="n">−4,300</div><div class="l mono">UNION ESTIMATE INCL. BUYOUTS · "UP TO ⅓" · TAGGED: ESTIMATE <span class="tier">T2 · AFGE 2883</span></div></div>
+      <div class="cnt"><div class="n c">−$334.4M</div><div class="l mono">CANCELED FEDERAL GRANTS · GA DEPT OF PUBLIC HEALTH <span class="tier">T1</span></div></div>
+    </div>
+    <p class="srcnote reveal">SRC · HEALTHBEAT/ROUGH DRAFT APR '25 · ATLANTA MAGAZINE OCT '25 · THE ATLANTA VOICE APR '26 · ATLANTA NEWS FIRST OCT '25</p>
+    <p class="serif-line reveal" style="margin-top:30px">Part One measured a market. <span class="t-c">Part Two measures a corridor.</span></p>
+  </div>
+</section>
+
+<!-- ================= 03 THE BUFFER ================= -->
+<section class="slide" id="s03" data-ch="03">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>03</b> THE BUFFER · WHY THE SIGNAL IS QUIET</div>
+    <h2 class="ab h-lg reveal">THE BUFFER MUTES THE SIGNAL.<br><span class="hl-c">IT DOESN'T STOP THE WATER.</span></h2>
+    <p class="lede reveal">Owners with deep equity don't panic-sell — they delay, convert to rentals, or exit quietly. The shock doesn't disappear; it re-routes into channels the dashboard doesn't price. Pick a household:</p>
+
+    <div class="bufbox reveal">
+      <div class="cohorts" role="group" aria-label="Household cohort">
+        <button class="mono" data-c="deep" aria-pressed="true">PRE-2015 OWNER · DEEP EQUITY</button>
+        <button class="mono" data-c="thin" aria-pressed="false">2021+ BUYER · THIN EQUITY · 3% RATE</button>
+        <button class="mono" data-c="rent" aria-pressed="false">RENTER · EARLY-CAREER</button>
+      </div>
+      <div class="bufsvgwrap">
+      <svg id="bufsvg" viewBox="0 0 1000 380" width="100%" role="img" aria-label="Shock routing diagram">
+        <rect x="20" y="150" width="190" height="70" fill="none" stroke="#0A0A0A" stroke-width="3"/>
+        <text x="40" y="180" fill="#0A0A0A">JOB SHOCK</text>
+        <text x="40" y="200" fill="#8C877A" font-size="10">T0 · INCOME STOPS</text>
+        <rect x="330" y="140" width="26" height="90" fill="#0A0A0A"/>
+        <text x="322" y="128" fill="#0A0A0A">EQUITY WALL</text>
+        <path class="path p-deep" d="M210 165 C 290 120, 380 90, 620 80"/>
+        <text x="640" y="84" fill="#57534A">DELAYED LISTING · MONTHS LATE</text>
+        <path class="path p-deep" d="M210 180 C 300 170, 420 150, 620 150"/>
+        <text x="640" y="154" fill="#57534A">RENTAL CONVERSION · OFF-MLS</text>
+        <path class="path p-deep" d="M210 195 C 300 220, 420 215, 620 210"/>
+        <text x="640" y="214" fill="#57534A">QUIET EXIT · RELOCATION</text>
+        <path class="path p-thin p-rent" d="M210 205 C 280 260, 380 300, 560 315" />
+        <text x="580" y="322" fill="#FF1A6B">STRAIGHT TO THE WATERLINE →</text>
+        <line x1="60" y1="345" x2="940" y2="345" stroke="#1E3CFF" stroke-width="5"/>
+        <text x="60" y="368" fill="#1E3CFF">WHAT THE MARKET MEASURES ENDS HERE</text>
+      </svg>
+      </div>
+      <p class="bufread" id="bufread"></p>
+      <p class="srcnote">MECHANISM · TENS OF THOUSANDS OF HIGH-EQUITY / PAID-OFF HOMES IN GREATER DECATUR RECORDS <span class="tier">T2</span> · LOCK-IN: 2021–22 MORTGAGES ≈3% VS ~6%+ TODAY <span class="tier">REFRESH</span></p>
+    </div>
+    <p class="serif-line reveal" style="margin-top:26px">Thin equity breaks abruptly. Deep equity <span class="t-b">disappears politely.</span></p>
+  </div>
+</section>
+
+<!-- ================= 04 THE RUNWAY ================= -->
+<section class="slide" id="s04" data-ch="04" style="background:var(--paper2)">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>04</b> THE PRESSURE STACK · A PARTICIPATORY INSTRUMENT</div>
+    <h2 class="ab h-lg reveal">HOW LONG IS <span class="hl-y">YOUR RUNWAY?</span></h2>
+    <p class="lede reveal">The layoff is not the whole load. 2026's cost stack decides how fast each month of cushion burns. Set the household. Watch the runway — and watch which domino fires first.</p>
+
+    <div class="runbox reveal">
+      <div class="tag fill-y mono" style="margin-bottom:20px">ILLUSTRATIVE MODEL · MIDPOINT ASSUMPTIONS · NOT ADVICE</div>
+      <div class="runin">
+        <div>
+          <div class="ctrl">
+            <label class="mono"><span>SEVERANCE / DEFERRED PAY</span><span id="sevout">3 MO</span></label>
+            <input type="range" id="sev" min="0" max="6" value="3" aria-label="Severance months">
+          </div>
+          <div class="ctrl">
+            <label class="mono"><span>SAVINGS CUSHION</span><span id="savout">2 MO EXPENSES</span></label>
+            <input type="range" id="sav" min="0" max="8" value="2" aria-label="Savings months">
+          </div>
+          <div class="tgl"><span>HEALTH COVERAGE CLIFF — ACA subsidies expired Jan 1 '26 · avg payment +58% (modeled +114% same-plan) · ~1 in 10 now uninsured <span class="tier">T1 · KFF · FRESH</span></span><button class="sw" data-k="aca" aria-pressed="true" aria-label="Toggle coverage cliff"></button></div>
+          <div class="tgl"><span>STUDENT LOANS — garnishment restarted May '25 · layoff <b>stops the PSLF clock</b> <span class="tier">T1 STRUCTURAL</span></span><button class="sw" data-k="loan" aria-pressed="true" aria-label="Toggle student loans"></button></div>
+          <div class="tgl"><span>CAR PAYMENT — ~$740 new / ~$530 used · repo 60–90 days after 2–3 misses <span class="tier">REFRESH</span></span><button class="sw" data-k="car" aria-pressed="true" aria-label="Toggle car payment"></button></div>
+          <div class="tgl"><span>CHILDCARE <span class="tier">REFRESH</span></span><button class="sw" data-k="kid" aria-pressed="false" aria-label="Toggle childcare"></button></div>
+        </div>
+        <div>
+          <div class="gauge">
+            <div class="lab mono">ESTIMATED RUNWAY BEFORE D6 · HOUSING</div>
+            <div class="months ab" id="months">—</div>
+            <div class="gtrack"><div class="gfill" id="gfill"></div></div>
+            <div class="firestrip mono" id="firestrip"></div>
+          </div>
+          <div class="counterp mono"><b>COUNTER-PRESSURES (THE HONEST COLUMN):</b> GA GAS UNDER ~$3 · FED EASING (3.50–3.75% AS OF JAN '26) · GA INCOME-TAX RATE CUTS · METRO HEALTHCARE HIRING ABSORPTION · <span class="tier">REFRESH AT PULL</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="serif-line reveal" style="margin-top:26px">The exit ramp from federal coverage <span class="t-p">doubled in price</span> the same month the severance ran out.</p>
+  </div>
+</section>
+
+<!-- ================= 05 THE CASCADE ================= -->
+<section class="slide dark" id="s05" data-ch="05">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>05</b> THE CASCADE BOARD · WHAT BREAKS FIRST</div>
+    <h2 class="ab h-lg reveal">THE LAYOFF IS THE FIRST DOMINO.<br><span class="hl-c">THE SCORE IS THE TRANSMISSION FLUID.</span></h2>
+    <p class="lede reveal">One income stops. Seven systems feel it — on a schedule. Fire the sequence and watch the two loops draw themselves.</p>
+
+    <div class="cascadebox reveal">
+      <button class="firebtn ab" id="fire">T0 · INCOME STOPS</button>
+      <button class="resetbtn mono" id="rst" hidden>RESET</button>
+      <div class="dominoes" id="dominoes">
+        <svg id="loopsvg" width="100%" height="100%" aria-hidden="true">
+          <path id="loopA" stroke="#FFD500" d=""/>
+          <path id="loopB" stroke="#1E3CFF" d=""/>
+          <text id="loopAt" fill="#FFD500" opacity="0"></text>
+          <text id="loopBt" fill="#1E3CFF" opacity="0"></text>
+        </svg>
+        <div class="dom" data-d="1"><div><div class="dno ab">D1</div><span class="lag mono">WEEKS 0–8</span></div><div><h5 class="ab">DISCRETIONARY BREAKS FIRST</h5><p>Travel, dining, subscriptions. Already in the record: the corridor's catering orders dipped. Butterfly: small-business revenue → local sales-tax base.</p><span class="fx tag mono" style="border-color:#DCD7C6">STATUS · DOCUMENTED</span></div></div>
+        <div class="dom" data-d="2"><div><div class="dno ab">D2</div><span class="lag mono">MONTHS 1–4</span></div><div><h5 class="ab">CREDIT FLOAT + RETIREMENT RAIDS</h5><p>Cards revolve at ~21%+. TSP hardship withdrawals shift the damage to the future. The score drops — and in Georgia, the score prices your <em>insurance</em>.</p><span class="fx tag mono" style="border-color:var(--yel);color:var(--yel)">LOOP A ARMED · SCORE → PREMIUM → BUDGET</span></div></div>
+        <div class="dom" data-d="3"><div><div class="dno ab">D3</div><span class="lag mono">DAY ~60 · ELECTION WINDOW</span></div><div><h5 class="ab">THE COVERAGE GAP — THE BALANCE SHEET BREAKS</h5><p>Federal TCC at ~102% of full premium vs a post-cliff ACA market. A measurable share go uninsured. One ER visit later: a medical collection — <b>the exact event Episode 03's composite demo fires.</b></p><span class="fx tag echo mono">ECHO · EP 03 · THE TRICKLE FEEDS THE TRUST MARKET</span></div></div>
+        <div class="dom" data-d="4"><div><div class="dno ab">D4</div><span class="lag mono">MONTHS 3–6</span></div><div><h5 class="ab">THE MOBILITY BREAK</h5><p>Two or three missed payments → repossession in 60–90 days. In transit-thin sprawl, the job-search radius collapses — and every later domino accelerates.</p><span class="fx tag mono" style="border-color:var(--blu);color:var(--blu)">LOOP B ARMED · REPO → SEARCH RADIUS → DURATION</span></div></div>
+        <div class="dom" data-d="5"><div><div class="dno ab">D5</div><span class="lag mono">MONTHS 3–9</span></div><div><h5 class="ab">THE STUDENT-LOAN STRAND</h5><p>Deferment exists, but interest accrues and the PSLF clock stops — years of a public-health careerist's 120-payment count, stranded. Prior delinquency converts re-employment into garnished re-employment.</p><span class="fx tag mono" style="border-color:#DCD7C6">15% GARNISHMENT ON THE NEXT JOB</span></div></div>
+        <div class="dom" data-d="6"><div><div class="dno ab">D6</div><span class="lag mono">MONTHS 4–12</span></div><div><h5 class="ab">HOUSING — THE PUBLIC RECORD BREAKS</h5><p>Renters first: Georgia dispossessory actions move in weeks. Owners: the 120-day federal runway, then Georgia's fast non-judicial track — Ch 13 filings spike just before first Tuesdays.</p><span class="fx tag mono" style="border-color:var(--pnk);color:var(--pnk)">RUNGS 4–5 · SEE THE WATERLINE</span></div></div>
+        <div class="dom" data-d="7"><div><div class="dno ab">D7</div><span class="lag mono">MONTHS 12–30</span></div><div><h5 class="ab">THE TAX + ESTATE HORIZON</h5><p>FiFa filings, tax sales, completed relocations — and, at the far end, school-enrollment effects on the district premium that underwrites the price level. Monitored, not claimed.</p><span class="fx tag mono" style="border-color:#DCD7C6">INFERENCE · LOW CONFIDENCE · LONG HORIZON</span></div></div>
+      </div>
+      <div class="cascade-end" id="cend">
+        <div class="rule thin" style="background:var(--paper)"></div>
+        <p class="serif-line">The cascade doesn't just impoverish. <span class="t-p">It re-scores.</span></p>
+        <p class="mono" style="font-size:12.5px;letter-spacing:.06em;color:#DCD7C6;margin-top:12px">SPENDING BREAKS FIRST · THE BALANCE SHEET BREAKS AT DAY ~60 · THE PUBLIC RECORD BREAKS AT CHAPTER 13 · RENTERS BEFORE OWNERS · THIN EQUITY BEFORE DEEP</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 WATERLINE ================= -->
+<section class="slide" id="s06" data-ch="06">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>06</b> BELOW THE WATERLINE · THE DISTRESS LADDER</div>
+    <h2 class="ab h-lg reveal">THE MARKET MEASURES WHO'S SELLING.<br><span class="hl-b">THE COURTHOUSE MEASURES WHO'S SINKING.</span></h2>
+
+    <div class="waterbox reveal">
+      <div class="rung above"><div class="rn ab">A</div><div><h6 class="mono">MLS LISTINGS · PRICES · DOM</h6><p>Everything the sellers'-market dashboard can see. In a buffered corridor, the quietest instrument of all.</p></div><div class="lg mono">SURFACE</div></div>
+      <div class="waterline"><span class="mono">▼ THE WATERLINE — PUBLIC RECORD BEGINS</span><div class="wl"></div></div>
+      <div class="rung"><div class="rn ab">01</div><div><h6 class="mono">TSP HARDSHIP WITHDRAWALS <span class="tier">T1 · FRTIB · VERIFY</span></h6><p>The federal-specific stress gauge — damage shifted to the future.</p></div><div class="lg mono">0–3 MO</div></div>
+      <div class="rung"><div class="rn ab">02</div><div><h6 class="mono">CARD + AUTO DELINQUENCY <span class="tier">T2 · NY FED CCP</span></h6><p>Metro-level, quarterly, cohort-readable.</p></div><div class="lg mono">3–6 MO</div></div>
+      <div class="rung"><div class="rn ab">03</div><div><h6 class="mono">MORTGAGE 30/60/90 <span class="tier">T2 · ICE/MBA</span></h6><p>The 120-day federal runway before any first filing.</p></div><div class="lg mono">3–9 MO</div></div>
+      <div class="rung"><div class="rn ab">04</div><div><h6 class="mono">CHAPTER 13 FILINGS <span class="tier">T1 · NDGA BY ZIP</span></h6><p>In Georgia, the standard foreclosure-stop — filed just before sale dates. <b>It leads completed foreclosures.</b> Metro Atlanta has long carried among the nation's highest Ch 13 concentrations.</p></div><div class="lg mono">6–12 MO</div></div>
+      <div class="rung"><div class="rn ab">05</div><div><h6 class="mono">LEGAL-ORGAN FORECLOSURE ADS <span class="tier">T1 · THE CHAMPION</span></h6><p>Georgia is non-judicial: every pending sale must run <b>4 consecutive weeks</b> in the county legal organ before the first-Tuesday auction. An address-level public record <b>a month before it happens.</b></p></div><div class="lg mono">6–14 MO</div></div>
+      <div class="rung"><div class="rn ab">06</div><div><h6 class="mono">COMPLETED SALES / REO <span class="tier">T1 · DEEDS</span></h6><p>Courthouse steps, first Tuesday, every month.</p></div><div class="lg mono">+1 MO</div></div>
+      <div class="rung"><div class="rn ab">07</div><div><h6 class="mono">TAX FiFa → TAX SALES <span class="tier">T1 · DEKALB TAX COMM.</span></h6><p>The slow rung — property-tax delinquency surfacing a year or more out.</p></div><div class="lg mono">12–30 MO</div></div>
+      <div class="rung"><div class="rn ab">08</div><div><h6 class="mono">PROBATE / ESTATE SALES <span class="tier">T1 · CONTROL</span></h6><p>Demographic, not layoff-driven — used to <b>classify listing composition</b> so the corridor delta measures the right thing.</p></div><div class="lg mono">CONTROL</div></div>
+      <div class="tues mono"><i></i><i></i><i></i><i></i> FIRST-TUESDAY CADENCE · A DATED PUBLIC DRUMBEAT, TWELVE TIMES A YEAR</div>
+    </div>
+
+    <div class="dialbox reveal">
+      <div class="kicker mono">DEMONSTRATION · THE CHAPTER MIX DIAL</div>
+      <input type="range" id="dial" min="0" max="100" value="22" aria-label="Chapter 13 to Chapter 7 mix">
+      <div class="dialread mono"><span>CH 13 · FIGHTING FOR THE HOUSE</span><span>CH 7 · LETTING IT GO</span></div>
+      <div class="dialstate ab" id="dialstate"></div>
+      <p class="srcnote">A CORRIDOR MIX-SHIFT FROM 13 TOWARD 7 IS THE "STOPPED FIGHTING FOR THE HOME" SIGNAL — READABLE AT ZIP LEVEL IN FEDERAL COURT DATA <span class="tier">T1</span></p>
+    </div>
+
+    <div class="redres mono reveal">RED · RESERVED — IN THIS SERIES, RED APPEARS ONLY FOR ADVERSE OUTCOMES IN THE RECORD ITSELF. IT IS EARNED HERE ONLY IF RUNGS 05–07 DIVERGE. NOTHING ON THIS PAGE HAS EARNED IT YET.</div>
+  </div>
+</section>
+
+<!-- ================= 07 ATTENTION ================= -->
+<section class="slide dark" id="s07" data-ch="07">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>07</b> THE ATTENTION GAP</div>
+    <h2 class="ab h-lg reveal">THE MONEY TRICKLES DOWN.<br><span class="hl-p">THE ATTENTION DOESN'T.</span></h2>
+    <p class="lede reveal">D.C.'s trickle has a daily local-news apparatus narrating it. Atlanta's corridor gets episodic coverage of a concentrated shock. The gap is measurable — coverage gravity per 1,000 displaced workers — and the instrument is being pointed now.</p>
+    <div class="attn reveal">
+      <div class="abar"><div class="city mono">WASHINGTON, D.C.</div><div class="barzone"><div class="bar"></div></div><div class="note mono">DAILY BEAT · SUSTAINED STORYLINE · QUALITATIVE, PENDING QUANTIFICATION</div></div>
+      <div class="abar atl"><div class="city mono">ATLANTA · CLIFTON CORRIDOR</div><div class="barzone"><div class="bar"></div></div><div class="note mono">EPISODIC COVERAGE · HIGHER PER-WORKER CONCENTRATION</div></div>
+    </div>
+    <div class="pending mono reveal">INSTRUMENT STATUS · AWAITING FIRST PULL — BARS SHOWN ARE QUALITATIVE PLACEHOLDERS, LABELED AS SUCH ON PRINCIPLE</div>
+  </div>
+</section>
+
+<!-- ================= 08 CORRIDOR WATCH ================= -->
+<section class="slide" id="s08" data-ch="08">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>08</b> CORRIDOR WATCH · THE PRE-REGISTRATION</div>
+    <h2 class="ab h-lg reveal">WE WROTE THE ANSWERS<br><span class="hl-c">BEFORE THE DATA.</span></h2>
+    <p class="lede reveal">This is the credibility artifact. The test is registered, the branches are pre-written, and all three publish. Whatever the corridor does, the record shows we called the test before the answer.</p>
+
+    <div class="watch reveal">
+      <div class="kicker mono">THE FALSIFICATION TEST · REGISTERED AUG 14, 2026</div>
+      <p style="max-width:860px;font-size:16px">If corridor ZIPs <b class="mono">30329 · 30033 · 30030 · 30307</b> track the metro baseline within normal variance on listings, days-on-market, price-cut share, rental growth, <b>and</b> the distress ladder — foreclosure ads per 1,000 owner households, Ch 13/7 filings and mix, delinquency, FiFa — from Q4 2025 through Q3 2026, the "Atlanta trickle" as a household-finance event is <b>refuted</b>. Tested as difference-in-differences against matched non-federal DeKalb ZIPs: national level-shifts (the ACA cliff, the student-loan wave, rates) hit both arms and cancel. Only corridor <em>excess</em> counts.</p>
+      <div class="branches">
+        <div class="branch"><span class="bt mono">BRANCH 1</span><h5 class="ab">THE WAVE</h5><p>Corridor diverges above the waterline and below it. The lag arrived, on schedule, and the pre-registered window caught it.</p></div>
+        <div class="branch"><span class="bt mono">BRANCH 2</span><h5 class="ab">THE ABSORPTION</h5><p>No divergence anywhere. Equity buffers + hiring absorption metabolized the shock — published with equal prominence. The panic narrative was wrong, and we say so.</p></div>
+        <div class="branch"><span class="bt mono">BRANCH 3</span><h5 class="ab">BELOW THE WATERLINE</h5><p>Listings quiet; distress rungs active. The buffer thesis confirmed — stress surfacing under the market's surface, invisible to every dashboard now quoting 99% of ask.</p></div>
+      </div>
+      <div class="metricgrid">
+        <div class="tag fill-c mono" style="margin-bottom:14px">FIRST PULL · AUG 2026 · AGGREGATOR SNAPSHOTS (T3) · BASES &amp; DATES AS LABELED</div>
+        <table aria-label="Corridor watch metrics — first pull">
+          <tr><th>METRIC</th><th>30329</th><th>30033</th><th>30030</th><th>30307</th><th>ATL BASELINE</th></tr>
+          <tr><td>MEDIAN SALE · YoY</td><td>$552K · <b class="t-p">−4.8%</b><br><small>RF 3MO MAY</small></td><td>$496K · −0.3%<br><small>RF FEB</small></td><td>$715.5K · +0.3%<br><small>HZ MAR</small></td><td>$765K · +5.5%<br><small>RF MAR</small></td><td>$429K · −1.6%<br><small>RF 3MO MAY</small></td></tr>
+          <tr><td>DAYS ON MARKET · Δ YoY</td><td>35 · −9d<br><small>RF</small></td><td>65 · <b class="t-p">+10d</b><br><small>RF</small></td><td>32 · ~flat<br><small>HZ</small></td><td>54 · <b class="t-p">+25d</b><br><small>RF · WAS 29</small></td><td>54 · +5d<br><small>RF</small></td></tr>
+          <tr><td>PRICE-CUT SHARE · Δ YoY</td><td class="await">N/P</td><td><b class="t-p">45.3% · +24.9pt</b><br><small>OR ~JUN</small></td><td>21.6% · <b>−12.8pt</b><br><small>HZ MAR</small></td><td class="await">N/P</td><td>30.2% · −2.6pt<br><small>OR JUN</small></td></tr>
+          <tr><td>SALE-TO-LIST · Δ</td><td class="await">N/P</td><td>96.5% · <b class="t-p">−3.0pt</b><br><small>OR</small></td><td>99.05% · +0.1<br><small>HZ</small></td><td class="await">N/P</td><td>97.8% · flat<br><small>OR</small></td></tr>
+          <tr><td>ACTIVE INVENTORY · YoY</td><td>83 ACTIVE<br><small>MV AUG</small></td><td><b class="t-p">+39.3%</b> · NEW LISTINGS −29%<br><small>OR</small></td><td>3.9 MO SUPPLY<br><small>HZ</small></td><td class="await">N/P</td><td>5.4 MO vs 3.1<br><small>FMLS Q1</small></td></tr>
+          <tr><td>IN FORECLOSURE · COUNT</td><td>1 · 1 TO AUCTION<br><small>RT</small></td><td>5 · 5 TO AUCTION<br><small>RT</small></td><td class="await">N/P</td><td class="await">N/P</td><td class="await">—</td></tr>
+          <tr><td>CH 13/7 MIX · FiFa · LEGAL-ORGAN ADS</td><td class="await">AWAITING</td><td class="await">AWAITING</td><td class="await">AWAITING</td><td class="await">AWAITING</td><td class="await">RECORDS PULL SCHEDULED</td></tr>
+        </table>
+        <div class="pullverdict mono">FIRST-PULL READ · <b>MIXED — BRANCH-3-CONSISTENT, NOT CONFIRMED.</b> BELOW-HEADLINE DETERIORATION IN 30033 (CUTS +24.9PT WHILE METRO CUTS FELL −2.6PT · INVENTORY +39% · ASK-POWER −3PT). VELOCITY COLLAPSE IN 30307 (DOM 29→54 WHILE PRICE PRINTS +5.5% — THE POLITE DISAPPEARANCE). FORTRESS BEHAVIOR IN 30030 (CUTS FALLING, 38% OVER ASK — THE DISTRICT PREMIUM HOLDING). 30329 SOURCES DISAGREE WITH EACH OTHER. DISTRESS RUNGS: NEAR-ZERO COUNTS. ONE PULL · MIXED BASES · NO TREND CLAIM · CONFIDENCE: LOW.</div>
+      </div>
+      <div class="regstamp"><span class="stampx" style="color:var(--ink)">PUBLISHES EITHER WAY</span> <span class="tag mono" style="margin-left:14px">FIRST PULL LOGGED · AUG 2026 · NEXT: FIRST TUESDAY, MONTHLY</span></div>
+    </div>
+
+    <p class="lede reveal" style="margin-top:30px">The minimum publishable unit — every clause documented today: <em>within one year, the region lost a quarter to a third of the CDC's workforce and $334M+ in public-health grants; mutual aid has paid $200K+ toward former workers' rent while the housing dashboards register nothing — and no public instrument measures the corridor at the resolution where impact first appears.</em> Until now.</p>
+  </div>
+</section>
+
+<!-- ================= 09 RESTRAINT + SOURCES ================= -->
+<section class="slide dark" id="s09" data-ch="09">
+  <div class="wrap">
+    <div class="stageno mono reveal"><b>09</b> RESTRAINT · THE HOSTILE WITNESS · SOURCES</div>
+    <h2 class="ab h-lg reveal">WHAT THIS EPISODE<br><span class="hl-y">DOES NOT CLAIM.</span></h2>
+    <div class="restraint reveal" style="margin-top:26px">
+      <ul>
+        <li>No crash call. No race to a verdict the data hasn't rendered.</li>
+        <li>No individual-outcome attribution — no household's foreclosure is "because of" the layoff without its own record.</li>
+        <li>The union's −4,300 is an estimate and is labeled one, everywhere it appears.</li>
+        <li>Estate and relocation listings are controls, not evidence.</li>
+        <li>The absorption branch publishes with equal prominence. That is the deal.</li>
+        <li>Red stays reserved until the record itself turns adverse.</li>
+      </ul>
+      <div class="hostile">
+        <p class="q">"Georgia's economy has consistently broken records… we are well-positioned to continue that trajectory." — the Governor's office, on the cuts</p>
+        <p class="a mono">OUR ANSWER · WE DON'T ARGUE WITH IT. WE PRE-REGISTERED A TEST IT CANNOT OBJECT TO — AND IF ABSORPTION WINS, BRANCH 2 RUNS AT FULL PROMINENCE.</p>
+      </div>
+    </div>
+
+    <div class="field reveal">
+      <div class="fcard"><h6 class="mono">FIELD MANUAL · OWNERS</h6><p>Know the clock: 120 days of federal loss-mitigation runway before a first filing — then Georgia's non-judicial track moves fast, and the sale must be advertised four weeks in the legal organ. The calendar is public. Use it.</p></div>
+      <div class="fcard"><h6 class="mono">FIELD MANUAL · RENTERS</h6><p>Georgia dispossessory actions move in weeks, not months. Document everything, answer filings on time, and know DeKalb's assistance channels before you need them.</p></div>
+      <div class="fcard"><h6 class="mono">FIELD MANUAL · EVERYONE</h6><p>The day-~60 coverage election is the balance-sheet break. Price the options before the window — the post-cliff market punishes deciding late.</p></div>
+    </div>
+
+    <div class="srcs reveal">
+      <div class="kicker mono" style="color:var(--cha)">SOURCE REGISTER · TIERED</div>
+      <table aria-label="Sources">
+        <tr><th>DATE</th><th>SOURCE</th><th>CARRIES</th><th>TIER</th></tr>
+        <tr><td>APR '25</td><td>Healthbeat / Rough Draft Atlanta</td><td>13K/10K workforce · $334.4M DPH · GSU mechanism · Kemp statement</td><td>T2/T3</td></tr>
+        <tr><td>OCT '25</td><td>Atlanta Magazine · AFGE 2883</td><td>Oct wave · union −4,300 estimate · budget zero-outs</td><td>T2</td></tr>
+        <tr><td>OCT '25</td><td>Atlanta News First · court filing</td><td>Shutdown RIFs 1,100–1,200 (HHS)</td><td>T1 via T3</td></tr>
+        <tr><td>APR '26</td><td>The Atlanta Voice</td><td>~¼ workforce gone · mutual aid $200K+ incl. rent</td><td>T2</td></tr>
+        <tr><td>NOV '25</td><td>Brookings via Washington Blade</td><td>D.C. 8× unemployment climb · cushion cliff</td><td>T2</td></tr>
+        <tr><td>JUL '25</td><td>Redfin via Newsweek</td><td>D.C. listings up, sales down — the lag arrives</td><td>T2</td></tr>
+        <tr><td>JAN–MAR '26</td><td>KFF · CBO</td><td>ACA cliff: +58% actual / +114% modeled · ~1 in 10 uninsured</td><td>T1/T2 · FRESH</td></tr>
+        <tr><td>2026</td><td>Market aggregators</td><td>Decatur dashboard — and the place-name resolution trap ($715K vs $280K "Decatur")</td><td>T3</td></tr>
+      </table>
+      <p class="srcnote" style="margin-top:14px">FRAME SOURCE · CITY CAST DC (POST INACCESSIBLE TO AUTOMATED FETCH — DISCLOSED, NOT CITED) <span class="tier">T3</span></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b style="color:var(--paper)">INFERA</b> · THE MECHANISM SERIES · EP-05·2 · THE TRICKLE, PART TWO — THE CORRIDOR</div>
+    <div>SET IN ARCHIVO BLACK · SPACE GROTESK · JETBRAINS MONO · INSTRUMENT SERIF</div>
+    <div>ECHO · EP 03 THE TRUST MARKET · NEXT PULL: MONTHLY · FIRST TUESDAY</div>
+    <div>MEASUREMENT · COOKIELESS AGGREGATE COUNTS · NO COOKIES · NO IDs</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* reveals */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:.16});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+
+/* rail + dark chrome + progress */
+var slides=[].slice.call(document.querySelectorAll('.slide'));
+var rail=document.getElementById('rail');
+slides.forEach(function(s){var a=document.createElement('a');a.href='#'+s.id;a.setAttribute('aria-label','Chapter '+s.dataset.ch);rail.appendChild(a);});
+var dots=[].slice.call(rail.children);
+function onScroll(){
+  var y=scrollY,h=document.documentElement.scrollHeight-innerHeight;
+  document.getElementById('prog').style.width=(h?y/h*100:0)+'%';
+  var idx=0;
+  slides.forEach(function(s,i){if(s.offsetTop-innerHeight*0.5<=y)idx=i;});
+  dots.forEach(function(d,i){d.classList.toggle('done',i<idx);d.classList.toggle('cur',i===idx);});
+  document.body.classList.toggle('dark-on',slides[idx].classList.contains('dark'));
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* evidence mode */
+var ev=document.getElementById('evbtn');
+ev.addEventListener('click',function(){
+  var on=ev.getAttribute('aria-pressed')==='true';
+  ev.setAttribute('aria-pressed',String(!on));
+  ev.textContent='EVIDENCE MODE · '+(on?'OFF':'ON');
+  document.body.classList.toggle('ev-hide',on);
+});
+
+/* 00 cold open sequence */
+(function(){
+  var stamp=document.getElementById('dstamp');
+  var txt='TUESDAY \u00b7 APRIL 1, 2025 \u00b7 8:04 AM \u00b7 ATLANTA';
+  var rif=document.getElementById('rif'),pq=document.getElementById('pickq'),pk=document.getElementById('picks');
+  var started=false;
+  function seq(){
+    if(started)return;started=true;
+    var i=0;
+    function type(){ if(reduced){stamp.textContent=txt;after();return;}
+      stamp.textContent=txt.slice(0,++i); if(i<txt.length)setTimeout(type,26); else after(); }
+    function after(){
+      setTimeout(function(){rif.classList.add('on');
+        setTimeout(function(){
+          document.getElementById('flx').setAttribute('x2','560');
+          document.getElementById('flword').textContent='STOPPED';
+          setTimeout(function(){pq.style.opacity='1';pk.classList.add('on');},700);
+        },800);
+      },420);
+    }
+    type();
+  }
+  var io0=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){seq();io0.disconnect();}});},{threshold:.4});
+  io0.observe(document.getElementById('s00'));
+  var prof={
+    rent:{cushion:2,max:9,mark:'FIRST BREAK \u00b7 WEEKS AFTER THE CUSHION \u00b7 D6 HOUSING \u2014 DISPOSSESSORY MOVES IN WEEKS',
+      l1:'YOUR RUNWAY \u2248 2 MONTHS \u00b7 SEVERANCE THIN \u00b7 NO EQUITY WALL',
+      l2:'THE DASHBOARD NEVER SEES YOU AT ALL. RENTERS AREN\u2019T LISTINGS.'},
+    thin:{cushion:4,max:9,mark:'FIRST BREAK \u00b7 MONTH ~4 \u00b7 D3 COVERAGE GAP, THEN D4 THE CAR',
+      l1:'YOUR RUNWAY \u2248 4 MONTHS \u00b7 3% RATE = YOU HOLD UNTIL YOU CAN\u2019T',
+      l2:'THE MARKET SEES YOU IN MONTH 10\u201314 \u2014 AS A CHAPTER 13, NOT A PRICE CUT.'},
+    deep:{cushion:7,max:9,mark:'FIRST BREAK \u00b7 MONTH 8+ \u00b7 D2 SAVINGS DRAWDOWN \u00b7 THEN A QUIET EXIT',
+      l1:'YOUR RUNWAY \u2248 7+ MONTHS \u00b7 THE EQUITY WALL HOLDS \u2014 FOR A WHILE',
+      l2:'THE MARKET SEES AN ORDINARY LISTING, MONTHS LATE. IT NEVER SEES WHY.'}
+  };
+  var df=document.getElementById('dotfield');
+  for(var d=0;d<300;d++){var el=document.createElement('i');df.appendChild(el);}
+  var dots=[].slice.call(df.children);
+  dots[187].classList.add('you');
+  var lit=false;
+  document.querySelectorAll('.pick').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.pick').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+      var pr=prof[b.dataset.p];
+      var y=document.getElementById('youres');y.hidden=false;
+      var pct=pr.cushion/pr.max*100;
+      var yf=document.getElementById('yfill');yf.style.width='0';
+      requestAnimationFrame(function(){requestAnimationFrame(function(){yf.style.width=pct+'%';});});
+      var ym=document.getElementById('ymark');ym.style.left=pct+'%';ym.textContent=pr.mark;
+      document.getElementById('yline1').textContent=pr.l1;
+      document.getElementById('yline2').textContent=pr.l2;
+      if(!lit){lit=true;
+        dots.forEach(function(el,i){setTimeout(function(){el.classList.add('lit')},reduced?0:i*4);});
+      }
+      y.scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+    });
+  });
+})();
+
+/* 01 pressure clocks */
+(function(){
+  var T=0,playing=false,raf=null,last=0;
+  var clock=document.getElementById('clock'),read=document.getElementById('clockread'),play=document.getElementById('play');
+  var NOW=83;
+  var cities={
+    dc:{svg:document.getElementById('dial-dc'),
+        curve:[[0,4],[8,18],[16,24],[29,46],[46,85],[62,89],[83,91],[100,93]],
+        marks:[[8,'1'],[16,'2'],[29,'3'],[46,'4']]},
+    atl:{svg:document.getElementById('dial-atl'),
+        curve:[[0,2],[6,8],[13,15],[38,31],[48,44],[62,58],[83,74],[100,92]],
+        marks:[[6,'1'],[13,'2'],[38,'3'],[48,'4'],[93,'5']]}
+  };
+  var legend=[
+    ['dc',8,'DC 1 \u00b7 FEB \u201925 \u00b7 VIRAL PANIC (\u2212$139K CLAIM \u00b7 T5)'],
+    ['dc',16,'DC 2 \u00b7 FEB\u2013MAR \u00b7 THE DEBUNK \u2014 \u201c9% \u00b7 INSULATED\u201d'],
+    ['atl',6,'ATL 1 \u00b7 FEB \u201925 \u00b7 PROBATIONARY CUTS'],
+    ['atl',13,'ATL 2 \u00b7 APR 1 \u00b7 \u22122,400 RIF (\u2248800 RESCINDED)'],
+    ['dc',29,'DC 3 \u00b7 JUL \u00b7 LISTINGS \u2191 SALES \u2193 \u2014 THE LAG ARRIVES'],
+    ['atl',38,'ATL 3 \u00b7 OCT 10 \u00b7 \u22121,300 DURING SHUTDOWN'],
+    ['dc',46,'DC 4 \u00b7 NOV \u00b7 <b>8\u00d7</b> \u2014 THE RECEIPT'],
+    ['atl',48,'ATL 4 \u00b7 LATE \u201925 \u00b7 CUSHIONS RUN OUT'],
+    ['both',83,'NOW \u00b7 AUG \u201926 \u00b7 THE SIGNAL WINDOW \u2014 ATL CLIMBING FAR STEEPER THAN DC\u2019S CURRENT RATE'],
+    ['atl',93,'ATL 5 \u00b7 Q4 \u201926 \u00b7 THE PRE-REGISTERED TEST GETS SCORED']
+  ];
+  var lg=document.getElementById('clocklegend');
+  legend.forEach(function(L){var sp=document.createElement('span');sp.dataset.t=L[1];sp.innerHTML=L[2];lg.appendChild(sp);});
+  var lgs=[].slice.call(lg.children);
+  function pcurve(pts,t){
+    for(var i=1;i<pts.length;i++){
+      if(t<=pts[i][0]){
+        var a=pts[i-1],b=pts[i];
+        return a[1]+(b[1]-a[1])*((t-a[0])/(b[0]-a[0]));
+      }
+    }
+    return pts[pts.length-1][1];
+  }
+  var C=2*Math.PI*112;
+  Object.keys(cities).forEach(function(k){
+    var c=cities[k],svg=c.svg;
+    var tk=svg.querySelector('.ticks');
+    for(var m=0;m<24;m++){
+      var a=(m/24)*2*Math.PI-Math.PI/2;
+      var l=document.createElementNS('http://www.w3.org/2000/svg','line');
+      var r1=(m%6===0)?120:126;
+      l.setAttribute('x1',150+Math.cos(a)*r1);l.setAttribute('y1',150+Math.sin(a)*r1);
+      l.setAttribute('x2',150+Math.cos(a)*132);l.setAttribute('y2',150+Math.sin(a)*132);
+      l.setAttribute('stroke','currentColor');l.setAttribute('stroke-width',m%6===0?3:1.5);l.setAttribute('opacity',m%6===0?'.8':'.35');
+      tk.appendChild(l);
+    }
+    var mk=svg.querySelector('.marks');
+    c.marks.forEach(function(mm){
+      var a=(mm[0]/100)*2*Math.PI-Math.PI/2;
+      var g=document.createElementNS('http://www.w3.org/2000/svg','g');
+      var r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+      var x=150+Math.cos(a)*98,y=150+Math.sin(a)*98;
+      r.setAttribute('x',x-6);r.setAttribute('y',y-6);r.setAttribute('width',12);r.setAttribute('height',12);
+      r.setAttribute('fill','#FF1A6B');r.setAttribute('class','inc');r.dataset.t=mm[0];r.setAttribute('opacity','.3');
+      var t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',x);t.setAttribute('y',y+3.5);t.setAttribute('text-anchor','middle');
+      t.setAttribute('font-size','8');t.setAttribute('fill','#0A0A0A');t.setAttribute('font-family','JetBrains Mono');t.textContent=mm[1];
+      g.appendChild(r);g.appendChild(t);mk.appendChild(g);
+    });
+    var na=(NOW/100)*360;
+    svg.querySelector('.nowtick').setAttribute('transform','rotate('+na+' 150 150)');
+    c.ring=svg.querySelector('.pring');c.ring.setAttribute('stroke-dasharray',C);c.ring.setAttribute('stroke-dashoffset',C);
+    c.hand=svg.querySelector('.hand');c.num=svg.querySelector('.pnum');
+    c.incs=[].slice.call(mk.querySelectorAll('.inc'));
+  });
+  function pcol(p){return p<35?'#8C877A':(p<65?'#FFD500':'#FF1A6B');}
+  function setT(v){
+    T=Math.max(0,Math.min(100,v));clock.value=T;
+    var ang=T/100*360;
+    Object.keys(cities).forEach(function(k){
+      var c=cities[k],p=pcurve(c.curve,T);
+      c.hand.setAttribute('transform','rotate('+ang+' 150 150)');
+      c.ring.setAttribute('stroke-dashoffset',C*(1-p/100));
+      c.ring.style.stroke=pcol(p);
+      c.num.textContent=Math.round(p);
+      c.num.setAttribute('fill',pcol(p));
+      c.incs.forEach(function(r){r.setAttribute('opacity',+r.dataset.t<=T?'1':'.3');});
+    });
+    lgs.forEach(function(sp){sp.classList.toggle('hit',+sp.dataset.t<=T);});
+    var mo=Math.round(T/100*23);
+    var yr=2025+Math.floor(mo/12),mn=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][mo%12];
+    read.textContent=mn+' '+yr+' \u00b7 DC PRESSURE '+Math.round(pcurve(cities.dc.curve,T))+' \u00b7 ATL '+Math.round(pcurve(cities.atl.curve,T))+(Math.abs(T-NOW)<2?' \u00b7 \u25c0 YOU ARE HERE':'');
+  }
+  function step(ts){
+    if(!playing)return;
+    if(!last)last=ts;
+    var dt=(ts-last)/1000;last=ts;
+    setT(T+dt*11);
+    if(T>=100){toggle(false);return;}
+    raf=requestAnimationFrame(step);
+  }
+  function toggle(on){
+    playing=on;play.setAttribute('aria-pressed',String(on));
+    play.textContent=on?'\u275a\u275a PAUSE':'\u25b6 RUN THE CLOCK';
+    last=0;
+    if(on){if(T>=100)T=0;raf=requestAnimationFrame(step);}else if(raf)cancelAnimationFrame(raf);
+  }
+  play.addEventListener('click',function(){toggle(!playing)});
+  clock.addEventListener('input',function(){toggle(false);setT(+clock.value)});
+  setT(reduced?NOW:0);
+})();
+
+/* 03 buffer cohorts */
+var bmsg={
+ deep:'DEEP EQUITY · The shock re-routes: delayed listings, off-MLS rental conversions, quiet relocations. The dashboard reads calm because the exits don\u2019t price. Months later, some surface as ordinary-looking inventory.',
+ thin:'THIN EQUITY · 2021+ BUYER AT ~3% · Selling means surrendering the rate into 6%+ housing costs — so the household holds until it can\u2019t. When thin equity breaks, it breaks as a step-function: Chapter 13, then the legal-organ ad. Not a price cut.',
+ rent:'RENTER · No wall at all. Georgia dispossessory actions move in weeks — which is why the mutual-aid ledger, paying rent, saw this corridor\u2019s stress a year before any market metric could.'
+};
+var bbtns=[].slice.call(document.querySelectorAll('.cohorts button'));
+function setCohort(c){
+  bbtns.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.c===c));});
+  document.querySelectorAll('#bufsvg .path').forEach(function(p){
+    p.classList.toggle('hot',p.classList.contains('p-'+c));
+    p.style.stroke=p.classList.contains('hot')?(c==='deep'?'#1E3CFF':'#FF1A6B'):'';
+  });
+  document.getElementById('bufread').textContent=bmsg[c];
+}
+bbtns.forEach(function(b){b.addEventListener('click',function(){setCohort(b.dataset.c)})});
+setCohort('deep');
+
+/* 04 runway instrument */
+var st={aca:true,loan:true,car:true,kid:false};
+var sev=document.getElementById('sev'),sav=document.getElementById('sav');
+function burn(){var b=1;if(st.aca)b+=.45;if(st.loan)b+=.2;if(st.car)b+=.3;if(st.kid)b+=.35;return b;}
+function runway(){
+  var cushion=+sev.value + +sav.value;
+  var m=Math.max(0,Math.round(cushion/burn()*10)/10);
+  document.getElementById('sevout').textContent=sev.value+' MO';
+  document.getElementById('savout').textContent=sav.value+' MO EXPENSES';
+  document.getElementById('months').textContent=(m<=0?'0':m)+' MO';
+  var g=document.getElementById('gfill');
+  g.style.width=Math.min(100,m/9*100)+'%';
+  g.className='gfill'+(m<3?' crit':(m<5?' warn':''));
+  var fires=[['D1 DISCRETIONARY',0],['D2 CREDIT FLOAT',Math.min(m*.25,1.5)],['D3 COVERAGE GAP',2],['D4 MOBILITY',Math.max(3,m*.55)],['D6 HOUSING',m]];
+  document.getElementById('firestrip').innerHTML=fires.map(function(f){
+    return '<b>'+f[0]+'</b> · fires ≈ MO '+(Math.round(f[1]*10)/10);
+  }).join('<br>');
+}
+[sev,sav].forEach(function(r){r.addEventListener('input',runway)});
+document.querySelectorAll('.tgl .sw').forEach(function(sw){
+  sw.addEventListener('click',function(){
+    var on=sw.getAttribute('aria-pressed')==='true';
+    sw.setAttribute('aria-pressed',String(!on));st[sw.dataset.k]=!on;runway();
+  });
+});
+runway();
+
+/* 05 cascade board */
+var fire=document.getElementById('fire'),rst=document.getElementById('rst');
+var doms=[].slice.call(document.querySelectorAll('.dom'));
+var timers=[];
+function drawLoops(){
+  var box=document.getElementById('dominoes');
+  var svg=document.getElementById('loopsvg');
+  svg.setAttribute('width',box.clientWidth);svg.setAttribute('height',box.clientHeight);
+  function edge(i){var d=doms[i];return{y:d.offsetTop+34};}
+  var x=Math.min(box.clientWidth-30,box.clientWidth*0.94);
+  var a2=edge(1).y,a4=edge(3).y,a1=edge(1).y,a3=edge(3).y;
+  var pA=document.getElementById('loopA');
+  pA.setAttribute('d','M '+(x-40)+' '+a2+' C '+x+' '+a2+', '+x+' '+(a2+70)+', '+(x-40)+' '+(a2+90));
+  var tA=document.getElementById('loopAt');tA.setAttribute('x',x-160);tA.setAttribute('y',a2+120);tA.textContent='LOOP A · SCORE→PREMIUM';
+  var pB=document.getElementById('loopB');
+  pB.setAttribute('d','M '+(x-40)+' '+a4+' C '+(x+10)+' '+a4+', '+(x+10)+' '+(a4+95)+', '+(x-40)+' '+(a4+120));
+  var tB=document.getElementById('loopBt');tB.setAttribute('x',x-190);tB.setAttribute('y',a4+150);tB.textContent='LOOP B · REPO→DURATION';
+}
+function tip(i){doms[i].classList.add('tipped');
+  if(i===1||i===3){drawLoops();var p=document.getElementById(i===1?'loopA':'loopB');var t=document.getElementById(i===1?'loopAt':'loopBt');
+    requestAnimationFrame(function(){p.classList.add('draw');p.style.strokeDashoffset='0';t.style.opacity='1';});}
+  if(i===doms.length-1){document.getElementById('cend').classList.add('on');rst.hidden=false;}
+}
+fire.addEventListener('click',function(){
+  fire.disabled=true;
+  var step=reduced?0:850;
+  doms.forEach(function(_,i){timers.push(setTimeout(function(){tip(i)},200+i*step));});
+});
+rst.addEventListener('click',function(){
+  timers.forEach(clearTimeout);timers=[];
+  doms.forEach(function(d){d.classList.remove('tipped')});
+  ['loopA','loopB'].forEach(function(id){var p=document.getElementById(id);p.classList.remove('draw');p.style.strokeDashoffset='1000';});
+  ['loopAt','loopBt'].forEach(function(id){document.getElementById(id).style.opacity='0';});
+  document.getElementById('cend').classList.remove('on');
+  fire.disabled=false;rst.hidden=true;
+});
+addEventListener('resize',function(){if(doms[1].classList.contains('tipped'))drawLoops();});
+
+/* 06 mix dial */
+var dial=document.getElementById('dial'),ds=document.getElementById('dialstate');
+function setDial(){
+  var v=+dial.value;
+  ds.textContent = v<35 ? 'BASELINE · HOUSEHOLDS FIGHTING TO KEEP THE HOUSE'
+    : v<65 ? 'MIX SHIFTING · WATCH THIS NUMBER'
+    : 'CH 7 DOMINANT · THE "STOPPED FIGHTING" SIGNAL — IF THE CORRIDOR PRINTS THIS, IT LEADS THE EPISODE';
+  ds.style.color = v<35 ? '' : (v<65 ? 'var(--yel)' : 'var(--pnk)');
+}
+dial.addEventListener('input',setDial);setDial();
+})();
+</script>
+</body>
+</html>
