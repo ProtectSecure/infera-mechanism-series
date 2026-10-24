@@ -1,3 +1,4 @@
+function xgBand(v){return v<=20?"Low":v<=45?"Moderate":v<=70?"High":"Very high";}
 
 (function(){
 'use strict';
@@ -140,7 +141,7 @@ function doc(){
   Q.forEach(function(q){ var o=q.o[A[q.k]]; safe+=o[1]; later+=o[2]; txt.push(o[3]); });
   var sp=Math.round(safe/35*100), lp=Math.round(later/31*100);
   $('doc').innerHTML='<h3>Children\'s check-in data policy · draft</h3><p>Our check-in system exists for one purpose: to return every child to the right adult. We collect only what serves that purpose.</p>'+txt.map(function(t){return '<p>'+esc(t)+'</p>';}).join('')+'<p>We will review this policy each year and tell families when it changes.</p><div class="sig">Adopted by ________ on ________</div>';
-  $('mSafe').style.width=sp+'%'; $('vSafe').textContent=sp; $('mLater').style.width=lp+'%'; $('vLater').textContent=lp;
+  $('mSafe').style.width=sp+'%'; $('vSafe').textContent=xgBand(sp); $('mLater').style.width=lp+'%'; $('vLater').textContent=xgBand(lp);
 }
 doc();
 $('copy').addEventListener('click',function(){ var t=$('doc').innerText; var b=this; try{ navigator.clipboard.writeText(t).then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy the policy';},1600);},function(){b.textContent='Select and copy the text above';}); }catch(e){ b.textContent='Select and copy the text above'; } });

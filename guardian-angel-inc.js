@@ -1,3 +1,4 @@
+function xgBand(v){return v<=20?"Low":v<=45?"Moderate":v<=70?"High":"Very high";}
 
 (function(){
 'use strict';
@@ -133,8 +134,8 @@ function calcAngel(){
   panes.forEach(function(ring,ri){ ring.forEach(function(p,k){ var on=ri<=st.know; setTimeout(function(){ p.setAttribute('fill-opacity', on? (.55+.35*((k*7)%5)/5).toFixed(2) : '.06'); p.style.filter= on? 'url(#glow)':'none'; }, RM?0:(ri*120+k*14)); }); });
   core.setAttribute('fill-opacity',(.2+care/130).toFixed(2)); core.setAttribute('r',(30+care/5).toFixed(0));
   frames.forEach(function(f,i){ f.style.opacity= i===st.host?1:0; });
-  set('careVal',care); bar('careBar',care); set('careTxt',CARE_T[st.know]+(st.who===0?' No person ever reads it, so no one sits with you.':' A person can act on what it notices.'));
-  set('expVal',exp); bar('expBar',exp);
+  set('careVal',xgBand(care));$('careVal').classList.add('xg-band'); bar('careBar',care); set('careTxt',CARE_T[st.know]+(st.who===0?' No person ever reads it, so no one sits with you.':' A person can act on what it notices.'));
+  set('expVal',xgBand(exp));$('expVal').classList.add('xg-band'); bar('expBar',exp);
   set('expTxt', exp<25?'Little is stored, and few could reach it.':exp<50?'A meaningful record exists outside your head.':exp<75?'A detailed record of your life sits where others can reach it.':'Close to a complete copy of you, readable by more people than you would choose.');
   var a=HOST_A[st.host].slice(); if(st.who>0) a.unshift(WHO_A[st.who]);
   $('askers').innerHTML=a.map(function(x){return '<li>'+esc(x)+'</li>';}).join('');
@@ -235,7 +236,7 @@ calcAngel();
       return '<div class="lrow">'+nm+'<div class="lb"><span class="lr" style="width:'+(m.r/max*100)+'%"></span><span class="lc" style="width:'+(m.c/max*100)+'%"></span><span class="ld" style="width:'+(m.d/max*100)+'%"></span></div><span class="lnum">'+n+'</span></div>'; }).join('');
     var named=Object.keys(pulls).filter(function(k){return pulls[k];}), nt=Object.keys(S.noticed);
     $('weakfile').innerHTML=named.map(function(k){return '<span>'+CATS[k]+'</span>';}).join('')+nt.map(function(k){return '<span class="inf">'+CATS[k]+' · inferred</span>';}).join('') || '<span>Nothing yet</span>';
-    $('weaknote').textContent=(nt.length? nt.length+' of these he never told it; it inferred them from his inner life. ':'')+'Stored '+HO[st.host]+'. In Room B that setting gives this file an exposure score of '+$('expVal').textContent+'.';
+    $('weaknote').textContent=(nt.length? nt.length+' of these he never told it; it inferred them from his inner life. ':'')+'Stored '+HO[st.host]+'. In Room B that setting gives this file an exposure band of '+$('expVal').textContent.toLowerCase()+'.';
   }
   function finish(){ clearInterval(timer); timer=null; }
   function restart(){ line(); clearInterval(timer); idx=0; S=fresh(); $('feed').innerHTML=''; paint();
@@ -292,7 +293,7 @@ function calcSelves(){
   wp=Math.min(100,wp); ru=Math.min(100,ru);
   strips.querySelectorAll('.strip').forEach(function(b,i){ var on= model===2 ? true : brought[i]; b.setAttribute('aria-pressed',String(on)); b.querySelector('small').textContent= model===2 && !brought[i] ? 'LINKED WITHOUT ASKING' : (brought[i]?'BROUGHT IN':'KEPT APART'); });
   mesh.classList.toggle('on',model===2);
-  set('wpVal',wp); bar('wpBar',wp); set('ruVal',ru); bar('ruBar',ru); set('dread',t);
+  set('wpVal',xgBand(wp));$('wpVal').classList.add('xg-band'); bar('wpBar',wp); set('ruVal',xgBand(ru));$('ruVal').classList.add('xg-band'); bar('ruBar',ru); set('dread',t);
 }
 strips.querySelectorAll('.strip').forEach(function(b){ b.addEventListener('click',function(){ var i=+b.dataset.p; brought[i]=!brought[i]; calcSelves(); }); });
 document.querySelectorAll('#models button').forEach(function(b){ b.addEventListener('click',function(){ model=+b.dataset.m; document.querySelectorAll('#models button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));}); calcSelves(); }); });

@@ -1,3 +1,4 @@
+function xgBand(v){return v<=20?"Low":v<=45?"Moderate":v<=70?"High":"Very high";}
 
 (function(){
 const NS="http://www.w3.org/2000/svg";
@@ -326,7 +327,7 @@ function drawDial(){
   document.querySelectorAll('.seg[data-d="keep"] button').forEach(b=>b.disabled=!streaming);
   const r=RA[st.aud]+(streaming?RK[st.keep]:0), e=EA[st.aud]+(video?EF[st.frame]:0)+(streaming?EK[st.keep]:0);
   const reach=Math.round(r/8*100), exp=Math.round(e/12*100);
-  count(reachV,reachNow,reach);count(expV,expNow,exp);reachNow=reach;expNow=exp;
+  reachV.textContent=xgBand(reach);expV.textContent=xgBand(exp);reachV.classList.add("xg-band");expV.classList.add("xg-band");reachNow=reach;expNow=exp;
   reachB.style.width=reach+"%";expB.style.width=exp+"%";
   let rp,ep;
   if(!streaming)rp="Only people who can come in person can worship with you. That leaves out the 8% of adults who worship only online. "+chip("F");
@@ -341,7 +342,7 @@ function drawDial(){
   const Wd={public:"anyone, anywhere",link:"anyone holding the link",login:"signed-in members",audio:"listeners only; the reflection becomes a voice",none:"no one outside the room; nothing is reflected"}[st.aud];
   const F=!video?"":(st.frame==="room"?"faces in the pews":"the pulpit and choir, the pews left out");
   const Kp=!streaming?"":({forever:"indefinitely",week:"for a week",live:"only while live"})[st.keep];
-  document.getElementById("whoOut").innerHTML=`<b>The reflection is the stream.</b> Visible to ${Wd}${F?", showing "+F:""}${Kp?", "+Kp:""}. Its sharpness is the exposure score.`;
+  document.getElementById("whoOut").innerHTML=`<b>The reflection is the stream.</b> Visible to ${Wd}${F?", showing "+F:""}${Kp?", "+Kp:""}. Its sharpness is the exposure band.`;
   mir.redraw();
 }
 document.querySelectorAll(".seg").forEach(g=>g.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{if(b.disabled)return;st[g.dataset.d]=b.dataset.v;g.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));drawDial();})));
