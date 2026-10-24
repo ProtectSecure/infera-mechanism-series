@@ -1,183 +1,119 @@
-# The Attention Front — Standing Instrument Spec
+# The Attention Front · Standing Instrument Spec v2
 
-**Type:** Standing instrument (not an episode)
-**Status:** Spec drafted — awaiting human approval for build
-**Position:** Sits in publication nav alongside Systems Atlas, Claims Atlas, Case File
-**Date drafted:** 27 May 2026
+**Type:** Standing instrument (not an episode). Sits in nav beside Systems Atlas, Claims Atlas, Case File.
+**Status:** v2, revised 23 October 2026. Still awaiting human approval to build. v2 adds three panels earned by work published since May, aligns the visual treatment with the house style, and proposes a midterm-week launch.
+**Lives at:** /attention-front
+
+---
+
+## What changed in v2, and why
+
+The May spec described a mechanism monitor in the abstract. Since then three Field Notes did by hand what this page would do on a schedule:
+
+- **Field Note № 04 The Loudest Story** measured what dominated a day.
+- **Field Note № 08 Under the Noise** found what slid past while attention was elsewhere: a surveillance law three days from lapse, a $1.5 trillion defense bill marked up behind closed doors.
+- **Field Note № 12 The Ventriloquist** tracked the voices of the dead in campaigns and pulpits eleven days before the midterms.
+
+v2 turns those three habits into panels. Also: the May spec called for a dark palette. The publication's house style is now a light paper ground with glass drawn in code. v2 follows the house style.
 
 ---
 
 ## What this is
 
-A live, always-on page that monitors what is currently dominating public attention across U.S. and global discourse, decomposed by mechanism rather than by topic. Unlike the publication's episodes (slow, deep, definitive) and field dispatches (medium, geographically specific, empirical), the Attention Front is a **continuous instrument** — refreshed on a regular cadence, never "finished," readable as a snapshot or as a trend.
+A live page that reports the **shape** of public attention, decomposed by mechanism rather than topic. Episodes are slow and definitive; Field Notes are monthly; Briefs follow clocks. The Attention Front is continuous: refreshed on a public cadence, never finished, readable as a snapshot or a trend.
 
-It is the publication's answer to the implicit question: *"You spend whole episodes describing mechanisms — what is the persuasion machine actually doing right now?"*
+## What it is not (unchanged)
 
-The answer lives at /attention-front.
+Not an episode (no thesis). Not a dashboard for its own sake. Not a news aggregator. Not real-time to the second. No personalization, no predictions, no per-topic commentary, no virality contest.
 
----
+## Why it exists (unchanged, sharpened)
 
-## What it is not
-
-- **Not an episode.** No six-act chassis. No compression point. No claim corpus. No counter-read defender hosting (per claim). The page reports observed activity; it does not argue a thesis.
-- **Not a dashboard for the sake of dashboard.** Every panel has to earn its presence by surfacing something the episodes cannot — namely, *velocity, dominance, displacement, and timing* of current attention flows.
-- **Not a news aggregator.** The publication will not compete with news sites on topic coverage. The Attention Front reports the *shape* of attention, not the substance.
-- **Not real-time-of-the-second.** Refresh cadence is hourly to daily depending on panel, not sub-second. The instrument is editorial, not algorithmic.
+1. **It demonstrates the mechanism.** EP 02 The Feed Engine and EP 04 The Influence War describe; this page shows the same mechanism running today.
+2. **It gives readers a reason to return** between episodes.
+3. **It builds a record.** Archived daily, it becomes evidence for future episodes and a check on our own claims.
 
 ---
 
-## Why it exists
+## Panel architecture (v2)
 
-Three editorial functions, each load-bearing:
+Panels 1 to 5 are carried from v1 with no change in substance. Panels 6 to 8 are new.
 
-1. **It demonstrates the mechanism the episodes describe.** When the persuasion machine optimizes for engagement-maximizing rage, the Attention Front shows the resulting rage spike *as it happens*. Readers can verify the episodic claim against the live page.
+| # | Panel | Refresh | Grammar | Origin |
+|---|---|---|---|---|
+| 1 | Top Salience | hourly, waking hours | Liquid Columns | v1 |
+| 2 | Engagement Architecture (outrage / curiosity / recognition / mobilization) | 4 hours | Stacked Field | v1 |
+| 3 | Convergence vs Polarization, with a "quiet bipartisan agreement" callout | daily | Radial Dial | v1 |
+| 4 | Lifecycle Trajectory | daily | Flow Rivers | v1 |
+| 5 | Source Diversity (T1 to T5) | weekly | Constellation Field | v1 |
+| 6 | **Under the Noise** | daily | Undertow (a thin second river beneath Panel 4) | Field Note № 08 |
+| 7 | **Synthetic Voices** | daily in election season, weekly otherwise | Case wall | Field Note № 12 · EP 09 |
+| 8 | **Sabbath Dip** | weekly | Seven-segment week clock | Faith Layer 07 (planned) |
 
-2. **It cools the temperature on episode releases.** A publication that ships one major episode every few weeks has a discoverability problem in the off-weeks. The Attention Front gives readers a reason to return between episodes.
+### Panel 6 · Under the Noise
 
-3. **It builds an empirical track record.** Over months, the Attention Front accumulates a longitudinal record of what dominated public attention and for how long. That record becomes its own evidence base for future episodes (the *Discourse Cartography* skill in the agent library is the operationalization).
+The public schedule underneath the loud story: rules entering Federal Register Public Inspection, hearings, filing deadlines and expirations that drew little attention on days when one topic dominated. Each item is paired with the topic that dominated attention that day. Source substrate: The Desk (Tomorrow Board, Federal Register PI Scan), plus Field Note № 11's Public Inspection method.
 
----
+**Discipline:** the panel shows *coincidence*, never intent. "Low attention on a high-attention day" is the claim; "buried on purpose" is not, unless separately evidenced to episode standard.
 
-## Panel architecture (v1)
+### Panel 7 · Synthetic Voices
 
-Five panels. Each refreshes on its own cadence. Each cites its sources at the bottom of the panel.
+A labeled log of synthetic speech by real people that reached public attention, with the dead flagged separately. Columns: who, for whom, consent documented (yes / no / unknown), labeled (yes / no), platform, label tier. Seeded from The Ventriloquist's dated case table.
 
-### Panel 1 · Top Salience (refresh: hourly during waking hours)
+**Discipline:** entries require two independent reports. The page never rates whether a synthetic message was persuasive. Consent and labeling are reported as observed.
 
-The current top 10 topics dominating U.S. discourse, ranked by composite salience score across platform engagement, news article volume, search velocity. Each entry shows:
-- Topic label (deliberately neutral phrasing — no editorial tilt)
-- Salience score (0-100)
-- Velocity (rising, plateau, declining)
-- Lifecycle stage (emerging, dominant, persistent, declining, residual)
-- Geographic concentration (national, regional, specific market)
+**Launch fit:** the 2026 midterms are November 3. A pre-election and post-election snapshot of this panel is the most direct test of The Ventriloquist's watch item ("no 2026 midterm ad using an AI-resurrected dead person found").
 
-**The discipline:** topics are described in mechanism-neutral terms. *"School board meeting attendance"* not *"angry parents at school board."* *"Federal infrastructure spending bill"* not *"Biden infrastructure win"* or *"Biden infrastructure failure."*
+### Panel 8 · Sabbath Dip
 
-### Panel 2 · Engagement Architecture (refresh: every 4 hours)
+How much the attention curve flattens during common rest windows (Friday sundown to Saturday sundown, Sunday morning, Friday midday). Reported as observed dips or non-dips by source type. It links to Faith Layer 07 *A Palace in Time*.
 
-For each of the top 5 salience topics, decompose the engagement signal:
-- Outrage share of engagement
-- Curiosity share of engagement
-- Recognition share of engagement
-- Mobilization share of engagement
-- Unclassified share of engagement
-
-Display: stacked horizontal bar per topic.
-
-**The discipline:** outrage share is the most editorially sensitive metric. The page must not imply *outrage is bad*, only *outrage dominates*. The publication's voice describes; the reader interprets.
-
-### Panel 3 · Convergence vs Polarization (refresh: daily)
-
-For each of the top 5 salience topics, show whether public discourse is *converging* (left-leaning and right-leaning voters increasingly agreeing) or *polarizing* (increasingly disagreeing) over the last 30 days. Three-state display: converging / stable / polarizing. Includes a "quiet bipartisan agreement" callout for topics where polarization framing in media is high but actual public agreement is also high (the Common Ground Detector skill operationalizes this).
-
-**The discipline:** convergence findings always show the disagreeing-minority share alongside. The page never implies unanimous agreement.
-
-### Panel 4 · Lifecycle Trajectory (refresh: daily)
-
-A timeline view of the last 30 days showing which topics emerged, peaked, persisted, declined. The visualization is a stack of horizontal lifelines, color-coded by stage. The reader sees the rhythm: topics that lasted two days, topics that lasted two weeks, topics that came back after a gap.
-
-**The discipline:** this is the panel where the *Discourse Cartography* skill does most of its work. The page reports observed lifecycle; it does not predict.
-
-### Panel 5 · Source Diversity (refresh: weekly)
-
-For the top 10 salience topics of the past week, show the **source-diversity score** — how many distinct source types contributed to the topic's salience (T1 official, T2 institutional, T3 mainstream, T4 partisan, T5 attention-optimized). Topics dominated by T5 sources (engagement-optimized content) get a yellow flag indicating *low source diversity, high engagement load*. This is the page's quiet signal that a topic may be more atmospheric than substantive.
-
-**The discipline:** source tiers are not value judgments. T5 content can be true. T1 content can be wrong. The diversity score reports *distribution*, not *quality*.
+**Discipline:** no claim that rest is or is not observed by any group. The panel measures platform activity, not piety.
 
 ---
 
-## Where the data comes from
+## Data sources
 
-The Attention Front depends on signal adapters that are part of the agent library and Infera coverage infrastructure. Each panel maps to one or more adapters:
-
-| Panel | Primary adapter | Secondary adapter |
+| Panel | Primary adapter | Secondary |
 |---|---|---|
-| 1 · Top Salience | discourse-cartography | civic-pulse (for civic-engagement spikes) |
-| 2 · Engagement Architecture | signal-interpretation (markets/sports/geopolitics extensions) | source-classifier |
-| 3 · Convergence vs Polarization | common-ground-detector | (none) |
-| 4 · Lifecycle Trajectory | discourse-cartography | anomaly-watch |
-| 5 · Source Diversity | source-classifier | source-triage |
+| 1 | discourse-cartography | civic-pulse |
+| 2 | signal-interpretation | source-classifier |
+| 3 | common-ground-detector | (none) |
+| 4 | discourse-cartography | anomaly-watch |
+| 5 | source-classifier | source-triage |
+| 6 | tomorrow-board · mandated-report-radar | why-now-engine |
+| 7 | source-triage · narrative-integrity | trust-audit |
+| 8 | discourse-cartography | (none) |
 
-If an adapter is offline or its data is stale, the corresponding panel displays a *Stale* badge with the timestamp of last successful refresh. The page never silently presents stale data as current.
-
----
+Stale data shows a **Stale** badge with the last successful refresh. The page never presents stale data as current.
 
 ## Editorial governance
 
-The Attention Front is governed by the **same Four Founding Refusals** as the rest of the publication:
+The four founding refusals: no partisanship, no conspiracy, no dystopia, no mind-control framing. Modeled metrics are labeled INFERENCE; counted metrics are labeled FACT or REPORTED by source. Voice rules: declarative, no exclamation marks, no dashes.
 
-1. **No partisanship.** Topic labels are mechanism-neutral. Partisan framings are not adopted in the page's voice even when they dominate the discourse the page reports.
-2. **No conspiracy.** Lifecycle and salience are reported as observed; coordinated-amplification claims require the same evidentiary bar as any episode claim.
-3. **No dystopia.** Every modeled metric (engagement-architecture decomposition, source-diversity score) is labeled as inferred rather than measured. Documented metrics (article counts, search velocity) are labeled as such.
-4. **No mind-control framing.** The page reports what is dominating attention. It does not assert that the dominance was engineered intentionally or that any specific reader has been manipulated by it.
+## Reader surfaces
 
-The page also imports the publication's standard voice rules: declarative, italics for emphasis, no exclamation marks, banned words absent, no imperative "believe."
-
----
-
-## What the page does NOT do
-
-Important boundaries:
-
-- **No personalization.** The Attention Front shows every reader the same panels. There is no algorithmic feed. The page is the same for everyone, refreshed on a public cadence.
-- **No predictions.** The page does not forecast which topics will dominate tomorrow. It reports what is dominating now.
-- **No commentary per topic.** No "Infera's take" on a specific item. The instrument reports flow; episodes do interpretation.
-- **No virality contest.** The page does not amplify what's hot; it observes what's hot.
-
----
-
-## Reader interaction surfaces
-
-The page is mostly read, not operated. Three small interactions:
-
-1. **Refresh button** in the header (manual refresh; the page auto-refreshes on cadence).
-2. **Time-machine slider** at the bottom: drag back to view the Top Salience snapshot from any prior day in the last 90 days.
-3. **Cite this snapshot** button: generates a citable URL with the current timestamp embedded, so researchers, journalists, and future readers can reference a specific state of the page.
-
----
+Refresh button; 90-day time-machine slider; **Cite this snapshot** (timestamped URL). New: **Seen in an episode** chips. When a panel item matches a mechanism the publication has covered, a small chip links to it (for example a synthetic-voice entry links to EP 09; an Under the Noise utility filing links to Same Building, Two Bills).
 
 ## Visual treatment
 
-Dark editorial palette consistent with the rest of the publication. Each panel uses a different grammar from the visual library:
-
-- Panel 1 · Top Salience — **Liquid Columns** (rising/falling bars)
-- Panel 2 · Engagement Architecture — **Stacked Field** (variant of Window Grid)
-- Panel 3 · Convergence vs Polarization — **Radial Dial** (compass needle per topic)
-- Panel 4 · Lifecycle Trajectory — **Flow Rivers** (horizontal lifelines)
-- Panel 5 · Source Diversity — **Constellation Field** (dots clustered by tier)
-
-Each panel renders gracefully in reduced-motion mode (static frames; no breathing animations).
-
----
+House style: light paper ground, glass drawn in code, Newsreader and Instrument Sans with IBM Plex Mono for data. Each panel keeps its v1 grammar. Reduced-motion renders static frames.
 
 ## Integration with episodes
 
-Episodes can deep-link into the Attention Front. Example: an episode about election-night narrative dynamics can include a link to *"Attention Front: see today's lifecycle trajectory for this topic."* This connects the slow editorial work to the live observation work in a way that makes both more useful.
-
-The Case File can also surface relevant Attention Front state: *"While you were reading this episode, the Attention Front observed [topic] entering the lifecycle's dominant phase."* That contextualization deepens the reader's experience of being inside the system the publication describes.
-
----
+Episodes deep-link to panels; the Case File can say *"While you read this, Panel 7 logged a new synthetic voice."* EP 11 The Governance Layer links Panel 6 as the live view of "levers moving while nobody watched."
 
 ## Build sequence
 
-**Phase 1 — Static prototype.** Build the page shell with mocked data for all five panels. Verify visual treatment, navigation, and source-citation layout. No live adapters yet.
-
-**Phase 2 — Single-panel live wiring.** Wire Panel 1 (Top Salience) to its adapter. Verify refresh cadence, stale-detection, source-citation. Ship to internal review.
-
-**Phase 3 — Full live wiring.** Wire Panels 2-5 to their adapters. Verify cross-panel consistency. Ship to founding-500 internal preview.
-
-**Phase 4 — Public launch.** Add to main publication nav. Announce via field dispatch.
-
-**Phase 5 — Longitudinal record.** Begin archiving daily snapshots for future research and accountability. The page becomes its own historical instrument over time.
-
----
+1. **Static prototype** with mocked data for all eight panels.
+2. **Panel 7 live first**, by hand if adapters lag, from October 26 to November 10, bracketing the November 3 midterms. One editor, two-source rule.
+3. **Panels 1, 4, 6 live.** Then 2, 3, 5, 8.
+4. **Public launch** announced by a Field Note.
+5. **Longitudinal archive** of daily snapshots.
 
 ## Cadence
 
-Build target: alongside or shortly after EP 04 publishes. The instrument's editorial purpose is sharpest when it can be referenced from the persuasion-trilogy episodes as live demonstration of the mechanisms those episodes describe.
-
-Maintenance burden after launch: low, assuming adapters are healthy. The page is designed to be operated by the same single editor who runs the publication, with adapter health monitored by the existing Trust Audit and Anomaly Watch skills.
+Maintenance is low once adapters are healthy; monitored by Trust Audit and Anomaly Watch. The midterm window is the reason to approve Phase 1 and 2 now rather than with Season III.
 
 ---
 
-*Spec drafted 27 May 2026 · Connective Agent · awaiting human approval for build*
+*v1 drafted 27 May 2026 · v2 revised 23 October 2026 · Connective Agent · awaiting human approval for build*

@@ -1,69 +1,56 @@
-# /_drafts — In-Progress Editorial Briefs
+# /_drafts · In-Progress Editorial Briefs
 
-Locked editorial concepts and DISCOVER-mode briefs awaiting INVESTIGATE / RENDER. Not yet public. Not yet linked from production nav.
+Unpublished briefs and specs. Not linked from public nav until human sign-off and an approved claim corpus. Start with **[season-ii-weave-map.md](./season-ii-weave-map.md)**, which governs every brief below.
 
-## Current Drafts
+## Current drafts (consolidated 23 October 2026)
 
-### Season II — episodes + dispatches
+### Season II · Act III "Past You"
 
-| File | Type | Status | Next step |
-|------|------|--------|-----------|
-| [episode-04-influence-war-brief.md](./episode-04-influence-war-brief.md) | Episode (Season II · 04) | **Locked** — chassis + interactive + Case File integration spec'd | INVESTIGATE — claim corpus assembly (target: 22 rows) |
-| [episode-05-replayable-city-brief.md](./episode-05-replayable-city-brief.md) | Field Dispatch (between EP 04 and 05) | Brief drafted | Research consolidation on DC empirical anchors |
-| [episode-06-composite-state-brief.md](./episode-06-composite-state-brief.md) | Episode (Season II · 05) | DISCOVER complete | INVESTIGATE — claim corpus assembly (target: 30 rows) |
-| [episode-06-physical-plant-brief.md](./episode-06-physical-plant-brief.md) | Episode (Season II · 06) | DISCOVER complete | INVESTIGATE — claim corpus assembly (target: 35 rows) |
-| *The Convergence* (season-closer essay) | Season essay (not episode) | Spec emerging in conversation | Draft brief |
+| File | Piece | Status | Next step |
+|---|---|---|---|
+| [episode-09-synthetic-self-brief.md](./episode-09-synthetic-self-brief.md) | EP 09 The Synthetic Self (absorbs The Subscription Self) | DISCOVER v2 | INVESTIGATE: verify case wall; rent-ledger population data |
+| [episode-10-afterlife-of-your-data-brief.md](./episode-10-afterlife-of-your-data-brief.md) | EP 10 The Afterlife of Your Data (absorbs The Shadow Market) | DISCOVER v2 | Score Brief 007 (Nov 25); deceased-identity fraud source |
+| [episode-11-governance-layer-brief.md](./episode-11-governance-layer-brief.md) | EP 11 The Governance Layer · season closer · Part 12 Lever Map | DISCOVER v2 | Fill WATCH cells; print the scorecard |
 
-### Field reports (between-season bridges)
+### Companions
 
-| File | Type | Status | Next step |
-|------|------|--------|-----------|
-| [field-report-afterlife-of-you-brief.md](./field-report-afterlife-of-you-brief.md) | Field dispatch | Brief drafted | Research consolidation |
-| [field-report-when-the-hospital-closes-brief.md](./field-report-when-the-hospital-closes-brief.md) | Field dispatch | Brief drafted | Research consolidation |
-| [field-report-shadow-market-brief.md](./field-report-shadow-market-brief.md) | Field dispatch | Brief drafted | Research consolidation |
+| File | Piece | Status | Next step |
+|---|---|---|---|
+| [special-report-when-the-company-closes-brief.md](./special-report-when-the-company-closes-brief.md) | ★ Special Report · When the Company Closes | Brief v2 | Spirit hearing outcome; Character.AI after Nov 24 |
+| [faith-layer-07-09-and-hipaa-for-the-pews-brief.md](./faith-layer-07-09-and-hipaa-for-the-pews-brief.md) | Faith Layer 07 to 09 + HIPAA for the Pews brief | Planning brief | Saints in the Machine case list; pick the brief's clock |
 
-### Standing instruments + Season III
+### Standing instruments and Season III
 
-| File | Type | Status | Next step |
-|------|------|--------|-----------|
-| [attention-front-instrument-spec.md](./attention-front-instrument-spec.md) | Standing Instrument | Spec drafted | Human approval → Phase 1 static prototype build |
-| [season-iii-provisional-map.md](./season-iii-provisional-map.md) | Season-level brief | Provisional | Awaiting Season II completion + reader feedback signals |
+| File | Piece | Status | Next step |
+|---|---|---|---|
+| [attention-front-instrument-spec.md](./attention-front-instrument-spec.md) | The Attention Front | Spec v2, awaiting approval | Approve Panel 7 for the Nov 3 midterm window |
+| [season-iii-provisional-map.md](./season-iii-provisional-map.md) | Season III map | Provisional v2 | Lock after EP 11 |
 
-### EP 04 production assets
+### Retired pointers (kept so old links resolve)
 
-| File | Type | Status | Next step |
-|------|------|--------|-----------|
-| [episode-04-style-guide.md](./episode-04-style-guide.md) | Visual style guide | Locked | Reference for all EP 04 RENDER work |
-| [episode-04-hero-variations-comparison.md](./episode-04-hero-variations-comparison.md) | Hero direction comparison | Decision: **RIOT** | Iterate to V3 then scale across sections |
-| [episode-04-living-chassis-spec.md](./episode-04-living-chassis-spec.md) | Chassis-level ambient layer + easter eggs | Demonstrated, deployment matrix per section | Ship Phase 1 with HERO V3 build |
+episode-10-subscription-self · episode-11-afterlife-of-your-data · episode-12-governance-layer · field-dispatch-shadow-market · special-report-when-the-hospital-closes
 
-## Season II Arc (current map)
+### Archive (shipped episodes' production records)
+
+EP 04 brief, style guide, hero comparison and living-chassis spec · EP 05 Replayable City brief · EP 06 Composite State brief and corpus · EP 07 Physical Plant brief and corpus · EP 08 brief, corpus, anchor families, atlas spec, counter-read voices. These remain the source-of-truth editorial record for the rendered pages at the repo root.
+
+## Season II arc (live site numbering)
 
 ```
-EP 02  PERSONHOOD INC.        who you are            (composite)         · SHIPPED
-EP 03  THE TRUST MARKET       what you're priced at  (scoring)           · SHIPPED
-EP 04  THE INFLUENCE WAR      how you're moved       (coercion)          · BRIEF LOCKED
-EP 04½ THE REPLAYABLE CITY    where it lives physically (proof)          · BRIEF DRAFTED
-EP 05  THE COMPOSITE STATE    what you are to state  (parallel machine)  · DISCOVER COMPLETE
-EP 06  THE PHYSICAL PLANT     where all of it sits   (convergence)       · DISCOVER COMPLETE
+ACT I · II   01 Personhood Inc.  02 Feed Engine  03 Trust Market  04 Influence War
+             05 Replayable City  06 Composite State  07 Physical Plant  08 Class Engine   · LIVE
+ACT III      09 The Synthetic Self       · DISCOVER v2
+"PAST YOU"   10 The Afterlife of Your Data · DISCOVER v2
+             11 The Governance Layer     · DISCOVER v2 · season closer
+PART 12      the reader's Lever Map
 ```
-
-Plus: *The Attention Front* — standing instrument in publication nav, not an episode.
-
-## Editorial Agent Updates (committed alongside this directory)
-
-The Editorial Agent system prompt (`/_agent/primary/editorial.md`), the Unified Invocation (`/_agent/primary/unified.md`), and the Episode Production Linter (`/_agent/skills/05-episode-production-linter.md`) now enforce the **Fourth Founding Refusal**:
-
-> *No mind-control framing. Systems optimize the emotional conditions under which beliefs, reactions, and identities are more likely to emerge. They do not implant beliefs.*
-
-The Production Linter now checks every draft for banned constructions: *"mind control," "brainwashing," "the system makes you believe," "manipulated into thinking," "programmed to," "controls what you think."*
 
 ## Convention
 
-Briefs in this directory follow Editorial Agent DISCOVER / Compression Pass output format. When a brief moves to INVESTIGATE, the claim corpus is appended to its file. When the episode is rendered, the brief stays in `/_drafts/` as the source-of-truth editorial record; the rendered HTML lives at the repo root.
+Briefs follow the Editorial Agent DISCOVER format. Evidence labels on every claim (FACT, REPORTED, INFERENCE, WATCH). No dashes in published copy. When a brief moves to INVESTIGATE, its claim corpus is appended. Rendered HTML lives at the repo root; the brief stays here as the record.
 
-Drafts in this directory are never linked from public nav until human editorial sign-off and INVESTIGATE-phase claim corpus is approved.
+The Fourth Founding Refusal still applies to every draft: *no mind-control framing.* Systems optimize the conditions under which beliefs and reactions become more likely. They do not implant beliefs.
 
 ---
 
-*Last updated · 27 May 2026*
+*Last updated · 23 October 2026*
