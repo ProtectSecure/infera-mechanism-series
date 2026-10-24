@@ -345,7 +345,7 @@ function drawDial(){
   document.getElementById("whoOut").innerHTML=`<b>The reflection is the stream.</b> Visible to ${Wd}${F?", showing "+F:""}${Kp?", "+Kp:""}. Its sharpness is the exposure band.`;
   mir.redraw();
 }
-document.querySelectorAll(".seg").forEach(g=>g.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{if(b.disabled)return;st[g.dataset.d]=b.dataset.v;g.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));drawDial();})));
+document.querySelectorAll(".seg").forEach(g=>g.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{if(b.disabled)return;st[g.dataset.d]=b.dataset.v;g.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));try{window.InferaFaith&&InferaFaith.set("stream",{aud:st.aud,frame:st.frame,keep:st.keep});}catch(e){}drawDial();})));
 
 /* ---------- C: the protection band over time ---------- */
 const T=[

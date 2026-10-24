@@ -280,7 +280,7 @@ $$(".rv").forEach(function(el){ if(io && !RM) io.observe(el); else el.classList.
   ];
   trad.innerHTML=T.map(function(r){var bars="";for(var i=0;i<6;i++){var cls=i<=r[2]?"ok":(r[3].indexOf(i)>-1?"q":(i===r[4]?"line":""));bars+='<i class="'+cls+'" title="pane '+(i+1)+'"></i>';}return '<div class="trow"><div class="t">'+r[0]+'<small>'+r[1]+'</small></div><div class="bar6">'+bars+'</div></div>';}).join("")+'<p class="note" style="margin:6px 0 0"><span style="display:inline-block;width:12px;height:10px;background:#bfdcc9;border-radius:2px"></span> accepted &nbsp; <span style="display:inline-block;width:12px;height:10px;background:repeating-linear-gradient(45deg,#f6e7c4 0 4px,#fbf3e1 4px 8px);border-radius:2px"></span> contested &nbsp; <span style="display:inline-block;width:12px;height:10px;background:#a8384f;opacity:.8;border-radius:2px"></span> where the line falls <span class="chip inf">INFERENCE</span></p>';
   panes.forEach(function(p){p.addEventListener("click",function(){
-    var k=+p.dataset.i; panes.forEach(function(q,i){q.classList.toggle("kept",i<=k);q.classList.toggle("beyond",i>k);q.setAttribute("aria-pressed",i===k?"true":"false");});
+    var k=+p.dataset.i; try{window.InferaFaith&&InferaFaith.set("idolatryLine",k);}catch(e){} panes.forEach(function(q,i){q.classList.toggle("kept",i<=k);q.classList.toggle("beyond",i>k);q.setAttribute("aria-pressed",i===k?"true":"false");});
     var past=T.filter(function(r){return k>=r[4];}).map(function(r){return r[0];});
     var contested=T.filter(function(r){return r[3].indexOf(k)>-1;}).map(function(r){return r[0];});
     var msg="<b>You would keep panes 1 to "+(k+1)+".</b> ";
