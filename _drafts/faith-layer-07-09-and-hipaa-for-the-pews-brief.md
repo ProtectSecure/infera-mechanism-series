@@ -1,7 +1,7 @@
 # The Faith Layer · Exhibits 07 to 09 + Companion Brief "HIPAA for the Pews" · Planning Brief
 
 **Type:** Mini-series planning brief (Faith Layer, interactive exhibits) plus one Mechanism Brief.
-**Status:** New file, 23 October 2026. Research dossiers complete in the scratch archive (Sabbath, religious speech, Babel). Not yet built.
+**Status:** Built and published 23 October 2026, reordered: 07 The Pulpit Feed, 08 Babel or Pentecost, 09 A Palace in Time (finale with the congregation charter, the working form of HIPAA for the Pews). This brief is the planning record; the live pages supersede it where they differ.
 **Why one file:** the three remaining exhibits and the church data standard share a single arc. Exhibits 01 to 06 showed what is being *kept* about the faithful. Exhibits 07 to 09 show what is being done to their *time*, their *voice*, and their *language*. The brief turns all nine into a standard a congregation can adopt.
 
 ---
@@ -16,9 +16,9 @@
 | 04 | The Companion Confessor | the confession (who listens) | ✔ |
 | 05 | Inferred Faith | the belief (who guesses) | ✔ |
 | 06 | The Second Death | the dead (who speaks for them) | ✔ |
-| 07 | **A Palace in Time** | the Sabbath (who owns the hours) | planned |
-| 08 | **The Pulpit Feed** | the sermon (who ranks the word) | planned |
-| 09 | **Babel or Pentecost** | the tongue (who translates the faith) | planned |
+| 07 | **The Pulpit Feed** | the sermon (who ranks the word) | ✔ |
+| 08 | **Babel or Pentecost** | the tongue (who translates the faith) | ✔ |
+| 09 | **A Palace in Time** | the Sabbath (who owns the hours) + the charter | ✔ |
 
 The title of 07 borrows a phrase from Abraham Joshua Heschel's *The Sabbath* (1951), "a palace in time." Credit it on the page; do not quote beyond that phrase.
 

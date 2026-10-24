@@ -14,7 +14,7 @@
 | EP 11 | The Governance Layer | old EP 12 | Season closer; dated levers |
 | Part 12 | The reader's Lever Map | (new) | Keeps "twelve-part investigation" true |
 | ★ | Special Report · When the Company Closes | When the Hospital Closes | The custodian dies: hospital, airline, genome, companion |
-| FL 07 to 09 | A Palace in Time · The Pulpit Feed · Babel or Pentecost | (planned) | Time, voice, tongue |
+| FL 07 to 09 | The Pulpit Feed · Babel or Pentecost · A Palace in Time | (live 23 Oct) | Voice, tongue, time; finale charter |
 | Brief | HIPAA for the Pews (working title) | (idea) | Communal lever; Faith Layer closer |
 
 Retired as standalone pieces: *The Subscription Self*, *The Shadow Market*, *When the Hospital Closes*. Their files remain as pointers so old links in notes still resolve.
@@ -50,7 +50,7 @@ EP 11 is where all three are given an ending someone could write.
 
 **Season II:** 01 Personhood Inc. (the composite becomes the training set and does not retire) · 02 The Feed Engine (fills the Sabbath hours) · 03 The Trust Market (the score follows the replica) · 04 The Influence War (the persuasion machine gains a cast of the dead) · 05 The Replayable City (retention-clock styling reused in EP 09's hero) · 06 The Composite State (uneven civic retirement) · 07 The Physical Plant (where the dead's conversations physically sit) · 08 The Class Engine (the class sets the rent tier).
 
-**Faith Layer:** 01 Quiet Guest (pulpit glyph on the Kirk tile) · 02 Guardian Angel Inc. (Digital Life Card) · 03 Check-In (retention policy) · 04 Companion Confessor (the same phone at 2 a.m.) · 05 Inferred Faith (geofenced pew becomes ad audience in FL 08) · 06 The Second Death (mourning clock reused in FL 07; idolatry line reused in FL 09) · Grandma, Updated (price list; as-we-wish slider).
+**Faith Layer:** 01 Quiet Guest (pulpit glyph on the Kirk tile) · 02 Guardian Angel Inc. (Digital Life Card) · 03 Check-In (retention policy) · 04 Companion Confessor (the same phone at 2 a.m.) · 05 Inferred Faith (mirrored in FL 08 Room B: guessed faith vs assumed faith) · 06 The Second Death (mourning clock echoed in FL 09's week clock; idolatry line remembered in FL 08's Saints room) · Grandma, Updated (price list; as-we-wish slider).
 
 **Briefs and Field Notes:** Brief 002 (269 days) · Brief 003 (PUC hearing as a dated lever) · Brief 006 (Spirit) · Brief 007 (Character.AI) · FN 01 (FHFA confirms a faster premium; a dated lever row) · FN 04, 08, 12 (Attention Front panels) · FN 07 (S3·06 seed) · FN 11 (Public Inspection method for Panel 6).
 
@@ -63,8 +63,8 @@ EP 11 is where all three are given an ending someone could write.
 | Pulpit glyph on the Kirk tile | EP 09 case wall | Quiet Guest visitors |
 | Ledger's last row numbered 10 | EP 09 | readers who remember the retired episode |
 | Synthetic Halo on The Ventriloquist masthead (next revision) | FN 12 | EP 09 readers, in hindsight |
-| Mourning clock rotated to seven segments | FL 07 | Second Death visitors |
-| Idolatry line remembers your answer | FL 09 Saints room | Second Death visitors |
+| Every room had a clock: 03, 04, 06, 09 chips | FL 09 | readers of the whole series |
+| Idolatry line remembers your answer | FL 08 Saints room | Second Death visitors |
 | Lever glyph angle = share of ◌ rows with an instrument | EP 11 closer | EP 10 readers |
 | Blank page numbered 12 | EP 11 end | everyone |
 | Season III mastheads carry the Season II source numeral | S3 | the whole run |
