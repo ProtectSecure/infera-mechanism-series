@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Systems Atlas · The Mechanism Series</title>
-<meta name="description" content="The entire publication as one system. Every episode is a node. Every connection is a documented or modeled mechanism. Click any node to enter the episode."/>
+<meta name="description" content="The whole Mechanism Series as one system: every episode, brief, field note and Faith Layer exhibit as a node, with through-lines across seasons, inspection lenses, and the provisional Season III map."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -12,76 +12,143 @@
 :root{
   --ink:#08080c; --ink-soft:#101018; --ink-card:#161620;
   --cream:#fbf7eb; --bone:#e8e3d4; --dim:#a8a298; --faint:#5a564e;
-  --lime:#c8ff1e; --pink:#ff1a6b; --amber:#ffd500; --cobalt:#1e3cff; --tang:#ff7a2e;
-  --display:'Archivo Black', system-ui, sans-serif;
-  --italic:'Instrument Serif', Georgia, serif;
-  --sans:'Inter', system-ui, sans-serif;
-  --mono:'JetBrains Mono', ui-monospace, monospace;
+  --lime:#c8ff1e; --pink:#ff1a6b; --amber:#ffd500; --cobalt:#1e3cff; --tang:#ff7a2e; --sky:#5fd4e8; --violet:#c9a2ff;
+  --display:'Archivo Black', system-ui, sans-serif; --italic:'Instrument Serif', Georgia, serif; --sans:'Inter', system-ui, sans-serif; --mono:'JetBrains Mono', ui-monospace, monospace;
 }
 *{box-sizing:border-box; margin:0; padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--ink); color:var(--cream); font-family:var(--sans); font-weight:300; line-height:1.55}
-
-nav.tn{position:sticky; top:0; z-index:50; padding:14px 28px; background:rgba(8,8,12,.94); backdrop-filter:blur(14px); border-bottom:1px solid rgba(168,162,152,.08); display:flex; justify-content:space-between; align-items:center}
+body{background:var(--ink); color:var(--cream); font-family:var(--sans); font-weight:300; line-height:1.55; overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+nav.tn{position:sticky; top:0; z-index:50; padding:14px 28px; background:rgba(8,8,12,.94); backdrop-filter:blur(14px); border-bottom:1px solid rgba(168,162,152,.08); display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap}
 nav.tn .brand{font-family:var(--display); font-size:11px; letter-spacing:.18em; color:var(--cream); text-decoration:none; text-transform:uppercase}
 nav.tn .brand em{font-family:var(--italic); font-style:italic; color:var(--lime); font-size:14px; padding:0 4px}
 nav.tn .links{display:flex; gap:4px; flex-wrap:wrap}
 nav.tn .links a{font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); padding:8px 12px; text-decoration:none}
-nav.tn .links a.lit{color:var(--lime); border-color:rgba(200,255,30,.3); border:1px solid rgba(200,255,30,.3)}
-
-.hero{padding:80px 6vw 36px; max-width:1320px; margin:0 auto}
-.hero .eb{font-family:var(--mono); font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--lime); margin-bottom:14px; display:inline-flex; align-items:center; gap:14px}
-.hero .eb::before{content:""; width:36px; height:1.5px; background:var(--lime)}
-.hero h1{font-family:var(--display); font-size:clamp(40px,6.5vw,88px); letter-spacing:-.04em; line-height:.92; margin-bottom:18px; max-width:18ch}
-.hero h1 em{font-family:var(--italic); font-style:italic; font-weight:400; color:var(--lime)}
-.hero p{font-family:var(--italic); font-style:italic; font-size:clamp(17px,1.7vw,22px); line-height:1.45; color:var(--bone); max-width:62ch}
-
-.legend{max-width:1320px; margin:0 auto 24px; padding:0 6vw; display:flex; gap:18px; flex-wrap:wrap; font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); font-weight:700}
-.legend span{display:inline-flex; align-items:center; gap:8px}
-.legend i{display:inline-block; width:16px; height:3px; font-style:normal}
-.legend .doc{background:var(--lime)}
-.legend .mod{background:var(--amber)}
-.legend .spec{background:var(--pink)}
-.legend .upstream{background:var(--tang)}
-.legend .s1{display:inline-block; width:9px; height:9px; background:var(--tang); border-radius:50%}
-.legend .s2{display:inline-block; width:9px; height:9px; background:var(--lime); border-radius:50%}
-
-.atlas-wrap{max-width:1320px; margin:0 auto 30px; padding:0 6vw; position:relative}
-.atlas-wrap svg{width:100%; height:auto; display:block; background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.025) 0%, transparent 70%)}
-
-.node-circle{cursor:pointer; transition:transform .25s, filter .25s; transform-origin:center; transform-box:fill-box}
-.node-circle:hover{transform:scale(1.06); filter:brightness(1.2) drop-shadow(0 0 16px currentColor)}
-.node-label{font-family:var(--display); font-size:13px; letter-spacing:-.015em; fill:var(--cream); text-anchor:middle; pointer-events:none; font-weight:400}
-.node-id{font-family:var(--mono); font-size:9px; letter-spacing:.18em; fill:rgba(251,247,235,.55); text-anchor:middle; pointer-events:none; font-weight:700}
-.node-deck{font-family:var(--italic); font-size:11px; font-style:italic; fill:rgba(251,247,235,.62); text-anchor:middle; pointer-events:none}
-
-.edge{fill:none; opacity:.55; transition:opacity .2s, stroke-width .2s}
-.edge.doc{stroke:var(--lime); stroke-width:1.6}
-.edge.mod{stroke:var(--amber); stroke-width:1.6; stroke-dasharray:5 4}
-.edge.spec{stroke:var(--pink); stroke-width:1.6; stroke-dasharray:2 3}
-.edge-label{font-family:var(--mono); font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; fill:rgba(251,247,235,.55); font-weight:700; pointer-events:none}
-
-.cluster-label{font-family:var(--mono); font-size:10px; letter-spacing:.28em; text-transform:uppercase; fill:var(--dim); font-weight:700}
-
-.notes{max-width:1100px; margin:0 auto 90px; padding:0 6vw; display:grid; grid-template-columns:1fr 1fr; gap:32px}
-.notes .note{padding:24px 28px; background:var(--ink-soft); border-left:3px solid var(--lime); display:flex; flex-direction:column; gap:10px}
-.notes .note.amber{border-left-color:var(--amber)}
-.notes .note.pink{border-left-color:var(--pink)}
+nav.tn .links a.lit{color:var(--lime); border:1px solid rgba(200,255,30,.3)}
+.hero{padding:70px 4vw 26px; max-width:1500px; margin:0 auto}
+.eb{font-family:var(--mono); font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--lime); margin-bottom:14px; display:inline-flex; align-items:center; gap:14px}
+.eb::before{content:""; width:36px; height:1.5px; background:currentColor}
+.hero h1{font-family:var(--display); font-size:clamp(38px,6vw,84px); letter-spacing:-.04em; line-height:.92; margin-bottom:18px; max-width:18ch}
+.hero h1 em,.s3 h2 em{font-family:var(--italic); font-style:italic; font-weight:400; color:var(--lime)}
+.hero p{font-family:var(--italic); font-style:italic; font-size:clamp(17px,1.6vw,21px); line-height:1.45; color:var(--bone); max-width:70ch}
+.hero p b{font-family:var(--sans);font-style:normal;font-weight:600;font-size:.82em;color:var(--cream)}
+.counts{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.counts b{color:var(--cream);font-size:15px;margin-right:4px}
+/* controls */
+.controls{max-width:1500px;margin:0 auto;padding:6px 4vw 10px;display:grid;gap:12px}
+.ck{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--cream);font-weight:700;margin-bottom:8px}
+.ck span{color:var(--dim);letter-spacing:.08em;text-transform:none;font-weight:400;margin-left:8px}
+.bar{display:flex;flex-wrap:wrap;gap:6px}
+.bar button{display:inline-flex;align-items:center;gap:8px;background:var(--ink-soft);border:1px solid rgba(168,162,152,.18);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:400;color:var(--bone);transition:border-color .2s,background .2s}
+.bar button i{width:10px;height:3px;background:var(--c);display:inline-block;font-style:normal}
+.bar.lens button i{width:auto;height:auto;background:none;color:var(--c);font-size:11px}
+.bar button small{font-family:var(--mono);font-size:10px;color:var(--dim)}
+.bar button:hover{border-color:var(--c)}
+.bar button[aria-pressed="true"]{background:color-mix(in srgb,var(--c) 18%,#08080c);border-color:var(--c);color:var(--cream)}
+/* map */
+.mapwrap{max-width:1500px;margin:0 auto;padding:8px 4vw 40px;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:22px;align-items:start}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:22px;height:0;border-top:2px solid var(--c);display:inline-block}
+.legend i.d{border-top-style:dashed}.legend i.s,.legend i.p{border-top-style:dotted}.legend i.w{border-top-width:3px}
+.legend .o{width:10px;height:10px;border-radius:50%;background:var(--bone);display:inline-block;border:2px solid var(--bone)}
+.legend .o.dr{background:none;border-style:dashed}.legend .o.pl{background:none;border-style:dotted}
+.legend button{margin-left:auto;background:none;border:1px solid rgba(168,162,152,.3);border-radius:999px;padding:5px 12px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone)}
+.svgbox{border:1px solid rgba(168,162,152,.1);border-radius:16px;background:radial-gradient(circle at 40% 50%,rgba(255,255,255,.03),transparent 70%);overflow:hidden}
+#atlas{width:100%;height:auto;display:block}
+.lanebg{fill:rgba(255,255,255,.018);stroke:rgba(168,162,152,.07)}
+.lanename{font-family:var(--mono);font-size:11px;letter-spacing:.2em;font-weight:700}
+.lanesub{font-family:var(--italic);font-style:italic;font-size:13px;fill:rgba(232,227,212,.55)}
+.edge{fill:none;stroke-width:1.4;opacity:.16;transition:opacity .25s,stroke-width .25s}
+.edge.spine{stroke-width:2}
+.edge.hov{opacity:.75}
+#atlas.focus .edge{opacity:.04}
+#atlas.focus .edge.on{opacity:.95;stroke-width:2.4}
+.tpath{fill:none;stroke-width:4.5;opacity:.9;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px rgba(0,0,0,.6))}
+.el{font-family:var(--mono);font-size:10px;letter-spacing:.06em;fill:var(--cream);paint-order:stroke;stroke:#08080c;stroke-width:4px;stroke-linejoin:round;pointer-events:none}
+.node{cursor:pointer;outline:none}
+.node .halo{opacity:0;transition:opacity .25s}
+.node:hover .halo,.node:focus-visible .halo{opacity:.22}
+.node .nn{font-family:var(--mono);font-size:9px;letter-spacing:.14em;fill:rgba(232,227,212,.5);font-weight:700}
+.node .nt{font-family:var(--sans);font-size:13px;font-weight:500;fill:var(--cream)}
+.node .lensmark{fill:var(--lens,#fff);opacity:0;transition:opacity .25s}
+.node .badge{opacity:0}.node .badge circle{fill:var(--c,#fff)}.node .badge text{font-family:var(--mono);font-size:10px;font-weight:700;fill:#08080c}
+#atlas.focus .node{opacity:.22;transition:opacity .25s}
+#atlas.focus .node.on,#atlas.focus .node.near,#atlas.focus .node.inlens,#atlas.focus .node.inthread{opacity:1}
+.node.on .halo{opacity:.35}
+.node.inlens .lensmark{opacity:1}
+.node.inthread .badge{opacity:1}
+.hint{font-size:12.5px;color:var(--dim);margin-top:8px}
+/* list */
+.list{display:none;gap:14px;margin-top:14px}
+.lg h3{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin:6px 0}
+.lg h3 small{font-family:var(--italic);font-style:italic;letter-spacing:0;text-transform:none;color:var(--dim);font-size:13px;font-weight:400;margin-left:6px}
+.li{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:var(--ink-soft);border:1px solid rgba(168,162,152,.12);border-radius:10px;padding:9px 12px;margin-bottom:5px;font-size:14px}
+.li .num{font-family:var(--mono);font-size:10.5px;color:var(--dim);min-width:52px}
+.li em{font-family:var(--italic);color:var(--dim)}
+.li.on{border-color:var(--lime)}.li.near{border-color:rgba(200,255,30,.4)}.li.inlens{border-color:var(--amber)}.li.inthread{border-color:var(--sky)}
+/* panel */
+.panel{position:sticky;top:72px;max-height:calc(100vh - 90px);overflow:auto;background:var(--ink-soft);border:1px solid rgba(168,162,152,.14);border-radius:16px;padding:20px 20px 22px}
+.pk{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--lime);margin-bottom:8px}
+.panel h2{font-family:var(--display);font-size:26px;letter-spacing:-.025em;line-height:1.02;margin-bottom:10px}
+.panel h3{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:16px 0 8px;font-weight:700}
+.pd{font-family:var(--italic);font-style:italic;font-size:16.5px;line-height:1.45;color:var(--bone);margin-bottom:8px}
+.pm{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.stt{padding:3px 7px;border:1px solid currentColor;border-radius:4px}.stt.st-live{color:var(--lime)}.stt.st-drafting{color:var(--amber)}.stt.st-planning{color:var(--sky)}.stt.st-preview{color:var(--tang)}
+.open{color:var(--lime);text-decoration:none;font-weight:700}
+.cx,.lx,.steps{list-style:none;display:grid;gap:7px}
+.cx li,.lx li{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;font-size:13px;color:var(--bone)}
+.lx li{flex-direction:column;align-items:flex-start;gap:2px}
+.lx li span,.steps li span{font-size:13px;color:var(--bone)}
+.cx .lb{font-family:var(--mono);font-size:10.5px;color:var(--dim)}
+.steps{counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding-left:30px;display:flex;flex-direction:column;gap:2px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:var(--cream);color:#08080c;font:700 10px/20px var(--mono);text-align:center}
+.jump{display:inline-flex;align-items:center;gap:7px;background:none;border:0;padding:0;font-size:14px;font-weight:600;color:var(--cream);text-align:left;text-decoration:underline;text-decoration-color:rgba(232,227,212,.25);text-underline-offset:3px}
+.jump i{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+.ech{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--c);border:1px solid var(--c);border-radius:3px;padding:1px 5px;opacity:.85}
+.tc{display:flex;flex-wrap:wrap;gap:6px}
+.tchip,.lchip{background:none;border:1px solid var(--c);color:var(--cream);border-radius:999px;padding:4px 10px;font-size:12px}
+.lchip{color:var(--c);border-radius:6px}
+.how{list-style:none;display:grid;gap:8px;margin:8px 0 10px;font-size:13.5px;color:var(--bone)}
+.how b{color:var(--cream)}
+/* Season III */
+.s3{max-width:1500px;margin:20px auto 70px;padding:50px 4vw 0;border-top:1px solid rgba(168,162,152,.12)}
+.s3 .eb{color:var(--sky)}
+.s3 h2{font-family:var(--display);font-size:clamp(30px,4.2vw,58px);letter-spacing:-.035em;line-height:.98;max-width:22ch;margin-bottom:16px}
+.s3 h2 em{color:var(--sky)}
+.s3h>p{font-family:var(--italic);font-style:italic;font-size:clamp(16px,1.5vw,20px);color:var(--bone);max-width:74ch}
+.fourfind{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:22px 0 10px}
+.fourfind div{background:var(--ink-soft);border-top:3px solid var(--sky);padding:14px 16px;border-radius:0 0 10px 10px}
+.fourfind b{font-family:var(--display);font-size:22px;color:var(--sky)}
+.fourfind p{font-size:14px;color:var(--bone);margin-top:4px}
+.s3 .note{font-size:12.5px;color:var(--dim);max-width:90ch}
+.s3cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+.s3c{background:var(--ink-soft);border:1px solid rgba(95,212,232,.25);border-radius:16px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:8px}
+.s3k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--sky);font-weight:700}
+.s3c h3{font-family:var(--display);font-size:22px;letter-spacing:-.02em;line-height:1.05}
+.s3c .cp{font-family:var(--italic);font-style:italic;font-size:17px;color:var(--bone)}
+.s3c ul{list-style:none;display:grid;gap:8px;margin:4px 0}
+.s3c li{display:flex;flex-direction:column;gap:1px;font-size:13px;color:var(--bone);border-left:2px solid rgba(168,162,152,.2);padding-left:10px}
+.s3c .jump{font-size:13px}
+.s3c .sh{font-size:13.5px;color:var(--cream);border-top:1px dashed rgba(168,162,152,.2);padding-top:8px;margin-top:auto}
+.see{align-self:flex-start;background:none;border:1px solid rgba(95,212,232,.5);color:var(--sky);border-radius:999px;padding:6px 12px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+/* notes */
+.notes{max-width:1200px; margin:0 auto 90px; padding:0 4vw; display:grid; grid-template-columns:1fr 1fr; gap:24px}
+.notes .note{padding:22px 26px; background:var(--ink-soft); border-left:3px solid var(--lime); display:flex; flex-direction:column; gap:10px}
+.notes .note.amber{border-left-color:var(--amber)} .notes .note.pink{border-left-color:var(--pink)}
 .notes .note .lbl{font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--lime); font-weight:700}
 .notes .note.amber .lbl{color:var(--amber)} .notes .note.pink .lbl{color:var(--pink)}
-.notes .note h3{font-family:var(--display); font-size:22px; letter-spacing:-.02em; line-height:1; color:var(--cream)}
+.notes .note h3{font-family:var(--display); font-size:21px; letter-spacing:-.02em; line-height:1.05; color:var(--cream)}
 .notes .note h3 em{font-family:var(--italic); font-style:italic; font-weight:400; color:var(--lime)}
-.notes .note.amber h3 em{color:var(--amber)} .notes .note.pink h3 em{color:var(--pink)}
 .notes .note p{font-family:var(--italic); font-style:italic; font-size:15.5px; line-height:1.5; color:var(--bone)}
-
-footer{padding:50px 6vw; border-top:1px solid rgba(168,162,152,.1); text-align:center}
+footer{padding:50px 4vw; border-top:1px solid rgba(168,162,152,.1); text-align:center}
 footer p{font-family:var(--mono); font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--faint)}
 footer p a{color:var(--lime); text-decoration:none; margin:0 8px}
-
-@media (max-width:780px){
-  .notes{grid-template-columns:1fr}
-  .legend{font-size:9px; gap:10px}
-}
+@media (max-width:1180px){.mapwrap{grid-template-columns:1fr}.panel{position:static;max-height:none}.s3cards{grid-template-columns:1fr 1fr}.fourfind{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){nav.tn{position:static;padding:12px 16px}nav.tn .links a{padding:6px 8px}.hero{padding-top:40px}.svgbox,.legend,.hint{display:none}.list{display:grid}.s3cards,.fourfind,.notes{grid-template-columns:1fr}.mapwrap{display:flex;flex-direction:column-reverse}.panel{margin-bottom:6px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
 </style>
 <script async src="https://plausible.io/js/pa-VnjVxVmGczy7J57pKSDnH.js"></script>
 <script>
@@ -102,12 +169,14 @@ footer p a{color:var(--lime); text-decoration:none; margin:0 8px}
 <body>
 <nav class="inf-eco" aria-label="Series navigation"><a href="index.html">INFERA · THE MECHANISM SERIES</a><span class="sep">▸</span><a href="systems-atlas.html">SYSTEMS ATLAS</a><span class="sep">▸</span><span class="cur">SYSTEMS ATLAS</span><span class="dirs"><a href="systems-atlas.html">INDEX</a> <a href="claims-atlas.html">CLAIMS ATLAS →</a></span></nav>
 
+
 <nav class="tn">
   <a class="brand" href="index.html">The <em>Mechanism</em> Series</a>
   <div class="links">
     <a href="index.html">Home</a>
     <a href="index.html#season-1">Season I</a>
     <a href="index.html#season-2">Season II</a>
+    <a href="index.html#faith-layer">Faith Layer</a>
     <a href="systems-atlas.html" class="lit">Systems Atlas</a>
     <a href="claims-atlas.html">Claims Atlas</a>
     <a href="case-file.html">Case File</a>
@@ -116,383 +185,331 @@ footer p a{color:var(--lime); text-decoration:none; margin:0 8px}
 </nav>
 
 <section class="hero">
-  <div class="eb">The Systems Atlas</div>
+  <div class="eb">The Systems Atlas · updated 24 October 2026</div>
   <h1>The whole publication <em>as one system.</em></h1>
-  <p>Each episode is a node. Each arrow is a documented, modeled, or speculative mechanism connecting one to the next. The Mechanism Series is not a series of essays; it's one map of how the systems sorting modern life feed each other. <em>Click any node to enter.</em></p>
+  <p>Every episode, brief, field note and exhibit is a node. Every line is a documented, modeled or speculative mechanism. Season III is drawn in, still in planning, so you can see what each new episode will pick up. Follow a <b>through-line</b> across seasons, or hold everything up to one <b>inspection lens</b> and watch how each story answers it.</p>
+  <div class="counts"><span><b id="cN"></b> nodes</span><span><b id="cE"></b> connections</span><span><b id="cT"></b> through-lines</span><span><b id="cL"></b> inspection lenses</span></div>
 </section>
 
-<div class="legend">
-  <span><span class="s1"></span>Season I · Institutional pressure</span>
-  <span><span class="s2"></span>Season II · Informational sorting</span>
-  <span><i class="doc"></i> Documented connection</span>
-  <span><i class="mod"></i> Modeled inference</span>
-  <span><i class="spec"></i> Speculative scenario</span>
-</div>
+<section class="controls" aria-label="Atlas controls">
+  <div class="ctl"><div class="ck">Through-lines <span>a story that runs across seasons, in order</span></div><div class="bar" id="threads"></div></div>
+  <div class="ctl"><div class="ck">Inspection lenses <span>one question, held up to every narrative</span></div><div class="bar lens" id="lenses"></div></div>
+</section>
 
-<div class="atlas-wrap">
-  <svg viewBox="0 0 1200 820" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Systems Atlas · interlocking mechanism diagram">
-    <defs>
-      <marker id="arrow-lime" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-        <path d="M0,0 L10,5 L0,10 z" fill="#c8ff1e"/>
-      </marker>
-      <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-        <path d="M0,0 L10,5 L0,10 z" fill="#ffd500"/>
-      </marker>
-      <marker id="arrow-pink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-        <path d="M0,0 L10,5 L0,10 z" fill="#ff1a6b"/>
-      </marker>
-    </defs>
+<section class="mapwrap" id="map">
+  <div class="mapcol">
+    <div class="legend">
+      <span><i style="--c:#c8ff1e"></i>Documented</span><span><i class="d" style="--c:#ffd500"></i>Modeled</span><span><i class="s" style="--c:#ff1a6b"></i>Speculative</span><span><i style="--c:#ff2d8b" class="w"></i>Hidden spine</span><span><i class="p" style="--c:#5fd4e8"></i>Season III seed</span>
+      <span class="sp"><b class="o"></b>live</span><span class="sp"><b class="o dr"></b>drafting</span><span class="sp"><b class="o pl"></b>planning</span>
+      <button type="button" id="resetBtn">Clear</button>
+    </div>
+    <div class="svgbox"><svg id="atlas" role="img" aria-label="The Systems Atlas: six lanes from Season I to Season III, with connections between pieces. Select a node, a through-line or a lens to highlight connections. A list version follows."></svg></div>
+    <p class="hint">Tap any node to see what it comes from and leads to. Tap it again, or Clear, to reset. Every view has its own link you can share.</p>
+    <div class="list" id="list" aria-label="All pieces, by lane"></div>
+  </div>
+  <aside class="panel" id="panel" aria-live="polite"></aside>
+</section>
 
-    <!-- Cluster labels -->
-    <text class="cluster-label" x="220" y="40">SEASON I · INSTITUTIONAL PRESSURE</text>
-    <text class="cluster-label" x="900" y="40">SEASON II · INFORMATIONAL SORTING</text>
+<template id="panelHelp"><div class="pk">How to read the atlas</div><h2>Start anywhere.</h2><p class="pd">Six lanes run left to right: Season I's institutional pressure, the desk of briefs and field notes, the shared substrate, Season II's sorting machine, the Faith Layer, and Season III in planning.</p><ul class="how"><li><b>A node</b> shows every connection in and out, the through-lines it carries and what each lens finds in it.</li><li><b>A through-line</b> draws one story across seasons, numbered stop by stop.</li><li><b>An inspection lens</b> asks one question of every piece: who holds the file, who can ask for it, when it ends, who consented, who pays, who integrates, where the time went.</li></ul><p class="pd">Line styles keep our evidence standard: documented connections are cited in the Claims Atlas; modeled ones are our inference; speculative and Season III lines are forecasts and plans, relabeled if they come true.</p></template>
 
-    <!-- ============ NODES — Season I (left half) ============ -->
-    <!-- Trickle (upstream economic pressure) -->
-    <g>
-      <circle class="node-circle" cx="180" cy="160" r="58" fill="#ff7a2e" opacity=".82" onclick="window.location='the-trickle.html'">
-        <title>The Trickle · upstream economic disruption traced through commute and tax</title>
-      </circle>
-      <text class="node-id"    x="180" y="135">S/01 · 01</text>
-      <text class="node-label" x="180" y="158">THE TRICKLE</text>
-      <text class="node-deck"  x="180" y="180">commuter economy</text>
-    </g>
-
-    <!-- Eviction Funnel -->
-    <g>
-      <circle class="node-circle" cx="180" cy="340" r="58" fill="#e15247" opacity=".82" onclick="window.location='the-eviction-funnel.html'">
-        <title>The Eviction Funnel · housing instability becomes civic disappearance</title>
-      </circle>
-      <text class="node-id"    x="180" y="315">S/01 · 02</text>
-      <text class="node-label" x="180" y="338">EVICTION FUNNEL</text>
-      <text class="node-deck"  x="180" y="360">civic disappearance</text>
-    </g>
-
-    <!-- Closed Hospital -->
-    <g>
-      <circle class="node-circle" cx="180" cy="510" r="58" fill="#5fa68a" opacity=".82" onclick="window.location='the-closed-hospital.html'">
-        <title>The Closed Hospital · rural ER closure radiates through outcomes</title>
-      </circle>
-      <text class="node-id"    x="180" y="485">S/01 · 03</text>
-      <text class="node-label" x="180" y="508">CLOSED HOSPITAL</text>
-      <text class="node-deck"  x="180" y="530">care cascade</text>
-    </g>
-
-    <!-- Coast Is Moving -->
-    <g>
-      <circle class="node-circle" cx="380" cy="160" r="58" fill="#4a9fa8" opacity=".82" onclick="window.location='the-coast-is-moving.html'">
-        <title>The Coast Is Moving · insurance hardening drives migration infrastructure</title>
-      </circle>
-      <text class="node-id"    x="380" y="135">S/01 · 04</text>
-      <text class="node-label" x="380" y="158">COAST IS MOVING</text>
-      <text class="node-deck"  x="380" y="180">climate migration</text>
-    </g>
-
-    <!-- Provisional Ballot -->
-    <g>
-      <circle class="node-circle" cx="380" cy="510" r="58" fill="#d4af00" opacity=".82" onclick="window.location='the-provisional-ballot.html'">
-        <title>The Provisional Ballot · adjudication geometry with disparate impact</title>
-      </circle>
-      <text class="node-id"    x="380" y="485">S/01 · 05</text>
-      <text class="node-label" x="380" y="508">PROVISIONAL BALLOT</text>
-      <text class="node-deck"  x="380" y="530">adjudication geometry</text>
-    </g>
-
-    <!-- ============ NODES — Season II (right half) ============ -->
-    <!-- Personhood Inc -->
-    <g>
-      <circle class="node-circle" cx="820" cy="160" r="60" fill="#c8ff1e" opacity=".88" onclick="window.location='personhood-inc.html'">
-        <title>Personhood Inc · the composite construction layer</title>
-      </circle>
-      <text class="node-id"    x="820" y="135" fill="rgba(10,10,10,.7)">S/02 · 01</text>
-      <text class="node-label" x="820" y="158" fill="#0a0a0a">PERSONHOOD INC</text>
-      <text class="node-deck"  x="820" y="180" fill="rgba(10,10,10,.65)">composite construction</text>
-    </g>
-
-    <!-- Feed Engine -->
-    <g>
-      <circle class="node-circle" cx="1040" cy="340" r="60" fill="#ff1a6b" opacity=".88" onclick="window.location='the-feed-engine.html'">
-        <title>The Feed Engine · algorithmic divergence built on the composite</title>
-      </circle>
-      <text class="node-id"    x="1040" y="315" fill="rgba(251,247,235,.85)">S/02 · 02</text>
-      <text class="node-label" x="1040" y="338">FEED ENGINE</text>
-      <text class="node-deck"  x="1040" y="360" fill="rgba(251,247,235,.7)">algorithmic divergence</text>
-    </g>
-
-    <!-- Trust Market -->
-    <g>
-      <circle class="node-circle" cx="820" cy="510" r="60" fill="#1e3cff" opacity=".88" onclick="window.location='episode-03-trust-market.html'">
-        <title>The Trust Market · reputation becomes price in housing, lending, insurance, employment</title>
-      </circle>
-      <text class="node-id"    x="820" y="485" fill="rgba(251,247,235,.85)">S/02 · 03</text>
-      <text class="node-label" x="820" y="508">TRUST MARKET</text>
-      <text class="node-deck"  x="820" y="530" fill="rgba(251,247,235,.7)">reputation as price</text>
-    </g>
-
-    <!-- Influence War (EP 04) -->
-    <g>
-      <circle class="node-circle" cx="1040" cy="160" r="60" fill="#ffd500" opacity=".88" onclick="window.location='episode-04-the-influence-war.html'">
-        <title>The Influence War · commercial persuasion and civic administration share one substrate</title>
-      </circle>
-      <text class="node-id"    x="1040" y="135" fill="rgba(10,10,10,.7)">S/02 · 04</text>
-      <text class="node-label" x="1040" y="158" fill="#0a0a0a">INFLUENCE WAR</text>
-      <text class="node-deck"  x="1040" y="180" fill="rgba(10,10,10,.65)">two machines · one room</text>
-    </g>
-
-    <!-- Episode 05 · The Replayable City -->
-    <g>
-      <circle class="node-circle" cx="1040" cy="510" r="46" fill="rgba(255,26,107,.18)" stroke="#ff1a6b" stroke-width="2" onclick="window.location='episode-05-the-replayable-city.html'">
-        <title>Episode 05 · The Replayable City · DC surveillance substrate + retention math</title>
-      </circle>
-      <text class="node-id"    x="1040" y="488" fill="rgba(255,26,107,.95)">EP 05</text>
-      <text class="node-label" x="1040" y="510" fill="#ff1a6b">REPLAYABLE CITY</text>
-      <text class="node-deck"  x="1040" y="530" fill="rgba(255,26,107,.7)">surveillance substrate</text>
-    </g>
-
-    <!-- Substrate node (the four substrate companies — both seasons reference) -->
-    <g>
-      <circle class="node-circle" cx="600" cy="340" r="52" fill="rgba(168,162,152,.16)" stroke="rgba(168,162,152,.45)" stroke-width="1.5" stroke-dasharray="3 4" onclick="window.location='claims-atlas.html?topic=substrate'">
-        <title>The Substrate · Meta, Google, Apple, Amazon: the shared layer underneath both seasons</title>
-      </circle>
-      <text class="node-id"    x="600" y="320">THE SUBSTRATE</text>
-      <text class="node-label" x="600" y="343" font-size="11">META · GOOG</text>
-      <text class="node-label" x="600" y="360" font-size="11">APPLE · AMZN</text>
-    </g>
-
-    <!-- S/01 · 08 The Settlement Shrinkage -->
-    <g>
-      <circle class="node-circle" cx="380" cy="340" r="46" fill="#4a9fa8" opacity=".75" onclick="window.location='the-settlement-shrinkage.html'">
-        <title>S/01 · 08 The Settlement Shrinkage · Algorithmic disbursement tiers + audit-trail decay</title>
-      </circle>
-      <text class="node-id"    x="380" y="320">S/01 · 08</text>
-      <text class="node-label" x="380" y="340" font-size="11">SETTLEMENT</text>
-      <text class="node-deck"  x="380" y="360">audit-trail decay</text>
-    </g>
-
-    <!-- S/01 · 09 The Capital Stack -->
-    <g>
-      <circle class="node-circle" cx="180" cy="730" r="46" fill="#d99645" opacity=".82" onclick="window.location='the-capital-stack.html'">
-        <title>S/01 · 09 The Capital Stack · Vogtle + data centers + donations as one stack</title>
-      </circle>
-      <text class="node-id"    x="180" y="710">S/01 · 09</text>
-      <text class="node-label" x="180" y="730" font-size="11">CAPITAL STACK</text>
-      <text class="node-deck"  x="180" y="748">financial substrate</text>
-    </g>
-
-    <!-- S/01 · 10 The Runoff Tells -->
-    <g>
-      <circle class="node-circle" cx="380" cy="730" r="46" fill="#d8a35a" opacity=".82" onclick="window.location='the-runoff-tells.html'">
-        <title>S/01 · 10 The Runoff Tells · Down-ballot targeting trace</title>
-      </circle>
-      <text class="node-id"    x="380" y="710">S/01 · 10</text>
-      <text class="node-label" x="380" y="730" font-size="11">RUNOFF TELLS</text>
-      <text class="node-deck"  x="380" y="748">targeting surface</text>
-    </g>
-
-    <!-- S/01 · 06 The Vogtle Bill -->
-    <g>
-      <circle class="node-circle" cx="180" cy="660" r="50" fill="#d4af00" opacity=".78" onclick="window.location='the-vogtle-bill.html'">
-        <title>S/01 · 06 The Vogtle Bill · Nuclear-plant cost socialization to ratepayers</title>
-      </circle>
-      <text class="node-id"    x="180" y="638">S/01 · 06</text>
-      <text class="node-label" x="180" y="660" font-size="12">VOGTLE BILL</text>
-      <text class="node-deck"  x="180" y="680">rate-case socialization</text>
-    </g>
-
-    <!-- S/01 · 07 The Data Center Bill (combined investigation) -->
-    <g>
-      <circle class="node-circle" cx="380" cy="660" r="50" fill="#ff7a2e" opacity=".82" onclick="window.location='the-data-center-load.html'">
-        <title>S/01 · 07 The Data Center Bill · Tax holidays + grid forecast + rate-payer mechanism (combined investigation)</title>
-      </circle>
-      <text class="node-id"    x="380" y="638">S/01 · 07</text>
-      <text class="node-label" x="380" y="660" font-size="12">DATA CTR BILL</text>
-      <text class="node-deck"  x="380" y="680">tax · grid · who pays</text>
-    </g>
-
-    <!-- S/02 · 06 The Composite State (PREVIEW) -->
-    <g>
-      <circle class="node-circle" cx="820" cy="340" r="58" fill="#8a4fff" opacity=".82" onclick="window.location='episode-06-composite-state.html'">
-        <title>S/02 · 06 The Composite State · You are not stored in one file. You are reconstructed on demand.</title>
-      </circle>
-      <text class="node-id"    x="820" y="315" fill="rgba(251,247,235,.85)">S/02 · 06</text>
-      <text class="node-label" x="820" y="338">COMPOSITE STATE</text>
-      <text class="node-deck"  x="820" y="360" fill="rgba(251,247,235,.7)">civic composite</text>
-    </g>
-
-    <!-- S/02 · 07 The Physical Plant (DRAFTING) -->
-    <g>
-      <circle class="node-circle" cx="600" cy="660" r="50" fill="rgba(46,224,192,.18)" stroke="#46e0c0" stroke-width="2" stroke-dasharray="6 4" onclick="window.location='claims-atlas.html?topic=physical-plant'">
-        <title>S/02 · 07 The Physical Plant · The cloud has an address — and your bill includes a line for it. (DRAFTING)</title>
-      </circle>
-      <text class="node-id"    x="600" y="638" fill="rgba(46,224,192,.95)">S/02 · 07</text>
-      <text class="node-label" x="600" y="660" fill="#46e0c0" font-size="12">PHYSICAL PLANT</text>
-      <text class="node-deck"  x="600" y="680" fill="rgba(46,224,192,.7)">drafting</text>
-    </g>
-
-    <!-- S/02 · 08 The Class Engine — BOWTIE CONVERGENCE NODE -->
-    <g>
-      <circle class="node-circle" cx="1040" cy="660" r="68" fill="rgba(255,45,139,.22)" stroke="#ff2d8b" stroke-width="3.5" onclick="window.location='claims-atlas.html?topic=class-engine'">
-        <title>S/02 · 08 The Class Engine · BOWTIE — Where Season I and Season II become one story. (DRAFTING)</title>
-      </circle>
-      <text class="node-id"    x="1040" y="630" fill="#ff2d8b" font-weight="700">S/02 · 08 · BOWTIE</text>
-      <text class="node-label" x="1040" y="658" fill="#ff2d8b" font-size="14" font-weight="700">CLASS ENGINE</text>
-      <text class="node-deck"  x="1040" y="680" fill="rgba(255,45,139,.85)">drafting · load-bearing</text>
-    </g>
-
-    <!-- ============ EDGES (mechanisms connecting nodes) ============ -->
-    <!-- S1 internal: Trickle → Eviction (documented: job loss precedes housing instability) -->
-    <path class="edge doc" d="M 180 218 Q 140 280 180 282" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="100" y="252">job loss → eviction</text>
-
-    <!-- Eviction → Closed Hospital (modeled: housing & care destabilization compound) -->
-    <path class="edge mod" d="M 180 398 Q 140 460 180 452" marker-end="url(#arrow-amber)"/>
-    <text class="edge-label" x="105" y="430">stress → no-shows</text>
-
-    <!-- Coast → Trickle (modeled: in-migration alters tax base, commute economy) -->
-    <path class="edge mod" d="M 322 160 L 240 160" marker-end="url(#arrow-amber)"/>
-    <text class="edge-label" x="248" y="150">inflow → labor mix</text>
-
-    <!-- Coast → Eviction (modeled: housing price pressure on coastal counties cascades inland) -->
-    <path class="edge mod" d="M 360 218 Q 280 280 222 320" marker-end="url(#arrow-amber)"/>
-    <text class="edge-label" x="260" y="280">price pressure</text>
-
-    <!-- Eviction → Provisional Ballot (documented: housing turnover produces voter-roll failures) -->
-    <path class="edge doc" d="M 238 360 Q 310 410 326 480" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="278" y="430">address gap</text>
-
-    <!-- Closed Hospital → Provisional Ballot (modeled: care vulnerability concentrates with civic vulnerability) -->
-    <path class="edge mod" d="M 238 510 L 322 510" marker-end="url(#arrow-amber)"/>
-    <text class="edge-label" x="270" y="500">co-located vulnerability</text>
-
-    <!-- ============ Season I → Substrate (S1 generates the signal S2 monetizes) ============ -->
-    <!-- Trickle → Substrate -->
-    <path class="edge mod" d="M 238 175 Q 420 240 552 320" marker-end="url(#arrow-amber)"/>
-    <!-- Eviction → Substrate (DOCUMENTED — tenant scoring is broker-fed) -->
-    <path class="edge doc" d="M 238 340 L 548 340" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="370" y="330">tenant-scoring feed</text>
-    <!-- Hospital → Substrate -->
-    <path class="edge mod" d="M 238 505 Q 420 440 552 360" marker-end="url(#arrow-amber)"/>
-    <!-- Coast → Substrate (DOCUMENTED — insurance & migration data flow upstream) -->
-    <path class="edge doc" d="M 438 175 Q 530 250 552 318" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="465" y="245">insurance data</text>
-    <!-- Ballot → Substrate -->
-    <path class="edge mod" d="M 438 510 Q 530 420 552 360" marker-end="url(#arrow-amber)"/>
-
-    <!-- ============ Substrate → Season II (the loop closes) ============ -->
-    <!-- Substrate → Personhood (DOCUMENTED — composite is built from substrate) -->
-    <path class="edge doc" d="M 648 318 Q 750 240 762 175" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="680" y="245">composite build</text>
-    <!-- Substrate → Feed Engine (DOCUMENTED — feed runs on substrate ad-tech) -->
-    <path class="edge doc" d="M 652 340 L 980 340" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="780" y="332">ad-tech bidder</text>
-    <!-- Substrate → Trust Market (DOCUMENTED — brokers feed gatekeeper scoring) -->
-    <path class="edge doc" d="M 648 360 Q 750 440 762 495" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="680" y="450">broker → gatekeeper</text>
-
-    <!-- ============ Internal Season II loops ============ -->
-    <!-- Personhood → Feed Engine (DOCUMENTED — persona drives feed) -->
-    <path class="edge doc" d="M 880 175 Q 980 230 980 290" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="905" y="235">persona → feed</text>
-    <!-- Feed Engine → Trust Market (MODELED — feed exposure shapes trust score) -->
-    <path class="edge mod" d="M 1010 395 Q 950 470 880 505" marker-end="url(#arrow-amber)"/>
-    <text class="edge-label" x="935" y="445">behavior trail</text>
-    <!-- Trust Market → Personhood (SPECULATIVE — trust score feeds back into composite) -->
-    <path class="edge spec" d="M 760 480 Q 700 320 760 200" marker-end="url(#arrow-pink)"/>
-    <text class="edge-label" x="710" y="345" fill="rgba(255,26,107,.7)">trust→composite (forecast)</text>
-
-    <!-- ============ The closing loop · Trust Market → Eviction & Ballot (DOCUMENTED — scoring affects housing & civic life) ============ -->
-    <path class="edge doc" d="M 760 510 Q 600 600 240 540" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="430" y="595">score → eviction & ballot risk</text>
-
-    <!-- ============ EP 04 Influence War edges ============ -->
-    <!-- Personhood → Influence War (DOCUMENTED — the composite is what the persuasion machine bids on) -->
-    <path class="edge doc" d="M 880 160 L 980 160" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="908" y="150">composite → bid</text>
-    <!-- Substrate → Influence War (DOCUMENTED — hyperscale infrastructure is the shared room) -->
-    <path class="edge doc" d="M 652 320 Q 850 240 980 175" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="800" y="245">shared hyperscale</text>
-    <!-- Feed Engine → Influence War (DOCUMENTED — feed personalization is the persuasion surface) -->
-    <path class="edge doc" d="M 1040 280 L 1040 220" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="1055" y="255">feed → persuasion</text>
-
-    <!-- ============ Episode 05 · Replayable City edges ============ -->
-    <!-- EP 05 → Substrate (MODELED — surveillance infrastructure feeds the substrate) -->
-    <path class="edge mod" d="M 994 510 Q 800 440 652 360" marker-end="url(#arrow-amber)"/>
-    <text class="edge-label" x="820" y="450">surveillance → substrate</text>
-    <!-- Influence War → EP 05 (DOCUMENTED — the data the persuasion machine bids on is collected by infrastructure like this) -->
-    <path class="edge doc" d="M 1040 220 L 1040 464" marker-end="url(#arrow-lime)"/>
-    <text class="edge-label" x="1057" y="350">collection layer</text>
-    <!-- EP 05 → Trust Market (MODELED — physical surveillance footage informs scoring downstream) -->
-    <path class="edge mod" d="M 994 510 L 880 510" marker-end="url(#arrow-amber)"/>
-    <text class="edge-label" x="930" y="500">footage → record</text>
-
-    <!-- ============ LOAD-BEARING PINK EDGES (the hidden spine: Season I cases ← Season II mechanisms) ============ -->
-    <!-- S1·06 Vogtle Bill ← EP 07 Physical Plant (rate-payer subsidy) -->
-    <path class="edge load-bearing" d="M 222 638 Q 380 600 562 656" marker-end="url(#arrow-pink)" stroke="#ff2d8b" stroke-width="2.5" fill="none" opacity="0.78"/>
-    <text class="edge-label" x="370" y="612" fill="#ff2d8b" font-weight="600">rate-payer subsidy</text>
-    <!-- S1·07 Data Center Bill ← EP 07 Physical Plant -->
-    <path class="edge load-bearing" d="M 430 660 L 550 660" marker-end="url(#arrow-pink)" stroke="#ff2d8b" stroke-width="2.5" fill="none" opacity="0.78"/>
-    <!-- S1·02 Closed Hospital ← EP 06 Composite State (record dispersal) -->
-    <path class="edge load-bearing" d="M 238 500 Q 500 420 762 350" marker-end="url(#arrow-pink)" stroke="#ff2d8b" stroke-width="2.5" fill="none" opacity="0.68"/>
-    <text class="edge-label" x="500" y="430" fill="#ff2d8b" font-weight="600">record dispersal</text>
-    <!-- BOWTIE: every S2 mechanism flows IN to EP 08 Class Engine -->
-    <path class="edge load-bearing" d="M 820 218 Q 980 440 982 612" marker-end="url(#arrow-pink)" stroke="#ff2d8b" stroke-width="2" fill="none" opacity="0.55"/>
-    <path class="edge load-bearing" d="M 1040 402 L 1040 588" marker-end="url(#arrow-pink)" stroke="#ff2d8b" stroke-width="2" fill="none" opacity="0.55"/>
-    <path class="edge load-bearing" d="M 880 510 Q 970 580 992 608" marker-end="url(#arrow-pink)" stroke="#ff2d8b" stroke-width="2" fill="none" opacity="0.55"/>
-    <path class="edge load-bearing" d="M 820 398 Q 920 500 980 612" marker-end="url(#arrow-pink)" stroke="#ff2d8b" stroke-width="2" fill="none" opacity="0.55"/>
-    <!-- BOWTIE: edges OUT from EP 08 back to S1 cases -->
-    <path class="edge load-bearing" d="M 972 670 Q 600 700 238 670" marker-end="url(#arrow-pink)" stroke="#ff2d8b" stroke-width="1.8" fill="none" opacity="0.5"/>
-
-    <!-- S1·08 Settlement Shrinkage ← EP 03 Trust Market (algorithmic disbursement tiering) -->
-    <path class="edge load-bearing" d="M 820 480 Q 600 410 426 340" marker-end="url(#arrow-pink)" stroke="#ff2d8b" stroke-width="2.5" fill="none" opacity="0.68"/>
-    <text class="edge-label" x="620" y="380" fill="#ff2d8b" font-weight="600">disbursement scoring</text>
-    <!-- S1·09 Capital Stack ← EP 03 + EP 08 (financial securitization architecture) -->
-    <path class="edge load-bearing" d="M 226 730 Q 500 720 990 700" marker-end="url(#arrow-pink)" stroke="#ff2d8b" stroke-width="2.5" fill="none" opacity="0.62"/>
-    <!-- S1·10 Runoff Tells ← EP 04 Influence War (targeting infrastructure surface) -->
-    <path class="edge load-bearing" d="M 1010 220 Q 700 480 422 710" marker-end="url(#arrow-pink)" stroke="#ff2d8b" stroke-width="2.5" fill="none" opacity="0.68"/>
-    <text class="edge-label" x="700" y="500" fill="#ff2d8b" font-weight="600">targeting surface</text>
-
-    <text class="edge-label" x="600" y="780" fill="#ff2d8b" font-weight="600" font-style="italic" text-anchor="middle">the engine that produced the families →</text>
-
-    <!-- ============ Caption ============ -->
-    <text class="cluster-label" x="600" y="800" text-anchor="middle" fill="rgba(168,162,152,.55)" font-size="9.5" font-style="italic">Pink edges are the hidden spine: every S2 mechanism explains an S1 case. EP 08 Class Engine is the bowtie convergence.</text>
-  </svg>
-</div>
+<section class="s3" id="s3">
+  <div class="s3h">
+    <div class="eb">Season III · Provisional map v3 · in planning</div>
+    <h2>Four questions, <em>six episodes,</em> every seed already on the page.</h2>
+    <p>Season III asks what the worst case is, what the best case is, who is managing this, and what is actually possible now. Version 3 draws on the finished Faith Layer, where a congregation turned out to be the sharpest test of every question: the smallest institution holding the most intimate data under the fewest rules. Each episode opens on a seed case a returning reader will recognize, and each is built for a 15 to 25 minute read.</p>
+    <div class="fourfind">
+      <div><b>1</b><p>The most intimate records sit outside every privacy law. HIPAA reaches only health plans, clearinghouses and providers who bill electronically.</p></div>
+      <div><b>2</b><p>Privilege covers the words, not the file. Courts keep ordering church records produced; a chatbot log has no privilege at all.</p></div>
+      <div><b>3</b><p>People cannot see their own hours. Self-reported and logged screen time correlate only moderately, and the errors run both ways.</p></div>
+      <div><b>4</b><p>Nobody is the integrator. None of the seven standards in the main evangelical accreditation code mentions data, and no one has counted congregations' written privacy policies.</p></div>
+    </div>
+    <p class="note">Sources for each finding are in Exhibits 02, 06 and 07 of the Faith Layer. Season III is provisional: titles, order and seeds can change, and nothing here is published reporting until the episode is.</p>
+  </div>
+  <div class="s3cards" id="s3cards"></div>
+</section>
 
 <section class="notes">
-  <div class="note">
-    <span class="lbl">How to read this</span>
-    <h3>Two clusters, <em>one loop</em> — and a hidden spine in pink.</h3>
-    <p>Season I (left) maps the institutional pressure that produces sortable signal: eviction filings, hospital records, voter-roll churn, insurance-driven migration, and the rate-payer subsidy of the infrastructure that processes all of it. Season II (right) maps how that signal becomes price: the composite, the feed, the trust score, the civic file. The two are not separate publications. They are the same circuit photographed from opposite sides.</p>
-    <p><strong style="color:#ff2d8b">The pink edges</strong> are the load-bearing spine. Every Season II mechanism explains a Season I case. <strong style="color:#ff2d8b">EP 08 The Class Engine</strong> is the bowtie convergence — every mechanism flows in, every consequence flows out. Once you can see it, the Mechanism Series stops being two seasons and becomes one investigation.</p>
-  </div>
-  <div class="note amber">
-    <span class="lbl">The Substrate</span>
-    <h3>The shared <em>middle.</em></h3>
-    <p>Both seasons run through the same four companies (Meta, Google, Apple, Amazon) plus a broker tier (Acxiom, Experian, LexisNexis, CoreLogic). That shared substrate is what makes the two seasons one publication rather than two. It's the bottleneck. It's also the leverage point.</p>
-  </div>
-  <div class="note">
-    <span class="lbl">Documented connections</span>
-    <h3>Lime arrows = <em>established mechanism.</em></h3>
-    <p>The tenant-scoring pipe between eviction filings and the broker tier is one example. The ad-tech bidder between the substrate and the Feed Engine is another. These are not inferences; they are documented, cited, and listed in the <a href="claims-atlas.html" style="color:var(--lime)">Claims Atlas</a>.</p>
-  </div>
-  <div class="note pink">
-    <span class="lbl">Speculative connections</span>
-    <h3>Pink dashed = <em>forecast, not fact.</em></h3>
-    <p>The Trust Market → Personhood feedback (your trust score becoming part of your composite) is the one we model as speculative. It may or may not become true in the next five years. Read the dashed lines as hypotheses. If they materialize, we'll relabel them. If they don't, we'll publish why.</p>
-  </div>
-  <div class="note">
-    <span class="lbl">Note · EP 05</span>
-    <h3>Promoted from dispatch to full episode.</h3>
-    <p><em>The Replayable City</em> began as Field Dispatch 4½ — a shorter, sharper read sitting between The Influence War and The Composite State. It earned its way into the main lineup as <strong>Episode 05</strong> because the surveillance substrate it maps underwrites everything Season II describes. Click through to the live atlas, retention timeline, and address-input replay.</p>
-  </div>
+  <div class="note"><span class="lbl">What changed</span><h3>From a diagram to <em>a map you can walk.</em></h3><p>The earlier atlas drew Season I and Season II as two clusters joined through the substrate, with a pink spine of Season II mechanisms explaining Season I cases. Every one of those connections is still here, in the same evidence styles. This version adds the desk, the Faith Layer and Season III, and lays the lanes out left to right so connections can be read one at a time.</p></div>
+  <div class="note amber"><span class="lbl">The Substrate</span><h3>The shared <em>middle.</em></h3><p>Both seasons run through the same four platforms (Meta, Google, Apple, Amazon) and a broker tier (Acxiom, Experian, LexisNexis, CoreLogic). That shared layer is what makes the seasons one publication.</p></div>
+  <div class="note pink"><span class="lbl">Forecasts</span><h3>Dashed and dotted lines are <em>not facts.</em></h3><p>The Trust Market to Personhood feedback remains speculative. Season III seed lines are editorial plans. If a forecast materializes we relabel it; if a plan changes we redraw it.</p></div>
+  <div class="note"><span class="lbl">Archived</span><h3>Two exhibits <em>held for later.</em></h3><p>The Pulpit Feed and Babel or Pentecost stay online but sit outside the seven-exhibit Faith Layer. Their material is held for a future piece that joins them, and is not drawn on this map.</p></div>
 </section>
 
 <footer>
   <p><a href="index.html">← Mechanism Series</a> · <a href="claims-atlas.html">Claims Atlas</a> · <a href="case-file.html">Your Case File</a></p>
-  <p style="margin-top:14px; font-family:var(--italic); font-style:italic; color:var(--dim); letter-spacing:.02em; font-size:11px; text-transform:none">The atlas updates as the publication grows. Each new episode adds at least one new node and one new edge.</p>
+  <p style="margin-top:14px; font-family:var(--italic); font-style:italic; color:var(--dim); letter-spacing:.02em; font-size:11px; text-transform:none">The atlas updates as the publication grows. Each new piece adds at least one node and one connection. Compiled with Claude, an AI model made by Anthropic.</p>
 </footer>
 
+<script>
+/* Systems Atlas data. Lanes, nodes, edges, through-lines and inspection lenses. */
+var LANES=[
+ {id:'s1',name:'Season I',sub:'Institutional pressure',col:'#ff7a2e'},
+ {id:'desk',name:'Briefs and Field Notes',sub:'The desk between episodes',col:'#9aa0b4'},
+ {id:'sub',name:'The Substrate',sub:'The shared middle',col:'#ffd500'},
+ {id:'s2',name:'Season II',sub:'Informational sorting',col:'#c8ff1e'},
+ {id:'fl',name:'The Faith Layer',sub:'Seven exhibits and two companions',col:'#c9a2ff'},
+ {id:'s3',name:'Season III',sub:'In planning · provisional',col:'#5fd4e8'}];
+
+/* status: live · drafting · planning · preview */
+var NODES=[
+ /* Season I */
+ {id:'t01',lane:'s1',n:'01',t:'The Trickle',h:'the-trickle.html',st:'live',tm:'~6 min',d:'Upstream economic disruption traced through the commute and the tax base.'},
+ {id:'t01b',lane:'s1',n:'01·2',t:'The Trickle · Part Two',h:'episode-05-2-the-trickle-part-two.html',st:'live',tm:'interactive',d:'A corridor watch with pre-registered outcomes, scored in public.'},
+ {id:'e02',lane:'s1',n:'02',t:'The Eviction Funnel',h:'the-eviction-funnel.html',st:'live',tm:'~7 min',d:'Housing instability becomes civic disappearance.'},
+ {id:'h03',lane:'s1',n:'03',t:'The Closed Hospital',h:'the-closed-hospital.html',st:'live',tm:'~6 min',d:'A rural ER closure radiates through outcomes and records.'},
+ {id:'c04',lane:'s1',n:'04',t:'The Coast Is Moving North',h:'the-coast-is-moving.html',st:'live',tm:'~6 min',d:'Insurance hardening drives migration and infrastructure.'},
+ {id:'b05',lane:'s1',n:'05',t:'The Provisional Ballot Maze',h:'the-provisional-ballot.html',st:'live',tm:'~6 min',d:'Adjudication geometry with uneven impact.'},
+ {id:'v06',lane:'s1',n:'06',t:'The Vogtle Bill',h:'the-vogtle-bill.html',st:'live',tm:'~7 min',d:'A nuclear plant\'s cost socialized to the kitchen table.'},
+ {id:'d07',lane:'s1',n:'07',t:'The Data Center Bill',h:'the-data-center-load.html',st:'live',tm:'~10 min',d:'Tax holidays, grid forecasts and who pays for AI\'s power.'},
+ {id:'s08',lane:'s1',n:'08',t:'The Settlement Shrinkage',h:'the-settlement-shrinkage.html',st:'live',tm:'~5 min',d:'Disbursement tiers and audit trails that fade.'},
+ {id:'k09',lane:'s1',n:'09',t:'The Capital Stack',h:'the-capital-stack.html',st:'live',tm:'~14 min',d:'Vogtle, data centers and donations as one stack of claims.'},
+ {id:'r10',lane:'s1',n:'10',t:'The Runoff Tells',h:'the-runoff-tells.html',st:'live',tm:'~13 min',d:'Where down-ballot targeting shows itself between elections.'},
+ /* desk */
+ {id:'br002',lane:'desk',n:'Brief 002',t:'The 269-Day Clock',h:'briefs/2026-06-10-the-269-day-clock.html',st:'live',tm:'brief',d:'A bankruptcy court sets a date to destroy a hospital system\'s patient records.'},
+ {id:'br003',lane:'desk',n:'Brief 003',t:'The PUC Large-Load Tariff Clock',h:'briefs/2026-06-12-the-puc-large-load-tariff-clock.html',st:'live',tm:'brief',d:'Who pays for Big Tech\'s power, decided in a hearing few households attended.'},
+ {id:'br005',lane:'desk',n:'Brief 005',t:'The Vogtle Cost Recovery Clock',h:'briefs/2026-06-19-the-vogtle-cost-recovery-clock.html',st:'live',tm:'brief',d:'Ratepayers charged for a plant before it ran, for 17 years.'},
+ {id:'fn07',lane:'desk',n:'FN 07',t:'The Fast Lane',h:'field-notes/07-the-fast-lane.html',st:'live',tm:'field note',d:'A $750 paid lane to the front of a public queue.'},
+ {id:'fn08',lane:'desk',n:'FN 08',t:'Under the Noise',h:'field-notes/08-under-the-noise.html',st:'live',tm:'field note',d:'What moves while attention is elsewhere.'},
+ {id:'br006',lane:'desk',n:'Brief 006',t:'The Bankruptcy Estate of You',h:'brief-the-bankruptcy-estate-of-you.html',st:'live',tm:'brief',d:'An airline stops flying; its workers\' records become an asset in court.'},
+ {id:'br007',lane:'desk',n:'Brief 007',t:'The Estate of the Dead',h:'brief-the-estate-of-the-dead.html',st:'live',tm:'brief',d:'A bankrupt AI company\'s estate holds chats and personas of people who have died.'},
+ {id:'fn12',lane:'desk',n:'FN 12',t:'The Ventriloquist',h:'field-notes/12-the-ventriloquist.html',st:'live',tm:'field note',d:'AI voices of the dead in campaigns, pulpits and causes.'},
+ /* substrate */
+ {id:'sub',lane:'sub',n:'◎',t:'The Substrate',h:'',st:'live',tm:'',d:'Four platforms and a broker tier underneath both seasons: the bottleneck every mechanism passes through.'},
+ /* Season II */
+ {id:'p01',lane:'s2',n:'01',t:'Personhood, Inc.',h:'personhood-inc.html',st:'live',tm:'~14 min',d:'The composite: a person built from posted images and traces.'},
+ {id:'f02',lane:'s2',n:'02',t:'The Feed Engine',h:'the-feed-engine.html',st:'live',tm:'~12 min',d:'The ten-layer machine that ranks what you see.'},
+ {id:'tm03',lane:'s2',n:'03',t:'The Trust Market',h:'episode-03-trust-market.html',st:'live',tm:'~10 min',d:'Reputation becomes price in housing, lending, insurance and work.'},
+ {id:'iw04',lane:'s2',n:'04',t:'The Influence War',h:'episode-04-the-influence-war.html',st:'live',tm:'~12 min',d:'Commercial persuasion and civic administration on one substrate.'},
+ {id:'rc05',lane:'s2',n:'05',t:'The Replayable City',h:'episode-05-the-replayable-city.html',st:'live',tm:'~12 min',d:'A city\'s cameras and the retention math behind them.'},
+ {id:'cs06',lane:'s2',n:'06',t:'The Composite State',h:'episode-06-composite-state.html',st:'preview',tm:'~14 min',d:'You are not stored in one file. You are reconstructed on demand.'},
+ {id:'pp07',lane:'s2',n:'07',t:'The Physical Plant',h:'episode-07-the-physical-plant.html',st:'live',tm:'~16 min',d:'The cloud has an address, and your bill has a line for it.'},
+ {id:'ce08',lane:'s2',n:'08',t:'The Class Engine',h:'episode-08-the-class-engine.html',st:'live',tm:'finale, Acts I and II',d:'The bowtie: where Season I and Season II become one story.'},
+ {id:'ss09',lane:'s2',n:'09',t:'The Synthetic Self',h:'',st:'drafting',tm:'',d:'The replica is cheap; the original is rent.'},
+ {id:'af10',lane:'s2',n:'10',t:'The Afterlife of Your Data',h:'',st:'drafting',tm:'',d:'You stop. Your data has three buyers.'},
+ {id:'sr',lane:'s2',n:'★',t:'When the Company Closes',h:'',st:'drafting',tm:'special report',d:'The custodian dies: hospital, airline, genome, companion.'},
+ {id:'gl11',lane:'s2',n:'11',t:'The Governance Layer',h:'',st:'drafting',tm:'',d:'The season closer, with dated levers and the reader\'s Part 12 Lever Map.'},
+ /* Faith Layer */
+ {id:'qg',lane:'fl',n:'01',t:'The Quiet Guest',h:'the-quiet-guest.html',st:'live',tm:'~16 min',d:'Plate readers, agents and the Sunday stream: who watches the church door.'},
+ {id:'an',lane:'fl',n:'02',t:'The Angel at 2 A.M.',h:'the-angel-at-2am.html',st:'live',tm:'~25 min',d:'The angel a church could build, and the one a teenager already talks to.'},
+ {id:'ci',lane:'fl',n:'03',t:'Check-In',h:'check-in.html',st:'live',tm:'~15 min',d:'A nursery record that outlives childhood.'},
+ {id:'if',lane:'fl',n:'04',t:'Inferred Faith',h:'inferred-faith.html',st:'live',tm:'~10 min',d:'You never told it your faith. It guessed.'},
+ {id:'sd',lane:'fl',n:'05',t:'The Second Death',h:'the-second-death.html',st:'live',tm:'~40 min',d:'When a rebuilt voice of the dead goes quiet a second time.'},
+ {id:'rt',lane:'fl',n:'06',t:'Redeeming the Time',h:'redeeming-the-time.html',st:'live',tm:'~23 min',d:'Lost hours, faith-app hooks and the line between invitation and manipulation.'},
+ {id:'hp',lane:'fl',n:'07',t:'HIPAA for the Pews',h:'hipaa-for-the-pews.html',st:'live',tm:'~21 min',d:'Where privacy law stops at the church door, and the charter.'},
+ {id:'gu',lane:'fl',n:'◆',t:'Grandma, Updated',h:'grandma-updated.html',st:'live',tm:'~16 min',d:'The business of the dead: a grief store and an as-we-wish slider.'},
+ {id:'tb',lane:'fl',n:'◆',t:'Same Building, Two Bills',h:'same-building-two-bills.html',st:'live',tm:'~16 min',d:'Why studies and a grid monitor disagree about data centers and your bill.'},
+ /* Season III */
+ {id:'w1',lane:'s3',n:'S3·01',t:'The Worst Case',h:'#s3',st:'planning',tm:'15 to 25 min',d:'"The worst case isn\'t a villain. It\'s a building."'},
+ {id:'b2',lane:'s3',n:'S3·02',t:'The Best Case',h:'#s3',st:'planning',tm:'15 to 25 min',d:'"The best case is the thing no government has built yet."'},
+ {id:'cg3',lane:'s3',n:'S3·03',t:'The Custodian Gap',h:'#s3',st:'planning',tm:'15 to 25 min',d:'"Everyone is managing a slice. No one is managing the whole."'},
+ {id:'yd4',lane:'s3',n:'S3·04',t:'What You Can Actually Do',h:'#s3',st:'planning',tm:'15 to 25 min',d:'"You cannot opt out. You can opt in to specific things that work."'},
+ {id:'ae5',lane:'s3',n:'S3·05',t:'The Aspirational Engine',h:'#s3',st:'planning',tm:'15 to 25 min',d:'"The Joneses are an algorithm now."'},
+ {id:'pr6',lane:'s3',n:'S3·06',t:'The Price You Don\'t See',h:'#s3',st:'planning',tm:'15 to 25 min',d:'"Same store, same product, different price."'}
+];
+
+/* edge types: doc (documented) · mod (modeled) · spec (speculative) · spine (Season II mechanism explains a Season I case) · seed (Season III planned seed) */
+var EDGES=[
+ ['t01','e02','doc','job loss → eviction'],['e02','h03','mod','stress → no-shows'],['c04','t01','mod','inflow → labor mix'],['c04','e02','mod','price pressure'],
+ ['e02','b05','doc','address gap'],['h03','b05','mod','co-located vulnerability'],
+ ['t01','sub','mod','signal upstream'],['e02','sub','doc','tenant-scoring feed'],['h03','sub','mod','care records'],['c04','sub','doc','insurance data'],['b05','sub','mod','voter-roll churn'],
+ ['sub','p01','doc','composite build'],['sub','f02','doc','ad-tech bidder'],['sub','tm03','doc','broker → gatekeeper'],['sub','iw04','doc','shared hyperscale'],
+ ['p01','f02','doc','persona → feed'],['f02','tm03','mod','behavior trail'],['tm03','p01','spec','trust → composite (forecast)'],
+ ['tm03','e02','doc','score → eviction risk'],['tm03','b05','doc','score → ballot risk'],
+ ['p01','iw04','doc','composite → bid'],['f02','iw04','doc','feed → persuasion'],
+ ['rc05','sub','mod','surveillance → substrate'],['iw04','rc05','doc','collection layer'],['rc05','tm03','mod','footage → record'],
+ ['pp07','v06','spine','rate-payer subsidy'],['pp07','d07','spine','the plant behind the bill'],['cs06','h03','spine','record dispersal'],
+ ['p01','ce08','spine','bowtie'],['f02','ce08','spine','bowtie'],['tm03','ce08','spine','bowtie'],['iw04','ce08','spine','bowtie'],
+ ['ce08','e02','spine','the engine that produced the families'],['tm03','s08','spine','disbursement scoring'],['ce08','k09','spine','securitization'],['iw04','r10','spine','targeting surface'],
+ /* desk */
+ ['br002','h03','doc','hospital records after closure'],['br003','d07','doc','the tariff decides who pays'],['br005','v06','doc','paid before it ran'],
+ ['br006','af10','mod','the estate as a buyer'],['br007','af10','mod','personas of the dead in an estate'],['br006','sr','doc','the door with no handle'],['br007','sr','doc','the custodian is in court'],
+ ['fn12','ss09','doc','consent present where labeled'],['fn08','rt','mod','what slides past'],
+ /* Season II act III */
+ ['ss09','gl11','doc','Act III'],['af10','gl11','doc','Act III'],['sr','gl11','doc','three deaths, one ending'],['cs06','af10','mod','no integrator'],
+ /* Faith Layer */
+ ['rc05','qg','doc','the camera at the church door'],['rc05','ci','doc','the retention clock'],['p01','if','doc','guessed faith'],['cs06','if','doc','the composite guesses belief'],
+ ['ss09','an','mod','a synthetic confessor'],['iw04','an','mod','the pull at 2 a.m.'],['f02','rt','doc','the feed fills the hours'],
+ ['br007','sd','doc','personas of the dead'],['fn12','sd','doc','the dead in the pulpit'],['sd','af10','mod','the voice dies again'],
+ ['sd','gu','doc','companion'],['pp07','tb','doc','companion'],['d07','tb','doc','the bill, revisited'],
+ ['qg','hp','doc','clause 01'],['an','hp','doc','clause 02'],['ci','hp','doc','clause 03'],['if','hp','doc','clause 04'],['sd','hp','doc','clause 05'],['rt','hp','doc','clause 06'],
+ ['an','rt','doc','how she got to 2 a.m.'],['an','sd','mod','the model change, for the dead'],
+ /* Season III seeds */
+ ['br007','w1','seed','an estate full of conversations'],['pp07','w1','seed','the building'],['hp','w1','seed','intimate data outside every law'],['an','w1','seed','seven sentences at 2 a.m.'],['sr','w1','seed','the custodian dies'],
+ ['fn12','b2','seed','consent and labels by design'],['hp','b2','seed','churches with their own data law'],['rt','b2','seed','quiet hours, hideable streaks'],['an','b2','seed','"Call the pastor"'],
+ ['sr','cg3','seed','the four-room ledger'],['af10','cg3','seed','no integrator'],['hp','cg3','seed','0 of 7 standards'],['sd','cg3','seed','the parish vault'],
+ ['hp','yd4','seed','the seven-clause charter'],['an','yd4','seed','Digital Life Card'],['sd','yd4','seed','Before I Go card'],['ci','yd4','seed','nursery policy'],['qg','yd4','seed','stream dial'],['gl11','yd4','seed','Lever Map'],['rt','yd4','seed','self-set limits'],
+ ['gu','ae5','seed','as we wish'],['rt','ae5','seed','psalm to ad in one feed'],['f02','ae5','seed','the feed'],
+ ['fn07','pr6','seed','the paid lane'],['gu','pr6','seed','the grief store'],['tb','pr6','seed','two bills'],['rt','pr6','seed','faith-app subscriptions']
+];
+
+var THREADS=[
+ {id:'deaths',t:'The three deaths',c:'#ff5c8a',d:'The person dies, the voice dies again, the custodian dies. Season II gives each an ending someone could write; Season III asks what the worst version looks like.',p:[['af10','The person dies: the data has three buyers.'],['sd','The voice dies again when a griefbot goes quiet.'],['br007','An AI company\'s estate holds personas of the dead.'],['sr','The custodian dies: hospital, airline, genome, companion.'],['gl11','Each death gets a lever.'],['w1','The honest worst case is administrative.']]},
+ {id:'file',t:'Who holds the file',c:'#ffd500',d:'From an airline\'s payroll to a teenager\'s 2 a.m. sentences, the series keeps asking where a record actually lives, and the answer is rarely where people think.',p:[['br006','Workers\' records become an asset in bankruptcy.'],['br007','Chats stay in the estate until a bid deadline.'],['an','A company log, a church server, or only her phone.'],['ci','A check-in vendor holds a child\'s record for years.'],['hp','Church records mostly sit under no privacy rule; privilege covers words, not files.'],['sr','When the company closes, the file does not.'],['cg3','No one is managing the whole file.']]},
+ {id:'clocks',t:'Every room had a clock',c:'#5fd4e8',d:'Volume I of the Brief was The Hidden Clocks. The clocks kept coming: retention, 2 a.m., mourning, the week.',p:[['br002','269 days until records are destroyed.'],['br003','A comment window that closed.'],['br005','Seventeen years of charges before power.'],['rc05','How long footage is kept.'],['ci','A child\'s record on a retention clock.'],['an','The 2 a.m. clock.'],['sd','The mourning clock.'],['rt','The week clock: 168 hours.']]},
+ {id:'consent',t:'Consent where labeled, absent where persuasive',c:'#c9a2ff',d:'Where a voice or a reminder is labeled and chosen, consent is present. Where it is built to persuade, it tends to vanish.',p:[['fn12','Consent is present where labeled, absent where persuasive.'],['ss09','The replica on the case wall.'],['sd','Consent swings everything about the dead.'],['if','Which states make a system ask first.'],['rt','The persuasion ladder: faith as "a free act."'],['b2','Consent and labels by design, already operating somewhere.']]},
+ {id:'infer',t:'Inference crosses consent',c:'#ff9a5c',d:'A system guesses what a person never said, and the guess becomes a record someone else can use.',p:[['p01','The composite is built from traces.'],['tm03','The guess becomes a price.'],['cs06','Reconstructed on demand.'],['if','Faith, guessed from a parking lot.'],['an','The inner-life ring of the rose window.'],['rt','Targeting the anxious and the struggling, as one firm said it could.'],['w1','The worst case begins with a guess no one can see.']]},
+ {id:'integrator',t:'No integrator',c:'#9aa0b4',d:'Everyone manages a slice. The job of managing the whole is open.',p:[['cs06','No single file to govern.'],['af10','"Governed in pieces, by many actors, with no integrator."'],['sr','The four-room ledger thins.'],['hp','0 of 7 standards mention data; no one counts written policies.'],['cg3','The job description exists. The job is open.']]},
+ {id:'time',t:'Attention and time',c:'#c8ff1e',d:'The feed ranks the hours as well as the posts. The Faith Layer measured what people can and cannot see of their own time.',p:[['f02','The ten-layer ranking machine.'],['fn08','What moves under the noise.'],['iw04','Persuasion runs on the same surface.'],['rt','People misjudge their own screen time in both directions.'],['ae5','The engine that fills the emptied hours.']]},
+ {id:'building',t:'Who pays for the building',c:'#ff7a2e',d:'From a nuclear plant to a data center, the series keeps finding the household line item behind the infrastructure.',p:[['v06','A plant\'s cost on the kitchen table.'],['br005','Charged before it ran.'],['d07','Who pays for AI\'s power.'],['br003','The tariff hearing.'],['pp07','The cloud has an address.'],['tb','Two bills for one building.'],['k09','One stack of claims.'],['w1','"The worst case isn\'t a villain. It\'s a building."']]},
+ {id:'rent',t:'The price you don\'t see',c:'#ff1a6b',d:'Paid lanes, tiers and subscriptions that sit quietly inside things people thought were free or fixed.',p:[['fn07','A paid lane in a public queue.'],['gu','A grief store\'s tiers.'],['ss09','The rent on remembrance.'],['tb','The same building, two bills.'],['rt','Prayer apps by subscription; reach is not response.'],['pr6','Same store, same product, different price.']]},
+ {id:'home',t:'Take it home',c:'#7fe0b0',d:'Every take-home object the series has built, collected into the episode that calibrates them.',p:[['an','Digital Life Card.'],['sd','Before I Go card.'],['ci','A nursery data policy.'],['qg','The stream dial.'],['rt','Your persuasion line.'],['hp','A seven-clause charter.'],['gl11','The Part 12 Lever Map.'],['yd4','Ranked by measured effect.']]},
+ {id:'bowtie',t:'The bowtie',c:'#ff2d8b',d:'The hidden spine: every Season II mechanism explains a Season I case, converging in The Class Engine.',p:[['p01','The composite.'],['f02','The feed.'],['tm03','The score.'],['iw04','The persuasion machine.'],['ce08','The bowtie.'],['e02','Back to the families.'],['k09','Back to the stack.']]},
+ {id:'prereg',t:'Pre-registration',c:'#e8e3d4',d:'Say in advance what would prove us wrong, then score it in public, misses included.',p:[['t01b','The corridor watch.'],['br006','A forecast before the court date.'],['br007','A forecast before the bid deadline.'],['sr','Room 4, scored.'],['gl11','The scorecard at the top.']]}
+];
+
+/* inspection lenses: questions any page can be held up to */
+var LENSES=[
+ {id:'hold',q:'Who holds the file?',c:'#ffd500',s3:'Runs through all six',f:{e02:'Eviction filings feed tenant-scoring brokers.',tm03:'Brokers hold the score, not the person.',cs06:'No one file: the person is reassembled on demand.',br006:'A bankruptcy estate holds workers\' records.',br007:'An estate holds chats and personas of the dead.',an:'A company log, a church server, a vendor cloud, or only her phone.',ci:'A check-in vendor, for years after a child leaves.',hp:'The congregation, under almost no privacy rule.',sr:'Whoever buys the company.',af10:'Three buyers after death.'}},
+ {id:'ask',q:'Who can ask for it?',c:'#ff5c8a',s3:'S3·01',f:{rc05:'Anyone who can request city footage before it is deleted.',qg:'Agents at the church door, and anyone watching the stream.',an:'A court, wherever the angel lives.',hp:'Grand juries, subpoenas, brokers, and attackers on the bankruptcy side.',br006:'A buyer in bankruptcy court.',tm03:'Landlords, lenders, insurers, employers.',if:'Advertisers who buy an inferred audience.'}},
+ {id:'end',q:'When does it end?',c:'#5fd4e8',s3:'S3·04',f:{br002:'On a court-ordered destruction date.',rc05:'When the retention clock runs out, if it does.',ci:'Often never: no fixed end for a child\'s record.',an:'When the company changes the model, without telling her.',sd:'Twice: at death, and when the voice goes quiet.',af10:'It does not; the data outlives the person.',hp:'Only if a congregation writes a schedule.'}},
+ {id:'consent',q:'Who consented?',c:'#c9a2ff',s3:'S3·02',f:{p01:'Nobody consented to the composite as a whole.',fn12:'Present where labeled, absent where persuasive.',ss09:'The replica on the case wall.',sd:'Whether the dead consented changes opinion more than anything else.',if:'Some states require a yes before guessing faith.',rt:'Faith as "a free act"; the persuasion ladder.',an:'An invited pastor, or a vendor\'s analytics.'}},
+ {id:'pays',q:'Who pays?',c:'#ff7a2e',s3:'S3·06',f:{v06:'Ratepayers, before the plant ran.',d07:'Households, through tariffs and tax holidays.',pp07:'A line on your bill for the cloud.',tb:'It depends which study you read.',k09:'Whoever holds the bottom of the stack.',fn07:'Anyone who cannot pay for the fast lane.',gu:'The grieving, by tier.',rt:'Subscribers, and a public reached at scale.'}},
+ {id:'integrate',q:'Who integrates?',c:'#9aa0b4',s3:'S3·03',f:{cs06:'No one; the composite has no custodian.',af10:'No integrator across the three buyers.',sr:'The room thins from hospital to companion app.',hp:'No standard for data; Europe lets churches run their own.',gl11:'The levers, dated.',cg3:'The job is open.'}},
+ {id:'time',q:'Where did the time go?',c:'#c8ff1e',s3:'S3·05',f:{f02:'Into the ranking machine.',fn08:'Into the noise, while rules moved.',iw04:'Into persuasion.',an:'Into the hours after midnight.',rt:'Nobody can say exactly; self-reports and logs diverge both ways.',ae5:'Into the aspirational engine.'}}
+];
+
+/* Season III cards: seeds tie back to atlas nodes */
+var S3=[
+ {id:'w1',q:'What is the worst that could happen?',seeds:[['br007','A bankrupt AI company\'s estate holds chats and personas of the dead.'],['pp07','The buildings where the conversations sit.'],['hp','Bankruptcy-side breaches of abuse survivors\' data, and member records reportedly stolen with traces of AI agents.'],['an','Seven sentences at 2 a.m., routed to a log, a training pipeline and a court.']],sharp:'The honest worst case is administrative and quiet: a sale order, a storage contract, a claims agent, and a courtroom where nobody speaks for the people inside the data.'},
+ {id:'b2',q:'What is the best?',seeds:[['fn12','Consent and labels by design.'],['hp','Churches that run their own data law under independent oversight, as in Germany.'],['rt','New York\'s quiet hours for minors from January 2027; prayer apps that let users hide streaks.'],['an','A pastor\'s AI twin that says "Call the pastor."']],sharp:'A "what already works somewhere" episode, sourced to real institutions.'},
+ {id:'cg3',q:'Who is currently managing this?',seeds:[['sr','The four-room ledger.'],['af10','Governed in pieces, with no integrator.'],['hp','Zero of seven accreditation standards mention data; no one has counted written privacy policies.'],['sd','A parish asked to keep members\' digital remains with no rule to follow.']],sharp:'"The job description for the integrator exists. The job is open."'},
+ {id:'yd4',q:'What is actually possible now?',seeds:[['hp','The seven-clause charter, each clause with a precedent.'],['an','The Digital Life Card.'],['sd','The Before I Go card.'],['rt','Self-set limits, which an experiment found cut use substantially.']],sharp:'Eight to twelve actions, ranked by measured effect, cost and commitment.'},
+ {id:'ae5',q:'Who fills the emptied hours?',seeds:[['gu','The as she was / as we wish slider.'],['rt','A feed that drifts from a psalm to an ad; the persuasion ladder.'],['f02','The ranking machine.']],sharp:'The hours a Sabbath empties are the hours this engine fills.'},
+ {id:'pr6',q:'What does it cost that you cannot see?',seeds:[['fn07','A $750 paid lane.'],['gu','A grief store\'s tiers.'],['tb','Two bills for one building.'],['rt','Faith-app subscriptions; a campaign reported at about 30,000 sign-ups from roughly 100 million reached.']],sharp:'Same store, same product, different price.'}
+];
+
+(function(){
+'use strict';
+var NS='http://www.w3.org/2000/svg', RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function $(s,r){return (r||document).querySelector(s);} function $$(s,r){return [].slice.call((r||document).querySelectorAll(s));}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+var BY={}; NODES.forEach(function(n){BY[n.id]=n;});
+var LANE={}; LANES.forEach(function(l){LANE[l.id]=l;});
+var ETYPE={doc:{n:'Documented',c:'#c8ff1e',dash:''},mod:{n:'Modeled',c:'#ffd500',dash:'6 4'},spec:{n:'Speculative',c:'#ff1a6b',dash:'2 4'},spine:{n:'Hidden spine',c:'#ff2d8b',dash:''},seed:{n:'Season III seed',c:'#5fd4e8',dash:'1 5'}};
+var STATUS={live:'Live',preview:'Preview',drafting:'In drafting',planning:'In planning'};
+
+/* ---------- layout ---------- */
+var W=1360,H=900,TOP=92,BOT=40;
+var LX={s1:36,desk:262,sub:506,s2:640,fl:880,s3:1116};
+var counts={}; NODES.forEach(function(n){counts[n.lane]=(counts[n.lane]||0)+1;});
+var idx={};
+NODES.forEach(function(n){ var i=idx[n.lane]=(idx[n.lane]||0); idx[n.lane]++; var c=counts[n.lane];
+  n.x=LX[n.lane]; n.y= c===1 ? (TOP+(H-BOT-TOP)/2) : TOP+ (i+.5)*((H-BOT-TOP)/c); });
+
+var svg=$('#atlas'); svg.setAttribute('viewBox','0 0 '+W+' '+H);
+var gLane=el('g',{},svg), gEdge=el('g',{'class':'edges'},svg), gThread=el('g',{'class':'thread'},svg), gNode=el('g',{'class':'nodes'},svg), gLbl=el('g',{'class':'elabels'},svg);
+LANES.forEach(function(l){ var x=LX[l.id];
+  el('rect',{x:x-24,y:14,width:l.id==='sub'?110:222,height:H-24,rx:14,'class':'lanebg'},gLane);
+  var t=el('text',{x:x-10,y:42,'class':'lanename',fill:l.col},gLane); t.textContent=l.name.toUpperCase();
+  var s=el('text',{x:x-10,y:60,'class':'lanesub'},gLane); s.textContent=l.sub; });
+
+function path(a,b){
+  var x1=a.x,y1=a.y,x2=b.x,y2=b.y;
+  if(a.lane===b.lane){ var off=Math.min(70,22+Math.abs(y2-y1)*.18); return 'M'+x1+' '+y1+' C'+(x1-off)+' '+y1+' '+(x2-off)+' '+y2+' '+x2+' '+y2; }
+  var dx=Math.max(60,Math.abs(x2-x1)*.45), s=x2>x1?1:-1;
+  return 'M'+x1+' '+y1+' C'+(x1+s*dx)+' '+y1+' '+(x2-s*dx)+' '+y2+' '+x2+' '+y2; }
+var EL=[];
+EDGES.forEach(function(e,i){ var a=BY[e[0]],b=BY[e[1]]; if(!a||!b){console.warn('edge',e);return;} var T=ETYPE[e[2]];
+  var p=el('path',{d:path(a,b),'class':'edge '+e[2],stroke:T.c,'stroke-dasharray':T.dash,'data-i':i},gEdge);
+  EL.push({e:e,p:p}); });
+NODES.forEach(function(n){ var L=LANE[n.lane], g=el('g',{'class':'node st-'+n.st,'data-id':n.id,tabindex:0,role:'button','aria-label':n.t+', '+L.name},gNode);
+  var r=n.id==='sub'?20:8;
+  el('circle',{cx:n.x,cy:n.y,r:r+9,'class':'halo',fill:L.col},g);
+  el('circle',{cx:n.x,cy:n.y,r:r,'class':'dot',fill:(n.st==='live'||n.st==='preview')?L.col:'#08080c',stroke:L.col,'stroke-width':2,'stroke-dasharray':n.st==='planning'?'2 3':(n.st==='drafting'?'5 3':'')},g);
+  if(n.id==='sub'){ var t0=el('text',{x:n.x,y:n.y+44,'class':'nt','text-anchor':'middle'},g); t0.textContent=n.t; return; }
+  var tn=el('text',{x:n.x+16,y:n.y-6,'class':'nn'},g); tn.textContent=n.n+(n.st!=='live'?' · '+STATUS[n.st].toLowerCase():'');
+  var tt=el('text',{x:n.x+16,y:n.y+10,'class':'nt'},g); tt.textContent=n.t;
+  el('polygon',{points:(n.x)+','+(n.y-17)+' '+(n.x+7)+','+(n.y-10)+' '+(n.x)+','+(n.y-3)+' '+(n.x-7)+','+(n.y-10),'class':'lensmark'},g);
+  var bd=el('g',{'class':'badge'},g); el('circle',{cx:n.x-15,cy:n.y-13,r:9},bd); el('text',{x:n.x-15,y:n.y-9.5,'text-anchor':'middle'},bd);
+});
+
+/* ---------- state ---------- */
+var state={node:null,thread:null,lens:null};
+function clearMarks(){ svg.classList.remove('focus'); $$('.node',svg).forEach(function(g){g.classList.remove('on','near','inlens','inthread');});
+  EL.forEach(function(o){o.p.classList.remove('on');}); while(gLbl.firstChild)gLbl.removeChild(gLbl.firstChild); while(gThread.firstChild)gThread.removeChild(gThread.firstChild);
+  $$('.li').forEach(function(b){b.classList.remove('on','near','inlens','inthread'); var nm=$('.num',b); if(nm) nm.textContent=BY[b.dataset.id].n;}); }
+function gnode(id){return $('.node[data-id="'+id+'"]',svg);}
+function mark(id,c){ var g=gnode(id); if(g)g.classList.add(c); var b=$('.li[data-id="'+id+'"]'); if(b)b.classList.add(c); }
+function elabel(o){ var p=o.p, L=p.getTotalLength(), m=p.getPointAtLength(L*.5); var t=el('text',{x:m.x,y:m.y-4,'class':'el','text-anchor':'middle'},gLbl); t.textContent=o.e[3]; }
+function chip(type){var T=ETYPE[type];return '<span class="ech" style="--c:'+T.c+'">'+T.n+'</span>';}
+function link(id){var n=BY[id];return '<button class="jump" data-go="'+id+'"><i style="background:'+LANE[n.lane].col+'"></i>'+esc(n.t)+'</button>';}
+
+function selectNode(id,scroll){
+  clearMarks(); state={node:id,thread:null,lens:null}; syncBars(); svg.classList.add('focus'); mark(id,'on');
+  var n=BY[id], ins=[],outs=[];
+  var deg=EL.filter(function(o){return o.e[0]===id||o.e[1]===id;}).length;
+  EL.forEach(function(o){ if(o.e[0]===id||o.e[1]===id){ o.p.classList.add('on'); if(deg<=6) elabel(o); mark(o.e[0]===id?o.e[1]:o.e[0],'near'); (o.e[0]===id?outs:ins).push(o.e);} });
+  var th=THREADS.filter(function(t){return t.p.some(function(s){return s[0]===id;});});
+  var ln=LENSES.filter(function(l){return l.f[id];});
+  var L=LANE[n.lane];
+  $('#panel').innerHTML='<div class="pk" style="color:'+L.col+'">'+esc(L.name)+' · '+esc(n.n)+'</div><h2>'+esc(n.t)+'</h2>'+
+   '<p class="pd">'+esc(n.d)+'</p><div class="pm"><span class="stt st-'+n.st+'">'+STATUS[n.st]+'</span>'+(n.tm?'<span>'+esc(n.tm)+'</span>':'')+(n.h&&n.h!=='#s3'?'<a class="open" href="'+n.h+'">Open the piece →</a>':(n.h==='#s3'?'<a class="open" href="#s3">See the Season III map →</a>':''))+'</div>'+
+   (ins.length?'<h3>Comes from</h3><ul class="cx">'+ins.map(function(e){return '<li>'+link(e[0])+chip(e[2])+'<span class="lb">'+esc(e[3])+'</span></li>';}).join('')+'</ul>':'')+
+   (outs.length?'<h3>Leads to</h3><ul class="cx">'+outs.map(function(e){return '<li>'+link(e[1])+chip(e[2])+'<span class="lb">'+esc(e[3])+'</span></li>';}).join('')+'</ul>':'')+
+   (th.length?'<h3>Through-lines it carries</h3><div class="tc">'+th.map(function(t){return '<button class="tchip" data-thread="'+t.id+'" style="--c:'+t.c+'">'+esc(t.t)+'</button>';}).join('')+'</div>':'')+
+   (ln.length?'<h3>Under the lenses</h3><ul class="lx">'+ln.map(function(l){return '<li><button class="lchip" data-lens="'+l.id+'" style="--c:'+l.c+'">◆ '+esc(l.q)+'</button><span>'+esc(l.f[id])+'</span></li>';}).join('')+'</ul>':'');
+  wirePanel(); if(scroll) reveal();
+}
+function selectThread(tid,scroll){
+  clearMarks(); state={node:null,thread:tid,lens:null}; syncBars(); svg.classList.add('focus');
+  var T=THREADS.filter(function(t){return t.id===tid;})[0], pts=T.p.map(function(s){return BY[s[0]];});
+  var d='M'+pts[0].x+' '+pts[0].y; for(var i=1;i<pts.length;i++){ d+=' '+path(pts[i-1],pts[i]).replace(/^M[^C]+/,''); }
+  var pl=el('path',{d:d,'class':'tpath',stroke:T.c},gThread);
+  if(!RM){ var len=pl.getTotalLength(); pl.style.strokeDasharray=len; pl.style.strokeDashoffset=len; requestAnimationFrame(function(){ pl.style.transition='stroke-dashoffset 1.6s ease'; pl.style.strokeDashoffset=0; }); }
+  T.p.forEach(function(s,i){ mark(s[0],'inthread'); var g=gnode(s[0]); if(g){ var b=$('.badge',g); b.style.setProperty('--c',T.c); $('text',b).textContent=i+1; } var li=$('.li[data-id="'+s[0]+'"] .num'); if(li) li.textContent=i+1; });
+  $('#panel').innerHTML='<div class="pk" style="color:'+T.c+'">Through-line · '+T.p.length+' stops</div><h2>'+esc(T.t)+'</h2><p class="pd">'+esc(T.d)+'</p><ol class="steps">'+
+    T.p.map(function(s){return '<li>'+link(s[0])+'<span>'+esc(s[1])+'</span></li>';}).join('')+'</ol>';
+  wirePanel(); if(scroll) reveal();
+}
+function selectLens(lid,scroll){
+  clearMarks(); state={node:null,thread:null,lens:lid}; syncBars(); svg.classList.add('focus');
+  var Ls=LENSES.filter(function(l){return l.id===lid;})[0]; svg.style.setProperty('--lens',Ls.c);
+  Object.keys(Ls.f).forEach(function(id){ mark(id,'inlens'); });
+  var groups=LANES.map(function(l){ var ids=Object.keys(Ls.f).filter(function(id){return BY[id].lane===l.id;}); return ids.length?'<h3 style="color:'+l.col+'">'+esc(l.name)+'</h3><ul class="lx">'+ids.map(function(id){return '<li>'+link(id)+'<span>'+esc(Ls.f[id])+'</span></li>';}).join('')+'</ul>':''; }).join('');
+  $('#panel').innerHTML='<div class="pk" style="color:'+Ls.c+'">◆ Inspection lens · '+Object.keys(Ls.f).length+' pieces answer it</div><h2>'+esc(Ls.q)+'</h2><p class="pd">Hold every narrative up to one question and see how each answers it. In Season III, this lens belongs to '+esc(Ls.s3)+'.</p>'+groups;
+  wirePanel(); if(scroll) reveal();
+}
+function reset(){ clearMarks(); state={node:null,thread:null,lens:null}; syncBars(); $('#panel').innerHTML=$('#panelHelp').innerHTML; wirePanel(); }
+function reveal(){ if(window.innerWidth<900){ $('#panel').scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); } }
+function wirePanel(){
+  $$('#panel [data-go]').forEach(function(b){b.addEventListener('click',function(){selectNode(b.dataset.go,true);});});
+  $$('#panel [data-thread]').forEach(function(b){b.addEventListener('click',function(){selectThread(b.dataset.thread,true);});});
+  $$('#panel [data-lens]').forEach(function(b){b.addEventListener('click',function(){selectLens(b.dataset.lens,true);});});
+  try{ history.replaceState(null,'',state.node?'#n='+state.node:state.thread?'#t='+state.thread:state.lens?'#l='+state.lens:location.pathname); }catch(e){}
+}
+function syncBars(){ $$('#threads button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.thread===state.thread));}); $$('#lenses button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lens===state.lens));}); }
+
+/* bars */
+$('#threads').innerHTML=THREADS.map(function(t){return '<button type="button" data-thread="'+t.id+'" aria-pressed="false" style="--c:'+t.c+'"><i></i>'+esc(t.t)+'<small>'+t.p.length+'</small></button>';}).join('');
+$('#lenses').innerHTML=LENSES.map(function(l){return '<button type="button" data-lens="'+l.id+'" aria-pressed="false" style="--c:'+l.c+'"><i>◆</i>'+esc(l.q)+'</button>';}).join('');
+$$('#threads button').forEach(function(b){b.addEventListener('click',function(){ state.thread===b.dataset.thread?reset():selectThread(b.dataset.thread,true); });});
+$$('#lenses button').forEach(function(b){b.addEventListener('click',function(){ state.lens===b.dataset.lens?reset():selectLens(b.dataset.lens,true); });});
+$('#resetBtn').addEventListener('click',reset);
+
+/* node events */
+$$('.node',svg).forEach(function(g){ var id=g.dataset.id;
+  g.addEventListener('click',function(){ state.node===id?reset():selectNode(id,true); });
+  g.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); selectNode(id,true);} });
+  g.addEventListener('mouseenter',function(){ if(state.node||state.thread||state.lens) return; EL.forEach(function(o){ if(o.e[0]===id||o.e[1]===id) o.p.classList.add('hov'); }); });
+  g.addEventListener('mouseleave',function(){ EL.forEach(function(o){o.p.classList.remove('hov');}); }); });
+
+/* list view (always rendered; the main view on phones) */
+$('#list').innerHTML=LANES.map(function(l){ return '<div class="lg"><h3 style="color:'+l.col+'">'+esc(l.name)+' <small>'+esc(l.sub)+'</small></h3>'+NODES.filter(function(n){return n.lane===l.id;}).map(function(n){return '<button class="li st-'+n.st+'" data-id="'+n.id+'"><b class="num">'+esc(n.n)+'</b><span>'+esc(n.t)+(n.st!=='live'?' <em>'+STATUS[n.st].toLowerCase()+'</em>':'')+'</span></button>';}).join('')+'</div>'; }).join('');
+$$('.li').forEach(function(b){ b.addEventListener('click',function(){ selectNode(b.dataset.id,true); }); });
+
+/* Season III cards */
+$('#s3cards').innerHTML=S3.map(function(c){ var n=BY[c.id]; return '<article class="s3c"><div class="s3k">'+esc(n.n)+' · '+esc(c.q)+'</div><h3>'+esc(n.t)+'</h3><p class="cp">'+esc(n.d)+'</p><ul>'+c.seeds.map(function(s){return '<li>'+link(s[0])+'<span>'+esc(s[1])+'</span></li>';}).join('')+'</ul><p class="sh">'+esc(c.sharp)+'</p><button class="see" data-see="'+c.id+'">See its seeds on the atlas ↑</button></article>'; }).join('');
+$$('#s3cards [data-go]').forEach(function(b){b.addEventListener('click',function(){ selectNode(b.dataset.go,false); $('#map').scrollIntoView({behavior:RM?'auto':'smooth'}); });});
+$$('#s3cards [data-see]').forEach(function(b){b.addEventListener('click',function(){ selectNode(b.dataset.see,false); $('#map').scrollIntoView({behavior:RM?'auto':'smooth'}); });});
+
+/* counts */
+$('#cN').textContent=NODES.length; $('#cE').textContent=EDGES.length; $('#cT').textContent=THREADS.length; $('#cL').textContent=LENSES.length;
+
+/* deep links */
+var h=location.hash||''; if(/^#n=/.test(h)&&BY[h.slice(3)]) selectNode(h.slice(3)); else if(/^#t=/.test(h)) selectThread(h.slice(3)); else if(/^#l=/.test(h)) selectLens(h.slice(3)); else reset();
+})();
+</script>
 
 <!-- ============================================================ LEGAL FOOTER (site-wide protective block) -->
 <style id="infera-legal-footer">
