@@ -1,7 +1,7 @@
 # The Faith Layer · Exhibits 07 to 09 + Companion Brief "HIPAA for the Pews" · Planning Brief
 
 **Type:** Mini-series planning brief (Faith Layer, interactive exhibits) plus one Mechanism Brief.
-**Status:** Built and published 23 October 2026, reordered: 07 The Pulpit Feed, 08 Babel or Pentecost, 09 A Palace in Time (finale with the congregation charter, the working form of HIPAA for the Pews). This brief is the planning record; the live pages supersede it where they differ.
+**Status:** Superseded 24 October 2026. The Faith Layer was tightened to seven exhibits: 01 The Quiet Guest, 02 The Angel at 2 A.M. (Guardian Angel Inc. and The Companion Confessor merged), 03 Check-In, 04 Inferred Faith, 05 The Second Death, 06 Redeeming the Time (absorbs A Palace in Time), 07 HIPAA for the Pews (finale and charter, built as an exhibit rather than a brief). The Pulpit Feed and Babel or Pentecost are archived online and shelved as one future concept; see shelved-to-all-nations-brief.md. This file remains the planning record of the nine-exhibit version.
 **Why one file:** the three remaining exhibits and the church data standard share a single arc. Exhibits 01 to 06 showed what is being *kept* about the faithful. Exhibits 07 to 09 show what is being done to their *time*, their *voice*, and their *language*. The brief turns all nine into a standard a congregation can adopt.
 
 ---
