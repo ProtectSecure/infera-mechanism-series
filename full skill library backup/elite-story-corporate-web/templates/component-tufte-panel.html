@@ -1,0 +1,151 @@
+<!--
+  TUFTE DATA PANEL · paste-in component
+  Four variants: metric callout, metric block, sparkline strip, annotated chart
+  Customize numbers, sources, palette. Strip ornament. Annotate on the visual.
+-->
+
+<!-- ========== VARIANT A · METRIC BLOCK (use 3-5 metrics together) ========== -->
+<div class="tufte-block">
+  <div class="metric">
+    <div class="v">$2.4B</div>
+    <div class="l">in committed AUM across 12 strategies</div>
+    <div class="src">— Investor letter, Q4 2025</div>
+  </div>
+  <div class="metric">
+    <div class="v">72&thinsp;hrs</div>
+    <div class="l">from kickoff to first measured outcome, average across last 24 engagements</div>
+    <div class="src">— Internal engagement log, 2024–2025</div>
+  </div>
+  <div class="metric">
+    <div class="v">4&thinsp;/&thinsp;4</div>
+    <div class="l">audits passed without finding, trailing 18 months</div>
+    <div class="src">— External auditor, on file</div>
+  </div>
+</div>
+
+<style>
+.tufte-block{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding:48px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.tufte-block .metric .v{font-family:var(--font-display);font-size:clamp(48px,6vw,84px);line-height:.88;letter-spacing:-.04em;color:var(--ink);font-weight:800}
+.tufte-block .metric .l{font-family:var(--font-sans);font-size:var(--t-md);line-height:1.4;color:var(--ink-soft);margin-top:14px;max-width:32ch}
+.tufte-block .metric .src{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:10px}
+@media (max-width:900px){.tufte-block{grid-template-columns:1fr;gap:24px}}
+</style>
+
+
+<!-- ========== VARIANT B · SPARKLINE STRIP (small multiples) ========== -->
+<div class="tufte-sparks">
+  <div class="spark">
+    <div class="label">Acme Co · 2018→2025</div>
+    <svg viewBox="0 0 100 30" preserveAspectRatio="none" role="img" aria-label="Acme growth sparkline">
+      <polyline points="0,22 16,20 32,17 48,12 64,8 80,5 100,3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+    <div class="end">+387%</div>
+  </div>
+  <div class="spark">
+    <div class="label">Beta Corp · 2018→2025</div>
+    <svg viewBox="0 0 100 30" preserveAspectRatio="none" role="img" aria-label="Beta growth sparkline">
+      <polyline points="0,24 16,22 32,21 48,17 64,12 80,9 100,6" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+    <div class="end">+212%</div>
+  </div>
+  <div class="spark">
+    <div class="label">Charlie Ind · 2018→2025</div>
+    <svg viewBox="0 0 100 30" preserveAspectRatio="none" role="img" aria-label="Charlie growth sparkline">
+      <polyline points="0,20 16,21 32,18 48,15 64,11 80,8 100,4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+    <div class="end">+318%</div>
+  </div>
+  <div class="spark">
+    <div class="label">Delta Group · 2018→2025</div>
+    <svg viewBox="0 0 100 30" preserveAspectRatio="none" role="img" aria-label="Delta growth sparkline">
+      <polyline points="0,18 16,17 32,16 48,13 64,10 80,7 100,5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+    <div class="end">+244%</div>
+  </div>
+  <div class="spark">
+    <div class="label">Echo LLC · 2018→2025</div>
+    <svg viewBox="0 0 100 30" preserveAspectRatio="none" role="img" aria-label="Echo growth sparkline">
+      <polyline points="0,25 16,24 32,21 48,16 64,11 80,6 100,2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+    <div class="end">+421%</div>
+  </div>
+</div>
+
+<style>
+.tufte-sparks{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;padding:32px 0;color:var(--accent)}
+.tufte-sparks .spark{display:flex;flex-direction:column;gap:8px}
+.tufte-sparks .spark .label{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase}
+.tufte-sparks .spark svg{width:100%;height:40px}
+.tufte-sparks .spark .end{font-family:var(--font-display);font-size:var(--t-md);color:var(--ink);letter-spacing:-.02em;font-weight:700}
+@media (max-width:900px){.tufte-sparks{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+
+<!-- ========== VARIANT C · ANNOTATED CHART (annotation on the visual) ========== -->
+<figure class="tufte-chart">
+  <svg viewBox="0 0 600 280" role="img" aria-labelledby="qrr-title qrr-desc">
+    <title id="qrr-title">Quarterly recurring revenue 2023-2025</title>
+    <desc id="qrr-desc">Line chart showing QRR growing from $400K in Q1 2023 to $2.4M in Q4 2025, with an inflection point at Q2 2024 when the platform launched.</desc>
+    <!-- baseline -->
+    <line x1="40" y1="240" x2="580" y2="240" stroke="currentColor" stroke-width="1" opacity=".25"/>
+    <!-- line -->
+    <polyline points="60,225 105,220 150,215 195,200 240,140 285,110 330,85 375,65 420,50 465,38 510,30 555,24" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    <!-- data points -->
+    <g fill="var(--accent)">
+      <circle cx="240" cy="140" r="4"/>
+      <circle cx="555" cy="24" r="4"/>
+    </g>
+    <!-- annotation: inflection -->
+    <line x1="240" y1="50" x2="240" y2="240" stroke="var(--accent-2)" stroke-width="1" stroke-dasharray="2 3"/>
+    <text x="248" y="58" font-family="JetBrains Mono" font-size="10" fill="var(--accent-2)" letter-spacing="1">
+      Q2 2024 · Platform launch
+    </text>
+    <!-- endpoint label -->
+    <text x="560" y="20" font-family="Fraunces" font-size="14" fill="currentColor" font-weight="700">
+      $2.4M
+    </text>
+    <text x="60" y="220" font-family="JetBrains Mono" font-size="9" fill="currentColor" opacity=".5" letter-spacing="1">
+      Q1 '23
+    </text>
+    <text x="555" y="265" font-family="JetBrains Mono" font-size="9" fill="currentColor" opacity=".5" letter-spacing="1" text-anchor="end">
+      Q4 '25
+    </text>
+  </svg>
+  <figcaption>Quarterly recurring revenue, Q1 2023–Q4 2025. Vertical marker at platform launch. Source: internal finance, audited.</figcaption>
+</figure>
+
+<style>
+.tufte-chart{margin:48px 0;color:var(--ink-soft)}
+.tufte-chart svg{width:100%;height:auto;color:var(--ink-soft)}
+.tufte-chart figcaption{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-top:14px;line-height:1.6}
+</style>
+
+
+<!-- ========== VARIANT D · COMPARISON TABLE (clean rows, no vertical rules) ========== -->
+<table class="tufte-cmp">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Conventional</th>
+      <th>This system</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><th scope="row">Time-to-decision</th>           <td>4–6 weeks</td><td>72 hours</td></tr>
+    <tr><th scope="row">Sources reconciled</th>         <td>3 of 8</td>   <td>8 of 8</td></tr>
+    <tr><th scope="row">Audit trail per decision</th>   <td>Manual</td>   <td>Continuous</td></tr>
+    <tr><th scope="row">Reviewer disagreement rate</th> <td>34%</td>      <td>4%</td></tr>
+    <tr><th scope="row">Onboarding to first insight</th><td>6–8 weeks</td><td>3 days</td></tr>
+  </tbody>
+</table>
+
+<style>
+.tufte-cmp{width:100%;border-collapse:collapse;font-family:var(--font-sans);margin:32px 0;color:var(--ink)}
+.tufte-cmp th,.tufte-cmp td{padding:14px 18px;text-align:left;font-size:var(--t-base)}
+.tufte-cmp thead th{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1.5px solid var(--ink)}
+.tufte-cmp tbody th{font-weight:500;color:var(--ink-soft)}
+.tufte-cmp tbody td{font-family:var(--font-display);font-size:var(--t-lg);color:var(--ink);letter-spacing:-.01em;font-weight:700}
+.tufte-cmp tbody td:last-child{color:var(--accent)}
+.tufte-cmp tbody tr{border-bottom:1px solid var(--rule)}
+.tufte-cmp tbody tr:last-child{border-bottom:none}
+</style>

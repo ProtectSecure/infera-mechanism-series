@@ -1,0 +1,28 @@
+
+/* reels: one point per slide, period art behind it, words landing like a title card */
+.reel{position:relative;width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto}
+.reel .vp{position:relative;display:grid;min-height:420px;overflow:hidden}
+.reel .slide{grid-area:1/1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(22px,4vw,48px);padding-top:64px;min-height:420px;opacity:0;visibility:hidden;transition:opacity .9s var(--ease),visibility 0s linear .9s}
+.reel .slide.on{opacity:1;visibility:visible;transition:opacity .9s var(--ease)}
+.reel .slide .bg{position:absolute;inset:0;z-index:0}
+.reel .slide .bg img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.55) saturate(.9);transform:scale(1.04);transition:transform 9s linear}
+.reel .slide.on .bg img{transform:scale(1.12)}
+.reel .slide .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.18),rgba(20,17,13,.6) 55%,rgba(20,17,13,.94)),radial-gradient(700px 300px at 15% 15%,rgba(201,162,39,.18),transparent 60%)}
+.reel .slide .bg.none{background:radial-gradient(900px 420px at 30% 20%,rgba(201,162,39,.12),transparent 60%),repeating-linear-gradient(135deg,var(--ground-2) 0 18px,var(--rule-soft) 18px 20px)}
+.reel .slide .tx{position:relative;z-index:1;max-width:60ch;font-size:clamp(18px,2.1vw,22px);line-height:1.5;color:var(--paper)}
+.reel .slide .tx .w{display:inline-block;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.reel .slide.on .tx .w{opacity:1;transform:none}
+.reel .slide .tx sup.src{opacity:1}
+.reel .slide .k{position:relative;z-index:1;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.reel .slide .cr{position:absolute;right:14px;top:12px;z-index:1;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);max-width:60%;text-align:right}
+.reel .nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid var(--rule);background:var(--ground)}
+.reel .nav button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:40px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
+.reel .nav button:focus-visible{outline:2px solid var(--gold)}
+.reel .nav .dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.reel .nav .dots i{width:22px;height:4px;background:var(--rule);display:block;cursor:pointer}
+.reel .nav .dots i.on{background:var(--gold)}
+.reel .nav .ct{font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);letter-spacing:.1em;white-space:nowrap}
+.lead.rv .w,.pull.rv .w{display:inline-block;opacity:0;transform:translateY(6px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.lead.rv.on .w,.pull.rv.on .w{opacity:1;transform:none}
+@media (max-width:720px){.reel,.reel .vp{min-height:460px}.reel .slide .tx{font-size:17px}}
+@media (prefers-reduced-motion:reduce){.reel .slide .tx .w,.lead.rv .w,.pull.rv .w{opacity:1;transform:none;transition:none}.reel .slide .bg img{transform:none;transition:none}}

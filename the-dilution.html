@@ -1,0 +1,1264 @@
+<title>The Dilution</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one 68ch reading column down a dark evidence room; exhibits break out to 1040px; a chain rail runs the page's left edge and gains or loses a link per chapter. Mechanism Series house style, dark by design. */
+:root{
+  --ground:#14110d; --ground-2:#1c1813; --rule:#3a332a; --rule-soft:#2a241c;
+  --paper:#ece3d0; --paper-dim:#cfc5b0; --paper-faint:#a89d88;
+  --gold:#c9a227; --kraft:#b08a5a; --tag:#c05e3c; --tag-lit:#d98a6a;
+  --fact:#7cc096; --reported:#e0b35c; --inference:#86aac0; --watch:#d98a6a;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+  --mono:"Space Mono", ui-monospace, Menlo, Consolas, monospace;
+  --ease:cubic-bezier(.22,.7,.2,1);
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);background-image:radial-gradient(var(--rule-soft) 1px,transparent 1px);background-size:22px 22px;color:var(--paper);font-family:var(--serif);font-size:19px;line-height:1.62;-webkit-font-smoothing:antialiased;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 96px}
+.col{max-width:68ch;margin:0 auto}
+a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,162,39,.4)}
+a:hover{color:var(--paper)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h1,h2,h3{text-wrap:balance}
+p{margin:0}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--tag-lit)}
+.num{font-variant-numeric:tabular-nums}
+
+/* evidence labels, always beside the claim */
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:1px 6px;border:1px solid;border-radius:2px;white-space:nowrap;vertical-align:2px;margin-right:6px}
+.t-fact{color:var(--fact);border-color:rgba(124,192,150,.5)}
+.t-rep{color:var(--reported);border-color:rgba(224,179,92,.5)}
+.t-inf{color:var(--inference);border-color:rgba(134,170,192,.5)}
+.t-watch{color:var(--watch);border-color:rgba(217,138,106,.55)}
+sup.src{font-family:var(--mono);font-size:10px;color:var(--kraft);margin-left:2px}
+sup.src a{border:0;color:inherit}
+
+/* masthead */
+.mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 20px;padding:16px 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.mast .brand{color:var(--paper);border:0;display:flex;align-items:center;gap:10px}
+.mast .brand i{width:8px;height:8px;border-radius:50%;background:var(--tag);display:inline-block}
+.mast nav{display:flex;flex-wrap:wrap;gap:6px 18px}
+.mast nav a{border:0;color:var(--paper-faint)}
+.mast nav a:hover{color:var(--gold)}
+
+/* hero: a chain drawn in light */
+.hero{position:relative;margin:0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0 calc(-1 * max(16px, env(safe-area-inset-right, 0px)));min-height:560px;display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--rule);background:radial-gradient(1200px 500px at 70% 20%,rgba(201,162,39,.10),transparent 60%),var(--ground)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05) 0%,rgba(20,17,13,.45) 50%,rgba(20,17,13,.97) 100%);pointer-events:none}
+.hero-in{position:relative;z-index:1;width:100%;max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:120px 44px;display:flex;flex-direction:column;gap:16px}
+.hero h1{margin:0;font-weight:300;font-size:clamp(46px,8.4vw,96px);line-height:.96;letter-spacing:-.02em}
+.hero h1 em{font-weight:400;color:var(--gold);font-style:italic}
+.deck{font-size:clamp(19px,2.4vw,23px);font-weight:300;line-height:1.45;color:var(--paper-dim);max-width:660px}
+.boxcount{position:absolute;z-index:1;right:max(16px, env(safe-area-inset-right, 0px));top:calc(20px + env(safe-area-inset-top, 0px));font-family:var(--mono);font-size:11px;letter-spacing:.12em;border:1px solid var(--tag);background:rgba(20,17,13,.82);padding:7px 11px;color:var(--paper)}
+.dateline{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--paper-faint);border-bottom:1px solid var(--rule);padding:14px 0;margin:28px 0 44px}
+.dateline b{font-weight:400;color:var(--paper-dim)}
+
+.stack{display:flex;flex-direction:column;gap:22px}.stack>*{min-width:0}
+.lead{font-size:22px;line-height:1.5;font-weight:300}
+.memo{border:1px solid var(--rule);background:var(--ground-2);padding:16px 18px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--paper-dim)}
+.memo b{color:var(--gold);font-weight:700}
+.pull{font-size:clamp(24px,3.2vw,32px);font-weight:300;line-height:1.3;border-left:2px solid var(--gold);padding-left:20px;font-style:italic;color:var(--paper)}
+.pull small{display:block;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--paper-faint);margin-top:10px;letter-spacing:.08em}
+
+section{margin-top:84px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:26px}
+h2{margin:0;font-weight:400;font-size:clamp(30px,4.4vw,42px);line-height:1.1;letter-spacing:-.01em}
+h2 em{color:var(--gold)}
+h3{margin:0;font-weight:400;font-size:24px;line-height:1.2}
+.sub{color:var(--paper-dim);font-style:italic;font-size:19px}
+
+/* chapter opener */
+.chapter{margin-top:120px;border-top:1px solid var(--rule);padding-top:36px;position:relative}
+.chapter .where{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:20px}
+.chapter .where b{color:var(--kraft);font-weight:400}
+.chapter h2{font-size:clamp(40px,6.4vw,72px);font-weight:300;line-height:.98}
+.chapter .instrument{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ground);background:var(--gold);padding:5px 10px}
+
+ol.facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ol.facts li{padding:14px 0;border-bottom:1px solid var(--rule-soft);display:grid;grid-template-columns:108px minmax(0,1fr);gap:16px}
+ol.facts .when{font-family:var(--mono);font-size:12px;color:var(--kraft);padding-top:4px;font-variant-numeric:tabular-nums}
+
+/* exhibit frame */
+.exhibit{max-width:1040px;margin:0 auto;border:1px solid var(--rule);background:rgba(20,17,13,.94);padding:clamp(20px,3.4vw,38px);display:flex;flex-direction:column;gap:18px}
+.ex-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+.seg{display:inline-flex;border:1px solid var(--kraft);flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 14px;background:transparent;color:var(--paper-dim);border:0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--kraft);color:var(--ground);font-weight:700}
+.ledger{width:100%;border-collapse:collapse;font-size:17px}
+.ledger th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);text-align:left;font-weight:400;padding:10px 12px 10px 0;border-bottom:1px solid var(--rule)}
+.ledger td{padding:12px 12px 12px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+.ledger td.k{font-family:var(--mono);font-size:12px;color:var(--kraft);white-space:nowrap}
+.ledger td.v{font-family:var(--mono);font-size:14px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:11px;color:var(--paper-faint)}
+.legend i{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;background:var(--c,var(--gold))}
+
+/* controls */
+.ctrl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 22px}
+.ctrl label{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);min-width:0}
+.ctrl select,.ctrl input[type=number]{min-height:44px;background:var(--ground-2);color:var(--paper);border:1px solid var(--rule);font-family:var(--mono);font-size:13px;padding:0 10px;width:100%}
+.ctrl input[type=range]{width:100%;accent-color:var(--gold);min-height:44px}
+.ctrl output{font-family:var(--mono);font-size:13px;color:var(--paper);letter-spacing:0;text-transform:none}
+.switch{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);cursor:pointer;min-height:44px}
+.switch input{appearance:none;width:44px;height:24px;border:1px solid var(--kraft);border-radius:12px;background:var(--ground-2);position:relative;cursor:pointer;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--paper-faint);transition:transform .2s var(--ease)}
+.switch input:checked{background:var(--gold);border-color:var(--gold)}
+.switch input:checked::after{transform:translateX(20px);background:var(--ground)}
+
+/* verdict / readout */
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.ro{border:1px solid var(--rule);background:var(--ground-2);padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ro .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.ro .v{font-family:var(--mono);font-size:clamp(20px,2.6vw,28px);line-height:1.1;color:var(--paper);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ro .v.gold{color:var(--gold)}
+.ro .v.tag{color:var(--tag-lit)}
+.ro .v.fact{color:var(--fact)}
+.ro .s{font-size:14px;color:var(--paper-dim);line-height:1.45}
+.verdict{border-left:3px solid var(--tag);padding:14px 18px;background:var(--ground-2);font-size:18px;line-height:1.5}
+.verdict b{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tag-lit);display:block;margin-bottom:6px}
+.verdict.ok{border-color:var(--fact)}
+.verdict.ok b{color:var(--fact)}
+
+/* bars */
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:minmax(120px,220px) minmax(0,1fr) auto;gap:12px;align-items:center;font-size:15px}
+.bar .n{color:var(--paper-dim);min-width:0}
+.bar .tr{height:18px;background:var(--rule-soft);position:relative;min-width:0}
+.bar .f{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .6s var(--ease)}
+.bar .f.hatch{background:repeating-linear-gradient(45deg,var(--c,var(--kraft)) 0 4px,transparent 4px 8px);opacity:.8}
+.bar .v{font-family:var(--mono);font-size:12px;color:var(--paper);white-space:nowrap;font-variant-numeric:tabular-nums}
+.bar.ghost .n,.bar.ghost .v{color:var(--paper-faint)}
+
+/* card game */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .t{font-size:20px;line-height:1.2}
+.card .y{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+.card .names{display:flex;flex-wrap:wrap;gap:6px}
+.card .names button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.06em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px}
+.card .names button:hover{border-color:var(--kraft);color:var(--paper)}
+.card .names button[data-r="yes"]{border-color:var(--fact);color:var(--fact)}
+.card .names button[data-r="no"]{border-color:var(--tag);color:var(--tag-lit);text-decoration:line-through}
+.card .names button[data-r="dis"]{border-color:var(--reported);color:var(--reported)}
+.card .names button:focus-visible{outline:2px solid var(--gold)}
+.card .ans{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.card .ans[hidden]{display:none}
+
+/* chain rail */
+.rail{position:fixed;left:max(6px, env(safe-area-inset-left, 0px));top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:0;font-family:var(--mono)}
+.rail a{border:0;display:flex;align-items:center;justify-content:center;width:34px;height:34px;color:var(--paper-faint);position:relative}
+.rail a svg{width:22px;height:22px;display:block}
+.rail a .lk{fill:none;stroke:currentColor;stroke-width:1.8;transition:stroke .3s}
+.rail a.held{color:var(--gold)}
+.rail a.broken{color:var(--tag)}
+.rail a.broken .lk{stroke-dasharray:3 3}
+.rail a.active{color:var(--paper)}
+.rail a.active::before{content:"";position:absolute;left:-6px;top:50%;width:3px;height:16px;background:var(--gold);transform:translateY(-50%)}
+.rail a .tip{position:absolute;left:40px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--ground-2);border:1px solid var(--rule);padding:4px 8px;color:var(--paper);opacity:0;pointer-events:none;transition:opacity .2s}
+.rail a:hover .tip,.rail a:focus-visible .tip{opacity:1}
+.rail .seg-line{width:2px;height:10px;background:var(--rule)}
+@media (max-width:1180px){.rail{display:none}}
+
+/* hub grid */
+.hub{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;max-width:1040px;margin:0 auto}
+.hub a{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:8px;color:var(--paper);min-width:0;transition:border-color .2s}
+.hub a:hover{border-color:var(--gold)}
+.hub .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.hub .t{font-size:24px;line-height:1.15;font-weight:300}
+.hub .t em{color:var(--gold)}
+.hub .d{font-size:15px;color:var(--paper-dim);line-height:1.45}
+.hub .m{font-family:var(--mono);font-size:10px;color:var(--paper-faint);letter-spacing:.08em;margin-top:auto}
+
+/* your year */
+.yy{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:20px;align-items:start}
+@media (max-width:760px){.yy{grid-template-columns:minmax(0,1fr)}}
+
+/* timeline strip */
+.strip{position:relative;padding:18px 0 0}
+.strip .axis{height:2px;background:var(--rule)}
+.strip .pts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:14px}
+.strip .pt{font-size:14px;color:var(--paper-dim);border-top:2px solid var(--c,var(--gold));padding-top:8px;min-width:0}
+.strip .pt b{display:block;font-family:var(--mono);font-size:11px;color:var(--paper);font-weight:400;letter-spacing:.06em}
+
+/* two sides */
+.sides{display:grid;min-width:0;width:100%;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1040px;margin:0 auto}
+.side{border:1px solid var(--rule);background:var(--ground-2);padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.side h3{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);font-weight:700}
+.side ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:17px;color:var(--paper-dim)}
+.side.gold{border-color:var(--gold)}
+.side.tagb{border-color:var(--tag)}
+
+/* desk note / breadcrumb */
+.desk{border:1px solid var(--rule);border-left:3px solid var(--kraft);background:var(--ground-2);padding:14px 18px;font-size:16px;line-height:1.55;color:var(--paper-dim)}
+.desk b{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--kraft);display:block;margin-bottom:6px;font-weight:400}
+.crumbs{display:flex;flex-wrap:wrap;gap:8px}
+.crumbs a{font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px;display:inline-flex;align-items:center}
+.crumbs a:hover{border-color:var(--gold);color:var(--gold)}
+.crumbs a i{font-style:normal;color:var(--kraft);margin-right:8px}
+
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{font-family:var(--mono);font-size:11px;fill:var(--paper-faint)}
+svg.chart .ax{stroke:var(--rule);stroke-width:1}
+svg.chart .ln{fill:none;stroke:var(--gold);stroke-width:2.2}
+svg.chart .ln2{fill:none;stroke:var(--tag);stroke-width:2;stroke-dasharray:4 4}
+svg.chart .ar{fill:rgba(201,162,39,.12)}
+svg.chart .dot{fill:var(--gold)}
+svg.chart .lab{fill:var(--paper)}
+
+.watchlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
+.watchlist li{padding:12px 0;border-bottom:1px solid var(--rule-soft)}
+
+footer{margin-top:90px;border-top:1px solid var(--rule);padding-top:24px;font-family:var(--mono);font-size:11.5px;line-height:1.85;color:var(--paper-faint)}
+footer ol{padding-left:22px;margin:10px 0 22px;columns:2;column-gap:40px}
+footer li{break-inside:avoid;padding-right:10px}
+footer b{color:var(--paper-dim);font-weight:400}
+@media (max-width:760px){footer ol{columns:1}}
+.tier{font-size:10px;color:var(--kraft);letter-spacing:.08em}
+
+@media (max-width:720px){
+  body{font-size:18px}
+  ol.facts li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .hero{min-height:480px}
+  .bar{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n v" "tr tr"}
+  .bar .n{grid-area:n}.bar .tr{grid-area:tr}.bar .v{grid-area:v}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>
+/* Episode 2 additions: the circuit rail, valves, the stage board, the dimmer, the feed toggle. */
+.rail a .nd{fill:none;stroke:currentColor;stroke-width:1.8}
+.ro .v.tag{border:0;padding:0;font-size:clamp(20px,2.6vw,28px);letter-spacing:0;text-transform:none;font-weight:400;white-space:normal;margin:0}
+.rail a.held .nd{fill:rgba(201,162,39,.25)}
+.rail a.broken .nd{stroke-dasharray:3 3}
+.rail a.open .nd{fill:rgba(124,192,150,.25)}
+
+/* the pipe: five valves */
+.pipe{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.valve{all:unset;cursor:pointer;border:1px solid var(--rule);background:var(--ground-2);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:44px;position:relative}
+.valve .y{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+.valve .n{font-size:17px;line-height:1.2;color:var(--paper)}
+.valve .st{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.valve[aria-pressed="true"]{border-color:var(--gold);background:rgba(201,162,39,.08)}
+.valve::after{content:"";position:absolute;right:12px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--tag)}
+.valve[data-k="evolved"]::after{background:var(--fact)}
+.valve:focus-visible{outline:2px solid var(--gold)}
+.flow{height:14px;background:var(--rule-soft);position:relative;overflow:hidden;border:1px solid var(--rule)}
+.flow i{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(201,162,39,.75) 0 14px,transparent 14px 28px);animation:flow 1.1s linear infinite}
+.flow i.cut{background:repeating-linear-gradient(90deg,rgba(192,94,60,.75) 0 6px,transparent 6px 20px);animation-duration:2.6s}
+@keyframes flow{to{transform:translateX(28px)}}
+
+/* dimmer: three dials + a bar */
+.dials{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.dial{border:1px solid var(--rule);background:var(--ground-2);padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.dial .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.dial .m{height:8px;background:var(--rule-soft);position:relative}
+.dial .m i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .5s var(--ease)}
+.dial .v{font-family:var(--mono);font-size:12px;color:var(--paper)}
+.elect{display:flex;flex-wrap:wrap;gap:6px}
+.elect button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:0 12px;min-height:44px;display:inline-flex;align-items:center;color:var(--paper-dim)}
+.elect button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.elect button:focus-visible{outline:2px solid var(--gold)}
+
+/* feed toggle */
+.feed{border:1px solid var(--rule);background:#000;padding:20px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--paper-dim);min-height:150px;position:relative}
+.feed .chy{position:absolute;right:12px;top:10px;font-size:10px;letter-spacing:.14em;color:var(--paper-faint)}
+.feed .q{color:var(--paper);font-family:var(--serif);font-size:20px;line-height:1.4;font-style:italic}
+.feed .cut{color:var(--tag-lit)}
+
+/* stage board */
+.board{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.light{border:1px solid var(--rule);background:var(--ground-2);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.light .lamp{width:14px;height:14px;border-radius:50%;background:var(--rule);box-shadow:none;transition:background .4s,box-shadow .4s}
+.light[data-s="on"] .lamp{background:var(--gold);box-shadow:0 0 14px rgba(201,162,39,.7)}
+.light[data-s="dim"] .lamp{background:var(--reported);box-shadow:0 0 8px rgba(224,179,92,.4)}
+.light[data-s="off"] .lamp{background:var(--tag);box-shadow:0 0 6px rgba(192,94,60,.5)}
+.light[data-s="na"] .lamp{background:var(--rule)}
+.light .n{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper)}
+.light .w{font-size:14px;color:var(--paper-dim);line-height:1.45}
+
+/* interval */
+.ci{position:relative;height:70px}
+.ci .tr{position:absolute;left:0;right:0;top:30px;height:10px;background:var(--rule-soft)}
+.ci .band{position:absolute;top:30px;height:10px;background:rgba(124,192,150,.35);border:1px solid var(--fact)}
+.ci .mk{position:absolute;top:18px;width:2px;height:34px;background:var(--tag)}
+.ci .lab{position:absolute;top:50px;font-family:var(--mono);font-size:10px;color:var(--paper-faint);transform:translateX(-50%);white-space:nowrap}
+.ci .lab.t{top:0}
+.ci .pin{position:absolute;top:24px;width:4px;height:22px;background:var(--gold);transform:translateX(-50%)}
+
+/* timeline filter */
+.tl{display:flex;flex-direction:column}
+.tl .ev{display:grid;grid-template-columns:110px 14px minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:start;font-size:16px}
+.tl .ev .d{font-family:var(--mono);font-size:11px;color:var(--kraft);padding-top:5px}
+.tl .ev .k{width:10px;height:10px;transform:rotate(45deg);margin-top:8px;background:var(--reported)}
+.tl .ev[data-k="evolved"] .k{background:var(--fact)}
+.tl .ev[data-k="muted"] .k{background:var(--tag)}
+.tl .ev[hidden]{display:none}
+.tl .ev .w{color:var(--paper-dim)}
+.tl .ev .w b{color:var(--paper);font-weight:400}
+@media (max-width:720px){.tl .ev{grid-template-columns:14px minmax(0,1fr)}.tl .ev .d{grid-column:2;padding-top:0}}
+
+.stepper{display:flex;flex-direction:column;gap:14px}
+.steps{display:flex;flex-wrap:wrap;gap:6px}
+.steps button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:0 12px;min-height:44px;display:inline-flex;align-items:center;color:var(--paper-dim)}
+.steps button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.step-body{border:1px solid var(--rule);background:var(--ground-2);padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-height:160px}
+.step-body .h{font-size:22px;line-height:1.2}
+.step-body .w{font-size:16px;color:var(--paper-dim);line-height:1.55}
+.step-body .s{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+
+/* plates: archival stills, house-toned, revealed on scroll; degrade to a kraft panel if the file is missing */
+.plate{width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);position:relative;overflow:hidden;opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.plate.in,.plate.static{opacity:1;transform:none}
+.plate .ph{display:block;width:100%;aspect-ratio:21/9;object-fit:cover;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.72) saturate(.9);transition:filter 1.2s var(--ease),transform 8s linear}
+.plate.in .ph{transform:scale(1.03)}
+.plate:hover .ph{filter:grayscale(.6) sepia(.25) contrast(1.05) brightness(.85)}
+.plate::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05),rgba(20,17,13,.55) 70%,rgba(20,17,13,.92)),radial-gradient(900px 300px at 20% 10%,rgba(201,162,39,.16),transparent 60%);pointer-events:none}
+.plate figcaption{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:14px 18px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim)}
+.plate figcaption b{color:var(--gold);font-weight:400}
+.plate figcaption .cr{color:var(--paper-faint)}
+.plate[data-missing] .ph{display:none}
+.plate[data-missing]{aspect-ratio:21/9;background:repeating-linear-gradient(135deg,var(--ground-2) 0 14px,var(--rule-soft) 14px 16px)}
+.plate[data-missing]::before{content:"PLATE PENDING · run fetch-plates.sh";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.plate[data-plate="cd-c2"] .ph{object-position:50% 35%}
+@media (max-width:720px){.plate .ph{aspect-ratio:16/10}.plate[data-missing]{aspect-ratio:16/10}}
+@media (prefers-reduced-motion:reduce){.plate{opacity:1;transform:none}.plate.in .ph{transform:none}}
+
+/* the engine */
+.engine-wrap{gap:16px}
+.en-ctl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 22px;align-items:center}
+.en-play{display:flex;gap:6px}
+.en-play button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
+.en-play button[aria-pressed="true"]{background:var(--gold);color:var(--ground);border-color:var(--gold)}
+.en-play button:focus-visible{outline:2px solid var(--gold)}
+.en-range{display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);min-width:0}
+.en-range output{color:var(--gold);font-size:13px}
+.en-range input{width:100%;accent-color:var(--gold);min-height:44px}
+.en-years{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--paper-faint);margin-top:-8px;overflow:hidden}
+.en-years span{flex:1;text-align:center;min-width:0;white-space:nowrap}
+.en-years span.on{color:var(--gold)}
+.engine{display:grid;grid-template-columns:minmax(0,3fr) minmax(280px,2fr);gap:18px;min-width:0}
+.en-stage{position:relative;min-width:0;border:1px solid var(--rule);background:radial-gradient(600px 400px at 50% 45%,rgba(201,162,39,.07),transparent 65%),var(--ground)}
+.en-stage canvas{display:block;width:100%;aspect-ratio:1/1;max-height:640px}
+.en-key{position:absolute;left:10px;bottom:8px;display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--mono);font-size:10px;color:var(--paper-faint);letter-spacing:.06em}
+.en-key i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+.en-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.en-micro{border:1px solid var(--gold);background:var(--ground-2);padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.en-micro .eb{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.en-micro .h{font-size:22px;line-height:1.15}
+.en-micro .n{font-family:var(--mono);font-size:clamp(24px,3vw,34px);color:var(--paper);line-height:1;font-variant-numeric:tabular-nums}
+.en-micro .w{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.en-micro .s{font-family:var(--mono);font-size:10.5px;color:var(--kraft);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:6px 14px}
+.en-micro .s a{border:0}
+.en-macro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.en-macro .g{border:1px solid var(--rule);background:var(--ground-2);padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.en-macro .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.en-macro .m{height:6px;background:var(--rule-soft);position:relative}
+.en-macro .m i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .8s var(--ease)}
+.en-macro .v{font-family:var(--mono);font-size:11.5px;color:var(--paper);line-height:1.35}
+.en-macro .g.valve{grid-column:1/-1;border-color:var(--tag)}
+.en-macro .g.valve.open{border-color:var(--fact)}
+.en-macro .g.valve .v b{font-family:var(--mono);font-weight:700;color:var(--tag-lit)}
+.en-macro .g.valve.open .v b{color:var(--fact)}
+.en-edges{display:flex;flex-direction:column;gap:5px;font-family:var(--mono);font-size:10.5px;color:var(--paper-dim)}
+.en-edges .e{display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:8px;align-items:center}
+.en-edges .e .b{height:5px;background:var(--rule-soft);position:relative}
+.en-edges .e .b i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .8s var(--ease)}
+.en-edges .e.closed{color:var(--tag-lit)}
+.en-edges .e.closed .b{background:repeating-linear-gradient(90deg,var(--tag) 0 4px,transparent 4px 8px);opacity:.7}
+@media (max-width:860px){.engine{grid-template-columns:minmax(0,1fr)}.en-ctl{grid-template-columns:minmax(0,1fr)}.en-macro{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:720px){.en-years{display:none}.en-key{position:static;padding:8px 10px;border-top:1px solid var(--rule)}}
+</style>
+<style>
+
+/* reels: one point per slide, period art behind it, words landing like a title card */
+.reel{position:relative;width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto}
+.reel .vp{position:relative;display:grid;min-height:420px;overflow:hidden}
+.reel .slide{grid-area:1/1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(22px,4vw,48px);padding-top:64px;min-height:420px;opacity:0;visibility:hidden;transition:opacity .9s var(--ease),visibility 0s linear .9s}
+.reel .slide.on{opacity:1;visibility:visible;transition:opacity .9s var(--ease)}
+.reel .slide .bg{position:absolute;inset:0;z-index:0}
+.reel .slide .bg img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.55) saturate(.9);transform:scale(1.04);transition:transform 9s linear}
+.reel .slide.on .bg img{transform:scale(1.12)}
+.reel .slide .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.18),rgba(20,17,13,.6) 55%,rgba(20,17,13,.94)),radial-gradient(700px 300px at 15% 15%,rgba(201,162,39,.18),transparent 60%)}
+.reel .slide .bg.none{background:radial-gradient(900px 420px at 30% 20%,rgba(201,162,39,.12),transparent 60%),repeating-linear-gradient(135deg,var(--ground-2) 0 18px,var(--rule-soft) 18px 20px)}
+.reel .slide .tx{position:relative;z-index:1;max-width:60ch;font-size:clamp(18px,2.1vw,22px);line-height:1.5;color:var(--paper)}
+.reel .slide .tx .w{display:inline-block;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.reel .slide.on .tx .w{opacity:1;transform:none}
+.reel .slide .tx sup.src{opacity:1}
+.reel .slide .k{position:relative;z-index:1;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.reel .slide .cr{position:absolute;right:14px;top:12px;z-index:1;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);max-width:60%;text-align:right}
+.reel .nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid var(--rule);background:var(--ground)}
+.reel .nav button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:40px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
+.reel .nav button:focus-visible{outline:2px solid var(--gold)}
+.reel .nav .dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.reel .nav .dots i{width:22px;height:4px;background:var(--rule);display:block;cursor:pointer}
+.reel .nav .dots i.on{background:var(--gold)}
+.reel .nav .ct{font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);letter-spacing:.1em;white-space:nowrap}
+.lead.rv .w,.pull.rv .w{display:inline-block;opacity:0;transform:translateY(6px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.lead.rv.on .w,.pull.rv.on .w{opacity:1;transform:none}
+@media (max-width:720px){.reel,.reel .vp{min-height:460px}.reel .slide .tx{font-size:17px}}
+@media (prefers-reduced-motion:reduce){.reel .slide .tx .w,.lead.rv .w,.pull.rv .w{opacity:1;transform:none;transition:none}.reel .slide .bg img{transform:none;transition:none}}
+
+</style>
+<style>
+/* Episode 5 specifics */
+.deal{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.deal .d{border:1px solid var(--rule);background:var(--ground-2);padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.deal .d .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.deal .d .v{font-family:var(--mono);font-size:clamp(16px,2.2vw,24px);color:var(--paper);line-height:1.1;overflow-wrap:anywhere}
+.deal .d .v.gold{color:var(--gold)}.deal .d .v.tag{color:var(--tag-lit)}.deal .d .v.fact{color:var(--fact)}.deal .d .v.dim{color:var(--paper-faint)}
+.deal .d .s{font-size:13px;color:var(--paper-dim);line-height:1.4}
+.disp{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px dashed var(--reported);color:var(--reported);padding:2px 7px;border-radius:2px}
+.curve{position:relative;width:100%;height:clamp(240px,34vw,360px);border:1px solid var(--rule);background:var(--ground-2)}
+.curve svg{width:100%;height:100%;display:block}
+.curve .ax{font-family:var(--mono);font-size:10px;fill:var(--paper-faint);letter-spacing:.08em}
+.curve .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.curve .area{opacity:.18}
+.curve .lbl{font-family:var(--mono);font-size:10.5px;fill:var(--paper-dim);letter-spacing:.06em}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two .cell{border:1px solid var(--rule);background:var(--ground-2);padding:14px 16px}
+.two .cell h4{margin:0 0 8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:400}
+.gap{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;font-family:var(--mono);min-width:0}
+.gap>div{min-width:0}
+.gap .big,.gap .cap{overflow-wrap:anywhere}
+@media (max-width:560px){.gap{grid-template-columns:1fr}.gap .mid{text-align:left;padding:6px 0}.gap>div[style]{text-align:left!important}}
+.gap .big{font-size:clamp(26px,5vw,52px);line-height:1;color:var(--paper)}
+.gap .big.gold{color:var(--gold)}.gap .big.tag{color:var(--tag-lit)}
+.gap .mid{font-size:12px;color:var(--paper-faint);text-align:center;letter-spacing:.12em;text-transform:uppercase}
+.gap .cap{font-size:11px;color:var(--paper-faint);letter-spacing:.08em;text-transform:uppercase;margin-top:6px;display:block}
+</style>
+
+<nav class="rail" aria-label="Chapters">
+  <a href="#c1" data-ch="1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">1 · The Driver</span></a>
+  <span class="seg-line"></span>
+  <a href="#c2" data-ch="2"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">2 · The Ladder</span></a>
+  <span class="seg-line"></span>
+  <a href="#c3" data-ch="3"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">3 · The Shelf</span></a>
+  <span class="seg-line"></span>
+  <a href="#c4" data-ch="4"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">4 · The Screen</span></a>
+  <span class="seg-line"></span>
+  <a href="#c5" data-ch="5"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">5 · The Stock Image</span></a>
+  <span class="seg-line"></span>
+  <a href="#c6" data-ch="6"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">6 · The Machine</span></a>
+  <span class="seg-line"></span>
+  <a href="#c7" data-ch="7"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">7 · The Dilution</span></a>
+</nav>
+
+<div class="wrap">
+  <div class="mast">
+    <a class="brand" href="#top"><i></i>Infera · The Dilution</a>
+    <nav aria-label="Series">
+      <a href="#engine">The engine</a>
+      <a href="#hub">Seven exhibits</a>
+      <a href="#c1">1 Driver</a><a href="#c2">2 Ladder</a><a href="#c3">3 Shelf</a><a href="#c4">4 Screen</a><a href="#c5">5 Stock</a><a href="#c6">6 Machine</a><a href="#c7">7 Dilution</a>
+      <a href="the-chain-of-title.html">Ep 1</a><a href="the-circulating-dollar.html">Ep 2</a><a href="the-terms.html">Ep 3</a><a href="the-feed.html">Ep 4</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </div>
+
+  <header class="hero" id="top">
+    <canvas id="circuitcanvas" aria-hidden="true"></canvas>
+    <div class="boxcount">MINI-SERIES · EPISODE 5 · 7 EXHIBITS · 1984–2026</div>
+    <div class="hero-in">
+      <span class="eyebrow">Infera · Mechanism Series · A standalone mini-series</span>
+      <h1>The <em>Dilution</em></h1>
+      <p class="deck">Four episodes followed one dollar through one room. This one pulls the camera back. Black intellectual property became the engine of American popular culture and a global export, and the opportunity that opened for everyone was real. What happened to the equity in ownership, each time the format changed, from the disc to the download to the stream to the model.</p>
+    </div>
+  </header>
+  <p class="eyebrow col" style="padding-top:10px;color:var(--paper-faint)">Hero: a generative circuit drawn in code, widening with each pass. No photograph, no real place.</p>
+
+  <div class="col">
+    <div class="dateline">
+      <span><b>AS OF</b> Oct 30, 2026</span>
+      <span><b>READ</b> ~50 min whole · 7 min per exhibit</span>
+      <span><b>LAYER</b> Public record · Census · SEC filings · RIAA · court opinions · trade data</span>
+      <span><b>METHOD</b> SVNIF</span>
+    </div>
+
+    <div class="stack">
+      <p class="lead">Three numbers from the same year. In 2024, R&amp;B and hip-hop were 25.3 percent of everything streamed in the United States. Black-owned firms were 4.2 percent of the companies that make sound recordings. Black employer firms of every kind were about one percent of American business revenue. The culture was a quarter of the market; the deed to it was a rounding error. This episode is about how those three numbers came to sit so far apart, and what each change of format did to the gap.<sup class="src"><a href="#s9">9</a>, <a href="#s7">7</a>, <a href="#s5">5</a></sup></p>
+      <p>The argument is not that opportunity failed to grow. It grew enormously: for the player with a shoe, the student with a name to license, the producer with a laptop, the photographer with a camera, the kid with a dance. The argument is that each format change that widened the door also moved the till. The disc paid the shop; the stream pays the platform; the model pays whoever licensed the training set. Getty Images, which spent twenty years turning a photograph from a $536 license into a $21 one and then filed for bankruptcy the week this page was dated, is the worked example, because it is the industry that got to the end of the curve first.</p>
+      <div class="memo"><b>READING MEMO</b> · Every exhibit stands alone. <span class="tag t-fact">Fact</span> is on the record, <span class="tag t-rep">Reported</span> is a credible account we could not independently confirm, <span class="tag t-inf">Inference</span> is our arithmetic, <span class="tag t-watch">Watch</span> is open as of the dateline. <span class="disp">Disputed</span> marks a figure the record gives in more than one version or that a widely cited source does not support. Dollar figures are nominal unless marked adjusted. This is an original Infera investigation from the public record; for the long history of Black creative ownership it runs alongside, see Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026), listed in the sources as a further read.<sup class="src"><a href="#s66">66</a></sup></div>
+    </div>
+
+    <section aria-labelledby="h-spine">
+      <div class="sec-head">
+        <span class="eyebrow">The spine</span>
+        <h2 id="h-spine">Three findings, <em>stated first</em></h2>
+        <p class="sub">The exhibits are the evidence. These are the verdicts.</p>
+      </div>
+      <ol class="facts">
+        <li><span class="when">1984–2025</span><span><span class="tag t-fact">Fact</span><b>Opportunity widened on every ladder, and the top rung stayed where it was.</b> A $250,000-a-year rookie contract became a brand that sold $7 billion of shoes in one fiscal year; college athletes went from zero to $2.26 billion in name-and-likeness money in four years; a league whose players are 72 percent Black has had no Black majority owner since 2023.<sup class="src"><a href="#s14">14</a>, <a href="#s22">22</a>, <a href="#s17">17</a></sup></span></li>
+        <li><span class="when">1999–2025</span><span><span class="tag t-fact">Fact</span><b>Each format change moved the till.</b> Recorded music fell from about $22 billion adjusted to $7.2 billion and climbed back to $17.7 billion, 84 percent of it streaming; the disc business that paid the shop fell from $16 billion to under $1 billion; a bank's estimate put the artist's share of the whole at 12 cents on the dollar.<sup class="src"><a href="#s28">28</a>, <a href="#s33">33</a>, <a href="#s31">31</a></sup></span></li>
+        <li><span class="when">2006–2026</span><span><span class="tag t-fact">Fact</span><b>The stock image got to the end of the curve first.</b> Getty's average rights-managed license fell from $536 to $21; the company was sold for $2.4 billion, $3.3 billion and $4.8 billion, lost its UK case against the model trained on its pictures, and filed for Chapter 11 on October 21, 2026 with its equity cancelled.<sup class="src"><a href="#s43">43</a>, <a href="#s45">45</a>, <a href="#s50">50</a></sup></span></li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="h-yy">
+      <div class="sec-head">
+        <span class="eyebrow">Before you read</span>
+        <h2 id="h-yy">Your <em>dollar, by format</em></h2>
+        <p class="sub">One dollar spent on a recording, as the format changed. Pick the year. We show who the record says it reached.</p>
+      </div>
+      <div class="exhibit">
+        <div class="room-ctl" id="yd-ctl"><button aria-pressed="true" data-k="1999">1999 · THE DISC</button><button aria-pressed="false" data-k="2008">2008 · THE DOWNLOAD</button><button aria-pressed="false" data-k="2017">2017 · THE STREAM</button><button aria-pressed="false" data-k="2026">2026 · THE MODEL</button></div>
+        <div class="split" id="yd-split" aria-hidden="true"></div>
+        <div class="legend" id="yd-leg"></div>
+        <div class="deal" id="yd-out" aria-live="polite"></div>
+        <div class="verdict" id="yd-v"></div>
+      </div>
+    </section>
+  </div>
+
+  <section aria-labelledby="h-hub" id="hub">
+    <div class="col sec-head">
+      <span class="eyebrow">The series</span>
+      <h2 id="h-hub">Seven exhibits, <em>read in any order</em></h2>
+      <p class="sub">Each one opens on a share of a market. Each one hands you the deed, or shows you where it went.</p>
+    </div>
+    <div class="hub">
+      <a href="#c1"><span class="n">01 · 2010–2026</span><span class="t">The <em>Driver</em></span><span class="d">$2.1 trillion in buying power, a quarter of everything streamed, a film that grossed $1.35 billion, a genre up five thousand percent, and the one percent of business revenue that sits under all of it.</span><span class="m">THE MARKET · 7 MIN · INTERACTIVE: THE SHARE AND THE SHELF · THE DRIVER'S LEDGER</span></a>
+      <a href="#c2"><span class="n">02 · 1984–2025</span><span class="t">The <em>Ladder</em></span><span class="d">A rookie's $250,000, a $7 billion shoe, a team bought for $275 million and sold for $3 billion, players who take half the revenue and own none of the franchises, and students paid $2.26 billion for their names.</span><span class="m">SPORTS IP · 8 MIN · INTERACTIVE: THE JORDAN LINE · THE LEAGUE'S CAP TABLE · THE NAME</span></a>
+      <a href="#c3"><span class="n">03 · 1999–2025</span><span class="t">The <em>Shelf</em></span><span class="d">Recorded music's fall and recovery, the disc business from $16 billion to under $1 billion, a video game store that pulled its films, and the 12 cents of every dollar a bank said reaches the artist.</span><span class="m">FORMAT · 7 MIN · INTERACTIVE: THE FORMAT CURVE · A DOLLAR OF MUSIC</span></a>
+      <a href="#c4"><span class="n">04 · 2018–2026</span><span class="t">The <em>Screen</em></span><span class="d">Eighty-one hours a week, a $235 million median against a $33 million one, the 2025 backslide, pay television at 43 million homes, and a strike settlement with a $40 million streaming fund.</span><span class="m">FILM · TV · 7 MIN · INTERACTIVE: THE BUDGET GAP · THE STRIKE TERMS</span></a>
+      <a href="#c5"><span class="n">05 · 2006–2026</span><span class="t">The Stock <em>Image</em></span><span class="d">A $536 license that became a $21 one, a company sold three times for $10.5 billion in total, a lost case in London, a merger that died, and a Chapter 11 that cancelled the shares.</span><span class="m">GETTY · 8 MIN · INTERACTIVE: THE ROYALTY ON ONE IMAGE · THE OWNERS' LADDER</span></a>
+      <a href="#c6"><span class="n">06 · 2023–2026</span><span class="t">The <em>Machine</em></span><span class="d">Half of a platform's daily uploads made by a model, 75 million tracks removed, a $1.5 billion settlement with authors, two studios against an image generator, and the share of creators' income a collecting society says is at stake.</span><span class="m">AI · 7 MIN · INTERACTIVE: THE FEED, BY MACHINE · THE DOCKET</span></a>
+      <a href="#c7"><span class="n">07 · 1984–2026</span><span class="t">The <em>Dilution</em></span><span class="d">Four industries on one instrument: pick music, screen, sport or image and read opportunity against ownership at each format. The thesis, as a dial.</span><span class="m">SYNTHESIS · 6 MIN · INTERACTIVE: THREE DILUTIONS · THE DEED, BY INDUSTRY</span></a>
+    </div>
+  </section>
+
+  <!-- ============ THE ENGINE ============ -->
+  <section aria-labelledby="h-engine" id="engine" style="margin-top:110px">
+    <div class="col sec-head">
+      <span class="eyebrow">The engine · macro and micro at once</span>
+      <h2 id="h-engine">The format, <em>changing</em></h2>
+      <p class="sub">Five stations, one current. Scrub 1984 to 2026 and watch the door widen while the deed moves: who holds the work, who holds the audience, and where the money goes when the format changes under them. Every stop pairs one figure with the whole machine's state.</p>
+    </div>
+    <div class="exhibit engine-wrap">
+      <div class="en-ctl">
+        <div class="en-play">
+          <button id="en-prev" aria-label="Previous stop">‹</button>
+          <button id="en-toggle" aria-pressed="false">▶ RUN THE FORMATS</button>
+          <button id="en-next" aria-label="Next stop">›</button>
+        </div>
+        <label class="en-range" for="en-k"><span class="l">Stop <output id="en-year">1984</output></span><input type="range" id="en-k" min="0" max="13" step="1" value="0" aria-valuetext="1984"></label>
+      </div>
+      <div class="en-years" id="en-years" aria-hidden="true"></div>
+      <div class="engine">
+        <div class="en-stage">
+          <canvas id="en-canvas" role="img" aria-label="The format: creator, owner, audience, investor and fund, platform and model, and the sale of the deed, with current moving along the open routes"></canvas>
+          <div class="en-key" aria-hidden="true"><span><i style="--c:var(--gold)"></i>the work and the sale</span><span><i style="--c:var(--kraft)"></i>platform · model</span><span><i style="--c:var(--fact)"></i>investor · fund</span><span><i style="--c:var(--tag)"></i>the deed leaves · closed route</span></div>
+        </div>
+        <div class="en-side">
+          <div class="en-micro" id="en-micro" aria-live="polite"></div>
+          <div class="en-macro" id="en-macro"></div>
+          <div class="en-edges" id="en-edges"></div>
+        </div>
+      </div>
+      <div class="verdict" id="en-v"></div>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 1 ============ -->
+  <article class="chapter" id="c1" data-ch="1" data-state="held">
+    <div class="col">
+      <div class="where"><span>Exhibit 1 of 7</span><span><b>2010–2026</b></span><span>Athens, Georgia · the Census · the stream count</span><span>Standalone</span></div>
+      <h2>The <em>Driver</em></h2>
+      <span class="instrument">Instrument: the share of the market</span>
+      <figure class="plate" data-plate="x-regal"><img class="ph" src="assets/plates/x-regal.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Crowd coming out of the Regal Theater, South Side of Chicago, 1941 · the driver</span><span class="cr">Russell Lee, Farm Security Administration, Library of Congress · public domain</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="x-regal,x-southside,x-tavern,x-harlem43">
+        <p class="lead">Every number in this chapter is a share of something. The Selig Center's estimate of Black buying power went from $961 billion in 2010 to $1.6 trillion in 2020 to a Nielsen-cited $2.1 trillion, "up 2.4 times since 2000." Black employer firms went from 124,004 to 194,585 between 2017 and 2022, a 57 percent rise, and finished at about three percent of American firms and one percent of American business revenue. The demand side doubled. The ownership side stayed a rounding error.<sup class="src"><a href="#s1">1</a>, <a href="#s2">2</a>, <a href="#s3">3</a>, <a href="#s5">5</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The Census counted 161,031 Black-owned employer firms in 2021 with $183.3 billion in receipts and 1.4 million employees; 194,585 in 2022 with $211.8 billion and 1.6 million. Seventy-one percent had one to nine employees; three percent had fifty or more. Health care was 26 percent of them; the Census does not break out arts, entertainment and recreation by the owner's race in the tables the public can reach.<sup class="src"><a href="#s4">4</a>, <a href="#s5">5</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The National Endowment for the Arts, working from the 2017 survey, found Black owners held 4.2 percent of sound-recording businesses, 137 firms, about twice their two percent share of all businesses; minority owners held nine percent of the arts, entertainment and recreation sector.<sup class="src"><a href="#s7">7</a></sup> <span class="tag t-inf">Inference</span>Twice the economy-wide share, in the industry Black music built, is 137 companies.</p>
+        <p><span class="tag t-fact">Fact</span>Luminate's 2024 count: 4.8 trillion on-demand audio streams worldwide, 1.4 trillion in the United States, and R&amp;B and hip-hop first among genres at 341 billion, 25.3 percent of American streams. The share has fallen every year since 2020: down 1.7 points in 2023, 2.3 in 2024, another point in the first quarter of 2025. The single most-streamed track of 2024 was "Not Like Us," at 1.038 billion.<sup class="src"><a href="#s8">8</a>, <a href="#s9">9</a>, <a href="#s10">10</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>The export: Spotify says Afrobeats streams grew 5,022 percent between 2021 and 2025, Nigerian and South African royalties reached about $59 million in 2024, and Afrobeats streams in Latin America rose 400 percent since 2020. <em>Black Panther</em> grossed $700.4 million domestic and $1.35 billion worldwide in 2018. Run-DMC's Adidas deal in 1986 was $1 million; the five wealthiest hip-hop artists were worth about $4 billion combined by 2022.<sup class="src"><a href="#s12">12</a>, <a href="#s13">13</a>, <a href="#s11">11</a></sup></p>
+        <p><span class="tag t-inf">Inference</span>What the record does not contain is a dollar value for "the hip-hop economy." The figures that circulate are the whole American music industry's. The page uses the share, not the slogan.<sup class="src"><a href="#s11">11</a></sup> <span class="tag t-watch">Watch</span>The Selig series before 2010, and the 2000 base behind "2.4 times," are not consistent across editions, and McKinsey's own estimate ran lower, $910 billion in 2019 toward $1.7 trillion by 2030; the chart below starts where the figures agree.<sup class="src"><a href="#s1">1</a>, <a href="#s3">3</a>, <a href="#s6">6</a></sup></p>
+      </div>
+      <section aria-labelledby="h-ss">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-ss">The share and the shelf</h3><p class="sub">Consumption on the left, ownership on the right, in the same year. Pick the measure.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="ss-ctl"><button aria-pressed="true" data-k="stream">STREAMS · 2024</button><button aria-pressed="false" data-k="firms">FIRMS · 2022</button><button aria-pressed="false" data-k="rev">REVENUE · 2022</button><button aria-pressed="false" data-k="sound">SOUND RECORDING · 2017</button></div>
+      <div class="gap" id="ss-gap"></div>
+      <div class="verdict" id="ss-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-bp">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-bp">The driver's ledger</h3><p class="sub">Buying power against business receipts, where the record gives both. Adjusted figures off; nominal on.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="bars" id="bp-bars"></div>
+      <div class="verdict"><b>Reading</b>Buying power is a consumption estimate; receipts are what Black-owned employer firms took in. The second is about a tenth of the first, and both rose. The gap between what the community spends and what it owns is the frame for the six exhibits that follow.<sup class="src"><a href="#s1">1</a>–<a href="#s5">5</a></sup></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 2 ============ -->
+  <article class="chapter" id="c2" data-ch="2" data-state="held">
+    <div class="col">
+      <div class="where"><span>Exhibit 2 of 7</span><span><b>1984–2025</b></span><span>Beaverton · Charlotte · the NCAA · the resale app</span><span>Standalone</span></div>
+      <h2>The <em>Ladder</em></h2>
+      <span class="instrument">Instrument: the royalty on a name</span>
+      <figure class="plate" data-plate="dl-c2"><img class="ph" src="assets/plates/dl-c2.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The video board at AT&T Stadium, Arlington, Texas · the ladder</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="dl-c2,x-times,x-atlanta,x-regal">
+        <p class="lead">Sports is the industry where the opportunity grew fastest and the record is cleanest, because the leagues publish their splits. In 1984 a rookie signed with a shoe company for $250,000 a year plus a share of sales. In fiscal 2024 the brand with his name on it sold $8.7 billion; in fiscal 2025, $7.27 billion. He earned more than $200 million from the company in 2022 and about $300 million in 2024, mostly royalties, and sold the team he bought for $275 million at a $3 billion valuation.<sup class="src"><a href="#s14">14</a>, <a href="#s15">15</a>, <a href="#s16">16</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>When that sale closed in June 2023, Andscape wrote that there was "no longer any majority African American ownership" in a league whose players were 71.8 percent Black. Twelve Black minority stakeholders remained across the league. Magic Johnson was "a significant financial participant" in the $6.05 billion Commanders purchase, percentage undisclosed. LeBron James's 2015 Nike contract is a lifetime deal whose value his partner put above a billion dollars without stating it.<sup class="src"><a href="#s17">17</a>, <a href="#s18">18</a>, <a href="#s19">19</a>, <a href="#s20">20</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The players' share of league revenue, by collective bargaining: 49 to 51 percent in the NBA, 48 in the NFL, 50 in the NHL. The NBA's eleven-year media deals with Disney, NBC and Amazon were reported at about $76 billion. The NFL players' union took $297 million in group-licensing revenue in the year to February 2026, up 47 percent; one rookie's share was a record $17.7 million.<sup class="src"><a href="#s21">21</a>, <a href="#s27">27</a>, <a href="#s25">25</a></sup> <span class="tag t-inf">Inference</span>Half the revenue is the richest labor share in American entertainment. It is a wage, renegotiated on a schedule; the franchise appreciates to whoever holds it.</p>
+        <p><span class="tag t-fact">Fact</span>The students: name, image and likeness money went from $918 million in 2021–22 to $2.26 billion in 2024–25, with collectives paying 81.6 percent of it and football taking 72 percent of collective dollars. The House settlement, approved June 6, 2025: $2.8 billion in back pay over ten years and a $20.5 million per-school revenue-sharing cap, with 83.9 percent of the shared dollars expected to go to football and men's basketball. EA paid about 11,000 players $600 and a copy of the game for College Football 25, then $1,500 for the sequel. Flat fees, no royalty.<sup class="src"><a href="#s22">22</a>, <a href="#s23">23</a>, <a href="#s24">24</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>The secondary market: StockX was valued at $3.8 billion in 2021; global sneaker resale went from about $6 billion in 2019 to $10.6 billion in 2022, with Air Jordan and Nike at 71 percent of it, and the Air Jordan 1 alone at about 23 percent at a 54 percent average premium.<sup class="src"><a href="#s26">26</a></sup> <span class="tag t-inf">Inference</span>The most valuable name in sports IP earns a royalty on the first sale and nothing on the resale, which is a $10 billion market priced on the name.</p>
+        <p><span class="tag t-watch">Watch</span>The royalty rate on the shoe has never been published; "about five percent" circulates without a source, and the 2024 earnings against fiscal-2025 revenue work out near 3.4 percent, which is our arithmetic and not the contract. Jordan Brand's fiscal-2024 figure exists on two reporting bases, $7.0 and $8.7 billion; the page uses Nike's restated one and does not mix them.<sup class="src"><a href="#s15">15</a>, <a href="#s16">16</a></sup></p>
+      </div>
+      <section aria-labelledby="h-jl">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-jl">The Jordan line</h3><p class="sub">From $250,000 a year to a royalty on $7 billion. Move the rate; the contract is private, so the page shows the range.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ctrl"><label for="jl-r">Assumed royalty on brand revenue<input type="range" id="jl-r" min="1" max="8" step="0.5" value="3.5"><output id="jl-ro"></output></label></div>
+      <div class="deal" id="jl-out"></div>
+      <div class="verdict" id="jl-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-ct">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-ct">The league's cap table</h3><p class="sub">Who the players are, what they take, and who holds the franchises. Pick the league.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="ct-ctl"><button aria-pressed="true" data-k="nba">NBA</button><button aria-pressed="false" data-k="nfl">NFL</button><button aria-pressed="false" data-k="ncaa">COLLEGE · 2025–26</button></div>
+      <div class="split" id="ct-split" aria-hidden="true"></div>
+      <div class="legend" id="ct-leg"></div>
+      <div class="deal" id="ct-out"></div>
+      <div class="verdict" id="ct-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-nm">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-nm">The name</h3><p class="sub">Name, image and likeness money by year, with the flat-fee video game beside it.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="bars" id="nm-bars"></div>
+      <div class="verdict"><b>Reading</b>Zero to $2.26 billion in four years is the fastest opening of a door in this episode. The settlement that followed caps what a school can share, routes 84 percent of it to two sports, and reviews every outside deal over $600. The game pays a flat fee. The door opened; the deed to the likeness stayed a license.<sup class="src"><a href="#s22">22</a>–<a href="#s24">24</a></sup></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 3 ============ -->
+  <article class="chapter" id="c3" data-ch="3" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 3 of 7</span><span><b>1999–2025</b></span><span>The record store · the download · the stream</span><span>Standalone</span></div>
+      <h2>The <em>Shelf</em></h2>
+      <span class="instrument">Instrument: the format</span>
+      <figure class="plate" data-plate="dl-c3"><img class="ph" src="assets/plates/dl-c3.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> An abandoned shoe store, Pecos, Texas · the shelf</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="dl-c3,x-jukebox2,x-capitol,x-tavern">
+        <p class="lead">A shelf is a place where a copy sits and someone owns it. Recorded music in the United States peaked at about $22.4 billion in inflation-adjusted terms in 1999, fell to $7.2 billion in 2014, about a third below the peak, and came back to $17.7 billion in 2024 with streaming at 84 percent of it and 100 million paid subscriptions. The money returned. It returned to a different till.<sup class="src"><a href="#s28">28</a>, <a href="#s29">29</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The 2025 year-end, on the wholesale basis the RIAA now publishes: $11.535 billion, streaming 82.1 percent, 106.5 million paid subscriptions providing 55.3 percent of revenue; physical $1.381 billion, of which vinyl $1.043 billion on 46.8 million units and the CD $312 million, down 7.8 percent; downloads $272.6 million. The first half of 2026 was $6 billion, up 6.9 percent.<sup class="src"><a href="#s30">30</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Citi's 2018 study put the whole American music economy at $43 billion in 2017 and the artists' capture at 12 percent, about $5 billion; labels and publishers took about $10 billion. Spotify said it paid out more than $10 billion in 2024, about $60 billion cumulative; roughly 1,500 artists earned a million dollars or more on it, 12,500 earned $100,000, and independents took about half the payouts.<sup class="src"><a href="#s31">31</a>, <a href="#s32">32</a></sup> <span class="tag t-inf">Inference</span>Twelve cents on the dollar is the structure of Episode 3 at the scale of an economy. The platform publishes who it paid; the record does not say what share of the 1,500 are Black.</p>
+        <p><span class="tag t-fact">Fact</span>The disc, in film: the DEG's count of American disc sales peaked above $16 billion in 2005 and fell below $1 billion in 2024, down 23.4 percent in one year and 93.75 percent from the peak; <em>Variety</em> wrote that the DVD business died in 2024. In December 2023 Sony told PlayStation owners that 1,318 purchased seasons of Discovery programming would be removed on New Year's Eve under "content licensing arrangements," with no refund, and reversed only after an eleventh-hour deal with the rights holder.<sup class="src"><a href="#s33">33</a>, <a href="#s34">34</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>The disc, in games: physical spending in the United States fell by more than half from 2021 and more than 85 percent from its 2008 peak; Capcom's unit sales are about 90 percent digital, Sony's software about 82 percent, and Sony plans to end disc releases from January 2028.<sup class="src"><a href="#s35">35</a></sup> <span class="tag t-inf">Inference</span>The copy the customer owned is becoming the license the customer rents, in every medium at once. The shelf was where a Black-owned shop, label or distributor sat between the work and the buyer; the stream has no shelf.</p>
+      </div>
+      <section aria-labelledby="h-fc">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-fc">The format curve</h3><p class="sub">American recorded-music revenue by year, as the trade body reports it, with the format on top. Hover or tap a year.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="curve" id="fc"></div>
+      <div class="legend" id="fc-leg"></div>
+      <div class="verdict" id="fc-v"><b>Reading</b>Retail basis through 2024, wholesale from 2025, which is why the last point sits lower; the page does not splice the two. The fall is the shelf; the climb is the subscription. The artist's share of the climb is the next exhibit.<sup class="src"><a href="#s28">28</a>–<a href="#s30">30</a></sup></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-dm">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-dm">A dollar of music</h3><p class="sub">Citi's 2017 breakdown of $43 billion, as a dollar. Toggle to the platform's own payout count.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top"><label class="switch"><input type="checkbox" id="dm-on"> Show Spotify's 2024 payout ladder instead</label></div>
+      <div class="split" id="dm-split" aria-hidden="true"></div>
+      <div class="legend" id="dm-leg"></div>
+      <div class="deal" id="dm-out"></div>
+      <div class="verdict" id="dm-v"></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 4 ============ -->
+  <article class="chapter" id="c4" data-ch="4" data-state="held">
+    <div class="col">
+      <div class="where"><span>Exhibit 4 of 7</span><span><b>2018–2026</b></span><span>Westwood · the picket line · the cable bill</span><span>Standalone</span></div>
+      <h2>The <em>Screen</em></h2>
+      <span class="instrument">Instrument: the median</span>
+      <figure class="plate" data-plate="x-southside"><img class="ph" src="assets/plates/x-southside.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> A movie theater, South Side, Chicago, 1941 · the screen</span><span class="cr">Russell Lee, Farm Security Administration, Library of Congress · public domain</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="x-southside,x-paramount,x-times,x-regal">
+        <p class="lead">Black Americans spend 81 hours a week with media, a third more than the general population; 73 percent pay for three or more streaming services; streaming is 45.9 percent of Black adults' television time, more than cable and broadcast combined. The audience is the heaviest in the country. UCLA's annual report has measured, for a decade, whether the industry has built for it.<sup class="src"><a href="#s40">40</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The 2025 report, on 2024's films: casts that were 41 to 50 percent people of color posted a record median global box office of $234.6 million; casts 11 to 20 percent posted the lowest, $33.3 million; people of color were the majority of opening-weekend ticket buyers for 12 of the top 20. The same report: films with fewer than 11 percent actors of color rose from 8.5 to 18.4 percent of releases; the white share of theatrical roles went from 59.6 to 67.2 percent; writers of color fell from 22.2 to 12.5 percent; majority-POC casts were the worst performers for the first time since 2015, half of them opened in fewer than 3,000 theaters.<sup class="src"><a href="#s38">38</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>The 2026 report, on 2025's 109 films: people of color about 23 percent of leads, directors of color about 22 percent, and the 41-to-50-percent band again the highest median at home and abroad; <em>Sinners</em> the outlier.<sup class="src"><a href="#s39">39</a></sup> <span class="tag t-inf">Inference</span>The market rewards the mix and the industry retreats from it in the same twelve months. The dilution here is not of a deed but of a greenlight.</p>
+        <p><span class="tag t-fact">Fact</span>The 2023 strikes ended with a writers' contract that pays a 50 percent bonus on the fixed streaming residual when a title is watched by 20 percent of domestic subscribers within 90 days, about $9,031 for a half hour and $16,415 for an hour, requires the studios to disclose hours streamed, and says a machine cannot be a writer and its output is not source material. The performers' contract added a $40 million-a-year streaming participation fund for three years, a seven percent minimum raise, and consent and payment for digital replicas, living or dead.<sup class="src"><a href="#s36">36</a>, <a href="#s37">37</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>The pipe under it: pay television at 43.2 million homes, 34 percent penetration, against about 105 million around 2010; 64.8 million counting the virtual bundles. The regional sports networks' parent went through a twenty-month bankruptcy that erased more than $9 billion of debt, nine baseball teams terminated their deals in January 2026, and the last broadcast aired on April 30, 2026.<sup class="src"><a href="#s41">41</a>, <a href="#s42">42</a></sup> <span class="tag t-inf">Inference</span>The cable dollar that funded BET, OWN and the overall deals of Episode 3 is leaving the system at about three million homes a year.</p>
+      </div>
+      <section aria-labelledby="h-bg">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-bg">The budget gap</h3><p class="sub">Median global box office by the cast's share of people of color, 2024 films, beside the share of releases that went the other way.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="two">
+        <div class="cell"><h4>What sold · median global box office, 2024 films</h4><div class="bars" id="bg-bars"></div></div>
+        <div class="cell"><h4>What got made · 2023 → 2024</h4><div class="bars" id="bg-bars2"></div></div>
+      </div>
+      <div class="verdict"><b>Reading</b>The left column is the market; the right is the studio's response to it. A seven-times gap in the median and a doubling of the films that ignored it, in the same year. The next report said it had not reversed.<sup class="src"><a href="#s38">38</a>, <a href="#s39">39</a></sup></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-st">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-st">The strike terms</h3><p class="sub">One streaming hit, under the 2023 contracts. Set the audience; the bonus turns on at 20 percent.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ctrl"><label for="st-a">Share of domestic subscribers who watched in 90 days<input type="range" id="st-a" min="0" max="40" step="1" value="12"><output id="st-ao"></output></label></div>
+      <div class="deal" id="st-out"></div>
+      <div class="verdict" id="st-v"></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 5 ============ -->
+  <article class="chapter" id="c5" data-ch="5" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 5 of 7</span><span><b>1989–2026</b></span><span>Seattle · London · Wilmington</span><span>The worked example</span></div>
+      <h2>The Stock <em>Image</em></h2>
+      <span class="instrument">Instrument: the license fee</span>
+      <figure class="plate" data-plate="x-times"><img class="ph" src="assets/plates/x-times.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Times Square north at night · the stock image</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="x-times,x-court,x-capitol,x-harlem43">
+        <p class="lead">The stock photograph is the one creative product that has already been through every format in this episode: the print, the disc, the download, the subscription and the model. In 1989 a rights-managed photograph in a national ad licensed for $1,375 to $4,125. In 2006 Getty's average rights-managed fee was $536.12 and the photographer's royalty about $268. In 2020, by a contributor's sample of his own statements, the average Getty license was $21.06 and the royalty, at 20 percent, $4.21. Half of licenses were under $10; fewer than one in a hundred over $1,000.<sup class="src"><a href="#s43">43</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The disc did it first: royalty-free CD-ROMs sold for about $300, the creator took 20 percent of disc revenue, about 20 cents an image on a 300-image disc. Then the download: microstock paid under 50 cents. Getty bought iStockphoto for $50 million in February 2006, the year its creative revenue was $634.1 million on a collection of 1.76 million images; the collection grew to 29.4 million and creative revenue fell under $280 million. Long-term contributors, by the same sample, earn a tenth of their 2006 income.<sup class="src"><a href="#s43">43</a>, <a href="#s44">44</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The owners: Hellman &amp; Friedman took the company private for about $2.4 billion in 2008; Carlyle bought it for $3.3 billion in 2012, $2.6 billion of that debt; the Getty family retook the majority in 2018; a SPAC merger valued it at $4.8 billion in July 2022, and the stock went from $10 to $32 in a week and $8.49 by September. Three sales, $10.5 billion in enterprise value, in fourteen years, while the fee on the product went from $536 to $21.<sup class="src"><a href="#s45">45</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The subscription: in 2024 Shutterstock replaced its flat 30 percent contributor royalty with tiers of 20 to 40 percent of an assigned value of 45 to 81 cents a download; a worked example went from 31 cents to 13. Getty's own restructuring deck says contracted contributors "typically receive 20 to 50 percent of the license fee," plus a payment when their content is used in a training set.<sup class="src"><a href="#s46">46</a>, <a href="#s47">47</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The model: Getty sued Stability AI in Delaware in February 2023 over about 12 million scraped images, dismissed and refiled in San Francisco in August 2025, trial set for January 18, 2028. In London, on November 4, 2025, the High Court found a trained model is not an "infringing copy" because it never stores the pictures, and gave Getty only "extremely limited" trademark findings on watermarks in two old versions. Getty launched its own generator in September 2023, trained on part of its 477 million assets, paying contributors a recurring share by formula. Shutterstock earned $104 million licensing its library to AI developers in 2023 and projected $250 million a year by 2027; contributor payouts undisclosed.<sup class="src"><a href="#s48">48</a>, <a href="#s49">49</a>, <a href="#s51">51</a>, <a href="#s52">52</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The end of the curve: a $3.7 billion merger with Shutterstock announced January 2025, cleared by the Justice Department unconditionally and by Britain's regulator on condition of a divestiture, and terminated on July 7, 2026 when Getty declined it. A going-concern warning in March 2026 citing debt, merger costs, litigation and AI competition. On October 21, 2026 the company filed a prepackaged Chapter 11 in Delaware: $1.46 billion of funded debt, the Getty family and Koch to take 100 percent of the equity with up to $533 million of new money, unsecured notes recovering about 63 cents, the public shares and warrants cancelled. Revenue in 2025 was $981.3 million; the deck names generative AI "a structural industry headwind." The company said its relationships with photographers were expected to be unaffected. No contributor terms were published.<sup class="src"><a href="#s53">53</a>, <a href="#s54">54</a>, <a href="#s50">50</a>, <a href="#s47">47</a></sup></p>
+        <p><span class="tag t-inf">Inference</span>Every format change widened the door: anyone with a camera could sell, and 29 million images did. Every format change cut the fee by an order of magnitude and moved the margin to the aggregator, which was sold three times to funds and then handed, by a court, to its founders and a conglomerate's investment arm. The photographer's royalty is the only line in the story that never had a buyer.</p>
+      </div>
+      <section aria-labelledby="h-ri">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-ri">The royalty on one image</h3><p class="sub">The same photograph, licensed at each format. Scrub the year.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="ri-ctl"><button aria-pressed="true" data-k="1989">1989 · THE PRINT</button><button aria-pressed="false" data-k="1995">MID-90s · THE DISC</button><button aria-pressed="false" data-k="2006">2006 · RIGHTS-MANAGED</button><button aria-pressed="false" data-k="2007">2007 · MICROSTOCK</button><button aria-pressed="false" data-k="2020">2020 · THE SUBSCRIPTION</button><button aria-pressed="false" data-k="2024">2024 · SHUTTERSTOCK</button><button aria-pressed="false" data-k="2023">2023 · THE MODEL</button></div>
+      <div class="deal" id="ri-out"></div>
+      <div class="verdict" id="ri-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-ol">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-ol">The owners' ladder</h3><p class="sub">What the company sold for, each time, against what the picture licensed for the same year.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="bars" id="ol-bars"></div>
+      <div class="verdict"><b>Reading</b>The company's price rose on each rung; the picture's price fell on each. The two lines cross at the download and never meet again. The Chapter 11 is where the company's line finally followed the picture's, with the shareholders paying and the contributors, so far, unaddressed.<sup class="src"><a href="#s43">43</a>, <a href="#s45">45</a>, <a href="#s50">50</a></sup></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 6 ============ -->
+  <article class="chapter" id="c6" data-ch="6" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 6 of 7</span><span><b>2023–2026</b></span><span>Paris · Stockholm · the Northern District</span><span>Watch layer</span></div>
+      <h2>The <em>Machine</em></h2>
+      <span class="instrument">Instrument: the training set</span>
+      <figure class="plate" data-plate="x-capitol"><img class="ph" src="assets/plates/x-capitol.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The Capitol Records Tower, Hollywood and Vine · the machine</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="x-capitol,x-sun,x-court,x-jukebox2">
+        <p class="lead">In January 2025, ten percent of the tracks uploaded to Deezer each day were made by a model, about 10,000. In April it was 18 percent; in September, 28; in January 2026, 39; in April 2026, 44 percent, 75,000 a day; in June 2026, more than half, about 90,000 a day. The platform now removes machine-made tracks tied to fraudulent streams and any that go six months unplayed. Spotify said it had removed more than 75 million "spammy" tracks in a year and banned unauthorized voice clones. An AI band passed 500,000 monthly listeners within weeks in July 2025.<sup class="src"><a href="#s56">56</a>, <a href="#s57">57</a>, <a href="#s58">58</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The first fake was April 4, 2023: a track in the voices of Drake and the Weeknd reached about 600,000 Spotify streams and 15 million TikTok views before Universal had it taken down on the 17th, saying training on its artists "breaches our agreements and violates copyright law." In June 2024 the three majors sued Suno and Udio for up to $150,000 a work. Universal settled with Udio on October 29, 2025; Warner with Udio on November 19 and Suno on November 25, as licensing partnerships, the Suno figure reported at $500 million. Sony did not settle: it filed a second suit against Udio in July 2026 and, with Universal, a second against Suno over 60,202 recordings in September.<sup class="src"><a href="#s55">55</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The statutes: Tennessee's ELVIS Act, signed March 21, 2024, the first state law adding a voice to likeness protection against cloning. The NO FAKES Act of 2026 advanced unanimously from Senate Judiciary on June 18; the House has not taken it up; it is a bill. SAG-AFTRA members ratified the video-game contract on July 9, 2025 by 95 percent, ending a 320-day strike: written consent and disclosure for replicas, 7.5 times scale for real-time generation, the right to suspend consent in a strike. In September the union said of a synthetic "actress" pitched to agencies that it was "not an actor."<sup class="src"><a href="#s59">59</a>, <a href="#s60">60</a>, <a href="#s61">61</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The courts: a judge approved Anthropic's $1.5 billion settlement with authors in September 2025, about $3,000 a book across 465,000 works, after holding that training was fair use but storing seven million pirated books was not. The <em>Times</em>' case against OpenAI survived its motion to dismiss in March 2025 and reached cross-motions on fair use in September 2026. Disney, Universal and Warner Bros. Discovery's consolidated case against Midjourney closes expert discovery on November 9, 2026 with no trial date. Getty's is set for 2028.<sup class="src"><a href="#s62">62</a>, <a href="#s63">63</a>, <a href="#s64">64</a>, <a href="#s48">48</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>The estimates, each from an interested party: CISAC's commissioned study puts creators' cumulative loss at €22 billion by 2028, 24 percent of music creators' revenue and 21 percent of audiovisual at risk, with generative music providers going from €0.1 billion to €4 billion; the animation guilds' study puts 204,000 American entertainment jobs disrupted by 2026; Goldman Sachs put 300 million jobs worldwide exposed.<sup class="src"><a href="#s65">65</a></sup> <span class="tag t-inf">Inference</span>The pattern of the five exhibits before this one: the label settles for the catalog; the aggregator licenses the library; the platform sets the filter; the statute makes the voice a tradeable right. The creator who was never at the table in Episode 3 is not at this one either. The opt-in is the door; the deed to the training set is the thing the door opens onto.</p>
+      </div>
+      <section aria-labelledby="h-fm">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-fm">The feed, by machine</h3><p class="sub">Deezer's share of daily uploads made by a model, month by month. Drag.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ctrl"><label for="fm-k">Month<input type="range" id="fm-k" min="0" max="6" step="1" value="0"><output id="fm-ko"></output></label></div>
+      <div class="split" id="fm-split" aria-hidden="true"></div>
+      <div class="legend" id="fm-leg"></div>
+      <div class="deal" id="fm-out"></div>
+      <div class="verdict" id="fm-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-dk">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-dk">The docket</h3><p class="sub">Every case and statute in the chapter, with who was at the table and what the creator got.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ledger"><table id="dk-table"><thead><tr><th>Matter</th><th>Parties at the table</th><th>Status · as of the dateline</th><th>What reaches the creator</th></tr></thead><tbody></tbody></table></div>
+      <div class="verdict"><b>Reading</b>Seven matters, one creator-led: the authors' class. In the rest, the plaintiff is the label, the studio, the agency or the newspaper, and the settlement, where there is one, is a license to the plaintiff. The money reaching the individual is, in order: about $3,000 a book, a formula, an opt-in, and nothing published.<sup class="src"><a href="#s55">55</a>–<a href="#s64">64</a></sup></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 7 ============ -->
+  <article class="chapter" id="c7" data-ch="7" data-state="open">
+    <div class="col">
+      <div class="where"><span>Exhibit 7 of 7</span><span><b>1984–2026</b></span><span>Four industries · one instrument</span><span>Synthesis</span></div>
+      <h2>The <em>Dilution</em></h2>
+      <span class="instrument">Instrument: opportunity against ownership</span>
+      <figure class="plate" data-plate="dl-c7"><img class="ph" src="assets/plates/dl-c7.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Lambeau Field, Green Bay, Wisconsin · the dilution</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="dl-c7,x-regal,x-atlanta,x-times">
+        <p class="lead">The thesis, stated as the record supports it. In each industry this episode measured, the popularization of Black intellectual property widened the door for everyone: more players paid, more students paid, more songs uploaded, more photographers selling, more films that sold on a mixed cast. In each, the format change that widened the door moved the margin from the holder of a copy to the operator of a system, and the system was owned elsewhere.<sup class="src"><a href="#s5">5</a>, <a href="#s22">22</a>, <a href="#s29">29</a>, <a href="#s43">43</a></sup></p>
+        <p><span class="tag t-inf">Inference</span>Three dilutions, in order. The first was the disc to the download: the shop and the independent distributor lost the shelf, and the independent label of Episode 3 lost the thing it had kept its masters for. The second was the download to the stream: the copy became a license, the platform took the till, and the artist's capture of the whole settled near twelve cents. The third is the stream to the model: the catalog became a training set, licensed by its holder, and the creator's name became an opt-in.</p>
+        <p><span class="tag t-fact">Fact</span>What did not dilute: the wage. Players at 48 to 51 percent of league revenue; a $297 million licensing pool; a $40 million streaming fund; $2.26 billion in NIL. The share of income that is bargained collectively rose in every industry where there was a union or a players' association to bargain it.<sup class="src"><a href="#s21">21</a>, <a href="#s25">25</a>, <a href="#s37">37</a>, <a href="#s22">22</a></sup> <span class="tag t-inf">Inference</span>The equity in opportunity grew where it was negotiated as a wage. The equity in ownership diluted where it was held as a copy. The two moved in opposite directions through the same formats.</p>
+        <p><span class="tag t-watch">Watch</span>Four open matters decide the next format. Getty's 2028 trial and the <em>Times</em>' fair-use motions decide whether a training set needs a license. NO FAKES decides whether a voice is a tradeable deed, and the contracts of Episode 3 decide who trades it. Sony's second suits decide whether the label's settlement is the industry's. And the Census's next survey decides whether the 194,585 became more than one percent of the revenue.<sup class="src"><a href="#s48">48</a>, <a href="#s63">63</a>, <a href="#s60">60</a>, <a href="#s55">55</a>, <a href="#s5">5</a></sup></p>
+      </div>
+      <section aria-labelledby="h-td">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-td">Three dilutions</h3><p class="sub">Pick the industry and the format. Opportunity on the left, ownership on the right, each anchored to a figure on this page.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="td-ind"><button aria-pressed="true" data-k="music">MUSIC</button><button aria-pressed="false" data-k="screen">SCREEN</button><button aria-pressed="false" data-k="sport">SPORT</button><button aria-pressed="false" data-k="image">IMAGE</button></div>
+      <div class="room-ctl" id="td-fmt" style="margin-top:8px"><button aria-pressed="true" data-k="copy">THE COPY</button><button aria-pressed="false" data-k="download">THE DOWNLOAD</button><button aria-pressed="false" data-k="stream">THE STREAM</button><button aria-pressed="false" data-k="model">THE MODEL</button></div>
+      <div class="gap" id="td-gap" style="margin-top:16px"></div>
+      <div class="verdict" id="td-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-dd">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-dd">The deed, by industry</h3><p class="sub">Who holds the asset at the end of the curve, as the record stands on the dateline.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ledger"><table id="dd-table"><thead><tr><th>Industry</th><th>The door · opportunity</th><th>The deed · ownership</th><th>The holder at the end of the curve</th></tr></thead><tbody></tbody></table></div>
+      <div class="verdict"><b>Reading</b>Four industries, four holders: a platform, a studio, a franchise, a fund turned founders. The door opened in every row. The deed sits in the right-hand column in every row, and none of the four is the creator.<sup class="src"><a href="#s17">17</a>, <a href="#s32">32</a>, <a href="#s38">38</a>, <a href="#s50">50</a></sup></div>
+    </div>
+  </article>
+
+  <!-- ============ CLOSING ============ -->
+  <section aria-labelledby="h-close" style="margin-top:120px">
+    <div class="col sec-head">
+      <span class="eyebrow">Closing</span>
+      <h2 id="h-close">Three findings, <em>one direction</em></h2>
+      <p class="sub">What the record supports, and what it does not.</p>
+    </div>
+    <div class="col stack">
+      <p class="lead">The door opened on every ladder and the top rung stayed where it was. Each format change moved the till from the holder of a copy to the operator of a system. The stock image got to the end of the curve first, and the end of the curve is a bankruptcy court handing a company back to its founders with the contributors unmentioned. What held was the wage, wherever there was someone to bargain it. What diluted was the deed, wherever it was held as a copy.</p>
+    </div>
+    <div class="sides" style="margin-top:28px">
+      <div class="side gold"><h3>What the record supports</h3><ul>
+        <li>The Census counts, the RIAA year-ends, Nike's fiscal release, the House settlement, the UK judgment, the Getty petition and deck, and the union contracts are primary (T1) or contemporaneous press (T2).</li>
+        <li>Luminate's genre shares, Opendorse's NIL totals and the DEG's disc figures are the trade's own counts and are chipped T4.</li>
+        <li>Every valuation of Getty is a reported transaction; every license fee is from a contributor's published sample of his own statements, and is labeled as such.</li>
+      </ul></div>
+      <div class="side tagb"><h3>What it does not</h3><ul>
+        <li>No source gives a dollar value for "the hip-hop economy"; the Selig series before 2010 is inconsistent across editions; the Jordan royalty rate has never been published.</li>
+        <li>The Census does not break out Black ownership of arts, entertainment and recreation firms in the public tables; the NEA's 4.2 percent is from 2017.</li>
+        <li>The CISAC, CVL and Goldman estimates are each from an interested party and are carried as Reported. Deezer's share is of uploads, not of streams.</li>
+      </ul></div>
+    </div>
+    <div class="col" style="margin-top:28px">
+      <div class="crumbs" aria-label="Related reading on this site">
+        <a href="the-chain-of-title.html"><i>EP·1</i>The Chain of Title</a>
+        <a href="the-circulating-dollar.html"><i>EP·2</i>The Circulating Dollar</a>
+        <a href="the-terms.html"><i>EP·3</i>The Terms</a>
+        <a href="the-feed.html"><i>EP·4</i>The Feed</a>
+        <a href="the-terms.html#c7"><i>EP·3·07</i>One Hundred Percent</a>
+        <a href="the-feed.html#c7"><i>EP·4·07</i>The Creator's Deed</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="sources">
+    <p><b>INFERA · MECHANISM SERIES · THE DILUTION · Episode 5 of a standalone mini-series · Seven exhibits, original reporting from the public record · © Infera 2026.</b></p>
+    <p style="margin-top:10px"><b>Method.</b> SVNIF: every claim carries Fact, Reported, Inference or Watch; Disputed marks a figure the record gives in more than one version or that a widely cited source does not support. Source tiers: T1 government, court, filing or academic · T2 major press · T3 reputable secondary · T4 trade or an interested party's study. Dollar figures are nominal unless marked adjusted. No figure on this page is a measurement of what a culture is worth; each is a measurement of a share, a fee or a sale.</p>
+    <ol>
+      <li id="s1"><span class="tier">T1</span> Selig Center for Economic Growth via Newswise, Mar 21, 2019, <a href="https://www.newswise.com/articles/minority-markets-have-3-9-trillion-buying-power">minority markets have $3.9 trillion buying power</a> ($961 billion in 2010; $1.3 trillion in 2018).</li>
+      <li id="s2"><span class="tier">T1</span> Terry College of Business, University of Georgia, 2021, <a href="https://www.terry.uga.edu/thirty-years-change-consumer-buying-power-more-diverse-ever/">thirty years of change</a> ($1.6 trillion in 2020).</li>
+      <li id="s3"><span class="tier">T2</span> Nielsen, 2025, <a href="https://www.nielsen.com/insights/2025/connecting-black-america/">Connecting Black America</a> ($2.1 trillion, "2.4x since 2000"); Nielsen, Feb 8, 2024, the $2 trillion projection.</li>
+      <li id="s4"><span class="tier">T1</span> U.S. Census Bureau, Oct 26, 2023, <a href="https://www.census.gov/newsroom/press-releases/2023/annual-business-survey-employer-business-characteristics.html">Annual Business Survey, 2021</a>.</li>
+      <li id="s5"><span class="tier">T1</span> Pew Research Center, Feb 12, 2025, <a href="https://www.pewresearch.org/short-reads/2025/02/12/a-look-at-black-owned-businesses-in-the-us/">a look at Black-owned businesses</a> (Census ABS 2022: 194,585 firms; $211.8 billion; shares of firms and revenue).</li>
+      <li id="s6"><span class="tier">T3</span> McKinsey, Dec 15, 2021, <a href="https://www.mckinsey.com/bem/our-insights/black-consumers-where-to-invest-for-equity-a-preview">Black consumers: where to invest for equity</a>.</li>
+      <li id="s7"><span class="tier">T1</span> National Endowment for the Arts, Jul 2021, <a href="https://nea.gov/sites/default/files/Demographic-Characteristics-of-US-Business-Owners-in-the-Arts-2.pdf">Demographic characteristics of U.S. business owners in the arts</a> (ABS 2017).</li>
+      <li id="s8"><span class="tier">T4</span> Luminate 2024 year-end report via Record of the Day, Jan 16, 2025, <a href="https://www.recordoftheday.com/news-and-press/luminate-2024-year-end-music-report-global-audio-streaming-grows-14-driven-by-ex-us-markets">global audio streaming grows 14 percent</a>; Inside Radio, the genre table.</li>
+      <li id="s9"><span class="tier">T4</span> Luminate, 2025, <a href="https://luminatedata.com/blog/how-rb-hip-hop-streaming-share-could-get-its-groove-back/">how R&amp;B/hip-hop streaming share could get its groove back</a> (25.3 percent; shrinking since 2020).</li>
+      <li id="s10"><span class="tier">T4</span> Luminate, Feb 4, 2025, <a href="https://luminatedata.com/blog/recognizing-black-and-african-american-excellence/">recognizing Black and African American excellence</a> ("Not Like Us," 1.038 billion).</li>
+      <li id="s11"><span class="tier">T2</span> AP via Fortune, Aug 9, 2023, <a href="https://fortune.com/2023/08/09/hip-hop-50th-anniversary-business-jay-z-billionaire-adidas-mcdonalds/">hip-hop at 50, the business</a> (Run-DMC's $1 million; no industry-value figure).</li>
+      <li id="s12"><span class="tier">T4</span> Vanguard, Mar 2026, <a href="https://www.vanguardngr.com/2026/03/afrobeats-streams-jump-5022/">Afrobeats streams jump 5,022 percent</a> (Spotify); The Creative Brief, Nov 12, 2025, the $59 million; Music In Africa, Dec 2024, Spotify Wrapped.</li>
+      <li id="s13"><span class="tier">T3</span> Box Office Mojo, <a href="https://www.boxofficemojo.com/title/tt1825683/">Black Panther</a> ($700.4 million domestic; $1.35 billion worldwide).</li>
+      <li id="s14"><span class="tier">T2</span> Sportico, Jun 16, 2023, <a href="https://www.sportico.com/personalities/athletes/2023/michael-jordan-hornets-sale-nike-1234731907/">Jordan, the Hornets sale and Nike</a> ($250,000 a year plus a share of sales; $275 million to about $3 billion; more than $200 million in 2022).</li>
+      <li id="s15"><span class="tier">T1</span> Nike, Jun 26, 2025, <a href="https://s1.q4cdn.com/806093406/files/doc_financials/2025/q4/Q4-FY25_Press-Release_FINAL.pdf">fourth-quarter fiscal 2025 results</a> (Jordan Brand $7,270 million against $8,701 million).</li>
+      <li id="s16"><span class="tier">T2</span> Sportico, 2025, <a href="https://www.sportico.com/business/commerce/2025/nike-jordan-brand-revenue-declines-1234858242/">Jordan Brand revenue declines</a> (about $300 million in 2024 earnings).</li>
+      <li id="s17"><span class="tier">T2</span> Andscape, Jun 16, 2023, <a href="https://andscape.com/features/michael-jordans-hornets-sale-leaves-nba-with-no-black-majority-team-ownership/">the Hornets sale leaves the NBA with no Black majority owner</a> (71.8 percent, TIDES 2021–22).</li>
+      <li id="s18"><span class="tier">T3</span> The Shadow League, Dec 16, 2023, <a href="https://theshadowleague.com/nba-has-12-black-owners-michael-jordan/">twelve Black minority stakeholders</a>.</li>
+      <li id="s19"><span class="tier">T2</span> AP via News4Jax, Apr 13, 2023, <a href="https://www.news4jax.com/sports/2023/04/13/magic-johnson-delivers-another-assist-in-commanders-purchase/">the Commanders purchase</a>.</li>
+      <li id="s20"><span class="tier">T2</span> Business Insider, May 2016, <a href="https://www.businessinsider.in/LeBron-James-business-partner-confirms-lifetime-deal-with-Nike-is-worth-over-1-billion/articleshow/52322960.cms">the lifetime deal</a>.</li>
+      <li id="s21"><span class="tier">T3</span> Beyond the Sideline, <a href="https://beyondthesideline.beehiiv.com/p/a-cba-comparison">a CBA comparison</a> (players' revenue shares by league).</li>
+      <li id="s22"><span class="tier">T4</span> Opendorse, Jul 2025, <a href="https://biz.opendorse.com/wp-content/uploads/2025/07/NIL-at-Four-Monetizing-the-New-Reality_July2025.pdf">NIL at Four</a> ($918 million to $2.26 billion; 83.9 percent); Front Office Sports, Jul 1, 2024, NIL at three.</li>
+      <li id="s23"><span class="tier">T2</span> CBS Sports, Jun 6, 2025, <a href="https://www.cbssports.com/college-football/news/house-v-ncaa-settlement-approved-landmark-decision-opens-door-for-revenue-sharing/">the House settlement approved</a> ($2.8 billion; $20.5 million cap).</li>
+      <li id="s24"><span class="tier">T2</span> Kotaku, Mar 19, 2025, <a href="https://kotaku.com/ea-college-football-25-26-players-nil-increase-600-1500-1851770980">EA's $600 to $1,500</a>.</li>
+      <li id="s25"><span class="tier">T1/T2</span> Front Office Sports, May 30, 2026, <a href="https://frontofficesports.com/article/shedeur-sanders-record-breaking-17-million-nflpa-group-licensing-income/">NFLPA group-licensing income</a> (Department of Labor filing).</li>
+      <li id="s26"><span class="tier">T2/T3</span> Quartz, Apr 2021, <a href="https://qz.com/1994596/stockx-a-sneaker-resale-site-is-now-worth-3-8-billion">StockX at $3.8 billion</a>; RunRepeat, <a href="https://runrepeat.com/sneaker-resale-statistics">sneaker resale statistics</a>.</li>
+      <li id="s27"><span class="tier">T2</span> TheWrap, Jul 24, 2024, <a href="https://www.thewrap.com/nba-close-to-76-billion-tv-rights-deal-with-nbc-amazon-and-disney-report/">the $76 billion media deals</a>.</li>
+      <li id="s28"><span class="tier">T1/T3</span> RIAA, <a href="https://www.riaa.com/u-s-sales-database/">U.S. recorded music revenues by format</a> (the database behind the curve; nominal retail, rounded); Hypebot, Mar 5, 2020, <a href="https://www.hypebot.com/hypebot/2020/03/40-years-of-us-music-sales-from-tape-deck-to-tidal.html">forty years of U.S. music sales</a> (the $22.4 billion adjusted peak; the 2014 trough).</li>
+      <li id="s29"><span class="tier">T1</span> RIAA 2024 year-end via RAIN News, Apr 1, 2025, <a href="https://rainnews.com/?p=53940">$17.7 billion, 84 percent streaming</a>.</li>
+      <li id="s30"><span class="tier">T1</span> RIAA, Mar 2026, <a href="https://www.riaa.com/wp-content/uploads/2026/03/RIAA-Year-End-Revenue-2025.pdf">year-end 2025 revenue report</a> (wholesale basis); RIAA mid-year 2026.</li>
+      <li id="s31"><span class="tier">T2</span> Digital Music News, Aug 7, 2018, <a href="https://www.digitalmusicnews.com/2018/08/07/citigroup-music-industry-sales/">Citi: artists capture 12 percent of $43 billion</a>.</li>
+      <li id="s32"><span class="tier">T4</span> RouteNote, Mar 12, 2025, <a href="https://routenote.com/blog/loud-clear-2025/">Spotify Loud &amp; Clear 2025</a>.</li>
+      <li id="s33"><span class="tier">T3/T2</span> Cord Cutters News, Jan 2025, <a href="https://cordcuttersnews.com/dvd-blu-ray-sales-plummet-over-93-since-2005-peak-dipping-below-1-billion-in-2024/">DEG: disc sales below $1 billion</a>; Variety VIP, 2024, <a href="https://variety.com/vip/rip-dvd-business-2024-1236322977/">the DVD business died in 2024</a>.</li>
+      <li id="s34"><span class="tier">T2</span> Video Games Chronicle, Dec 4, 2023, <a href="https://www.videogameschronicle.com/news/playstation-store-is-removing-1300-seasons-of-discovery-tv-shows-even-if-users-have-purchased-them/">1,318 Discovery seasons to be removed</a>; GB News, Dec 2023, the reversal.</li>
+      <li id="s35"><span class="tier">T2/T4</span> Video Games Chronicle, Jan 25, 2025, <a href="https://www.videogameschronicle.com/news/us-physical-game-spend-has-halved-since-2021/">Circana on physical spend</a>; Push Square, Aug 6, 2026, Sony's disc-free plan; Kotaku, Jul 21, 2026, Niko Partners.</li>
+      <li id="s36"><span class="tier">T3</span> DLA Piper, Oct 3, 2023, <a href="https://www.dlapiper.com/en/insights/publications/2023/10/inside-the-wga-and-amptp-collective-bargaining-agreement">inside the WGA agreement</a>.</li>
+      <li id="s37"><span class="tier">T2</span> Engadget, Nov 11, 2023, <a href="https://www.engadget.com/sag-aftra-deal-includes-a-40-million-streaming-bonus-and-ai-protections-204526458.html">the SAG-AFTRA deal</a>.</li>
+      <li id="s38"><span class="tier">T1</span> UCLA Newsroom, Feb 27, 2025, <a href="https://newsroom.ucla.edu/releases/hollywood-diversity-in-decline-as-moviegoers-worldwide-want-more">Hollywood Diversity Report 2025</a>.</li>
+      <li id="s39"><span class="tier">T1/T3</span> Hoodline, Mar 12, 2026, <a href="https://hoodline.com/2026/03/ucla-report-slams-hollywood-backslide-on-diversity-at-the-box-office/">the 2026 report</a> (UCLA IRLE).</li>
+      <li id="s40"><span class="tier">T2</span> Nielsen, Feb 8, 2024, <a href="https://www.nielsen.com/news-center/2024/nielsen-report-shows-growing-demand-for-investment-in-more-diverse-media-content-to-engage-black-america/">growing demand for investment in diverse media</a> (81 hours); eMarketer, Jan 2025, <a href="https://www.emarketer.com/content/streaming-surpasses-broadcast-cable-black-audiences">streaming at 45.9 percent</a>.</li>
+      <li id="s41"><span class="tier">T2</span> Sportico, 2026, <a href="https://www.sportico.com/business/media/2026/main-street-sports-rsns-dead-end-1234883085/">the regional sports networks' dead end</a> (pay TV at 43.2 million homes).</li>
+      <li id="s42"><span class="tier">T3/T2</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/FanDuel_Sports_Network">FanDuel Sports Network</a> (the Diamond bankruptcy; the wind-down); Sportico, the $9 billion.</li>
+      <li id="s43"><span class="tier">T4</span> Jim Pickerell via CEPIC, Oct 23, 2020, <a href="https://www.cepic.org/post/stock-photographys-historic-earnings-decline-for-creators">stock photography's historic earnings decline for creators</a> (1989 rates; 2006 averages; the 2017–2020 sample; collection and revenue figures).</li>
+      <li id="s44"><span class="tier">T4/T3</span> Selling-Stock, <a href="https://www.selling-stock.com/Article/getty-historic-numbers-2002-thru-2007">Getty historic numbers 2002–2007</a>; Wikipedia, <a href="https://en.wikipedia.org/wiki/Getty_Images">Getty Images</a> (iStockphoto, $50 million).</li>
+      <li id="s45"><span class="tier">T2/T3</span> PetaPixel, Aug 15, 2012, <a href="https://petapixel.com/2012/08/15/getty-images-acquired-for-3-3-billion-by-private-equity-firm/">Carlyle buys Getty for $3.3 billion</a>; subSPAC, <a href="https://subspac.substack.com/p/gettys-spac-deal-is-two-decades-in">Getty's SPAC deal</a> (the $2.4 billion; 2018; $4.8 billion; the stock).</li>
+      <li id="s46"><span class="tier">T4</span> Frame &amp; Focal, Apr 2024, <a href="https://frameandfocal.com/camera-reviews/shutterstock-unveiled-a-new-royalty-structure-and-photographers-are-furious">Shutterstock's new royalty structure</a>.</li>
+      <li id="s47"><span class="tier">T1</span> Getty Images restructuring deck summary, Oct 22, 2026, <a href="https://bondoro.com/content/files/2026/10/Getty-Images---Deck-Summary---10.22.26.pdf">as filed</a> (20 to 50 percent; 2025 revenue $981.3 million; "structural industry headwind").</li>
+      <li id="s48"><span class="tier">T3</span> AI Lawsuit Tracker, <a href="https://ailawsuittracker.com/cases/getty-v-stability-ai/">Getty v. Stability AI</a> (D. Del. 2023; N.D. Cal. 3:25-cv-06891; trial Jan 18, 2028).</li>
+      <li id="s49"><span class="tier">T1/T3</span> <em>Getty Images v. Stability AI</em> [2025] EWHC 2863 (Ch), via Cleary Gottlieb, Nov 2025, <a href="https://www.clearyiptechinsights.com/2025/11/uk-high-court-issues-landmark-ruling-in-getty-images-v-stability-ai-with-narrow-trade-mark-win/">the High Court's ruling</a>; Latham &amp; Watkins, the same.</li>
+      <li id="s50"><span class="tier">T1/T2</span> PYMNTS, Oct 21, 2026, <a href="https://www.pymnts.com/cpi-posts/getty-images-files-for-bankruptcy-as-533m-restructuring-paves-way-for-private-ownership/">Getty files for bankruptcy</a> (the petition's terms).</li>
+      <li id="s51"><span class="tier">T2</span> TechCrunch, Sep 25, 2023, <a href="https://techcrunch.com/2023/09/25/getty-images-launches-an-ai-powered-image-generator/">Generative AI by Getty Images</a>.</li>
+      <li id="s52"><span class="tier">T2</span> AOL/Yahoo Finance, Dec 16, 2024, <a href="https://www.aol.com/shutterstock-earned-over-100-million-170917396.html">Shutterstock's $104 million from AI licensing</a>.</li>
+      <li id="s53"><span class="tier">T3/T1</span> Photutorial, <a href="https://photutorial.com/getty-and-shutterstock-merging-official/">the Getty–Shutterstock merger</a> (announcement; approvals; CMA condition); TipRanks, Jul 2026, <a href="https://www.tipranks.com/news/company-announcements/getty-images-ends-shutterstock-merger-redeems-secured-notes">Getty ends the merger</a> (Shutterstock 8-K).</li>
+      <li id="s54"><span class="tier">T3</span> Wikipedia, Getty Images (the March 2026 going-concern warning).</li>
+      <li id="s55"><span class="tier">T3</span> AI Lawsuit Tracker, <a href="https://ailawsuittracker.com/cases/umg-v-suno/">UMG v. Suno</a> (the 2024 suits; the 2025 settlements; Sony's 2026 suits); Wikipedia, <a href="https://en.wikipedia.org/wiki/Suno_(platform)">Suno</a> (the reported $500 million); Hypebot, Apr 2023, the fake Drake takedown and UMG's statement.</li>
+      <li id="s56"><span class="tier">T2</span> TechCrunch, Jul 21, 2026, <a href="https://techcrunch.com/2026/07/21/music-streamer-deezer-says-more-than-50-of-daily-uploads-are-ai-generated/">Deezer: more than half of daily uploads are AI</a> (the monthly series).</li>
+      <li id="s57"><span class="tier">T4</span> Music Business Worldwide, Sep 25, 2025, <a href="https://www.musicbusinessworldwide.com/spotify-has-deleted-75m-spammy-tracks-as-it-unveils-new-ai-music-policies/">Spotify deletes 75 million tracks</a>.</li>
+      <li id="s58"><span class="tier">T3</span> Peepstune, Jul 2025, <a href="https://www.peepstune.com/spotifys-apparent-ai-band-topped-500000-monthly-listeners-in-weeks-but-it-wasnt-a-verified-record/">the Velvet Sundown</a> (500,000; a 1.4 million figure also circulates).</li>
+      <li id="s59"><span class="tier">T1/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/ELVIS_Act">ELVIS Act</a> (Tennessee, Mar 21, 2024).</li>
+      <li id="s60"><span class="tier">T3</span> Holland &amp; Knight, Jun 2026, <a href="https://www.hklaw.com/en/insights/publications/2026/06/senate-judiciary-committee-advances-legislation-to-protect-name">Senate Judiciary advances the NO FAKES Act</a> (S. 4591).</li>
+      <li id="s61"><span class="tier">T2</span> TheWrap, Jul 9, 2025, <a href="https://www.thewrap.com/sag-aftra-ratify-interactive-media-agreement-video-game-strike/">SAG-AFTRA ratifies the video-game contract</a>; Fox Business, Sep 30, 2025, the union on the synthetic performer.</li>
+      <li id="s62"><span class="tier">T2</span> PetaPixel, Sep 26, 2025, <a href="https://petapixel.com/2025/09/26/anthropic-to-pay-1-5-billion-in-landmark-ai-copyright-settlement-with-authors/">the $1.5 billion authors' settlement</a>.</li>
+      <li id="s63"><span class="tier">T3</span> AI Lawsuit Tracker, <a href="https://ailawsuittracker.com/cases/new-york-times-v-openai/">New York Times v. OpenAI</a>.</li>
+      <li id="s64"><span class="tier">T3</span> AI Lawsuit Tracker, <a href="https://ailawsuittracker.com/blog/disney-v-midjourney-explained/">Disney v. Midjourney, explained</a>.</li>
+      <li id="s65"><span class="tier">T4/T2</span> CISAC, Dec 4, 2024, <a href="https://www.cisac.org/Newsroom/news-releases/global-economic-study-shows-human-creators-future-risk-generative-ai">the €22 billion study</a> (commissioned); Cartoon Brew, Jan 31, 2024, <a href="https://www.cartoonbrew.com/tech/union-study-says-generative-ai-will-disrupt-204000-jobs-three-years-237495.html">CVL Economics, 204,000 jobs</a>; Silicon Republic, Mar 30, 2023, Goldman Sachs' 300 million.</li>
+      <li id="s66"><span class="tier">FURTHER READING</span> Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026). Nothing on this page is drawn from it.</li>
+    </ol>
+    <p>Hero and charts are drawn in code from the figures above. The plates and reel images are archival photographs in the public domain or with no known restrictions (Library of Congress), each credited on the image and in assets/plates/credits.json; none depicts an identifiable public figure. Contact: infera@melophon.com.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fmt=function(n){return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")};
+  var esc=function(s){return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})};
+  var money=function(n){return n>=1e12?"$"+(n/1e12).toFixed(2).replace(/\.?0+$/,"")+"T":n>=1e9?"$"+(n/1e9).toFixed(n>=1e10?0:2).replace(/\.?0+$/,"")+"B":n>=1e6?"$"+(n/1e6).toFixed(n>=1e8?0:1).replace(/\.0$/,"")+"M":n>=1000?"$"+fmt(n):"$"+n.toFixed(2)};
+  function seg(id,fn){var s=$(id);if(!s)return;$$("button",s).forEach(function(b){b.addEventListener("click",function(){$$("button",s).forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});fn(b.dataset.k||b.dataset.i||b.dataset.y)})})}
+  var D=function(l,v,s,c){return '<div class="d"><span class="l">'+esc(l)+'</span><span class="v '+(c||'')+'">'+v+'</span><span class="s">'+esc(s)+'</span></div>'};
+  var CH='<span class="disp">disputed</span>';
+  var col={a:"var(--gold)",c:"var(--tag)",d:"var(--paper-faint)",e:"var(--fact)",b:"var(--kraft)"};
+  function split(sp,lg,segs){sp.innerHTML=segs.map(function(s){return '<i class="'+s[0]+'" style="flex:'+s[1]+'">'+(s[1]>=6?s[1]+'%':'')+'</i>'}).join("");lg.innerHTML=segs.map(function(s){return '<span><i style="--c:'+col[s[0]]+'"></i>'+esc(s[2])+'</span>'}).join("")}
+  function bars(el,R,max,opt){opt=opt||{};el.innerHTML=R.map(function(r){var w=opt.log?Math.log10(r[1])/Math.log10(max)*100:r[1]/max*100;return '<div class="bar"><span class="n">'+esc(r[0])+(r[3]?'<br><span class="mono" style="font-size:11px;color:var(--paper-faint)">'+esc(r[3])+'</span>':'')+'</span><span class="tr"><i class="f'+(r[4]?' hatch':'')+'" style="width:'+Math.max(1.5,w)+'%;--c:'+(r[2]||'var(--gold)')+'"></i></span><span class="v">'+(opt.v?opt.v(r[1]):money(r[1]))+'</span></div>'}).join("")}
+
+  /* ---------- hero ---------- */
+  (function(){
+    var c=$("#circuitcanvas");if(!c)return;var ctx=c.getContext("2d");var W,H,t=0,dots=[];
+    function size(){var r=c.parentElement.getBoundingClientRect();W=c.width=Math.max(320,Math.floor(r.width));H=c.height=Math.max(300,Math.floor(r.height))}
+    size();window.addEventListener("resize",size);
+    for(var i=0;i<90;i++)dots.push({a:Math.random()*Math.PI*2,v:.002+Math.random()*.003,r:Math.random(),ring:Math.random()});
+    var N=5;var names=["CREATOR","OWNER","AUDIENCE","PLATFORM · MODEL","INVESTOR · FUND"];
+    function draw(){
+      ctx.clearRect(0,0,W,H);var cx=W*.68,cy=H*.46,R=Math.min(W,H)*.34;var pulse=reduce?0:(Math.sin(t*.02)*.5+.5);
+      for(var k=0;k<4;k++){var rr=R*(0.55+k*0.15+pulse*0.03*k);ctx.strokeStyle=k===3?"rgba(192,94,60,"+(0.35+pulse*.3)+")":"rgba(201,162,39,"+(0.18+k*0.12)+")";ctx.lineWidth=k===3?1.4:1;ctx.setLineDash(k===3?[3,5]:[]);ctx.beginPath();ctx.arc(cx,cy,rr,0,Math.PI*2);ctx.stroke()}
+      ctx.setLineDash([]);
+      for(var n=0;n<N;n++){var a=-Math.PI/2+n/N*Math.PI*2;var x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R;ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle="#14110d";ctx.fill();ctx.strokeStyle="rgba(236,227,208,.9)";ctx.lineWidth=1.4;ctx.stroke();ctx.font="10px 'Space Mono',monospace";ctx.fillStyle="rgba(168,157,136,.9)";ctx.textAlign=Math.cos(a)>.2?"left":Math.cos(a)<-.2?"right":"center";ctx.fillText(names[n],x+Math.cos(a)*16,y+Math.sin(a)*16+4)}
+      dots.forEach(function(d){if(!reduce)d.a+=d.v;var k=Math.floor(d.ring*4);var rr=R*(0.55+k*0.15);var x=cx+Math.cos(d.a)*rr,y=cy+Math.sin(d.a)*rr;ctx.beginPath();ctx.arc(x,y,k===3?1.4:2,0,Math.PI*2);ctx.fillStyle=k===3?"rgba(217,138,106,.8)":k===0?"rgba(124,192,150,.7)":"rgba(201,162,39,"+(0.4+d.r*.5)+")";ctx.fill()});
+      t++;if(!reduce)requestAnimationFrame(draw)}
+    draw()
+  })();
+
+  /* ---------- rail ---------- */
+  (function(){
+    var links=$$(".rail a");$$(".chapter").forEach(function(ch){var a=links.filter(function(l){return l.dataset.ch===ch.dataset.ch})[0];if(a)a.classList.add(ch.dataset.state)});
+    if(!("IntersectionObserver" in window))return;
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("active",a.dataset.ch===e.target.dataset.ch)})}})},{rootMargin:"-40% 0px -50% 0px"});
+    $$(".chapter").forEach(function(ch){io.observe(ch)})
+  })();
+
+  /* ---------- your dollar, by format ---------- */
+  (function(){
+    var sp=$("#yd-split"),lg=$("#yd-leg"),out=$("#yd-out"),v=$("#yd-v");if(!sp)return;
+    var X={"1999":{segs:[["d",40,"the shop and the distributor: the shelf"],["c",45,"the label: the copy"],["a",15,"the artist: the royalty (illustrative)"]],out:function(){return D("The format","the CD","$22.4 billion adjusted, the peak","gold")+D("Where the till was","the shop","a retailer or a Black-owned distributor could sit between the work and the buyer","fact")+D("The artist's line","a rate","against a recoupable advance; Episode 3","dim")},v:"<b>Illustrative · T3</b>The shares are the structure of a retail sale, not a measured split: a shop margin, a label wholesale, a royalty. The point is the shelf existed and someone local could own it."},
+      "2008":{segs:[["b",30,"the store: Apple's 30 percent"],["c",55,"the label"],["a",15,"the artist (illustrative)"]],out:function(){return D("The format","the download","the trough begins: $7.2 billion by 2014","tag")+D("Where the till moved","the store","one storefront, 30 percent, owned in Cupertino","fact")+D("The artist's line","a rate","on a 99-cent sale","dim")},v:"<b>Illustrative · T3</b>The shelf became one storefront. The 30 percent is the platform's published cut; the rest is the structure of Exhibit 3."},
+      "2017":{segs:[["b",30,"the platform (illustrative)"],["c",58,"labels and publishers: ~$10B of $43B"],["a",12,"the artist: 12 percent, per Citi"]],out:function(){return D("The format","the stream","$43 billion whole economy, 2017","gold")+D("Where the till moved","the subscription","100 million paid subscriptions by 2024; 84 percent of revenue","fact")+D("The artist's line","12¢","of each dollar, by Citi's estimate","tag")},v:"<b>Fact · T2 (Citi)</b>Twelve cents on the dollar, measured. The platform share is illustrative; the label and artist shares are Citi's."},
+      "2026":{segs:[["b",45,"the platform and the model (not public)"],["c",45,"the label: the settlement and the license (not public)"],["a",10,"the opt-in artist (not public)"]],out:function(){return D("The format","the model","half of one platform's daily uploads by June 2026","tag")+D("Where the till moved","the training set","licensed by the catalog's holder; Shutterstock's $104 million is the one published figure","fact")+D("The artist's line","the opt-in","paid if in, nothing if out; no figure public","dim")},v:"<b>Watch</b>No split in this format is public. The bar is drawn to show that there is a bar, not what it is."}};
+    function show(k){var x=X[k];split(sp,lg,x.segs);out.innerHTML=x.out();v.innerHTML=x.v}
+    seg("#yd-ctl",show);show("1999")
+  })();
+
+  /* ---------- the engine ---------- */
+  (function(){
+    var cv=$("#en-canvas");if(!cv)return;
+    var N={P:{n:"CREATOR",a:-90},R:{n:"OWNER",a:-18},A:{n:"AUDIENCE",a:54},B:{n:"INVESTOR · FUND",a:126},O:{n:"PLATFORM · MODEL",a:198}};
+    var E=[
+      ["P>R","the work: creator to label, league, studio or agency","in"],["R>A","the release: owner to audience","in"],["A>R","the sale: audience to owner","in"],["R>P","the royalty, the salary, the split: owner to creator","in"],
+      ["A>B","the market: audience spend priced by investors","mv"],["B>R","the capital: fund into the owner","mv"],["P>B","the equity: creator into a company","mv"],["B>P","the buyout: fund to creator","mv"],
+      ["O>R","the platform's license fee to the owner","out"],["R>O","the catalog to the platform or the training set","ex"],["O>P","the platform straight to the creator: upload, NIL, payout","out"],["P>O","the upload: creator to platform","in"],
+      ["O>B","the platform's investor","out"],["B>O","the fund's exit to a platform","mv"],["R>X","the sale: the deed leaves the creator's hands","ex"],["A>X","the audience leaves the format","mv"]
+    ];
+    var K=[
+      {y:"1984",t:"The royalty on a name",h:"$250,000 a year plus a share of sales",n:"$250K",w:"A rookie's shoe contract. The copy was a pair of shoes; the name was licensed, not owned by the licensee. Forty years later the brand sold $8.7 billion in a year.",s:"REPORTED · T2 · Exhibit 2",a:"#c2",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"B>R":1},g:{opp:10,own:35,ex:30,cap:20},valve:{n:"The endorsement",open:true,who:"the brand"},v:"The door opens one name at a time. The deed to the shoe never moved; the royalty on it became the largest in sports."},
+      {y:"1999",t:"The shelf",h:"Recorded music at about $22.4 billion adjusted: the peak of the copy",n:"$22.4B",w:"A disc in a shop. A Black-owned shop, distributor or label could sit on the shelf between the work and the buyer; Episode 3's independents kept their masters for exactly this. The DVD would peak at $16 billion six years later.",s:"REPORTED · T3 · Exhibit 3",a:"#c3",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"B>R":2,"R>O":0,"R>X":2},g:{opp:25,own:55,ex:40,cap:35},valve:{n:"The shelf",open:true,who:"the shop"},v:"The high-water mark of ownership as a copy. Everything after this stop is the copy becoming a license."},
+      {y:"2006",t:"Rights-managed",h:"Getty's average license $536; the photographer's royalty $268; iStock bought for $50 million",n:"$536",w:"The print model at its last peak: half the fee to the creator. The same year the company bought the microstock site that would price the same picture under a dollar. Creative revenue: $634 million on 1.76 million images.",s:"FACT · T4 · Exhibit 5",a:"#c5",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":3,"B>R":1,"P>O":1},g:{opp:30,own:60,ex:35,cap:40},valve:{n:"The rights-managed fee",open:true,who:"the agency, at 50 percent"},v:"The stock image is the worked example because it has already been through every format. This is the stop before the first dilution."},
+      {y:"2008",t:"The download",h:"Hellman & Friedman takes Getty private for $2.4 billion; the music trough deepens",n:"$2.4B",w:"The first fund buys the aggregator as the copy becomes a file. The music business is halfway to its 2014 floor; the storefront with the 30 percent cut is five years old. Microstock pays under 50 cents a download.",s:"FACT · T2/T3 · Exhibits 3, 5",a:"#c5",f:{"P>R":2,"R>A":3,"A>R":2,"R>P":1,"B>R":3,"R>O":2,"O>R":2,"R>X":2,"A>X":2},g:{opp:40,own:40,ex:55,cap:60},valve:{n:"The storefront's cut",open:true,who:"the platform"},v:"The first dilution: the shelf becomes a storefront, the fund buys the shelf's replacement, and the audience walks out of the format."},
+      {y:"2012",t:"The leverage",h:"Carlyle buys Getty for $3.3 billion, $2.6 billion of it debt",n:"$3.3B",w:"The second fund, at a higher price, on borrowed money, while the fee on the product keeps falling. The debt from this stop is the debt that reaches the bankruptcy court in 2026.",s:"FACT · T2 · Exhibit 5",a:"#c5",f:{"P>R":2,"R>A":3,"A>R":2,"R>P":1,"B>R":3,"B>O":1,"R>O":2,"R>X":2},g:{opp:45,own:35,ex:60,cap:75},valve:{n:"The leveraged buyout",open:true,who:"the fund"},v:"The aggregator's price rises as the picture's price falls. Capital is at work; it is working on the system, not the work."},
+      {y:"2014",t:"The trough",h:"Recorded music at $7.2 billion, a third below the peak; Apple buys Beats for $3 billion",n:"$7.2B",w:"The floor of the copy. The same year a Black-founded company sold to the platform for $3 billion: the equity turn of Episode 3, happening in the only place equity was still for sale.",s:"REPORTED / FACT · T3/T2 · Exhibit 3",a:"#c3",f:{"P>R":2,"R>A":2,"A>R":2,"R>P":1,"P>B":3,"B>P":3,"O>P":2,"A>X":3},g:{opp:45,own:30,ex:60,cap:70},valve:{n:"The copy",open:false,who:"no one: the audience left it"},v:"The bottom of the curve for the copy and the top of the curve for the cap table. They are the same year because they are the same move."},
+      {y:"2018",t:"The driver",h:"Black Panther $1.35 billion; buying power $1.3 trillion; Getty family retakes the majority",n:"$1.35B",w:"The market's answer: the most-watched film of its year was the one built for the audience that watches most. The Selig estimate crossed $1.3 trillion. Citi had put the artists' share of the whole music economy at 12 percent.",s:"FACT · T1/T2/T3 · Exhibits 1, 4",a:"#c4",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"A>B":3,"B>R":2,"O>R":2,"P>O":2},g:{opp:60,own:30,ex:55,cap:60},valve:{n:"The greenlight",open:true,who:"the studio"},v:"The driver at full. Opportunity is at its widest in the record; the deed to the film is the studio's, and the next report measured the studio pulling back."},
+      {y:"2020",t:"Twenty-one dollars",h:"Getty's average license $21.06, royalty $4.21; buying power $1.6 trillion; NIL about to open",n:"$21.06",w:"The photographer's sample of his own statements: $536 to $21 in fourteen years, royalty from 50 to 20 percent. Half of licenses under $10. The door is open to anyone with a camera; the collection is 29 million images.",s:"FACT · T4 · Exhibit 5",a:"#c5",f:{"P>O":3,"O>P":1,"R>A":3,"A>R":3,"R>P":1,"R>O":3,"B>R":2},g:{opp:70,own:20,ex:70,cap:55},valve:{n:"The subscription",open:true,who:"the platform"},v:"The second dilution, measured on one picture: the door at its widest and the fee at its lowest, in the same year."},
+      {y:"2021",t:"The name, paid",h:"NIL year one: $918 million; the SPAC values Getty at $4.8 billion; Spotify's payouts pass $7 billion",n:"$918M",w:"College athletes paid for their names for the first time; the aggregator listed at its highest price ever with the stock at $32 within a week and $8.49 by September. Recorded music at $15 billion, mostly subscriptions.",s:"FACT · T4/T3 · Exhibits 2, 5",a:"#c2",f:{"P>O":3,"O>P":3,"P>R":2,"R>A":3,"A>R":3,"R>P":2,"B>O":3,"B>R":2},g:{opp:85,own:25,ex:60,cap:80},valve:{n:"The name",open:true,who:"the athlete, by license"},v:"The widest opening of a door in the episode. It opened as a license on a name, which is the instrument the first stop was built on."},
+      {y:"2023",t:"The strike and the suit",h:"Getty sues Stability; the writers and actors strike; 'Heart on My Sleeve' is taken down",n:"148 days",w:"February: the aggregator sues the model. April: a fake Drake reaches 600,000 streams. September: Getty launches its own generator, paying contributors by formula. November: a $40 million streaming fund and consent for digital replicas. Shutterstock earns $104 million licensing its library to AI.",s:"FACT · T2/T3 · Exhibits 4, 5, 6",a:"#c6",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":2,"R>O":3,"O>R":3,"P>O":2,"O>P":1},g:{opp:70,own:25,ex:75,cap:60},valve:{n:"The training set",open:true,who:"the library's holder"},v:"The third dilution begins. The catalog becomes a training set and the holder of the catalog, not the maker of the work, is the party that licenses it."},
+      {y:"2025",t:"The settlement and the ruling",h:"House v. NCAA: $2.8 billion; the UK court finds no infringing copy; labels settle with the models; R&B/hip-hop at 25.3 percent and falling",n:"25.3%",w:"June: a $20.5 million cap and 84 percent of it to two sports. November 4: a model is not a copy, in London. October and November: Universal and Warner license their catalogs to the companies they sued. Deezer's AI uploads pass a third.",s:"FACT · T1/T2/T3 · Exhibits 1, 2, 5, 6",a:"#c6",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":2,"R>O":3,"O>R":3,"P>O":3,"O>P":2,"B>R":2},g:{opp:80,own:20,ex:80,cap:60},valve:{n:"The opt-in",open:true,who:"the label, so far"},v:"The year the door and the deed were both written into law and settlement: the athlete's cap, the catalog's license, the model's copy. The creator is on none of the signature lines."},
+      {y:"2026",t:"The end of the curve",h:"Getty files Chapter 11, equity cancelled; Deezer's uploads pass half machine-made; NO FAKES advances",n:"Ch. 11",w:"October 21: $1.46 billion of debt, the founders and a conglomerate's investment arm take 100 percent for $533 million, the public shares go to zero, the contributors are 'expected to be unaffected.' June: more than half of a platform's daily uploads are made by a model. The bill that would make a voice a deed is out of committee.",s:"FACT / WATCH · T1/T2 · Exhibits 5, 6, 7",a:"#c7",f:{"P>R":1,"R>A":3,"A>R":3,"R>P":1,"R>O":3,"O>R":2,"P>O":3,"O>P":1,"B>R":3,"R>X":3},g:{opp:80,own:15,ex:85,cap:65},valve:{n:"The deed to the voice",open:false,who:"not yet decided"},v:"The stock image reached the end of the curve: the system sold three times, then handed back by a court; the fee on the work at $21; the makers unmentioned. The other industries are on the same curve, earlier."}
+    ];
+var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
+    var ctx=cv.getContext("2d"),W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
+    function size(){var r=cv.getBoundingClientRect();W=Math.max(300,Math.floor(r.width));H=Math.max(300,Math.floor(r.height));cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0)}
+    size();window.addEventListener("resize",size);
+    var col={in:"201,162,39",out:"176,138,90",mv:"124,192,150",ex:"192,94,60"};
+    function pos(id){var cx=W/2,cy=H*(W<560?.44:.46),R=Math.min(W,H)*(W<560?.29:.36);if(id==="X")return {x:cx,y:cy+R*1.3};var a=N[id].a*Math.PI/180;return {x:cx+Math.cos(a)*R,y:cy+Math.sin(a)*R}}
+    function route(key){var a=pos(key[0]),b=pos(key[2]);var mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1;var off=key[0]<key[2]?1:-1;var bend=key[2]==="X"?0:L*.22*off;return {a:a,b:b,c:{x:mx-dy/L*bend,y:my+dx/L*bend}}}
+    function at(r,t){var u=1-t;return {x:u*u*r.a.x+2*u*t*r.c.x+t*t*r.b.x,y:u*u*r.a.y+2*u*t*r.c.y+t*t*r.b.y}}
+    E.forEach(function(e){cur[e[0]]=0;tgt[e[0]]=0});
+    function setK(i,animate){k=Math.max(0,Math.min(K.length-1,i));var f=K[k];E.forEach(function(e){tgt[e[0]]=f.f[e[0]]||0});lerpT=animate&&!reduce?0:1;if(lerpT===1)E.forEach(function(e){cur[e[0]]=tgt[e[0]]});
+      $("#en-k").value=k;$("#en-year").textContent=f.y;$("#en-k").setAttribute("aria-valuetext",f.y+" · "+f.t);$$("#en-years span").forEach(function(s,j){s.classList.toggle("on",j===k)});
+      $("#en-micro").innerHTML='<span class="eb">Micro · '+f.y+' · '+esc(f.t)+'</span><span class="h">'+esc(f.h)+'</span><span class="n">'+esc(f.n)+'</span><span class="w">'+esc(f.w)+'</span><span class="s"><span>'+esc(f.s)+'</span>'+(f.a?'<a href="'+f.a+'">Open the exhibit →</a>':'')+'</span>';
+      var g=f.g;$("#en-macro").innerHTML='<div class="g"><span class="l">The door · opportunity</span><span class="m"><i style="width:'+g.opp+'%"></i></span><span class="v">'+(g.opp>=80?'open to anyone':g.opp>=30?'open by license or contract':'one name at a time')+'</span></div>'+
+        '<div class="g"><span class="l">The deed · ownership</span><span class="m"><i style="width:'+g.own+'%;--c:var(--kraft)"></i></span><span class="v">'+(g.own>=80?'held as a copy':g.own>=40?'a license, a share':'held by the system')+'</span></div>'+
+        '<div class="g"><span class="l">What leaves to the platform or the fund</span><span class="m"><i style="width:'+g.ex+'%;--c:var(--tag)"></i></span><span class="v">'+(g.ex>=80?'the system is sold or the catalog licensed':g.ex>=45?'a fee, a cut, a cap':'most of it stays with the maker')+'</span></div>'+
+        '<div class="g"><span class="l">Capital at work</span><span class="m"><i style="width:'+g.cap+'%;--c:var(--fact)"></i></span><span class="v">'+(g.cap>=80?'a fund owns the system':g.cap>=45?'a buyout, a listing, a media deal':'thin: a handshake and a royalty')+'</span></div>'+
+        '<div class="g valve'+(f.valve.open?' open':'')+'"><span class="l">The valve</span><span class="v"><b>'+(f.valve.open?'OPEN':'CLOSED')+'</b> · '+esc(f.valve.n)+' · held by '+esc(f.valve.who)+'</span></div>';
+      $("#en-edges").innerHTML=E.filter(function(e){return (f.f[e[0]]||0)>0}).map(function(e){var v=f.f[e[0]]||0;return '<div class="e"><span>'+esc(e[1])+'</span><span class="b"><i style="width:'+(v/3*100)+'%;--c:rgb('+col[e[2]]+')"></i></span></div>'}).join("");
+      $("#en-v").innerHTML="<b>Macro · "+f.y+" · "+esc(f.t)+"</b>"+esc(f.v);
+      parts=parts.filter(function(p){return (tgt[p.e]||0)>0});
+      E.forEach(function(e){var want=Math.round((tgt[e[0]]||0)*5);var have=parts.filter(function(p){return p.e===e[0]}).length;for(var i=have;i<want;i++)parts.push({e:e[0],t:Math.random(),v:.0025+Math.random()*.003,k:e[2]})});
+    }
+    $("#en-years").innerHTML=K.map(function(f){return "<span>"+f.y+"</span>"}).join("");
+    function draw(ts){var dt=Math.min(40,ts-last)/16.7;last=ts;if(lerpT<1){lerpT=Math.min(1,lerpT+.02*dt);E.forEach(function(e){cur[e[0]]+=(tgt[e[0]]-cur[e[0]])*.08*dt})}
+      ctx.clearRect(0,0,W,H);
+      E.forEach(function(e){var v=cur[e[0]]||0;var r=route(e[0]);if(v<.05){ctx.strokeStyle="rgba(58,51,42,.5)";ctx.lineWidth=1;ctx.setLineDash([2,6])}else{ctx.strokeStyle="rgba("+col[e[2]]+","+(0.18+v*.14)+")";ctx.lineWidth=1+v*.9;ctx.setLineDash([])}
+        ctx.beginPath();ctx.moveTo(r.a.x,r.a.y);ctx.quadraticCurveTo(r.c.x,r.c.y,r.b.x,r.b.y);ctx.stroke();ctx.setLineDash([]);
+        if(v>.3){var p=at(r,.62),q=at(r,.6);var ang=Math.atan2(p.y-q.y,p.x-q.x);ctx.fillStyle="rgba("+col[e[2]]+","+(0.4+v*.15)+")";ctx.beginPath();ctx.moveTo(p.x+Math.cos(ang)*6,p.y+Math.sin(ang)*6);ctx.lineTo(p.x+Math.cos(ang+2.5)*5,p.y+Math.sin(ang+2.5)*5);ctx.lineTo(p.x+Math.cos(ang-2.5)*5,p.y+Math.sin(ang-2.5)*5);ctx.fill()}});
+      parts.forEach(function(p){if(!reduce)p.t+=p.v*dt*(0.6+(cur[p.e]||0)*.25);if(p.t>1)p.t-=1;var r=route(p.e),q=at(r,p.t);ctx.fillStyle="rgba("+col[p.k]+","+(0.55+0.45*Math.sin(p.t*Math.PI))+")";ctx.beginPath();ctx.arc(q.x,q.y,p.k==="ex"?2.6:2.1,0,Math.PI*2);ctx.fill()});
+      var x=pos("X");ctx.strokeStyle="rgba(192,94,60,.8)";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x.x-26,x.y);ctx.lineTo(x.x+26,x.y);ctx.stroke();ctx.font="10px 'Space Mono',monospace";ctx.textAlign="center";ctx.fillStyle="rgba(217,138,106,.95)";ctx.fillText("THE SALE · the deed leaves the maker",x.x,x.y+16);
+      Object.keys(N).forEach(function(id){var p=pos(id);var lit=0;E.forEach(function(e){if(e[0][0]===id||e[0][2]===id)lit+=cur[e[0]]||0});ctx.beginPath();ctx.arc(p.x,p.y,9+Math.min(6,lit*.5),0,Math.PI*2);ctx.fillStyle="#14110d";ctx.fill();ctx.strokeStyle=id==="O"?"rgba(176,138,90,.95)":id==="B"?"rgba(124,192,150,.95)":"rgba(236,227,208,.95)";ctx.lineWidth=1.6;ctx.stroke();
+        ctx.font=(W<560?"9px":"10.5px")+" 'Space Mono',monospace";ctx.fillStyle="rgba(236,227,208,.9)";var a=N[id].a*Math.PI/180;var nm=(W<560&&id==="B")?"BLACK CAPITAL":N[id].n;
+        if(id==="O"||id==="B"||(W<560&&id!=="P")){ctx.textAlign="center";ctx.fillText(nm,Math.max(60,Math.min(W-60,p.x+(id==="B"?40:0))),p.y+30)}else{ctx.textAlign=Math.cos(a)>.3?"left":Math.cos(a)<-.3?"right":"center";ctx.fillText(nm,p.x+Math.cos(a)*22,p.y+Math.sin(a)*22+(Math.abs(Math.cos(a))<.3?(Math.sin(a)<0?-6:12):4))}});
+      ctx.font="300 44px 'Newsreader',Georgia,serif";ctx.textAlign="right";ctx.fillStyle="rgba(201,162,39,.55)";ctx.fillText(K[k].y,W-18,42);
+      requestAnimationFrame(draw)}
+    requestAnimationFrame(draw);
+    $("#en-k").addEventListener("input",function(){stop();setK(+this.value,true)});
+    $("#en-prev").addEventListener("click",function(){stop();setK(k-1,true)});
+    $("#en-next").addEventListener("click",function(){stop();setK(k+1,true)});
+    function stop(){playing=false;clearInterval(timer);$("#en-toggle").setAttribute("aria-pressed","false");$("#en-toggle").textContent="▶ RUN THE FORMATS"}
+    $("#en-toggle").addEventListener("click",function(){if(playing){stop();return}playing=true;this.setAttribute("aria-pressed","true");this.textContent="❚❚ PAUSE";if(k>=K.length-1)setK(0,true);timer=setInterval(function(){if(k>=K.length-1){stop();return}setK(k+1,true)},reduce?6000:5200)});
+    cv.parentElement.addEventListener("keydown",function(ev){if(ev.key==="ArrowRight"){stop();setK(k+1,true)}if(ev.key==="ArrowLeft"){stop();setK(k-1,true)}});
+    setK(0,false);
+
+  })();
+
+  /* ---------- the share and the shelf ---------- */
+  (function(){
+    var g=$("#ss-gap"),v=$("#ss-v");if(!g)return;
+    var X={stream:["25.3%","of U.S. on-demand audio streams were R&B/hip-hop, 2024","4.2%","of sound-recording firms were Black-owned, 2017","<b>Fact · T4 / T1</b>A quarter of the consumption; one twenty-fourth of the companies. The two figures are seven years apart because the ownership count has not been published since."],
+      firms:["~3%","of U.S. employer firms were Black-owned, 2022","194,585","Black-owned employer firms, up 57 percent from 2017","<b>Fact · T1</b>The fastest firm-formation stretch on record, to a share of three percent. Seventy-one percent of them have fewer than ten employees."],
+      rev:["~1%","of U.S. business revenue, 2022","$211.8B","receipts of Black-owned employer firms, 2022","<b>Fact · T1</b>Three percent of the firms, one percent of the revenue. The scale gap is the ownership gap: the firms exist; they are small."],
+      sound:["137","Black-owned sound-recording firms, 2017","2×","their share of all businesses, in the industry Black music built","<b>Fact · T1 (NEA)</b>Twice the economy-wide share is 137 companies. The NEA found nine percent of the whole arts, entertainment and recreation sector minority-owned."]};
+    function show(k){var x=X[k];g.innerHTML='<div><span class="big gold">'+x[0]+'</span><span class="cap">'+esc(x[1])+'</span></div><div class="mid">against</div><div style="text-align:right"><span class="big tag">'+x[2]+'</span><span class="cap">'+esc(x[3])+'</span></div>';v.innerHTML=x[4]}
+    seg("#ss-ctl",show);show("stream")
+  })();
+
+  /* ---------- the driver's ledger ---------- */
+  (function(){
+    var b=$("#bp-bars");if(!b)return;
+    bars(b,[["Black buying power, 2010 (Selig)",961e9,"var(--gold)","estimate"],["Black buying power, 2018 (Selig)",1.3e12,"var(--gold)","estimate"],["Black buying power, 2020 (Selig)",1.6e12,"var(--gold)","estimate"],["Black buying power, latest (Nielsen citing Selig)",2.1e12,"var(--gold)","estimate · year not stated",true],["Receipts, Black-owned employer firms, 2017 (Census)",127.9e9,"var(--fact)","measured"],["Receipts, 2021 (Census)",183.3e9,"var(--fact)","measured"],["Receipts, 2022 (Census)",211.8e9,"var(--fact)","measured"]],2.1e12)
+  })();
+
+  /* ---------- the Jordan line ---------- */
+  (function(){
+    var r=$("#jl-r"),o=$("#jl-ro"),out=$("#jl-out"),v=$("#jl-v");if(!r)return;
+    function run(){var p=+r.value;o.textContent=p.toFixed(1)+"% (assumed)";var rev=7.27e9,roy=rev*p/100;
+      out.innerHTML=D("1984","$250,000","a year, plus a share of sales (Sportico)","gold")+D("Jordan Brand revenue, FY2025","$7.27B","Nike; $8.70B in FY2024 on the restated basis","fact")+D("Royalty at the assumed rate",money(roy),"our arithmetic, not the contract","tag")+D("Reported 2024 earnings","~$300M","Sportico; about 3.4 percent of FY2025 revenue "+CH,"dim")+D("Multiple on 1984",fmt(Math.round(roy/250000))+"×","the assumed royalty over the rookie salary","gold");
+      v.innerHTML="<b>Reading</b>The rate has never been published, which is why the slider exists. At any rate between one and eight percent the royalty on the name is between $73 million and $580 million a year; the reported figure sits near 3.4. The deed to the shoe is the brand's. The deed to the franchise he bought at $275 million and sold at $3 billion was, for thirteen years, his: the only majority deed in the chapter, and it is gone."}
+    r.addEventListener("input",run);run()
+  })();
+
+  /* ---------- the league's cap table ---------- */
+  (function(){
+    var sp=$("#ct-split"),lg=$("#ct-leg"),out=$("#ct-out"),v=$("#ct-v");if(!sp)return;
+    var X={nba:{segs:[["a",50,"players: 49–51% of basketball-related income"],["d",50,"owners: the rest, and the franchise"]],out:function(){return D("Players who are Black","71.8%","TIDES, 2021–22","gold")+D("Black majority owners","0","since June 2023","tag")+D("Black minority stakeholders","12","across the league, Dec 2023","dim")+D("Media deals","~$76B","eleven years, Disney/NBC/Amazon, from 2025–26","fact")},v:"<b>Fact · T2</b>The richest labor share in American entertainment, as a wage. The $76 billion goes to the franchises, whose appreciation goes to whoever holds them, which since 2023 is no Black majority owner."},
+      nfl:{segs:[["a",48,"players: 48% of revenue"],["d",52,"owners: the rest, and the franchise"]],out:function(){return D("Group licensing to the union","$297M","year to Feb 2026, up 47 percent","gold")+D("One rookie's share","$17.7M","a record","fact")+D("The Commanders, 2023","$6.05B","Magic Johnson a 'significant financial participant,' share undisclosed","dim")+D("Black majority owners","0","","tag")},v:"<b>Fact · T1/T2</b>The union's licensing pool is the one line that is collectively owned, and it grew 47 percent in a year. The franchise line has no Black majority holder."},
+      ncaa:{segs:[["a",22,"athletes: $20.5M cap per school, on roughly $90M+ athletic revenue at the top (illustrative)"],["d",78,"the school and the conference"]],out:function(){return D("NIL, 2024–25","$2.26B","from $918 million in 2021–22","gold")+D("Back pay","$2.8B","over ten years, athletes 2016–2024","fact")+D("Of shared dollars to football and men's basketball","83.9%","Opendorse projection","tag")+D("The video game","$1,500","flat fee per player, up from $600; no royalty","dim")},v:"<b>Fact · T2/T4</b>The newest ladder, with a cap written in at the first rung. The percentage is illustrative because athletic revenues vary; the cap, the back pay and the 84 percent are the record's."}};
+    function show(k){var x=X[k];split(sp,lg,x.segs);out.innerHTML=x.out();v.innerHTML=x.v}
+    seg("#ct-ctl",show);show("nba")
+  })();
+
+  /* ---------- the name ---------- */
+  (function(){
+    var b=$("#nm-bars");if(!b)return;
+    bars(b,[["NIL, 2021–22",918e6,"var(--gold)","Opendorse"],["NIL, 2022–23",1.14e9,"var(--gold)","Opendorse"],["NIL, 2023–24",1.17e9,"var(--gold)","Opendorse"],["NIL, 2024–25",2.26e9,"var(--gold)","Opendorse"],["NIL, 2025–26 projected, incl. $1.5B revenue share",2.75e9,"var(--gold)","Opendorse · projection",true],["House back pay, total over ten years",2.8e9,"var(--fact)","court-approved"],["EA College Football 25: ~11,000 players × $600",6.6e6,"var(--tag)","flat fee"],["EA College Football 26: ~11,000 players × $1,500",16.5e6,"var(--tag)","flat fee"]],2.8e9)
+  })();
+
+  /* ---------- the format curve ---------- */
+  (function(){
+    var el=$("#fc"),lg=$("#fc-leg");if(!el)return;
+    var Y=[[1999,14.6,"CD"],[2000,14.3,"CD"],[2001,13.7,"CD"],[2002,12.6,"CD"],[2003,11.9,"CD"],[2004,12.3,"CD"],[2005,12.3,"CD"],[2006,11.5,"CD"],[2007,10.4,"CD"],[2008,8.5,"CD · download"],[2009,7.7,"CD · download"],[2010,7.0,"download · CD"],[2011,7.0,"download · CD"],[2012,7.1,"download"],[2013,7.0,"download · streaming"],[2014,7.0,"download · streaming"],[2015,7.0,"streaming · download"],[2016,7.7,"streaming"],[2017,8.8,"streaming"],[2018,9.8,"streaming"],[2019,11.1,"streaming"],[2020,12.2,"streaming"],[2021,15.0,"streaming"],[2022,15.9,"streaming"],[2023,17.1,"streaming"],[2024,17.7,"streaming · 84%"],[2025,11.5,"streaming · 82% (wholesale basis)"]];
+    var W=1000,H=360,L=56,R=20,T=24,B=40,max=24;
+    var x=function(i){return L+(i/(Y.length-1))*(W-L-R)},y=function(v){return T+(1-v/max)*(H-T-B)};
+    var ret=Y.slice(0,26),ws=Y.slice(25);
+    var path=function(arr,off){return arr.map(function(d,i){return (i?"L":"M")+x(Y.indexOf(d))+","+y(d[1])}).join(" ")};
+    var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="U.S. recorded music revenue by year, 1999 to 2025">';
+    [0,6,12,18,24].forEach(function(g){s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(g)+'" y2="'+y(g)+'" stroke="var(--rule-soft)" stroke-width="1"/><text class="ax" x="'+(L-8)+'" y="'+(y(g)+3)+'" text-anchor="end">$'+g+'B</text>'});
+    s+='<path class="area" d="'+path(ret)+' L'+x(25)+','+y(0)+' L'+x(0)+','+y(0)+' Z" fill="var(--gold)"/>';
+    s+='<path class="ln" d="'+path(ret)+'" stroke="var(--gold)"/>';
+    s+='<path class="ln" d="M'+x(25)+','+y(17.7)+' L'+x(26)+','+y(11.5)+'" stroke="var(--tag)" stroke-dasharray="4 5"/>';
+    s+='<line x1="'+x(0)+'" x2="'+x(0)+'" y1="'+y(14.6)+'" y2="'+(y(14.6)-18)+'" stroke="var(--kraft)"/><text class="lbl" x="'+(x(0)+6)+'" y="'+(y(14.6)-22)+'">1999 · $22.4B adjusted</text>';
+    s+='<text class="lbl" x="'+(x(15)-10)+'" y="'+(y(7)+26)+'" text-anchor="middle">2014 · the trough</text>';
+    s+='<text class="lbl" x="'+(x(25)-6)+'" y="'+(y(17.7)-12)+'" text-anchor="end">2024 · $17.7B retail</text>';
+    s+='<text class="lbl" x="'+(x(26)-6)+'" y="'+(y(11.5)+22)+'" text-anchor="end" fill="var(--tag-lit)">2025 · $11.5B wholesale</text>';
+    Y.forEach(function(d,i){if(d[0]%5===0||i===Y.length-1)s+='<text class="ax" x="'+x(i)+'" y="'+(H-12)+'" text-anchor="middle">'+d[0]+'</text>';s+='<circle cx="'+x(i)+'" cy="'+y(d[1])+'" r="9" fill="transparent" stroke="none"><title>'+d[0]+' · $'+d[1].toFixed(1)+'B · top format: '+d[2]+'</title></circle><circle cx="'+x(i)+'" cy="'+y(d[1])+'" r="2.2" fill="'+(i===26?'var(--tag)':'var(--gold)')+'"/>'});
+    s+='</svg>';el.innerHTML=s;
+    lg.innerHTML='<span><i style="--c:var(--gold)"></i>retail value, nominal, RIAA database (rounded)</span><span><i style="--c:var(--tag)"></i>2025 on the wholesale basis the RIAA now reports</span><span><i style="--c:var(--kraft)"></i>labels: adjusted peak, trough, year-ends as cited</span>'
+  })();
+
+  /* ---------- a dollar of music ---------- */
+  (function(){
+    var on=$("#dm-on"),sp=$("#dm-split"),lg=$("#dm-leg"),out=$("#dm-out"),v=$("#dm-v");if(!on)return;
+    function run(){if(!on.checked){split(sp,lg,[["a",12,"artists: ~$5B of $43B"],["c",23,"labels and publishers: ~$10B"],["b",35,"advertising: >$15B (platforms, radio, TV)"],["d",30,"other: consumer spend on devices, tickets, the rest"]]);out.innerHTML=D("The whole","$43B","U.S. music economy, 2017, Citi","gold")+D("The artist's capture","12%","about $5 billion","tag")+D("Labels and publishers","~$10B","","fact")+D("Who measured it","Citi GPS","Bazinet, Aug 2018","dim");v.innerHTML="<b>Fact · T2</b>Citi's dollar, as published. The 'other' bar is the residual. Twelve cents is Episode 3's structure at the scale of an economy."}
+      else{split(sp,lg,[["a",50,"independents: ~half of payouts"],["c",50,"majors and the rest"]]);out.innerHTML=D("Paid out in 2024",">$10B","Spotify; ~$60B cumulative","gold")+D("Artists earning $1M+","~1,500","on Spotify alone","fact")+D("Artists earning $100K+","12,500","","fact")+D("Artists earning $10K+","71,200","","dim");v.innerHTML="<b>Fact · T4 (the platform's own count)</b>The platform publishes the ladder and not the race of the people on it. Half the payouts to independents is the widest door in music; 1,500 people at the top rung is the top rung."}}
+    on.addEventListener("change",run);run()
+  })();
+
+  /* ---------- the budget gap ---------- */
+  (function(){
+    var b=$("#bg-bars"),b2=$("#bg-bars2");if(!b)return;
+    bars(b,[["Casts 41–50% people of color",234.6e6,"var(--gold)","record median"],["Casts 11–20% people of color",33.3e6,"var(--tag)","lowest median"]],234.6e6);
+    bars(b2,[["Films with <11% actors of color, 2023",8.5,"var(--kraft)","share of releases"],["Films with <11% actors of color, 2024",18.4,"var(--tag)","share of releases"],["White share of theatrical roles, 2023",59.6,"var(--kraft)",""],["White share of theatrical roles, 2024",67.2,"var(--tag)",""],["Writers of color, 2023",22.2,"var(--kraft)",""],["Writers of color, 2024",12.5,"var(--tag)",""]],70,{v:function(n){return n.toFixed(1)+"%"}})
+  })();
+
+  /* ---------- the strike terms ---------- */
+  (function(){
+    var a=$("#st-a"),ao=$("#st-ao"),out=$("#st-out"),v=$("#st-v");if(!a)return;
+    function run(){var p=+a.value;ao.textContent=p+"% of domestic subscribers";var hit=p>=20;
+      out.innerHTML=D("Writer's bonus · half-hour",hit?"$9,031":"$0",hit?"50 percent of the fixed residual, paid":"below the 20 percent threshold",hit?"gold":"dim")+D("Writer's bonus · one hour",hit?"$16,415":"$0","same rule",hit?"gold":"dim")+D("Writer's bonus · feature",hit?"$40,500":"$0","same rule",hit?"gold":"dim")+D("Performers' fund","$40M/yr","the streaming participation fund, three years, shared by formula","fact")+D("Hours streamed","disclosed","to the guild, under the 2023 contract","fact")+D("A digital replica","consent + pay","living or deceased","fact");
+      v.innerHTML=hit?"<b>Fact · T2/T3</b>Above the line, the hit pays a bonus in dollars the contract prints. It is the first time the platform's numbers reached the writer; the numbers themselves are still the platform's to report.":"<b>Fact · T2/T3</b>Below 20 percent, the fixed residual only. Most titles live here. The door the strike opened is a bonus on a hit, not a share of the service."}
+    a.addEventListener("input",run);run()
+  })();
+
+  /* ---------- the royalty on one image ---------- */
+  (function(){
+    var out=$("#ri-out"),v=$("#ri-v");if(!out)return;
+    var X={"1989":{o:function(){return D("The license","$1,375–$4,125","rights-managed, a national ad, NSPP rates","gold")+D("The creator's share","~50%","by the agency convention of the day","fact")+D("Who could sell","a represented photographer","the agency's roster","dim")},v:"<b>Fact · T4 (Pickerell)</b>The print, at its peak. Half of four figures, to a photographer an agency chose."},
+      "1995":{o:function(){return D("The license","~$300","a royalty-free CD-ROM of ~300 images","gold")+D("The creator's share","20%","of disc revenue: ~20¢ an image","tag")+D("Who could sell","the disc publisher's roster","","dim")},v:"<b>Fact · T4</b>The first dilution, in pictures: the copy on a disc, twenty cents an image, before the download existed."},
+      "2006":{o:function(){return D("The license","$536.12","Getty average rights-managed fee, 2006","gold")+D("The creator's share","~$268","about 50 percent","fact")+D("Collection","1.76M images","creative revenue $634.1M","dim")},v:"<b>Fact · T4</b>The last peak of the rights-managed fee, the year the company bought iStock for $50 million."},
+      "2007":{o:function(){return D("The license","<$1 to a few dollars","microstock","tag")+D("The creator's share","<50¢","per download","tag")+D("Who could sell","anyone","iStock's gross: $72M in 2007","gold")},v:"<b>Fact · T4</b>The door opens to anyone with a camera and the fee drops two orders of magnitude. Both in the same product."},
+      "2020":{o:function(){return D("The license","$21.06","Getty average, one contributor's 2020 statements","gold")+D("The creator's share","$4.21","20 percent","tag")+D("Half of licenses","under $10","fewer than 1 in 100 over $1,000","dim")+D("Collection","29.4M images","creative revenue under $280M","dim")},v:"<b>Fact · T4</b>From $536 to $21 in fourteen years; from half the fee to a fifth. Long-term contributors at a tenth of their 2006 income."},
+      "2024":{o:function(){return D("The license","45¢–81¢","Shutterstock's assigned value per download","gold")+D("The creator's share","13¢","worked example, from 31¢; tiers of 20–40 percent replacing a flat 30","tag")+D("Who could sell","anyone","","dim")},v:"<b>Reported · T4</b>The subscription's royalty, in cents. The flat rate became a tier, and the tier went down."},
+      "2023":{o:function(){return D("The license","$104M","Shutterstock's AI-licensing revenue, 2023, to eight developers","gold")+D("The creator's share","a formula","Getty: a recurring share by per-file and revenue formula; Shutterstock: a fund, payouts undisclosed","tag")+D("Who could sell","the library's holder","not the photographer; the deck says 20–50 percent of a license, plus a training payment","dim")},v:"<b>Fact · T2 / Watch</b>The third dilution: the picture is not licensed, the library is. The maker's share is a formula the holder writes."}};
+    function show(k){out.innerHTML=X[k].o();v.innerHTML=X[k].v}
+    seg("#ri-ctl",show);show("1989")
+  })();
+
+  /* ---------- the owners' ladder ---------- */
+  (function(){
+    var b=$("#ol-bars");if(!b)return;
+    bars(b,[["2006 · the picture: average rights-managed license",536,"var(--tag)","per license"],["2008 · the company: Hellman & Friedman",2.4e9,"var(--gold)","take-private"],["2012 · the company: Carlyle ($2.6B of it debt)",3.3e9,"var(--gold)","buyout"],["2020 · the picture: average license",21.06,"var(--tag)","per license"],["2022 · the company: SPAC listing",4.8e9,"var(--gold)","valuation"],["2025 · the company: merger with Shutterstock, terminated 2026",3.7e9,"var(--gold)","enterprise value · terminated",true],["2026 · the company: Chapter 11 new equity",533e6,"var(--fact)","Getty family + Koch, 100%"],["2026 · the public shares",1,"var(--tag)","cancelled"]],4.8e9,{log:true,v:function(n){return n<=1?"$0":n<1000?"$"+n.toFixed(2):money(n)}});
+  })();
+
+  /* ---------- the feed, by machine ---------- */
+  (function(){
+    var k=$("#fm-k"),ko=$("#fm-ko"),sp=$("#fm-split"),lg=$("#fm-leg"),out=$("#fm-out"),v=$("#fm-v");if(!k)return;
+    var S=[["Jan 2025",10,"~10,000"],["Apr 2025",18,"—"],["Sep 2025",28,"—"],["Nov 2025",34,"—"],["Jan 2026",39,"—"],["Apr 2026",44,"~75,000"],["Jun 2026",51,"~90,000"]];
+    function run(){var s=S[+k.value];ko.textContent=s[0];split(sp,lg,[["c",s[1],"made by a model"],["a",100-s[1],"made by people"]]);out.innerHTML=D("Of daily uploads to Deezer",s[1]+"%"+(s[1]===51?"+":""),"made by a model","tag")+D("Tracks a day",s[2],"where the platform gave a count","dim")+D("What the platform does","removes","AI tracks tied to fraudulent streams and any unplayed for six months","fact")+D("Elsewhere","75M","'spammy' tracks removed by Spotify in a year","dim");
+      v.innerHTML=s[1]>=50?"<b>Fact · T2</b>More than half. The share is of uploads, not of streams; the platform has said most machine-made streams are fraudulent and has not restated a figure. The human half of the feed is now the minority of what arrives.":"<b>Fact · T2</b>"+s[1]+" percent of what arrived that day. The series rose every month the platform reported it."}
+    k.addEventListener("input",run);run()
+  })();
+
+  /* ---------- the docket ---------- */
+  (function(){
+    var tb=$("#dk-table tbody");if(!tb)return;
+    var R=[["Getty v. Stability AI (UK)","the aggregator v. the model","Judgment Nov 4, 2025: no infringing copy; narrow trademark findings","nothing"],
+      ["Getty v. Stability AI (N.D. Cal.)","the aggregator v. the model","Trial Jan 18, 2028","nothing yet"],
+      ["UMG, Sony, Warner v. Suno and Udio","the labels v. the models","UMG and Warner settled as licenses, Oct–Nov 2025 (Warner–Suno reported $500M); Sony's second suits filed 2026","an opt-in; no figure"],
+      ["Bartz v. Anthropic","the authors v. the model","$1.5B settlement approved Sep 2025; training held fair use, piracy not","~$3,000 a book"],
+      ["New York Times v. OpenAI","the newspaper v. the model","Cross-motions on fair use, Sep 2026","nothing yet"],
+      ["Disney, Universal, WBD v. Midjourney","the studios v. the model","Expert discovery closes Nov 9, 2026; no trial date","nothing yet"],
+      ["ELVIS Act · NO FAKES Act","the state; the Senate","Tennessee law, Mar 2024; federal bill out of committee, Jun 2026","a right to license a voice, if enacted"],
+      ["SAG-AFTRA Interactive Media Agreement","the union v. the publishers","Ratified Jul 9, 2025, 95 percent","consent, disclosure, 7.5× scale"]];
+    tb.innerHTML=R.map(function(r){return '<tr><td><b style="font-weight:400;color:var(--paper)">'+esc(r[0])+'</b></td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td>'+esc(r[3])+'</td></tr>'}).join("")
+  })();
+
+  /* ---------- three dilutions ---------- */
+  (function(){
+    var g=$("#td-gap"),v=$("#td-v");if(!g)return;var ind="music",fmtk="copy";
+    var X={music:{copy:["$22.4B","adjusted peak of the copy, 1999","the shelf","a shop, a distributor, a label could hold it","The high-water mark of ownership as a copy; the independents of Episode 3 kept masters for this shelf."],download:["30%","to one storefront","$7.2B","the trough, 2014","The shelf became a storefront owned in one place; the audience left the copy."],stream:["$10B+","paid out by one platform, 2024; half to independents","12¢","the artist's share of each dollar, per Citi","The widest door in music and the thinnest measured share, in the same format."],model:["50%+","of one platform's daily uploads, machine-made","the opt-in","paid if in, nothing if out; no figure public","The catalog is licensed by its holder; the maker's share is a formula."]},
+      screen:{copy:[">$16B","the disc business, 2005","the DVD","a copy the customer owned","The copy at its peak in film, the year Episode 3's overall deals were being written on cable money."],download:["1,318","seasons removed from a store, Dec 2023","<$1B","the disc business, 2024","The copy became a license that could be withdrawn; the disc died, by the trade paper's word."],stream:["$234.6M","median global box office, casts 41–50% people of color","18.4%","of films with fewer than 11 percent actors of color, doubled","The market rewards the mix; the studio retreats from it; the greenlight is the deed."],model:["$40M/yr","the streaming fund; consent for replicas","204,000","jobs the guilds' study says are disrupted by 2026","The door is a fund and a consent clause; the estimate of the cost is from the party paying it."]},
+      sport:{copy:["$250K","a rookie's shoe deal, 1984","the franchise","$275M → $3B, the one majority deed in the chapter","The name is licensed; the franchise is owned. Only the second appreciates to the holder."],download:["$10.6B","global sneaker resale, 2022; Jordan + Nike 71%","0","royalty on the resale","A market priced on the name, in which the name earns nothing after the first sale."],stream:["$2.26B","NIL, 2024–25","$20.5M","the per-school cap, 84 percent to two sports","The widest opening in the episode, with a cap written in at the first rung."],model:["$297M","union licensing pool, up 47 percent","0","Black majority owners in the NBA since 2023","The wage held and grew where it was bargained; the deed to the franchise has no Black majority holder."]},
+      image:{copy:["$1,375–$4,125","a rights-managed license, 1989","~50%","the photographer's share","The print at its peak: half of four figures."],download:["<50¢","microstock per download, 2007","$2.4B → $3.3B","the company's price, 2008 and 2012","The fee fell two orders of magnitude as the company's price rose on borrowed money."],stream:["29.4M","images in the collection","$4.21","the royalty on a $21.06 license, 2020","The door open to anyone; the fee at a fifth of a fifth."],model:["$104M","Shutterstock's AI-licensing revenue, 2023","Ch. 11","Getty, Oct 21, 2026: equity cancelled, contributors unmentioned","The end of the curve: the library licensed, the company handed back by a court, the makers unaddressed."]}};
+    function show(){var x=X[ind][fmtk];g.innerHTML='<div><span class="big gold">'+esc(x[0])+'</span><span class="cap">'+esc(x[1])+'</span></div><div class="mid">opportunity · ownership</div><div style="text-align:right"><span class="big tag">'+esc(x[2])+'</span><span class="cap">'+esc(x[3])+'</span></div>';v.innerHTML="<b>Reading</b>"+esc(x[4])}
+    seg("#td-ind",function(k){ind=k;show()});seg("#td-fmt",function(k){fmtk=k;show()});show()
+  })();
+
+  /* ---------- the deed, by industry ---------- */
+  (function(){
+    var tb=$("#dd-table tbody");if(!tb)return;
+    var R=[["Music","A quarter of U.S. streams; half of one platform's payouts to independents; 1,500 artists at $1M+","12 cents of the dollar; 137 Black-owned sound-recording firms (2017); the catalog licensed to the model by the label","the platform and the label"],
+      ["Screen","81 hours a week; a $234.6M median for the mixed cast; a $40M streaming fund","The greenlight: films with <11% actors of color doubled; writers of color halved; the disc dead","the studio"],
+      ["Sport","Half of league revenue as wage; $2.26B NIL; a $297M licensing pool","Zero Black majority owners in a 72-percent-Black league; a royalty on a $7B shoe, rate unpublished; no royalty on the resale","the franchise and the brand"],
+      ["Image","Anyone can sell; 29.4 million images; a generator that pays by formula","$536 to $21 per license; 50 to 20 percent; a company sold three times then handed to founders and Koch with the shares cancelled","the founders and the fund"]];
+    tb.innerHTML=R.map(function(r){return '<tr><td><b style="font-weight:400;color:var(--paper)">'+esc(r[0])+'</b></td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td>'+esc(r[3])+'</td></tr>'}).join("")
+  })();
+
+
+  /* ---------- reels and title-card reveals ---------- */
+  (function(){
+    var CRED={};
+    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(j){CRED=j;$$(".reel .slide").forEach(function(s){var k=s.dataset.plate;var c=CRED[k];var el=$(".cr",s);if(el&&c&&c.credit)el.textContent=c.credit})}}).catch(function(){})}catch(e){}
+    function wrapWords(el){ // wrap text nodes in spans, leave tags (sup, em, b) intact
+      var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);var nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);var i=0;
+      nodes.forEach(function(t){if(t.parentNode.closest&&t.parentNode.closest("sup"))return;var parts=t.nodeValue.split(/(\s+)/);var frag=document.createDocumentFragment();parts.forEach(function(p){if(!p)return;if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(p));return}var s=document.createElement("span");s.className="w";s.style.transitionDelay=Math.min(1400,i*28)+"ms";s.textContent=p;frag.appendChild(s);i++});t.parentNode.replaceChild(frag,t)})}
+    // Auto-reel: group consecutive prose paragraphs in chapter stacks into slides, splitting long ones at sentences
+    function splitSentences(p,max){var html=p.innerHTML;var parts=html.split(/(?<=[.!?”"])\s+(?=[A-Z<“"(])/);var out=[],cur="";parts.forEach(function(s){var words=(cur+" "+s).replace(/<[^>]+>/g,"").split(/\s+/).length;if(cur&&words>max){out.push(cur);cur=s}else cur=cur?cur+" "+s:s});if(cur)out.push(cur);return out}
+    $$(".chapter").forEach(function(ch){
+      var key=null;var pl=$(".plate",ch);if(pl)key=pl.dataset.plate;
+      $$(".stack",ch).forEach(function(st){
+        var ps=$$(":scope > p",st).filter(function(p){return !p.classList.contains("lead")&&!p.classList.contains("pull")&&!p.classList.contains("eyebrow")});
+        if(ps.length<1)return;
+        var extra=(st.dataset.reel||"").split(",").map(function(x){return x.trim()}).filter(Boolean);
+        var slides=[];ps.forEach(function(p){var chunks=splitSentences(p,60);chunks.forEach(function(h){slides.push({html:h})})});
+        if(slides.length<2)return;
+        var reel=document.createElement("div");reel.className="reel";var vp=document.createElement("div");vp.className="vp";reel.appendChild(vp);
+        var keys=extra.length?extra:(key?[key]:[]);
+        slides.forEach(function(s,i){var d=document.createElement("div");d.className="slide";var k=keys.length?keys[i%keys.length]:null;if(k)d.dataset.plate=k;
+          var bg=document.createElement("div");bg.className="bg"+(k?"":" none");if(k){var im=document.createElement("img");im.src="assets/plates/"+k+".jpg";im.alt="";im.loading="lazy";im.addEventListener("error",function(){bg.className="bg none";bg.innerHTML=""});bg.appendChild(im)}d.appendChild(bg);
+          var cr=document.createElement("span");cr.className="cr";cr.textContent=k&&CRED[k]&&CRED[k].credit?CRED[k].credit:"";d.appendChild(cr);
+          var kk=document.createElement("div");kk.className="k";kk.textContent=(i+1)+" / "+slides.length;d.appendChild(kk);
+          var tx=document.createElement("div");tx.className="tx";tx.innerHTML=s.html;d.appendChild(tx);vp.appendChild(d)});
+        var nav=document.createElement("div");nav.className="nav";nav.innerHTML='<button class="pv" aria-label="Previous">‹</button><div class="dots" role="tablist"></div><span class="ct"></span><button class="nx" aria-label="Next">›</button>';reel.appendChild(nav);
+        ps[0].parentNode.insertBefore(reel,ps[0]);ps.forEach(function(p){p.remove()});
+        init(reel)})});
+    function init(reel){var slides=$$(".slide",reel),dots=$(".dots",reel),ct=$(".ct",reel),i=0;slides.forEach(function(s,j){wrapWords($(".tx",s));var d=document.createElement("i");d.setAttribute("role","tab");d.addEventListener("click",function(){go(j)});dots.appendChild(d)});
+      function go(n){i=(n+slides.length)%slides.length;slides.forEach(function(s,j){s.classList.toggle("on",j===i)});$$("i",dots).forEach(function(d,j){d.classList.toggle("on",j===i)});ct.textContent=(i+1)+" of "+slides.length}
+      $(".pv",reel).addEventListener("click",function(){go(i-1)});$(".nx",reel).addEventListener("click",function(){go(i+1)});
+      $(".vp",reel).addEventListener("click",function(e){if(e.target.closest("a"))return;go(i+1)});
+      reel.tabIndex=0;reel.addEventListener("keydown",function(e){if(e.key==="ArrowRight"){go(i+1);e.preventDefault()}if(e.key==="ArrowLeft"){go(i-1);e.preventDefault()}});
+      var x0=null;reel.addEventListener("touchstart",function(e){x0=e.touches[0].clientX},{passive:true});reel.addEventListener("touchend",function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(dx<0?i+1:i-1);x0=null});
+      go(0)}
+    $$(".reel[data-authored]").forEach(init);
+    // title-card reveals on leads and pull quotes
+    var rv=$$(".lead, .pull");rv.forEach(function(p){p.classList.add("rv");wrapWords(p)});
+    if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}})},{rootMargin:"0px 0px -10% 0px"});rv.forEach(function(p){io.observe(p)})}else rv.forEach(function(p){p.classList.add("on")});
+  })();
+
+/* ---------- plates: reveal on scroll, credits from assets/plates/credits.json when present ---------- */
+  (function(){
+    var ps=$$(".plate");if(!ps.length)return;
+    ps.forEach(function(p){var im=$("img",p);if(im){im.addEventListener("error",function(){p.setAttribute("data-missing","")})}});
+    if("IntersectionObserver" in window&&!reduce){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{rootMargin:"0px 0px -12% 0px"});ps.forEach(function(p){io.observe(p)})}else ps.forEach(function(p){p.classList.add("static")});
+    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(!j)return;ps.forEach(function(p){var k=p.dataset.plate,c=j[k];if(c&&c.credit){var el=$(".cr",p);if(el)el.textContent=c.credit}})}).catch(function(){})}catch(e){}
+  })();
+})();
+</script>

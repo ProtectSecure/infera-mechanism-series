@@ -1,0 +1,1205 @@
+<title>The Feed</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one 68ch reading column down a dark evidence room; exhibits break out to 1040px; a chain rail runs the page's left edge and gains or loses a link per chapter. Mechanism Series house style, dark by design. */
+:root{
+  --ground:#14110d; --ground-2:#1c1813; --rule:#3a332a; --rule-soft:#2a241c;
+  --paper:#ece3d0; --paper-dim:#cfc5b0; --paper-faint:#a89d88;
+  --gold:#c9a227; --kraft:#b08a5a; --tag:#c05e3c; --tag-lit:#d98a6a;
+  --fact:#7cc096; --reported:#e0b35c; --inference:#86aac0; --watch:#d98a6a;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+  --mono:"Space Mono", ui-monospace, Menlo, Consolas, monospace;
+  --ease:cubic-bezier(.22,.7,.2,1);
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);background-image:radial-gradient(var(--rule-soft) 1px,transparent 1px);background-size:22px 22px;color:var(--paper);font-family:var(--serif);font-size:19px;line-height:1.62;-webkit-font-smoothing:antialiased;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 96px}
+.col{max-width:68ch;margin:0 auto}
+a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,162,39,.4)}
+a:hover{color:var(--paper)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h1,h2,h3{text-wrap:balance}
+p{margin:0}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--tag-lit)}
+.num{font-variant-numeric:tabular-nums}
+
+/* evidence labels, always beside the claim */
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:1px 6px;border:1px solid;border-radius:2px;white-space:nowrap;vertical-align:2px;margin-right:6px}
+.t-fact{color:var(--fact);border-color:rgba(124,192,150,.5)}
+.t-rep{color:var(--reported);border-color:rgba(224,179,92,.5)}
+.t-inf{color:var(--inference);border-color:rgba(134,170,192,.5)}
+.t-watch{color:var(--watch);border-color:rgba(217,138,106,.55)}
+sup.src{font-family:var(--mono);font-size:10px;color:var(--kraft);margin-left:2px}
+sup.src a{border:0;color:inherit}
+
+/* masthead */
+.mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 20px;padding:16px 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.mast .brand{color:var(--paper);border:0;display:flex;align-items:center;gap:10px}
+.mast .brand i{width:8px;height:8px;border-radius:50%;background:var(--tag);display:inline-block}
+.mast nav{display:flex;flex-wrap:wrap;gap:6px 18px}
+.mast nav a{border:0;color:var(--paper-faint)}
+.mast nav a:hover{color:var(--gold)}
+
+/* hero: a chain drawn in light */
+.hero{position:relative;margin:0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0 calc(-1 * max(16px, env(safe-area-inset-right, 0px)));min-height:560px;display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--rule);background:radial-gradient(1200px 500px at 70% 20%,rgba(201,162,39,.10),transparent 60%),var(--ground)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05) 0%,rgba(20,17,13,.45) 50%,rgba(20,17,13,.97) 100%);pointer-events:none}
+.hero-in{position:relative;z-index:1;width:100%;max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:120px 44px;display:flex;flex-direction:column;gap:16px}
+.hero h1{margin:0;font-weight:300;font-size:clamp(46px,8.4vw,96px);line-height:.96;letter-spacing:-.02em}
+.hero h1 em{font-weight:400;color:var(--gold);font-style:italic}
+.deck{font-size:clamp(19px,2.4vw,23px);font-weight:300;line-height:1.45;color:var(--paper-dim);max-width:660px}
+.boxcount{position:absolute;z-index:1;right:max(16px, env(safe-area-inset-right, 0px));top:calc(20px + env(safe-area-inset-top, 0px));font-family:var(--mono);font-size:11px;letter-spacing:.12em;border:1px solid var(--tag);background:rgba(20,17,13,.82);padding:7px 11px;color:var(--paper)}
+.dateline{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--paper-faint);border-bottom:1px solid var(--rule);padding:14px 0;margin:28px 0 44px}
+.dateline b{font-weight:400;color:var(--paper-dim)}
+
+.stack{display:flex;flex-direction:column;gap:22px}.stack>*{min-width:0}
+.lead{font-size:22px;line-height:1.5;font-weight:300}
+.memo{border:1px solid var(--rule);background:var(--ground-2);padding:16px 18px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--paper-dim)}
+.memo b{color:var(--gold);font-weight:700}
+.pull{font-size:clamp(24px,3.2vw,32px);font-weight:300;line-height:1.3;border-left:2px solid var(--gold);padding-left:20px;font-style:italic;color:var(--paper)}
+.pull small{display:block;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--paper-faint);margin-top:10px;letter-spacing:.08em}
+
+section{margin-top:84px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:26px}
+h2{margin:0;font-weight:400;font-size:clamp(30px,4.4vw,42px);line-height:1.1;letter-spacing:-.01em}
+h2 em{color:var(--gold)}
+h3{margin:0;font-weight:400;font-size:24px;line-height:1.2}
+.sub{color:var(--paper-dim);font-style:italic;font-size:19px}
+
+/* chapter opener */
+.chapter{margin-top:120px;border-top:1px solid var(--rule);padding-top:36px;position:relative}
+.chapter .where{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:20px}
+.chapter .where b{color:var(--kraft);font-weight:400}
+.chapter h2{font-size:clamp(40px,6.4vw,72px);font-weight:300;line-height:.98}
+.chapter .instrument{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ground);background:var(--gold);padding:5px 10px}
+
+ol.facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ol.facts li{padding:14px 0;border-bottom:1px solid var(--rule-soft);display:grid;grid-template-columns:108px minmax(0,1fr);gap:16px}
+ol.facts .when{font-family:var(--mono);font-size:12px;color:var(--kraft);padding-top:4px;font-variant-numeric:tabular-nums}
+
+/* exhibit frame */
+.exhibit{max-width:1040px;margin:0 auto;border:1px solid var(--rule);background:rgba(20,17,13,.94);padding:clamp(20px,3.4vw,38px);display:flex;flex-direction:column;gap:18px}
+.ex-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+.seg{display:inline-flex;border:1px solid var(--kraft);flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 14px;background:transparent;color:var(--paper-dim);border:0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--kraft);color:var(--ground);font-weight:700}
+.ledger{width:100%;border-collapse:collapse;font-size:17px}
+.ledger th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);text-align:left;font-weight:400;padding:10px 12px 10px 0;border-bottom:1px solid var(--rule)}
+.ledger td{padding:12px 12px 12px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+.ledger td.k{font-family:var(--mono);font-size:12px;color:var(--kraft);white-space:nowrap}
+.ledger td.v{font-family:var(--mono);font-size:14px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:11px;color:var(--paper-faint)}
+.legend i{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;background:var(--c,var(--gold))}
+
+/* controls */
+.ctrl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 22px}
+.ctrl label{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);min-width:0}
+.ctrl select,.ctrl input[type=number]{min-height:44px;background:var(--ground-2);color:var(--paper);border:1px solid var(--rule);font-family:var(--mono);font-size:13px;padding:0 10px;width:100%}
+.ctrl input[type=range]{width:100%;accent-color:var(--gold);min-height:44px}
+.ctrl output{font-family:var(--mono);font-size:13px;color:var(--paper);letter-spacing:0;text-transform:none}
+.switch{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);cursor:pointer;min-height:44px}
+.switch input{appearance:none;width:44px;height:24px;border:1px solid var(--kraft);border-radius:12px;background:var(--ground-2);position:relative;cursor:pointer;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--paper-faint);transition:transform .2s var(--ease)}
+.switch input:checked{background:var(--gold);border-color:var(--gold)}
+.switch input:checked::after{transform:translateX(20px);background:var(--ground)}
+
+/* verdict / readout */
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.ro{border:1px solid var(--rule);background:var(--ground-2);padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ro .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.ro .v{font-family:var(--mono);font-size:clamp(20px,2.6vw,28px);line-height:1.1;color:var(--paper);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ro .v.gold{color:var(--gold)}
+.ro .v.tag{color:var(--tag-lit)}
+.ro .v.fact{color:var(--fact)}
+.ro .s{font-size:14px;color:var(--paper-dim);line-height:1.45}
+.verdict{border-left:3px solid var(--tag);padding:14px 18px;background:var(--ground-2);font-size:18px;line-height:1.5}
+.verdict b{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tag-lit);display:block;margin-bottom:6px}
+.verdict.ok{border-color:var(--fact)}
+.verdict.ok b{color:var(--fact)}
+
+/* bars */
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:minmax(120px,220px) minmax(0,1fr) auto;gap:12px;align-items:center;font-size:15px}
+.bar .n{color:var(--paper-dim);min-width:0}
+.bar .tr{height:18px;background:var(--rule-soft);position:relative;min-width:0}
+.bar .f{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .6s var(--ease)}
+.bar .f.hatch{background:repeating-linear-gradient(45deg,var(--c,var(--kraft)) 0 4px,transparent 4px 8px);opacity:.8}
+.bar .v{font-family:var(--mono);font-size:12px;color:var(--paper);white-space:nowrap;font-variant-numeric:tabular-nums}
+.bar.ghost .n,.bar.ghost .v{color:var(--paper-faint)}
+
+/* card game */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .t{font-size:20px;line-height:1.2}
+.card .y{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+.card .names{display:flex;flex-wrap:wrap;gap:6px}
+.card .names button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.06em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px}
+.card .names button:hover{border-color:var(--kraft);color:var(--paper)}
+.card .names button[data-r="yes"]{border-color:var(--fact);color:var(--fact)}
+.card .names button[data-r="no"]{border-color:var(--tag);color:var(--tag-lit);text-decoration:line-through}
+.card .names button[data-r="dis"]{border-color:var(--reported);color:var(--reported)}
+.card .names button:focus-visible{outline:2px solid var(--gold)}
+.card .ans{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.card .ans[hidden]{display:none}
+
+/* chain rail */
+.rail{position:fixed;left:max(6px, env(safe-area-inset-left, 0px));top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:0;font-family:var(--mono)}
+.rail a{border:0;display:flex;align-items:center;justify-content:center;width:34px;height:34px;color:var(--paper-faint);position:relative}
+.rail a svg{width:22px;height:22px;display:block}
+.rail a .lk{fill:none;stroke:currentColor;stroke-width:1.8;transition:stroke .3s}
+.rail a.held{color:var(--gold)}
+.rail a.broken{color:var(--tag)}
+.rail a.broken .lk{stroke-dasharray:3 3}
+.rail a.active{color:var(--paper)}
+.rail a.active::before{content:"";position:absolute;left:-6px;top:50%;width:3px;height:16px;background:var(--gold);transform:translateY(-50%)}
+.rail a .tip{position:absolute;left:40px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--ground-2);border:1px solid var(--rule);padding:4px 8px;color:var(--paper);opacity:0;pointer-events:none;transition:opacity .2s}
+.rail a:hover .tip,.rail a:focus-visible .tip{opacity:1}
+.rail .seg-line{width:2px;height:10px;background:var(--rule)}
+@media (max-width:1180px){.rail{display:none}}
+
+/* hub grid */
+.hub{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;max-width:1040px;margin:0 auto}
+.hub a{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:8px;color:var(--paper);min-width:0;transition:border-color .2s}
+.hub a:hover{border-color:var(--gold)}
+.hub .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.hub .t{font-size:24px;line-height:1.15;font-weight:300}
+.hub .t em{color:var(--gold)}
+.hub .d{font-size:15px;color:var(--paper-dim);line-height:1.45}
+.hub .m{font-family:var(--mono);font-size:10px;color:var(--paper-faint);letter-spacing:.08em;margin-top:auto}
+
+/* your year */
+.yy{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:20px;align-items:start}
+@media (max-width:760px){.yy{grid-template-columns:minmax(0,1fr)}}
+
+/* timeline strip */
+.strip{position:relative;padding:18px 0 0}
+.strip .axis{height:2px;background:var(--rule)}
+.strip .pts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:14px}
+.strip .pt{font-size:14px;color:var(--paper-dim);border-top:2px solid var(--c,var(--gold));padding-top:8px;min-width:0}
+.strip .pt b{display:block;font-family:var(--mono);font-size:11px;color:var(--paper);font-weight:400;letter-spacing:.06em}
+
+/* two sides */
+.sides{display:grid;min-width:0;width:100%;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1040px;margin:0 auto}
+.side{border:1px solid var(--rule);background:var(--ground-2);padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.side h3{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);font-weight:700}
+.side ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:17px;color:var(--paper-dim)}
+.side.gold{border-color:var(--gold)}
+.side.tagb{border-color:var(--tag)}
+
+/* desk note / breadcrumb */
+.desk{border:1px solid var(--rule);border-left:3px solid var(--kraft);background:var(--ground-2);padding:14px 18px;font-size:16px;line-height:1.55;color:var(--paper-dim)}
+.desk b{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--kraft);display:block;margin-bottom:6px;font-weight:400}
+.crumbs{display:flex;flex-wrap:wrap;gap:8px}
+.crumbs a{font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px;display:inline-flex;align-items:center}
+.crumbs a:hover{border-color:var(--gold);color:var(--gold)}
+.crumbs a i{font-style:normal;color:var(--kraft);margin-right:8px}
+
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{font-family:var(--mono);font-size:11px;fill:var(--paper-faint)}
+svg.chart .ax{stroke:var(--rule);stroke-width:1}
+svg.chart .ln{fill:none;stroke:var(--gold);stroke-width:2.2}
+svg.chart .ln2{fill:none;stroke:var(--tag);stroke-width:2;stroke-dasharray:4 4}
+svg.chart .ar{fill:rgba(201,162,39,.12)}
+svg.chart .dot{fill:var(--gold)}
+svg.chart .lab{fill:var(--paper)}
+
+.watchlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
+.watchlist li{padding:12px 0;border-bottom:1px solid var(--rule-soft)}
+
+footer{margin-top:90px;border-top:1px solid var(--rule);padding-top:24px;font-family:var(--mono);font-size:11.5px;line-height:1.85;color:var(--paper-faint)}
+footer ol{padding-left:22px;margin:10px 0 22px;columns:2;column-gap:40px}
+footer li{break-inside:avoid;padding-right:10px}
+footer b{color:var(--paper-dim);font-weight:400}
+@media (max-width:760px){footer ol{columns:1}}
+.tier{font-size:10px;color:var(--kraft);letter-spacing:.08em}
+
+@media (max-width:720px){
+  body{font-size:18px}
+  ol.facts li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .hero{min-height:480px}
+  .bar{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n v" "tr tr"}
+  .bar .n{grid-area:n}.bar .tr{grid-area:tr}.bar .v{grid-area:v}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>
+/* Episode 2 additions: the circuit rail, valves, the stage board, the dimmer, the feed toggle. */
+.rail a .nd{fill:none;stroke:currentColor;stroke-width:1.8}
+.ro .v.tag{border:0;padding:0;font-size:clamp(20px,2.6vw,28px);letter-spacing:0;text-transform:none;font-weight:400;white-space:normal;margin:0}
+.rail a.held .nd{fill:rgba(201,162,39,.25)}
+.rail a.broken .nd{stroke-dasharray:3 3}
+.rail a.open .nd{fill:rgba(124,192,150,.25)}
+
+/* the pipe: five valves */
+.pipe{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.valve{all:unset;cursor:pointer;border:1px solid var(--rule);background:var(--ground-2);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:44px;position:relative}
+.valve .y{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+.valve .n{font-size:17px;line-height:1.2;color:var(--paper)}
+.valve .st{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.valve[aria-pressed="true"]{border-color:var(--gold);background:rgba(201,162,39,.08)}
+.valve::after{content:"";position:absolute;right:12px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--tag)}
+.valve[data-k="evolved"]::after{background:var(--fact)}
+.valve:focus-visible{outline:2px solid var(--gold)}
+.flow{height:14px;background:var(--rule-soft);position:relative;overflow:hidden;border:1px solid var(--rule)}
+.flow i{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(201,162,39,.75) 0 14px,transparent 14px 28px);animation:flow 1.1s linear infinite}
+.flow i.cut{background:repeating-linear-gradient(90deg,rgba(192,94,60,.75) 0 6px,transparent 6px 20px);animation-duration:2.6s}
+@keyframes flow{to{transform:translateX(28px)}}
+
+/* dimmer: three dials + a bar */
+.dials{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.dial{border:1px solid var(--rule);background:var(--ground-2);padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.dial .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.dial .m{height:8px;background:var(--rule-soft);position:relative}
+.dial .m i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .5s var(--ease)}
+.dial .v{font-family:var(--mono);font-size:12px;color:var(--paper)}
+.elect{display:flex;flex-wrap:wrap;gap:6px}
+.elect button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:0 12px;min-height:44px;display:inline-flex;align-items:center;color:var(--paper-dim)}
+.elect button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.elect button:focus-visible{outline:2px solid var(--gold)}
+
+/* feed toggle */
+.feed{border:1px solid var(--rule);background:#000;padding:20px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--paper-dim);min-height:150px;position:relative}
+.feed .chy{position:absolute;right:12px;top:10px;font-size:10px;letter-spacing:.14em;color:var(--paper-faint)}
+.feed .q{color:var(--paper);font-family:var(--serif);font-size:20px;line-height:1.4;font-style:italic}
+.feed .cut{color:var(--tag-lit)}
+
+/* stage board */
+.board{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.light{border:1px solid var(--rule);background:var(--ground-2);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.light .lamp{width:14px;height:14px;border-radius:50%;background:var(--rule);box-shadow:none;transition:background .4s,box-shadow .4s}
+.light[data-s="on"] .lamp{background:var(--gold);box-shadow:0 0 14px rgba(201,162,39,.7)}
+.light[data-s="dim"] .lamp{background:var(--reported);box-shadow:0 0 8px rgba(224,179,92,.4)}
+.light[data-s="off"] .lamp{background:var(--tag);box-shadow:0 0 6px rgba(192,94,60,.5)}
+.light[data-s="na"] .lamp{background:var(--rule)}
+.light .n{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper)}
+.light .w{font-size:14px;color:var(--paper-dim);line-height:1.45}
+
+/* interval */
+.ci{position:relative;height:70px}
+.ci .tr{position:absolute;left:0;right:0;top:30px;height:10px;background:var(--rule-soft)}
+.ci .band{position:absolute;top:30px;height:10px;background:rgba(124,192,150,.35);border:1px solid var(--fact)}
+.ci .mk{position:absolute;top:18px;width:2px;height:34px;background:var(--tag)}
+.ci .lab{position:absolute;top:50px;font-family:var(--mono);font-size:10px;color:var(--paper-faint);transform:translateX(-50%);white-space:nowrap}
+.ci .lab.t{top:0}
+.ci .pin{position:absolute;top:24px;width:4px;height:22px;background:var(--gold);transform:translateX(-50%)}
+
+/* timeline filter */
+.tl{display:flex;flex-direction:column}
+.tl .ev{display:grid;grid-template-columns:110px 14px minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:start;font-size:16px}
+.tl .ev .d{font-family:var(--mono);font-size:11px;color:var(--kraft);padding-top:5px}
+.tl .ev .k{width:10px;height:10px;transform:rotate(45deg);margin-top:8px;background:var(--reported)}
+.tl .ev[data-k="evolved"] .k{background:var(--fact)}
+.tl .ev[data-k="muted"] .k{background:var(--tag)}
+.tl .ev[hidden]{display:none}
+.tl .ev .w{color:var(--paper-dim)}
+.tl .ev .w b{color:var(--paper);font-weight:400}
+@media (max-width:720px){.tl .ev{grid-template-columns:14px minmax(0,1fr)}.tl .ev .d{grid-column:2;padding-top:0}}
+
+.stepper{display:flex;flex-direction:column;gap:14px}
+.steps{display:flex;flex-wrap:wrap;gap:6px}
+.steps button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:0 12px;min-height:44px;display:inline-flex;align-items:center;color:var(--paper-dim)}
+.steps button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.step-body{border:1px solid var(--rule);background:var(--ground-2);padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-height:160px}
+.step-body .h{font-size:22px;line-height:1.2}
+.step-body .w{font-size:16px;color:var(--paper-dim);line-height:1.55}
+.step-body .s{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+
+/* plates: archival stills, house-toned, revealed on scroll; degrade to a kraft panel if the file is missing */
+.plate{width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);position:relative;overflow:hidden;opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.plate.in,.plate.static{opacity:1;transform:none}
+.plate .ph{display:block;width:100%;aspect-ratio:21/9;object-fit:cover;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.72) saturate(.9);transition:filter 1.2s var(--ease),transform 8s linear}
+.plate.in .ph{transform:scale(1.03)}
+.plate:hover .ph{filter:grayscale(.6) sepia(.25) contrast(1.05) brightness(.85)}
+.plate::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05),rgba(20,17,13,.55) 70%,rgba(20,17,13,.92)),radial-gradient(900px 300px at 20% 10%,rgba(201,162,39,.16),transparent 60%);pointer-events:none}
+.plate figcaption{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:14px 18px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim)}
+.plate figcaption b{color:var(--gold);font-weight:400}
+.plate figcaption .cr{color:var(--paper-faint)}
+.plate[data-missing] .ph{display:none}
+.plate[data-missing]{aspect-ratio:21/9;background:repeating-linear-gradient(135deg,var(--ground-2) 0 14px,var(--rule-soft) 14px 16px)}
+.plate[data-missing]::before{content:"PLATE PENDING · run fetch-plates.sh";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.plate[data-plate="fd-c1"] .ph{object-position:50% 60%}
+@media (max-width:720px){.plate .ph{aspect-ratio:16/10}.plate[data-missing]{aspect-ratio:16/10}}
+@media (prefers-reduced-motion:reduce){.plate{opacity:1;transform:none}.plate.in .ph{transform:none}}
+
+/* the engine */
+.engine-wrap{gap:16px}
+.en-ctl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 22px;align-items:center}
+.en-play{display:flex;gap:6px}
+.en-play button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
+.en-play button[aria-pressed="true"]{background:var(--gold);color:var(--ground);border-color:var(--gold)}
+.en-play button:focus-visible{outline:2px solid var(--gold)}
+.en-range{display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);min-width:0}
+.en-range output{color:var(--gold);font-size:13px}
+.en-range input{width:100%;accent-color:var(--gold);min-height:44px}
+.en-years{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--paper-faint);margin-top:-8px;overflow:hidden}
+.en-years span{flex:1;text-align:center;min-width:0;white-space:nowrap}
+.en-years span.on{color:var(--gold)}
+.engine{display:grid;grid-template-columns:minmax(0,3fr) minmax(280px,2fr);gap:18px;min-width:0}
+.en-stage{position:relative;min-width:0;border:1px solid var(--rule);background:radial-gradient(600px 400px at 50% 45%,rgba(201,162,39,.07),transparent 65%),var(--ground)}
+.en-stage canvas{display:block;width:100%;aspect-ratio:1/1;max-height:640px}
+.en-key{position:absolute;left:10px;bottom:8px;display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--mono);font-size:10px;color:var(--paper-faint);letter-spacing:.06em}
+.en-key i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+.en-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.en-micro{border:1px solid var(--gold);background:var(--ground-2);padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.en-micro .eb{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.en-micro .h{font-size:22px;line-height:1.15}
+.en-micro .n{font-family:var(--mono);font-size:clamp(24px,3vw,34px);color:var(--paper);line-height:1;font-variant-numeric:tabular-nums}
+.en-micro .w{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.en-micro .s{font-family:var(--mono);font-size:10.5px;color:var(--kraft);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:6px 14px}
+.en-micro .s a{border:0}
+.en-macro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.en-macro .g{border:1px solid var(--rule);background:var(--ground-2);padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.en-macro .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.en-macro .m{height:6px;background:var(--rule-soft);position:relative}
+.en-macro .m i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .8s var(--ease)}
+.en-macro .v{font-family:var(--mono);font-size:11.5px;color:var(--paper);line-height:1.35}
+.en-macro .g.valve{grid-column:1/-1;border-color:var(--tag)}
+.en-macro .g.valve.open{border-color:var(--fact)}
+.en-macro .g.valve .v b{font-family:var(--mono);font-weight:700;color:var(--tag-lit)}
+.en-macro .g.valve.open .v b{color:var(--fact)}
+.en-edges{display:flex;flex-direction:column;gap:5px;font-family:var(--mono);font-size:10.5px;color:var(--paper-dim)}
+.en-edges .e{display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:8px;align-items:center}
+.en-edges .e .b{height:5px;background:var(--rule-soft);position:relative}
+.en-edges .e .b i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .8s var(--ease)}
+.en-edges .e.closed{color:var(--tag-lit)}
+.en-edges .e.closed .b{background:repeating-linear-gradient(90deg,var(--tag) 0 4px,transparent 4px 8px);opacity:.7}
+@media (max-width:860px){.engine{grid-template-columns:minmax(0,1fr)}.en-ctl{grid-template-columns:minmax(0,1fr)}.en-macro{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:720px){.en-years{display:none}.en-key{position:static;padding:8px 10px;border-top:1px solid var(--rule)}}
+</style>
+<style>
+/* Episode 4 specifics */
+.pool{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.pool .p{border:1px solid var(--rule);background:var(--ground-2);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.pool .p .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.pool .p .v{font-family:var(--mono);font-size:clamp(18px,2.4vw,26px);color:var(--paper);line-height:1.1;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.pool .p .v.gold{color:var(--gold)}.pool .p .v.tag{color:var(--tag-lit)}.pool .p .v.fact{color:var(--fact)}
+.pool .p .s{font-size:13.5px;color:var(--paper-dim);line-height:1.4}
+.rooms2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.rooms2 .r{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.rooms2 .r h4{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper)}
+.rooms2 .r .d{font-family:var(--mono);font-size:11px;color:var(--kraft)}
+.rooms2 .r ul{margin:0;padding-left:18px;font-size:15px;color:var(--paper-dim);line-height:1.5;display:flex;flex-direction:column;gap:6px}
+.rooms2 .r.lit{border-color:var(--gold)}
+.rooms2 .r.dark{opacity:.75}
+.rooms2 .r .who{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--fact)}
+.rooms2 .r.dark .who{color:var(--tag-lit)}
+
+/* reels: one point per slide, period art behind it, words landing like a title card */
+.reel{position:relative;width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto}
+.reel .vp{position:relative;display:grid;min-height:420px;overflow:hidden}
+.reel .slide{grid-area:1/1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(22px,4vw,48px);padding-top:64px;min-height:420px;opacity:0;visibility:hidden;transition:opacity .9s var(--ease),visibility 0s linear .9s}
+.reel .slide.on{opacity:1;visibility:visible;transition:opacity .9s var(--ease)}
+.reel .slide .bg{position:absolute;inset:0;z-index:0}
+.reel .slide .bg img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.55) saturate(.9);transform:scale(1.04);transition:transform 9s linear}
+.reel .slide.on .bg img{transform:scale(1.12)}
+.reel .slide .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.18),rgba(20,17,13,.6) 55%,rgba(20,17,13,.94)),radial-gradient(700px 300px at 15% 15%,rgba(201,162,39,.18),transparent 60%)}
+.reel .slide .bg.none{background:radial-gradient(900px 420px at 30% 20%,rgba(201,162,39,.12),transparent 60%),repeating-linear-gradient(135deg,var(--ground-2) 0 18px,var(--rule-soft) 18px 20px)}
+.reel .slide .tx{position:relative;z-index:1;max-width:60ch;font-size:clamp(18px,2.1vw,22px);line-height:1.5;color:var(--paper)}
+.reel .slide .tx .w{display:inline-block;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.reel .slide.on .tx .w{opacity:1;transform:none}
+.reel .slide .tx sup.src{opacity:1}
+.reel .slide .k{position:relative;z-index:1;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.reel .slide .cr{position:absolute;right:14px;top:12px;z-index:1;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);max-width:60%;text-align:right}
+.reel .nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid var(--rule);background:var(--ground)}
+.reel .nav button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:40px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
+.reel .nav button:focus-visible{outline:2px solid var(--gold)}
+.reel .nav .dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.reel .nav .dots i{width:22px;height:4px;background:var(--rule);display:block;cursor:pointer}
+.reel .nav .dots i.on{background:var(--gold)}
+.reel .nav .ct{font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);letter-spacing:.1em;white-space:nowrap}
+.lead.rv .w,.pull.rv .w{display:inline-block;opacity:0;transform:translateY(6px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.lead.rv.on .w,.pull.rv.on .w{opacity:1;transform:none}
+@media (max-width:720px){.reel,.reel .vp{min-height:460px}.reel .slide .tx{font-size:17px}}
+@media (prefers-reduced-motion:reduce){.reel .slide .tx .w,.lead.rv .w,.pull.rv .w{opacity:1;transform:none;transition:none}.reel .slide .bg img{transform:none;transition:none}}
+</style>
+
+<nav class="rail" aria-label="Chapters">
+  <a href="#c1" data-ch="1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">1 · The Open Network</span></a>
+  <span class="seg-line"></span>
+  <a href="#c2" data-ch="2"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">2 · The Mixtape</span></a>
+  <span class="seg-line"></span>
+  <a href="#c3" data-ch="3"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">3 · The Bedroom</span></a>
+  <span class="seg-line"></span>
+  <a href="#c4" data-ch="4"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">4 · The Meme</span></a>
+  <span class="seg-line"></span>
+  <a href="#c5" data-ch="5"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">5 · The Dance</span></a>
+  <span class="seg-line"></span>
+  <a href="#c6" data-ch="6"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">6 · The Rate Card</span></a>
+  <span class="seg-line"></span>
+  <a href="#c7" data-ch="7"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">7 · The Creator's Deed</span></a>
+</nav>
+
+<div class="wrap">
+  <div class="mast">
+    <a class="brand" href="#top"><i></i>Infera · The Feed</a>
+    <nav aria-label="Series">
+      <a href="#engine">The engine</a>
+      <a href="#hub">Seven exhibits</a>
+      <a href="#c1">1 Network</a><a href="#c2">2 Mixtape</a><a href="#c3">3 Bedroom</a><a href="#c4">4 Meme</a><a href="#c5">5 Dance</a><a href="#c6">6 Rate card</a><a href="#c7">7 Deed</a>
+      <a href="the-chain-of-title.html">Ep 1</a><a href="the-circulating-dollar.html">Ep 2</a><a href="the-terms.html">Ep 3</a><a href="the-dilution.html">Ep 5</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </div>
+
+  <header class="hero" id="top">
+    <canvas id="circuitcanvas" aria-hidden="true"></canvas>
+    <div class="boxcount">MINI-SERIES · EPISODE 4 · 7 EXHIBITS · 1999–2026</div>
+    <div class="hero-in">
+      <span class="eyebrow">Infera · Mechanism Series · A standalone mini-series</span>
+      <h1>The <em>Feed</em></h1>
+      <p class="deck">The room used to be a theater, then a station, then a label. Now it is a habit: the thing the audience opens first. Seven exhibits on the platform era, Napster to TikTok, and the question every one of them comes back to: who holds the deed to a thing made in public.</p>
+    </div>
+  </header>
+  <p class="eyebrow col" style="padding-top:10px;color:var(--paper-faint)">Hero: a generative circuit drawn in code, one segment cut. No photograph, no real place.</p>
+
+  <div class="col">
+    <div class="dateline">
+      <span><b>AS OF</b> Oct 30, 2026</span>
+      <span><b>READ</b> ~40 min whole · 5–6 min per exhibit</span>
+      <span><b>LAYER</b> Public record · congressional transcript · SEC filings · court rulings · platform statements</span>
+      <span><b>METHOD</b> SVNIF</span>
+    </div>
+
+    <div class="stack">
+      <p class="lead">In Episode 2 the money stopped at the room. In the platform era the room is wherever the audience already is, and it is owned by whoever built the feed. A song, a dance, a phrase, a beat: each of these was made by a Black creator in public, each reached millions through a feed, and each raised the same question on arrival. Not <em>who made it</em>; the record is usually clear about that. <em>Who holds the deed.</em></p>
+      <p>This episode follows the deed from the first open network to the joint venture that owns TikTok's American room as of this dateline. It is a business story about contracts, registrations, rate cards and sales. Where the record says a platform's licensing terms were "undisclosed," the page says that; where a figure is reported by one outlet, it is hatched. Several "first ever" claims circulate in this history; the page prints what the record supports and lists the rest as disputes.</p>
+      <div class="memo"><b>READING MEMO</b> · Every exhibit stands alone. <span class="tag t-fact">Fact</span> is on the record, <span class="tag t-rep">Reported</span> is a credible account we could not independently confirm, <span class="tag t-inf">Inference</span> is our reading, <span class="tag t-watch">Watch</span> is open as of the dateline. The engine's flow levels are this page's reading of the record, anchored to the figure on each card. Platform ownership changes are reported as corporate facts, without commentary on the policy behind them. This is an original Infera investigation from the public record; for the long history of Black creative ownership it runs alongside, see Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026), listed in the sources as a further read.<sup class="src"><a href="#s50">50</a></sup></div>
+    </div>
+
+    <section aria-labelledby="h-spine">
+      <div class="sec-head">
+        <span class="eyebrow">The spine</span>
+        <h2 id="h-spine">Three findings, <em>stated first</em></h2>
+        <p class="sub">The exhibits are the evidence. These are the verdicts.</p>
+      </div>
+      <ol class="facts">
+        <li><span class="when">2000–2026</span><span><span class="tag t-fact">Fact</span><b>The creator was in the room; the deed was negotiated without them.</b> Chuck D told a House committee in May 2000 that independent artists could "control and own their own destiny" online; twenty-four years later Universal and TikTok settled the terms of every artist's presence on the feed, royalty terms undisclosed, with no artist at the table.<sup class="src"><a href="#s4">4</a>, <a href="#s28">28</a></sup></span></li>
+        <li><span class="when">2007–2023</span><span><span class="tag t-fact">Fact</span><b>The thing that made the hit could not be registered.</b> A dance from a bedroom sold three million downloads; a Harlem dance put a producer at No. 1 under a new chart rule; a teenager's "Renegade" became another teenager's career; the Copyright Office refused the "Carlton" as a simple routine. The 2023 Ninth Circuit reopened the door, for a registered professional choreographer.<sup class="src"><a href="#s12">12</a>, <a href="#s22">22</a>, <a href="#s26">26</a></sup></span></li>
+        <li><span class="when">2017–2026</span><span><span class="tag t-fact">Fact</span><b>The genre became the business the year streaming became the business, and the rate card was written for the pool, not the genre.</b> R&amp;B and hip-hop passed rock in 2017 at 30 percent of on-demand streams; the per-stream rate is derived, not contractual; a 1,000-stream threshold demonetized the long tail where new artists start; AI uploads reached 50,000 a day with up to 70 percent of their plays fraudulent, diluting the pool everyone shares.<sup class="src"><a href="#s30">30</a>, <a href="#s34">34</a>, <a href="#s40">40</a></sup></span></li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="h-yy">
+      <div class="sec-head">
+        <span class="eyebrow">Before you read</span>
+        <h2 id="h-yy">Your first <em>feed</em></h2>
+        <p class="sub">Enter the year you were born. We find the feed that was the room when you turned fifteen, and who held its deed.</p>
+      </div>
+      <div class="exhibit">
+        <div class="yy">
+          <div class="ctrl"><label for="yy-year">Birth year<input type="number" id="yy-year" min="1950" max="2012" value="1990" inputmode="numeric"></label></div>
+          <div class="stack" id="yy-out" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section aria-labelledby="h-hub" id="hub">
+    <div class="col sec-head">
+      <span class="eyebrow">The series</span>
+      <h2 id="h-hub">Seven exhibits, <em>read in any order</em></h2>
+      <p class="sub">Each one opens on a feed. Each one hands you the deed.</p>
+    </div>
+    <div class="hub">
+      <a href="#c1"><span class="n">01 · 1999–2006</span><span class="t">The Open <em>Network</em></span><span class="d">Napster's two years, a House hearing with Chuck D and a Senate hearing without him, Dr. Dre on the plaintiff side, and Prince selling the deed direct at $7.77 a month.</span><span class="m">NETWORK · 6 MIN · INTERACTIVE: TWO ROOMS IN WASHINGTON · THE DIRECT DEED</span></a>
+      <a href="#c2"><span class="n">02 · 2002–2007</span><span class="t">The <em>Mixtape</em></span><span class="d">872,000 in a week off a free CD, a label that paid for the tapes, and 81,000 of them seized by a SWAT team with the RIAA in the room.</span><span class="m">PROVING GROUND · 5 MIN · INTERACTIVE: PROVING GROUND OR PIRACY · THE FIRST WEEK</span></a>
+      <a href="#c3"><span class="n">03 · 1999–2013</span><span class="t">The <em>Bedroom</em></span><span class="d">A Black-owned network sold for $38 million, a white-owned one for $35 million after $580 million, a dance from a bedroom that sold three million downloads, and the chart rule a Harlem dance changed.</span><span class="m">ROOM · 6 MIN · INTERACTIVE: TWO SALES · THE CHART RULE</span></a>
+      <a href="#c4"><span class="n">04 · 2005–2017</span><span class="t">The <em>Meme</em></span><span class="d">1.2 million a day on a Queens-founded site, a phrase a sixteen-year-old gave the language for nothing, and the overindex Pew measured.</span><span class="m">PHRASE · 5 MIN · INTERACTIVE: WHO GOT PAID FOR "ON FLEEK" · THE OVERINDEX</span></a>
+      <a href="#c5"><span class="n">05 · 2018–2024</span><span class="t">The <em>Dance</em></span><span class="d">A $30 beat under nineteen weeks at No. 1, a chart that removed it, a strike by the dancers, and the law of the dance from the "Carlton" refusal to the Ninth Circuit.</span><span class="m">DEED · 7 MIN · INTERACTIVE: THE DEED TO A DANCE · THE $30 BEAT</span></a>
+      <a href="#c6"><span class="n">06 · 2017–2025</span><span class="t">The Rate <em>Card</em></span><span class="d">The genre that became the business, a per-stream rate nobody signed, a 1,000-stream floor, $424 million nobody matched, and 50,000 machine uploads a day.</span><span class="m">POOL · 7 MIN · INTERACTIVE: THE PRO-RATA POOL · SHARE VS. OWNERSHIP</span></a>
+      <a href="#c7"><span class="n">07 · 2007–2026</span><span class="t">The Creator's <em>Deed</em></span><span class="d">55/45 and $70 billion, a fund that paid 2.5 cents per thousand, a 35 percent pay gap, a $56,000 Kickstarter that became an HBO series, and the joint venture that holds the room now.</span><span class="m">DEED · 7 MIN · INTERACTIVE: THE FUND VS. THE SPLIT · WHO OWNS THE ROOM NOW</span></a>
+    </div>
+  </section>
+
+  <!-- ============ THE ENGINE ============ -->
+  <section aria-labelledby="h-engine" id="engine" style="margin-top:110px">
+    <div class="col sec-head">
+      <span class="eyebrow">The engine · macro and micro at once</span>
+      <h2 id="h-engine">The deed, <em>in the feed</em></h2>
+      <p class="sub">Five stations, one current. Scrub 1999 to 2026 and watch where the work goes, who captures it, and where the deed sits. Every stop pairs one dated entry with the whole machine's state.</p>
+    </div>
+    <div class="exhibit engine-wrap">
+      <div class="en-ctl">
+        <div class="en-play">
+          <button id="en-prev" aria-label="Previous stop">‹</button>
+          <button id="en-toggle" aria-pressed="false">▶ RUN THE ERA</button>
+          <button id="en-next" aria-label="Next stop">›</button>
+        </div>
+        <label class="en-range" for="en-k"><span class="l">Stop <output id="en-year">1999</output></span><input type="range" id="en-k" min="0" max="12" step="1" value="0" aria-valuetext="1999"></label>
+      </div>
+      <div class="en-years" id="en-years" aria-hidden="true"></div>
+      <div class="engine">
+        <div class="en-stage">
+          <canvas id="en-canvas" role="img" aria-label="The feed: creator, the feed, audience, label and brand, advertiser and investor, and the deed, with current moving along the open routes"></canvas>
+          <div class="en-key" aria-hidden="true"><span><i style="--c:var(--gold)"></i>the work and the audience</span><span><i style="--c:var(--kraft)"></i>advertiser · investor</span><span><i style="--c:var(--fact)"></i>label · brand · fund</span><span><i style="--c:var(--tag)"></i>the deed leaves · closed route</span></div>
+        </div>
+        <div class="en-side">
+          <div class="en-micro" id="en-micro" aria-live="polite"></div>
+          <div class="en-macro" id="en-macro"></div>
+          <div class="en-edges" id="en-edges"></div>
+        </div>
+      </div>
+      <div class="verdict" id="en-v"></div>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 1 ============ -->
+  <article class="chapter" id="c1" data-ch="1" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 1 of 7</span><span><b>1999–2006</b></span><span>San Mateo · Washington · Paisley Park</span><span>Standalone</span></div>
+      <h2>The Open <em>Network</em></h2>
+      <span class="instrument">Instrument: the hearing transcript</span>
+      <figure class="plate" data-plate="fd-c1"><img class="ph" src="assets/plates/fd-c1.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Antenna field at the Marconi site, Bolinas, California · the open network</span><span class="cr">Historic American Engineering Record, Library of Congress · public domain</span></figcaption></figure>
+      <div class="stack" data-reel="fd-c1,x-times,x-march2" style="margin-top:28px">
+        <p class="lead">Napster launched on June 1, 1999 and was sued by the RIAA on December 6. Its measured use peaked at 26.4 million people in February 2001 (the "80 million" is registered accounts, undated); an injunction stopped the trading on March 5, 2001, the network went dark on July 11, and the company paid $26 million to rights-holders on its way into bankruptcy. For two years the distribution of recorded music left the label building and nobody held the deed.<sup class="src"><a href="#s1">1</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The Black artists in the record stood on both sides. Dr. Dre, a producer-owner through Aftermath, filed his own suit against Napster on April 26, 2000, thirteen days after Metallica.<sup class="src"><a href="#s2">2</a></sup> Public Enemy had left Def Jam and released <em>There's a Poison Goin' On</em> online through Atomic Pop in 1999 before any physical copy.<sup class="src"><a href="#s3">3</a></sup> Prince opened the NPG Music Club on February 14, 2001: $7.77 a month or $99 a year, about 400,000 members by the time it closed on July 4, 2006.<sup class="src"><a href="#s6">6</a></sup> <span class="tag t-inf">Inference</span>Dre litigated as a rights-holder; Chuck D testified as a distributor; Prince sold the deed direct. Three answers to one question in the same eighteen months.</p>
+      </div>
+      <section aria-labelledby="h-rooms">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-rooms">Two rooms in Washington</h3><p class="sub">Two hearings on Napster, seven weeks apart. One had a Black artist in the witness chair. Switch rooms.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="wr-ctl"><button aria-pressed="true" data-k="house">HOUSE SMALL BUSINESS · MAY 24, 2000</button><button aria-pressed="false" data-k="senate">SENATE JUDICIARY · JULY 11, 2000</button></div>
+      <div class="rooms2" id="wr"></div>
+      <div class="verdict" id="wr-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-direct">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-direct">The direct deed</h3><p class="sub">Prince's club against a label royalty. Set the membership and the price; the record gives the ceiling.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ctrl">
+        <label for="dd-m">Members<input type="range" id="dd-m" min="10000" max="400000" step="10000" value="400000"><output id="dd-mo"></output></label>
+        <label for="dd-p">Monthly price<input type="range" id="dd-p" min="1" max="12" step="0.01" value="7.77"><output id="dd-po"></output></label>
+      </div>
+      <div class="readout" id="dd-ro"></div>
+      <div class="verdict" id="dd-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="fd-c1,x-times,x-march2" style="margin-top:36px">
+        <p class="pull">"Artists control and own their own destiny."<small>Chuck D, as founder of Rapstation.com, to the House Small Business Committee, May 24, 2000 · T1, GovInfo</small></p>
+        <p><span class="tag t-fact">Fact</span>The Senate Judiciary Committee's Napster hearing on July 11, 2000 heard Lars Ulrich, Napster's Hank Barry, MP3.com's Michael Robertson and Roger McGuinn. No Black artist testified.<sup class="src"><a href="#s5">5</a></sup> <span class="tag t-inf">Inference</span>The hearing that shaped the public story had the rock drummer; the one that had the Black distributor was about small business. The frame was set in the room the press covered.</p>
+        <div class="desk"><b>Desk note · Episode 3</b>Dre's position as plaintiff is the deed side of The Terms: he owned the masters he was suing to protect. <a href="the-terms.html#c4">The equity turn</a>.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 2 ============ -->
+  <article class="chapter" id="c2" data-ch="2" data-state="held">
+    <div class="col">
+      <div class="where"><span>Exhibit 2 of 7</span><span><b>2002–2007</b></span><span>Queens · Atlanta</span><span>Standalone</span></div>
+      <h2>The <em>Mixtape</em></h2>
+      <span class="instrument">Instrument: the free CD</span>
+      <figure class="plate" data-plate="fd-c2"><img class="ph" src="assets/plates/fd-c2.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Times Square north at night · the bedroom's audience</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="fd-c2,x-southside,x-front" style="margin-top:28px">
+        <p class="lead">The first Black star whose career the record attributes to a free, unlicensed distribution channel did not come through Napster. He came through a mixtape. <em>50 Cent Is the Future</em> circulated in 2002; weeks later Eminem and Dr. Dre signed him; <em>Get Rich or Die Tryin'</em> sold 872,000 copies in its first week, February 2003.<sup class="src"><a href="#s7">7</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>DatPiff launched in 2005 to host the tapes free. Artists and labels paid DJ Drama to make them; one reported sum was $20,000; his Aphilliates company had a Warner distribution deal. On January 16, 2007 a SWAT team raided his Atlanta studio with RIAA representatives present and seized 81,000 CDs (the reported count rose from 25,000 to 50,000 to 81,000); he was charged with racketeering and the case was later reduced to a misdemeanor.<sup class="src"><a href="#s8">8</a></sup> <span class="tag t-inf">Inference</span>Labels used the mixtape as a proving ground, then let the trade body treat the same product as piracy. The deed to the mixtape was deliberately nobody's.</p>
+      </div>
+      <section aria-labelledby="h-pg">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-pg">Proving ground or piracy</h3><p class="sub">One CD, two readings. Flip the switch and watch who owns it.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top"><label class="switch"><input type="checkbox" id="pg-on" checked> The label is paying for the tape</label></div>
+      <div class="readout" id="pg-ro"></div>
+      <div class="verdict" id="pg-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-fw">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-fw">The first week</h3><p class="sub">What a free tape set up. Compare the week.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="bars" id="fw-bars"></div>
+      <div class="verdict"><b>Reading</b>The free channel produced the paid week, and the paid week belonged to the label that signed the artist after the free channel had done the work. The mixtape's economics were the inverse of Napster's: the labels fought the network that cost them sales and financed the one that made them.<sup class="src"><a href="#s7">7</a>, <a href="#s8">8</a></sup></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 3 ============ -->
+  <article class="chapter" id="c3" data-ch="3" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 3 of 7</span><span><b>1999–2013</b></span><span>New York · Batesville, Miss. · Harlem</span><span>Standalone</span></div>
+      <h2>The <em>Bedroom</em></h2>
+      <span class="instrument">Instrument: the bill of sale</span>
+      <figure class="plate" data-plate="fd-c3"><img class="ph" src="assets/plates/fd-c3.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Fremont Street neon, Las Vegas · the phrase economy</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="fd-c3,x-harlem43,x-times" style="margin-top:28px">
+        <p class="lead">BlackPlanet launched on September 1, 1999, founded by Omar Wasow, four years before MySpace. By the end of 2007 Hitwise ranked it the fourth-largest social network in the country; in April 2008 Radio One bought its parent for about $38 million, an 8-K on file.<sup class="src"><a href="#s9">9</a>, <a href="#s10">10</a></sup> News Corp bought MySpace's parent for $580 million in 2005 and sold it for about $35 million, mostly in stock, in June 2011.<sup class="src"><a href="#s11">11</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Soulja Boy posted "Crank That" and a how-to dance video to MySpace on February 25, 2007, having put the song on SoundClick the previous June; it spent seven weeks at No. 1 that fall and on January 6, 2008 became the first song to sell three million U.S. downloads. He was signed to Interscope through Mr. Collipark after the fact. Ice-T said he was "killing hip-hop"; Kanye West wrote that he "came from the hood, made his own beats, made up a new saying, new sound and a new dance with one song."<sup class="src"><a href="#s12">12</a>, <a href="#s13">13</a></sup> <span class="tag t-inf">Inference</span>The hit was made in a bedroom and monetized in formats the label controlled: ringtones and downloads. "First internet No. 1" is a claim no authoritative source makes; "among the earliest" is what the record supports.</p>
+      </div>
+      <section aria-labelledby="h-sales">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-sales">Two sales</h3><p class="sub">A Black-owned room and a white-owned one, bought and sold in the same decade.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="bars" id="ts-bars"></div>
+      <div class="verdict"><b>Reading</b>BlackPlanet went from a Black founder to a Black-owned broadcaster for $38 million and survives inside Urban One. MySpace lost 94 percent of its price in six years because the audience moved and the deed did not follow. The room is only worth the habit.<sup class="src"><a href="#s10">10</a>, <a href="#s11">11</a></sup></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-rule">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-rule">The chart rule</h3><p class="sub">February 2013: Billboard began counting YouTube views, official and user-made, in the Hot 100. Toggle the rule.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top"><label class="switch"><input type="checkbox" id="cr-on" checked> YouTube views count toward the Hot 100</label></div>
+      <div class="readout" id="cr-ro"></div>
+      <div class="verdict" id="cr-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="fd-c3,x-harlem43,x-times" style="margin-top:36px">
+        <p class="pull">A Harlem dance name, a white producer, and a chart rule change: the dance made the hit, the dance got nothing.<small>Inference · the Harlem Shake, chart dated March 2, 2013</small></p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 4 ============ -->
+  <article class="chapter" id="c4" data-ch="4" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 4 of 7</span><span><b>2005–2017</b></span><span>Hollis, Queens · Chicago · the timeline</span><span>Standalone</span></div>
+      <h2>The <em>Meme</em></h2>
+      <span class="instrument">Instrument: the phrase</span>
+      <figure class="plate" data-plate="fd-c4"><img class="ph" src="assets/plates/fd-c4.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Dancers on stilts, Pennsylvania Avenue, Washington · the deed to a dance</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="fd-c4,x-tavern,x-harlem43b" style="margin-top:28px">
+        <p class="lead">WorldStarHipHop launched on August 9, 2005, founded by Lee "Q" O'Denat of Hollis, Queens; by 2011 it averaged 1.2 million unique visitors a day. O'Denat died in January 2017 at 43. The site's current listed owner is MediaLab AI; a reported 2017 sale to Paramount does not appear in the record and this page does not use it.<sup class="src"><a href="#s14">14</a>, <a href="#s15">15</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>In June 2014 Kayla Newman, sixteen, posting as Peaches Monroee, said "eyebrows on fleek" in a six-second Vine. The phrase went through advertising and the language; she "remained unknown and uncompensated." In February 2017 she opened a GoFundMe for a cosmetics line.<sup class="src"><a href="#s16">16</a></sup> <span class="tag t-fact">Fact</span>Pew's January 2014 report found 22 percent of Black internet users on Twitter against 16 percent of white users; 40 against 28 among 18-to-29-year-olds.<sup class="src"><a href="#s17">17</a></sup> <span class="tag t-inf">Inference</span>Black Twitter's overindex is measured, not folklore, and it is the engine of the phrase economy. A phrase cannot be registered. Neither could the Vine, which closed in January 2017 and took its archive with it.<sup class="src"><a href="#s25">25</a></sup></p>
+      </div>
+      <section aria-labelledby="h-fleek">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-fleek">Who got paid for "on fleek"</h3><p class="sub">The record names the creator and the outcome. It does not name the brands or their revenue, so the page does not draw them.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="readout" id="fk-ro"></div>
+      <div class="verdict"><b>Reading</b>The Vine was six seconds; the phrase lasted years; the compensation was a crowdfunding page three years later. The deed to a phrase does not exist in copyright, and a sixteen-year-old had no trademark lawyer. Commonly cited brand uses (restaurant chains' tweets) are single-sourced and are not shown as fact.<sup class="src"><a href="#s16">16</a></sup></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-over">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-over">The overindex</h3><p class="sub">Pew's 2013 numbers. Pick the age band.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="seg" role="group" aria-label="Band" id="ov-seg"><button aria-pressed="true" data-k="all">ALL INTERNET USERS</button><button aria-pressed="false" data-k="young">AGES 18–29</button></div>
+      <div class="bars" id="ov-bars"></div>
+      <div class="verdict" id="ov-v"></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 5 ============ -->
+  <article class="chapter" id="c5" data-ch="5" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 5 of 7</span><span><b>2018–2024</b></span><span>Atlanta · the Copyright Office · the Ninth Circuit</span><span>Standalone</span></div>
+      <h2>The <em>Dance</em></h2>
+      <span class="instrument">Instrument: the copyright registration</span>
+      <figure class="plate" data-plate="fd-c5"><img class="ph" src="assets/plates/fd-c5.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> An open bank vault · the pro-rata pool</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="fd-c5,x-regal,x-palm" style="margin-top:28px">
+        <p class="lead">Lil Nas X bought the beat for "Old Town Road" from the Dutch producer YoungKio for $30 in late 2018. The song went up on December 3; the "Yeehaw Challenge" started on TikTok within weeks; Columbia signed him on March 22, 2019. On March 27 Billboard removed it from Hot Country Songs at No. 19: it "does not embrace enough elements of today's country music to chart in its current version." It then spent nineteen consecutive weeks at No. 1 on the Hot 100, the record, and went Diamond.<sup class="src"><a href="#s18">18</a>, <a href="#s19">19</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>Jalaiah Harmon, fourteen, created the "Renegade" in 2019; the <em>Times</em> profiled her in February 2020 after others had gone viral on it uncredited. On March 26, 2021 Addison Rae performed eight TikTok dances on <em>The Tonight Show</em> without on-air credit to their creators; in June 2021 Black creators refused to choreograph Megan Thee Stallion's "Thot Shit" ("This app would be nothing without Black people"). Keara Wilson registered her "Savage" choreography; a law professor called it "largely symbolic."<sup class="src"><a href="#s20">20</a>, <a href="#s21">21</a>, <a href="#s24">24</a></sup></p>
+      </div>
+      <section aria-labelledby="h-dd">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-dd">The deed to a dance</h3><p class="sub">Five cases, 2018 to 2023. Step through what the law said each time.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="stepper" id="dd2">
+        <div class="steps" role="tablist" aria-label="Case">
+          <button role="tab" aria-pressed="true" data-i="0">DEC 2018 · 2 MILLY</button>
+          <button role="tab" aria-pressed="false" data-i="1">FEB 2019 · THE CARLTON</button>
+          <button role="tab" aria-pressed="false" data-i="2">MAR 2019 · FOURTH ESTATE</button>
+          <button role="tab" aria-pressed="false" data-i="3">2021 · THE STRIKE</button>
+          <button role="tab" aria-pressed="false" data-i="4">NOV 2023 · HANAGAMI</button>
+        </div>
+        <div class="step-body" id="dd2-body"></div>
+        <div class="verdict" id="dd2-v"><b>Reading</b>Emotes were sold; the dancers were unpaid; the Black plaintiffs lost on registration grounds before the doctrine shifted, and the plaintiff who shifted it was a registered professional choreographer. The door is open now. It was closed when the people in this chapter knocked.<sup class="src"><a href="#s22">22</a>, <a href="#s23">23</a>, <a href="#s26">26</a></sup></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-beat">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-beat">The $30 beat</h3><p class="sub">What a lease bought, and what the record does and does not say about who was paid after.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="readout" id="bt-ro"></div>
+      <div class="verdict"><b>Reading</b>The marketplace lease is the platform era's one-cent contract from Episode 1: a flat price for the thing that becomes the hit. The record shows the lease, the chart statement, the nineteen weeks and the Diamond certification. It does not show the producer's eventual terms, the sample clearance to Nine Inch Nails, or the split, so the page draws none of them.<sup class="src"><a href="#s18">18</a></sup></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="fd-c5,x-regal,x-palm" style="margin-top:36px">
+        <p class="pull">"Reducing choreography to 'poses' would be akin to reducing music to just 'notes.'"<small>Ninth Circuit, Hanagami v. Epic Games, November 1, 2023 · T1</small></p>
+        <div class="desk"><b>Desk note · Episode 1</b>Clear the Sample, Episode 1's game, is the same mechanism one layer down: the ruling that policed a genre, and the circuit split still unresolved. <a href="the-chain-of-title.html#c6">Thou Shalt Not Steal</a>.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 6 ============ -->
+  <article class="chapter" id="c6" data-ch="6" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 6 of 7</span><span><b>2017–2025</b></span><span>Stockholm · Cupertino · Paris · Nashville</span><span>Standalone</span></div>
+      <h2>The Rate <em>Card</em></h2>
+      <span class="instrument">Instrument: the pro-rata pool</span>
+      <figure class="plate" data-plate="fd-c6"><img class="ph" src="assets/plates/fd-c6.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> A California studio lot from the air · the creator's deed</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="fd-c6,x-capitol,x-atlanta" style="margin-top:28px">
+        <p class="lead">In 2017 R&amp;B and hip-hop passed rock as the largest genre in the United States by total consumption for the first time: 30 percent of on-demand audio streams, eight of the top ten artists, in the year streaming became 54 percent of audio consumption. The genre became the business the year streaming became the business.<sup class="src"><a href="#s30">30</a></sup> By 2023 it was 25.3 percent of the market and falling; in 2024 still the largest, "more than one in four" streams.<sup class="src"><a href="#s31">31</a>, <a href="#s32">32</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>Apple Music told artists in April 2021 that it pays about a cent a stream, "roughly double" Spotify's commonly cited $0.003 to $0.005.<sup class="src"><a href="#s33">33</a></sup> <span class="tag t-fact">Fact</span>From April 1, 2024 Spotify stopped paying on tracks under 1,000 annual streams, saying 99.5 percent of streams were unaffected; its total payouts went from $1 billion in 2014 to $10 billion in 2024.<sup class="src"><a href="#s34">34</a>, <a href="#s35">35</a></sup> <span class="tag t-inf">Inference</span>The per-stream rate is derived, not contractual: the label holds the contract, the pool is divided by the total, and the 1,000-stream floor demonetizes exactly the tail where a new independent artist starts.</p>
+      </div>
+      <section aria-labelledby="h-pool">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-pool">The pro-rata pool</h3><p class="sub">An illustrative pool. Set your streams, add the machine uploads, apply the floor, and watch your share.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ctrl">
+        <label for="pp-s">Your track's streams this year<input type="range" id="pp-s" min="100" max="2000000" step="100" value="50000"><output id="pp-so"></output></label>
+        <label for="pp-ai">Share of the pool's plays on machine uploads<input type="range" id="pp-ai" min="0" max="40" step="1" value="10"><output id="pp-aio"></output></label>
+        <label class="switch" style="align-self:end"><input type="checkbox" id="pp-th" checked> The 1,000-stream floor</label>
+      </div>
+      <div class="pool" id="pp-ro"></div>
+      <div class="verdict" id="pp-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="fd-c6,x-capitol,x-atlanta" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>Discovery Mode, announced November 2020, trades algorithmic priority for a lower royalty; in June 2021 the chair of the House Judiciary Committee and the chair of its IP subcommittee wrote to Spotify's chief executive asking for answers; critics called it payola.<sup class="src"><a href="#s36">36</a></sup> In February 2021 the Mechanical Licensing Collective received $424.38 million in historical unmatched royalties from the services, money owed to songwriters nobody had matched.<sup class="src"><a href="#s37">37</a></sup> In September 2023 Universal and Deezer launched an "artist-centric" model that double-weights professional artists and demonetizes noise.<sup class="src"><a href="#s38">38</a></sup> <span class="tag t-inf">Inference</span>The pool's rules are rewritten by the largest label and a small service, by a platform's feature, and by a committee letter. The artist's share is set in rooms the artist is not in. Episode 2's "DJ cut in as co-writer" is Discovery Mode with the sign reversed.</p>
+        <p><span class="tag t-fact">Fact</span>Deezer's deliveries of fully AI-generated tracks went from 10,000 a day in February 2025 to 50,000 in November; 28 percent of uploads by September; up to 70 percent of the plays on them detected as fraudulent; in a nine-thousand-person survey, 97 percent could not tell them from human music. Spotify removed 75 million "spammy" tracks in twelve months and adopted an impersonation policy and an AI-disclosure standard in September 2025.<sup class="src"><a href="#s39">39</a>, <a href="#s40">40</a>, <a href="#s41">41</a></sup></p>
+      </div>
+      <section aria-labelledby="h-share">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-share">Share vs. ownership</h3><p class="sub">The genre's share of what is consumed against the share of the rooms it is consumed in. Toggle.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="seg" role="group" aria-label="Measure" id="sh-seg"><button aria-pressed="true" data-k="share">GENRE SHARE OF STREAMS</button><button aria-pressed="false" data-k="own">OWNERSHIP OF THE ROOM</button></div>
+      <div class="bars" id="sh-bars"></div>
+      <div class="verdict" id="sh-v"></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 7 ============ -->
+  <article class="chapter" id="c7" data-ch="7" data-state="open">
+    <div class="col">
+      <div class="where"><span>Exhibit 7 of 7</span><span><b>2007–2026</b></span><span>San Bruno · Culver City · the joint venture</span><span>Watch layer</span></div>
+      <h2>The Creator's <em>Deed</em></h2>
+      <span class="instrument">Instrument: the partner program</span>
+      <figure class="plate" data-plate="fd-c7"><img class="ph" src="assets/plates/fd-c7.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The 35-ton former bank vault at the Kansas City Central Library · who owns the room now</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="fd-c7,x-times,x-paramount" style="margin-top:28px">
+        <p class="lead">YouTube's Partner Program began in 2007 on a 55/45 split and paid more than $70 billion to creators, artists and media companies in the three years 2021 to 2023, by its chief executive's letter: the largest documented creator payout in the record, with no racial breakdown published.<sup class="src"><a href="#s42">42</a></sup> TikTok's Creator Fund, launched in 2020 as a $200 million U.S. pool inside a $1 billion pledge, was a fixed pot: one creator reported 2.5 cents per thousand views. It ended on December 16, 2023, replaced by a program that pays only on videos longer than a minute.<sup class="src"><a href="#s43">43</a>, <a href="#s44">44</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The only widely cited hard number on race: a 2021 MSL/Influencer League study of more than 400 influencers found a 35 percent pay gap between white and Black creators, and 23 percent of Black influencers in the macro tier against 41 percent of white.<sup class="src"><a href="#s45">45</a></sup> Goldman Sachs put the creator economy at about $250 billion in 2023, approaching $480 billion by 2027.<sup class="src"><a href="#s46">46</a></sup> <span class="tag t-watch">Watch</span>No rigorous study of Black creators' share after 2021 was found; a 2025 figure in circulation is single-sourced and not used.</p>
+      </div>
+      <section aria-labelledby="h-fund">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-fund">The fund vs. the split</h3><p class="sub">The same million views on three deeds: a fixed fund, a revenue split, a direct subscription. The record gives one rate for each.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ctrl">
+        <label for="fs-v">Views this month<input type="range" id="fs-v" min="100000" max="20000000" step="100000" value="1000000"><output id="fs-vo"></output></label>
+        <label for="fs-f">Fans who would pay $5 a month (per 1,000 viewers)<input type="range" id="fs-f" min="1" max="50" step="1" value="5"><output id="fs-fo"></output></label>
+      </div>
+      <div class="bars" id="fs-bars"></div>
+      <div class="verdict" id="fs-v2"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="fd-c7,x-times,x-paramount" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>The deed can travel with the creator. <em>The Misadventures of Awkward Black Girl</em> premiered on YouTube on February 3, 2011; a Kickstarter raised $56,269 from 1,960 backers that August; the second season ran on Pharrell's channel; <em>Insecure</em> ran on HBO from 2016 to 2021.<sup class="src"><a href="#s47">47</a></sup> Joe Budden left a Spotify exclusive in September 2020, saying the service was "pillaging" his audience, and took the podcast to Patreon in February 2021 as its head of creator equity, at $5, $10 and $25 tiers.<sup class="src"><a href="#s48">48</a></sup> Marsai Martin signed a Universal first-look deal at fourteen.<sup class="src"><a href="#s49">49</a></sup> <span class="tag t-inf">Inference</span>Three creators who kept the deed by moving the audience rather than the work: the platform was the proving ground, the next room was theirs.</p>
+      </div>
+      <section aria-labelledby="h-who">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-who">Who owns the room now</h3><p class="sub">The ownership of TikTok's American operation as of the dateline, and the label's terms for being on it. Reported as corporate fact.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="bars" id="jv-bars"></div>
+      <div class="readout" id="jv-ro"></div>
+      <div class="verdict"><b>Watch · as of Oct 30, 2026</b>TikTok USDS Joint Venture LLC, signed January 22, 2026: ByteDance 19.9 percent; Oracle, Silver Lake and MGX 15 percent each; the algorithm retrained on U.S. data in Oracle's cloud; a reported valuation of about $14 billion, roughly one year of U.S. revenue. Universal's catalog had left the platform on February 1, 2024 and returned on May 2 under a deal with AI protections and undisclosed royalty terms. The room's deed changed hands twice in two years; the creators' terms did not change once.<sup class="src"><a href="#s27">27</a>, <a href="#s28">28</a>, <a href="#s29">29</a></sup></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="fd-c7,x-times,x-paramount" style="margin-top:36px">
+        <p class="pull">The platform was the proving ground. The next room was theirs.<small>Inference · the three creators who moved the audience, not the work</small></p>
+        <div class="desk"><b>Desk note · Episode 2</b>The Royal Peacock on Auburn Avenue was a venue, a hotel and the promoters on one street. Patreon at $5 a month is the same closed loop with the street removed. <a href="the-circulating-dollar.html#c1">The Inside Dollar</a>.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CLOSING ============ -->
+  <section aria-labelledby="h-close" style="margin-top:120px">
+    <div class="col sec-head">
+      <span class="eyebrow">Closing</span>
+      <h2 id="h-close">Three findings, <em>one direction</em></h2>
+      <p class="sub">What the record supports, and what it does not.</p>
+    </div>
+    <div class="col stack">
+      <p>The creator was in the room and the deed was negotiated without them: by a label and a platform, by a chart's formula, by a fund's fixed pot, by a joint venture's cap table. The thing that made the hit could not be registered until a professional choreographer registered one. The genre became the business the year streaming did, and the rate card was written for the pool. What the record also shows is the way out that worked every time it was tried: the creators who kept the deed moved the audience, not the work. Prince's club, Issa Rae's channel, Joe Budden's tiers, Nipsey's $100 tape. The platform was the proving ground. The next room was theirs.</p>
+    </div>
+    <div class="sides" style="margin-top:28px">
+      <div class="side gold"><h3>What the record supports</h3><ul>
+        <li>The House transcript, the Radio One 8-K, the Billboard statement, the Ninth Circuit opinion, the MLC's $424 million and the Spotify threshold are primary (T1) or contemporaneous press (T2).</li>
+        <li>The pay gap (35 percent) is the one measured number on race in the creator economy, from a 400-person 2021 study.</li>
+        <li>Every platform ownership change is dated to a filing or a company statement.</li>
+      </ul></div>
+      <div class="side tagb"><h3>What it does not</h3><ul>
+        <li>"First internet No. 1," "first album released online," "first artist made by Napster" and BlackPlanet's "one million by 2001" are contested or unverified and are not asserted.</li>
+        <li>The brands that used "on fleek," the producer's eventual terms on the $30 beat, and the UMG–TikTok royalty rate are not public and are not drawn.</li>
+        <li>No rigorous study of Black creators' share of platform income after 2021 was found; the page says so rather than fill it.</li>
+      </ul></div>
+    </div>
+    <div class="col" style="margin-top:28px">
+      <div class="crumbs" aria-label="Related reading on this site">
+        <a href="the-chain-of-title.html"><i>EP·1</i>The Chain of Title</a>
+        <a href="the-circulating-dollar.html"><i>EP·2</i>The Circulating Dollar</a>
+        <a href="the-terms.html"><i>EP·3</i>The Terms</a>
+        <a href="the-dilution.html"><i>EP·5</i>The Dilution</a>
+        <a href="the-chain-of-title.html#c6"><i>EP·1·06</i>Clear the Sample</a>
+        <a href="episode-12-the-governance-layer.html"><i>S2·12</i>The Governance Layer</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="sources">
+    <p><b>INFERA · MECHANISM SERIES · THE FEED · Episode 4 of a standalone mini-series · Seven exhibits, original reporting from the public record · © Infera 2026.</b></p>
+    <p style="margin-top:10px"><b>Method.</b> SVNIF: every claim carries Fact, Reported, Inference or Watch. Source tiers: T1 primary document, court record, statute, filing or company statement · T2 major press or peer-reviewed scholarship · T3 reputable secondary reference · T4 trade press or single-source. Platform ownership changes are reported as corporate facts. Several "first ever" claims in this history are contested and are listed under disputes rather than asserted.</p>
+    <ol>
+      <li id="s1"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Napster">Napster</a> (launch, suit, 26.4M measured peak, injunction, shutdown, settlement, bankruptcy).</li>
+      <li id="s2"><span class="tier">T2</span> BetaNews, Apr 26, 2000, <a href="https://betanews.com/2000/04/26/dr-dre-files-suit-against-napster">Dr. Dre files suit against Napster</a>; The Register, Apr 27, 2000.</li>
+      <li id="s3"><span class="tier">T2/T3</span> Salon, Jun 1, 1999, <a href="https://salon.com/1999/06/01/hiphop">Public Enemy and Atomic Pop</a>; Wikipedia, <em>There's a Poison Goin' On</em>.</li>
+      <li id="s4"><span class="tier">T1</span> GovInfo, House Small Business Committee hearing, May 24, 2000, <a href="https://www.govinfo.gov/content/pkg/CHRG-106hhrg67148/html/CHRG-106hhrg67148.htm">"Online Music: Will Small Music Labels and Entrepreneurs Prosper in the Internet Age?"</a> (Chuck D's testimony).</li>
+      <li id="s5"><span class="tier">T2</span> CNN, Jul 11, 2000, <a href="https://edition.cnn.com/2000/ALLPOLITICS/stories/07/11/napster.hearing/index.html">the Senate Judiciary Napster hearing</a>.</li>
+      <li id="s6"><span class="tier">T3/T2</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/NPG_Music_Club">NPG Music Club</a>; MTV News, 2001.</li>
+      <li id="s7"><span class="tier">T2</span> XXL, <a href="https://www.xxlmag.com/today-in-hip-hop-50-cent-signs-record-deal-eminem-dr-dre/">50 Cent signs with Shady/Aftermath</a> (the mixtape; 872,000 first week).</li>
+      <li id="s8"><span class="tier">T2</span> Red Bull Music Academy Daily, 2016, <a href="https://daily.redbullmusicacademy.com/2016/08/dj-drama-mixtape-feature">the DJ Drama raid and the mixtape economy</a>; AV Club, Jan 2007.</li>
+      <li id="s9"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/BlackPlanet">BlackPlanet</a>.</li>
+      <li id="s10"><span class="tier">T1</span> Radio One, Form 8-K, April 2008, <a href="https://www.sec.gov/Archives/edgar/data/0001041657/000104165708000015/form8-k.htm">acquisition of Community Connect</a>; Chicago Defender/AP, the $38 million.</li>
+      <li id="s11"><span class="tier">T2</span> NPR, Jun 29, 2011, <a href="https://www.npr.org/sections/thetwo-way/2011/06/29/137509647/news-corp-takes-huge-loss-selling-myspace-for-35-million">News Corp sells MySpace for $35 million</a>.</li>
+      <li id="s12"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Crank_That_(Soulja_Boy)">Crank That</a> (MySpace date, chart run, 3 million downloads, Grammy nomination).</li>
+      <li id="s13"><span class="tier">T2</span> Gigwise, Jun 24, 2008, <a href="https://gigwise.com/news/44103/Kanye-West-Backs-Soulja-Boy-In-War-Of-Words-With-Ice-T">Kanye West backs Soulja Boy in war of words with Ice-T</a>.</li>
+      <li id="s14"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/WorldStarHipHop">WorldStarHipHop</a> (launch, 1.2M daily uniques, current owner).</li>
+      <li id="s15"><span class="tier">T2</span> The Fader, Jan 24, 2017, <a href="https://www.thefader.com/2017/01/24/worldstarhiphop-lee-q-odenat-dead">Lee "Q" O'Denat</a>; The Ringer, Jan 24, 2017.</li>
+      <li id="s16"><span class="tier">T2</span> The Fader, Feb 20, 2017, <a href="https://www.thefader.com/2017/02/20/eyebrows-on-fleek-peaches-monroee-gofundme">"Eyebrows on fleek" creator launches GoFundMe</a>; Paper, Feb 2017.</li>
+      <li id="s17"><span class="tier">T2</span> Adweek, Jan 2014, <a href="https://www.adweek.com/?p=444984">Pew: African Americans and technology use</a>; Adweek, Feb 2013, Twitter demographics.</li>
+      <li id="s18"><span class="tier">T3/T2</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Old_Town_Road">Old Town Road</a>; Good Morning America, 2019, the $30 beat.</li>
+      <li id="s19"><span class="tier">T2</span> The Fader, Mar 27, 2019, <a href="https://www.thefader.com/2019/03/27/lil-nas-x-old-town-road-billboard-country-chart-removal">Billboard's statement on the chart removal</a>.</li>
+      <li id="s20"><span class="tier">T2</span> Refinery29, Mar 2021, <a href="https://www.refinery29.com/en-us/2021/03/10395976/addison-rae-jimmy-fallon-tiktok-credit-black-choreographers-backlash">the Tonight Show segment and Jalaiah Harmon</a>; Atlanta Black Star, Mar 31, 2021.</li>
+      <li id="s21"><span class="tier">T2</span> Rolling Stone, Jun 2021, <a href="https://www.rollingstone.com/culture/culture-features/black-creator-tiktok-strike-dance-law-1334553/">the Black creator strike and the law of the dance</a>; Revolt, Jun 24, 2021.</li>
+      <li id="s22"><span class="tier">T2</span> Law.com, Feb 15, 2019, <a href="https://law.com/2019/02/15/copyright-office-says-smell-ya-later-to-alfonso-ribeiros-carlton-dance-claim">the Copyright Office's "Carlton" refusal</a>; Revolt, Mar 9, 2019.</li>
+      <li id="s23"><span class="tier">T2</span> Law.com, Dec 11, 2018, <a href="https://law.com/2018/12/11/2-milly-sues-epic-games-over-alleged-swiping-of-milly-rock-moves-for-fortnite">2 Milly sues Epic</a>; PC Gamer, Mar 2019, the suits dropped after <em>Fourth Estate</em>.</li>
+      <li id="s24"><span class="tier">T1</span> Supreme Court, <em>Fourth Estate Public Benefit Corp. v. Wall-Street.com</em>, Mar 4, 2019.</li>
+      <li id="s25"><span class="tier">T3</span> Wikipedia, Vine (2013–17); YouTube (2005); Vevo (2009).</li>
+      <li id="s26"><span class="tier">T1/T2</span> Ninth Circuit, <em>Hanagami v. Epic Games</em>, Nov 1, 2023, via <a href="https://blog.ericgoldman.org/archives/2023/11/ninth-circuit-revives-choreography-copyright-claims-over-fortnite-emotes-hanagami-v-epic.htm">Eric Goldman</a> and Stanford Fair Use.</li>
+      <li id="s27"><span class="tier">T2</span> Davis+Gilbert, Jan 2025, <a href="https://www.dglaw.com/tiktok-is-back-but-for-how-long-presidents-actions-raise-even-more-questions/">PAFACA, <em>TikTok v. Garland</em> and the January 2025 shutdown</a>.</li>
+      <li id="s28"><span class="tier">T2</span> Reuters via Daily Maverick, May 2, 2024, <a href="https://www.dailymaverick.co.za/article/2024-05-02-universal-music-group-artists-to-return-to-tiktok-after-new-licensing-pact">UMG artists return to TikTok</a>; Billboard via Yahoo.</li>
+      <li id="s29"><span class="tier">T2/T3</span> Reuters via RNZ, Jan 22, 2026, <a href="https://www.rnz.co.nz/news/world/584839/tiktok-seals-deal-for-new-us-joint-venture-to-avoid-american-ban">the TikTok USDS joint venture</a>; Sherwood, Sep 26, 2025, the reported valuation.</li>
+      <li id="s30"><span class="tier">T1/T2</span> Nielsen, 2017 U.S. Music Year-End Report (<a href="https://develop.nielsen.com/wp-content/uploads/sites/2/2019/04/2017-year-end-music-report-us.pdf">PDF</a>); Hypebot, Jan 4, 2018.</li>
+      <li id="s31"><span class="tier">T2</span> Billboard Pro, Jan 2024, <a href="https://billboard.com/pro/top-music-genres-2023-rankings-analysis">Luminate 2023 genre rankings</a>.</li>
+      <li id="s32"><span class="tier">T3</span> World Music Views, Jan 2025, <a href="https://worldmusicviews.com/luminate-2024-year-end-report-hip-hip-on-demand-streams-share-decrease-in-the-u-s">Luminate 2024 year-end</a>.</li>
+      <li id="s33"><span class="tier">T2</span> 9to5Mac, Apr 16, 2021, <a href="https://9to5mac.com/2021/04/16/apple-music-says-it-pays-one-cent-per-stream-roughly-twice-what-spotify-pays">Apple Music's letter to artists</a>; Hypebot, the full letter.</li>
+      <li id="s34"><span class="tier">T1/T2</span> Spotify for Artists, <a href="https://support.spotify.com/ls/artists/article/track-monetization-eligibility/">track monetization eligibility</a>; RightsTech, Apr 2024.</li>
+      <li id="s35"><span class="tier">T2</span> eWeek, Sep 2025, <a href="https://www.eweek.com/news/spotify-removes-spam-ai-tracks/">Spotify's payouts and the 75 million tracks removed</a>.</li>
+      <li id="s36"><span class="tier">T2</span> Music Business Worldwide, Jun 2021, <a href="https://www.musicbusinessworldwide.com/house-judiciary-committee-questions-spotify-about-its-discovery-mode-tool">the House Judiciary letter on Discovery Mode</a>; Grammy.com, 2021.</li>
+      <li id="s37"><span class="tier">T1</span> The MLC, Feb 2021, <a href="https://blog.themlc.com/press/mechanical-licensing-collective-receives-424-million-historical-unmatched-royalties-digital">$424 million in historical unmatched royalties</a>; NMPA.</li>
+      <li id="s38"><span class="tier">T1/T2</span> Deezer newsroom, Sep 6, 2023, <a href="https://newsroom-deezer.com/2023/09/universal-music-group-and-deezer-to-launch-the-first-comprehensive-artist-centric-music-streaming-model/">the artist-centric model</a>; Billboard.</li>
+      <li id="s39"><span class="tier">T1/T2</span> Deezer newsroom, Nov 2025, <a href="https://newsroom-deezer.com/2025/11/deezer-ipsos-survey-ai-music/">Deezer/Ipsos survey on AI music</a>; DJ Mag, Nov 12, 2025.</li>
+      <li id="s40"><span class="tier">T2</span> eWeek, Sep 2025 (above), the 70 percent fraud figure.</li>
+      <li id="s41"><span class="tier">T2</span> Mixmag, Sep 25, 2025, <a href="https://mixmag.net/read/spotify-ai-artificial-intelligence-crackdown-policies-news">Spotify's AI policies</a>.</li>
+      <li id="s42"><span class="tier">T1/T2</span> YouTube, 2024 U.S. Impact Report (<a href="https://blog.youtube/news-and-events/2024-us-youtube-impact-report/">blog</a>); Forbes Australia, the $70 billion.</li>
+      <li id="s43"><span class="tier">T2</span> Tubefilter, Nov 7, 2023, <a href="https://tubefilter.com/2023/11/07/tiktok-shutting-down-creator-fund-creativity-program/">TikTok shutting down the Creator Fund</a>; Engadget.</li>
+      <li id="s44"><span class="tier">T2</span> TechCrunch, Feb 20, 2023, <a href="https://techcrunch.com/2023/02/20/tiktok-revamped-creator-fund-creativity-program-beta/">the Creativity Program Beta</a>.</li>
+      <li id="s45"><span class="tier">T2</span> MSL, Dec 6, 2021, <a href="https://mslgroup.com/whats-new-at-msl/msl-study-reveals-racial-pay-gap-influencer-marketing">the racial pay gap in influencer marketing</a>; NBC News.</li>
+      <li id="s46"><span class="tier">T1</span> Goldman Sachs, Apr 2023, <a href="https://www.goldmansachs.com/intelligence/pages/the-creator-economy-could-approach-half-a-trillion-dollars-by-2027.html">the creator economy could approach half a trillion dollars</a>.</li>
+      <li id="s47"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Awkward_Black_Girl">The Misadventures of Awkward Black Girl</a>.</li>
+      <li id="s48"><span class="tier">T2</span> Music Business Worldwide, Feb 2021, <a href="https://www.musicbusinessworldwide.com/after-leaving-spotify-last-year-joe-budden-takes-podcast-to-patreon-joins-firm-as-head-of-creator-equity">Joe Budden to Patreon</a>; Rap-Up, Aug 27, 2020.</li>
+      <li id="s49"><span class="tier">T2</span> Vibe, Feb 2019, <a href="https://www.vibe.com/2019/02/marsai-martin-universal-deal-makes-history">Marsai Martin's Universal deal</a>; Black Enterprise, Nov 2020.</li>
+      <li id="s50"><span class="tier">FURTHER READING</span> Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026). Nothing on this page is drawn from it.</li>
+    </ol>
+    <p>Hero and charts are drawn in code from the figures above. The seven plates are archival photographs in the public domain or with no known restrictions (Library of Congress), each credited in its caption and in assets/plates/credits.json; none depicts an identifiable public figure. Contact: infera@melophon.com.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fmt=function(n){return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")};
+  var esc=function(s){return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})};
+  var money=function(n){return n>=1e12?"$"+(n/1e12).toFixed(1)+"T":n>=1e9?"$"+(n/1e9).toFixed(n>=1e10?0:1)+"B":n>=1e6?"$"+(n/1e6).toFixed(n>=1e8?0:1)+"M":n>=1000?"$"+fmt(n):"$"+n.toFixed(2)};
+  function seg(id,fn){var s=$(id);if(!s)return;$$("button",s).forEach(function(b){b.addEventListener("click",function(){$$("button",s).forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});fn(b.dataset.k||b.dataset.i||b.dataset.y)})})}
+
+  /* ---------- hero ---------- */
+  (function(){
+    var c=$("#circuitcanvas");if(!c)return;var ctx=c.getContext("2d");var W,H,t=0,dots=[];
+    function size(){var r=c.parentElement.getBoundingClientRect();W=c.width=Math.max(320,Math.floor(r.width));H=c.height=Math.max(300,Math.floor(r.height))}
+    size();window.addEventListener("resize",size);
+    for(var i=0;i<70;i++)dots.push({a:Math.random()*Math.PI*2,v:.0025+Math.random()*.003,r:Math.random()});
+    var N=5,CUT0=Math.PI*1.15,CUT1=Math.PI*1.45;
+    function draw(){
+      ctx.clearRect(0,0,W,H);var cx=W*.68,cy=H*.46,R=Math.min(W,H)*.34;var blink=reduce?0:(Math.sin(t*.06)*.5+.5);
+      ctx.lineWidth=1.2;
+      for(var s=0;s<120;s++){var a0=s/120*Math.PI*2,a1=(s+1)/120*Math.PI*2;var inCut=a0>CUT0&&a0<CUT1;ctx.strokeStyle=inCut?"rgba(192,94,60,"+(0.25+blink*.45)+")":"rgba(201,162,39,.55)";ctx.setLineDash(inCut?[3,5]:[]);ctx.beginPath();ctx.arc(cx,cy,R,a0,a1);ctx.stroke()}
+      ctx.setLineDash([]);ctx.strokeStyle="rgba(124,192,150,.45)";ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,R*.78,CUT0-.15,CUT1+.15);ctx.stroke();
+      var names=["CREATOR","THE FEED","AUDIENCE","ADVERTISER · INVESTOR","LABEL · BRAND"];
+      for(var n=0;n<N;n++){var a=-Math.PI/2+n/N*Math.PI*2;var x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R;ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle="#14110d";ctx.fill();ctx.strokeStyle="rgba(236,227,208,.9)";ctx.lineWidth=1.4;ctx.stroke();ctx.font="10px 'Space Mono',monospace";ctx.fillStyle="rgba(168,157,136,.9)";ctx.textAlign=Math.cos(a)>.2?"left":Math.cos(a)<-.2?"right":"center";ctx.fillText(names[n],x+Math.cos(a)*16,y+Math.sin(a)*16+4)}
+      dots.forEach(function(d){if(!reduce)d.a+=d.v;var inCut=((d.a%(Math.PI*2))+Math.PI*2)%(Math.PI*2);var cut=inCut>CUT0&&inCut<CUT1;var rr=cut?R*.78:R;var x=cx+Math.cos(d.a)*rr,y=cy+Math.sin(d.a)*rr;ctx.beginPath();ctx.arc(x,y,cut?1.4:2,0,Math.PI*2);ctx.fillStyle=cut?"rgba(124,192,150,.8)":"rgba(201,162,39,"+(0.5+d.r*.5)+")";ctx.fill()});
+      t++;if(!reduce)requestAnimationFrame(draw)}
+    draw()
+  })();
+
+  /* ---------- rail ---------- */
+  (function(){
+    var links=$$(".rail a");$$(".chapter").forEach(function(ch){var a=links.filter(function(l){return l.dataset.ch===ch.dataset.ch})[0];if(a)a.classList.add(ch.dataset.state)});
+    if(!("IntersectionObserver" in window))return;
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("active",a.dataset.ch===e.target.dataset.ch)})}})},{rootMargin:"-40% 0px -50% 0px"});
+    $$(".chapter").forEach(function(ch){io.observe(ch)})
+  })();
+
+  /* ---------- your first feed ---------- */
+  (function(){
+    var F=[[1999,"Napster","Nobody. The network traded files and the labels sued; it was dark by July 2001.","#c1"],[2003,"The mixtape and MySpace","The mixtape: deliberately nobody's. MySpace: News Corp, from 2005, for $580 million.","#c2"],[2007,"MySpace and YouTube","MySpace's parent; YouTube's Partner Program split 55/45 from 2007; the labels' Vevo window from 2009.","#c3"],[2013,"Vine and Twitter","Twitter owned Vine; the archive closed with it in 2017. A phrase could not be registered.","#c4"],[2018,"TikTok","ByteDance; then, from January 2026, a U.S. joint venture in which ByteDance holds 19.9 percent.","#c5"],[2024,"TikTok and the streaming pool","The joint venture, and a rate card written for the pool: a 1,000-stream floor from April 2024.","#c6"]];
+    var inp=$("#yy-year"),out=$("#yy-out");if(!inp)return;
+    function run(){var y=+inp.value;if(!(y>=1950&&y<=2012)){out.innerHTML="";return}var at=y+15;var f=null;for(var i=0;i<F.length;i++){if(F[i][0]<=at)f=F[i]}
+      if(!f){out.innerHTML='<div class="verdict"><b>At fifteen, in '+at+'</b>The room was a radio or a record store. This episode starts in 1999; Episode 2 has your room.</div>';return}
+      out.innerHTML='<div class="readout"><div class="ro"><span class="l">You turned fifteen in</span><span class="v gold">'+at+'</span><span class="s">the feed that was the room: <b>'+esc(f[1])+'</b></span></div><div class="ro"><span class="l">Who held its deed</span><span class="v" style="font-size:16px;line-height:1.4">'+esc(f[2])+'</span><span class="s"><a href="'+f[3]+'">Open the exhibit →</a></span></div></div>'}
+    inp.addEventListener("input",run);run()
+  })();
+
+  /* ---------- the engine ---------- */
+  (function(){
+    var cv=$("#en-canvas");if(!cv)return;
+    var N={P:{n:"CREATOR",a:-90},R:{n:"THE FEED",a:-18},A:{n:"AUDIENCE",a:54},B:{n:"LABEL · BRAND · FUND",a:126},O:{n:"ADVERTISER · INVESTOR",a:198}};
+    var E=[
+      ["P>R","the work: creator to the feed","in"],["R>A","the show: the feed to the audience","in"],["A>R","the habit: the audience's time and data to the feed","in"],["R>P","the payout: feed to creator (fund, split, nothing)","in"],
+      ["A>B","the sale: audience to label and brand","mv"],["B>R","the license and the ad buy: label and brand into the feed","mv"],["P>B","the signing: creator to label or brand","mv"],["B>P","the advance, the endorsement: label or brand to creator","mv"],
+      ["O>R","the ad dollar and the investor's dollar: into the feed","out"],["R>O","the margin: feed to its owners","ex"],["O>P","the outside dollar straight to the creator","out"],["P>O","the crossing: the work to the outside audience","in"],
+      ["O>B","the investor into the label or brand","out"],["B>O","the label's share to its owners","mv"],["R>X","the deed leaves: sale, registration refused, undisclosed terms","ex"],["A>X","the withdrawal: the audience or the creators stop","mv"]
+    ];
+    var K=[
+      {y:"1999",t:"The open network",h:"Napster: distribution leaves the label building; nobody holds the deed",n:"26.4M",w:"Launched June 1, 1999; sued December 6; measured use peaked at 26.4 million in February 2001; dark July 11, 2001; $26 million to rights-holders on the way to bankruptcy. BlackPlanet launched the same September. Public Enemy put an album online first through Atomic Pop.",s:"FACT · T2/T3 · Exhibit 1",a:"#c1",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":0,"P>B":1,"B>P":1,"R>X":3},g:{deed:5,aud:90,ex:80,cap:30},valve:{n:"The injunction",open:false,who:"the court, for the labels"},v:"Two years in which the work moved without the deed. The labels recovered it through bankruptcy court, not a product."},
+      {y:"2000",t:"Two rooms in Washington",h:"Chuck D to the House; Dr. Dre to the court",n:"May 24",w:"Chuck D testified as founder of Rapstation.com that independent artists could \"control and own their own destiny\"; Dre, who owned his masters, sued Napster on April 26. The Senate hearing in July had no Black artist in the chair.",s:"FACT · T1/T2 · Exhibit 1",a:"#c1",f:{"P>R":3,"R>A":3,"A>R":3,"P>B":1,"B>P":1,"R>X":3,"P>O":1},g:{deed:15,aud:90,ex:70,cap:35},valve:{n:"The hearing room",open:true,who:"the committee that invited the distributor"},v:"The Black artists stood on both sides because they held different deeds: a producer-owner sued, a distributor testified."},
+      {y:"2001",t:"The direct deed",h:"NPG Music Club: $7.77 a month, about 400,000 members",n:"$7.77",w:"Prince opened the club on February 14, 2001 and closed it on July 4, 2006, twelve years before Patreon mattered. 50 Cent's free mixtape in 2002 set up an 872,000-copy week for a label in 2003.",s:"FACT · T2/T3 · Exhibits 1–2",a:"#c1",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":3,"A>B":2,"B>R":2,"P>B":2,"B>P":2},g:{deed:80,aud:40,ex:15,cap:50},valve:{n:"The subscription",open:true,who:"the artist"},v:"An artist sold the deed direct and kept it. The mixtape, next door, was the opposite: the deed deliberately nobody's, so the label could sign the result."},
+      {y:"2007",t:"The bedroom",h:"Crank That: seven weeks at No. 1, first to sell three million downloads",n:"3M",w:"Posted to MySpace February 25, 2007 with a how-to dance; signed to Interscope after the fact; the revenue was ringtones and downloads, the label's formats. The DJ Drama raid the month before seized 81,000 mixtapes with the RIAA in the room.",s:"FACT · T3 · Exhibits 2–3",a:"#c3",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"P>B":3,"B>P":2,"A>B":3,"O>R":2,"R>O":2},g:{deed:25,aud:95,ex:50,cap:70},valve:{n:"The signing, after the fact",open:true,who:"the label"},v:"The hit was made in a bedroom and monetized in the label's formats. The feed proved it; the label captured it."},
+      {y:"2008",t:"Two sales",h:"BlackPlanet to Radio One for $38 million; MySpace from $580 million to $35 million",n:"$38M",w:"Radio One's 8-K is on file; BlackPlanet had been Hitwise's fourth-largest U.S. social network in 2007. News Corp's MySpace lost 94 percent of its price by June 2011. Vevo opened the labels' window inside YouTube in 2009.",s:"FACT · T1/T2 · Exhibit 3",a:"#c3",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"O>R":3,"R>O":3,"B>R":3,"A>B":2,"R>X":2},g:{deed:20,aud:70,ex:60,cap:60},valve:{n:"The bill of sale",open:true,who:"a Black-owned broadcaster, once"},v:"A Black-founded room passed to a Black-owned company and survived; a white-owned one lost the habit and the price. The room is only worth the habit."},
+      {y:"2013",t:"The chart rule",h:"Billboard counts YouTube views; the Harlem Shake debuts at No. 1",n:"Mar 2",w:"The Hot 100 added official and user-made YouTube views in February 2013; Baauer's track debuted at No. 1 on the strength of user-made meme videos. The dance made the hit; the dance got nothing. Vine launched the same January.",s:"FACT · T2 · Exhibit 3",a:"#c3",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"B>R":3,"A>B":3,"O>R":3,"R>O":3,"R>X":3},g:{deed:10,aud:95,ex:70,cap:65},valve:{n:"The chart formula",open:true,who:"the trade paper"},v:"The audience's labor entered the chart's math and the producer's label collected. A rule change is a deed change."},
+      {y:"2014",t:"The meme",h:"\"Eyebrows on fleek\": six seconds, years of use, no compensation",n:"$0",w:"Kayla Newman, sixteen, posted the Vine in June 2014. Pew measured Black Twitter's overindex that year: 22 percent of Black internet users on the platform against 16 percent of white. In 2017 she opened a GoFundMe. WorldStar's founder died the same January.",s:"REPORTED / FACT · T2 · Exhibit 4",a:"#c4",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":0,"B>R":3,"A>B":3,"O>R":3,"R>O":3,"R>X":3,"P>O":3},g:{deed:0,aud:100,ex:85,cap:60},valve:{n:"Registration",open:false,who:"copyright, which does not cover a phrase"},v:"The phrase economy ran on Black Twitter's measured overindex and paid its authors nothing, because the deed to a phrase does not exist."},
+      {y:"2017",t:"The genre becomes the business",h:"R&B and hip-hop pass rock: 30 percent of on-demand streams",n:"30%",w:"Nielsen's 2017 year-end: the largest genre by consumption for the first time, eight of the top ten artists, in the year streaming became 54 percent of audio. UnitedMasters launched in November on $70 million led by Alphabet.",s:"FACT · T1/T2 · Exhibit 6",a:"#c6",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"B>R":3,"A>B":3,"O>R":3,"R>O":3,"B>O":2,"O>B":2},g:{deed:20,aud:100,ex:70,cap:80},valve:{n:"The pro-rata pool",open:true,who:"the label contract and the service"},v:"The genre carried the business; the per-stream rate was derived from a pool the artist's contract did not set."},
+      {y:"2019",t:"The dance",h:"Old Town Road: a $30 beat, a chart removal, nineteen weeks at No. 1",n:"19",w:"Billboard removed it from Hot Country Songs on March 27, 2019: it \"does not embrace enough elements of today's country music.\" The Copyright Office had refused the \"Carlton\" in February; the Fortnite emote suits were dropped after Fourth Estate in March. Jalaiah Harmon made the \"Renegade\" that year.",s:"FACT · T2 · Exhibit 5",a:"#c5",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"P>B":3,"B>P":2,"A>B":3,"B>R":3,"O>R":3,"R>O":3,"R>X":3},g:{deed:10,aud:100,ex:70,cap:75},valve:{n:"The registration, refused",open:false,who:"the Copyright Office"},v:"A $30 lease under the longest run in chart history; a dance that could not be registered; a chart that removed the song. The deed sat everywhere but with the people who made the thing move."},
+      {y:"2021",t:"The strike",h:"Black creators withhold the choreography; a 35 percent pay gap measured",n:"35%",w:"June 2021: Black TikTok creators refused to choreograph \"Thot Shit\" after the Tonight Show segment in March. MSL's December study of 400-plus influencers found a 35 percent white–Black pay gap. YouTube paid $70 billion to creators over 2021–23; TikTok's fund paid one creator 2.5 cents per thousand views.",s:"FACT · T2 · Exhibits 5, 7",a:"#c7",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":1,"A>X":3,"B>R":3,"A>B":3,"O>R":3,"R>O":3},g:{deed:15,aud:95,ex:70,cap:70},valve:{n:"The withdrawal",open:true,who:"the creators"},v:"Labor withheld because the deed could not be held. The oldest tool in Episode 2, run inside a feed."},
+      {y:"2023",t:"The door reopens",h:"Hanagami v. Epic: choreography is not just poses",n:"Nov 1",w:"The Ninth Circuit revived a professional choreographer's claim against Fortnite emotes; the Black plaintiffs of 2018–19 had lost on registration grounds before the doctrine shifted. The Creator Fund ended December 16; Universal and Deezer launched an artist-centric pool in September.",s:"FACT · T1/T2 · Exhibits 5–7",a:"#c5",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"P>B":2,"B>P":2,"A>B":3,"B>R":3,"O>R":3,"R>O":3,"R>X":2},g:{deed:35,aud:95,ex:65,cap:75},valve:{n:"The registration",open:true,who:"a registered professional"},v:"The door is open now. It was closed when the people in Exhibit 5 knocked."},
+      {y:"2024",t:"The rate card",h:"UMG pulls its catalog from TikTok; Spotify's 1,000-stream floor",n:"1,000",w:"February 1: Universal's catalog left TikTok over license terms; May 2: it returned with AI protections and undisclosed royalty terms, no artist at the table. April 1: Spotify stopped paying on tracks under 1,000 annual streams, 99.5 percent of streams unaffected. The divest-or-ban law passed April 24.",s:"FACT · T1/T2 · Exhibits 6–7",a:"#c6",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"B>R":3,"A>B":3,"O>R":3,"R>O":3,"B>O":3,"R>X":3},g:{deed:10,aud:100,ex:80,cap:85},valve:{n:"The license, label to platform",open:true,who:"the label and the feed"},v:"The deed to every artist's presence on the feed was settled label-to-platform. The floor demonetized the tail where new artists start."},
+      {y:"2026",t:"Who owns the room now",h:"TikTok USDS Joint Venture: ByteDance 19.9 percent; AI uploads 50,000 a day",n:"19.9%",w:"Signed January 22, 2026: Oracle, Silver Lake and MGX 15 percent each; the algorithm retrained in Oracle's cloud; reported valuation about $14 billion. Deezer's AI deliveries hit 50,000 a day in November 2025 with up to 70 percent of their plays fraudulent; Spotify removed 75 million spam tracks and adopted an impersonation policy.",s:"FACT / WATCH · T2/T3 · Exhibits 6–7",a:"#c7",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"B>R":3,"A>B":3,"O>R":3,"R>O":3,"O>B":2,"R>X":3},g:{deed:12,aud:100,ex:85,cap:80},valve:{n:"The cap table",open:true,who:"the joint venture"},v:"The room's deed changed hands twice in two years; the creators' terms did not change once. The pool is diluted by machines; the floor is still 1,000."}
+    ];
+var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
+    var ctx=cv.getContext("2d"),W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
+    function size(){var r=cv.getBoundingClientRect();W=Math.max(300,Math.floor(r.width));H=Math.max(300,Math.floor(r.height));cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0)}
+    size();window.addEventListener("resize",size);
+    var col={in:"201,162,39",out:"176,138,90",mv:"124,192,150",ex:"192,94,60"};
+    function pos(id){var cx=W/2,cy=H*(W<560?.44:.46),R=Math.min(W,H)*(W<560?.29:.36);if(id==="X")return {x:cx,y:cy+R*1.3};var a=N[id].a*Math.PI/180;return {x:cx+Math.cos(a)*R,y:cy+Math.sin(a)*R}}
+    function route(key){var a=pos(key[0]),b=pos(key[2]);var mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1;var off=key[0]<key[2]?1:-1;var bend=key[2]==="X"?0:L*.22*off;return {a:a,b:b,c:{x:mx-dy/L*bend,y:my+dx/L*bend}}}
+    function at(r,t){var u=1-t;return {x:u*u*r.a.x+2*u*t*r.c.x+t*t*r.b.x,y:u*u*r.a.y+2*u*t*r.c.y+t*t*r.b.y}}
+    E.forEach(function(e){cur[e[0]]=0;tgt[e[0]]=0});
+    function setK(i,animate){k=Math.max(0,Math.min(K.length-1,i));var f=K[k];E.forEach(function(e){tgt[e[0]]=f.f[e[0]]||0});lerpT=animate&&!reduce?0:1;if(lerpT===1)E.forEach(function(e){cur[e[0]]=tgt[e[0]]});
+      $("#en-k").value=k;$("#en-year").textContent=f.y;$("#en-k").setAttribute("aria-valuetext",f.y+" · "+f.t);$$("#en-years span").forEach(function(s,j){s.classList.toggle("on",j===k)});
+      $("#en-micro").innerHTML='<span class="eb">Micro · '+f.y+' · '+esc(f.t)+'</span><span class="h">'+esc(f.h)+'</span><span class="n">'+esc(f.n)+'</span><span class="w">'+esc(f.w)+'</span><span class="s"><span>'+esc(f.s)+'</span>'+(f.a?'<a href="'+f.a+'">Open the exhibit →</a>':'')+'</span>';
+      var g=f.g;$("#en-macro").innerHTML='<div class="g"><span class="l">The deed · with the creator</span><span class="m"><i style="width:'+g.deed+'%"></i></span><span class="v">'+(g.deed>=70?'the creator holds the deed':g.deed>=30?'shared, or contested':'held by the platform, label or nobody')+'</span></div>'+
+        '<div class="g"><span class="l">Audience in the feed</span><span class="m"><i style="width:'+g.aud+'%;--c:var(--kraft)"></i></span><span class="v">'+(g.aud>=80?'the habit at full':g.aud>=40?'building':'thin')+'</span></div>'+
+        '<div class="g"><span class="l">What leaves to the platform</span><span class="m"><i style="width:'+g.ex+'%;--c:var(--tag)"></i></span><span class="v">'+(g.ex>=80?'the margin and the deed':g.ex>=45?'the margin; some payout':'most of it reaches the creator')+'</span></div>'+
+        '<div class="g"><span class="l">Label · brand capture</span><span class="m"><i style="width:'+g.cap+'%;--c:var(--fact)"></i></span><span class="v">'+(g.cap>=80?'the label and the platform settle the terms':g.cap>=45?'signed after the fact':'no intermediary')+'</span></div>'+
+        '<div class="g valve'+(f.valve.open?' open':'')+'"><span class="l">The valve</span><span class="v"><b>'+(f.valve.open?'OPEN':'CLOSED')+'</b> · '+esc(f.valve.n)+' · held by '+esc(f.valve.who)+'</span></div>';
+      $("#en-edges").innerHTML=E.filter(function(e){return (f.f[e[0]]||0)>0}).map(function(e){var v=f.f[e[0]]||0;return '<div class="e"><span>'+esc(e[1])+'</span><span class="b"><i style="width:'+(v/3*100)+'%;--c:rgb('+col[e[2]]+')"></i></span></div>'}).join("");
+      $("#en-v").innerHTML="<b>Macro · "+f.y+" · "+esc(f.t)+"</b>"+esc(f.v);
+      parts=parts.filter(function(p){return (tgt[p.e]||0)>0});
+      E.forEach(function(e){var want=Math.round((tgt[e[0]]||0)*5);var have=parts.filter(function(p){return p.e===e[0]}).length;for(var i=have;i<want;i++)parts.push({e:e[0],t:Math.random(),v:.0025+Math.random()*.003,k:e[2]})});
+    }
+    $("#en-years").innerHTML=K.map(function(f){return "<span>"+f.y+"</span>"}).join("");
+    function draw(ts){var dt=Math.min(40,ts-last)/16.7;last=ts;if(lerpT<1){lerpT=Math.min(1,lerpT+.02*dt);E.forEach(function(e){cur[e[0]]+=(tgt[e[0]]-cur[e[0]])*.08*dt})}
+      ctx.clearRect(0,0,W,H);
+      E.forEach(function(e){var v=cur[e[0]]||0;var r=route(e[0]);if(v<.05){ctx.strokeStyle="rgba(58,51,42,.5)";ctx.lineWidth=1;ctx.setLineDash([2,6])}else{ctx.strokeStyle="rgba("+col[e[2]]+","+(0.18+v*.14)+")";ctx.lineWidth=1+v*.9;ctx.setLineDash([])}
+        ctx.beginPath();ctx.moveTo(r.a.x,r.a.y);ctx.quadraticCurveTo(r.c.x,r.c.y,r.b.x,r.b.y);ctx.stroke();ctx.setLineDash([]);
+        if(v>.3){var p=at(r,.62),q=at(r,.6);var ang=Math.atan2(p.y-q.y,p.x-q.x);ctx.fillStyle="rgba("+col[e[2]]+","+(0.4+v*.15)+")";ctx.beginPath();ctx.moveTo(p.x+Math.cos(ang)*6,p.y+Math.sin(ang)*6);ctx.lineTo(p.x+Math.cos(ang+2.5)*5,p.y+Math.sin(ang+2.5)*5);ctx.lineTo(p.x+Math.cos(ang-2.5)*5,p.y+Math.sin(ang-2.5)*5);ctx.fill()}});
+      parts.forEach(function(p){if(!reduce)p.t+=p.v*dt*(0.6+(cur[p.e]||0)*.25);if(p.t>1)p.t-=1;var r=route(p.e),q=at(r,p.t);ctx.fillStyle="rgba("+col[p.k]+","+(0.55+0.45*Math.sin(p.t*Math.PI))+")";ctx.beginPath();ctx.arc(q.x,q.y,p.k==="ex"?2.6:2.1,0,Math.PI*2);ctx.fill()});
+      var x=pos("X");ctx.strokeStyle="rgba(192,94,60,.8)";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x.x-26,x.y);ctx.lineTo(x.x+26,x.y);ctx.stroke();ctx.font="10px 'Space Mono',monospace";ctx.textAlign="center";ctx.fillStyle="rgba(217,138,106,.95)";ctx.fillText("THE DEED · leaves the creator",x.x,x.y+16);
+      Object.keys(N).forEach(function(id){var p=pos(id);var lit=0;E.forEach(function(e){if(e[0][0]===id||e[0][2]===id)lit+=cur[e[0]]||0});ctx.beginPath();ctx.arc(p.x,p.y,9+Math.min(6,lit*.5),0,Math.PI*2);ctx.fillStyle="#14110d";ctx.fill();ctx.strokeStyle=id==="O"?"rgba(176,138,90,.95)":id==="B"?"rgba(124,192,150,.95)":"rgba(236,227,208,.95)";ctx.lineWidth=1.6;ctx.stroke();
+        ctx.font=(W<560?"9px":"10.5px")+" 'Space Mono',monospace";ctx.fillStyle="rgba(236,227,208,.9)";var a=N[id].a*Math.PI/180;var nm=(W<560&&id==="B")?"LABEL · BRAND":(W<560&&id==="O")?"ADVERTISER":N[id].n;
+        if(id==="O"||id==="B"||(W<560&&id!=="P")){ctx.textAlign="center";ctx.fillText(nm,Math.max(60,Math.min(W-60,p.x+(id==="B"?40:0))),p.y+30)}else{ctx.textAlign=Math.cos(a)>.3?"left":Math.cos(a)<-.3?"right":"center";ctx.fillText(nm,p.x+Math.cos(a)*22,p.y+Math.sin(a)*22+(Math.abs(Math.cos(a))<.3?(Math.sin(a)<0?-6:12):4))}});
+      ctx.font="300 44px 'Newsreader',Georgia,serif";ctx.textAlign="right";ctx.fillStyle="rgba(201,162,39,.55)";ctx.fillText(K[k].y,W-18,42);
+      requestAnimationFrame(draw)}
+    requestAnimationFrame(draw);
+    $("#en-k").addEventListener("input",function(){stop();setK(+this.value,true)});
+    $("#en-prev").addEventListener("click",function(){stop();setK(k-1,true)});
+    $("#en-next").addEventListener("click",function(){stop();setK(k+1,true)});
+    function stop(){playing=false;clearInterval(timer);$("#en-toggle").setAttribute("aria-pressed","false");$("#en-toggle").textContent="▶ RUN THE ERA"}
+    $("#en-toggle").addEventListener("click",function(){if(playing){stop();return}playing=true;this.setAttribute("aria-pressed","true");this.textContent="❚❚ PAUSE";if(k>=K.length-1)setK(0,true);timer=setInterval(function(){if(k>=K.length-1){stop();return}setK(k+1,true)},reduce?6000:5200)});
+    cv.parentElement.addEventListener("keydown",function(ev){if(ev.key==="ArrowRight"){stop();setK(k+1,true)}if(ev.key==="ArrowLeft"){stop();setK(k-1,true)}});
+    setK(0,false);
+  
+
+  
+  })();
+
+  /* ---------- two rooms in Washington ---------- */
+  (function(){
+    var R={house:{cls:"lit",h:"House Small Business Committee · May 24, 2000",d:"\"Online Music: Will Small Music Labels and Entrepreneurs Prosper in the Internet Age?\"",who:"Chuck D, founder, Rapstation.com, in the witness chair",li:["\"The major corporations have caused the conditions that made it difficult\" for independents.","Rapstation artists \"control and own their own destiny.\"","File sharing \"is leading one million MP3 march.\""],v:"<b>The room the record keeps</b>A Black artist told Congress, in the Congressional Record, that the open network was an ownership opportunity for independents. The committee was about small business, and the press covered the other room.",s:"T1 · GovInfo transcript"},
+      senate:{cls:"dark",h:"Senate Judiciary Committee · July 11, 2000",d:"The Napster hearing that shaped the public story",who:"Lars Ulrich, Hank Barry, Michael Robertson, Roger McGuinn. No Black artist.",li:["The rock drummer made the case against the network.","Napster's chief executive made the case for it.","The frame was set here; the House transcript was the one that mentioned ownership."],v:"<b>The room the story kept</b>Seven weeks after the House heard a Black distributor, the Senate heard a rock band. The hearing that set the frame had no one in the chair who had said the word \"own.\"",s:"T2 · CNN"}};
+    var c=$("#wr"),v=$("#wr-v");if(!c)return;
+    function show(k){var r=R[k];c.innerHTML='<div class="r '+r.cls+'"><h4>'+esc(r.h)+'</h4><span class="d">'+esc(r.d)+'</span><span class="who">'+esc(r.who)+'</span><ul>'+r.li.map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+'</ul><span class="d">'+esc(r.s)+'</span></div>';v.innerHTML=r.v}
+    seg("#wr-ctl",show);show("house")
+  })();
+
+  /* ---------- the direct deed ---------- */
+  (function(){
+    var m=$("#dd-m"),p=$("#dd-p"),mo=$("#dd-mo"),po=$("#dd-po"),ro=$("#dd-ro"),v=$("#dd-v");if(!m)return;
+    function run(){var M=+m.value,P=+p.value;mo.textContent=fmt(M)+" members";po.textContent="$"+P.toFixed(2)+" a month";var gross=M*P*12;
+      ro.innerHTML='<div class="ro"><span class="l">Annual gross, direct</span><span class="v gold">'+money(gross)+'</span><span class="s">members × price × 12; the record gives the price ($7.77) and the ceiling (about 400,000 members)</span></div><div class="ro"><span class="l">The same money at a 1955 rate</span><span class="v tag">'+money(gross*0.005)+'</span><span class="s">half a cent on the dollar: Little Richard\'s Specialty rate, Episode 2</span></div><div class="ro"><span class="l">At a 2018 360 rate</span><span class="v">'+money(gross*0.4)+'</span><span class="s">40 percent after recoupment: the 1501 contract, Episode 3</span></div>';
+      v.innerHTML="<b>Reading</b>The illustration multiplies two facts; the membership total was reported, the churn and costs were not, so this is a ceiling, not an income. The point survives the caveat: in 2001 an artist sold the deed direct at a price he set, and the comparison column is the rate card everyone else was on."}
+    m.addEventListener("input",run);p.addEventListener("input",run);run()
+  })();
+
+  /* ---------- proving ground or piracy ---------- */
+  (function(){
+    var on=$("#pg-on"),ro=$("#pg-ro"),v=$("#pg-v");if(!on)return;
+    function run(){var y=on.checked;ro.innerHTML=y?'<div class="ro"><span class="l">The CD</span><span class="v fact">proving ground</span><span class="s">artists and labels paid DJ Drama to make tapes; one reported sum $20,000</span></div><div class="ro"><span class="l">The distributor</span><span class="v">Warner</span><span class="s">Aphilliates had a WMG distribution deal and an Asylum joint venture</span></div><div class="ro"><span class="l">The deed</span><span class="v gold">nobody\'s</span><span class="s">deliberately: the tape could be free because no one claimed it</span></div>':'<div class="ro"><span class="l">The CD</span><span class="v tag">piracy</span><span class="s">January 16, 2007: a SWAT raid with RIAA representatives present</span></div><div class="ro"><span class="l">Seized</span><span class="v">81,000</span><span class="s">the reported count rose from 25,000 to 50,000 to 81,000</span></div><div class="ro"><span class="l">The charge</span><span class="v tag">racketeering</span><span class="s">later reduced to a misdemeanor under a Georgia names-and-addresses statute</span></div>';
+      v.innerHTML=y?"<b>Reported · T2</b>Same disc, same DJ, same songs. While the label was paying for the tape it was a proving ground, and the deed's absence was the feature.":"<b>Reported · T2</b>Same disc, same DJ, same songs. When the trade body looked at it, the deed's absence was the crime. The labels used the channel and let it be raided."}
+    on.addEventListener("change",run);run()
+  })();
+
+  /* ---------- the first week ---------- */
+  (function(){
+    var b=$("#fw-bars");if(!b)return;var R=[["50 Cent Is the Future, 2002 (free mixtape)",0,"the channel: free, unlicensed, nobody's"],["Get Rich or Die Tryin', first week, Feb 2003",872000,"Shady/Aftermath/Interscope · T2"],["Crank That, U.S. downloads by Jan 6, 2008",3000000,"first song to three million · T3"]];
+    var max=3000000;b.innerHTML=R.map(function(r){return '<div class="bar"><span class="n">'+esc(r[0])+'<br><span class="mono" style="font-size:11px;color:var(--paper-faint)">'+esc(r[2])+'</span></span><span class="tr"><i class="f'+(r[1]===0?' hatch':'')+'" style="width:'+(r[1]===0?100:r[1]/max*100)+'%;--c:'+(r[1]===0?'var(--kraft)':'var(--gold)')+'"></i></span><span class="v">'+(r[1]===0?'free':fmt(r[1]))+'</span></div>'}).join("")
+  })();
+
+  /* ---------- two sales ---------- */
+  (function(){
+    var b=$("#ts-bars");if(!b)return;var R=[["MySpace parent, bought by News Corp, Jul 2005",580e6,"var(--kraft)"],["BlackPlanet parent, bought by Radio One, Apr 2008",38e6,"var(--gold)"],["MySpace, sold by News Corp, Jun 2011",35e6,"var(--tag)"]];
+    b.innerHTML=R.map(function(r){return '<div class="bar"><span class="n">'+esc(r[0])+'</span><span class="tr"><i class="f" style="width:'+(r[1]/580e6*100)+'%;--c:'+r[2]+'"></i></span><span class="v">'+money(r[1])+'</span></div>'}).join("")
+  })();
+
+  /* ---------- the chart rule ---------- */
+  (function(){
+    var on=$("#cr-on"),ro=$("#cr-ro"),v=$("#cr-v");if(!on)return;
+    function run(){var y=on.checked;ro.innerHTML='<div class="ro"><span class="l">Hot 100, chart dated Mar 2, 2013</span><span class="v '+(y?'gold':'')+'">'+(y?'No. 1: Harlem Shake':'no debut')+'</span><span class="s">'+(y?'about 100 million YouTube streams, most of them user-made meme videos':'without the videos, the track had no radio or sales story')+'</span></div><div class="ro"><span class="l">Who made the videos</span><span class="v">the audience</span><span class="s">thousands of thirty-second clips of a dance named for Harlem</span></div><div class="ro"><span class="l">Who collected</span><span class="v tag">the producer\'s label</span><span class="s">the dance, and the people in the clips, got nothing</span></div>';
+      v.innerHTML=y?"<b>Fact · T2</b>Billboard added official and user-generated YouTube views to the Hot 100 formula on February 20–21, 2013. The first No. 1 under the rule was made by the audience's labor and collected by the producer's label.":"<b>Counterfactual</b>Under the old formula the track does not chart. The rule change is the whole story: a deed change in the trade paper's math."}
+    on.addEventListener("change",run);run()
+  })();
+
+  /* ---------- on fleek ---------- */
+  (function(){
+    var ro=$("#fk-ro");if(!ro)return;
+    ro.innerHTML='<div class="ro"><span class="l">The creator</span><span class="v">Kayla Newman</span><span class="s">sixteen, posting as Peaches Monroee, June 2014</span></div><div class="ro"><span class="l">The Vine</span><span class="v gold">6 sec</span><span class="s">"eyebrows on fleek"</span></div><div class="ro"><span class="l">Compensation on the record</span><span class="v tag">$0</span><span class="s">"remained unknown and uncompensated" · T2</span></div><div class="ro"><span class="l">Three years later</span><span class="v">GoFundMe</span><span class="s">February 2017, for a cosmetics and hair line</span></div><div class="ro"><span class="l">The brands\' revenue from the phrase</span><span class="v" style="color:var(--paper-faint)">not drawn</span><span class="s">not in the record; commonly cited uses are single-sourced</span></div>'
+  })();
+
+  /* ---------- the overindex ---------- */
+  (function(){
+    var b=$("#ov-bars"),v=$("#ov-v");if(!b)return;var D={all:[["Black internet users on Twitter",22],["White internet users on Twitter",16]],young:[["Black, ages 18–29",40],["White, ages 18–29",28]]};
+    function show(k){b.innerHTML=D[k].map(function(r,i){return '<div class="bar"><span class="n">'+esc(r[0])+'</span><span class="tr"><i class="f" style="width:'+(r[1]/50*100)+'%;--c:'+(i===0?'var(--gold)':'var(--kraft)')+'"></i></span><span class="v">'+r[1]+'%</span></div>'}).join("");v.innerHTML="<b>Pew Research, January 2014 (2013 data) · T2</b>"+(k==="all"?"Twenty-two against sixteen: Black Twitter's overindex is measured, not folklore. The phrase economy of Exhibit 4 ran on it.":"Forty against twenty-eight among the young. The cohort that made the phrases was the cohort most on the platform that spread them.")}
+    seg("#ov-seg",show);show("all")
+  })();
+
+  /* ---------- the deed to a dance ---------- */
+  (function(){
+    var S=[{h:"December 2018 · 2 Milly v. Epic Games",w:"The rapper sued over the \"Milly Rock\" sold as a Fortnite emote; Backpack Kid, Orange Shirt Kid and Alfonso Ribeiro followed. The emotes were for sale; the dancers were unpaid.",s:"FACT · T2 · Law.com"},
+      {h:"February 14–15, 2019 · The Carlton, refused",w:"The Copyright Office declined to register Ribeiro's dance as a \"simple routine.\" A Black actor's signature move: unownable, by the office that decides.",s:"FACT · T2 · Law.com"},
+      {h:"March 4, 2019 · Fourth Estate",w:"The Supreme Court held that a suit requires a completed registration, not an application. Within weeks all four Fortnite plaintiffs dropped their suits. The door closed on procedure before any court reached the dance.",s:"FACT · T1 · Supreme Court"},
+      {h:"2021 · The strike",w:"Jalaiah Harmon's \"Renegade\" had been profiled uncredited; the Tonight Show segment ran eight dances with no on-air credit in March; in June Black creators refused to choreograph \"Thot Shit.\" Keara Wilson registered the \"Savage\": \"largely symbolic.\" TikTok's MACRO partnership gave ten creators $50,000 grants.",s:"REPORTED · T2 · Rolling Stone, Refinery29"},
+      {h:"November 1, 2023 · Hanagami v. Epic Games",w:"The Ninth Circuit reversed a dismissal: \"reducing choreography to 'poses' would be akin to reducing music to just 'notes.'\" Kyle Hanagami is a registered professional choreographer, and not Black. The doctrine shifted for him.",s:"FACT · T1/T2 · Ninth Circuit"}];
+    var b=$("#dd2-body");if(!b)return;function show(i){var s=S[+i];b.innerHTML='<span class="h">'+esc(s.h)+'</span><span class="w">'+esc(s.w)+'</span><span class="s">'+esc(s.s)+'</span>'}
+    seg("#dd2 .steps",show);show(0)
+  })();
+
+  /* ---------- the $30 beat ---------- */
+  (function(){
+    var ro=$("#bt-ro");if(!ro)return;
+    ro.innerHTML='<div class="ro"><span class="l">The lease</span><span class="v gold">$30</span><span class="s">the beat, from YoungKio, late 2018 · T3</span></div><div class="ro"><span class="l">The chart statement</span><span class="v tag">removed</span><span class="s">Hot Country Songs, No. 19, March 27, 2019 · T2</span></div><div class="ro"><span class="l">Weeks at No. 1</span><span class="v">19</span><span class="s">April 13 to August 17, 2019, the record · T3</span></div><div class="ro"><span class="l">Certification</span><span class="v fact">Diamond</span><span class="s">RIAA, October 2019</span></div><div class="ro"><span class="l">The producer\'s eventual terms</span><span class="v" style="color:var(--paper-faint)">not public</span><span class="s">not drawn</span></div><div class="ro"><span class="l">The sample clearance</span><span class="v" style="color:var(--paper-faint)">not public</span><span class="s">Nine Inch Nails, "34 Ghosts IV"; terms not drawn</span></div>'
+  })();
+
+  /* ---------- the pro-rata pool ---------- */
+  (function(){
+    var s=$("#pp-s"),ai=$("#pp-ai"),th=$("#pp-th"),so=$("#pp-so"),aio=$("#pp-aio"),ro=$("#pp-ro"),v=$("#pp-v");if(!s)return;
+    var POOL=10e9,TOTAL=POOL/0.004; // illustrative: $10B paid out at a derived ~$0.004 blended rate
+    function run(){var S=+s.value,A=+ai.value/100;so.textContent=fmt(S)+" streams";aio.textContent=(A*100)+"%";var rate=POOL/(TOTAL*(1+A));var paid=th.checked&&S<1000?0:S*rate;
+      ro.innerHTML='<div class="p"><span class="l">The pool (illustrative)</span><span class="v">$10B</span><span class="s">Spotify\'s reported 2024 payouts, as the pool</span></div><div class="p"><span class="l">Derived rate per stream</span><span class="v gold">$'+rate.toFixed(5)+'</span><span class="s">the pool ÷ (human plays + machine plays); the rate is derived, not contractual</span></div><div class="p"><span class="l">Your track\'s share</span><span class="v '+(paid?'fact':'tag')+'">'+(paid?money(paid):'$0')+'</span><span class="s">'+(th.checked&&S<1000?'under the 1,000-stream floor from April 1, 2024':'before the label\'s cut and recoupment')+'</span></div><div class="p"><span class="l">Lost to machine plays</span><span class="v tag">'+money(S*(POOL/TOTAL)-S*rate)+'</span><span class="s">the dilution at '+(A*100)+'% machine plays; Deezer found up to 70% of plays on fully AI tracks fraudulent</span></div>';
+      v.innerHTML="<b>Reading</b>Every number here is illustrative except the three the record gives: the $10 billion, the 1,000-stream floor, and Deezer's machine-upload counts. What the model shows is structural: the rate is a quotient, so every machine play lowers every human artist's payout, and the floor removes the smallest claimants from the quotient entirely."}
+    [s,ai].forEach(function(e){e.addEventListener("input",run)});th.addEventListener("change",run);run()
+  })();
+
+  /* ---------- share vs ownership ---------- */
+  (function(){
+    var b=$("#sh-bars"),v=$("#sh-v");if(!b)return;
+    var D={share:{rows:[["R&B/hip-hop share of U.S. on-demand audio streams, 2017",30,"Nielsen · T1"],["R&B/hip-hop share of U.S. market, 2023",25.3,"Luminate · T2"],["R&B/hip-hop, 2024 (\"more than one in four\")",25,"Luminate · T3"]],v:"<b>Reading</b>The largest genre in the country for eight years running, with a plateau since 2022. This is the share of what is consumed."},
+      own:{rows:[["Black-owned share of commercial radio stations, 2007",3.3,"Free Press · T3"],["Black-owned share of full-power TV stations, 2006",1.3,"Free Press · T3"],["ByteDance's share of TikTok's U.S. joint venture, 2026",19.9,"Reuters · T2"],["Black ownership share of the three major labels, Spotify, YouTube or TikTok",0,"no public figure; drawn as zero with a hatch"]],v:"<b>Reading</b>This is the share of the rooms. The genre at one in four streams; the ownership of the pipe in low single digits where it is measured at all, and unmeasured where the money now is."}};
+    function show(k){var m=D[k];b.innerHTML=m.rows.map(function(r){return '<div class="bar"><span class="n">'+esc(r[0])+'<br><span class="mono" style="font-size:11px;color:var(--paper-faint)">'+esc(r[2])+'</span></span><span class="tr"><i class="f'+(r[1]===0?' hatch':'')+'" style="width:'+(r[1]===0?100:r[1]/30*100)+'%;--c:'+(k==="share"?'var(--gold)':'var(--tag)')+'"></i></span><span class="v">'+(r[1]===0?'unmeasured':r[1]+'%')+'</span></div>'}).join("");v.innerHTML=m.v}
+    seg("#sh-seg",show);show("share")
+  })();
+
+  /* ---------- the fund vs the split ---------- */
+  (function(){
+    var vv=$("#fs-v"),ff=$("#fs-f"),vo=$("#fs-vo"),fo=$("#fs-fo"),b=$("#fs-bars"),v=$("#fs-v2");if(!vv)return;
+    function run(){var V=+vv.value,F=+ff.value;vo.textContent=fmt(V)+" views";fo.textContent=F+" per 1,000";
+      var fund=V/1000*0.025;var yt=V/1000*3*0.55;var pat=V/1000*F*5;var max=Math.max(fund,yt,pat,1);
+      var R=[["TikTok Creator Fund, 2020–23: 2.5¢ per 1,000 views (one creator's reported rate)",fund,"var(--tag)"],["YouTube Partner Program: 55% of ad revenue (RPM illustrative at $3)",yt,"var(--gold)"],["Direct: $5-a-month fans at your conversion rate (Patreon-style)",pat,"var(--fact)"]];
+      b.innerHTML=R.map(function(r){return '<div class="bar"><span class="n">'+esc(r[0])+'</span><span class="tr"><i class="f" style="width:'+(r[1]/max*100)+'%;--c:'+r[2]+'"></i></span><span class="v">'+money(r[1])+' / month</span></div>'}).join("");
+      v.innerHTML="<b>Reading</b>Three deeds for the same audience. The fund is a fixed pot, so more creators means a smaller slice and the reported rate was 2.5 cents per thousand. The split is a share of whatever the advertiser pays, and the record gives the 55 percent but not the RPM, so that bar is illustrative. The direct deed depends on the one number the platform does not control: how many people will pay you. Prince's club, Issa Rae's Kickstarter and Joe Budden's tiers are three answers to it."}
+    [vv,ff].forEach(function(e){e.addEventListener("input",run)});run()
+  })();
+
+  /* ---------- who owns the room now ---------- */
+  (function(){
+    var b=$("#jv-bars"),ro=$("#jv-ro");if(!b)return;
+    var R=[["ByteDance",19.9],["Oracle",15],["Silver Lake",15],["MGX",15],["Other U.S. and global investors (to 80.1% non-ByteDance)",35.1]];
+    b.innerHTML=R.map(function(r,i){return '<div class="bar"><span class="n">'+esc(r[0])+'</span><span class="tr"><i class="f" style="width:'+(r[1]/40*100)+'%;--c:'+(i===0?'var(--tag)':'var(--kraft)')+'"></i></span><span class="v">'+r[1]+'%</span></div>'}).join("");
+    ro.innerHTML='<div class="ro"><span class="l">Signed</span><span class="v">Jan 22, 2026</span><span class="s">TikTok USDS Joint Venture LLC · Reuters</span></div><div class="ro"><span class="l">Reported valuation</span><span class="v gold">~$14B</span><span class="s">about one year of U.S. revenue · Sherwood</span></div><div class="ro"><span class="l">U.S. users at the January 2025 outage</span><span class="v">~170M</span><span class="s">the habit the deed is worth</span></div><div class="ro"><span class="l">UMG royalty terms on the feed</span><span class="v" style="color:var(--paper-faint)">undisclosed</span><span class="s">May 2, 2024 deal; no artist at the table</span></div>'
+  })();
+
+  /* ---------- reels and title-card reveals ---------- */
+  (function(){
+    var CRED={};
+    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(j){CRED=j;$$(".reel .slide").forEach(function(s){var k=s.dataset.plate;var c=CRED[k];var el=$(".cr",s);if(el&&c&&c.credit)el.textContent=c.credit})}}).catch(function(){})}catch(e){}
+    function wrapWords(el){ // wrap text nodes in spans, leave tags (sup, em, b) intact
+      var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);var nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);var i=0;
+      nodes.forEach(function(t){if(t.parentNode.closest&&t.parentNode.closest("sup"))return;var parts=t.nodeValue.split(/(\s+)/);var frag=document.createDocumentFragment();parts.forEach(function(p){if(!p)return;if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(p));return}var s=document.createElement("span");s.className="w";s.style.transitionDelay=Math.min(1400,i*28)+"ms";s.textContent=p;frag.appendChild(s);i++});t.parentNode.replaceChild(frag,t)})}
+    // Auto-reel: group consecutive prose paragraphs in chapter stacks into slides, splitting long ones at sentences
+    function splitSentences(p,max){var html=p.innerHTML;var parts=html.split(/(?<=[.!?”"])\s+(?=[A-Z<“"(])/);var out=[],cur="";parts.forEach(function(s){var words=(cur+" "+s).replace(/<[^>]+>/g,"").split(/\s+/).length;if(cur&&words>max){out.push(cur);cur=s}else cur=cur?cur+" "+s:s});if(cur)out.push(cur);return out}
+    $$(".chapter").forEach(function(ch){
+      var key=null;var pl=$(".plate",ch);if(pl)key=pl.dataset.plate;
+      $$(".stack",ch).forEach(function(st){
+        var ps=$$(":scope > p",st).filter(function(p){return !p.classList.contains("lead")&&!p.classList.contains("pull")&&!p.classList.contains("eyebrow")});
+        if(ps.length<1)return;
+        var extra=(st.dataset.reel||"").split(",").map(function(x){return x.trim()}).filter(Boolean);
+        var slides=[];ps.forEach(function(p){var chunks=splitSentences(p,60);chunks.forEach(function(h){slides.push({html:h})})});
+        if(slides.length<2)return;
+        var reel=document.createElement("div");reel.className="reel";var vp=document.createElement("div");vp.className="vp";reel.appendChild(vp);
+        var keys=extra.length?extra:(key?[key]:[]);
+        slides.forEach(function(s,i){var d=document.createElement("div");d.className="slide";var k=keys.length?keys[i%keys.length]:null;if(k)d.dataset.plate=k;
+          var bg=document.createElement("div");bg.className="bg"+(k?"":" none");if(k){var im=document.createElement("img");im.src="assets/plates/"+k+".jpg";im.alt="";im.loading="lazy";im.addEventListener("error",function(){bg.className="bg none";bg.innerHTML=""});bg.appendChild(im)}d.appendChild(bg);
+          var cr=document.createElement("span");cr.className="cr";cr.textContent=k&&CRED[k]&&CRED[k].credit?CRED[k].credit:"";d.appendChild(cr);
+          var kk=document.createElement("div");kk.className="k";kk.textContent=(i+1)+" / "+slides.length;d.appendChild(kk);
+          var tx=document.createElement("div");tx.className="tx";tx.innerHTML=s.html;d.appendChild(tx);vp.appendChild(d)});
+        var nav=document.createElement("div");nav.className="nav";nav.innerHTML='<button class="pv" aria-label="Previous">‹</button><div class="dots" role="tablist"></div><span class="ct"></span><button class="nx" aria-label="Next">›</button>';reel.appendChild(nav);
+        ps[0].parentNode.insertBefore(reel,ps[0]);ps.forEach(function(p){p.remove()});
+        init(reel)})});
+    function init(reel){var slides=$$(".slide",reel),dots=$(".dots",reel),ct=$(".ct",reel),i=0;slides.forEach(function(s,j){wrapWords($(".tx",s));var d=document.createElement("i");d.setAttribute("role","tab");d.addEventListener("click",function(){go(j)});dots.appendChild(d)});
+      function go(n){i=(n+slides.length)%slides.length;slides.forEach(function(s,j){s.classList.toggle("on",j===i)});$$("i",dots).forEach(function(d,j){d.classList.toggle("on",j===i)});ct.textContent=(i+1)+" of "+slides.length}
+      $(".pv",reel).addEventListener("click",function(){go(i-1)});$(".nx",reel).addEventListener("click",function(){go(i+1)});
+      $(".vp",reel).addEventListener("click",function(e){if(e.target.closest("a"))return;go(i+1)});
+      reel.tabIndex=0;reel.addEventListener("keydown",function(e){if(e.key==="ArrowRight"){go(i+1);e.preventDefault()}if(e.key==="ArrowLeft"){go(i-1);e.preventDefault()}});
+      var x0=null;reel.addEventListener("touchstart",function(e){x0=e.touches[0].clientX},{passive:true});reel.addEventListener("touchend",function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(dx<0?i+1:i-1);x0=null});
+      go(0)}
+    $$(".reel[data-authored]").forEach(init);
+    // title-card reveals on leads and pull quotes
+    var rv=$$(".lead, .pull");rv.forEach(function(p){p.classList.add("rv");wrapWords(p)});
+    if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}})},{rootMargin:"0px 0px -10% 0px"});rv.forEach(function(p){io.observe(p)})}else rv.forEach(function(p){p.classList.add("on")});
+  })();
+
+  /* ---------- plates: reveal on scroll, credits from assets/plates/credits.json when present ---------- */
+  (function(){
+    var ps=$$(".plate");if(!ps.length)return;
+    ps.forEach(function(p){var im=$("img",p);if(im){im.addEventListener("error",function(){p.setAttribute("data-missing","")})}});
+    if("IntersectionObserver" in window&&!reduce){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{rootMargin:"0px 0px -12% 0px"});ps.forEach(function(p){io.observe(p)})}else ps.forEach(function(p){p.classList.add("static")});
+    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(!j)return;ps.forEach(function(p){var k=p.dataset.plate,c=j[k];if(c&&c.credit){var el=$(".cr",p);if(el)el.textContent=c.credit}})}).catch(function(){})}catch(e){}
+  })();
+})();
+</script>

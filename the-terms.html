@@ -1,0 +1,1240 @@
+<title>The Terms</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one 68ch reading column down a dark evidence room; exhibits break out to 1040px; a chain rail runs the page's left edge and gains or loses a link per chapter. Mechanism Series house style, dark by design. */
+:root{
+  --ground:#14110d; --ground-2:#1c1813; --rule:#3a332a; --rule-soft:#2a241c;
+  --paper:#ece3d0; --paper-dim:#cfc5b0; --paper-faint:#a89d88;
+  --gold:#c9a227; --kraft:#b08a5a; --tag:#c05e3c; --tag-lit:#d98a6a;
+  --fact:#7cc096; --reported:#e0b35c; --inference:#86aac0; --watch:#d98a6a;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+  --mono:"Space Mono", ui-monospace, Menlo, Consolas, monospace;
+  --ease:cubic-bezier(.22,.7,.2,1);
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);background-image:radial-gradient(var(--rule-soft) 1px,transparent 1px);background-size:22px 22px;color:var(--paper);font-family:var(--serif);font-size:19px;line-height:1.62;-webkit-font-smoothing:antialiased;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 96px}
+.col{max-width:68ch;margin:0 auto}
+a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,162,39,.4)}
+a:hover{color:var(--paper)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h1,h2,h3{text-wrap:balance}
+p{margin:0}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--tag-lit)}
+.num{font-variant-numeric:tabular-nums}
+
+/* evidence labels, always beside the claim */
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:1px 6px;border:1px solid;border-radius:2px;white-space:nowrap;vertical-align:2px;margin-right:6px}
+.t-fact{color:var(--fact);border-color:rgba(124,192,150,.5)}
+.t-rep{color:var(--reported);border-color:rgba(224,179,92,.5)}
+.t-inf{color:var(--inference);border-color:rgba(134,170,192,.5)}
+.t-watch{color:var(--watch);border-color:rgba(217,138,106,.55)}
+sup.src{font-family:var(--mono);font-size:10px;color:var(--kraft);margin-left:2px}
+sup.src a{border:0;color:inherit}
+
+/* masthead */
+.mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 20px;padding:16px 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.mast .brand{color:var(--paper);border:0;display:flex;align-items:center;gap:10px}
+.mast .brand i{width:8px;height:8px;border-radius:50%;background:var(--tag);display:inline-block}
+.mast nav{display:flex;flex-wrap:wrap;gap:6px 18px}
+.mast nav a{border:0;color:var(--paper-faint)}
+.mast nav a:hover{color:var(--gold)}
+
+/* hero: a chain drawn in light */
+.hero{position:relative;margin:0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0 calc(-1 * max(16px, env(safe-area-inset-right, 0px)));min-height:560px;display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--rule);background:radial-gradient(1200px 500px at 70% 20%,rgba(201,162,39,.10),transparent 60%),var(--ground)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05) 0%,rgba(20,17,13,.45) 50%,rgba(20,17,13,.97) 100%);pointer-events:none}
+.hero-in{position:relative;z-index:1;width:100%;max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:120px 44px;display:flex;flex-direction:column;gap:16px}
+.hero h1{margin:0;font-weight:300;font-size:clamp(46px,8.4vw,96px);line-height:.96;letter-spacing:-.02em}
+.hero h1 em{font-weight:400;color:var(--gold);font-style:italic}
+.deck{font-size:clamp(19px,2.4vw,23px);font-weight:300;line-height:1.45;color:var(--paper-dim);max-width:660px}
+.boxcount{position:absolute;z-index:1;right:max(16px, env(safe-area-inset-right, 0px));top:calc(20px + env(safe-area-inset-top, 0px));font-family:var(--mono);font-size:11px;letter-spacing:.12em;border:1px solid var(--tag);background:rgba(20,17,13,.82);padding:7px 11px;color:var(--paper)}
+.dateline{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--paper-faint);border-bottom:1px solid var(--rule);padding:14px 0;margin:28px 0 44px}
+.dateline b{font-weight:400;color:var(--paper-dim)}
+
+.stack{display:flex;flex-direction:column;gap:22px}.stack>*{min-width:0}
+.lead{font-size:22px;line-height:1.5;font-weight:300}
+.memo{border:1px solid var(--rule);background:var(--ground-2);padding:16px 18px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--paper-dim)}
+.memo b{color:var(--gold);font-weight:700}
+.pull{font-size:clamp(24px,3.2vw,32px);font-weight:300;line-height:1.3;border-left:2px solid var(--gold);padding-left:20px;font-style:italic;color:var(--paper)}
+.pull small{display:block;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--paper-faint);margin-top:10px;letter-spacing:.08em}
+
+section{margin-top:84px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:26px}
+h2{margin:0;font-weight:400;font-size:clamp(30px,4.4vw,42px);line-height:1.1;letter-spacing:-.01em}
+h2 em{color:var(--gold)}
+h3{margin:0;font-weight:400;font-size:24px;line-height:1.2}
+.sub{color:var(--paper-dim);font-style:italic;font-size:19px}
+
+/* chapter opener */
+.chapter{margin-top:120px;border-top:1px solid var(--rule);padding-top:36px;position:relative}
+.chapter .where{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:20px}
+.chapter .where b{color:var(--kraft);font-weight:400}
+.chapter h2{font-size:clamp(40px,6.4vw,72px);font-weight:300;line-height:.98}
+.chapter .instrument{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ground);background:var(--gold);padding:5px 10px}
+
+ol.facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ol.facts li{padding:14px 0;border-bottom:1px solid var(--rule-soft);display:grid;grid-template-columns:108px minmax(0,1fr);gap:16px}
+ol.facts .when{font-family:var(--mono);font-size:12px;color:var(--kraft);padding-top:4px;font-variant-numeric:tabular-nums}
+
+/* exhibit frame */
+.exhibit{max-width:1040px;margin:0 auto;border:1px solid var(--rule);background:rgba(20,17,13,.94);padding:clamp(20px,3.4vw,38px);display:flex;flex-direction:column;gap:18px}
+.ex-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+.seg{display:inline-flex;border:1px solid var(--kraft);flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 14px;background:transparent;color:var(--paper-dim);border:0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--kraft);color:var(--ground);font-weight:700}
+.ledger{width:100%;border-collapse:collapse;font-size:17px}
+.ledger th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);text-align:left;font-weight:400;padding:10px 12px 10px 0;border-bottom:1px solid var(--rule)}
+.ledger td{padding:12px 12px 12px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+.ledger td.k{font-family:var(--mono);font-size:12px;color:var(--kraft);white-space:nowrap}
+.ledger td.v{font-family:var(--mono);font-size:14px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:11px;color:var(--paper-faint)}
+.legend i{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;background:var(--c,var(--gold))}
+
+/* controls */
+.ctrl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 22px}
+.ctrl label{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);min-width:0}
+.ctrl select,.ctrl input[type=number]{min-height:44px;background:var(--ground-2);color:var(--paper);border:1px solid var(--rule);font-family:var(--mono);font-size:13px;padding:0 10px;width:100%}
+.ctrl input[type=range]{width:100%;accent-color:var(--gold);min-height:44px}
+.ctrl output{font-family:var(--mono);font-size:13px;color:var(--paper);letter-spacing:0;text-transform:none}
+.switch{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);cursor:pointer;min-height:44px}
+.switch input{appearance:none;width:44px;height:24px;border:1px solid var(--kraft);border-radius:12px;background:var(--ground-2);position:relative;cursor:pointer;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--paper-faint);transition:transform .2s var(--ease)}
+.switch input:checked{background:var(--gold);border-color:var(--gold)}
+.switch input:checked::after{transform:translateX(20px);background:var(--ground)}
+
+/* verdict / readout */
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.ro{border:1px solid var(--rule);background:var(--ground-2);padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ro .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.ro .v{font-family:var(--mono);font-size:clamp(20px,2.6vw,28px);line-height:1.1;color:var(--paper);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ro .v.gold{color:var(--gold)}
+.ro .v.tag{color:var(--tag-lit)}
+.ro .v.fact{color:var(--fact)}
+.ro .s{font-size:14px;color:var(--paper-dim);line-height:1.45}
+.verdict{border-left:3px solid var(--tag);padding:14px 18px;background:var(--ground-2);font-size:18px;line-height:1.5}
+.verdict b{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tag-lit);display:block;margin-bottom:6px}
+.verdict.ok{border-color:var(--fact)}
+.verdict.ok b{color:var(--fact)}
+
+/* bars */
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:minmax(120px,220px) minmax(0,1fr) auto;gap:12px;align-items:center;font-size:15px}
+.bar .n{color:var(--paper-dim);min-width:0}
+.bar .tr{height:18px;background:var(--rule-soft);position:relative;min-width:0}
+.bar .f{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .6s var(--ease)}
+.bar .f.hatch{background:repeating-linear-gradient(45deg,var(--c,var(--kraft)) 0 4px,transparent 4px 8px);opacity:.8}
+.bar .v{font-family:var(--mono);font-size:12px;color:var(--paper);white-space:nowrap;font-variant-numeric:tabular-nums}
+.bar.ghost .n,.bar.ghost .v{color:var(--paper-faint)}
+
+/* card game */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .t{font-size:20px;line-height:1.2}
+.card .y{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+.card .names{display:flex;flex-wrap:wrap;gap:6px}
+.card .names button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.06em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px}
+.card .names button:hover{border-color:var(--kraft);color:var(--paper)}
+.card .names button[data-r="yes"]{border-color:var(--fact);color:var(--fact)}
+.card .names button[data-r="no"]{border-color:var(--tag);color:var(--tag-lit);text-decoration:line-through}
+.card .names button[data-r="dis"]{border-color:var(--reported);color:var(--reported)}
+.card .names button:focus-visible{outline:2px solid var(--gold)}
+.card .ans{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.card .ans[hidden]{display:none}
+
+/* chain rail */
+.rail{position:fixed;left:max(6px, env(safe-area-inset-left, 0px));top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:0;font-family:var(--mono)}
+.rail a{border:0;display:flex;align-items:center;justify-content:center;width:34px;height:34px;color:var(--paper-faint);position:relative}
+.rail a svg{width:22px;height:22px;display:block}
+.rail a .lk{fill:none;stroke:currentColor;stroke-width:1.8;transition:stroke .3s}
+.rail a.held{color:var(--gold)}
+.rail a.broken{color:var(--tag)}
+.rail a.broken .lk{stroke-dasharray:3 3}
+.rail a.active{color:var(--paper)}
+.rail a.active::before{content:"";position:absolute;left:-6px;top:50%;width:3px;height:16px;background:var(--gold);transform:translateY(-50%)}
+.rail a .tip{position:absolute;left:40px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--ground-2);border:1px solid var(--rule);padding:4px 8px;color:var(--paper);opacity:0;pointer-events:none;transition:opacity .2s}
+.rail a:hover .tip,.rail a:focus-visible .tip{opacity:1}
+.rail .seg-line{width:2px;height:10px;background:var(--rule)}
+@media (max-width:1180px){.rail{display:none}}
+
+/* hub grid */
+.hub{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;max-width:1040px;margin:0 auto}
+.hub a{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:8px;color:var(--paper);min-width:0;transition:border-color .2s}
+.hub a:hover{border-color:var(--gold)}
+.hub .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.hub .t{font-size:24px;line-height:1.15;font-weight:300}
+.hub .t em{color:var(--gold)}
+.hub .d{font-size:15px;color:var(--paper-dim);line-height:1.45}
+.hub .m{font-family:var(--mono);font-size:10px;color:var(--paper-faint);letter-spacing:.08em;margin-top:auto}
+
+/* your year */
+.yy{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:20px;align-items:start}
+@media (max-width:760px){.yy{grid-template-columns:minmax(0,1fr)}}
+
+/* timeline strip */
+.strip{position:relative;padding:18px 0 0}
+.strip .axis{height:2px;background:var(--rule)}
+.strip .pts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:14px}
+.strip .pt{font-size:14px;color:var(--paper-dim);border-top:2px solid var(--c,var(--gold));padding-top:8px;min-width:0}
+.strip .pt b{display:block;font-family:var(--mono);font-size:11px;color:var(--paper);font-weight:400;letter-spacing:.06em}
+
+/* two sides */
+.sides{display:grid;min-width:0;width:100%;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1040px;margin:0 auto}
+.side{border:1px solid var(--rule);background:var(--ground-2);padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.side h3{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);font-weight:700}
+.side ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:17px;color:var(--paper-dim)}
+.side.gold{border-color:var(--gold)}
+.side.tagb{border-color:var(--tag)}
+
+/* desk note / breadcrumb */
+.desk{border:1px solid var(--rule);border-left:3px solid var(--kraft);background:var(--ground-2);padding:14px 18px;font-size:16px;line-height:1.55;color:var(--paper-dim)}
+.desk b{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--kraft);display:block;margin-bottom:6px;font-weight:400}
+.crumbs{display:flex;flex-wrap:wrap;gap:8px}
+.crumbs a{font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px;display:inline-flex;align-items:center}
+.crumbs a:hover{border-color:var(--gold);color:var(--gold)}
+.crumbs a i{font-style:normal;color:var(--kraft);margin-right:8px}
+
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{font-family:var(--mono);font-size:11px;fill:var(--paper-faint)}
+svg.chart .ax{stroke:var(--rule);stroke-width:1}
+svg.chart .ln{fill:none;stroke:var(--gold);stroke-width:2.2}
+svg.chart .ln2{fill:none;stroke:var(--tag);stroke-width:2;stroke-dasharray:4 4}
+svg.chart .ar{fill:rgba(201,162,39,.12)}
+svg.chart .dot{fill:var(--gold)}
+svg.chart .lab{fill:var(--paper)}
+
+.watchlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
+.watchlist li{padding:12px 0;border-bottom:1px solid var(--rule-soft)}
+
+footer{margin-top:90px;border-top:1px solid var(--rule);padding-top:24px;font-family:var(--mono);font-size:11.5px;line-height:1.85;color:var(--paper-faint)}
+footer ol{padding-left:22px;margin:10px 0 22px;columns:2;column-gap:40px}
+footer li{break-inside:avoid;padding-right:10px}
+footer b{color:var(--paper-dim);font-weight:400}
+@media (max-width:760px){footer ol{columns:1}}
+.tier{font-size:10px;color:var(--kraft);letter-spacing:.08em}
+
+@media (max-width:720px){
+  body{font-size:18px}
+  ol.facts li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .hero{min-height:480px}
+  .bar{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n v" "tr tr"}
+  .bar .n{grid-area:n}.bar .tr{grid-area:tr}.bar .v{grid-area:v}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>
+/* Episode 2 additions: the circuit rail, valves, the stage board, the dimmer, the feed toggle. */
+.rail a .nd{fill:none;stroke:currentColor;stroke-width:1.8}
+.ro .v.tag{border:0;padding:0;font-size:clamp(20px,2.6vw,28px);letter-spacing:0;text-transform:none;font-weight:400;white-space:normal;margin:0}
+.rail a.held .nd{fill:rgba(201,162,39,.25)}
+.rail a.broken .nd{stroke-dasharray:3 3}
+.rail a.open .nd{fill:rgba(124,192,150,.25)}
+
+/* the pipe: five valves */
+.pipe{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.valve{all:unset;cursor:pointer;border:1px solid var(--rule);background:var(--ground-2);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:44px;position:relative}
+.valve .y{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+.valve .n{font-size:17px;line-height:1.2;color:var(--paper)}
+.valve .st{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.valve[aria-pressed="true"]{border-color:var(--gold);background:rgba(201,162,39,.08)}
+.valve::after{content:"";position:absolute;right:12px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--tag)}
+.valve[data-k="evolved"]::after{background:var(--fact)}
+.valve:focus-visible{outline:2px solid var(--gold)}
+.flow{height:14px;background:var(--rule-soft);position:relative;overflow:hidden;border:1px solid var(--rule)}
+.flow i{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(201,162,39,.75) 0 14px,transparent 14px 28px);animation:flow 1.1s linear infinite}
+.flow i.cut{background:repeating-linear-gradient(90deg,rgba(192,94,60,.75) 0 6px,transparent 6px 20px);animation-duration:2.6s}
+@keyframes flow{to{transform:translateX(28px)}}
+
+/* dimmer: three dials + a bar */
+.dials{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.dial{border:1px solid var(--rule);background:var(--ground-2);padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.dial .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.dial .m{height:8px;background:var(--rule-soft);position:relative}
+.dial .m i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .5s var(--ease)}
+.dial .v{font-family:var(--mono);font-size:12px;color:var(--paper)}
+.elect{display:flex;flex-wrap:wrap;gap:6px}
+.elect button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:0 12px;min-height:44px;display:inline-flex;align-items:center;color:var(--paper-dim)}
+.elect button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.elect button:focus-visible{outline:2px solid var(--gold)}
+
+/* feed toggle */
+.feed{border:1px solid var(--rule);background:#000;padding:20px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--paper-dim);min-height:150px;position:relative}
+.feed .chy{position:absolute;right:12px;top:10px;font-size:10px;letter-spacing:.14em;color:var(--paper-faint)}
+.feed .q{color:var(--paper);font-family:var(--serif);font-size:20px;line-height:1.4;font-style:italic}
+.feed .cut{color:var(--tag-lit)}
+
+/* stage board */
+.board{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.light{border:1px solid var(--rule);background:var(--ground-2);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.light .lamp{width:14px;height:14px;border-radius:50%;background:var(--rule);box-shadow:none;transition:background .4s,box-shadow .4s}
+.light[data-s="on"] .lamp{background:var(--gold);box-shadow:0 0 14px rgba(201,162,39,.7)}
+.light[data-s="dim"] .lamp{background:var(--reported);box-shadow:0 0 8px rgba(224,179,92,.4)}
+.light[data-s="off"] .lamp{background:var(--tag);box-shadow:0 0 6px rgba(192,94,60,.5)}
+.light[data-s="na"] .lamp{background:var(--rule)}
+.light .n{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper)}
+.light .w{font-size:14px;color:var(--paper-dim);line-height:1.45}
+
+/* interval */
+.ci{position:relative;height:70px}
+.ci .tr{position:absolute;left:0;right:0;top:30px;height:10px;background:var(--rule-soft)}
+.ci .band{position:absolute;top:30px;height:10px;background:rgba(124,192,150,.35);border:1px solid var(--fact)}
+.ci .mk{position:absolute;top:18px;width:2px;height:34px;background:var(--tag)}
+.ci .lab{position:absolute;top:50px;font-family:var(--mono);font-size:10px;color:var(--paper-faint);transform:translateX(-50%);white-space:nowrap}
+.ci .lab.t{top:0}
+.ci .pin{position:absolute;top:24px;width:4px;height:22px;background:var(--gold);transform:translateX(-50%)}
+
+/* timeline filter */
+.tl{display:flex;flex-direction:column}
+.tl .ev{display:grid;grid-template-columns:110px 14px minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:start;font-size:16px}
+.tl .ev .d{font-family:var(--mono);font-size:11px;color:var(--kraft);padding-top:5px}
+.tl .ev .k{width:10px;height:10px;transform:rotate(45deg);margin-top:8px;background:var(--reported)}
+.tl .ev[data-k="evolved"] .k{background:var(--fact)}
+.tl .ev[data-k="muted"] .k{background:var(--tag)}
+.tl .ev[hidden]{display:none}
+.tl .ev .w{color:var(--paper-dim)}
+.tl .ev .w b{color:var(--paper);font-weight:400}
+@media (max-width:720px){.tl .ev{grid-template-columns:14px minmax(0,1fr)}.tl .ev .d{grid-column:2;padding-top:0}}
+
+.stepper{display:flex;flex-direction:column;gap:14px}
+.steps{display:flex;flex-wrap:wrap;gap:6px}
+.steps button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:0 12px;min-height:44px;display:inline-flex;align-items:center;color:var(--paper-dim)}
+.steps button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.step-body{border:1px solid var(--rule);background:var(--ground-2);padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-height:160px}
+.step-body .h{font-size:22px;line-height:1.2}
+.step-body .w{font-size:16px;color:var(--paper-dim);line-height:1.55}
+.step-body .s{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+
+/* plates: archival stills, house-toned, revealed on scroll; degrade to a kraft panel if the file is missing */
+.plate{width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);position:relative;overflow:hidden;opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.plate.in,.plate.static{opacity:1;transform:none}
+.plate .ph{display:block;width:100%;aspect-ratio:21/9;object-fit:cover;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.72) saturate(.9);transition:filter 1.2s var(--ease),transform 8s linear}
+.plate.in .ph{transform:scale(1.03)}
+.plate:hover .ph{filter:grayscale(.6) sepia(.25) contrast(1.05) brightness(.85)}
+.plate::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05),rgba(20,17,13,.55) 70%,rgba(20,17,13,.92)),radial-gradient(900px 300px at 20% 10%,rgba(201,162,39,.16),transparent 60%);pointer-events:none}
+.plate figcaption{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:14px 18px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim)}
+.plate figcaption b{color:var(--gold);font-weight:400}
+.plate figcaption .cr{color:var(--paper-faint)}
+.plate[data-missing] .ph{display:none}
+.plate[data-missing]{aspect-ratio:21/9;background:repeating-linear-gradient(135deg,var(--ground-2) 0 14px,var(--rule-soft) 14px 16px)}
+.plate[data-missing]::before{content:"PLATE PENDING · run fetch-plates.sh";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.plate[data-plate="cd-c2"] .ph{object-position:50% 35%}
+@media (max-width:720px){.plate .ph{aspect-ratio:16/10}.plate[data-missing]{aspect-ratio:16/10}}
+@media (prefers-reduced-motion:reduce){.plate{opacity:1;transform:none}.plate.in .ph{transform:none}}
+
+/* the engine */
+.engine-wrap{gap:16px}
+.en-ctl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 22px;align-items:center}
+.en-play{display:flex;gap:6px}
+.en-play button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
+.en-play button[aria-pressed="true"]{background:var(--gold);color:var(--ground);border-color:var(--gold)}
+.en-play button:focus-visible{outline:2px solid var(--gold)}
+.en-range{display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);min-width:0}
+.en-range output{color:var(--gold);font-size:13px}
+.en-range input{width:100%;accent-color:var(--gold);min-height:44px}
+.en-years{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--paper-faint);margin-top:-8px;overflow:hidden}
+.en-years span{flex:1;text-align:center;min-width:0;white-space:nowrap}
+.en-years span.on{color:var(--gold)}
+.engine{display:grid;grid-template-columns:minmax(0,3fr) minmax(280px,2fr);gap:18px;min-width:0}
+.en-stage{position:relative;min-width:0;border:1px solid var(--rule);background:radial-gradient(600px 400px at 50% 45%,rgba(201,162,39,.07),transparent 65%),var(--ground)}
+.en-stage canvas{display:block;width:100%;aspect-ratio:1/1;max-height:640px}
+.en-key{position:absolute;left:10px;bottom:8px;display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--mono);font-size:10px;color:var(--paper-faint);letter-spacing:.06em}
+.en-key i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+.en-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.en-micro{border:1px solid var(--gold);background:var(--ground-2);padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.en-micro .eb{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.en-micro .h{font-size:22px;line-height:1.15}
+.en-micro .n{font-family:var(--mono);font-size:clamp(24px,3vw,34px);color:var(--paper);line-height:1;font-variant-numeric:tabular-nums}
+.en-micro .w{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.en-micro .s{font-family:var(--mono);font-size:10.5px;color:var(--kraft);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:6px 14px}
+.en-micro .s a{border:0}
+.en-macro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.en-macro .g{border:1px solid var(--rule);background:var(--ground-2);padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.en-macro .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.en-macro .m{height:6px;background:var(--rule-soft);position:relative}
+.en-macro .m i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .8s var(--ease)}
+.en-macro .v{font-family:var(--mono);font-size:11.5px;color:var(--paper);line-height:1.35}
+.en-macro .g.valve{grid-column:1/-1;border-color:var(--tag)}
+.en-macro .g.valve.open{border-color:var(--fact)}
+.en-macro .g.valve .v b{font-family:var(--mono);font-weight:700;color:var(--tag-lit)}
+.en-macro .g.valve.open .v b{color:var(--fact)}
+.en-edges{display:flex;flex-direction:column;gap:5px;font-family:var(--mono);font-size:10.5px;color:var(--paper-dim)}
+.en-edges .e{display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:8px;align-items:center}
+.en-edges .e .b{height:5px;background:var(--rule-soft);position:relative}
+.en-edges .e .b i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .8s var(--ease)}
+.en-edges .e.closed{color:var(--tag-lit)}
+.en-edges .e.closed .b{background:repeating-linear-gradient(90deg,var(--tag) 0 4px,transparent 4px 8px);opacity:.7}
+@media (max-width:860px){.engine{grid-template-columns:minmax(0,1fr)}.en-ctl{grid-template-columns:minmax(0,1fr)}.en-macro{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:720px){.en-years{display:none}.en-key{position:static;padding:8px 10px;border-top:1px solid var(--rule)}}
+</style>
+<style>
+
+/* reels: one point per slide, period art behind it, words landing like a title card */
+.reel{position:relative;width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto}
+.reel .vp{position:relative;display:grid;min-height:420px;overflow:hidden}
+.reel .slide{grid-area:1/1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(22px,4vw,48px);padding-top:64px;min-height:420px;opacity:0;visibility:hidden;transition:opacity .9s var(--ease),visibility 0s linear .9s}
+.reel .slide.on{opacity:1;visibility:visible;transition:opacity .9s var(--ease)}
+.reel .slide .bg{position:absolute;inset:0;z-index:0}
+.reel .slide .bg img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.55) saturate(.9);transform:scale(1.04);transition:transform 9s linear}
+.reel .slide.on .bg img{transform:scale(1.12)}
+.reel .slide .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.18),rgba(20,17,13,.6) 55%,rgba(20,17,13,.94)),radial-gradient(700px 300px at 15% 15%,rgba(201,162,39,.18),transparent 60%)}
+.reel .slide .bg.none{background:radial-gradient(900px 420px at 30% 20%,rgba(201,162,39,.12),transparent 60%),repeating-linear-gradient(135deg,var(--ground-2) 0 18px,var(--rule-soft) 18px 20px)}
+.reel .slide .tx{position:relative;z-index:1;max-width:60ch;font-size:clamp(18px,2.1vw,22px);line-height:1.5;color:var(--paper)}
+.reel .slide .tx .w{display:inline-block;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.reel .slide.on .tx .w{opacity:1;transform:none}
+.reel .slide .tx sup.src{opacity:1}
+.reel .slide .k{position:relative;z-index:1;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.reel .slide .cr{position:absolute;right:14px;top:12px;z-index:1;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);max-width:60%;text-align:right}
+.reel .nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid var(--rule);background:var(--ground)}
+.reel .nav button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:40px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
+.reel .nav button:focus-visible{outline:2px solid var(--gold)}
+.reel .nav .dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.reel .nav .dots i{width:22px;height:4px;background:var(--rule);display:block;cursor:pointer}
+.reel .nav .dots i.on{background:var(--gold)}
+.reel .nav .ct{font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);letter-spacing:.1em;white-space:nowrap}
+.lead.rv .w,.pull.rv .w{display:inline-block;opacity:0;transform:translateY(6px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.lead.rv.on .w,.pull.rv.on .w{opacity:1;transform:none}
+@media (max-width:720px){.reel,.reel .vp{min-height:460px}.reel .slide .tx{font-size:17px}}
+@media (prefers-reduced-motion:reduce){.reel .slide .tx .w,.lead.rv .w,.pull.rv .w{opacity:1;transform:none;transition:none}.reel .slide .bg img{transform:none;transition:none}}
+
+</style>
+<style>
+/* Episode 3 specifics */
+.deal{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.deal .d{border:1px solid var(--rule);background:var(--ground-2);padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.deal .d .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.deal .d .v{font-family:var(--mono);font-size:clamp(16px,2.2vw,24px);color:var(--paper);line-height:1.1;overflow-wrap:anywhere}
+.deal .d .v.gold{color:var(--gold)}.deal .d .v.tag{color:var(--tag-lit)}.deal .d .v.fact{color:var(--fact)}.deal .d .v.dim{color:var(--paper-faint)}
+.deal .d .s{font-size:13px;color:var(--paper-dim);line-height:1.4}
+.disp{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px dashed var(--reported);color:var(--reported);padding:2px 7px;border-radius:2px}
+</style>
+
+<nav class="rail" aria-label="Chapters">
+  <a href="#c1" data-ch="1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">1 · The Handshake</span></a>
+  <span class="seg-line"></span>
+  <a href="#c2" data-ch="2"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">2 · Eighty-Five Fifteen</span></a>
+  <span class="seg-line"></span>
+  <a href="#c3" data-ch="3"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">3 · Platinum and Bankrupt</span></a>
+  <span class="seg-line"></span>
+  <a href="#c4" data-ch="4"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">4 · The Equity Turn</span></a>
+  <span class="seg-line"></span>
+  <a href="#c5" data-ch="5"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">5 · The Clause War</span></a>
+  <span class="seg-line"></span>
+  <a href="#c6" data-ch="6"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">6 · The Lot</span></a>
+  <span class="seg-line"></span>
+  <a href="#c7" data-ch="7"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">7 · One Hundred Percent</span></a>
+</nav>
+
+<div class="wrap">
+  <div class="mast">
+    <a class="brand" href="#top"><i></i>Infera · The Terms</a>
+    <nav aria-label="Series">
+      <a href="#engine">The engine</a>
+      <a href="#hub">Seven exhibits</a>
+      <a href="#c1">1 Handshake</a><a href="#c2">2 85/15</a><a href="#c3">3 Bankrupt</a><a href="#c4">4 Equity</a><a href="#c5">5 Clause</a><a href="#c6">6 Lot</a><a href="#c7">7 100%</a>
+      <a href="the-chain-of-title.html">Ep 1</a><a href="the-circulating-dollar.html">Ep 2</a><a href="the-feed.html">Ep 4</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </div>
+
+  <header class="hero" id="top">
+    <canvas id="circuitcanvas" aria-hidden="true"></canvas>
+    <div class="boxcount">MINI-SERIES · EPISODE 3 · 7 EXHIBITS · 1955–2026</div>
+    <div class="hero-in">
+      <span class="eyebrow">Infera · Mechanism Series · A standalone mini-series</span>
+      <h1>The <em>Terms</em></h1>
+      <p class="deck">Episode 1 followed the paper; Episode 2 followed the room. This one follows the split: the deals through which Black artists and executives rewrote who gets what, from half a cent a record to eighty-five fifteen to one hundred percent, and what each of them had to give up to get it.</p>
+    </div>
+  </header>
+  <p class="eyebrow col" style="padding-top:10px;color:var(--paper-faint)">Hero: a generative circuit drawn in code, one segment cut. No photograph, no real place.</p>
+
+  <div class="col">
+    <div class="dateline">
+      <span><b>AS OF</b> Oct 30, 2026</span>
+      <span><b>READ</b> ~45 min whole · 6 min per exhibit</span>
+      <span><b>LAYER</b> Public record · SEC filings · court complaints · contracts as published · trade press</span>
+      <span><b>METHOD</b> SVNIF</span>
+    </div>
+
+    <div class="stack">
+      <p class="lead">A deal memo is the shortest document in the business and the one that decides everything after it: the advance, the rate, who holds the masters, who holds the publishing, what the label takes off the top, and what happens when the term ends. For most of the century the memo was written for the artist. This episode is about the ones that were written by, or rewritten for, the people whose work it covered.</p>
+      <p>Where the record gives the terms, the page prints them exactly: 60/40 after recoupment, $2.6 billion cash and $400 million in stock, 50.01 against 49.99. Where the record gives only an artist's own account, a litigant's claim, or a trade estimate, the figure wears a dashed chip and the page says whose number it is. Several famous splits exist in two versions; both are shown. No figure in this episode is a measurement of what an artist is worth. Every one is a measurement of what a piece of paper said.</p>
+      <div class="memo"><b>READING MEMO</b> · Every exhibit stands alone. <span class="tag t-fact">Fact</span> is on the record, <span class="tag t-rep">Reported</span> is a credible account we could not independently confirm, <span class="tag t-inf">Inference</span> is our arithmetic, <span class="tag t-watch">Watch</span> is open as of the dateline. <span class="disp">Disputed</span> marks a term the record gives in more than one version. The engine's flow levels are this page's reading, anchored to the figure on each card. This is an original Infera investigation from the public record; for the long history of Black creative ownership it runs alongside, see Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026), listed in the sources as a further read.<sup class="src"><a href="#s77">77</a></sup></div>
+    </div>
+
+    <section aria-labelledby="h-spine">
+      <div class="sec-head">
+        <span class="eyebrow">The spine</span>
+        <h2 id="h-spine">Three findings, <em>stated first</em></h2>
+        <p class="sub">The exhibits are the evidence. These are the verdicts.</p>
+      </div>
+      <ol class="facts">
+        <li><span class="when">1971–2003</span><span><span class="tag t-fact">Fact</span><b>Capital, not price, was the gate.</b> Inner City Broadcasting needed $1.1 million to buy WBLS in 1974 and was turned down by thirty-six banks. Sugar Hill's seed money came from Morris Levy. The first independents to keep their masters did it with distribution deals, not loans, and two of the three went bankrupt anyway.<sup class="src"><a href="#s2">2</a>, <a href="#s8">8</a>, <a href="#s18">18</a></sup></span></li>
+        <li><span class="when">1995–2020</span><span><span class="tag t-fact">Fact</span><b>The split moved; the structure did not, until it was posted.</b> TLC filed for bankruptcy on a seven percent rate while selling ten million; Megan Thee Stallion's 2018 contract gave the label 60 percent after recoupment, half the copyrights and 30 percent of everything else; Kanye West's posted pages show one artist's arc from a 14 percent royalty to a profit split to "100 percent minus a distribution fee."<sup class="src"><a href="#s27">27</a>, <a href="#s52">52</a>, <a href="#s54">54</a></sup></span></li>
+        <li><span class="when">2007–2026</span><span><span class="tag t-fact">Fact</span><b>Equity beat royalty, and the biggest equity was outside music.</b> Beats sold for $3 billion; Fenty is 49.99 percent of a brand worth about $2.8 billion; the Cîroc "equal share" ended with the artist exiting both brands; the AI settlements of 2025 pay the opt-in and nothing to the opt-out.<sup class="src"><a href="#s31">31</a>, <a href="#s34">34</a>, <a href="#s67">67</a></sup></span></li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="h-yy">
+      <div class="sec-head">
+        <span class="eyebrow">Before you read</span>
+        <h2 id="h-yy">Your <em>split</em></h2>
+        <p class="sub">Pick a deal from the record and a number of albums sold. We run the terms as the record states them.</p>
+      </div>
+      <div class="exhibit">
+        <div class="ctrl">
+          <label for="ys-deal">The deal<select id="ys-deal">
+            <option value="richard">Little Richard, Specialty, 1955: ½¢ a record</option>
+            <option value="brown">Ruth Brown, Atlantic, 1950s: 4.5% less charged expenses</option>
+            <option value="tlc" selected>TLC, LaFace/Pebbitone, 1991: ~7%, about 20¢ net, split three ways</option>
+            <option value="braxton">Toni Braxton, LaFace, 1993: 33¢ an album (her lawyer's account)</option>
+            <option value="kanye05">Kanye West, Roc-A-Fella/UMG, 2005: 14% royalty</option>
+            <option value="megan">Megan Thee Stallion, 1501, 2018: 40% after recoupment, costs off the top</option>
+            <option value="cashmoney">Cash Money, Universal, 1998: 80/20 (or 85/15), masters kept</option>
+            <option value="nolimit">No Limit, Priority, 1996: 85/15, masters kept (Master P's account)</option>
+            <option value="ocean">Frank Ocean, Blonde, 2016: ~70% profit share (reported)</option>
+            <option value="um">UnitedMasters Select, 2020: 100% for $5 a month</option>
+          </select></label>
+          <label for="ys-units">Albums sold<input type="range" id="ys-units" min="100000" max="15000000" step="100000" value="10000000"><output id="ys-uo"></output></label>
+        </div>
+        <div class="deal" id="ys-out" aria-live="polite"></div>
+        <div class="verdict" id="ys-v"></div>
+      </div>
+    </section>
+  </div>
+
+  <section aria-labelledby="h-hub" id="hub">
+    <div class="col sec-head">
+      <span class="eyebrow">The series</span>
+      <h2 id="h-hub">Seven exhibits, <em>read in any order</em></h2>
+      <p class="sub">Each one opens on a deal memo. Each one hands you the terms.</p>
+    </div>
+    <div class="hub">
+      <a href="#c1"><span class="n">01 · 1971–1988</span><span class="t">The <em>Handshake</em></span><span class="d">Thirty-six banks, a $1.9 million radio station that sold for $131 million to no Black buyer, the bootlegger's money behind the first rap hit, and a $61 million sale that kept the publishing.</span><span class="m">CAPITAL · 6 MIN · INTERACTIVE: THIRTY-SIX BANKS · THE HANDSHAKE LEDGER</span></a>
+      <a href="#c2"><span class="n">02 · 1992–2004</span><span class="t">Eighty-Five <em>Fifteen</em></span><span class="d">Financed against distributed: a $10 million label that ended at auction, two that kept their masters on splits the record gives in two versions, and half a company bought for $1.4 million and sold for $10 million.</span><span class="m">DISTRIBUTION · 7 MIN · INTERACTIVE: FINANCED OR DISTRIBUTED · HALF THE COMPANY</span></a>
+      <a href="#c3"><span class="n">03 · 1955–1999</span><span class="t">Platinum and <em>Bankrupt</em></span><span class="d">Half a cent a record, $754 in twenty years, a Chapter 11 filing on a diamond album, 33 cents on twenty-four million, and the 1988 reform that recalculated a rate from 4.5 to 10 percent without a lawsuit.</span><span class="m">RECOUPMENT · 6 MIN · INTERACTIVE: THE STATEMENT · THE REFORM</span></a>
+      <a href="#c4"><span class="n">04 · 2007–2024</span><span class="t">The Equity <em>Turn</em></span><span class="d">An equal share of a vodka that ended in a lawsuit, $2.6 billion in cash and $400 million in stock, a streaming service bought for $56 million and sold for $302 million, and 49.99 percent of a beauty brand.</span><span class="m">EQUITY · 7 MIN · INTERACTIVE: EQUITY VS. ROYALTY · THE EXIT MULTIPLE</span></a>
+      <a href="#c5"><span class="n">05 · 1992–2025</span><span class="t">The Clause <em>War</em></span><span class="d">A $100 million deal with no masters, "slave" on a cheek, five hundred counts against eight hundred defendants, a 60/40 contract read aloud, and one artist's contract pages posted for everyone.</span><span class="m">CONTRACT · 7 MIN · INTERACTIVE: THE CONTRACT, POSTED · THE 360</span></a>
+      <a href="#c6"><span class="n">06 · 2011–2026</span><span class="t">The <em>Lot</em></span><span class="d">330 acres for $30 million, a network sold in three pieces, ten stations sold to cut debt, and a streaming stake cashed out the month the service was absorbed. The room as a capital expenditure.</span><span class="m">OWNERSHIP · 6 MIN · INTERACTIVE: THE VALUATION LADDER · OWNED OR OVERALL</span></a>
+      <a href="#c7"><span class="n">07 · 2017–2026</span><span class="t">One Hundred <em>Percent</em></span><span class="d">Ten percent or five dollars a month, a $200 million sale of income streams against a $500 million one, and the AI license that pays the artist who opts in and nothing to the one who doesn't.</span><span class="m">THE DEED · 6 MIN · INTERACTIVE: THE CATALOG GAP · OPT IN</span></a>
+    </div>
+  </section>
+
+  <!-- ============ THE ENGINE ============ -->
+  <section aria-labelledby="h-engine" id="engine" style="margin-top:110px">
+    <div class="col sec-head">
+      <span class="eyebrow">The engine · macro and micro at once</span>
+      <h2 id="h-engine">The split, <em>moving</em></h2>
+      <p class="sub">Five stations, one current. Scrub 1955 to 2026 and watch the artist's share, who holds the masters, and where the capital came from. Every stop pairs one deal memo with the whole machine's state.</p>
+    </div>
+    <div class="exhibit engine-wrap">
+      <div class="en-ctl">
+        <div class="en-play">
+          <button id="en-prev" aria-label="Previous stop">‹</button>
+          <button id="en-toggle" aria-pressed="false">▶ RUN THE DEALS</button>
+          <button id="en-next" aria-label="Next stop">›</button>
+        </div>
+        <label class="en-range" for="en-k"><span class="l">Stop <output id="en-year">1955</output></span><input type="range" id="en-k" min="0" max="14" step="1" value="0" aria-valuetext="1955"></label>
+      </div>
+      <div class="en-years" id="en-years" aria-hidden="true"></div>
+      <div class="engine">
+        <div class="en-stage">
+          <canvas id="en-canvas" role="img" aria-label="The deal: artist, label and distributor, audience, investor and bank, brand and platform, and the sale, with current moving along the open routes"></canvas>
+          <div class="en-key" aria-hidden="true"><span><i style="--c:var(--gold)"></i>the work and the sale</span><span><i style="--c:var(--kraft)"></i>brand · platform</span><span><i style="--c:var(--fact)"></i>investor · bank</span><span><i style="--c:var(--tag)"></i>the masters leave · closed route</span></div>
+        </div>
+        <div class="en-side">
+          <div class="en-micro" id="en-micro" aria-live="polite"></div>
+          <div class="en-macro" id="en-macro"></div>
+          <div class="en-edges" id="en-edges"></div>
+        </div>
+      </div>
+      <div class="verdict" id="en-v"></div>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 1 ============ -->
+  <article class="chapter" id="c1" data-ch="1" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 1 of 7</span><span><b>1971–1988</b></span><span>Harlem · Englewood · Houston · Detroit</span><span>Standalone</span></div>
+      <h2>The <em>Handshake</em></h2>
+      <span class="instrument">Instrument: the bank's answer</span>
+      <figure class="plate" data-plate="x-lincoln80"><img class="ph" src="assets/plates/x-lincoln80.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The Lincoln Theatre, U Street, Washington, before its restoration · the handshake</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="x-lincoln80,x-bronner,x-auburn,x-lincoln">
+        <p class="lead">The first Black-owned terms were written by people who could find the deal but not the money. Inner City Broadcasting, founded in 1970 by Percy Sutton and Clarence Jones with more than fifty shareholders, bought WLIB in 1972, reportedly for $1.9 million; in 1974 it needed $1.1 million to exercise its right to buy the FM that became WBLS and was turned down by thirty-six banks.<sup class="src"><a href="#s1">1</a>, <a href="#s2">2</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Sutton bought the shuttered Apollo for $250,000 in 1981. Creditors forced Inner City into bankruptcy in August 2011; its stations went to a Burkle–Magic Johnson vehicle for a reported $180 million in 2012 and WBLS and WLIB to Emmis for $131 million in 2014. NABOB said none of the seventeen former Inner City stations went to a Black buyer.<sup class="src"><a href="#s3">3</a>, <a href="#s4">4</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Sugar Hill Records was founded in 1979 by Sylvia and Joe Robinson and funded by Tony Riviera and Morris Levy of Roulette. "Rapper's Delight" is certified at about five million worldwide and reported at fourteen. Chic's writers settled for credits; Grandmaster Caz, who wrote the verses, got none.<sup class="src"><a href="#s5">5</a>, <a href="#s6">6</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>In 1983 Sugar Hill signed with MCA through a Levy associate; by 1985 MCA had taken the Chess catalog against $3 million in debt; the Robinsons sued for $240 million, said they had received $481,000, and settled in 1990 keeping Sugar Hill and losing Chess.<sup class="src"><a href="#s7">7</a></sup> <span class="tag t-inf">Inference</span>A Black-owned label lost a Black catalog to a major in a debt workout, the exit from Episode 2 run from the inside.</p>
+        <p><span class="tag t-fact">Fact</span>Don Robey took writer credit as "Deadric Malone" on Duke/Peacock songs, paying, by one of his artists' accounts, "25 or 50 bucks" for them. Clarence Avant's Sussex Records was seized by the IRS in 1975 over $48,000 in liens; Bill Withers said of it, "They weren't paying me."<sup class="src"><a href="#s8">8</a>, <a href="#s9">9</a></sup> <span class="tag t-inf">Inference</span>Ownership changed who held the paper. It did not, by itself, change what the paper said.</p>
+        <p><span class="tag t-fact">Fact</span>June 28, 1988: Motown sold to MCA and Boston Ventures for $61 million, Jobete publishing, the Hitsville studio and the plants excluded; Gordy insisted that 20 percent of the equity be available to minority investors. The story that Avant brokered it rests on obituaries and a 2019 documentary, not on the trade press of the day.<sup class="src"><a href="#s10">10</a>, <a href="#s11">11</a></sup></p>
+      </div>
+      <section aria-labelledby="h-banks">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-banks">Thirty-six banks</h3><p class="sub">The 1974 loan. Count the refusals and watch what the asset became.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ctrl"><label for="bk-n">Banks asked<input type="range" id="bk-n" min="1" max="37" step="1" value="36"><output id="bk-o"></output></label></div>
+      <div class="deal" id="bk-ro"></div>
+      <div class="verdict" id="bk-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-hl">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-hl">The handshake ledger</h3><p class="sub">The first owners, what they paid, what the paper said, and where the asset went.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="scroll"><table class="ledger" id="hl-table"><thead><tr><th>Owner</th><th>The asset</th><th>Capital</th><th>What the paper said</th><th>Exit</th></tr></thead><tbody></tbody></table></div>
+      <div class="verdict"><b>Reading</b>Five handshakes. Four needed outside money, from a bootlegger's associate, a buyout fund, or a bank that said no thirty-six times. Three ended in a sale to a non-Black buyer; one in an IRS seizure; one, Motown, by choice with the publishing kept. The handshake got the deed. It did not get the capital to hold it.<sup class="src"><a href="#s1">1</a>–<a href="#s11">11</a></sup></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 2 ============ -->
+  <article class="chapter" id="c2" data-ch="2" data-state="held">
+    <div class="col">
+      <div class="where"><span>Exhibit 2 of 7</span><span><b>1992–2004</b></span><span>Los Angeles · New Orleans · Houston · New York</span><span>Standalone</span></div>
+      <h2>Eighty-Five <em>Fifteen</em></h2>
+      <span class="instrument">Instrument: the distribution deal</span>
+      <figure class="plate" data-plate="x-sun"><img class="ph" src="assets/plates/x-sun.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Sun Records Studio, Memphis · eighty-five fifteen</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="x-sun,x-fame,x-tavern,x-regal">
+        <p class="lead">Two kinds of deal built the 1990s. One was financed: Interscope put $10 million into Death Row in 1992 to finance and distribute it, and the label peaked above $100 million a year, lost Dre in 1996, lost its distributor in 1997 and was auctioned out of bankruptcy for $18 million in 2009. The other was distributed: the label kept the masters and paid a fee for the trucks.<sup class="src"><a href="#s12">12</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>Master P's No Limit signed with Priority in 1996 and kept its masters and its studio; by his own 2021 account the split was 85 to No Limit and 15 to Priority with a $375,000 advance per album, and he had turned down $1 million from Interscope. In 1998 the label put out 23 albums, 15 million units, and, he said, more than $150 million; Forbes put his personal take at $56.5 million. No Limit filed for bankruptcy in December 2003.<sup class="src"><a href="#s13">13</a>, <a href="#s14">14</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>Cash Money's March 1998 Universal deal was estimated at $30 million over three years: a $2 million annual advance, $1.5 million per artist for up to six a year, masters and publishing retained. The split is in the record two ways, Universal 20 and Cash Money 80, or 15 and 85 after recoupment. <span class="disp">Disputed</span> Birdman has said the masters still earn $20 to $30 million a year.<sup class="src"><a href="#s15">15</a>, <a href="#s16">16</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Inside the masters-owning label the artist still fought. Lil Wayne sued Cash Money for $51 million in January 2015 over <em>Tha Carter V</em>; the parties settled in 2018 and Young Money passed to him outright; his former manager's 2020 complaint alleges he then sold the Young Money masters to Universal for more than $100 million. Universal declined comment.<sup class="src"><a href="#s17">17</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>Roc-A-Fella sold half of itself to Def Jam in June 1997 for an estimated $1.4 million, a year after <em>Reasonable Doubt</em>; in December 2004 Island Def Jam bought the other half for $10 million and made Jay-Z its president. The masters sit in a three-way-owned corporation, not with him personally. So So Def's 1992 Sony deal capped Jermaine Dupri's producer royalty at 8 percent, then 6; he sued Sony for $18 million in July 2026 and ended the suit in August.<sup class="src"><a href="#s18">18</a>, <a href="#s19">19</a>, <a href="#s20">20</a></sup></p>
+      </div>
+      <section aria-labelledby="h-fd">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-fd">Financed or distributed</h3><p class="sub">Pick the deal and set the units. The terms are the record's; where the record gives two versions, pick one and the page says so.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="fd-ctl"><button aria-pressed="true" data-k="deathrow">DEATH ROW · INTERSCOPE 1992</button><button aria-pressed="false" data-k="nolimit">NO LIMIT · PRIORITY 1996</button><button aria-pressed="false" data-k="cm80">CASH MONEY · 80/20</button><button aria-pressed="false" data-k="cm85">CASH MONEY · 85/15</button></div>
+      <div class="ctrl"><label for="fd-u">Units in the year<input type="range" id="fd-u" min="500000" max="15000000" step="500000" value="5000000"><output id="fd-uo"></output></label></div>
+      <div class="split" id="fd-split" aria-hidden="true"></div>
+      <div class="legend" id="fd-leg"></div>
+      <div class="deal" id="fd-ro"></div>
+      <div class="verdict" id="fd-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-half">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-half">Half the company</h3><p class="sub">Roc-A-Fella, 1997 and 2004. Same half, seven years apart.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="bars" id="hf-bars"></div>
+      <div class="verdict"><b>Reading</b>Half of Roc-A-Fella went for an estimated $1.4 million in 1997 and $10 million in 2004, about seven times, and the second sale came with the presidency of the buyer. The 1997 figure is a CNBC estimate; the 2004 figure is contemporaneous. What the record does not support is the often-repeated "masters reverted in 2014"; it places the recovery of Roc-A-Fella from Def Jam around 2009, undated, with the <em>Reasonable Doubt</em> masters held by the corporation.<sup class="src"><a href="#s18">18</a>, <a href="#s19">19</a>, <a href="#s21">21</a></sup></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 3 ============ -->
+  <article class="chapter" id="c3" data-ch="3" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 3 of 7</span><span><b>1955–1999</b></span><span>Specialty · Atlantic · LaFace</span><span>Standalone</span></div>
+      <h2>Platinum and <em>Bankrupt</em></h2>
+      <span class="instrument">Instrument: the royalty statement</span>
+      <figure class="plate" data-plate="x-court"><img class="ph" src="assets/plates/x-court.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Interior detail, U.S. Courthouse, Toledo, Ohio · platinum and bankrupt</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="x-court,x-palm,x-southside">
+        <p class="lead">The baseline the later deals were rewriting: Little Richard's 1955 Specialty contract paid half a cent a record and $50 for the publishing on "Tutti Frutti"; he got $25,000 from the first 500,000. In 1984 he sued for $112 million and settled for an amount never disclosed.<sup class="src"><a href="#s22">22</a>, <a href="#s23">23</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Ruth Brown left Atlantic in 1960 owing $30,000 in charged expenses; the label's own accounting said she had earned $754 in royalties between 1960 and 1980 while $25,000 in debt, at a rate of 4.5 percent. In 1988, approaching its fortieth anniversary and with the lawyer Howell Begle pressing, Atlantic waived the unrecouped debts of its R&amp;B artists, recalculated royalties back to 1970, and reset her rate to 10 percent. Her first check in 28 years was $20,000 to $30,000; the label seeded the Rhythm &amp; Blues Foundation with $1.5 to $2 million.<sup class="src"><a href="#s24">24</a>, <a href="#s25">25</a></sup></p>
+        <p><span class="tag t-inf">Inference</span>The first label-wide retroactive royalty reform in the record was won without a lawsuit, and most other majors followed by precedent. It is the reform the next two cases show was not enough.</p>
+        <p><span class="tag t-rep">Reported</span>TLC's 1991 contract through Pebbitone and LaFace paid about 7 percent of each album; after expenses, about 20 cents, split three ways. On July 3, 1995, with <em>CrazySexyCool</em> on its way to fourteen million, the group filed for Chapter 11 with $3.5 million in debts, each member clearing under $50,000 a year. The 1996 settlement cut out the production company; the terms were confidential.<sup class="src"><a href="#s26">26</a>, <a href="#s27">27</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>Toni Braxton sued LaFace in December 1997 and filed for bankruptcy in January 1998; her lawyer's account put her contract at 33 cents an album on more than twenty-four million sold. Her memoir reports a $20 million settlement and a ten-year gag order; no filing confirms the number.<sup class="src"><a href="#s28">28</a>, <a href="#s29">29</a></sup> <span class="tag t-inf">Inference</span>Two Arista/LaFace acts used bankruptcy as contract leverage within thirty months of each other. The recoupable advance from Episode 1, as a court file.</p>
+      </div>
+      <section aria-labelledby="h-stmt">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-stmt">The statement</h3><p class="sub">Three artists' terms as the record gives them, run against the units they sold.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="st-ctl"><button aria-pressed="true" data-k="tlc">TLC · 1991 TERMS</button><button aria-pressed="false" data-k="braxton">BRAXTON · 1993 TERMS</button><button aria-pressed="false" data-k="brown">RUTH BROWN · 1950s TERMS</button></div>
+      <div class="deal" id="st-ro"></div>
+      <div class="verdict" id="st-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-reform">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-reform">The reform</h3><p class="sub">Atlantic, 1988. Flip the switch and watch one artist's rate and balance.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top"><label class="switch"><input type="checkbox" id="rf-on"> The 1988 recalculation</label></div>
+      <div class="deal" id="rf-ro"></div>
+      <div class="verdict" id="rf-v"></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 4 ============ -->
+  <article class="chapter" id="c4" data-ch="4" data-state="held">
+    <div class="col">
+      <div class="where"><span>Exhibit 4 of 7</span><span><b>2007–2024</b></span><span>Diageo · Cupertino · Square · LVMH</span><span>Standalone</span></div>
+      <h2>The Equity <em>Turn</em></h2>
+      <span class="instrument">Instrument: the cap table</span>
+      <figure class="plate" data-plate="x-capitol"><img class="ph" src="assets/plates/x-capitol.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The Capitol Records Tower, Hollywood and Vine · the equity turn</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="x-capitol,x-paramount,x-atlanta,x-times">
+        <p class="lead">A royalty is a share of a sale. Equity is a share of the company that makes the sale. The deals in this chapter are the ones where a Black artist got the second kind, and the record shows that the biggest of them were not in music.<sup class="src"><a href="#s30">30</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Cîroc, 2007: an "equal-share venture," profits split between Combs and Diageo, on a brand that had struggled to sell 40,000 cases; nearly two million a year by 2014. DeLeón, December 2013: a true 50/50. In May 2023 Combs sued Diageo over its investment in the brands; Diageo said he sought "to extract additional billions"; in January 2024 the suit was dropped and Diageo became sole owner of both. No payment was disclosed.<sup class="src"><a href="#s30">30</a>, <a href="#s31">31</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Beats: HTC bought a majority for about $300 million in 2011 and sold it back by 2013; Carlyle put in $500 million at more than $1 billion. On May 28, 2014 Apple bought the company for $3 billion, $2.6 billion in cash and $400 million in stock vesting over time. Forbes put Dre's stake at 20 to 25 percent; the after-tax figure is a derived range, never disclosed.<sup class="src"><a href="#s32">32</a>, <a href="#s33">33</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Tidal: bought for $56 million in March 2015; Sprint took a third for $200 million in January 2017; Square's 8-K records a majority purchase closing April 30, 2021 for approximately $302 million, with Carter and affiliates retaining a minority interest, percentage undisclosed. Fenty Beauty, 2017: LVMH 50.01 percent, Rihanna 49.99, €500 million in its first full year; Forbes values the brand near $2.8 billion.<sup class="src"><a href="#s34">34</a>, <a href="#s35">35</a>, <a href="#s36">36</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>SpringHill sold a minority stake at a $725 million valuation in October 2021; HartBeat sold 15 percent to Abry for $100 million in April 2022; Westbrook sold about 10 percent to Candle Media at about $600 million in January 2022, and by 2024 had cut half its staff with revenue reported down from $170 million to $100 million. Adidas paid Yeezy an 11 percent royalty, about $191 million in 2020, and terminated it in October 2022; the 2024 settlement moved no money.<sup class="src"><a href="#s37">37</a>, <a href="#s38">38</a>, <a href="#s39">39</a>, <a href="#s40">40</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Nipsey Hussle's <em>Crenshaw</em>, October 2013: a free download, and a thousand physical copies at $100 each that brought about $100,000 in under a day; Jay-Z bought a hundred. His 2017 Atlantic partnership's terms were never published.<sup class="src"><a href="#s41">41</a>, <a href="#s42">42</a></sup> <span class="tag t-inf">Inference</span>One hundred percent of a $100 unit against cents on an album: the smallest deal in the chapter and the cleanest.</p>
+      </div>
+      <section aria-labelledby="h-er">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-er">Equity vs. royalty</h3><p class="sub">Pick a deal and read its structure: who got a fee, a rate, a share of profit, a share of the company, and who held control.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="er-ctl"><button aria-pressed="true" data-k="ciroc">CÎROC · 2007</button><button aria-pressed="false" data-k="beats">BEATS · 2014</button><button aria-pressed="false" data-k="tidal">TIDAL · 2015–21</button><button aria-pressed="false" data-k="fenty">FENTY BEAUTY · 2017</button><button aria-pressed="false" data-k="yeezy">YEEZY · 2013–22</button><button aria-pressed="false" data-k="hart">HARTBEAT · 2022</button><button aria-pressed="false" data-k="nipsey">CRENSHAW · 2013</button></div>
+      <div class="deal" id="er-ro"></div>
+      <div class="verdict" id="er-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-mult">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-mult">The exit multiple</h3><p class="sub">What was paid in, what was paid out, where the record has both numbers.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="bars" id="mu-bars"></div>
+      <div class="verdict"><b>Reading</b>Beats went from a $1 billion valuation to $3 billion in under a year; Tidal from $56 million to $302 million in six; Roc-A-Fella's half from $1.4 million to $10 million in seven. The multiples belong to the companies, and the artists' shares of each are the figures the record withholds: a Forbes estimate, an undisclosed minority, a three-way corporation.<sup class="src"><a href="#s32">32</a>, <a href="#s34">34</a>, <a href="#s18">18</a></sup></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 5 ============ -->
+  <article class="chapter" id="c5" data-ch="5" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 5 of 7</span><span><b>1992–2025</b></span><span>Paisley Park · Detroit · Houston · Twitter</span><span>Standalone</span></div>
+      <h2>The Clause <em>War</em></h2>
+      <span class="instrument">Instrument: the contract, read aloud</span>
+      <figure class="plate" data-plate="x-regal"><img class="ph" src="assets/plates/x-regal.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Crowd coming out of the Regal Theater, South Side of Chicago, 1941 · the clause war</span><span class="cr">Russell Lee, Farm Security Administration, Library of Congress · public domain</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="x-court,x-regal,x-sun,x-harlem43">
+        <p class="lead">In September 1992 Prince signed what the press called a $100 million deal with Warner Bros.: six albums at $10 million each, a vice-president's title, financing for his label. It did not include his masters. By 1993 he had written "slave" on his face; by 1996 he had left. On April 18, 2014 Warner agreed that he "will take ownership of the master recordings of his previous Warner Bros. releases." Twenty-two years.<sup class="src"><a href="#s43">43</a>, <a href="#s44">44</a>, <a href="#s45">45</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>George Clinton's publishing passed to Armen Boladian's Bridgeport Music in the 1970s on assignments Clinton calls forged; in 2001 Bridgeport filed more than 500 infringement counts against more than 800 artists and labels, and in 2005 won the Sixth Circuit's bright line, "Get a license or do not sample." In 2013 a court assigned four Clinton copyrights to his own former lawyers to satisfy a $1.5 million fee; in September 2025 a Michigan judge dismissed the Worrell estate's co-ownership claims, and Clinton's own suit against Boladian is pending.<sup class="src"><a href="#s46">46</a>, <a href="#s47">47</a>, <a href="#s48">48</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>De La Soul's six albums, 1989 to 2001, were off streaming for 27 years over sample clearances in the Tommy Boy contracts; Reservoir bought Tommy Boy for about $100 million in 2021 and said "the first call we made was to De La Soul." The catalog went live on March 3, 2023.<sup class="src"><a href="#s49">49</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Megan Thee Stallion's February 2018 contract with 1501 Certified, read by Rolling Stone: a $10,000 advance; 60 percent to the label and 40 to the artist after recoupment, recording costs off the top; an undivided 50 percent of her copyrights to the label's publisher; 30 percent of merchandise, sponsorships, live income and outside features over $1,000, and of "all entertainment-related endeavors." She sued in March 2020 and settled in October 2023, terms undisclosed.<sup class="src"><a href="#s50">50</a>, <a href="#s51">51</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>On September 16, 2020 Kanye West posted pages of his contracts: a 2005 agreement with a $2.8 million advance and a royalty from 14 percent rising to 18; 2012 amendments moving albums six and seven to a 50 percent profit split and albums eight and nine to "100 percent minus a distribution fee," with masters for albums six to ten owned or reverting. Kelis said in January 2020 she had been promised a 33/33/33 publishing split with the Neptunes "which we didn't do," and made nothing from her first two albums.<sup class="src"><a href="#s52">52</a>, <a href="#s53">53</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>Frank Ocean delivered <em>Endless</em> to Def Jam on August 19, 2016 and released <em>Blonde</em> on his own label the next day; Billboard's sources put his profit share going from 14 to 70 percent. The Recording Academy made streaming-only releases eligible in June 2016 and Chance the Rapper won three Grammys with no label; Apple, he said, "gave me half a mil and a commercial." Lauryn Hill settled the New Ark credit suit for a reported $5 million. Taylor Swift's masters were sold twice over her objection and bought back in May 2025 for a reported $300 to $360 million: the contrast case.<sup class="src"><a href="#s54">54</a>, <a href="#s55">55</a>, <a href="#s56">56</a>, <a href="#s57">57</a></sup></p>
+      </div>
+      <section aria-labelledby="h-posted">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-posted">The contract, posted</h3><p class="sub">One artist's arc across the pages he posted. Step through.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="stepper" id="kw">
+        <div class="steps" role="tablist" aria-label="Term"><button role="tab" aria-pressed="true" data-i="0">2005 · ROYALTY</button><button role="tab" aria-pressed="false" data-i="1">2012 · PROFIT SPLIT</button><button role="tab" aria-pressed="false" data-i="2">2012 · P&amp;D</button><button role="tab" aria-pressed="false" data-i="3">THE MASTERS</button></div>
+        <div class="step-body" id="kw-body"></div>
+        <div class="verdict"><b>Reading</b>The rarest thing in the record: the whole arc inside one artist's paper, from a royalty to a profit split to pressing-and-distribution, with reversion written in. It is the arc the independents of Exhibit 2 took as companies, run by one signatory, and it was visible only because he posted it.<sup class="src"><a href="#s52">52</a></sup></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-360">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-360">The 360</h3><p class="sub">The 1501 contract as a dollar of each stream of income. Pick the stream.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="t3-ctl"><button aria-pressed="true" data-k="rec">RECORD SALES</button><button aria-pressed="false" data-k="pub">THE COPYRIGHTS</button><button aria-pressed="false" data-k="merch">MERCH · LIVE · SPONSORS</button><button aria-pressed="false" data-k="all">"ALL ENTERTAINMENT-RELATED ENDEAVORS"</button></div>
+      <div class="split" id="t3-split" aria-hidden="true"></div>
+      <div class="legend" id="t3-leg"></div>
+      <div class="verdict" id="t3-v"></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 6 ============ -->
+  <article class="chapter" id="c6" data-ch="6" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 6 of 7</span><span><b>2011–2026</b></span><span>Fort McPherson · Chicago · the cable dial</span><span>Standalone</span></div>
+      <h2>The <em>Lot</em></h2>
+      <span class="instrument">Instrument: the deed to the land</span>
+      <figure class="plate" data-plate="x-atlanta"><img class="ph" src="assets/plates/x-atlanta.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The skyline of Atlanta from the air · the lot</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="x-atlanta,x-lincoln,x-capitol,x-paramount">
+        <p class="lead">Episode 1 called it the Harpo switch: own the show, not the slot. This chapter is what the switch cost and what it was worth when the people who threw it sold. The room, as a capital expenditure.<sup class="src"><a href="#s58">58</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>June 2015: Atlanta's redevelopment authority approved selling 330 of Fort McPherson's 488 acres to Tyler Perry for $30 million; the authority had paid $26 million for the whole base. March 13, 2026: Paramount bought Perry's equity stake in BET+, believed to be a quarter, for "tens of millions," as it folded the service into Paramount+; his nine-figure overall deal with BET runs to 2028.<sup class="src"><a href="#s58">58</a>, <a href="#s59">59</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>OWN launched on January 1, 2011 as a 50/50 Discovery–Harpo joint venture on Discovery's $100 million; in December 2017 Discovery bought another 24.5 percent for $70 million, pricing the network near $280 million; in December 2020 Winfrey sold most of the rest for about $36 million in Discovery stock and extended her exclusivity through 2025.<sup class="src"><a href="#s60">60</a>, <a href="#s61">61</a></sup> <span class="tag t-inf">Inference</span>About $106 million across the two sales for a network built on her name: a good exit, a modest one, and a full one.</p>
+        <p><span class="tag t-rep">Reported</span>Byron Allen bought the Weather Channel's cable network for about $300 million in March 2018 and more than $1 billion of television stations after it; on August 8, 2025 he sold ten of them to Gray Media for $171 million to cut debt. Paramount shelved the BET sale in 2023 at his $3.5 billion bid.<sup class="src"><a href="#s62">62</a>, <a href="#s63">63</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>The overall deal is the lot's opposite: Shonda Rhimes's Netflix pact, reported at $100 to $150 million in 2017 and $300 to $400 million at renewal in 2021; Ava DuVernay's $100 million Warner deal, which ended at term in 2023; Issa Rae's WarnerMedia deal, estimated at $40 million, which she disputed in public, "any number you read is cap"; Jordan Peele's five-year Universal partnership, exclusive but not equity.<sup class="src"><a href="#s64">64</a>, <a href="#s65">65</a>, <a href="#s66">66</a></sup></p>
+      </div>
+      <section aria-labelledby="h-lad">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-lad">The valuation ladder</h3><p class="sub">Every reported valuation in the chapter, on a log scale, with the dashed chip where the number is an estimate.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="bars" id="lad-bars"></div>
+      <div class="verdict"><b>Reading</b>Three kinds of number on one ladder: the price of land, the price of a network in pieces, and the price of a person's output over a term. Only the first is a deed. The second was sold in three transactions. The third expires.<sup class="src"><a href="#s58">58</a>–<a href="#s66">66</a></sup></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-oo">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-oo">Owned or overall</h3><p class="sub">The same career on two instruments. Flip it.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top"><label class="switch"><input type="checkbox" id="oo-on" checked> The lot (owned) rather than the overall deal (term)</label></div>
+      <div class="deal" id="oo-ro"></div>
+      <div class="verdict" id="oo-v"></div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 7 ============ -->
+  <article class="chapter" id="c7" data-ch="7" data-state="open">
+    <div class="col">
+      <div class="where"><span>Exhibit 7 of 7</span><span><b>2017–2026</b></span><span>UnitedMasters · Shamrock · the AI license</span><span>Watch layer</span></div>
+      <h2>One Hundred <em>Percent</em></h2>
+      <span class="instrument">Instrument: the opt-in</span>
+      <figure class="plate" data-plate="x-jukebox2"><img class="ph" src="assets/plates/x-jukebox2.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Smitty's Jukebox Museum, Pharr, Texas · one hundred percent</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px" data-reel="x-jukebox2,x-capitol,x-times">
+        <p class="lead">UnitedMasters launched in November 2017 on a $70 million round led by Alphabet. From July 2020 it kept 10 percent of royalties on its standard tier and nothing on a $5-a-month tier: "artists maintain 100 percent ownership of their careers." In March 2021 Apple led a $50 million round at a reported $550 million valuation. By 2026 ownership is a $20-to-$60-a-year subscription at any of three distributors.<sup class="src"><a href="#s67">67</a>, <a href="#s68">68</a>, <a href="#s69">69</a></sup></p>
+        <p><span class="tag t-rep">Reported</span>What one hundred percent sells for, when it is sold: Dr. Dre's income streams from two solo albums, N.W.A and his production and writing to Shamrock and Universal for upwards of $200 million in January 2023; Lil Wayne's Young Money masters for more than $100 million by his former manager's complaint. Against them: Bob Dylan's songs for about $300 million, Springsteen's catalog for about $500 million, Timberlake's for more than $100 million, and Blackstone's $1.6 billion for Hipgnosis's 65,000 tracks.<sup class="src"><a href="#s70">70</a>, <a href="#s17">17</a>, <a href="#s71">71</a>, <a href="#s72">72</a></sup></p>
+        <p><span class="tag t-inf">Inference</span>The Black catalog sales of 2020 to 2023 are younger assets sold on private terms, and the gap with the rock deals is partly age and partly the terms nobody can see. What the record does show is that the highest number in the chapter belongs to a fund, not an artist.</p>
+        <p><span class="tag t-fact">Fact</span>October 29, 2025: Universal settled with Udio for a compensatory payment and licenses; a walled-garden platform follows in 2026. November 25, 2025: Warner settled with Suno, with "an opt-in for the use of their name, image, likeness, voice and compositions." Reporting on the Universal deal describes the structure: the artist who opts in is paid for training and for subscribers' creations; the artist who opts out gets nothing. No dollar figure in either settlement is public.<sup class="src"><a href="#s73">73</a>, <a href="#s74">74</a>, <a href="#s75">75</a></sup></p>
+        <p><span class="tag t-watch">Watch</span>The NO FAKES Act, reintroduced in May and June 2026, would create a federal, licensable right in voice and likeness with notice-and-takedown; the Senate Judiciary Committee advanced it unanimously on June 23, 2026. Not enacted as of the dateline. It would make the thing the AI license covers a tradeable deed, and the question of who holds it is the one this episode ends on.<sup class="src"><a href="#s76">76</a></sup></p>
+      </div>
+      <section aria-labelledby="h-gap">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-gap">The catalog gap</h3><p class="sub">Reported catalog and income-stream sales, 2020 to 2024. Hatched where the figure is a litigant's claim or an estimate.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="bars" id="cg-bars"></div>
+      <div class="verdict"><b>Reading</b>Every figure here is reported; none is a filing. The highest belongs to a fund buying 65,000 songs. The Black sales sit at a fifth to half of the rock sales, on assets twenty to forty years younger, and on terms that stayed private. Episode 1's Catalog Gap exhibit is the long form.<sup class="src"><a href="#s70">70</a>–<a href="#s72">72</a></sup></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-opt">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-opt">Opt in</h3><p class="sub">Your voice in the label's AI license, as the structure was reported. Choose.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="op-ctl"><button aria-pressed="true" data-k="in">OPT IN</button><button aria-pressed="false" data-k="out">OPT OUT</button><button aria-pressed="false" data-k="none">NOT ASKED</button></div>
+      <div class="deal" id="op-ro"></div>
+      <div class="verdict" id="op-v"></div>
+    </div>
+  </article>
+
+  <!-- ============ CLOSING ============ -->
+  <section aria-labelledby="h-close" style="margin-top:120px">
+    <div class="col sec-head">
+      <span class="eyebrow">Closing</span>
+      <h2 id="h-close">Three findings, <em>one direction</em></h2>
+      <p class="sub">What the record supports, and what it does not.</p>
+    </div>
+    <div class="col stack">
+      <p class="lead">Capital was the gate: the handshake got the deed and thirty-six banks decided whether it could be held. The split moved, from half a cent to 85/15 to 100 percent, and the structure did not move until an artist posted his pages. Equity beat royalty, and the biggest equity was a pair of headphones and a beauty line. What is open is the newest term of all: an opt-in, in a license between a label and a machine, for the use of a voice.</p>
+    </div>
+    <div class="sides" style="margin-top:28px">
+      <div class="side gold"><h3>What the record supports</h3><ul>
+        <li>The Square 8-K, the Sixth Circuit opinion, the 1501 contract as published, Kanye West's posted pages, the Apple–Beats terms and the two AI settlements' public statements are primary (T1) or contemporaneous press (T2).</li>
+        <li>The Atlantic reform, the TLC and Braxton filings and the Motown price are dated to the trade paper of the day.</li>
+        <li>Every exit is tied to a sale, a court or an auction.</li>
+      </ul></div>
+      <div class="side tagb"><h3>What it does not</h3><ul>
+        <li>The No Limit 85/15 and $375,000 advance are Master P's own account; Cash Money's split is in the record as both 80/20 and 85/15; the Young Money sale is a litigant's claim.</li>
+        <li>Dre's Beats take, Carter's retained Tidal stake, the Braxton settlement, the Ocean share and every overall-deal value are estimates or memoir, and are chipped as such.</li>
+        <li>Clarence Avant as the broker of the Motown sale rests on obituaries and a documentary; the trade press of July 1988 names no advisor.</li>
+      </ul></div>
+    </div>
+    <div class="col" style="margin-top:28px">
+      <div class="crumbs" aria-label="Related reading on this site">
+        <a href="the-chain-of-title.html"><i>EP·1</i>The Chain of Title</a>
+        <a href="the-circulating-dollar.html"><i>EP·2</i>The Circulating Dollar</a>
+        <a href="the-feed.html"><i>EP·4</i>The Feed</a>
+        <a href="the-dilution.html"><i>EP·5</i>The Dilution</a>
+        <a href="the-chain-of-title.html#c3"><i>EP·1·03</i>Unrecouped</a>
+        <a href="the-chain-of-title.html#c4"><i>EP·1·04</i>The Master's Master</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="sources">
+    <p><b>INFERA · MECHANISM SERIES · THE TERMS · Episode 3 of a standalone mini-series · Seven exhibits, original reporting from the public record · © Infera 2026.</b></p>
+    <p style="margin-top:10px"><b>Method.</b> SVNIF: every claim carries Fact, Reported, Inference or Watch; Disputed marks a term the record gives in more than one version. Source tiers: T1 court, SEC, statute or company release · T2 major press or scholarship · T3 reputable secondary · T4 trade press or an artist's own account. No figure here is a measurement of what an artist is worth; each is a measurement of what a piece of paper said.</p>
+    <ol>
+      <li id="s1"><span class="tier">T2/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Inner_City_Broadcasting_Corporation">Inner City Broadcasting Corporation</a>; <a href="https://en.wikipedia.org/wiki/WLIB">WLIB</a> (citing <em>Broadcasting</em>, 1971–72).</li>
+      <li id="s2"><span class="tier">T3</span> <em>Black Enterprise</em>, <a href="https://www.blackenterprise.com/the-legacy-of-percy-e-sutton-remains-a-model-for-multi-generational-wealth/amp/">the legacy of Percy E. Sutton</a> (the $1.9 million); NextTV, "Committed to the cause" (the thirty-six banks).</li>
+      <li id="s3"><span class="tier">T3</span> theGrio, Dec 27, 2009, <a href="https://thegrio.com/2009/12/27/percy-sutton-attorney-politician-and-media-mogul-dies-at-89/">Percy Sutton dies at 89</a> (the Apollo, $250,000).</li>
+      <li id="s4"><span class="tier">T2/T4</span> Wikipedia, WLIB (Emmis, $131 million, 2014); RBR, NABOB on the Inner City stations.</li>
+      <li id="s5"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Sugar_Hill_Records_(hip-hop_label)">Sugar Hill Records</a>.</li>
+      <li id="s6"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Rapper%27s_Delight">Rapper's Delight</a> (certifications; the Chic credits; Grandmaster Caz).</li>
+      <li id="s7"><span class="tier">T2</span> <em>Los Angeles Times</em> and <em>Billboard</em> via Wikipedia, Sugar Hill–MCA, 1983–1990.</li>
+      <li id="s8"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Don_Robey">Don Robey</a> ("Deadric Malone"; Roy Head's account).</li>
+      <li id="s9"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Clarence_Avant">Clarence Avant</a> (Sussex; the IRS seizure); <a href="https://en.wikipedia.org/wiki/Bill_Withers">Bill Withers</a>.</li>
+      <li id="s10"><span class="tier">T2</span> <em>Billboard</em>, July 9, 1988, via <a href="https://mcrfb.com/?p=110448">MCRFB</a>: Motown to MCA/Boston Ventures, $61 million.</li>
+      <li id="s11"><span class="tier">T2</span> <em>Hollywood Reporter</em>, Aug 2023, <a href="https://www.hollywoodreporter.com/news/music-news/clarence-avant-dead-godfather-black-music-1235565979/">Clarence Avant obituary</a>.</li>
+      <li id="s12"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Death_Row_Records">Death Row Records</a> (the $10 million; 2006; $18 million 2009; 2022 trademarks).</li>
+      <li id="s13"><span class="tier">T3/T4</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/No_Limit_Records">No Limit Records</a>; Trapital, Master P's 2021 account of the Priority split.</li>
+      <li id="s14"><span class="tier">T4</span> XXL, <a href="https://www.xxlmag.com/master-p-1998-man-of-the-year/">Master P, 1998</a> (Forbes $56.5 million).</li>
+      <li id="s15"><span class="tier">T4</span> XXL, <a href="https://www.xxlmag.com/the-6-biggest-moment-cash-money-signs-with-universal/">Cash Money signs with Universal</a> (the 80/20 version).</li>
+      <li id="s16"><span class="tier">T3/T4</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Cash_Money_Records">Cash Money Records</a> (the 85/15 version, citing XXL 2008); Trapital, Birdman's masters claim.</li>
+      <li id="s17"><span class="tier">T1/T2</span> Music Business Worldwide, Dec 2020, <a href="https://musicbusinessworldwide.com/universal-music-group-acquired-young-money-catalog-for-over-100m-in-june-says-lil-waynes-ex-manager-whos-suing-him-for-20m">the Sweeney complaint</a>; Pitchfork, Jan 2015, the $51 million suit.</li>
+      <li id="s18"><span class="tier">T2/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Def_Jam_Recordings">Def Jam Recordings</a>; <a href="https://en.wikipedia.org/wiki/Roc-A-Fella_Records">Roc-A-Fella Records</a> (CNBC's 1997 estimate; the 2004 $10 million).</li>
+      <li id="s19"><span class="tier">T4</span> Digital Music News, Jun 21, 2021, <a href="https://www.digitalmusicnews.com/2021/06/21/jay-z-roc-a-fella-nft-lawsuit/">the Roc-A-Fella NFT suit</a> (who owns <em>Reasonable Doubt</em>).</li>
+      <li id="s20"><span class="tier">T2</span> <em>Atlanta Journal-Constitution</em>, Jul and Aug 2026, <a href="https://www.ajc.com/business/2026/07/atlanta-megaproducer-jermaine-dupri-alleges-sony-owes-him-18m-in-royalties/">Dupri v. Sony</a>.</li>
+      <li id="s21"><span class="tier">T3</span> Complex, Apr 2015 and Apr 2017, the Jay-Z albums pulled from streaming.</li>
+      <li id="s22"><span class="tier">T3</span> theGrio, May 17, 2020, <a href="https://thegrio.com/2020/05/17/little-richard-bad-contract-tutti-frutti">Little Richard's contract</a>.</li>
+      <li id="s23"><span class="tier">T3</span> UPI, Nov 27, 1984, the $112–115 million suit (settlement undisclosed).</li>
+      <li id="s24"><span class="tier">T2</span> <em>Las Vegas Sun</em>, Mar 31, 1997, <a href="https://lasvegassun.com/news/1997/mar/31/soul-beneficiary/">"Soul beneficiary"</a> (Ruth Brown's accounting).</li>
+      <li id="s25"><span class="tier">T2/T3</span> Howell Begle obituary, Aug 2024; Wikipedia, <a href="https://en.wikipedia.org/wiki/Rhythm_and_Blues_Foundation">Rhythm and Blues Foundation</a>.</li>
+      <li id="s26"><span class="tier">T2/T3</span> AfroTech, <a href="https://afrotech.com/tlc-bankruptcy">the TLC bankruptcy</a> (citing the <em>Los Angeles Times</em>, 1996).</li>
+      <li id="s27"><span class="tier">T3</span> Beat, <a href="https://www.beat.com.au/the-dark-tale-of-tlc-going-bankrupt-in-the-90s/">TLC's bankruptcy</a> (the July 3, 1995 filing; under $50,000 a year).</li>
+      <li id="s28"><span class="tier">T2</span> New Georgia Encyclopedia, <a href="https://www.georgiaencyclopedia.org/articles/arts-culture/toni-braxton-b-1968/">Toni Braxton</a>.</li>
+      <li id="s29"><span class="tier">T3</span> Showbiz Cheat Sheet, <a href="https://www.cheatsheet.com/news/toni-braxtons-highest-selling-album-debuted-24-years-ago-and-she-filed-bankruptcy-shortly-afterward.html">the 33 cents and the memoir's settlement</a>.</li>
+      <li id="s30"><span class="tier">T2/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/C%C3%AEroc">Cîroc</a>; CNBC, Jan 8, 2014, <a href="https://www.cnbc.com/2014/01/08/sean-combs-p-diddy-diageo-alliance-tequila-takeover-ciroc.html">the Combs–Diageo alliance</a>.</li>
+      <li id="s31"><span class="tier">T2</span> Claims Journal, Jan 18, 2024, <a href="https://www.claimsjournal.com/news/national/2024/01/18/321537.htm">Combs and Diageo settle</a>.</li>
+      <li id="s32"><span class="tier">T2</span> AP via NBC News, 2013, <a href="https://www.nbcnews.com/id/wbna53147897">Beats, HTC and Carlyle</a>; Engadget, May 28, 2014, <a href="https://www.engadget.com/2014-05-28-apple-to-acquire-beats-electronics-and-beats-music-for-3-billio.html">Apple to acquire Beats</a>.</li>
+      <li id="s33"><span class="tier">T2</span> CNBC, May 9, 2014, <a href="https://www.cnbc.com/2014/05/09/dr-dre-beats-and-apple-and-billionaire-math.html">Dre, Beats and billionaire math</a>.</li>
+      <li id="s34"><span class="tier">T1</span> Square, Form 8-K, Apr 30, 2021, <a href="https://www.sec.gov/Archives/edgar/data/1512673/000119312521155059/d448286d8k.htm">the Tidal acquisition</a>; SiliconAngle, Mar 2021.</li>
+      <li id="s35"><span class="tier">T3</span> The Fader, Jan 23, 2017, <a href="https://thefader.com/2017/01/23/sprint-purchase-33-percent-tidal-partnership">Sprint buys 33 percent of Tidal</a>.</li>
+      <li id="s36"><span class="tier">T2</span> Quartz, <a href="https://qz.com/2043156/how-lvmh-helped-make-rihanna-a-billionaire">how LVMH helped make Rihanna a billionaire</a> (50.01/49.99; €500 million).</li>
+      <li id="s37"><span class="tier">T2</span> Variety, Oct 2021, <a href="https://variety.com/2021/film/news/lebron-james-springhill-investors-nike-epic-1235088733">SpringHill at $725 million</a>.</li>
+      <li id="s38"><span class="tier">T2/T3</span> Nairametrics, Apr 26, 2022, <a href="https://nairametrics.com/2022/04/26/kevin-harts-media-company-sells-15-stake-to-abry-partners-for-100-million/">HartBeat sells 15 percent for $100 million</a>.</li>
+      <li id="s39"><span class="tier">T2</span> Axios, Jan 4, 2022, <a href="https://www.axios.com/2022/01/04/will-smith-jada-pinkett-westbrook-minority-stake">Westbrook's minority stake</a>; Semafor, Jan 7, 2024, <a href="https://www.semafor.com/article/01/07/2024/the-fall-of-will-and-jadas-media-empire">the fall of Westbrook</a>.</li>
+      <li id="s40"><span class="tier">T2/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Adidas_Yeezy">Adidas Yeezy</a> (Forbes: 11 percent; $191 million); Euronews, Oct 30, 2024, the settlement.</li>
+      <li id="s41"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Crenshaw_(mixtape)">Crenshaw</a> (the $100 copies).</li>
+      <li id="s42"><span class="tier">T4</span> The Source, Nov 28, 2017, <a href="https://thesource.com/2017/11/28/nipsey-hussle-announces-new-strategic-partnership-atlantic-records/">the Atlantic partnership</a>.</li>
+      <li id="s43"><span class="tier">T2</span> <em>St. Petersburg Times</em>, Sep 4, 1992, <a href="https://www.tampabay.com/archive/1992/09/04/prince-signs-100-million-deal">Prince signs $100 million deal</a>.</li>
+      <li id="s44"><span class="tier">T2</span> <em>Rolling Stone</em>, Apr 2014, <a href="https://www.rollingstone.com/music/music-news/prince-promises-new-album-and-remasters-after-label-partnership-171916/">Prince and Warner</a>.</li>
+      <li id="s45"><span class="tier">T2</span> The Current, Apr 18, 2014, <a href="https://www.thecurrent.org/feature/2014/04/18/prince-makes-up-with-warner-bros-promises-new-music">Prince takes ownership of his masters</a>.</li>
+      <li id="s46"><span class="tier">T2/T4</span> <em>Black Enterprise</em>, 2025, <a href="https://www.blackenterprise.com/george-clinton-prevails-court-battle-catalog-rights">George Clinton's catalog fight</a>; Granneman, the 2001 Bridgeport suits.</li>
+      <li id="s47"><span class="tier">T1</span> <em>Bridgeport Music v. Dimension Films</em>, 410 F.3d 792 (6th Cir. 2005), <a href="https://law.resource.org/pub/us/case/reporter/F3/410/410.F3d.792.02-6521.03-5738.html">opinion</a>.</li>
+      <li id="s48"><span class="tier">T2</span> NME, Jan 2013, <a href="https://www.nme.com/?p=1265519">Clinton's copyrights assigned to his lawyers</a>.</li>
+      <li id="s49"><span class="tier">T1/T2</span> Reservoir, Jan 3, 2023, <a href="https://www.nasdaq.com/press-release/reservoir-brings-de-la-souls-iconic-catalog-to-streaming-platforms-2023-01-03">De La Soul to streaming</a>; Music Business Worldwide.</li>
+      <li id="s50"><span class="tier">T2</span> <em>Rolling Stone</em>, Mar 2020, <a href="https://www.rollingstone.com/pro/features/why-megan-thee-stallion-sued-her-own-label-962233/">why Megan Thee Stallion sued her label</a> (the contract, read).</li>
+      <li id="s51"><span class="tier">T2/T4</span> The Fader, Oct 19, 2023, <a href="https://www.thefader.com/2023/10/19/megan-thee-stallion-settles-lawsuit-with-label-1501">the settlement</a>.</li>
+      <li id="s52"><span class="tier">T2</span> The Fashion Law, Sep 2020, <a href="https://www.thefashionlaw.com/?p=32177">Kanye West's posted contracts</a>.</li>
+      <li id="s53"><span class="tier">T2</span> Okayplayer, Jan 30, 2020, <a href="https://www.okayplayer.com/news/kelis-neptunes-pharrell-publishing-contract.html">Kelis on the Neptunes' publishing split</a> (<em>Guardian</em> interview).</li>
+      <li id="s54"><span class="tier">T2</span> The Fader, Aug 24, 2016, <a href="https://www.thefader.com/2016/08/24/frank-ocean-universal-music-group-over-blond-exclusive-">Frank Ocean, Blonde and Def Jam</a> (Billboard's 14-to-70).</li>
+      <li id="s55"><span class="tier">T2</span> The Fader, Jun 16, 2016, <a href="https://www.thefader.com/2016/06/16/streaming-only-albums-grammys-chance-the-rapper">the Grammy rule change</a>; Music Business Worldwide, Mar 2017, <a href="https://www.musicbusinessworldwide.com/chance-the-rapper-apple-paid-me-500000-for-coloring-book-exclusive">"half a mil and a commercial"</a>.</li>
+      <li id="s56"><span class="tier">T2</span> The Skinny, <a href="https://www.theskinny.co.uk/music/opinion/the-miseducation-of-lauryn-hill-retrospective">the New Ark settlement</a> (Rolling Stone's $5 million).</li>
+      <li id="s57"><span class="tier">T2/T3</span> Music Business Worldwide, Nov 16, 2020, <a href="https://www.musicbusinessworldwide.com/scooter-braun-sells-taylor-swift-masters-for-300m-to-investment-fund-report">Swift's masters sold to Shamrock</a>; Hypebeast, May 2025, the buyback.</li>
+      <li id="s58"><span class="tier">T4</span> REBusiness Online, Jun 2015, <a href="https://rebusinessonline.com/?p=134675">Fort McPherson, 330 acres, $30 million</a>.</li>
+      <li id="s59"><span class="tier">T2/T3</span> theGrio and AfroTech, Mar 13, 2026, <a href="https://thegrio.com/2026/03/13/tyler-perry-bet-stake-acquired-paramount-bet-plus-merger">Paramount buys Perry's BET+ stake</a>.</li>
+      <li id="s60"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Oprah_Winfrey_Network">Oprah Winfrey Network</a>.</li>
+      <li id="s61"><span class="tier">T2</span> Bloomberg via BNN, Dec 2020, <a href="https://www.bnnbloomberg.ca/oprah-winfrey-sells-most-of-own-stake-to-discovery-for-36-million-1.1540303">Winfrey sells most of her OWN stake</a>.</li>
+      <li id="s62"><span class="tier">T2</span> CNBC, Mar 22, 2018, <a href="https://www.cnbc.com/2018/03/22/byron-allens-entertainment-studios-buys-the-weather-channel.html">Allen buys the Weather Channel</a>.</li>
+      <li id="s63"><span class="tier">T4</span> WebProNews, Aug 2025, <a href="https://www.webpronews.com/byron-allen-sells-10-tv-stations-to-gray-media-for-171m-to-cut-debt">Allen sells ten stations</a>; Wikipedia, BET Media Group (the 2023 bids).</li>
+      <li id="s64"><span class="tier">T2</span> theGrio, Jul 12, 2021, <a href="https://thegrio.com/2021/07/12/shonda-rhimes-significant-raise-netflix-300m-deal">Rhimes's Netflix renewal</a>.</li>
+      <li id="s65"><span class="tier">T2</span> Yahoo/Variety, 2023, <a href="https://ca.news.yahoo.com/ava-duvernay-warner-bros-tv-200506021.html">DuVernay and Warner Bros. TV</a>.</li>
+      <li id="s66"><span class="tier">T2</span> CNN, Mar 24, 2021, <a href="https://amp.cnn.com/cnn/2021/03/24/business/issa-rae-warnermedia-deal">Issa Rae's WarnerMedia deal</a>; Atlanta Black Star, "any number you read is cap"; Universal Pictures, Oct 1, 2019, the Monkeypaw partnership.</li>
+      <li id="s67"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/UnitedMasters">UnitedMasters</a> (Nov 2017, $70 million led by Alphabet).</li>
+      <li id="s68"><span class="tier">T2</span> Music Business Worldwide, Jul 9, 2020, <a href="https://musicbusinessworldwide.com/unitedmasters-now-gives-artists-100-of-royalties-via-5-per-month-subscription-tier">UnitedMasters Select</a>; Mar 31, 2021, the Apple-led round and the $550 million valuation.</li>
+      <li id="s69"><span class="tier">T4</span> Dynamoi, 2026 distributor pricing comparison (vendor pages to confirm).</li>
+      <li id="s70"><span class="tier">T2</span> Music Business Worldwide, Jan 2023, <a href="https://www.musicbusinessworldwide.com/dr-dre-selling-music-assets-to-universal-and-shamrock-in-200m-deal-report1/">Dr. Dre's $200 million asset sale</a>.</li>
+      <li id="s71"><span class="tier">T2/T3</span> Benzinga, Jan 2022, <a href="https://www.benzinga.com/news/22/01/24912789/how-much-did-bruce-springsteen-bob-dylan-and-other-legends-sell-their-music-catalogs-for">the Dylan, Springsteen, Young and Nicks sales</a>; Stereogum, May 2022, Timberlake.</li>
+      <li id="s72"><span class="tier">T2</span> MusicTech, May 2024, <a href="https://musictech.com/news/industry/blackstone-hipgnosis-deal/">Blackstone's $1.6 billion for Hipgnosis</a>.</li>
+      <li id="s73"><span class="tier">T2</span> Music Business Worldwide, Oct 29, 2025, <a href="https://www.musicbusinessworldwide.com/universal-music-settles-udio-lawsuit-strikes-deal-for-licensed-ai-music-platform">UMG settles with Udio</a>.</li>
+      <li id="s74"><span class="tier">T4</span> Digital Music News, Oct 29, 2025, <a href="https://www.digitalmusicnews.com/2025/10/29/umg-udio-deal-everything-we-know/">the opt-in structure as reported</a>.</li>
+      <li id="s75"><span class="tier">T2</span> TheWrap, Nov 25, 2025, <a href="https://www.thewrap.com/warner-music-group-partnership-suno-settles-lawsuit-ai-music-company">Warner settles with Suno</a> (Kyncl on the opt-in).</li>
+      <li id="s76"><span class="tier">T2</span> Manatt, 2026, <a href="https://manatt.com/insights/newsletters/client-alert/congress-reintroduces-the-no-fakes-act-what-s-new-in-the-2026-bill">the NO FAKES Act of 2026</a>; S&amp;P Global, Jun 23, 2026, the Judiciary vote.</li>
+      <li id="s77"><span class="tier">FURTHER READING</span> Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026). Nothing on this page is drawn from it.</li>
+    </ol>
+    <p>Hero and charts are drawn in code from the figures above. The plates and reel images are archival photographs and prints in the public domain or with no known restrictions (Library of Congress; Wikimedia Commons), each credited on the image and in assets/plates/credits.json; none depicts an identifiable public figure. Contact: infera@melophon.com.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fmt=function(n){return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")};
+  var esc=function(s){return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})};
+  var money=function(n){return n>=1e9?"$"+(n/1e9).toFixed(n>=1e10?0:2).replace(/\.?0+$/,"")+"B":n>=1e6?"$"+(n/1e6).toFixed(n>=1e8?0:1).replace(/\.0$/,"")+"M":n>=1000?"$"+fmt(n):"$"+n.toFixed(2)};
+  function seg(id,fn){var s=$(id);if(!s)return;$$("button",s).forEach(function(b){b.addEventListener("click",function(){$$("button",s).forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});fn(b.dataset.k||b.dataset.i||b.dataset.y)})})}
+  var D=function(l,v,s,c){return '<div class="d"><span class="l">'+esc(l)+'</span><span class="v '+(c||'')+'">'+v+'</span><span class="s">'+esc(s)+'</span></div>'};
+  var CH='<span class="disp">disputed</span>';
+
+  /* ---------- hero ---------- */
+  (function(){
+    var c=$("#circuitcanvas");if(!c)return;var ctx=c.getContext("2d");var W,H,t=0,dots=[];
+    function size(){var r=c.parentElement.getBoundingClientRect();W=c.width=Math.max(320,Math.floor(r.width));H=c.height=Math.max(300,Math.floor(r.height))}
+    size();window.addEventListener("resize",size);
+    for(var i=0;i<70;i++)dots.push({a:Math.random()*Math.PI*2,v:.0025+Math.random()*.003,r:Math.random()});
+    var N=5,CUT0=Math.PI*1.15,CUT1=Math.PI*1.45;
+    function draw(){
+      ctx.clearRect(0,0,W,H);var cx=W*.68,cy=H*.46,R=Math.min(W,H)*.34;var blink=reduce?0:(Math.sin(t*.06)*.5+.5);
+      ctx.lineWidth=1.2;
+      for(var s=0;s<120;s++){var a0=s/120*Math.PI*2,a1=(s+1)/120*Math.PI*2;var inCut=a0>CUT0&&a0<CUT1;ctx.strokeStyle=inCut?"rgba(192,94,60,"+(0.25+blink*.45)+")":"rgba(201,162,39,.55)";ctx.setLineDash(inCut?[3,5]:[]);ctx.beginPath();ctx.arc(cx,cy,R,a0,a1);ctx.stroke()}
+      ctx.setLineDash([]);ctx.strokeStyle="rgba(124,192,150,.45)";ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,R*.78,CUT0-.15,CUT1+.15);ctx.stroke();
+      var names=["ARTIST","LABEL · DISTRIBUTOR","AUDIENCE","BRAND · PLATFORM","INVESTOR · BANK"];
+      for(var n=0;n<N;n++){var a=-Math.PI/2+n/N*Math.PI*2;var x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R;ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle="#14110d";ctx.fill();ctx.strokeStyle="rgba(236,227,208,.9)";ctx.lineWidth=1.4;ctx.stroke();ctx.font="10px 'Space Mono',monospace";ctx.fillStyle="rgba(168,157,136,.9)";ctx.textAlign=Math.cos(a)>.2?"left":Math.cos(a)<-.2?"right":"center";ctx.fillText(names[n],x+Math.cos(a)*16,y+Math.sin(a)*16+4)}
+      dots.forEach(function(d){if(!reduce)d.a+=d.v;var inCut=((d.a%(Math.PI*2))+Math.PI*2)%(Math.PI*2);var cut=inCut>CUT0&&inCut<CUT1;var rr=cut?R*.78:R;var x=cx+Math.cos(d.a)*rr,y=cy+Math.sin(d.a)*rr;ctx.beginPath();ctx.arc(x,y,cut?1.4:2,0,Math.PI*2);ctx.fillStyle=cut?"rgba(124,192,150,.8)":"rgba(201,162,39,"+(0.5+d.r*.5)+")";ctx.fill()});
+      t++;if(!reduce)requestAnimationFrame(draw)}
+    draw()
+  })();
+
+  /* ---------- rail ---------- */
+  (function(){
+    var links=$$(".rail a");$$(".chapter").forEach(function(ch){var a=links.filter(function(l){return l.dataset.ch===ch.dataset.ch})[0];if(a)a.classList.add(ch.dataset.state)});
+    if(!("IntersectionObserver" in window))return;
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("active",a.dataset.ch===e.target.dataset.ch)})}})},{rootMargin:"-40% 0px -50% 0px"});
+    $$(".chapter").forEach(function(ch){io.observe(ch)})
+  })();
+
+  /* ---------- your split ---------- */
+  (function(){
+    var T={richard:{per:0.005,who:"the artist",note:"half a cent a record; publishing sold for $50",tier:"REPORTED · T3",disp:false},
+      brown:{rate:0.045,price:3.98,who:"the artist, before charged expenses",note:"4.5% of a 1950s list price (illustrative $3.98); Atlantic's own accounting showed $754 net over twenty years",tier:"FACT · T2",disp:false},
+      tlc:{per:0.20/3,who:"each of three members",note:"about 7% headline, about 20 cents after expenses, split three ways (Los Angeles Times)",tier:"REPORTED · T2",disp:true},
+      braxton:{per:0.33,who:"the artist",note:"33 cents an album, per her lawyer; 35 cents also circulates",tier:"REPORTED · T3",disp:true},
+      kanye05:{rate:0.14,price:12.99,who:"the artist",note:"14% royalty on a 2005 list price (illustrative $12.99), before recoupment of a $2.8 million advance",tier:"FACT · T2",disp:false},
+      megan:{rate:0.40,price:6.00,who:"the artist, after recoupment",note:"40% of net after recording costs come off the top (illustrative $6 net per unit)",tier:"FACT · T2",disp:false},
+      cashmoney:{rate:0.80,price:6.00,who:"the label (Cash Money), which kept the masters",note:"80/20 per XXL; 85/15 after recoupment per another account; the artist's share inside the label is a separate contract",tier:"REPORTED · T4",disp:true},
+      nolimit:{rate:0.85,price:6.00,who:"the label (No Limit), which kept the masters",note:"85/15 by Master P's own account, with a $375,000 advance per album",tier:"REPORTED · T4",disp:true},
+      ocean:{rate:0.70,price:6.00,who:"the artist, as profit share",note:"reported 70% profit share on Blonde, up from 14%",tier:"REPORTED · T2",disp:true},
+      um:{rate:1.0,price:6.00,who:"the artist",note:"100% of distribution royalties for $5 a month (2020) or about $60 a year (2026)",tier:"FACT · T2",disp:false}};
+    var sel=$("#ys-deal"),u=$("#ys-units"),uo=$("#ys-uo"),out=$("#ys-out"),v=$("#ys-v");if(!sel)return;
+    function run(){var t=T[sel.value],U=+u.value;uo.textContent=fmt(U)+" albums";var per=t.per!==undefined?t.per:t.rate*t.price;var tot=per*U;
+      out.innerHTML=D("Per album",money(per),t.who,"gold")+D("On these units",money(tot),"before recoupment unless stated",tot<1e6?"tag":"fact")+D("The term",t.tier+(t.disp?' '+CH:''),t.note,"dim")}
+    sel.addEventListener("change",run);u.addEventListener("input",run);run();
+    v.innerHTML="<b>Reading</b>Where the record gives a cents-per-album figure the page uses it; where it gives a rate, the price is illustrative and labeled. The point of the exhibit is the order of magnitude between the top of the list and the bottom, not the dollars."
+  })();
+
+  /* ---------- the engine ---------- */
+  (function(){
+    var cv=$("#en-canvas");if(!cv)return;
+    var N={P:{n:"ARTIST",a:-90},R:{n:"LABEL",a:-18},A:{n:"AUDIENCE",a:54},B:{n:"INVESTOR · BANK",a:126},O:{n:"BRAND · PLATFORM",a:198}};
+    var E=[
+      ["P>R","the work: artist to label or distributor","in"],["R>A","the release: label to audience","in"],["A>R","the sale: audience to label","in"],["R>P","the royalty, the split, the advance: label to artist","in"],
+      ["A>B","the market: audience to investor","mv"],["B>R","the capital: investor or bank into the label","mv"],["P>B","the equity: artist into a company","mv"],["B>P","the buyout: investor to artist","mv"],
+      ["O>R","the brand or platform into the label","out"],["R>O","the label's share to its owners","ex"],["O>P","the brand or platform straight to the artist: equity, exclusive, endorsement","out"],["P>O","the crossing: the work to the outside audience","in"],
+      ["O>B","the brand's investor","out"],["B>O","the investor's exit to a buyer","mv"],["R>X","the sale: masters or catalog leave the artist","ex"],["A>X","the withdrawal","mv"]
+    ];
+    var K=[
+      {y:"1955",t:"The baseline",h:"Tutti Frutti: half a cent a record, $50 for the publishing",n:"½¢",w:"Little Richard's Specialty rate; $25,000 from the first 500,000. In 1984 he sued for $112 million and settled for an undisclosed amount. Ruth Brown's Atlantic statements would show $754 over twenty years at 4.5 percent.",s:"REPORTED · T3 · Exhibit 3",a:"#c3",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":0,"R>O":3,"R>X":3},g:{share:3,masters:0,cap:5,ex:90},valve:{n:"The flat fee and the recoupable advance",open:false,who:"the label"},v:"The paper said half a cent. Everything after this stop is an attempt to rewrite that line."},
+      {y:"1972",t:"The handshake",h:"Inner City buys WLIB; thirty-six banks refuse the WBLS loan",n:"36",w:"Percy Sutton and Clarence Jones, with fifty-plus shareholders, bought the first Black-owned station in New York, reportedly for $1.9 million; in 1974 they needed $1.1 million for the FM and were refused thirty-six times. Don Robey was taking writer credit as 'Deadric Malone' in Houston.",s:"FACT / REPORTED · T2/T3 · Exhibit 1",a:"#c1",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"B>R":1,"A>B":1},g:{share:10,masters:40,cap:8,ex:40},valve:{n:"The bank's answer",open:false,who:"thirty-six banks"},v:"Ownership of the room changed who held the paper. Capital, not price, decided whether it could be held."},
+      {y:"1979",t:"The bootlegger's money",h:"Sugar Hill: funded by Morris Levy; Rapper's Delight; the Chess catalog lost by 1990",n:"$481,000",w:"The Robinsons owned the label; the seed capital came from Roulette's Levy; the first hit's writing credit went to Chic's writers and not to Grandmaster Caz. The 1983 MCA deal cost them the Chess catalog in a $3 million debt workout; they said they received $481,000.",s:"FACT · T2/T3 · Exhibit 1",a:"#c1",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"B>R":3,"R>X":3,"R>O":2},g:{share:10,masters:50,cap:25,ex:80},valve:{n:"The debt workout",open:false,who:"the creditor"},v:"A Black-owned label lost a Black catalog to a major in a workout: the exit from Episode 2, run from the inside."},
+      {y:"1988",t:"Sold by choice; reformed by precedent",h:"Motown for $61 million, Jobete excluded; Atlantic resets Ruth Brown's rate to 10 percent",n:"$61M",w:"Gordy sold the label and kept the publishing, insisting 20 percent of the equity be open to minority investors. The same year Atlantic waived its R&B artists' unrecouped debts, recalculated royalties to 1970, and seeded the Rhythm & Blues Foundation with $1.5 to $2 million.",s:"FACT · T2 · Exhibits 1, 3",a:"#c3",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"R>X":3,"B>R":3,"R>O":2},g:{share:20,masters:30,cap:40,ex:85},valve:{n:"The recalculation",open:true,who:"the label, pressed by a lawyer"},v:"The first label-wide retroactive royalty reform in the record was won without a lawsuit. It was the reform the next decade showed was not enough."},
+      {y:"1992",t:"Financed",h:"Prince's $100 million deal without masters; Interscope's $10 million into Death Row",n:"$10M",w:"Six albums at $10 million each and a vice-president's title, and no masters: 'slave' on his face by 1993. Death Row, financed by Interscope, peaked above $100 million a year and was auctioned out of bankruptcy for $18 million in 2009.",s:"FACT · T2/T3 · Exhibits 2, 5",a:"#c5",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"B>R":3,"R>O":3,"R>X":3},g:{share:25,masters:10,cap:60,ex:85},valve:{n:"The advance, in exchange for the masters",open:false,who:"the label"},v:"The biggest advance of its day did not include masters; the biggest financing of its day ended at auction. Financed is someone else's equity."},
+      {y:"1995",t:"Platinum and bankrupt",h:"TLC files Chapter 11 on a diamond album: about 7 percent, about 20 cents, split three ways",n:"7%",w:"$3.5 million in debts; each member clearing under $50,000 a year; the 1996 settlement cut out the production company on confidential terms. Toni Braxton would file in January 1998 on a contract her lawyer put at 33 cents an album.",s:"REPORTED · T2/T3 · Exhibit 3",a:"#c3",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"R>O":3,"R>X":2,"A>X":1},g:{share:7,masters:0,cap:30,ex:85},valve:{n:"The bankruptcy court",open:true,who:"the artist, as leverage"},v:"The recoupable advance from Episode 1 as a court file. Two Arista/LaFace acts used bankruptcy as contract leverage within thirty months."},
+      {y:"1996",t:"Distributed",h:"No Limit keeps the masters: 85/15 and $375,000 an album, by Master P's account",n:"85/15",w:"The label kept its masters and its studio and paid Priority for the trucks; 23 albums and 15 million units in 1998, more than $150 million by his count, $56.5 million to him by Forbes'. Bankrupt in December 2003.",s:"REPORTED · T4 · Exhibit 2",a:"#c2",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":3,"R>O":1,"B>R":1},g:{share:60,masters:95,cap:35,ex:30},valve:{n:"The distribution deal",open:true,who:"the owner-operator"},v:"The first of the independents to keep the masters did it with a distribution deal, not a loan; ownership did not insulate it from the exit."},
+      {y:"1998",t:"The thirty-million-dollar deal",h:"Cash Money–Universal: $2 million a year, masters and publishing kept, 80/20 or 85/15",n:"$30M",w:"Three years, $1.5 million per artist for up to six a year, Universal taking 20 percent 'for its services' by one account and 15 after recoupment by another. Birdman has said the masters still earn $20 to $30 million a year; Lil Wayne's $51 million suit against the label came in 2015.",s:"REPORTED · T3/T4 · Exhibit 2",a:"#c2",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"R>O":1,"B>R":2,"P>B":1},g:{share:55,masters:95,cap:50,ex:25},valve:{n:"Pressing and distribution",open:true,who:"the label that owned itself"},v:"The canonical masters-retained deal, in two versions. Inside the masters-owning label the artist still had to sue."},
+      {y:"2004",t:"Half the company",h:"Roc-A-Fella's other half for $10 million, seven years after the first half went for an estimated $1.4 million",n:"$10M",w:"Island Def Jam bought the remaining 50 percent in December 2004 and made Jay-Z its president. The masters sit in a three-way-owned corporation, not with him personally; the record places Roc-A-Fella's recovery from Def Jam around 2009, undated.",s:"REPORTED · T2/T3 · Exhibit 2",a:"#c2",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"R>X":3,"R>O":2,"P>B":2},g:{share:40,masters:50,cap:55,ex:60},valve:{n:"The buyout, with the chair",open:true,who:"the major"},v:"Half a company for $1.4 million, then $10 million. The artist's masters stayed with the corporation that bore his label's name."},
+      {y:"2007",t:"The equal share",h:"Cîroc: profits split with Diageo; 40,000 cases to two million a year",n:"50/50",w:"No equity in the brand, an equal share of its profit. DeLeón in 2013 was a true 50/50. In 2023 Combs sued over Diageo's investment in the brands; in January 2024 he dropped the suit and Diageo became sole owner of both. No payment disclosed.",s:"FACT · T2 · Exhibit 4",a:"#c4",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":2,"O>P":3,"P>O":3,"O>B":2},g:{share:50,masters:50,cap:70,ex:70},valve:{n:"The profit share without the equity",open:true,who:"the brand"},v:"The flagship of the equity turn ended with the artist exiting both brands. A share of profit is not a share of the company."},
+      {y:"2014",t:"Equity, and the masters back",h:"Apple buys Beats for $3 billion; Warner returns Prince's masters",n:"$3B",w:"$2.6 billion in cash and $400 million in stock; Forbes put Dre's stake at 20 to 25 percent. The same spring Warner agreed Prince 'will take ownership of the master recordings of his previous Warner Bros. releases,' twenty-two years after the $100 million deal.",s:"FACT · T2 · Exhibits 4, 5",a:"#c4",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":2,"P>B":3,"B>P":3,"O>P":3,"B>O":3},g:{share:80,masters:80,cap:100,ex:40},valve:{n:"The cap table",open:true,who:"the founder"},v:"The biggest equity a Black artist took was a pair of headphones; the masters came back by agreement, not by court."},
+      {y:"2016",t:"The exit, and the rule",h:"Frank Ocean's 14 to 70 percent; Chance's no-label Grammys",n:"70%",w:"Endless fulfilled the Def Jam contract on August 19; Blonde came out on his own label a day later; Billboard's sources put the profit share at 70 percent from 14. The Recording Academy made streaming-only releases eligible in June; Chance won three Grammys and said Apple 'gave me half a mil and a commercial.'",s:"REPORTED · T2 · Exhibit 5",a:"#c5",f:{"P>R":1,"R>A":3,"A>R":3,"R>P":3,"O>P":3,"P>O":3,"O>R":1},g:{share:70,masters:90,cap:60,ex:20},valve:{n:"The last album on the contract",open:true,who:"the artist"},v:"The clearest single-artist share jump in the record, reported; and the platform's money replacing the advance with no masters transferred."},
+      {y:"2020",t:"The contract, posted",h:"Kanye West's pages: 14 percent to a profit split to '100 percent minus a distribution fee'; Megan's 60/40",n:"60/40",w:"A 2005 advance of $2.8 million and a royalty rising from 14 to 18; 2012 amendments to a 50 percent profit split and then P&D with masters reverting. The 1501 contract of 2018: 60 percent to the label after recoupment, half the copyrights, 30 percent of everything else; she sued in March 2020.",s:"FACT · T2 · Exhibit 5",a:"#c5",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"R>O":3,"R>X":2,"O>P":2},g:{share:40,masters:40,cap:50,ex:60},valve:{n:"The 360 clause",open:false,who:"the label, until the pages were posted"},v:"The rarest thing in the record: the whole arc inside one artist's paper, visible only because he posted it; and the most fully published 360 split, visible because she sued."},
+      {y:"2021",t:"One hundred percent",h:"Tidal to Square for $302 million; UnitedMasters at $550 million, 100 percent for $5 a month",n:"100%",w:"Square's 8-K closed April 30, 2021 with Carter retaining an undisclosed minority; Apple led UnitedMasters' $50 million round in March. Hipgnosis's 65,000 tracks would go to Blackstone for $1.6 billion in 2024; Dre's income streams for upwards of $200 million in 2023.",s:"FACT / REPORTED · T1/T2 · Exhibits 4, 7",a:"#c7",f:{"P>R":1,"R>A":3,"A>R":3,"R>P":3,"P>B":3,"B>P":3,"O>P":3,"B>O":3,"R>X":2},g:{share:90,masters:90,cap:90,ex:50},valve:{n:"The subscription",open:true,who:"the artist, for $5"},v:"Ownership became a subscription. What one hundred percent sells for, when sold, is the catalog gap: younger assets, private terms, a fund at the top."},
+      {y:"2025",t:"The opt-in",h:"UMG–Udio and WMG–Suno: paid if you opt in, nothing if you opt out; the NO FAKES Act advanced",n:"opt-in",w:"October 29 and November 25, 2025: compensatory settlements and licenses, walled gardens in 2026, 'an opt-in for the use of their name, image, likeness, voice and compositions.' No dollar figure public. June 23, 2026: the Senate Judiciary Committee advanced a federal, licensable right in voice and likeness.",s:"FACT / WATCH · T2 · Exhibit 7",a:"#c7",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":1,"O>R":3,"R>O":3,"O>P":1,"R>X":3},g:{share:30,masters:60,cap:70,ex:75},valve:{n:"The opt-in",open:true,who:"the label, so far"},v:"The newest term of all is a license between a label and a machine for the use of a voice. Who holds the deed to the voice is the question this episode ends on."}
+    ];
+var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
+    var ctx=cv.getContext("2d"),W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
+    function size(){var r=cv.getBoundingClientRect();W=Math.max(300,Math.floor(r.width));H=Math.max(300,Math.floor(r.height));cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0)}
+    size();window.addEventListener("resize",size);
+    var col={in:"201,162,39",out:"176,138,90",mv:"124,192,150",ex:"192,94,60"};
+    function pos(id){var cx=W/2,cy=H*(W<560?.44:.46),R=Math.min(W,H)*(W<560?.29:.36);if(id==="X")return {x:cx,y:cy+R*1.3};var a=N[id].a*Math.PI/180;return {x:cx+Math.cos(a)*R,y:cy+Math.sin(a)*R}}
+    function route(key){var a=pos(key[0]),b=pos(key[2]);var mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1;var off=key[0]<key[2]?1:-1;var bend=key[2]==="X"?0:L*.22*off;return {a:a,b:b,c:{x:mx-dy/L*bend,y:my+dx/L*bend}}}
+    function at(r,t){var u=1-t;return {x:u*u*r.a.x+2*u*t*r.c.x+t*t*r.b.x,y:u*u*r.a.y+2*u*t*r.c.y+t*t*r.b.y}}
+    E.forEach(function(e){cur[e[0]]=0;tgt[e[0]]=0});
+    function setK(i,animate){k=Math.max(0,Math.min(K.length-1,i));var f=K[k];E.forEach(function(e){tgt[e[0]]=f.f[e[0]]||0});lerpT=animate&&!reduce?0:1;if(lerpT===1)E.forEach(function(e){cur[e[0]]=tgt[e[0]]});
+      $("#en-k").value=k;$("#en-year").textContent=f.y;$("#en-k").setAttribute("aria-valuetext",f.y+" · "+f.t);$$("#en-years span").forEach(function(s,j){s.classList.toggle("on",j===k)});
+      $("#en-micro").innerHTML='<span class="eb">Micro · '+f.y+' · '+esc(f.t)+'</span><span class="h">'+esc(f.h)+'</span><span class="n">'+esc(f.n)+'</span><span class="w">'+esc(f.w)+'</span><span class="s"><span>'+esc(f.s)+'</span>'+(f.a?'<a href="'+f.a+'">Open the exhibit →</a>':'')+'</span>';
+      var g=f.g;$("#en-macro").innerHTML='<div class="g"><span class="l">The artist\'s share</span><span class="m"><i style="width:'+g.share+'%"></i></span><span class="v">'+(g.share>=80?'the artist keeps most of the dollar':g.share>=30?'a split, a share of profit':'a rate against an advance')+'</span></div>'+
+        '<div class="g"><span class="l">The masters · with the artist</span><span class="m"><i style="width:'+g.masters+'%;--c:var(--kraft)"></i></span><span class="v">'+(g.masters>=80?'owned or reverting':g.masters>=40?'half, or in a company':'held by the label')+'</span></div>'+
+        '<div class="g"><span class="l">What leaves to the label, distributor or buyer</span><span class="m"><i style="width:'+g.ex+'%;--c:var(--tag)"></i></span><span class="v">'+(g.ex>=80?'the catalog or the company is sold':g.ex>=45?'a fee, a distribution cut':'most of it stays with the artist')+'</span></div>'+
+        '<div class="g"><span class="l">Investor · bank at work</span><span class="m"><i style="width:'+g.cap+'%;--c:var(--fact)"></i></span><span class="v">'+(g.cap>=80?'equity capital, a cap table':g.cap>=45?'a major\'s advance, a financier\'s stake':'thin: the handshake and the refused loan')+'</span></div>'+
+        '<div class="g valve'+(f.valve.open?' open':'')+'"><span class="l">The valve</span><span class="v"><b>'+(f.valve.open?'OPEN':'CLOSED')+'</b> · '+esc(f.valve.n)+' · held by '+esc(f.valve.who)+'</span></div>';
+      $("#en-edges").innerHTML=E.filter(function(e){return (f.f[e[0]]||0)>0}).map(function(e){var v=f.f[e[0]]||0;return '<div class="e"><span>'+esc(e[1])+'</span><span class="b"><i style="width:'+(v/3*100)+'%;--c:rgb('+col[e[2]]+')"></i></span></div>'}).join("");
+      $("#en-v").innerHTML="<b>Macro · "+f.y+" · "+esc(f.t)+"</b>"+esc(f.v);
+      parts=parts.filter(function(p){return (tgt[p.e]||0)>0});
+      E.forEach(function(e){var want=Math.round((tgt[e[0]]||0)*5);var have=parts.filter(function(p){return p.e===e[0]}).length;for(var i=have;i<want;i++)parts.push({e:e[0],t:Math.random(),v:.0025+Math.random()*.003,k:e[2]})});
+    }
+    $("#en-years").innerHTML=K.map(function(f){return "<span>"+f.y+"</span>"}).join("");
+    function draw(ts){var dt=Math.min(40,ts-last)/16.7;last=ts;if(lerpT<1){lerpT=Math.min(1,lerpT+.02*dt);E.forEach(function(e){cur[e[0]]+=(tgt[e[0]]-cur[e[0]])*.08*dt})}
+      ctx.clearRect(0,0,W,H);
+      E.forEach(function(e){var v=cur[e[0]]||0;var r=route(e[0]);if(v<.05){ctx.strokeStyle="rgba(58,51,42,.5)";ctx.lineWidth=1;ctx.setLineDash([2,6])}else{ctx.strokeStyle="rgba("+col[e[2]]+","+(0.18+v*.14)+")";ctx.lineWidth=1+v*.9;ctx.setLineDash([])}
+        ctx.beginPath();ctx.moveTo(r.a.x,r.a.y);ctx.quadraticCurveTo(r.c.x,r.c.y,r.b.x,r.b.y);ctx.stroke();ctx.setLineDash([]);
+        if(v>.3){var p=at(r,.62),q=at(r,.6);var ang=Math.atan2(p.y-q.y,p.x-q.x);ctx.fillStyle="rgba("+col[e[2]]+","+(0.4+v*.15)+")";ctx.beginPath();ctx.moveTo(p.x+Math.cos(ang)*6,p.y+Math.sin(ang)*6);ctx.lineTo(p.x+Math.cos(ang+2.5)*5,p.y+Math.sin(ang+2.5)*5);ctx.lineTo(p.x+Math.cos(ang-2.5)*5,p.y+Math.sin(ang-2.5)*5);ctx.fill()}});
+      parts.forEach(function(p){if(!reduce)p.t+=p.v*dt*(0.6+(cur[p.e]||0)*.25);if(p.t>1)p.t-=1;var r=route(p.e),q=at(r,p.t);ctx.fillStyle="rgba("+col[p.k]+","+(0.55+0.45*Math.sin(p.t*Math.PI))+")";ctx.beginPath();ctx.arc(q.x,q.y,p.k==="ex"?2.6:2.1,0,Math.PI*2);ctx.fill()});
+      var x=pos("X");ctx.strokeStyle="rgba(192,94,60,.8)";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x.x-26,x.y);ctx.lineTo(x.x+26,x.y);ctx.stroke();ctx.font="10px 'Space Mono',monospace";ctx.textAlign="center";ctx.fillStyle="rgba(217,138,106,.95)";ctx.fillText("THE SALE · the masters leave",x.x,x.y+16);
+      Object.keys(N).forEach(function(id){var p=pos(id);var lit=0;E.forEach(function(e){if(e[0][0]===id||e[0][2]===id)lit+=cur[e[0]]||0});ctx.beginPath();ctx.arc(p.x,p.y,9+Math.min(6,lit*.5),0,Math.PI*2);ctx.fillStyle="#14110d";ctx.fill();ctx.strokeStyle=id==="O"?"rgba(176,138,90,.95)":id==="B"?"rgba(124,192,150,.95)":"rgba(236,227,208,.95)";ctx.lineWidth=1.6;ctx.stroke();
+        ctx.font=(W<560?"9px":"10.5px")+" 'Space Mono',monospace";ctx.fillStyle="rgba(236,227,208,.9)";var a=N[id].a*Math.PI/180;var nm=(W<560&&id==="B")?"BLACK CAPITAL":N[id].n;
+        if(id==="O"||id==="B"||(W<560&&id!=="P")){ctx.textAlign="center";ctx.fillText(nm,Math.max(60,Math.min(W-60,p.x+(id==="B"?40:0))),p.y+30)}else{ctx.textAlign=Math.cos(a)>.3?"left":Math.cos(a)<-.3?"right":"center";ctx.fillText(nm,p.x+Math.cos(a)*22,p.y+Math.sin(a)*22+(Math.abs(Math.cos(a))<.3?(Math.sin(a)<0?-6:12):4))}});
+      ctx.font="300 44px 'Newsreader',Georgia,serif";ctx.textAlign="right";ctx.fillStyle="rgba(201,162,39,.55)";ctx.fillText(K[k].y,W-18,42);
+      requestAnimationFrame(draw)}
+    requestAnimationFrame(draw);
+    $("#en-k").addEventListener("input",function(){stop();setK(+this.value,true)});
+    $("#en-prev").addEventListener("click",function(){stop();setK(k-1,true)});
+    $("#en-next").addEventListener("click",function(){stop();setK(k+1,true)});
+    function stop(){playing=false;clearInterval(timer);$("#en-toggle").setAttribute("aria-pressed","false");$("#en-toggle").textContent="▶ RUN THE DEALS"}
+    $("#en-toggle").addEventListener("click",function(){if(playing){stop();return}playing=true;this.setAttribute("aria-pressed","true");this.textContent="❚❚ PAUSE";if(k>=K.length-1)setK(0,true);timer=setInterval(function(){if(k>=K.length-1){stop();return}setK(k+1,true)},reduce?6000:5200)});
+    cv.parentElement.addEventListener("keydown",function(ev){if(ev.key==="ArrowRight"){stop();setK(k+1,true)}if(ev.key==="ArrowLeft"){stop();setK(k-1,true)}});
+    setK(0,false);
+
+  })();
+
+  /* ---------- thirty-six banks ---------- */
+  (function(){
+    var r=$("#bk-n"),o=$("#bk-o"),ro=$("#bk-ro"),v=$("#bk-v");if(!r)return;
+    function run(){var n=+r.value;o.textContent=n+" asked";var yes=n>=37;ro.innerHTML=D("The loan sought, 1974","$1.1M","to exercise the right of first refusal on WLIB-FM, now WBLS","gold")+D("Banks that said no",String(Math.min(n,36)),"NextTV; Wikipedia citing Broadcasting",yes?"fact":"tag")+D("The outcome",yes?"financed":"still asking","the station was bought; by 2014 it sold for $131 million to Emmis, none of the seventeen Inner City stations to a Black buyer",yes?"fact":"dim");
+      v.innerHTML=yes?"<b>Reading</b>The thirty-seventh answer bought a station that sold forty years later for $131 million. The price was never the gate.":"<b>Reading</b>"+(36-Math.min(n,36))+" refusals to go. The asset that could not be financed in 1974 was worth $131 million in 2014, to someone else."}
+    r.addEventListener("input",run);run()
+  })();
+
+  /* ---------- the handshake ledger ---------- */
+  (function(){
+    var R=[["Percy Sutton, Inner City Broadcasting","WLIB (1972), WBLS (1974), the Apollo (1981)","Fifty-plus shareholders; $1.9M reported; a $1.1M loan refused 36 times","The first Black-owned stations in New York","Involuntary bankruptcy 2011; stations to Emmis $131M (2014); none to a Black buyer"],
+      ["Dick Griffey, SOLAR","Soul Train Records, 1977","$300,000 to buy out Don Cornelius","Black-owned label, major distribution (RCA, Elektra, Capitol, Epic)","Catalog licensed to EMI 1996"],
+      ["Sylvia and Joe Robinson, Sugar Hill","Rapper's Delight, 1979","Tony Riviera and Morris Levy of Roulette","Writing credit to Chic's writers; none to Grandmaster Caz","MCA deal 1983; Chess catalog lost 1985–90; $481,000 received, they said"],
+      ["Don Robey, Duke/Peacock","2,700 copyrights","His Houston club and agency","Writer credit as 'Deadric Malone'; '25 or 50 bucks'","Sold to ABC-Dunhill 1973"],
+      ["Clarence Avant, Sussex","Bill Withers, 1970","Buddah distribution","Withers: 'They weren't paying me'","IRS seizure, June 1975, $48,000 in liens"],
+      ["Berry Gordy, Motown","The label, 1988","$800 from the family credit union, 1959","Publishing excluded from the sale; 20% equity open to minorities","$61M to MCA/Boston Ventures, June 28, 1988; Jobete half for $132M, 1997"]];
+    var tb=$("#hl-table tbody");if(!tb)return;tb.innerHTML=R.map(function(r){return '<tr><td><b style="font-weight:400;color:var(--paper)">'+esc(r[0])+'</b></td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td>'+esc(r[3])+'</td><td>'+esc(r[4])+'</td></tr>'}).join("")
+  })();
+
+  /* ---------- financed or distributed ---------- */
+  (function(){
+    var X={deathrow:{segs:[["d",100,"Interscope: financed and distributed; the label's upside to the financier and its owners"]],ro:function(u){return D("Financing","$10M","Interscope, 1992, after Sony passed","gold")+D("Peak","$100M+/yr","Wikipedia · T3")+D("Exit","$18M","auctioned out of bankruptcy, 2009","tag")},v:"Financed: the capital came with the equity. The label that peaked above $100 million a year ended at an $18 million auction, and the artist who left in 1996 owned none of it.",t:"FACT · T3",disp:false},
+      nolimit:{segs:[["e",85,"No Limit: 85% of profits, masters kept"],["d",15,"Priority: 15% for distribution"]],ro:function(u){return D("Advance","$375,000","per album, by Master P's account","gold")+D("Label's share on these units",money(u*6*0.85),"at an illustrative $6 net per unit","fact")+D("Distributor's share",money(u*6*0.15),"same basis","dim")},v:"Distributed: the trucks were rented and the masters stayed home. The figures are the owner's own; the bankruptcy in 2003 is the record's.",t:"REPORTED · T4",disp:true},
+      cm80:{segs:[["e",80,"Cash Money: 80%, masters and publishing kept"],["d",20,"Universal: 20% 'for its services'"]],ro:function(u){return D("The deal","$30M · 3 yrs","$2M a year; $1.5M per artist for up to six a year","gold")+D("Label's share on these units",money(u*6*0.80),"illustrative $6 net per unit","fact")+D("Universal's share",money(u*6*0.20),"same basis","dim")},v:"The XXL version: 80/20 from the first dollar. The artist's share inside Cash Money is a separate contract, and Lil Wayne's 2015 suit shows what it cost to collect on it.",t:"REPORTED · T4",disp:true},
+      cm85:{segs:[["e",85,"Cash Money: 85% after recoupment"],["d",15,"Universal: 15% after recoupment"]],ro:function(u){return D("The deal","$30M · 3 yrs","masters and publishing retained","gold")+D("Label's share on these units",money(u*6*0.85),"after recoupment, illustrative $6 net","fact")+D("Universal's share",money(u*6*0.15),"same basis","dim")},v:"The other version: 85/15 after recoupment, with Cash Money taking half the publishing royalties. Both versions are reporting; no contract is public. The page shows both because the record does.",t:"REPORTED · T3",disp:true}};
+    var u=$("#fd-u"),uo=$("#fd-uo"),sp=$("#fd-split"),lg=$("#fd-leg"),ro=$("#fd-ro"),v=$("#fd-v");if(!u)return;var cur="deathrow";
+    var col={a:"var(--gold)",c:"var(--tag)",d:"var(--paper-faint)",e:"var(--fact)",b:"var(--kraft)"};
+    function run(){var x=X[cur],U=+u.value;uo.textContent=fmt(U)+" units";sp.innerHTML=x.segs.map(function(s){return '<i class="'+s[0]+'" style="flex:'+s[1]+'">'+s[1]+'%</i>'}).join("");lg.innerHTML=x.segs.map(function(s){return '<span><i style="--c:'+col[s[0]]+'"></i>'+esc(s[2])+'</span>'}).join("");ro.innerHTML=x.ro(U);v.innerHTML="<b>"+x.t+(x.disp?" "+CH:"")+"</b>"+esc(x.v)}
+    seg("#fd-ctl",function(k){cur=k;run()});u.addEventListener("input",run);run()
+  })();
+
+  /* ---------- half the company ---------- */
+  (function(){
+    var b=$("#hf-bars");if(!b)return;var R=[["Half of Roc-A-Fella to Def Jam, June 1997 (CNBC estimate)",1.4e6,"var(--kraft)"],["The other half to Island Def Jam, December 2004",1e7,"var(--gold)"]];
+    b.innerHTML=R.map(function(r){return '<div class="bar"><span class="n">'+esc(r[0])+'</span><span class="tr"><i class="f" style="width:'+(r[1]/1e7*100)+'%;--c:'+r[2]+'"></i></span><span class="v">'+money(r[1])+'</span></div>'}).join("")
+  })();
+
+  /* ---------- the statement ---------- */
+  (function(){
+    var S={tlc:function(){return D("Headline rate","~7%","of each album, LaFace/Pebbitone, 1991","gold")+D("After expenses","~20¢","per album, split three ways (LA Times); 56¢ in another account "+CH,"tag")+D("On 14 million","~$933,000","each member's gross share at 20¢ ÷ 3 (inference)","dim")+D("Filed","Jul 3, 1995","Chapter 11; $3.5 million in debts; under $50,000 a year each","tag")},
+      braxton:function(){return D("Per album","33¢","her lawyer's account; 35¢ also circulates "+CH,"gold")+D("Units","24M+","Toni Braxton 9M+, Secrets 15M+","fact")+D("Gross at 33¢","~$8M","before recoupment (inference)","dim")+D("Filed","Jan 1998","settlement reported at $20M in her memoir, under a gag order","tag")},
+      brown:function(){return D("Rate","4.5%","another account: 5%","gold")+D("Royalties earned, 1960–80","$754","by Atlantic's own accounting","tag")+D("Balance","−$25,000","charged expenses; she left owing $30,000","tag")+D("1988","10%","recalculated to 1970; first check in 28 years, $20,000–$30,000","fact")}};
+    var ro=$("#st-ro"),v=$("#st-v");if(!ro)return;function show(k){ro.innerHTML=S[k]();v.innerHTML={tlc:"<b>Reported · T2/T3</b>A diamond album and a Chapter 11 filing in the same twelve months. The headline rate was seven percent; the effective rate, by the Times's math, was about one.",braxton:"<b>Reported · T3</b>Thirty-three cents on twenty-four million is about eight million dollars gross, before the recoupment that made it less. The settlement is memoir-only.",brown:"<b>Fact · T2</b>Twenty years, $754, and a negative balance. The 1988 reform is the next exhibit."}[k]}
+    seg("#st-ctl",show);show("tlc")
+  })();
+
+  /* ---------- the reform ---------- */
+  (function(){
+    var on=$("#rf-on"),ro=$("#rf-ro"),v=$("#rf-v");if(!on)return;
+    function run(){var y=on.checked;ro.innerHTML=D("Ruth Brown's rate",y?"10%":"4.5%",y?"recalculated back to 1970":"the 1950s contract",y?"fact":"tag")+D("Unrecouped balance",y?"waived":"−$25,000",y?"Atlantic waived its R&B artists' debts, 1988":"charged expenses carried for decades",y?"fact":"tag")+D("The check",y?"$20,000–$30,000":"$0",y?"her first royalty check in 28 years":"nothing owed under the old math",y?"gold":"dim")+D("The foundation",y?"$1.5–2M":"—",y?"the Rhythm & Blues Foundation seeded by Atlantic":"",y?"fact":"dim");
+      v.innerHTML=y?"<b>Fact · T2</b>Won without a lawsuit, by a label approaching its fortieth anniversary and a lawyer who would not stop writing. Most other majors followed by precedent. It changed the legacy artists' rates. It did not change the structure, which is why TLC's filing came seven years later.":"<b>Fact · T2</b>The statement as it stood: a rate under five percent, expenses charged against it, a balance that never turned positive on a career of hits."}
+    on.addEventListener("change",run);run()
+  })();
+
+  /* ---------- equity vs royalty ---------- */
+  (function(){
+    var X={ciroc:function(){return D("Fee","—","")+D("Rate","—","")+D("Profit share","50/50","an 'equal-share venture' on U.S. marketing, 2007","gold")+D("Equity","none","in Cîroc; DeLeón (2013) was a true 50/50","tag")+D("Control","Diageo","the brand owner","dim")+D("Outcome","exit, 2024","suit dropped; Diageo sole owner; no payment disclosed","tag")},
+      beats:function(){return D("Fee","—","")+D("Rate","—","")+D("Profit share","—","")+D("Equity","20–25%","Dre's stake, per Forbes "+CH,"gold")+D("Control","founders","after buying HTC out by 2013","fact")+D("Outcome","$3B","Apple, May 28, 2014: $2.6B cash + $400M stock","fact")},
+      tidal:function(){return D("Fee","—","")+D("Rate","—","")+D("Profit share","—","")+D("Equity","owner → minority","bought for $56M (2015); Sprint 33% for $200M (2017)","gold")+D("Control","Square","majority from April 30, 2021","dim")+D("Outcome","$302M","Square's 8-K; retained stake undisclosed","fact")},
+      fenty:function(){return D("Fee","—","")+D("Rate","—","")+D("Profit share","—","")+D("Equity","49.99%","LVMH's Kendo holds 50.01","gold")+D("Control","LVMH","by 0.02 points","dim")+D("Outcome","~$2.8B brand","€500M first full year; Forbes valuation "+CH,"fact")},
+      yeezy:function(){return D("Fee","—","")+D("Rate","11%","royalty, per Forbes; ~$191M in 2020 "+CH,"gold")+D("Profit share","—","")+D("Equity","none","in Adidas or the line","tag")+D("Control","Adidas","terminated the partnership Oct 25, 2022","dim")+D("Outcome","$0","2024 settlement moved no money; royalty income ended at termination","tag")},
+      hart:function(){return D("Fee","—","")+D("Rate","—","")+D("Profit share","—","")+D("Equity","85% retained","Abry bought 15% for $100M, April 2022","gold")+D("Control","founder","Hart remains chairman","fact")+D("Outcome",">$650M","implied valuation","fact")},
+      nipsey:function(){return D("Fee","$100","per physical copy, 1,000 copies, October 2013","gold")+D("Rate","100%","of the unit; the download was free","fact")+D("Profit share","—","")+D("Equity","the line","All Money In; Marathon Clothing","fact")+D("Control","the artist","")+D("Outcome","~$100,000","in under a day; Jay-Z bought a hundred copies","fact")}};
+    var ro=$("#er-ro"),v=$("#er-v");if(!ro)return;var T={ciroc:"A share of profit is not a share of the company. The equity turn's flagship ended with the artist exiting both brands.",beats:"The biggest equity in the chapter, and the share of it is a magazine's estimate.",tidal:"Owner to minority holder in six years, at a 5.4x price. The retained percentage is the number the filing withholds.",fenty:"Fifty-fifty by two hundredths of a point. The conglomerate holds control; the artist holds half of a brand worth more than most catalogs.",yeezy:"A royalty on a brand you do not own ends when the brand owner says so. The only deal here with no equity and the only one that went to zero.",hart:"The cleanest founder retention on the ladder: 85 percent, the chair, and a nine-figure check.",nipsey:"The smallest deal and the cleanest: one hundred percent of a $100 unit, sold by the artist, from his own store."};
+    function show(k){ro.innerHTML=X[k]();v.innerHTML="<b>Reading</b>"+esc(T[k])}
+    seg("#er-ctl",show);show("ciroc")
+  })();
+
+  /* ---------- the exit multiple ---------- */
+  (function(){
+    var b=$("#mu-bars");if(!b)return;var R=[["Beats: Carlyle round (2013) → Apple (2014)",1e9,3e9,"T2"],["Tidal: Aspiro (2015) → Square (2021)",56e6,302e6,"T1/T2"],["Roc-A-Fella: half (1997, est.) → half (2004)",1.4e6,1e7,"T2/T3"],["OWN: Discovery's $100M (2008) → 24.5% for $70M (2017)",1e8,2.86e8,"T2/T3 · implied"]];
+    b.innerHTML=R.map(function(r){var m=r[2]/r[1];return '<div class="bar"><span class="n">'+esc(r[0])+'<br><span class="mono" style="font-size:11px;color:var(--paper-faint)">'+r[3]+' · '+money(r[1])+' → '+money(r[2])+'</span></span><span class="tr"><i class="f" style="width:'+(Math.min(m,10)/10*100)+'%;--c:var(--gold)"></i></span><span class="v">'+m.toFixed(1)+'×</span></div>'}).join("")
+  })();
+
+  /* ---------- the contract, posted ---------- */
+  (function(){
+    var S=[{h:"2005 · A royalty",w:"A $2.8 million advance and a royalty rate of 14 percent on The College Dropout, rising to 18. The structure every artist in Exhibit 3 was on: a rate against a recoupable advance.",s:"FACT · T2 · The Fashion Law"},
+      {h:"2012 · A profit split",w:"Amendments move albums six and seven to a profit split: 50 percent of profits less a distribution fee, with a $12 million fund and $8 million in pocket. The artist's share becomes a share of the net, not a rate on the gross.",s:"FACT / REPORTED · T2"},
+      {h:"2012 · Pressing and distribution",w:"Albums eight and nine on P&D: '100 percent minus a distribution fee,' with $3 million more. The structure No Limit and Cash Money took as companies, now inside one artist's contract.",s:"FACT / REPORTED · T2"},
+      {h:"The masters",w:"Masters for albums six to ten owned by the artist or reverting. The clause the 1992 Prince deal did not have, and the one he spent 22 years recovering.",s:"FACT / REPORTED · T2"}];
+    var b=$("#kw-body");if(!b)return;function show(i){var s=S[+i];b.innerHTML='<span class="h">'+esc(s.h)+'</span><span class="w">'+esc(s.w)+'</span><span class="s">'+esc(s.s)+'</span>'}
+    seg("#kw .steps",show);show(0)
+  })();
+
+  /* ---------- the 360 ---------- */
+  (function(){
+    var X={rec:{segs:[["d",60,"1501: 60% after recoupment"],["a",40,"the artist: 40%"]],v:"Record income: 60/40 after recoupment, with recording costs off the top before the split. A $10,000 advance."},
+      pub:{segs:[["d",50,"the label's publisher: an undivided 50% interest in the copyrights"],["a",50,"the artist: 50%"]],v:"The copyrights: half, outright, to the label's publishing arm. The songs, not just the recordings."},
+      merch:{segs:[["d",30,"1501: 30% of merchandise, sponsorships, live income and outside features over $1,000"],["a",70,"the artist: 70%"]],v:"The 360: thirty percent of everything the artist earns outside the record, including features over $1,000."},
+      all:{segs:[["d",30,"1501: 30% of 'all entertainment-related endeavors'"],["a",70,"the artist: 70%"]],v:"The catch-all clause. Thirty percent of anything in entertainment, by its terms. She sued in March 2020 and settled in October 2023; the economics of the settlement are sealed."}};
+    var sp=$("#t3-split"),lg=$("#t3-leg"),v=$("#t3-v");if(!sp)return;var col={a:"var(--gold)",d:"var(--paper-faint)"};
+    function show(k){var x=X[k];sp.innerHTML=x.segs.map(function(s){return '<i class="'+s[0]+'" style="flex:'+s[1]+'">'+s[1]+'%</i>'}).join("");lg.innerHTML=x.segs.map(function(s){return '<span><i style="--c:'+col[s[0]]+'"></i>'+esc(s[2])+'</span>'}).join("");v.innerHTML="<b>Fact · T2 · the contract as read by Rolling Stone</b>"+esc(x.v)}
+    seg("#t3-ctl",show);show("rec")
+  })();
+
+  /* ---------- the valuation ladder ---------- */
+  (function(){
+    var b=$("#lad-bars");if(!b)return;var R=[["Fort McPherson, 330 acres, to Tyler Perry (2015)",3e7,false,"deed"],["OWN: 24.5% for $70M → whole network implied (2017)",2.86e8,true,"network"],["Weather Channel to Allen Media (2018)",3e8,true,"network"],["Allen's ten stations to Gray (2025)",1.71e8,false,"network"],["Issa Rae–WarnerMedia (2021), Variety estimate; 'cap,' she said",4e7,true,"overall"],["DuVernay–Warner Bros. TV (2018–23)",1e8,true,"overall"],["Rhimes–Netflix renewal (2021)",3.5e8,true,"overall"],["SpringHill valuation (2021)",7.25e8,false,"company"],["HartBeat implied valuation (2022)",6.5e8,false,"company"],["Westbrook valuation (2022)",6e8,true,"company"]];
+    var L=function(x){return Math.log10(x)/Math.log10(1e9)*100};
+    b.innerHTML=R.map(function(r){return '<div class="bar"><span class="n">'+esc(r[0])+'<br><span class="mono" style="font-size:11px;color:var(--paper-faint)">'+r[3]+(r[2]?' · estimate':'')+'</span></span><span class="tr"><i class="f'+(r[2]?' hatch':'')+'" style="width:'+L(r[1])+'%;--c:'+(r[3]==="deed"?'var(--fact)':r[3]==="overall"?'var(--kraft)':'var(--gold)')+'"></i></span><span class="v">'+money(r[1])+'</span></div>'}).join("")+'<p class="legend" style="margin-top:4px">Log scale. Green: a deed to land. Kraft: a term deal that expires. Hatched: an estimate.</p>'
+  })();
+
+  /* ---------- owned or overall ---------- */
+  (function(){
+    var on=$("#oo-on"),ro=$("#oo-ro"),v=$("#oo-v");if(!on)return;
+    function run(){var y=on.checked;ro.innerHTML=y?D("The instrument","a deed","330 acres, Fort McPherson, $30 million, 2015","gold")+D("What it pays","rent and use","the studio books productions; the land appreciates or does not","fact")+D("When it ends","never","unless sold","fact")+D("The risk","the lot","a capital expenditure the owner carries","tag"):D("The instrument","an overall deal","Rhimes–Netflix, reported $300–400M at renewal","gold")+D("What it pays","a term","five years of output, exclusively","fact")+D("When it ends","at term","DuVernay's $100M Warner deal ended in 2023 at expiry","tag")+D("The risk","the renewal","the studio's decision","tag");
+      v.innerHTML=y?"<b>Reading</b>The lot is Episode 1's Harpo switch at the scale of a military base: own the room, carry the cost, keep the appreciation. It is the only instrument in the chapter that does not expire.":"<b>Reading</b>The overall deal buys a person's output for a term at a price the trade paper estimates and the person disputes. It is the richest instrument in the chapter and the only one with an end date written in."}
+    on.addEventListener("change",run);run()
+  })();
+
+  /* ---------- the catalog gap ---------- */
+  (function(){
+    var b=$("#cg-bars");if(!b)return;var R=[["Lil Wayne, Young Money masters (2020), per a litigant's complaint",1e8,true,"var(--gold)"],["Dr. Dre, income streams to Shamrock/UMG (2023)",2e8,true,"var(--gold)"],["Justin Timberlake, song catalog to Hipgnosis (2022)",1e8,true,"var(--kraft)"],["Bob Dylan, songs to UMPG (2020)",3e8,true,"var(--kraft)"],["Bruce Springsteen, catalog to Sony (2021)",5e8,true,"var(--kraft)"],["Blackstone for Hipgnosis Songs Fund, 65,000 tracks (2024)",1.6e9,false,"var(--tag)"]];
+    b.innerHTML=R.map(function(r){return '<div class="bar"><span class="n">'+esc(r[0])+'</span><span class="tr"><i class="f'+(r[1]>=1e9?'':' hatch')+'" style="width:'+(r[1]/1.6e9*100)+'%;--c:'+r[3]+'"></i></span><span class="v">'+money(r[1])+(r[2]?' · reported':'')+'</span></div>'}).join("")
+  })();
+
+  /* ---------- opt in ---------- */
+  (function(){
+    var ro=$("#op-ro"),v=$("#op-v");if(!ro)return;
+    var X={"in":function(){return D("Training","paid","a share for the use of your catalog in training, as reported","fact")+D("Subscribers' creations","paid","a share when subscribers generate with your voice or songs","fact")+D("Your name, image, likeness, voice","licensed","Warner: 'an opt-in for the use of their name, image, likeness, voice and compositions'","gold")+D("The dollar figure","not public","no amount in either settlement","dim")},
+      out:function(){return D("Training","$0","'no money,' as the structure was reported","tag")+D("Subscribers' creations","$0","","tag")+D("Your voice","withheld","from the licensed platform; the unlicensed internet is another matter","gold")+D("The dollar figure","not public","","dim")},
+      none:function(){return D("Who was asked","the label","the settlement is between the label and the company","tag")+D("Who holds the catalog","the label","under the contracts in Exhibits 2–5","tag")+D("The federal right","a bill","NO FAKES advanced from committee June 23, 2026; not law","dim")+D("The dollar figure","not public","","dim")}};
+    function show(k){ro.innerHTML=X[k]();v.innerHTML={"in":"<b>Reported · T4, structure; Fact · T2, the Warner statement</b>Paid for the use of the voice: the deed Episode 1 said was being written. Whether the holder of the new right is the singer or the company holding her contract is decided by which contract she is on.",out:"<b>Reported · T4</b>Nothing from the licensed garden, and no control over the unlicensed one. The opt-out is a deed with no income attached.",none:"<b>Watch</b>Most artists in the record were never at this table; the labels settled. The NO FAKES Act would make the voice a tradeable right. The question of who trades it is the question this episode ends on."}[k]}
+    seg("#op-ctl",show);show("in")
+  })();
+
+
+  /* ---------- reels and title-card reveals ---------- */
+  (function(){
+    var CRED={};
+    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(j){CRED=j;$$(".reel .slide").forEach(function(s){var k=s.dataset.plate;var c=CRED[k];var el=$(".cr",s);if(el&&c&&c.credit)el.textContent=c.credit})}}).catch(function(){})}catch(e){}
+    function wrapWords(el){ // wrap text nodes in spans, leave tags (sup, em, b) intact
+      var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);var nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);var i=0;
+      nodes.forEach(function(t){if(t.parentNode.closest&&t.parentNode.closest("sup"))return;var parts=t.nodeValue.split(/(\s+)/);var frag=document.createDocumentFragment();parts.forEach(function(p){if(!p)return;if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(p));return}var s=document.createElement("span");s.className="w";s.style.transitionDelay=Math.min(1400,i*28)+"ms";s.textContent=p;frag.appendChild(s);i++});t.parentNode.replaceChild(frag,t)})}
+    // Auto-reel: group consecutive prose paragraphs in chapter stacks into slides, splitting long ones at sentences
+    function splitSentences(p,max){var html=p.innerHTML;var parts=html.split(/(?<=[.!?”"])\s+(?=[A-Z<“"(])/);var out=[],cur="";parts.forEach(function(s){var words=(cur+" "+s).replace(/<[^>]+>/g,"").split(/\s+/).length;if(cur&&words>max){out.push(cur);cur=s}else cur=cur?cur+" "+s:s});if(cur)out.push(cur);return out}
+    $$(".chapter").forEach(function(ch){
+      var key=null;var pl=$(".plate",ch);if(pl)key=pl.dataset.plate;
+      $$(".stack",ch).forEach(function(st){
+        var ps=$$(":scope > p",st).filter(function(p){return !p.classList.contains("lead")&&!p.classList.contains("pull")&&!p.classList.contains("eyebrow")});
+        if(ps.length<1)return;
+        var extra=(st.dataset.reel||"").split(",").map(function(x){return x.trim()}).filter(Boolean);
+        var slides=[];ps.forEach(function(p){var chunks=splitSentences(p,60);chunks.forEach(function(h){slides.push({html:h})})});
+        if(slides.length<2)return;
+        var reel=document.createElement("div");reel.className="reel";var vp=document.createElement("div");vp.className="vp";reel.appendChild(vp);
+        var keys=extra.length?extra:(key?[key]:[]);
+        slides.forEach(function(s,i){var d=document.createElement("div");d.className="slide";var k=keys.length?keys[i%keys.length]:null;if(k)d.dataset.plate=k;
+          var bg=document.createElement("div");bg.className="bg"+(k?"":" none");if(k){var im=document.createElement("img");im.src="assets/plates/"+k+".jpg";im.alt="";im.loading="lazy";im.addEventListener("error",function(){bg.className="bg none";bg.innerHTML=""});bg.appendChild(im)}d.appendChild(bg);
+          var cr=document.createElement("span");cr.className="cr";cr.textContent=k&&CRED[k]&&CRED[k].credit?CRED[k].credit:"";d.appendChild(cr);
+          var kk=document.createElement("div");kk.className="k";kk.textContent=(i+1)+" / "+slides.length;d.appendChild(kk);
+          var tx=document.createElement("div");tx.className="tx";tx.innerHTML=s.html;d.appendChild(tx);vp.appendChild(d)});
+        var nav=document.createElement("div");nav.className="nav";nav.innerHTML='<button class="pv" aria-label="Previous">‹</button><div class="dots" role="tablist"></div><span class="ct"></span><button class="nx" aria-label="Next">›</button>';reel.appendChild(nav);
+        ps[0].parentNode.insertBefore(reel,ps[0]);ps.forEach(function(p){p.remove()});
+        init(reel)})});
+    function init(reel){var slides=$$(".slide",reel),dots=$(".dots",reel),ct=$(".ct",reel),i=0;slides.forEach(function(s,j){wrapWords($(".tx",s));var d=document.createElement("i");d.setAttribute("role","tab");d.addEventListener("click",function(){go(j)});dots.appendChild(d)});
+      function go(n){i=(n+slides.length)%slides.length;slides.forEach(function(s,j){s.classList.toggle("on",j===i)});$$("i",dots).forEach(function(d,j){d.classList.toggle("on",j===i)});ct.textContent=(i+1)+" of "+slides.length}
+      $(".pv",reel).addEventListener("click",function(){go(i-1)});$(".nx",reel).addEventListener("click",function(){go(i+1)});
+      $(".vp",reel).addEventListener("click",function(e){if(e.target.closest("a"))return;go(i+1)});
+      reel.tabIndex=0;reel.addEventListener("keydown",function(e){if(e.key==="ArrowRight"){go(i+1);e.preventDefault()}if(e.key==="ArrowLeft"){go(i-1);e.preventDefault()}});
+      var x0=null;reel.addEventListener("touchstart",function(e){x0=e.touches[0].clientX},{passive:true});reel.addEventListener("touchend",function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(dx<0?i+1:i-1);x0=null});
+      go(0)}
+    $$(".reel[data-authored]").forEach(init);
+    // title-card reveals on leads and pull quotes
+    var rv=$$(".lead, .pull");rv.forEach(function(p){p.classList.add("rv");wrapWords(p)});
+    if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}})},{rootMargin:"0px 0px -10% 0px"});rv.forEach(function(p){io.observe(p)})}else rv.forEach(function(p){p.classList.add("on")});
+  })();
+
+/* ---------- plates: reveal on scroll, credits from assets/plates/credits.json when present ---------- */
+  (function(){
+    var ps=$$(".plate");if(!ps.length)return;
+    ps.forEach(function(p){var im=$("img",p);if(im){im.addEventListener("error",function(){p.setAttribute("data-missing","")})}});
+    if("IntersectionObserver" in window&&!reduce){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{rootMargin:"0px 0px -12% 0px"});ps.forEach(function(p){io.observe(p)})}else ps.forEach(function(p){p.classList.add("static")});
+    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(!j)return;ps.forEach(function(p){var k=p.dataset.plate,c=j[k];if(c&&c.credit){var el=$(".cr",p);if(el)el.textContent=c.credit}})}).catch(function(){})}catch(e){}
+  })();
+})();
+</script>

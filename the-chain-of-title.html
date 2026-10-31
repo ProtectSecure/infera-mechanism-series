@@ -1,0 +1,1557 @@
+<title>The Chain of Title</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: one 68ch reading column down a dark evidence room; exhibits break out to 1040px; a chain rail runs the page's left edge and gains or loses a link per chapter. Mechanism Series house style, dark by design. */
+:root{
+  --ground:#14110d; --ground-2:#1c1813; --rule:#3a332a; --rule-soft:#2a241c;
+  --paper:#ece3d0; --paper-dim:#cfc5b0; --paper-faint:#a89d88;
+  --gold:#c9a227; --kraft:#b08a5a; --tag:#c05e3c; --tag-lit:#d98a6a;
+  --fact:#7cc096; --reported:#e0b35c; --inference:#86aac0; --watch:#d98a6a;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+  --mono:"Space Mono", ui-monospace, Menlo, Consolas, monospace;
+  --ease:cubic-bezier(.22,.7,.2,1);
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);background-image:radial-gradient(var(--rule-soft) 1px,transparent 1px);background-size:22px 22px;color:var(--paper);font-family:var(--serif);font-size:19px;line-height:1.62;-webkit-font-smoothing:antialiased;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 96px}
+.col{max-width:68ch;margin:0 auto}
+a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,162,39,.4)}
+a:hover{color:var(--paper)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h1,h2,h3{text-wrap:balance}
+p{margin:0}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--tag-lit)}
+.num{font-variant-numeric:tabular-nums}
+
+/* evidence labels, always beside the claim */
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:1px 6px;border:1px solid;border-radius:2px;white-space:nowrap;vertical-align:2px;margin-right:6px}
+.t-fact{color:var(--fact);border-color:rgba(124,192,150,.5)}
+.t-rep{color:var(--reported);border-color:rgba(224,179,92,.5)}
+.t-inf{color:var(--inference);border-color:rgba(134,170,192,.5)}
+.t-watch{color:var(--watch);border-color:rgba(217,138,106,.55)}
+sup.src{font-family:var(--mono);font-size:10px;color:var(--kraft);margin-left:2px}
+sup.src a{border:0;color:inherit}
+
+/* masthead */
+.mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 20px;padding:16px 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.mast .brand{color:var(--paper);border:0;display:flex;align-items:center;gap:10px}
+.mast .brand i{width:8px;height:8px;border-radius:50%;background:var(--tag);display:inline-block}
+.mast nav{display:flex;flex-wrap:wrap;gap:6px 18px}
+.mast nav a{border:0;color:var(--paper-faint)}
+.mast nav a:hover{color:var(--gold)}
+
+/* hero: a chain drawn in light */
+.hero{position:relative;margin:0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0 calc(-1 * max(16px, env(safe-area-inset-right, 0px)));min-height:560px;display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--rule);background:radial-gradient(1200px 500px at 70% 20%,rgba(201,162,39,.10),transparent 60%),var(--ground)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05) 0%,rgba(20,17,13,.45) 50%,rgba(20,17,13,.97) 100%);pointer-events:none}
+.hero-in{position:relative;z-index:1;width:100%;max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:120px 44px;display:flex;flex-direction:column;gap:16px}
+.hero h1{margin:0;font-weight:300;font-size:clamp(46px,8.4vw,96px);line-height:.96;letter-spacing:-.02em}
+.hero h1 em{font-weight:400;color:var(--gold);font-style:italic}
+.deck{font-size:clamp(19px,2.4vw,23px);font-weight:300;line-height:1.45;color:var(--paper-dim);max-width:660px}
+.boxcount{position:absolute;z-index:1;right:max(16px, env(safe-area-inset-right, 0px));top:calc(20px + env(safe-area-inset-top, 0px));font-family:var(--mono);font-size:11px;letter-spacing:.12em;border:1px solid var(--tag);background:rgba(20,17,13,.82);padding:7px 11px;color:var(--paper)}
+.dateline{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--paper-faint);border-bottom:1px solid var(--rule);padding:14px 0;margin:28px 0 44px}
+.dateline b{font-weight:400;color:var(--paper-dim)}
+
+.stack{display:flex;flex-direction:column;gap:22px}.stack>*{min-width:0}
+.lead{font-size:22px;line-height:1.5;font-weight:300}
+.memo{border:1px solid var(--rule);background:var(--ground-2);padding:16px 18px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--paper-dim)}
+.memo b{color:var(--gold);font-weight:700}
+.pull{font-size:clamp(24px,3.2vw,32px);font-weight:300;line-height:1.3;border-left:2px solid var(--gold);padding-left:20px;font-style:italic;color:var(--paper)}
+.pull small{display:block;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--paper-faint);margin-top:10px;letter-spacing:.08em}
+
+section{margin-top:84px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:26px}
+h2{margin:0;font-weight:400;font-size:clamp(30px,4.4vw,42px);line-height:1.1;letter-spacing:-.01em}
+h2 em{color:var(--gold)}
+h3{margin:0;font-weight:400;font-size:24px;line-height:1.2}
+.sub{color:var(--paper-dim);font-style:italic;font-size:19px}
+
+/* chapter opener */
+.chapter{margin-top:120px;border-top:1px solid var(--rule);padding-top:36px;position:relative}
+.chapter .where{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:20px}
+.chapter .where b{color:var(--kraft);font-weight:400}
+.chapter h2{font-size:clamp(40px,6.4vw,72px);font-weight:300;line-height:.98}
+.chapter .instrument{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ground);background:var(--gold);padding:5px 10px}
+
+ol.facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ol.facts li{padding:14px 0;border-bottom:1px solid var(--rule-soft);display:grid;grid-template-columns:108px minmax(0,1fr);gap:16px}
+ol.facts .when{font-family:var(--mono);font-size:12px;color:var(--kraft);padding-top:4px;font-variant-numeric:tabular-nums}
+
+/* exhibit frame */
+.exhibit{max-width:1040px;margin:0 auto;border:1px solid var(--rule);background:rgba(20,17,13,.94);padding:clamp(20px,3.4vw,38px);display:flex;flex-direction:column;gap:18px}
+.ex-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+.seg{display:inline-flex;border:1px solid var(--kraft);flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 14px;background:transparent;color:var(--paper-dim);border:0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--kraft);color:var(--ground);font-weight:700}
+.ledger{width:100%;border-collapse:collapse;font-size:17px}
+.ledger th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);text-align:left;font-weight:400;padding:10px 12px 10px 0;border-bottom:1px solid var(--rule)}
+.ledger td{padding:12px 12px 12px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+.ledger td.k{font-family:var(--mono);font-size:12px;color:var(--kraft);white-space:nowrap}
+.ledger td.v{font-family:var(--mono);font-size:14px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:11px;color:var(--paper-faint)}
+.legend i{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;background:var(--c,var(--gold))}
+
+/* controls */
+.ctrl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 22px}
+.ctrl label{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);min-width:0}
+.ctrl select,.ctrl input[type=number]{min-height:44px;background:var(--ground-2);color:var(--paper);border:1px solid var(--rule);font-family:var(--mono);font-size:13px;padding:0 10px;width:100%}
+.ctrl input[type=range]{width:100%;accent-color:var(--gold);min-height:44px}
+.ctrl output{font-family:var(--mono);font-size:13px;color:var(--paper);letter-spacing:0;text-transform:none}
+.switch{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);cursor:pointer;min-height:44px}
+.switch input{appearance:none;width:44px;height:24px;border:1px solid var(--kraft);border-radius:12px;background:var(--ground-2);position:relative;cursor:pointer;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--paper-faint);transition:transform .2s var(--ease)}
+.switch input:checked{background:var(--gold);border-color:var(--gold)}
+.switch input:checked::after{transform:translateX(20px);background:var(--ground)}
+
+/* verdict / readout */
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.ro{border:1px solid var(--rule);background:var(--ground-2);padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ro .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.ro .v{font-family:var(--mono);font-size:clamp(20px,2.6vw,28px);line-height:1.1;color:var(--paper);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ro .v.gold{color:var(--gold)}
+.ro .v.tag{color:var(--tag-lit)}
+.ro .v.fact{color:var(--fact)}
+.ro .s{font-size:14px;color:var(--paper-dim);line-height:1.45}
+.verdict{border-left:3px solid var(--tag);padding:14px 18px;background:var(--ground-2);font-size:18px;line-height:1.5}
+.verdict b{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tag-lit);display:block;margin-bottom:6px}
+.verdict.ok{border-color:var(--fact)}
+.verdict.ok b{color:var(--fact)}
+
+/* bars */
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:minmax(120px,220px) minmax(0,1fr) auto;gap:12px;align-items:center;font-size:15px}
+.bar .n{color:var(--paper-dim);min-width:0}
+.bar .tr{height:18px;background:var(--rule-soft);position:relative;min-width:0}
+.bar .f{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .6s var(--ease)}
+.bar .f.hatch{background:repeating-linear-gradient(45deg,var(--c,var(--kraft)) 0 4px,transparent 4px 8px);opacity:.8}
+.bar .v{font-family:var(--mono);font-size:12px;color:var(--paper);white-space:nowrap;font-variant-numeric:tabular-nums}
+.bar.ghost .n,.bar.ghost .v{color:var(--paper-faint)}
+
+/* card game */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .t{font-size:20px;line-height:1.2}
+.card .y{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+.card .names{display:flex;flex-wrap:wrap;gap:6px}
+.card .names button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.06em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px}
+.card .names button:hover{border-color:var(--kraft);color:var(--paper)}
+.card .names button[data-r="yes"]{border-color:var(--fact);color:var(--fact)}
+.card .names button[data-r="no"]{border-color:var(--tag);color:var(--tag-lit);text-decoration:line-through}
+.card .names button[data-r="dis"]{border-color:var(--reported);color:var(--reported)}
+.card .names button:focus-visible{outline:2px solid var(--gold)}
+.card .ans{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.card .ans[hidden]{display:none}
+
+/* chain rail */
+.rail{position:fixed;left:max(6px, env(safe-area-inset-left, 0px));top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:0;font-family:var(--mono)}
+.rail a{border:0;display:flex;align-items:center;justify-content:center;width:34px;height:34px;color:var(--paper-faint);position:relative}
+.rail a svg{width:22px;height:22px;display:block}
+.rail a .lk{fill:none;stroke:currentColor;stroke-width:1.8;transition:stroke .3s}
+.rail a.held{color:var(--gold)}
+.rail a.broken{color:var(--tag)}
+.rail a.broken .lk{stroke-dasharray:3 3}
+.rail a.active{color:var(--paper)}
+.rail a.active::before{content:"";position:absolute;left:-6px;top:50%;width:3px;height:16px;background:var(--gold);transform:translateY(-50%)}
+.rail a .tip{position:absolute;left:40px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--ground-2);border:1px solid var(--rule);padding:4px 8px;color:var(--paper);opacity:0;pointer-events:none;transition:opacity .2s}
+.rail a:hover .tip,.rail a:focus-visible .tip{opacity:1}
+.rail .seg-line{width:2px;height:10px;background:var(--rule)}
+@media (max-width:1180px){.rail{display:none}}
+
+/* hub grid */
+.hub{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;max-width:1040px;margin:0 auto}
+.hub a{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:8px;color:var(--paper);min-width:0;transition:border-color .2s}
+.hub a:hover{border-color:var(--gold)}
+.hub .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.hub .t{font-size:24px;line-height:1.15;font-weight:300}
+.hub .t em{color:var(--gold)}
+.hub .d{font-size:15px;color:var(--paper-dim);line-height:1.45}
+.hub .m{font-family:var(--mono);font-size:10px;color:var(--paper-faint);letter-spacing:.08em;margin-top:auto}
+
+/* your year */
+.yy{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:20px;align-items:start}
+@media (max-width:760px){.yy{grid-template-columns:minmax(0,1fr)}}
+
+/* timeline strip */
+.strip{position:relative;padding:18px 0 0}
+.strip .axis{height:2px;background:var(--rule)}
+.strip .pts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:14px}
+.strip .pt{font-size:14px;color:var(--paper-dim);border-top:2px solid var(--c,var(--gold));padding-top:8px;min-width:0}
+.strip .pt b{display:block;font-family:var(--mono);font-size:11px;color:var(--paper);font-weight:400;letter-spacing:.06em}
+
+/* two sides */
+.sides{display:grid;min-width:0;width:100%;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1040px;margin:0 auto}
+.side{border:1px solid var(--rule);background:var(--ground-2);padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.side h3{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);font-weight:700}
+.side ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:17px;color:var(--paper-dim)}
+.side.gold{border-color:var(--gold)}
+.side.tagb{border-color:var(--tag)}
+
+/* desk note / breadcrumb */
+.desk{border:1px solid var(--rule);border-left:3px solid var(--kraft);background:var(--ground-2);padding:14px 18px;font-size:16px;line-height:1.55;color:var(--paper-dim)}
+.desk b{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--kraft);display:block;margin-bottom:6px;font-weight:400}
+.crumbs{display:flex;flex-wrap:wrap;gap:8px}
+.crumbs a{font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px;display:inline-flex;align-items:center}
+.crumbs a:hover{border-color:var(--gold);color:var(--gold)}
+.crumbs a i{font-style:normal;color:var(--kraft);margin-right:8px}
+
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{font-family:var(--mono);font-size:11px;fill:var(--paper-faint)}
+svg.chart .ax{stroke:var(--rule);stroke-width:1}
+svg.chart .ln{fill:none;stroke:var(--gold);stroke-width:2.2}
+svg.chart .ln2{fill:none;stroke:var(--tag);stroke-width:2;stroke-dasharray:4 4}
+svg.chart .ar{fill:rgba(201,162,39,.12)}
+svg.chart .dot{fill:var(--gold)}
+svg.chart .lab{fill:var(--paper)}
+
+.watchlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
+.watchlist li{padding:12px 0;border-bottom:1px solid var(--rule-soft)}
+
+footer{margin-top:90px;border-top:1px solid var(--rule);padding-top:24px;font-family:var(--mono);font-size:11.5px;line-height:1.85;color:var(--paper-faint)}
+footer ol{padding-left:22px;margin:10px 0 22px;columns:2;column-gap:40px}
+footer li{break-inside:avoid;padding-right:10px}
+footer b{color:var(--paper-dim);font-weight:400}
+@media (max-width:760px){footer ol{columns:1}}
+.tier{font-size:10px;color:var(--kraft);letter-spacing:.08em}
+
+@media (max-width:720px){
+  body{font-size:18px}
+  ol.facts li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .hero{min-height:480px}
+  .bar{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n v" "tr tr"}
+  .bar .n{grid-area:n}.bar .tr{grid-area:tr}.bar .v{grid-area:v}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* plates: archival stills, house-toned, revealed on scroll; degrade to a kraft panel if the file is missing */
+.plate{width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);position:relative;overflow:hidden;opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.plate.in,.plate.static{opacity:1;transform:none}
+.plate .ph{display:block;width:100%;aspect-ratio:21/9;object-fit:cover;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.72) saturate(.9);transition:filter 1.2s var(--ease),transform 8s linear}
+.plate.in .ph{transform:scale(1.03)}
+.plate:hover .ph{filter:grayscale(.6) sepia(.25) contrast(1.05) brightness(.85)}
+.plate::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05),rgba(20,17,13,.55) 70%,rgba(20,17,13,.92)),radial-gradient(900px 300px at 20% 10%,rgba(201,162,39,.16),transparent 60%);pointer-events:none}
+.plate figcaption{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:14px 18px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim)}
+.plate figcaption b{color:var(--gold);font-weight:400}
+.plate figcaption .cr{color:var(--paper-faint)}
+.plate[data-missing] .ph{display:none}
+.plate[data-missing]{aspect-ratio:21/9;background:repeating-linear-gradient(135deg,var(--ground-2) 0 14px,var(--rule-soft) 14px 16px)}
+.plate[data-missing]::before{content:"PLATE PENDING · run fetch-plates.sh";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.plate[data-plate="ep1-c2"] .ph{object-position:50% 14%}
+.plate[data-plate="ep2-c6"] .ph{object-position:50% 40%}
+@media (max-width:720px){.plate .ph{aspect-ratio:16/10}.plate[data-missing]{aspect-ratio:16/10}}
+@media (prefers-reduced-motion:reduce){.plate{opacity:1;transform:none}.plate.in .ph{transform:none}}
+
+/* reels: one point per slide, period art behind it, words landing like a title card */
+.reel{position:relative;width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto}
+.reel .vp{position:relative;display:grid;min-height:420px;overflow:hidden}
+.reel .slide{grid-area:1/1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(22px,4vw,48px);padding-top:64px;min-height:420px;opacity:0;visibility:hidden;transition:opacity .9s var(--ease),visibility 0s linear .9s}
+.reel .slide.on{opacity:1;visibility:visible;transition:opacity .9s var(--ease)}
+.reel .slide .bg{position:absolute;inset:0;z-index:0}
+.reel .slide .bg img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.55) saturate(.9);transform:scale(1.04);transition:transform 9s linear}
+.reel .slide.on .bg img{transform:scale(1.12)}
+.reel .slide .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.18),rgba(20,17,13,.6) 55%,rgba(20,17,13,.94)),radial-gradient(700px 300px at 15% 15%,rgba(201,162,39,.18),transparent 60%)}
+.reel .slide .bg.none{background:radial-gradient(900px 420px at 30% 20%,rgba(201,162,39,.12),transparent 60%),repeating-linear-gradient(135deg,var(--ground-2) 0 18px,var(--rule-soft) 18px 20px)}
+.reel .slide .tx{position:relative;z-index:1;max-width:60ch;font-size:clamp(18px,2.1vw,22px);line-height:1.5;color:var(--paper)}
+.reel .slide .tx .w{display:inline-block;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.reel .slide.on .tx .w{opacity:1;transform:none}
+.reel .slide .tx sup.src{opacity:1}
+.reel .slide .k{position:relative;z-index:1;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.reel .slide .cr{position:absolute;right:14px;top:12px;z-index:1;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);max-width:60%;text-align:right}
+.reel .nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid var(--rule);background:var(--ground)}
+.reel .nav button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:40px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
+.reel .nav button:focus-visible{outline:2px solid var(--gold)}
+.reel .nav .dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.reel .nav .dots i{width:22px;height:4px;background:var(--rule);display:block;cursor:pointer}
+.reel .nav .dots i.on{background:var(--gold)}
+.reel .nav .ct{font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);letter-spacing:.1em;white-space:nowrap}
+.lead.rv .w,.pull.rv .w{display:inline-block;opacity:0;transform:translateY(6px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.lead.rv.on .w,.pull.rv.on .w{opacity:1;transform:none}
+@media (max-width:720px){.reel,.reel .vp{min-height:460px}.reel .slide .tx{font-size:17px}}
+@media (prefers-reduced-motion:reduce){.reel .slide .tx .w,.lead.rv .w,.pull.rv .w{opacity:1;transform:none;transition:none}.reel .slide .bg img{transform:none;transition:none}}
+</style>
+
+<nav class="rail" aria-label="Chapters">
+  <a href="#c1" data-ch="1"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="lk" x="4" y="7" width="16" height="10" rx="5"/></svg><span class="tip">1 · The Oath</span></a>
+  <span class="seg-line"></span>
+  <a href="#c2" data-ch="2"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="lk" x="4" y="7" width="16" height="10" rx="5"/></svg><span class="tip">2 · One Cent</span></a>
+  <span class="seg-line"></span>
+  <a href="#c3" data-ch="3"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="lk" x="4" y="7" width="16" height="10" rx="5"/></svg><span class="tip">3 · Unrecouped</span></a>
+  <span class="seg-line"></span>
+  <a href="#c4" data-ch="4"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="lk" x="4" y="7" width="16" height="10" rx="5"/></svg><span class="tip">4 · The Master's Master</span></a>
+  <span class="seg-line"></span>
+  <a href="#c5" data-ch="5"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="lk" x="4" y="7" width="16" height="10" rx="5"/></svg><span class="tip">5 · The Screen Deed</span></a>
+  <span class="seg-line"></span>
+  <a href="#c6" data-ch="6"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="lk" x="4" y="7" width="16" height="10" rx="5"/></svg><span class="tip">6 · Thou Shalt Not Steal</span></a>
+  <span class="seg-line"></span>
+  <a href="#c7" data-ch="7"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="lk" x="4" y="7" width="16" height="10" rx="5"/></svg><span class="tip">7 · The Voice Deed</span></a>
+</nav>
+
+<div class="wrap">
+  <div class="mast">
+    <a class="brand" href="#top"><i></i>Infera · The Chain of Title</a>
+    <nav aria-label="Series">
+      <a href="#hub">Seven exhibits</a>
+      <a href="#c1">1 Oath</a><a href="#c2">2 Cent</a><a href="#c3">3 Unrecouped</a><a href="#c4">4 Master</a><a href="#c5">5 Screen</a><a href="#c6">6 Sample</a><a href="#c7">7 Voice</a>
+      <a href="the-circulating-dollar.html#engine">The engine</a>
+      <a href="the-circulating-dollar.html">Ep 2</a><a href="the-terms.html">Ep 3</a><a href="the-feed.html">Ep 4</a><a href="the-dilution.html">Ep 5</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </div>
+
+  <header class="hero" id="top">
+    <canvas id="chaincanvas" aria-hidden="true"></canvas>
+    <div class="boxcount">MINI-SERIES · 7 EXHIBITS · 1787–2026</div>
+    <div class="hero-in">
+      <span class="eyebrow">Infera · Mechanism Series · A standalone mini-series</span>
+      <h1>The Chain <em>of Title</em></h1>
+      <p class="deck">Who holds the paper on Black creative work. Seven exhibits on four legal instruments that moved the gap between making a thing and owning it, from the inventor's oath of 1858 to the voice-clone takedowns of 2026.</p>
+    </div>
+  </header>
+  <p class="eyebrow col" style="padding-top:10px;color:var(--paper-faint)">Hero: generative chain drawn in code. No photograph, no real place.</p>
+
+  <div class="col">
+    <div class="dateline">
+      <span><b>AS OF</b> Oct 30, 2026</span>
+      <span><b>READ</b> ~45 min whole · 5–7 min per exhibit</span>
+      <span><b>LAYER</b> Public record · court files · statutes · ledgers</span>
+      <span><b>METHOD</b> SVNIF</span>
+    </div>
+
+    <div class="stack">
+      <p class="lead">A chain of title is the paper trail a buyer checks before paying for a song, a film, or a catalog: every assignment, every renewal, every reversion, back to the person who made the thing. For most of American history, the trail for Black creative work starts with a break in the first link.</p>
+      <p>This series follows the paper, not the fame. It asks one question of every era: when the work made money, which document decided who got it? The answers are four instruments, each written into law or contract, each still in force in some form today. We name them, date them, and build a working model of each so you can run the numbers yourself.</p>
+      <div class="memo"><b>READING MEMO</b> · Every exhibit stands alone. Every figure carries a label: <span class="tag t-fact">Fact</span> is on the record, <span class="tag t-rep">Reported</span> is a credible account we could not independently confirm, <span class="tag t-inf">Inference</span> is our arithmetic or reading. Dollar conversions to 2025 use the Minneapolis Fed CPI series (Hoover/Rees estimates before 1913, BLS after) and are orders of magnitude, not audits. Legend and ledger are kept apart on purpose. This is an original Infera investigation from the public record; it is not a summary of any book. For the attorney's history of the same terrain, see Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026), listed in the sources as a further read.</div>
+    </div>
+
+    <section aria-labelledby="h-instruments">
+      <div class="sec-head">
+        <span class="eyebrow">The spine</span>
+        <h2 id="h-instruments">Four instruments, <em>one gap</em></h2>
+        <p class="sub">Each exhibit is built around the document that did the work.</p>
+      </div>
+      <ol class="facts">
+        <li><span class="when">1787–1865</span><span><span class="tag t-fact">Fact</span><b>The gate.</b> An inventor had to swear an oath, including to citizenship, which after <em>Dred Scott</em> (1857) a Black applicant could not truthfully do. An enslaved person could not swear at all, and the enslaver could not swear to an invention he did not make. The work existed; the title could not.<sup class="src"><a href="#s3">3</a>, <a href="#s4">4</a></sup></span></li>
+        <li><span class="when">1909–1977</span><span><span class="tag t-fact">Fact</span><b>The renewal term.</b> 28 years, then 28 more, and the second term went back to the living author. A song sold for $50 in 1912 came home in 1940, if its author was alive to claim it.<sup class="src"><a href="#s2">2</a></sup></span></li>
+        <li><span class="when">1945–today</span><span><span class="tag t-fact">Fact</span><b>The recoupable advance.</b> Royalties are credited, then charged against costs the label controls. A hit can leave the artist owing money for decades.<sup class="src"><a href="#s39">39</a>, <a href="#s40">40</a></sup></span></li>
+        <li><span class="when">1978–today</span><span><span class="tag t-fact">Fact</span><b>The termination window.</b> 17 U.S.C. §203: thirty-five years after a grant, the author can take it back, with two to ten years' notice, unless a bankruptcy or a work-for-hire clause took the right first.<sup class="src"><a href="#s62">62</a>, <a href="#s65">65</a></sup></span></li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="h-yy">
+      <div class="sec-head">
+        <span class="eyebrow">Before you read</span>
+        <h2 id="h-yy">Your <em>first song</em></h2>
+        <p class="sub">Enter the year you were born. We assume you wrote a song at 20 and signed it away that same year.</p>
+      </div>
+      <div class="exhibit">
+        <div class="yy">
+          <div class="ctrl">
+            <label for="yy-year">Birth year<input type="number" id="yy-year" min="1760" max="2010" value="1985" inputmode="numeric"></label>
+          </div>
+          <div class="stack" id="yy-out" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section aria-labelledby="h-hub" id="hub">
+    <div class="col sec-head">
+      <span class="eyebrow">The series</span>
+      <h2 id="h-hub">Seven exhibits, <em>read in any order</em></h2>
+      <p class="sub">Each one opens on a document. Each one hands you the model.</p>
+    </div>
+    <div class="hub">
+      <a href="#c1"><span class="n">01 · 1787–1887</span><span class="t">The <em>Oath</em></span><span class="d">The 1858 opinion that an enslaved inventor's machine "cannot be patented," and the guardianship chain that routed Blind Tom's earnings for fifty years.</span><span class="m">GATE · 6 MIN · INTERACTIVE: THE PATENT GATE · LEGEND VS. LEDGER</span></a>
+      <a href="#c2"><span class="n">02 · 1899–1940</span><span class="t">One <em>Cent</em></span><span class="d">Joplin's one-cent contract, Handy's hundred dollars, Bessie Smith's $125 a side on a 780,000-seller, and the 28-year clock that gave one of them his song back.</span><span class="m">RENEWAL · 7 MIN · INTERACTIVE: ROYALTY CALCULATOR · RENEWAL CLOCK</span></a>
+      <a href="#c3"><span class="n">03 · 1945–1988</span><span class="t"><em>Unrecouped</em></span><span class="d">Ruth Brown's $754 in twenty years, a half-cent a record, a $500 check for "Hound Dog," and the names on the label that never held a pen.</span><span class="m">ADVANCE · 7 MIN · INTERACTIVE: THE STATEMENT · WHO WROTE IT?</span></a>
+      <a href="#c4"><span class="n">04 · 1959–2014</span><span class="t">The Master's <em>Master</em></span><span class="d">Who got the masters, who got the publishing, and the $322 million three-step sale of Motown's songbook. Then the 35-year clock, and the bankruptcy trap inside it.</span><span class="m">TERMINATION · 7 MIN · INTERACTIVE: OWNERSHIP MAP · REVERSION CLOCK</span></a>
+      <a href="#c5"><span class="n">05 · 1919–2021</span><span class="t">The Screen <em>Deed</em></span><span class="d">$2.5 million for Amos 'n' Andy, $500 a week for Hattie McDaniel, a syndication split, a talk show bought outright, and the 2.9% of stations Black-owned today.</span><span class="m">OWNERSHIP · 6 MIN · INTERACTIVE: PRESENCE VS. OWNERSHIP · THE HARPO SWITCH</span></a>
+      <a href="#c6"><span class="n">06 · 1991–2024</span><span class="t">Thou Shalt <em>Not Steal</em></span><span class="d">The sampling ruling that policed a genre, a circuit split still unresolved, an album thirty-four years offline, and what a hip-hop catalog sells for next to a rock one.</span><span class="m">CLEARANCE · 7 MIN · GAME: CLEAR THE SAMPLE · THE CATALOG GAP</span></a>
+      <a href="#c7"><span class="n">07 · 2023–2026</span><span class="t">The Voice <em>Deed</em></span><span class="d">A fake Drake with 15 million views, the first voice statute, a federal bill in markup, two settled lawsuits, and a streaming service where half of all uploads are now machine-made.</span><span class="m">LIKENESS · 6 MIN · INTERACTIVE: WHO OWNS THE VOICE? · THE UPLOAD CURVE</span></a>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 1 ============ -->
+  <article class="chapter" id="c1" data-ch="1" data-state="broken">
+    <div class="col">
+      <div class="where"><span><b>Where you are</b> Exhibit 1 of 7</span><span><b>Years</b> 1787–1887</span><span><b>Read</b> ~6 min</span><span><b>Instrument</b> The gate</span></div>
+      <h2>The <em>Oath</em></h2>
+      <span class="instrument">Link status · broken at the source</span>
+      <figure class="plate" data-plate="ep1-c1"><img class="ph" src="assets/plates/ep1-c1.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The United States Patent Office, Washington · where the oath was sworn</span><span class="cr">Prints & Photographs Division, Library of Congress · public domain</span></figcaption></figure>
+      <div class="stack" data-reel="ep1-c1,x-micheaux,x-gates" style="margin-top:34px">
+        <p class="lead">In the spring of 1857 an enslaved blacksmith named Ned, on a plantation in Pike County, Mississippi, built a double cotton scraper that did two passes of work in one. His enslaver, Oscar Stuart, applied for the patent in November. The Patent Office sent it back. The problem was not the machine.<sup class="src"><a href="#s4">4</a></sup></p>
+        <p>The 1836 Patent Act required the applicant to be the "original and first inventor" and to swear an oath to it. Stuart had not invented anything. Ned, in the Commissioner's view, was not competent to swear. Stuart petitioned Congress twice and backed a bill to let enslavers patent what the people they held had made. It failed. The Confederacy wrote that provision into its own patent law in May 1861, section 50.<sup class="src"><a href="#s4">4</a></sup></p>
+        <p>Then came the ruling that closed the gate for everyone. On June 10, 1858, Attorney General Jeremiah Black answered the Interior Department's question about a different enslaved inventor's machine: it "cannot be patented," and a patent issued to the master "would not protect him in the courts." Black leaned on <em>Dred Scott</em>, decided the year before. Since every applicant swore to citizenship, the opinion shut out free Black inventors too, people like Thomas Jennings, who had patented a dry-cleaning process in 1821.<sup class="src"><a href="#s3">3</a>, <a href="#s4">4</a>, <a href="#s5">5</a></sup></p>
+        <div class="desk"><b>Why this is the first link</b>A chain of title begins with an author. The 1858 opinion did not take a title away; it declared that none could come into existence. Every later instrument in this series operates on a title that exists. This one operates before.</div>
+      </div>
+    </div>
+
+    <section aria-labelledby="h-gate">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 1A · Interactive</span>
+        <h2 id="h-gate">The patent <em>gate</em></h2>
+        <p class="sub">Pick a year and who did the inventing. The statute decides.</p>
+      </div>
+      <div class="exhibit">
+        <div class="ctrl">
+          <label for="g-year">Year<select id="g-year">
+            <option value="1821">1821 · Patent Act of 1793 in force</option>
+            <option value="1850">1850 · Patent Act of 1836 in force</option>
+            <option value="1858" selected>1858 · after the Attorney General's opinion</option>
+            <option value="1861c">1861 · Confederate Patent Act, §50</option>
+            <option value="1866">1866 · after the 14th Amendment debates begin</option>
+          </select></label>
+          <label for="g-who">Who invented it<select id="g-who">
+            <option value="enslaved" selected>An enslaved person</option>
+            <option value="free">A free Black inventor</option>
+            <option value="enslaver">The enslaver, claiming the enslaved person's work</option>
+            <option value="white">A white inventor</option>
+          </select></label>
+        </div>
+        <div class="verdict" id="g-verdict" aria-live="polite"></div>
+        <div class="legend"><span>Rules drawn from the 1836 Act's inventor-oath requirement, <em>Invention of a Slave</em>, 9 Op. Att'y Gen. 171 (1858), the Confederate Patent Act of 1861, and Swanson's reconstruction of the Stuart petitions. Outcomes before 1858 for free Black inventors are documented cases, not guarantees.</span></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <section aria-labelledby="h-tom">
+        <div class="sec-head">
+          <span class="eyebrow">The custody chain</span>
+          <h2 id="h-tom">Blind Tom, <em>in four guardianships</em></h2>
+          <p class="sub">A composer who could not hold his own copyright, managed by a family that held him.</p>
+        </div>
+        <ol class="facts">
+          <li><span class="when">c. 1850</span><span><span class="tag t-fact">Fact</span>Thomas Wiggins, born enslaved in Harris County, Georgia, is sold as an infant with his parents to James N. Bethune of Columbus.<sup class="src"><a href="#s7">7</a></sup></span></li>
+          <li><span class="when">c. 1857–58</span><span><span class="tag t-rep">Reported</span>Bethune hires the boy out to promoter Perry Oliver on a three-year, $15,000 contract. Oliver is said to clear about $50,000. Tom and his parents receive nothing.<sup class="src"><a href="#s8">8</a>, <a href="#s9">9</a></sup></span></li>
+          <li><span class="when">1860–61</span><span><span class="tag t-fact">Fact</span>A White House performance for President Buchanan. "The Battle of Manassas," composed at 12. Wartime concert proceeds go to Confederate soldier relief.<sup class="src"><a href="#s7">7</a></sup></span></li>
+          <li><span class="when">1865</span><span><span class="tag t-rep">Reported</span>Emancipation. Bethune has Tom's freed parents sign a five-year indenture: Tom to receive $20 a month, his parents $500 a year; the Bethunes keep the rest, by one account about 90 percent. A Black promoter, Tabbs Gross, sues for guardianship in Cincinnati and loses.<sup class="src"><a href="#s8">8</a>, <a href="#s9">9</a></sup></span></li>
+          <li><span class="when">1870</span><span><span class="tag t-rep">Reported</span>The indenture expires. Bethune petitions to have Tom, now 21, declared insane, and himself appointed guardian. Granted.<sup class="src"><a href="#s8">8</a></sup></span></li>
+          <li><span class="when">1879</span><span><span class="tag t-rep">Reported</span>Concerts and sheet music net "close to $20,000 a year." Tom's compositions are published under invented names: W. F. Raymond, J. C. Beckel, François Sexalise.<sup class="src"><a href="#s8">8</a>, <a href="#s10">10</a></sup></span></li>
+          <li><span class="when">1887</span><span><span class="tag t-fact">Fact</span>After the death of the son who managed him, the son's widow, Eliza Bethune, wins custody, using Tom's mother Charity as the nominal petitioner. Charity gets no share and returns to Georgia. Eliza bills Tom as "the last slave set free by order of the Supreme Court." No such order exists.<sup class="src"><a href="#s10">10</a>, <a href="#s9">9</a></sup></span></li>
+          <li><span class="when">1908</span><span><span class="tag t-fact">Fact</span>Tom dies in Hoboken, New Jersey, in Eliza's home. Lifetime compensation, by the fullest account: room, board, and a Steinway.<sup class="src"><a href="#s7">7</a>, <a href="#s9">9</a></sup></span></li>
+        </ol>
+      </section>
+    </div>
+
+    <section aria-labelledby="h-ll">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 1B · Interactive</span>
+        <h2 id="h-ll">Legend <em>versus</em> ledger</h2>
+        <p class="sub">The internet says Tom earned $100,000 a year. The documents say something smaller and worse. Switch between them.</p>
+      </div>
+      <div class="exhibit">
+        <div class="ex-top">
+          <span class="eyebrow" style="color:var(--paper-faint)">Showing: <span id="ll-name">the ledger</span></span>
+          <div class="seg" role="group" aria-label="Choose legend or ledger">
+            <button type="button" data-ll="ledger" aria-pressed="true">Ledger</button>
+            <button type="button" data-ll="legend" aria-pressed="false">Legend</button>
+          </div>
+        </div>
+        <div class="bars" id="ll-bars"></div>
+        <div class="legend"><span><i></i>Documented or contract figure</span><span><i style="--c:var(--kraft);background:repeating-linear-gradient(45deg,var(--kraft) 0 4px,transparent 4px 8px)"></i>Repeated claim without a visible primary source</span><span>Right-hand column: 2025 dollars by CPI, rounded.</span></div>
+        <p class="desk" id="ll-note"></p>
+      </div>
+    </section>
+
+    <div class="col">
+      <section aria-labelledby="h-fisk">
+        <div class="sec-head">
+          <span class="eyebrow">Same instrument, different holder</span>
+          <h2 id="h-fisk">The songs that built <em>Jubilee Hall</em></h2>
+        </div>
+        <div class="stack" data-reel="ep1-c1,x-micheaux,x-gates">
+          <p>In 1867 three white editors published <em>Slave Songs of the United States</em>, 136 spirituals transcribed from freedpeople on St. Helena Island. No singer is credited. No singer was paid, so far as any record shows. Under the copyright law of the day, the compilation belonged to the editors and their publisher.<sup class="src"><a href="#s13">13</a></sup> <span class="tag t-inf">Inference</span>The people who made the songs held nothing; the people who wrote them down held the book.</p>
+          <p>Four years later, nine students from Fisk University left Nashville with the school's last $40 and sang those songs to white audiences in the North. Their first tour raised the $20,000 the school had been promised. The 1873 tour of Britain, including a performance for Queen Victoria, came home with about $50,000. Fisk credits the singers with raising more than $160,000 for Jubilee Hall, dedicated January 1, 1876. In today's money that is roughly $4.8 million.<sup class="src"><a href="#s11">11</a>, <a href="#s12">12</a></sup></p>
+          <p>They were paid professionals by 1873; no wage figures survive in the published record. The institution owned the revenue. The singers, who endured typhoid, tuberculosis, and hotels that would not seat them, held salaries at best and no authorship interest in what they sang.<sup class="src"><a href="#s11">11</a></sup> <span class="tag t-inf">Inference</span>This is the gate from the other side: a Black institution could hold title when Black individuals could not, and the music's first owners were a college and a missionary association.</p>
+          <div class="desk"><b>A note from the desk · crumbs</b>The dollar-per-copy structure that follows in Exhibit 2 is the one the Fisk singers never saw. For the distribution side of the same century, the "Recommended For You" memo <em>The Crowbar and the Moat</em> traces who controlled the route from stage to sheet-music counter.</div>
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 2 ============ -->
+  <article class="chapter" id="c2" data-ch="2" data-state="held">
+    <div class="col">
+      <div class="where"><span><b>Where you are</b> Exhibit 2 of 7</span><span><b>Years</b> 1899–1940</span><span><b>Read</b> ~7 min</span><span><b>Instrument</b> The renewal term</span></div>
+      <h2>One <em>Cent</em></h2>
+      <span class="instrument">Link status · held, at a price</span>
+      <figure class="plate" data-plate="ep1-c2"><img class="ph" src="assets/plates/ep1-c2.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Maple Leaf Rag, first edition, 1899 · the one-cent contract's song</span><span class="cr">John Stark & Son, 1899 · public domain, via Wikimedia Commons</span></figcaption></figure>
+      <div class="stack" data-reel="ep1-c2,x-stlouis,x-memphis" style="margin-top:34px">
+        <p class="lead">On August 10, 1899, in Sedalia, Missouri, a publisher named John Stark signed a typed contract with Scott Joplin for "Maple Leaf Rag." The terms, witnessed by a local lawyer, were a one-cent royalty on every copy sold at a minimum price of twenty-five cents. The original is in the Morgan Library.<sup class="src"><a href="#s16">16</a></sup></p>
+        <p>That is the first link in this series that holds. Joplin kept a royalty. It was small, the first run of 400 copies took a year to sell, and by 1909 the historian Edward Berlin estimates the rag brought him about $600 a year. The stories of 75,000 copies in six months are disproved. But the paper named him, and the paper paid.<sup class="src"><a href="#s17">17</a></sup></p>
+        <p>Thirteen years later in Memphis, W. C. Handy sold "The Memphis Blues," plates and copyright, for $50, or $100 by another account, to a buyer who added lyrics and republished it. The Victor Military Band's 1914 recording is in the National Recording Registry. Handy got nothing from any of it, for twenty-eight years.<sup class="src"><a href="#s19">19</a>, <a href="#s20">20</a></sup></p>
+        <p>Twenty-eight is the number that matters. The Copyright Act of 1909 gave a work 28 years, then a second 28-year term that reverted to the living author. In 1940 "The Memphis Blues" came home. Handy had by then founded his own publishing house with Harry Pace and kept "St. Louis Blues" from the start; at his death in 1958 that song alone was earning him about $25,000 a year.<sup class="src"><a href="#s2">2</a>, <a href="#s20">20</a>, <a href="#s21">21</a></sup></p>
+        <div class="pull">"One-cent royalty for each copy sold."<small>Contract, John Stark &amp; Son and Scott Joplin, Aug. 10, 1899 · Morgan Library &amp; Museum · T1</small></div>
+      </div>
+    </div>
+
+    <section aria-labelledby="h-calc">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 2A · Interactive</span>
+        <h2 id="h-calc">The royalty <em>calculator</em></h2>
+        <p class="sub">Choose a contract from the record. Set how many copies sold. See who got what, then and now.</p>
+      </div>
+      <div class="exhibit">
+        <div class="ctrl">
+          <label for="rc-deal">Contract<select id="rc-deal">
+            <option value="joplin" selected>Joplin · 1¢ per copy · sheet music at 25¢ (1899)</option>
+            <option value="handy">Handy · sold outright for $100 · sheet music (1912)</option>
+            <option value="waters">Ethel Waters · $100 flat for two sides · Black Swan 78 at $1 (1921)</option>
+            <option value="bessie">Bessie Smith · $125 flat per side, no royalty · Columbia 78 (1923)</option>
+            <option value="bessie33">Bessie Smith · $37.50 per side · OKeh (1933)</option>
+          </select></label>
+          <label for="rc-copies">Copies sold <output id="rc-copies-out" for="rc-copies">780,000</output><input type="range" id="rc-copies" min="400" max="1000000" step="100" value="780000"></label>
+        </div>
+        <div class="readout">
+          <div class="ro"><span class="l">Gross at list price</span><span class="v num" id="rc-gross">—</span><span class="s" id="rc-gross-s"></span></div>
+          <div class="ro"><span class="l">Creator's take, then</span><span class="v gold num" id="rc-take">—</span><span class="s" id="rc-take-s"></span></div>
+          <div class="ro"><span class="l">Creator's take, 2025 $</span><span class="v num" id="rc-take25">—</span><span class="s">CPI conversion, rounded</span></div>
+          <div class="ro"><span class="l">Share of gross</span><span class="v tag num" id="rc-share">—</span><span class="s" id="rc-share-s"></span></div>
+        </div>
+        <div class="verdict" id="rc-note"></div>
+        <div class="legend"><span>List prices and fees are documented; the gross is an <em>illustration</em> (label's or publisher's revenue at list, before trade discounts). Bessie Smith's "Downhearted Blues" is reported at 780,000 copies in six months; her total Columbia recording income over about 160 sides is reported at $28,575.<sup class="src"><a href="#s27">27</a>, <a href="#s30">30</a></sup></span></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <section aria-labelledby="h-bs">
+        <div class="sec-head">
+          <span class="eyebrow">The first Black-owned label</span>
+          <h2 id="h-bs">Black Swan, <em>1921–1923</em></h2>
+        </div>
+        <div class="stack" data-reel="ep1-c2,x-stlouis,x-memphis">
+          <p>Harry Pace left the Handy partnership in early 1921 and founded Pace Phonograph Corporation in Harlem that March. The board included James Weldon Johnson; the NAACP's magazine invested. Ethel Waters, then earning $35 a week plus tips, asked for $100 to cut "Down Home Blues" and got it. Pace claimed half a million copies in six months. Specialists put it nearer 100,000 to 120,000. Either way the company's first-year sales passed $100,000, and at peak it was pressing 7,000 records a day in a plant built for 6,000.<sup class="src"><a href="#s22">22</a>, <a href="#s23">23</a>, <a href="#s24">24</a></sup></p>
+          <p>Bankruptcy came in December 1923; Paramount bought the label and shut it the next spring. Pace blamed radio. He went on to found an insurance company, earn a law degree, and die in 1943, his own descendants unaware of his ancestry until 2007.<sup class="src"><a href="#s23">23</a>, <a href="#s24">24</a></sup></p>
+          <p><span class="tag t-fact">Fact</span>Sound recordings had no federal copyright at all until February 15, 1972. Every "race record" of the 1920s was unprotected as a recording. Only the song underneath could be owned, renewed, or reclaimed.<sup class="src"><a href="#s2">2</a></sup> <span class="tag t-inf">Inference</span>That is why the flat-fee singers of this era, Mamie Smith, Bessie Smith, Ethel Waters, had nothing to renew in 1948 or 1951, and why the rare Black publishers, Pace, Handy, Perry Bradford, held the only asset the 28-year clock could ever return.</p>
+          <p>Bradford learned the clock's other edge. He sold "Wicked Blues" to one publisher, then copyrighted it as "Crazy Blues" and gave it to Mamie Smith. A New York court in 1921 ordered an accounting of profits. He paid damages, split with Smith, and in the 1940s worked as a mailman.<sup class="src"><a href="#s26">26</a>, <a href="#s25">25</a></sup></p>
+        </div>
+      </section>
+    </div>
+
+    <section aria-labelledby="h-clock">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 2B · Interactive</span>
+        <h2 id="h-clock">The renewal <em>clock</em></h2>
+        <p class="sub">Twenty-eight years after publication, the song went back to its author, if the author was alive. Choose a song.</p>
+      </div>
+      <div class="exhibit">
+        <div class="seg" role="group" aria-label="Choose a song" id="clk-seg">
+          <button type="button" data-song="memphis" aria-pressed="true">Memphis Blues</button>
+          <button type="button" data-song="maple" aria-pressed="false">Maple Leaf Rag</button>
+          <button type="button" data-song="oldfolks" aria-pressed="false">Old Folks at Home</button>
+          <button type="button" data-song="crazy" aria-pressed="false">Crazy Blues</button>
+          <button type="button" data-song="downhearted" aria-pressed="false">Downhearted Blues (recording)</button>
+        </div>
+        <svg class="chart" id="clk-svg" viewBox="0 0 900 190" role="img" aria-labelledby="clk-title"><title id="clk-title">Renewal clock for the selected song</title></svg>
+        <div class="readout" id="clk-out"></div>
+        <div class="verdict" id="clk-verdict"></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <div class="desk"><b>A note from the desk · crumbs</b>The renewal term is gone; the 1976 Act replaced it with the 35-year termination window you will meet in Exhibit 4. The two-term logic survives in one place: the "Reading the Contract Through the Courtroom" memo shows how modern deals try to write around reversion before it starts.</div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 3 ============ -->
+  <article class="chapter" id="c3" data-ch="3" data-state="broken">
+    <div class="col">
+      <div class="where"><span><b>Where you are</b> Exhibit 3 of 7</span><span><b>Years</b> 1945–1988</span><span><b>Read</b> ~7 min</span><span><b>Instrument</b> The recoupable advance</span></div>
+      <h2><em>Unrecouped</em></h2>
+      <span class="instrument">Link status · held on paper, broken in the accounting</span>
+      <figure class="plate" data-plate="ep1-c3"><img class="ph" src="assets/plates/ep1-c3.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The Apollo marquee, 1946–48 · the room, before the ledger</span><span class="cr">William P. Gottlieb Collection, Library of Congress · public domain</span></figcaption></figure>
+      <div class="stack" data-reel="ep1-c3,x-harlem43,x-tavern" style="margin-top:34px">
+        <p class="lead">Ruth Brown's records built Atlantic. Her contract paid her a royalty of about five percent. When the lawyer Howell Begle took her case in 1983, the label's position was that she owed it money, and that between 1960 and 1980 she had earned $754 in royalties. Atlantic could not document the debt.<sup class="src"><a href="#s39">39</a>, <a href="#s40">40</a></sup></p>
+        <p>This is the third instrument, and it is the one still in every contract. A royalty is credited, then charged against the advance, the studio, the packaging, the promotion, a reserve against returns. The account runs negative. It can run negative through a career. The artist is not lied to; the artist is told the truth in a column that never reaches zero.</p>
+        <p>Begle took on thirty more Atlantic artists. Brown testified before a congressional panel. In 1988 Atlantic waived its R&amp;B artists' unrecouped balances, recalculated royalties back to 1970, and put $1.5 million toward founding the Rhythm &amp; Blues Foundation. Brown's first check in twenty-eight years was about $20,000 by one account, $30,000 by another. Most other majors followed.<sup class="src"><a href="#s38">38</a>, <a href="#s39">39</a>, <a href="#s40">40</a></sup></p>
+        <div class="pull">"$754."<small>Atlantic's stated royalty earnings for Ruth Brown, 1960–1980, as reported in 1997 · T2 · the label could not produce the ledger behind its claimed $25,000 debt</small></div>
+      </div>
+    </div>
+
+    <section aria-labelledby="h-stmt">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 3A · Interactive</span>
+        <h2 id="h-stmt">The <em>statement</em></h2>
+        <p class="sub">You are the artist. Sell records. Watch the balance. Then flip the 1988 switch.</p>
+      </div>
+      <div class="exhibit">
+        <div class="ctrl">
+          <label for="st-sold">Records sold <output id="st-sold-out" for="st-sold">1,000,000</output><input type="range" id="st-sold" min="10000" max="5000000" step="10000" value="1000000"></label>
+          <label for="st-rate">Royalty rate <output id="st-rate-out" for="st-rate">5.0%</output><input type="range" id="st-rate" min="0.5" max="14" step="0.5" value="5"></label>
+          <label for="st-adv">Advance &amp; recording costs charged back <output id="st-adv-out" for="st-adv">$20,000</output><input type="range" id="st-adv" min="0" max="200000" step="1000" value="20000"></label>
+          <label class="switch" for="st-reform"><input type="checkbox" id="st-reform">1988 reform: waive the balance, rate to 10%</label>
+        </div>
+        <div class="scroll"><table class="ledger" id="st-table">
+          <thead><tr><th scope="col">Line</th><th scope="col">Basis</th><th scope="col" style="text-align:right">Amount</th></tr></thead>
+          <tbody></tbody>
+        </table></div>
+        <div class="readout">
+          <div class="ro"><span class="l">Label's gross at wholesale</span><span class="v num" id="st-gross">—</span><span class="s">Illustrative: 1950s single, wholesale ≈ 50¢</span></div>
+          <div class="ro"><span class="l">Balance due artist</span><span class="v num" id="st-bal">—</span><span class="s" id="st-bal-s"></span></div>
+        </div>
+        <div class="verdict" id="st-verdict"></div>
+        <div class="legend"><span><span class="tag t-inf">Inference</span>The deductions here (10% packaging, 15% free goods, 25% returns reserve, royalty on 90% of sales) are standard mid-century contract mechanics reconstructed from the trade literature, not Ruth Brown's actual statements. Her documented figures: a 4.5–5% rate; $754 credited for 1960–80; a first post-reform check of $20,000–$30,000.<sup class="src"><a href="#s39">39</a>, <a href="#s40">40</a></sup></span></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <section aria-labelledby="h-half">
+        <div class="sec-head">
+          <span class="eyebrow">The same decade, by the record</span>
+          <h2 id="h-half">Half a cent, <em>five hundred dollars</em></h2>
+        </div>
+        <ol class="facts">
+          <li><span class="when">1955</span><span><span class="tag t-rep">Reported</span>Little Richard, by his own authorized account, sells the publishing on "Tutti Frutti" for $50 and records at half a cent a copy. A 1984 wire report describes the 1955 deal differently: ownership of his songs to Specialty for 50 percent of royalties. In 1959 he settles a nonpayment suit for $11,000 and waives record royalties. He sues again in 1984; the case is dismissed.<sup class="src"><a href="#s33">33</a>, <a href="#s34">34</a>, <a href="#s35">35</a></sup></span></li>
+          <li><span class="when">1953</span><span><span class="tag t-rep">Reported</span>Big Mama Thornton's "Hound Dog": "That song sold over two million records. I got one check for $500 and never saw another." Her label's owner put her sales at 500,000 to 750,000. Elvis Presley's version sold about ten million worldwide.<sup class="src"><a href="#s41">41</a></sup></span></li>
+          <li><span class="when">1952–73</span><span><span class="tag t-fact">Fact</span>Don Robey, owner of Peacock and Duke, takes writing credit on several hundred songs under the name "Deadric Malone." He sells the catalog, 2,700 copyrights, to ABC-Dunhill in 1973.<sup class="src"><a href="#s43">43</a>, <a href="#s44">44</a></sup></span></li>
+          <li><span class="when">1955–86</span><span><span class="tag t-fact">Fact</span>"Maybellene" is credited to Chuck Berry, the disc jockey Alan Freed, and Russ Fratto, a Chess creditor. Berry: Freed "didn't sit down with me at all and write anything." The credits are withdrawn in 1986. Berry's pianist Johnnie Johnson sues in 2000 for co-authorship of 33 songs; the court never reaches the merits, ruling in 2002 that he waited too long.<sup class="src"><a href="#s37">37</a>, <a href="#s36">36</a></sup></span></li>
+          <li><span class="when">2008</span><span><span class="tag t-fact">Fact</span>Bo Diddley, paid flat fees rather than royalties: "I am owed. I never got paid." And: "A dude with a pencil is worse than a cat with a machine gun."<sup class="src"><a href="#s45">45</a></sup></span></li>
+        </ol>
+      </section>
+    </div>
+
+    <section aria-labelledby="h-who">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 3B · Game</span>
+        <h2 id="h-who">Who <em>wrote it?</em></h2>
+        <p class="sub">Four songs, the names printed on them. Tap each name to learn whether it belongs there.</p>
+      </div>
+      <div class="exhibit">
+        <div class="cards" id="who-cards"></div>
+        <div class="legend"><span style="color:var(--fact)">■ Wrote it</span><span style="color:var(--tag-lit)">■ Credited, did not write it</span><span style="color:var(--reported)">■ Disputed in the record</span></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <div class="desk"><b>A note from the desk · crumbs</b>Freed's quarter-share on "Maybellene" is payola paid in copyright instead of cash; the 1960 hearings that criminalized the cash version are in <em>The Crowbar and the Moat</em>. The contract grammar of the recoupable advance is laid out clause by clause in <em>The Leverage Map</em>.</div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 4 ============ -->
+  <article class="chapter" id="c4" data-ch="4" data-state="held">
+    <div class="col">
+      <div class="where"><span><b>Where you are</b> Exhibit 4 of 7</span><span><b>Years</b> 1959–2014</span><span><b>Read</b> ~7 min</span><span><b>Instrument</b> The termination window</span></div>
+      <h2>The Master's <em>Master</em></h2>
+      <span class="instrument">Link status · held, reclaimed, re-sold</span>
+      <figure class="plate" data-plate="ep1-c4"><img class="ph" src="assets/plates/ep1-c4.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Hitsville U.S.A., West Grand Boulevard, Detroit · the masters and the publishing</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="ep1-c4,x-regal,x-palm" style="margin-top:34px">
+        <p class="lead">In November 1959 Ray Charles signed with ABC-Paramount for one of the highest royalty rates of its day, a $50,000 annual advance, and, the Country Music Hall of Fame records, ownership of his own master recordings. His own site calls it a first for a major recording artist.<sup class="src"><a href="#s53">53</a></sup></p>
+        <p>The masters and the publishing are two different deeds. A recording can be owned by the artist while the song underneath belongs to someone else, and the reverse. The fights in this exhibit are about which deed, held by whom, and for how long.</p>
+        <p>Sam Cooke built both: Kags Music for his songs, SAR Records for other artists, and in 1963 a company called Tracey to own his recordings with RCA funding the sessions. He died without a will in December 1964. Control of Tracey, and in time much of his publishing, passed to the holding company of his manager, Allen Klein.<sup class="src"><a href="#s52">52</a></sup> <span class="tag t-inf">Inference</span>Ownership on paper did not survive the absence of one more piece of paper.</p>
+        <p>Stevie Wonder's lawyer disaffirmed his minority contracts on May 14, 1971, the day after he turned 21, and renegotiated: a 14 percent royalty, an advance above $900,000, a new publishing deal with Motown's Jobete. In August 1975 came the $13 million guarantee over seven years, which TIME noted was worth as much as Elton John's and Neil Diamond's deals combined.<sup class="src"><a href="#s54">54</a>, <a href="#s55">55</a></sup></p>
+        <p>Then Jobete itself was sold. In 1997 EMI paid Berry Gordy $132 million for half of a catalog of more than 15,000 songs. In 2003, $110 million for 30 percent more. In 2004, about $80 million for the last fifth. About $322 million in all, roughly $590 million in today's money, for the songbook that Holland-Dozier-Holland had sued over in 1968 with a $22 million counterclaim demanding a receiver over those very copyrights.<sup class="src"><a href="#s50">50</a>, <a href="#s51">51</a>, <a href="#s47">47</a></sup></p>
+      </div>
+    </div>
+
+    <section aria-labelledby="h-jobete">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 4A · Interactive</span>
+        <h2 id="h-jobete">The ownership <em>map</em></h2>
+        <p class="sub">Drag the year. Watch who holds Motown's publishing.</p>
+      </div>
+      <div class="exhibit">
+        <div class="ctrl">
+          <label for="jb-year">Year <output id="jb-year-out" for="jb-year">1968</output><input type="range" id="jb-year" min="1959" max="2012" step="1" value="1968"></label>
+        </div>
+        <div class="bars" id="jb-bars"></div>
+        <div class="verdict" id="jb-note"></div>
+        <div class="strip">
+          <div class="axis"></div>
+          <div class="pts">
+            <div class="pt"><b>1959</b>Jobete founded under Berry Gordy.</div>
+            <div class="pt" style="--c:var(--tag)"><b>1968</b>HDH countersue for $22M; seek a receiver over Jobete's copyrights.<sup class="src"><a href="#s47">47</a></sup></div>
+            <div class="pt" style="--c:var(--tag)"><b>1993</b>Vandellas and Marvelettes sue for unpaid royalties and an audit.<sup class="src"><a href="#s49">49</a></sup></div>
+            <div class="pt"><b>1997</b>EMI buys 50% for $132M.<sup class="src"><a href="#s50">50</a></sup></div>
+            <div class="pt"><b>2003</b>EMI buys 30% for $110M.<sup class="src"><a href="#s51">51</a></sup></div>
+            <div class="pt"><b>2004</b>EMI buys the last 20% for ~$80M.<sup class="src"><a href="#s51">51</a></sup></div>
+            <div class="pt" style="--c:var(--inference)"><b>2012</b>EMI Music Publishing passes to a Sony-led consortium.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="col">
+      <section aria-labelledby="h-slave">
+        <div class="sec-head">
+          <span class="eyebrow">The thirty-five-year clock</span>
+          <h2 id="h-slave">"If you don't own your masters, <em>your master owns you</em>"</h2>
+        </div>
+        <ol class="facts">
+          <li><span class="when">1992</span><span><span class="tag t-fact">Fact</span>Prince signs a Warner deal valued at $100 million, $10 million an album for six albums, larger than Michael Jackson's or Madonna's.<sup class="src"><a href="#s56">56</a></sup></span></li>
+          <li><span class="when">1993–96</span><span><span class="tag t-fact">Fact</span>He changes his name to a symbol and performs with "slave" written on his face. Rolling Stone, 1996: "If you don't own your masters, your master owns you."<sup class="src"><a href="#s57">57</a></sup></span></li>
+          <li><span class="when">2014</span><span><span class="tag t-fact">Fact</span>Prince regains ownership of every Warner-issued recording from 1978 on, under a deal Billboard tied to the 35-year termination window of 17 U.S.C. §203, which first opened in 2013.<sup class="src"><a href="#s58">58</a>, <a href="#s62">62</a></sup></span></li>
+          <li><span class="when">2001–25</span><span><span class="tag t-fact">Fact</span>George Clinton's publishing for 1976–83 is held, a court finds in 2001, by Bridgeport Music, the company that filed about 500 sampling claims against about 800 defendants that same year. In 2005 a judge returns four Funkadelic masters to Clinton; Bridgeport keeps the songs. In 2025 Clinton files a $100 million fraud suit over "more than 90 percent" of his catalog, alleging fabricated and backdated contracts. Bridgeport's counsel: "He has lost each and every time."<sup class="src"><a href="#s59">59</a>, <a href="#s60">60</a>, <a href="#s90">90</a></sup> <span class="tag t-inf">Inference</span>A two-stage extraction: the copyrights leave the author, then the copyrights are monetized against the next generation of Black artists who sample him.</span></li>
+          <li><span class="when">2019–23</span><span><span class="tag t-fact">Fact</span>Hundreds of artists seek to terminate 1970s and '80s grants in <em>Waite v. UMG</em>; a judge denies class treatment in 2023, citing individual inquiries. Labels settle one at a time.<sup class="src"><a href="#s64">64</a></sup></span></li>
+          <li><span class="when">2024–26</span><span><span class="tag t-fact">Fact</span>A Florida jury clears 2 Live Crew to recapture five albums. On June 2, 2026, the Eleventh Circuit reverses: one member's 2000 Chapter 7 bankruptcy had swept his termination interest into the estate, leaving the notice one signature short of a majority.<sup class="src"><a href="#s65">65</a>, <a href="#s66">66</a></sup></span></li>
+        </ol>
+      </section>
+    </div>
+
+    <section aria-labelledby="h-rev">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 4B · Interactive</span>
+        <h2 id="h-rev">The reversion <em>clock</em></h2>
+        <p class="sub">Enter the year you signed. The statute gives you a window. Two things can close it before you reach it.</p>
+      </div>
+      <div class="exhibit">
+        <div class="ctrl">
+          <label for="rv-year">Year of the grant<input type="number" id="rv-year" min="1978" max="2026" value="1990" inputmode="numeric"></label>
+          <label class="switch" for="rv-wfh"><input type="checkbox" id="rv-wfh">Contract calls it a "work made for hire"</label>
+          <label class="switch" for="rv-bk"><input type="checkbox" id="rv-bk">You filed personal bankruptcy before the window</label>
+        </div>
+        <svg class="chart" id="rv-svg" viewBox="0 0 900 150" role="img" aria-labelledby="rv-title"><title id="rv-title">Termination window timeline</title></svg>
+        <div class="readout" id="rv-out"></div>
+        <div class="verdict" id="rv-verdict"></div>
+        <div class="legend"><span>17 U.S.C. §203: termination may be effected during a five-year period beginning 35 years after the grant (or 35 years from publication, up to 40 from the grant, where the grant covered publication); notice is served not less than two nor more than ten years before. Works made for hire are excluded. The bankruptcy consequence is the Eleventh Circuit's June 2026 holding in the 2 Live Crew case.<sup class="src"><a href="#s62">62</a>, <a href="#s65">65</a></sup></span></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <div class="desk"><b>A note from the desk · crumbs</b>The three-step sale of Jobete is the template the "Follow the Ownership" memo follows through later catalog deals. Exhibit 6 picks up the sampling litigation that Bridgeport's 2001 filing set in motion.</div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 5 ============ -->
+  <article class="chapter" id="c5" data-ch="5" data-state="broken">
+    <div class="col">
+      <div class="where"><span><b>Where you are</b> Exhibit 5 of 7</span><span><b>Years</b> 1919–2021</span><span><b>Read</b> ~6 min</span><span><b>Instrument</b> Ownership of the program</span></div>
+      <h2>The Screen <em>Deed</em></h2>
+      <span class="instrument">Link status · broken for the cast, held for the producer</span>
+      <figure class="plate" data-plate="ep1-c5"><img class="ph" src="assets/plates/ep1-c5.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> CBS Television City, Los Angeles · the slot, not the show</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="ep1-c5,x-lincoln80,x-lincoln" style="margin-top:34px">
+        <p class="lead">Fifteen days after the premiere of <em>Gone with the Wind</em>, Hattie McDaniel signed a contract with Selznick International: $500 a week, twenty weeks guaranteed, options rising to $1,500 a week by 1946, exclusivity across film, radio, television, and personal appearances. She would win the Academy Award that spring. The contract was voided when the studio dissolved the next year.<sup class="src"><a href="#s71">71</a></sup></p>
+        <p>In television the pattern was set by the first Black-cast network sitcom. Freeman Gosden and Charles Correll, the two white creators of <em>Amos 'n' Andy</em>, sold all rights to CBS in 1948 for a reported $2.5 million. The series ran 1951 to 1953, drew an NAACP campaign calling it "a gross libel," lost its sponsor, and then ran in syndication for thirteen more years, until 1966. The Black cast had no participation in any of it.<sup class="src"><a href="#s69">69</a>, <a href="#s70">70</a></sup></p>
+        <p>The alternative had existed since 1918, when Oscar Micheaux sold stock to farmers around Sioux City to finance <em>The Homesteader</em> and carried the prints by hand to some 700 theaters. He made more than forty films, bought Charles Chesnutt's novel for $500 in installments and bounced a check on it, and filed for bankruptcy in 1948. There was no studio equity to lose, and no retained library to pass on.<sup class="src"><a href="#s67">67</a>, <a href="#s68">68</a></sup></p>
+      </div>
+    </div>
+
+    <section aria-labelledby="h-harpo">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 5A · Interactive</span>
+        <h2 id="h-harpo">The Harpo <em>switch</em></h2>
+        <p class="sub">Three ways to be paid for a hit show. Choose one and see where a syndication dollar goes.</p>
+      </div>
+      <div class="exhibit">
+        <div class="seg" role="group" aria-label="Choose a deal structure" id="hp-seg">
+          <button type="button" data-hp="salary" aria-pressed="true">Salary · McDaniel 1939</button>
+          <button type="button" data-hp="participation" aria-pressed="false">Participation · Cosby 1984</button>
+          <button type="button" data-hp="ownership" aria-pressed="false">Ownership · Harpo 1988</button>
+        </div>
+        <div class="bars" id="hp-bars"></div>
+        <div class="verdict" id="hp-note"></div>
+        <div class="legend"><span>Splits are illustrative, scaled to one syndication dollar, using the documented structure of each deal: a fixed weekly salary with no back end; a reported two-thirds/one-third split of about $500M in first-cycle <em>Cosby Show</em> syndication, with Cosby's share put at ~$166M; and Harpo's 1988 assumption of ownership and all production of <em>The Oprah Winfrey Show</em>, with revenue of $150M by 1997.<sup class="src"><a href="#s71">71</a>, <a href="#s74">74</a>, <a href="#s75">75</a>, <a href="#s76">76</a></sup></span></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <section aria-labelledby="h-own">
+        <div class="sec-head">
+          <span class="eyebrow">The deed, decade by decade</span>
+          <h2 id="h-own">From participation <em>to the plant</em></h2>
+        </div>
+        <ol class="facts">
+          <li><span class="when">1985</span><span><span class="tag t-fact">Fact</span>Norman Lear and Jerry Perenchio sell Embassy Communications, producer of <em>The Jeffersons</em>, <em>Good Times</em>, and <em>Sanford and Son</em>, to Coca-Cola for $485 million.<sup class="src"><a href="#s73">73</a></sup> <span class="tag t-inf">Inference</span>No source located shows back-end participation for the Black leads of those shows.</span></li>
+          <li><span class="when">1986–88</span><span><span class="tag t-rep">Reported</span><em>The Cosby Show</em> sells into syndication at about $4 million an episode, three times any prior sitcom; Carsey-Werner, the production company, keeps the copyright and two-thirds of the proceeds.<sup class="src"><a href="#s74">74</a>, <a href="#s75">75</a></sup></span></li>
+          <li><span class="when">1988</span><span><span class="tag t-fact">Fact</span>Harpo Productions assumes ownership and all production of <em>The Oprah Winfrey Show</em> from Capital Cities/ABC, the first woman to own and produce her own talk show, and spends $20 million on a Chicago studio.<sup class="src"><a href="#s76">76</a>, <a href="#s77">77</a></sup></span></li>
+          <li><span class="when">1986–87</span><span><span class="tag t-fact">Fact</span>Spike Lee's <em>She's Gotta Have It</em>: $175,000 budget, $7.1 million gross. Robert Townsend's <em>Hollywood Shuffle</em>: financed on savings and credit cards, $5.2 million gross. Both retained their production companies; both relied on white-owned distributors.<sup class="src"><a href="#s78">78</a>, <a href="#s79">79</a></sup></span></li>
+          <li><span class="when">2000</span><span><span class="tag t-fact">Fact</span>Viacom acquires BET Holdings for $3 billion in stock plus assumed debt. Robert Johnson becomes the first Black billionaire; the largest Black-built media asset in this series is sold at its peak.<sup class="src"><a href="#s84">84</a>, <a href="#s85">85</a></sup></span></li>
+          <li><span class="when">2019</span><span><span class="tag t-fact">Fact</span>Tyler Perry opens a 330-acre studio on the former Fort McPherson in Atlanta, twelve soundstages, sole owner, full ownership of his films.<sup class="src"><a href="#s80">80</a></sup></span></li>
+          <li><span class="when">2020</span><span><span class="tag t-fact">Fact</span><em>Comcast v. National Association of African American-Owned Media</em>: a unanimous Supreme Court holds that a §1981 plaintiff must prove race was the but-for cause of a refusal to contract. Byron Allen's $20 billion suit ends in a carriage deal that June. Two years earlier he had bought The Weather Channel for about $300 million.<sup class="src"><a href="#s81">81</a>, <a href="#s82">82</a>, <a href="#s83">83</a></sup></span></li>
+        </ol>
+      </section>
+    </div>
+
+    <section aria-labelledby="h-pres">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 5B · The gap today</span>
+        <h2 id="h-pres">Presence <em>versus</em> ownership</h2>
+        <p class="sub">Who is on the screen, and who holds the license it comes through.</p>
+      </div>
+      <div class="exhibit">
+        <div class="bars" id="pv-bars"></div>
+        <div class="legend"><span>Population: 2020 Census, Black alone 12.4%; alone or in combination about 14.2%.<sup class="src"><a href="#s105">105</a></sup> Streams: hip-hop 25.5% of U.S. streams, 2023 (Luminate).<sup class="src"><a href="#s107">107</a></sup> Executives: 4.2% of top executives across 70 music companies, 2021 (USC Annenberg, sponsored by UMG).<sup class="src"><a href="#s111">111</a></sup> Stations: FCC Sixth Report, data as of Oct. 1, 2021, majority Black ownership ≈ 39 of 1,365 full-power commercial TV stations; the 2019 figure is Free Press's reading of the Fifth Report.<sup class="src"><a href="#s86">86</a>, <a href="#s87">87</a></sup></span></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <div class="desk"><b>A note from the desk · crumbs</b>The but-for standard in <em>Comcast</em> is the kind of threshold rule Season II's <em>The Governance Layer</em> is built to explain. The station-ownership count is a Systems Atlas edge; it connects to the distribution map in <em>The Crowbar and the Moat</em>.</div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 6 ============ -->
+  <article class="chapter" id="c6" data-ch="6" data-state="broken">
+    <div class="col">
+      <div class="where"><span><b>Where you are</b> Exhibit 6 of 7</span><span><b>Years</b> 1991–2024</span><span><b>Read</b> ~7 min</span><span><b>Instrument</b> Clearance</span></div>
+      <h2>Thou Shalt <em>Not Steal</em></h2>
+      <span class="instrument">Link status · broken by a ruling, priced by a split</span>
+      <figure class="plate" data-plate="ep1-c6"><img class="ph" src="assets/plates/ep1-c6.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Stax Museum of American Soul Music, Memphis · the catalog that got sampled</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="ep1-c6,x-southside,x-front" style="margin-top:34px">
+        <p class="lead">Judge Kevin Duffy opened his December 1991 opinion with three words from Exodus. Biz Markie's "Alone Again" had used a piece of Gilbert O'Sullivan's recording without permission. The judge enjoined the record and referred the matter to the U.S. Attorney for possible criminal prosecution.<sup class="src"><a href="#s88">88</a></sup></p>
+        <p>Hank Shocklee of Public Enemy's Bomb Squad dates the change to the year before: the law "didn't start catching up with us until <em>Fear of a Black Planet</em>," after which labels began "policing the releases before they got out." Chuck D: a hundred fragments in a song meant a hundred people to answer to, and "it is too expensive to defend against a claim." By 1991 the group had moved to live instruments. Dr. Dre's workaround, Chuck D said, was to replay the part rather than sample it, so only the song's owner, not the recording's, had to be paid.<sup class="src"><a href="#s91">91</a></sup></p>
+        <p>In 2005 the Sixth Circuit removed the last defense for recordings: "Get a license or do not sample," over a two-second Funkadelic guitar chord in an N.W.A. track, in a case brought by Bridgeport Music, the company from Exhibit 4. In 2016 the Ninth Circuit disagreed over a quarter-second horn hit in Madonna's "Vogue," creating a split the Supreme Court has not resolved. Where you are sued still decides what a sample costs.<sup class="src"><a href="#s90">90</a></sup></p>
+        <p>De La Soul's first six albums, beginning with <em>3 Feet High and Rising</em> in 1989, reached streaming on March 3, 2023, thirty-four years later, after a clearance tangle and a 2019 offer from their label that would have paid the group 10 percent. Trugoy the Dove died in February 2023, weeks before the catalog went live.<sup class="src"><a href="#s92">92</a></sup></p>
+      </div>
+    </div>
+
+    <section aria-labelledby="h-clear">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 6A · Game</span>
+        <h2 id="h-clear">Clear the <em>sample</em></h2>
+        <p class="sub">Build a track. Pick the year and the court. Find out if it ships.</p>
+      </div>
+      <div class="exhibit">
+        <div class="ctrl">
+          <label for="cs-n">Samples in the track <output id="cs-n-out" for="cs-n">12</output><input type="range" id="cs-n" min="1" max="100" step="1" value="12"></label>
+          <label for="cs-year">Year<select id="cs-year">
+            <option value="1988">1988 · before the labels policed</option>
+            <option value="1992" selected>1992 · after Grand Upright</option>
+            <option value="2006">2006 · after Bridgeport</option>
+            <option value="2017">2017 · after VMG Salsoul</option>
+          </select></label>
+          <label for="cs-circ">Where you'd be sued<select id="cs-circ">
+            <option value="6">Sixth Circuit (Nashville, Detroit) · no de minimis defense</option>
+            <option value="9" selected>Ninth Circuit (Los Angeles) · de minimis allowed</option>
+            <option value="o">Elsewhere · most courts decline Bridgeport</option>
+          </select></label>
+          <label for="cs-len">Typical sample length<select id="cs-len">
+            <option value="short" selected>Under a second</option>
+            <option value="long">Several seconds, recognizable</option>
+          </select></label>
+          <label class="switch" for="cs-replay"><input type="checkbox" id="cs-replay">Replay instead of sample (the Dre workaround)</label>
+        </div>
+        <div class="readout">
+          <div class="ro"><span class="l">Licenses needed</span><span class="v num" id="cs-lic">—</span><span class="s">Each sample: a master license and a publishing license</span></div>
+          <div class="ro"><span class="l">Parties to answer to</span><span class="v num" id="cs-parties">—</span><span class="s">Chuck D's count: one per fragment, at least</span></div>
+          <div class="ro"><span class="l">Exposure</span><span class="v tag" id="cs-exp">—</span><span class="s" id="cs-exp-s"></span></div>
+        </div>
+        <div class="verdict" id="cs-verdict"></div>
+        <div class="legend"><span><span class="tag t-inf">Inference</span>No cost figures are shown because no reliable public price list exists; clearance fees are negotiated and unpublished. The game scores exposure, not dollars, from the rulings cited: <em>Grand Upright</em> (1991), <em>Bridgeport v. Dimension</em> (2005), <em>VMG Salsoul v. Ciccone</em> (2016), and the interpolation practice described by Chuck D.<sup class="src"><a href="#s88">88</a>, <a href="#s90">90</a>, <a href="#s91">91</a></sup></span></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <section aria-labelledby="h-broke">
+        <div class="sec-head">
+          <span class="eyebrow">Sell ten million, owe money</span>
+          <h2 id="h-broke">The contract, <em>posted</em></h2>
+        </div>
+        <ol class="facts">
+          <li><span class="when">1995</span><span><span class="tag t-fact">Fact</span>TLC files for Chapter 11 on July 3, having sold about 11 million copies of <em>CrazySexyCool</em> and earned about $50,000 a year each. Lisa "Left Eye" Lopes: "This is how a group can sell 10 million records and be broke."<sup class="src"><a href="#s97">97</a></sup></span></li>
+          <li><span class="when">1998, 2010</span><span><span class="tag t-fact">Fact</span>Toni Braxton files for bankruptcy twice, the second time listing debts of $10 million to $50 million.<sup class="src"><a href="#s98">98</a></sup></span></li>
+          <li><span class="when">1996–98</span><span><span class="tag t-rep">Reported</span>The independents' answer: Master P's No Limit keeps its masters under a distribution deal with Priority at a reported 85/15 split; Cash Money's 1998 Universal deal, a reported $30 million at 80/20, keeps the masters too. No contract is public.<sup class="src"><a href="#s93">93</a></sup></span></li>
+          <li><span class="when">2004–14</span><span><span class="tag t-rep">Reported</span>Jay-Z's 2004 move to run Def Jam includes a reversion of his masters a decade later; the mechanism and whether <em>Reasonable Doubt</em> was included remain contested.<sup class="src"><a href="#s103">103</a></sup></span></li>
+          <li><span class="when">2020</span><span><span class="tag t-fact">Fact</span>Kanye West posts hundreds of pages of his recording contracts, says he is bound by more than ten agreements with Universal, and demands his masters. The same week, the producer Hit-Boy says lawyers called his Universal publishing deal the worst they had seen.<sup class="src"><a href="#s96">96</a></sup></span></li>
+          <li><span class="when">2020</span><span><span class="tag t-fact">Fact</span>Kelis says she was told revenue on her 1999 debut would be split three ways with the Neptunes and received no album income, only touring. No response from the producers appears in the record.<sup class="src"><a href="#s100">100</a></sup></span></li>
+          <li><span class="when">2020–23</span><span><span class="tag t-fact">Fact</span>Megan Thee Stallion obtains a restraining order to release music over her label's objection, sues to end her contract when a 21-track project is not counted as an album, and settles confidentially in October 2023.<sup class="src"><a href="#s94">94</a>, <a href="#s95">95</a></sup></span></li>
+          <li><span class="when">2021</span><span><span class="tag t-fact">Fact</span>Anita Baker asks fans not to stream her catalog in March; in September she announces her five Elektra albums are returning to her. Terms undisclosed.<sup class="src"><a href="#s99">99</a></sup></span></li>
+        </ol>
+      </section>
+    </div>
+
+    <section aria-labelledby="h-gap">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 6B · The catalog gap</span>
+        <h2 id="h-gap">What a catalog <em>sells for</em></h2>
+        <p class="sub">Headline deals, 2020–2023, as reported. Hip-hop is a quarter of all U.S. streams.</p>
+      </div>
+      <div class="exhibit">
+        <div class="bars" id="cg-bars"></div>
+        <div class="legend"><span><i style="--c:var(--gold)"></i>Black artist</span><span><i style="--c:var(--paper-faint)"></i>Comparison deal</span><span>Reported figures, in millions of dollars; most terms are undisclosed and several are estimates.<sup class="src"><a href="#s102">102</a>, <a href="#s103">103</a>, <a href="#s104">104</a></sup></span></div>
+        <div class="verdict"><b>What the bars do not say</b><span class="tag t-inf">Inference</span>The gap is partly catalog age: a 50-year rock catalog has a longer royalty history to price than a 25-year hip-hop one. No study quantifies the share of 2020–24 catalog-sale dollars that went to Black artists; private deals are opaque. The one hard number is the $424 million in unmatched "black box" streaming royalties transferred to the Mechanical Licensing Collective in 2021, money owed to songwriters the metadata could not find.<sup class="src"><a href="#s110">110</a></sup></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <div class="desk"><b>A note from the desk · crumbs</b>Michael Jackson bought the ATV catalog, four thousand songs including the Lennon–McCartney book, for $47.5 million in 1985; Sony bought the estate's half for $750 million in 2016. The reverse flow is in <em>Follow the Ownership</em>.<sup class="src"><a href="#s101">101</a></sup> The pool-dilution arithmetic of streaming is in Season II's <em>The Feed Engine</em>.</div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 7 ============ -->
+  <article class="chapter" id="c7" data-ch="7" data-state="open">
+    <div class="col">
+      <div class="where"><span><b>Where you are</b> Exhibit 7 of 7</span><span><b>Years</b> 2023–2026</span><span><b>Read</b> ~6 min</span><span><b>Instrument</b> Likeness</span></div>
+      <h2>The Voice <em>Deed</em></h2>
+      <span class="instrument">Link status · open · being written now</span>
+      <figure class="plate" data-plate="ep1-c7"><img class="ph" src="assets/plates/ep1-c7.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Memphis Music neon, Beale Street · the voice as a deed</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="ep1-c7,x-atlanta,x-capitol" style="margin-top:34px">
+        <p class="lead">On April 17, 2023, a track called "Heart on My Sleeve" was pulled from every major service. It had more than 15 million views on TikTok and 625,000 plays on Spotify. The voices were Drake's and The Weeknd's; neither had sung a note. Universal's claim rested on the recorded voice and the affiliation, not the song, which appears to have been original.<sup class="src"><a href="#s112">112</a></sup></p>
+        <p>The gate of 1858 asked who could be an author. The question of 2026 is whether a voice is a title at all, and if so, who holds it: the singer, the label with the exclusive contract, the estate, or the company that trained on all three.</p>
+        <p>The first answer came from Tennessee. The ELVIS Act, signed March 21, 2024, added "voice," actual or simulated, to the state's publicity statute, created liability for distributing tools whose primary purpose is cloning an identifiable person, and let recording artists sue even while under exclusive label contracts.<sup class="src"><a href="#s114">114</a></sup> The second came from the Copyright Office: a recommendation for a federal digital-replica law (July 2024), a finding that prompts alone do not make an author (January 2025), and a pre-publication report on training (May 9, 2025) that commercial training to produce competing work "goes beyond established fair use boundaries." The Register of Copyrights was dismissed the next day.<sup class="src"><a href="#s115">115</a>, <a href="#s116">116</a></sup></p>
+        <p>The third is in Congress. The NO FAKES Act was reintroduced May 20, 2026 as a federal, licensable property right in voice and visual likeness, with notice-and-takedown, a 14-day counter-notice window, and a $25,000 floor for knowing misrepresentation. The Senate Judiciary Committee advanced it unanimously in June; the House had not scheduled a markup as of mid-June.<sup class="src"><a href="#s118">118</a>, <a href="#s119">119</a></sup> <span class="tag t-watch">Watch</span>Whether the House moves before the 119th Congress ends.</p>
+      </div>
+    </div>
+
+    <section aria-labelledby="h-voice">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 7A · Interactive</span>
+        <h2 id="h-voice">Who owns <em>the voice?</em></h2>
+        <p class="sub">Four people, four rulebooks. Choose a pair and read who can sue, and for what.</p>
+      </div>
+      <div class="exhibit">
+        <div class="ctrl">
+          <label for="wv-who">The voice belongs to<select id="wv-who">
+            <option value="star" selected>A famous singer with a distinctive voice</option>
+            <option value="session">A session singer nobody can name</option>
+            <option value="estate">A deceased legend's estate</option>
+            <option value="legacy">A living artist on a 2005 exclusive label contract</option>
+          </select></label>
+          <label for="wv-law">The rulebook<select id="wv-law">
+            <option value="ca">California common law · <em>Midler</em> (1988), <em>Waits</em> (1992)</option>
+            <option value="tn" selected>Tennessee · ELVIS Act (2024)</option>
+            <option value="fed">Federal · NO FAKES Act as reintroduced (2026, not enacted)</option>
+            <option value="cr">Federal copyright · <em>Thaler</em> (2025), Copyright Office Part 2</option>
+          </select></label>
+        </div>
+        <div class="scroll"><table class="ledger" id="wv-table">
+          <thead><tr><th scope="col">Question</th><th scope="col">Answer under this rulebook</th><th scope="col">Label</th></tr></thead>
+          <tbody></tbody>
+        </table></div>
+        <div class="legend"><span>Built from <em>Midler v. Ford</em>, 849 F.2d 460; <em>Waits v. Frito-Lay</em>, 978 F.2d 1093; Tenn. ELVIS Act (2024); S.4591/H.R.8915 (2026) as summarized by counsel; <em>Thaler v. Perlmutter</em>, 130 F.4th 1039, cert. denied Mar. 2, 2026. This is a reading of the public record, not legal advice.<sup class="src"><a href="#s131">131</a>, <a href="#s132">132</a>, <a href="#s114">114</a>, <a href="#s118">118</a>, <a href="#s117">117</a></sup></span></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <section aria-labelledby="h-settle">
+        <div class="sec-head">
+          <span class="eyebrow">The settlements</span>
+          <h2 id="h-settle">Licensed, <em>walled, undisclosed</em></h2>
+        </div>
+        <ol class="facts">
+          <li><span class="when">Aug 2022</span><span><span class="tag t-fact">Fact</span>Capitol signs and, within two weeks, drops "FN Meka," an AI rapper with 10 million TikTok followers, after Industry Blackout calls it "an amalgamation of gross stereotypes"; the label apologizes to the Black community for signing "without asking enough questions about equity."<sup class="src"><a href="#s124">124</a></sup></span></li>
+          <li><span class="when">Jun 2024</span><span><span class="tag t-fact">Fact</span>The three majors sue Suno and Udio for "mass infringement."<sup class="src"><a href="#s120">120</a></sup></span></li>
+          <li><span class="when">Apr 2024</span><span><span class="tag t-fact">Fact</span>More than 200 artists, Nicki Minaj, Stevie Wonder, and Jon Batiste among the reported signatories, sign an open letter telling AI developers to "stop devaluing music."<sup class="src"><a href="#s113">113</a></sup></span></li>
+          <li><span class="when">Jun 2025</span><span><span class="tag t-rep">Reported</span>Timbaland launches an AI artist, "TaTa," built with Suno, and says he was "partly trolling."<sup class="src"><a href="#s125">125</a></sup></span></li>
+          <li><span class="when">Sep 2025</span><span><span class="tag t-fact">Fact</span>Spotify says it removed more than 75 million "spammy" tracks in a year and bans unauthorized voice clones.<sup class="src"><a href="#s129">129</a></sup></span></li>
+          <li><span class="when">Oct–Nov 2025</span><span><span class="tag t-fact">Fact</span>Universal settles with Udio; Warner settles with Udio and Suno. Terms: a compensatory payment, new licenses, walled-garden platforms launching in 2026, artist opt-in for name and voice. Amounts undisclosed. Sony's cases continue.<sup class="src"><a href="#s120">120</a>, <a href="#s121">121</a>, <a href="#s122">122</a></sup> <span class="tag t-inf">Inference</span>The settlements turn an infringement claim into licensing revenue that flows to labels and publishers first; whether an artist on a 1990s contract sees any of it depends on language the settlements do not disclose.</span></li>
+          <li><span class="when">Mar 2026</span><span><span class="tag t-fact">Fact</span>The Supreme Court declines to hear <em>Thaler</em>: an AI cannot be an author. Human authorship is a statutory requirement.<sup class="src"><a href="#s117">117</a></sup></span></li>
+        </ol>
+      </section>
+    </div>
+
+    <section aria-labelledby="h-curve">
+      <div class="col sec-head">
+        <span class="eyebrow">Exhibit 7B · The upload curve</span>
+        <h2 id="h-curve">Half of <em>everything</em></h2>
+        <p class="sub">Fully AI-generated tracks uploaded to Deezer each day, and their share of all uploads.</p>
+      </div>
+      <div class="exhibit">
+        <svg class="chart" id="dz-svg" viewBox="0 0 900 300" role="img" aria-labelledby="dz-title"><title id="dz-title">Daily AI uploads to Deezer, January 2025 to June 2026</title></svg>
+        <div class="readout">
+          <div class="ro"><span class="l">Jan 2025</span><span class="v num">10,000<span style="font-size:14px;color:var(--paper-faint)"> /day · 10%</span></span></div>
+          <div class="ro"><span class="l">Jun 2026</span><span class="v gold num">~90,000<span style="font-size:14px;color:var(--paper-faint)"> /day · &gt;50%</span></span></div>
+          <div class="ro"><span class="l">Share of streams</span><span class="v num">≈0.5%</span><span class="s">Up to 70% of plays on fully-AI tracks were fraudulent and excluded from royalties (Deezer, Sept. 2025)<sup class="src"><a href="#s136">136</a></sup></span></div>
+        </div>
+        <div class="verdict"><b>Why it belongs in a series about title</b><span class="tag t-inf">Inference</span>Streaming pays from a pro-rata pool. Fraudulent plays on machine-made tracks dilute the pool for everyone whose streams are real. Genres with a large catalog share are exposed (catalog streams across all genres grew 11.3% in 2023) to the dilution even when none of their own uploads are synthetic.<sup class="src"><a href="#s130">130</a>, <a href="#s129">129</a>, <a href="#s107">107</a></sup></div>
+      </div>
+    </section>
+
+    <div class="col">
+      <section aria-labelledby="h-watch">
+        <div class="sec-head">
+          <span class="eyebrow">Watch layer</span>
+          <h2 id="h-watch">What would <em>change the read</em></h2>
+        </div>
+        <ul class="watchlist">
+          <li><span class="tag t-watch">Watch</span>A House Judiciary markup of NO FAKES, or the bill dying with the 119th Congress. Either closes or opens the seventh link.</li>
+          <li><span class="tag t-watch">Watch</span>Disclosure of any artist pass-through in the Suno/Udio settlements. Absent that, the inference above stands.</li>
+          <li><span class="tag t-watch">Watch</span>A Supreme Court grant on the sampling circuit split. None is pending that we can find.</li>
+          <li><span class="tag t-watch">Watch</span>A rehearing or further appeal in the 2 Live Crew case. The bankruptcy-sweep holding, if it stands, reaches every 1990s artist who filed.</li>
+          <li><span class="tag t-watch">Watch</span>An FCC Seventh Report on station ownership. The 2.9% figure is from 2021 data.</li>
+        </ul>
+      </section>
+      <div class="desk" style="margin-top:34px"><b>A note from the desk · crumbs</b>The estate questions here, who licenses a dead singer's hologram or voice, are the ones The Faith Layer asks of grief and memory, and Season II's <em>The Afterlife of Your Data</em> asks of everyone. The voice clone is the synthetic self of <em>S2·09</em>, with a price on it.</div>
+    </div>
+  </article>
+
+  <section aria-labelledby="h-close" class="col">
+    <div class="sec-head">
+      <span class="eyebrow">The chain, read whole</span>
+      <h2 id="h-close">Four instruments, <em>one direction</em></h2>
+    </div>
+    <div class="stack">
+      <p>Read in order, the exhibits describe a gap that narrows and never closes. The oath barred the first link outright. The renewal term returned a song after twenty-eight years to whoever had survived to claim it. The recoupable advance let the title stay with the artist while the money stayed with the label. The termination window gave the title back after thirty-five years, unless a bankruptcy or three words in a contract took it first. The voice is the newest deed, and the rulebook for it is being written in three legislatures and two courts at once.</p>
+      <p><span class="tag t-inf">Inference</span>Each instrument was neutral on its face and specific in its effect, because each one priced a thing the holder already had: citizenship, longevity, capital, counsel. Those were not evenly held. The chain of title is a record of who had them when.</p>
+      <div class="sides">
+        <div class="side gold"><h3>What the record supports</h3><ul>
+          <li>The 1858 opinion, the one-cent contract, the $125-per-side ledger, the §203 statute, and the 2026 Eleventh Circuit opinion are primary documents (T1).</li>
+          <li>The 28-year reversion, the 1988 Atlantic reform, and the 2014 Prince reversion are documented reclamations, each tied to a dated instrument.</li>
+          <li>Ownership outcomes in television and film track who held the program copyright, not who was on screen.</li>
+        </ul></div>
+        <div class="side tagb"><h3>What it does not</h3><ul>
+          <li>Blind Tom's "$100,000 a year," Mamie Smith's "million copies," and Little Richard's exact 1955 terms are legend-grade; we show them hatched or labeled Reported.</li>
+          <li>No public study measures the racial split of catalog-sale dollars or unmatched royalties. Those inferences are flagged.</li>
+          <li>Contract mechanics in the Statement exhibit are reconstructed, not Ruth Brown's actual accounting.</li>
+        </ul></div>
+      </div>
+      <div class="crumbs" aria-label="Related reading on this site">
+        <a href="the-circulating-dollar.html#engine"><i>ENGINE</i>The dollar, circulating, 1920–2026</a>
+        <a href="the-circulating-dollar.html"><i>EP·2</i>The Circulating Dollar</a>
+        <a href="the-terms.html"><i>EP·3</i>The Terms</a>
+        <a href="the-feed.html"><i>EP·4</i>The Feed</a>
+        <a href="the-dilution.html"><i>EP·5</i>The Dilution</a>
+        <a href="#"><i>RFY</i>The Crowbar and the Moat</a>
+        <a href="#"><i>RFY</i>The Leverage Map</a>
+        <a href="#"><i>RFY</i>Follow the Ownership</a>
+        <a href="#"><i>RFY</i>Reading the Contract Through the Courtroom</a>
+        <a href="episode-09-the-synthetic-self.html"><i>S2·09</i>The Synthetic Self</a>
+        <a href="episode-11-the-afterlife-of-your-data.html"><i>S2·11</i>The Afterlife of Your Data</a>
+        <a href="episode-12-the-governance-layer.html"><i>S2·12</i>The Governance Layer</a>
+        <a href="#"><i>FAITH</i>The Faith Layer</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="sources">
+    <p><b>INFERA · MECHANISM SERIES · THE CHAIN OF TITLE · Seven exhibits, original reporting from the public record · © Infera 2026.</b></p>
+    <p style="margin-top:10px"><b>Method.</b> SVNIF: every claim carries Fact, Reported, or Inference. Source tiers: T1 primary document, court record, statute, or government data · T2 major press or peer-reviewed scholarship · T3 reputable secondary reference · T4 trade press. Dollar conversions use the Minneapolis Fed CPI series (Hoover/Rees before 1913, BLS after), rounded; pre-1913 figures are orders of magnitude. The interactives are models built from the cited rules; where a figure is an illustration, the exhibit says so. Corrections: infera@melophon.com. Further reading, not a source for this piece: Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026).</p>
+    <ol>
+      <li id="s1"><span class="tier">T1</span> U.S. Copyright Office, <a href="https://www.copyright.gov/history/dates.pdf">A Brief History: Dates</a> (Constitution, Acts of 1790, 1831, 1897).</li>
+      <li id="s2"><span class="tier">T1</span> U.S. Copyright Office, <a href="https://copyright.gov/timeline/timeline_1900-1950.html">Timeline 1900–1950</a> (1909 Act 28+28; sound recordings 1972).</li>
+      <li id="s3"><span class="tier">T1</span> National Archives / DocsTeach, <a href="https://docsteach.org/documents/document/attorney-general-patent-applications-slaves">Attorney General J. S. Black to Interior Sec. Thompson, June 10, 1858</a>.</li>
+      <li id="s4"><span class="tier">T2</span> K. Swanson, "Race and Selective Legal Memory," <a href="https://www.columbialawreview.org/wp-content/uploads/2020/06/Swanson-Race_and_Selective_Legal_Memory.pdf">Columbia Law Review (2020)</a>.</li>
+      <li id="s5"><span class="tier">T2</span> Smithsonian Magazine, <a href="https://www.smithsonianmag.com/innovation/first-african-american-hold-patent-invented-dry-scouring-180971394/">Thomas Jennings, 1821 patent</a>.</li>
+      <li id="s6"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Ben_Montgomery">Ben Montgomery</a>.</li>
+      <li id="s7"><span class="tier">T3</span> New Georgia Encyclopedia, <a href="https://www.georgiaencyclopedia.org/articles/arts-culture/thomas-blind-tom-wiggins-1849-1908/">Thomas "Blind Tom" Wiggins</a>.</li>
+      <li id="s8"><span class="tier">T3</span> Historic Columbus, <a href="https://www.historiccolumbus.com/post/showstoppers-and-curtain-raisers-thomas-wiggins-blind-tom">Thomas Wiggins, "Blind Tom"</a>.</li>
+      <li id="s9"><span class="tier">T3</span> EBSCO Research Starters, <a href="https://ebsco.com/research-starters/history/blind-tom-bethune">Blind Tom Bethune</a>.</li>
+      <li id="s10"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Blind_Tom_Wiggins">Blind Tom Wiggins</a> (pseudonyms; 1887 custody; the "$100,000" claim and its weak citation).</li>
+      <li id="s11"><span class="tier">T3</span> PBS American Experience, <a href="https://www.pbs.org/wgbh/americanexperience/films/singers">Jubilee Singers</a>.</li>
+      <li id="s12"><span class="tier">T3</span> Tennessee Encyclopedia, <a href="https://tennesseeencyclopedia.net/entries/jubilee-singers-of-fisk-university/">Jubilee Singers of Fisk University</a>.</li>
+      <li id="s13"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Slave_Songs_of_the_United_States">Slave Songs of the United States</a>.</li>
+      <li id="s14"><span class="tier">T2</span> Univ. of Pittsburgh Center for American Music, <a href="https://sites.pitt.edu/~amerimus/FosterProfessionalcareer.html">Foster's professional career</a>.</li>
+      <li id="s15"><span class="tier">T2</span> Univ. of Pittsburgh, <a href="https://americanmusic.library.pitt.edu/node/125">"Old Folks at Home"</a> (the $15 credit sale to Christy; 1879 renewal).</li>
+      <li id="s16"><span class="tier">T1</span> Morgan Library &amp; Museum, <a href="https://themorgan.org/node/1304501">Contract, John Stark &amp; Son and Scott Joplin, Aug. 10, 1899</a>.</li>
+      <li id="s17"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Maple_Leaf_Rag">Maple Leaf Rag</a> (citing Edward Berlin).</li>
+      <li id="s18"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Scott_Joplin">Scott Joplin</a>.</li>
+      <li id="s19"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/The_Memphis_Blues">The Memphis Blues</a>.</li>
+      <li id="s20"><span class="tier">T3</span> Encyclopedia of Alabama, <a href="https://encyclopediaofalabama.org/article/william-w-c-handy/">W. C. Handy</a>.</li>
+      <li id="s21"><span class="tier">T3</span> Encyclopedia.com, <a href="https://encyclopedia.com/media/encyclopedias-almanacs-transcripts-and-maps/handy-w-c-1873-1958">Handy, W. C.</a>.</li>
+      <li id="s22"><span class="tier">T2</span> NPR Radio Diaries, <a href="https://www.npr.org/2021/06/30/1011901555/radio-diaries-harry-pace-and-the-rise-and-fall-of-black-swan-records">Harry Pace and Black Swan Records</a>.</li>
+      <li id="s23"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Black_Swan_Records">Black Swan Records</a>; BlackPast, <a href="https://new.blackpast.org/african-american-history/black-swan-records-1921-1923">Black Swan Records (1921–1923)</a>.</li>
+      <li id="s24"><span class="tier">T4</span> PlanetSlade, <a href="https://www.planetslade.com/black-swan-blues4.html">Black Swan Blues</a> (Waters's $100; sales estimates; plant capacity).</li>
+      <li id="s25"><span class="tier">T4</span> Mainspring Press, <a href="https://mainspringpress.org/category/okeh-race-records/">OKeh race records</a> (lost ledgers; "Crazy Blues" sales claims).</li>
+      <li id="s26"><span class="tier">T1</span> <a href="https://www.studicata.com/summaries/supreme-court-of-new-york/kortlander-v-bradford-1921-psyeuq"><em>Kortlander v. Bradford</em> (N.Y. Sup. Ct. 1921)</a>, summary.</li>
+      <li id="s27"><span class="tier">T3</span> Encyclopedia.com, <a href="https://www.encyclopedia.com/people/literature-and-arts/music-popular-and-jazz-biographies/bessie-smith">Bessie Smith</a> ($125/side; $28,575 total).</li>
+      <li id="s28"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Bessie_Smith">Bessie Smith</a> (1933 OKeh $37.50/side).</li>
+      <li id="s29"><span class="tier">T4</span> Doctor Jazz Magazine, <a href="https://www.doctorjazz.nl/wp-content/uploads/2015/06/djm208p38.pdf">Columbia payment ledger excerpts</a>.</li>
+      <li id="s30"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Downhearted_Blues">Downhearted Blues</a> (780,000 in six months).</li>
+      <li id="s31"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Bert_Williams">Bert Williams</a>; <a href="https://en.wikipedia.org/wiki/In_Dahomey">In Dahomey</a>.</li>
+      <li id="s32"><span class="tier">T1</span> Federal Reserve Bank of Minneapolis, <a href="https://www.minneapolisfed.org/about-us/monetary-policy/inflation-calculator/consumer-price-index-1800-">CPI 1800–</a>.</li>
+      <li id="s33"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Art_Rupe">Art Rupe</a> (Little Richard's $50 and half-cent account).</li>
+      <li id="s34"><span class="tier">T2</span> UPI, Sept. 29, 1984, <a href="https://www.upi.com/Archives/1984/09/29/A-record-company-president-is-suing-Little-Richard-for/3077465278400/">Rupe v. Little Richard</a>.</li>
+      <li id="s35"><span class="tier">T4</span> Maclean's, Mar. 2, 1987, <a href="https://www.nicholasjennings.com/feature-article-the-fight-over-golden-oldies">The fight over golden oldies</a>.</li>
+      <li id="s36"><span class="tier">T1</span> <a href="https://www.studicata.com/summaries/united-states-district-court-eastern-district-of-missouri/johnson-v-berry-2002-f2abcb"><em>Johnson v. Berry</em> (E.D. Mo. 2002)</a>, summary.</li>
+      <li id="s37"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Maybellene">Maybellene</a> (Freed/Fratto credits; withdrawn 1986).</li>
+      <li id="s38"><span class="tier">T1</span> UNC Libraries, <a href="https://web.lib.unc.edu/afam/index.php/howell-begle-collection-1949-2008/index.html">Howell Begle Collection</a> finding aid.</li>
+      <li id="s39"><span class="tier">T2</span> New York Times obituary of Howell Begle (2024), <a href="https://www.pulse.ug/story/howell-begle-defender-of-rb-artists-rights-is-dead-at-74-2024082309252742181">reprint</a>.</li>
+      <li id="s40"><span class="tier">T2</span> Las Vegas Sun, Mar. 31, 1997, <a href="https://lasvegassun.com/news/1997/mar/31/soul-beneficiary/">Soul beneficiary</a>.</li>
+      <li id="s41"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Hound_Dog_(song)">Hound Dog</a>.</li>
+      <li id="s42"><span class="tier">T2</span> Rolling Stone, <a href="https://www.rollingstone.com/music/music-news/elvis-presley-hound-dog-big-mama-thornton-stole-1376522/">Stoller on Thornton</a>.</li>
+      <li id="s43"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Don_Robey">Don Robey</a>.</li>
+      <li id="s44"><span class="tier">T4</span> M. Corcoran, <a href="https://www.michaelcorcoran.net/don-robey-gangster-of-worship/">Don Robey, Gangster of Worship</a>.</li>
+      <li id="s45"><span class="tier">T2</span> Newsweek, June 1, 2008, <a href="https://www.newsweek.com/eulogy-bo-diddley-90659">Eulogy: Bo Diddley</a>.</li>
+      <li id="s46"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Maybe_(The_Chantels_song)">Maybe (The Chantels)</a>.</li>
+      <li id="s47"><span class="tier">T1</span> WMCA "Go," Nov. 29, 1968, <a href="https://www.worldradiohistory.com/Archive-All-Music/GO-Magazine/WMCA/WMCA-1968-11-29.pdf">Motown–HDH suits</a>.</li>
+      <li id="s48"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Holland%E2%80%93Dozier%E2%80%93Holland">Holland–Dozier–Holland</a>.</li>
+      <li id="s49"><span class="tier">T2</span> Variety, 1993, <a href="https://variety.com/1993/biz/news/vandellas-marvelettes-sue-motown-104065/">Vandellas, Marvelettes sue Motown</a>.</li>
+      <li id="s50"><span class="tier">T2</span> NYT News Service via Deseret News, July 4, 1997, <a href="https://www.deseret.com/1997/7/4/19321820/emi-pays-132-million-for-half-stake-in-motown-classics">EMI pays $132 million</a>.</li>
+      <li id="s51"><span class="tier">T2</span> UPI, Apr. 1, 2004, <a href="https://www.upi.com/Entertainment_News/2004/04/01/EMI-buys-last-of-Motown-catalog/38351080832170/">EMI buys last of Motown catalog</a>.</li>
+      <li id="s52"><span class="tier">T3</span> HistoryNet, <a href="https://historynet.com/how-sam-cookes-money-guy-changed-music-biz/">Sam Cooke, Allen Klein, Tracey Ltd.</a>.</li>
+      <li id="s53"><span class="tier">T3</span> Country Music Hall of Fame, <a href="https://www.countrymusichalloffame.org/hall-of-fame/ray-charles">Ray Charles</a>; <a href="https://raycharles.com/legacy/1950s/">raycharles.com</a>.</li>
+      <li id="s54"><span class="tier">T3</span> A. White, Cuepoint, <a href="https://medium.com/cuepoint/stevie-wonder-motown-and-the-first-360-deal-d3db0ff86a39">Stevie Wonder, Motown and the first 360 deal</a>.</li>
+      <li id="s55"><span class="tier">T2</span> TIME, Aug. 18, 1975, <a href="https://time.com/archive/6851497/music-wonderbucks/">Wonderbucks</a>; Radio &amp; Records, Aug. 8, 1975.</li>
+      <li id="s56"><span class="tier">T2</span> Tampa Bay Times, Sept. 4, 1992, <a href="https://www.tampabay.com/archive/1992/09/04/prince-signs-100-million-deal">Prince signs $100 million deal</a>.</li>
+      <li id="s57"><span class="tier">T2</span> Rolling Stone, <a href="https://www.rollingstone.com/music/music-news/prince-promises-new-album-and-remasters-after-label-partnership-171916/">Prince–Warner 2014</a> (the 1996 quote).</li>
+      <li id="s58"><span class="tier">T2</span> Star Tribune, Apr. 18, 2014, <a href="https://www.startribune.com/prince-signs-landmark-deal-to-reissue-purple-rain/255772561">Prince signs landmark deal</a>.</li>
+      <li id="s59"><span class="tier">T2</span> NPR, June 6, 2012, <a href="https://www.npr.org/sections/therecord/2012/06/06/george-clinton-fights-for-his-right-to-funk">George Clinton fights for his right to funk</a>.</li>
+      <li id="s60"><span class="tier">T4</span> Black Enterprise, Mar. 12, 2025, <a href="https://blackenterprise.com/george-clinton-100m-copyright-lawsuit">Clinton $100M suit</a>.</li>
+      <li id="s61"><span class="tier">T3</span> EBSCO, <a href="https://www.ebsco.com/research-starters/law/us-congress-investigates-payola-pop-music-industry">Congress investigates payola</a>.</li>
+      <li id="s62"><span class="tier">T1</span> <a href="https://www.law.cornell.edu/uscode/text/17/203">17 U.S.C. §203</a>.</li>
+      <li id="s63"><span class="tier">T2</span> SPIN, May 2012, <a href="https://www.spin.com/2012/05/village-people-singer-wins-closely-watched-ymca-rights-case/"><em>Scorpio Music v. Willis</em></a>.</li>
+      <li id="s64"><span class="tier">T4</span> Music Business Worldwide, <a href="https://musicbusinessworldwide.com/judge-denies-artists-request-for-class-action-in-umg-copyright-lawsuit"><em>Waite v. UMG</em> class denied</a>.</li>
+      <li id="s65"><span class="tier">T4</span> Music Business Worldwide, June 2026, <a href="https://www.musicbusinessworldwide.com/2-live-crew-cant-take-back-their-recorded-music-copyrights-after-all-appeals-court-rules/">2 Live Crew, Eleventh Circuit reversal</a>.</li>
+      <li id="s66"><span class="tier">T4</span> Complete Music Update, Oct. 2024, <a href="https://completemusicupdate.com/2-live-crew-win-back-control-of-early-albums-as-court-rejects-labels-work-for-hire-claim/">2 Live Crew jury verdict</a>.</li>
+      <li id="s67"><span class="tier">T3</span> Encyclopedia of the Great Plains, <a href="https://plainshumanities.unl.edu/encyclopedia/doc/egp.afam.031.html">Oscar Micheaux</a>; Britannica.</li>
+      <li id="s68"><span class="tier">T1</span> Chesnutt Archive, <a href="https://chesnuttarchive.org/item/ccda.corr00860">Micheaux–Chesnutt correspondence, 1921–22</a>.</li>
+      <li id="s69"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Amos_%27n%27_Andy">Amos 'n' Andy</a>.</li>
+      <li id="s70"><span class="tier">T3</span> Television Academy Foundation, <a href="https://www.emmytvlegends.org/shows/amos-n-andy">Amos 'n' Andy</a>.</li>
+      <li id="s71"><span class="tier">T1</span> RR Auction, <a href="https://rrauction.com/auctions/lot-detail/li/347588606680469/cat/0">Hattie McDaniel Selznick contract, Dec. 30, 1939</a>.</li>
+      <li id="s72"><span class="tier">T3</span> Golden Globes, <a href="https://www.goldenglobes.com/articles/dorothy-dandridge-first-black-movie-star">Dorothy Dandridge</a>.</li>
+      <li id="s73"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Tandem_Productions">Tandem Productions</a> (Embassy sale, $485M, 1985).</li>
+      <li id="s74"><span class="tier">T4</span> TV Guide, <a href="https://www.tvguide.com/news/question-friend-66771/"><em>Cosby Show</em> syndication</a>.</li>
+      <li id="s75"><span class="tier">T2</span> Newsweek, Apr. 21, 1991, <a href="https://www.newsweek.com/great-tv-rerun-bazaar-202166">The great TV rerun bazaar</a>.</li>
+      <li id="s76"><span class="tier">T3</span> FundingUniverse, <a href="https://www.fundinguniverse.com/company-histories/harpo-inc-history/">Harpo, Inc. history</a>.</li>
+      <li id="s77"><span class="tier">T4</span> Black Enterprise, <a href="https://www.blackenterprise.com/45-great-moments-in-black-business-no-22-oprah-winfreys-deal-to-own-her-show-first-step-in-becoming-first-black-female-billionaire/">Oprah's deal to own her show</a>.</li>
+      <li id="s78"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/She%27s_Gotta_Have_It">She's Gotta Have It</a>.</li>
+      <li id="s79"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Hollywood_Shuffle">Hollywood Shuffle</a>.</li>
+      <li id="s80"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Tyler_Perry_Studios">Tyler Perry Studios</a>.</li>
+      <li id="s81"><span class="tier">T1</span> <a href="https://www.faegredrinker.com/en/insights/publications/2020/3/supreme-court-decides-comcast-corporation-v-national-association-of-african-american-owned-media"><em>Comcast v. NAAAOM</em>, 589 U.S. ___ (2020)</a>, summary.</li>
+      <li id="s82"><span class="tier">T4</span> Miller Barondess, June 2020, <a href="https://millerbarondess.com/miller-barondess-reaches-carriage-agreement-on-behalf-of-byron-allen-and-entertainment-studios">Allen–Comcast carriage agreement</a>.</li>
+      <li id="s83"><span class="tier">T2</span> CNBC, Mar. 22, 2018, <a href="https://www.cnbc.com/2018/03/22/byron-allens-entertainment-studios-buys-the-weather-channel.html">Allen buys The Weather Channel</a>.</li>
+      <li id="s84"><span class="tier">T1</span> SEC, Viacom Form 8-K, Nov. 3, 2000, <a href="https://www.sec.gov/Archives/edgar/data/0000813828/000089109200001015/0002.txt">BET acquisition</a>.</li>
+      <li id="s85"><span class="tier">T2</span> CNN Money, Nov. 3, 2000, <a href="https://money.cnn.com/2000/11/03/bizbuzz/bet_side/">Viacom–BET</a>.</li>
+      <li id="s86"><span class="tier">T1</span> FCC, <a href="https://docs.fcc.gov/public/attachments/DA-23-35A1_Rcd.pdf">Sixth Report on Ownership of Broadcast Stations (DA 23-35)</a>.</li>
+      <li id="s87"><span class="tier">T3</span> Free Press, <a href="https://www.freepress.net/news/fcc-media-ownership-report-underscores-agencys-historical-exclusion-black-people">FCC Fifth Report analysis</a>.</li>
+      <li id="s88"><span class="tier">T1</span> <a href="https://law.justia.com/cases/federal/district-courts/FSupp/780/182/1445286/"><em>Grand Upright Music v. Warner Bros.</em>, 780 F. Supp. 182 (S.D.N.Y. 1991)</a>.</li>
+      <li id="s89"><span class="tier">T1</span> <a href="https://supreme.justia.com/cases/federal/us/510/569/"><em>Campbell v. Acuff-Rose</em>, 510 U.S. 569 (1994)</a>.</li>
+      <li id="s90"><span class="tier">T2</span> American Bar Association, <a href="https://www.americanbar.org/groups/litigation/resources/newsletters/intellectual-property/circuit-split-at-last-de-minimis-exception/">Circuit split at last: the de minimis exception</a> (<em>Bridgeport</em>; <em>VMG Salsoul</em>).</li>
+      <li id="s91"><span class="tier">T2</span> K. McLeod interview with Chuck D and Hank Shocklee, <a href="https://littlevillagemag.com/how-copyright-law-changed-hip-hop-an-interview-with-public-enemys-chuck-d-and-hank-shocklee/">How copyright law changed hip-hop</a>.</li>
+      <li id="s92"><span class="tier">T2</span> The FADER, Mar. 3, 2023, <a href="https://www.thefader.com/2023/03/03/de-la-souls-arrive-on-streaming">De La Soul arrives on streaming</a>.</li>
+      <li id="s93"><span class="tier">T4</span> Trapital, <a href="https://www.trapital.com/memos/ciroc-obama-two-parts-vodka-one-part-diddy">No Limit and Cash Money distribution deals</a>.</li>
+      <li id="s94"><span class="tier">T2</span> Uproxx, <a href="https://uproxx.com/music/megan-thee-stallion-1501-certified-entertainment-lawsuit-timeline">Megan Thee Stallion v. 1501 timeline</a>.</li>
+      <li id="s95"><span class="tier">T2</span> Rolling Stone, Oct. 2023, <a href="https://www.rollingstone.com/music/music-news/megan-thee-stallion-and-record-label-1501-entertainment-settle-lawsuit-1234857691/">Megan and 1501 settle</a>.</li>
+      <li id="s96"><span class="tier">T2</span> The FADER, Sept. 16, 2020, <a href="https://thefader.com/2020/09/16/kanye-west-calls-out-universal-for-unfair-music-contracts-hit-boy-chimes-in">Kanye West posts his contracts</a>.</li>
+      <li id="s97"><span class="tier">T2</span> theGrio, Nov. 29, 2011, <a href="https://thegrio.com/2011/11/29/from-billboard-hits-to-bankruptcy-tlcs-slow-downfall">TLC's bankruptcy</a>.</li>
+      <li id="s98"><span class="tier">T2</span> CBS News, Oct. 2010, <a href="https://www.cbsnews.com/news/toni-braxton-files-for-bankruptcy-again">Toni Braxton files again</a>.</li>
+      <li id="s99"><span class="tier">T2</span> Yahoo/AP, Sept. 2021, <a href="https://news.yahoo.com/anita-baker-settles-dispute-over-173442902.html">Anita Baker regains masters</a>.</li>
+      <li id="s100"><span class="tier">T2</span> Vibe, Jan. 2020, <a href="https://www.vibe.com/music/music-news/kelis-neptunes-contract-673643">Kelis on her Neptunes deal</a>.</li>
+      <li id="s101"><span class="tier">T2</span> NPR, Mar. 15, 2016, <a href="https://www.npr.org/sections/thetwo-way/2016/03/15/470537451/sony-buys-michael-jacksons-stake-in-lucrative-music-catalog">Sony buys Jackson estate's Sony/ATV stake</a>.</li>
+      <li id="s102"><span class="tier">T2</span> Benzinga, Jan. 2022, <a href="https://www.benzinga.com/news/22/01/24912789/how-much-did-bruce-springsteen-bob-dylan-and-other-legends-sell-their-music-catalogs-for">Catalog sale prices</a>; Stereogum on Bowie.</li>
+      <li id="s103"><span class="tier">T4</span> Complex, <a href="https://www.complex.com/music/a/j-mckinney/rappers-selling-music-catalogs-cost-list">Rappers selling catalogs</a>; Market Realist on Jay-Z's masters.</li>
+      <li id="s104"><span class="tier">T4</span> Music Business Worldwide, <a href="https://www.musicbusinessworldwide.com/dr-dre-selling-music-assets-to-universal-and-shamrock-in-200m-deal-report1/">Dr. Dre $200M+ deal</a>.</li>
+      <li id="s105"><span class="tier">T1</span> U.S. Census Bureau, <a href="https://www.census.gov/library/stories/2021/08/improved-race-ethnicity-measures-reveal-united-states-population-much-more-multiracial.html">2020 Census race data</a>.</li>
+      <li id="s106"><span class="tier">T2</span> The Fordham Ram, <a href="https://thefordhamram.com/culture/african-americans-absent-from-hot-100">2013: no Black lead artist at No. 1</a>.</li>
+      <li id="s107"><span class="tier">T2</span> Luminate 2023 year-end via Jamaica Gleaner, <a href="https://past.jamaica-gleaner.com/article/entertainment/20240116/music-streams-hit-4-trillion-2023-hip-hop-still-rules">Hip-hop 25.5% of streams</a>.</li>
+      <li id="s108"><span class="tier">T2</span> Billboard, <a href="https://www.billboard.com/pro/music-business-diversity-pledges-falling-short">Diversity pledges falling short</a>.</li>
+      <li id="s109"><span class="tier">T2</span> Euronews, Mar. 2025, <a href="https://www.euronews.com/2025/03/12/is-the-10bn-spotify-gave-artists-last-year-enough-to-silence-its-critics">Spotify Loud &amp; Clear</a>.</li>
+      <li id="s110"><span class="tier">T1</span> The MLC, <a href="https://www.themlc.com/news/billboard-mlc-receives-over-424m-unmatched-black-box-streaming-royalties">$424 million in unmatched royalties</a>.</li>
+      <li id="s111"><span class="tier">T2</span> USC Annenberg via Hypebot, <a href="https://www.hypebot.com/music-industry-gets-a-d-for-racial-diversity-in-new-annenburg-study/">Inclusion in the Music Business (2021)</a>.</li>
+      <li id="s112"><span class="tier">T4</span> Music Business Worldwide, Apr. 2023, <a href="https://www.musicbusinessworldwide.com/ai-fake-drake-track-deleted-on-spotify-youtube-tiktok-millions-of-plays">"Heart on My Sleeve" removed</a>.</li>
+      <li id="s113"><span class="tier">T2</span> Axios, Apr. 2, 2024, <a href="https://www.axios.com/2024/04/02/musicians-letter-ai-replace-artists">Artist Rights Alliance letter</a>.</li>
+      <li id="s114"><span class="tier">T2</span> Manatt, <a href="https://manatt.com/insights/newsletters/client-alert/tennessees-elvis-act-expands-publicity-rights-for">Tennessee's ELVIS Act</a>.</li>
+      <li id="s115"><span class="tier">T1</span> U.S. Copyright Office, <a href="https://www.copyright.gov/ai/index.html">Artificial Intelligence reports, Parts 1–3</a>.</li>
+      <li id="s116"><span class="tier">T2</span> The Register, May 12, 2025, <a href="https://www.theregister.com/2025/05/12/us_copyright_office_ai_copyright">Copyright Office Part 3 and the Register's dismissal</a>.</li>
+      <li id="s117"><span class="tier">T2</span> Mayer Brown, Mar. 2026, <a href="https://www.mayerbrown.com/en/insights/publications/2026/03/supreme-court-denies-review-in-ai-authorship-case">Supreme Court denies review in <em>Thaler</em></a>.</li>
+      <li id="s118"><span class="tier">T2</span> Manatt, <a href="https://manatt.com/insights/newsletters/client-alert/congress-reintroduces-the-no-fakes-act-what-s-new-in-the-2026-bill">NO FAKES Act, 2026 reintroduction</a>.</li>
+      <li id="s119"><span class="tier">T4</span> Digital Music News, June 18, 2026, <a href="https://www.digitalmusicnews.com/2026/06/18/no-fakes-act-senate-judiciary-advancement/">Senate Judiciary advances NO FAKES</a>.</li>
+      <li id="s120"><span class="tier">T4</span> Music Business Worldwide, Oct. 2025, <a href="https://www.musicbusinessworldwide.com/universal-music-settles-udio-lawsuit-strikes-deal-for-licensed-ai-music-platform">UMG settles with Udio</a>.</li>
+      <li id="s121"><span class="tier">T2</span> TheWrap, Nov. 2025, <a href="https://www.thewrap.com/warner-music-group-partnership-suno-settles-lawsuit-ai-music-company">Warner settles with Suno</a>.</li>
+      <li id="s122"><span class="tier">T4</span> Digital Music News, Dec. 2025, <a href="https://www.digitalmusicnews.com/2025/12/18/sony-music-udio-suno-lawsuit-updates/">Sony v. Udio/Suno updates</a>.</li>
+      <li id="s123"><span class="tier">T2</span> Cleary Gottlieb, <a href="https://www.clearygottlieb.com/news-and-insights/publication-listing/uk-high-court-issues-landmark-ruling-in-getty-images-v-stability-ai"><em>Getty v. Stability AI</em> (UK, Nov. 2025)</a>.</li>
+      <li id="s124"><span class="tier">T4</span> Music Business Worldwide, Aug. 2022, <a href="https://www.musicbusinessworldwide.com/capitol-drops-robot-rapper-fn-meka-as-project-is-accused-of-being-a-direct-insult">Capitol drops FN Meka</a>.</li>
+      <li id="s125"><span class="tier">T4</span> Complex, June 2025, <a href="https://www.complex.com/music/a/treyalston/timbaland-defends-ai-artist-fan-reactions">Timbaland's AI artist</a>.</li>
+      <li id="s126"><span class="tier">T3</span> The FADER, Apr. 2012, <a href="https://www.thefader.com/2012/04/17/the-tupac-hologram-might-tour">Tupac hologram</a>.</li>
+      <li id="s127"><span class="tier">T4</span> Digital Music News, Feb. 2020, <a href="https://www.digitalmusicnews.com/2020/02/19/whitney-houston-hologram-tour-2/">Whitney Houston hologram tour</a>.</li>
+      <li id="s128"><span class="tier">T4</span> Digital Music News, July 2025, <a href="https://www.digitalmusicnews.com/2025/07/07/velvet-sundown-one-million-spotify-monthly-listeners/">The Velvet Sundown</a>.</li>
+      <li id="s129"><span class="tier">T4</span> Music Business Worldwide, Sept. 2025, <a href="https://musicbusinessworldwide.com/spotify-has-deleted-75m-spammy-tracks-as-it-unveils-new-ai-music-policies">Spotify removes 75M tracks</a>.</li>
+      <li id="s130"><span class="tier">T2</span> TechCrunch, July 21, 2026, <a href="https://techcrunch.com/2026/07/21/music-streamer-deezer-says-more-than-50-of-daily-uploads-are-ai-generated/">Deezer: more than 50% of daily uploads AI-generated</a>.</li>
+      <li id="s131"><span class="tier">T1</span> <a href="https://law.justia.com/cases/federal/appellate-courts/F2/849/460/"><em>Midler v. Ford Motor Co.</em>, 849 F.2d 460 (9th Cir. 1988)</a>.</li>
+      <li id="s132"><span class="tier">T1</span> <a href="https://law.justia.com/cases/federal/appellate-courts/F2/978/1093/"><em>Waits v. Frito-Lay</em>, 978 F.2d 1093 (9th Cir. 1992)</a>.</li>
+      <li id="s133"><span class="tier">T1</span> <a href="https://supreme.justia.com/cases/federal/us/433/562/"><em>Zacchini v. Scripps-Howard</em>, 433 U.S. 562 (1977)</a>.</li>
+      <li id="s134"><span class="tier">Further reading</span> Lisa E. Davis, <a href="https://books.apple.com/us/book/our-minds-were-always-free/id6754255324"><em>Our Minds Were Always Free</em></a> (Simon &amp; Schuster, 2026).</li>
+      <li id="s136"><span class="tier">T2</span> Deezer newsroom, Sept. 2025, <a href="https://newsroom-deezer.com/">AI-generated tracks: share of streams and fraudulent plays</a> (as reported by Music Business Worldwide and TechCrunch).</li>
+      <li id="s135"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Race_record">Race record</a>.</li>
+    </ol>
+    <p>The seven plates are archival photographs and prints in the public domain or with no known restrictions (Library of Congress; Wikimedia Commons), each credited in its caption and in assets/plates/credits.json; none depicts an identifiable public figure. The hero is drawn in code.</p>
+    <p>Disputes carried in the open: Handy's sale price ($50 for plates and rights plus $50 for unsold stock, or $100 in one payment); Blind Tom's annual earnings; Little Richard's 1955 terms; Ruth Brown's rate (4.5% vs. 5%) and first check ($20,000 vs. $30,000); Jay-Z's reversion; the Master P terms. Where sources differ, the exhibit shows both.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var fmt=function(n,d){return (Math.round(n*Math.pow(10,d||0))/Math.pow(10,d||0)).toLocaleString("en-US",{minimumFractionDigits:d||0,maximumFractionDigits:d||0})};
+  var usd=function(n,d){return (n<0?"−$":"$")+fmt(Math.abs(n),d)};
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* CPI multipliers to 2025 $, Minneapolis Fed series (source 32) */
+  var CPI={1851:38.7,1858:37.2,1865:21.0,1872:26.9,1874:28.5,1879:34.6,1899:38.7,1903:35.8,1909:35.8,1912:33.4,1920:16.1,1921:18.1,1923:18.9,1925:18.4,1933:24.9,1940:23.0,1948:13.4,1953:12.0,1955:12.0,1958:11.1,1959:11.1,1968:9.3,1971:8.0,1975:6.0,1984:3.1,1985:3.0,1988:2.7,1992:2.3,1997:2.0,2000:1.9,2004:1.7};
+  var cpi=function(y){if(CPI[y])return CPI[y];var ks=Object.keys(CPI).map(Number).sort(function(a,b){return a-b});var best=ks[0];ks.forEach(function(k){if(Math.abs(k-y)<Math.abs(best-y))best=k});return CPI[best]};
+
+  /* ---------- hero canvas: a chain with one broken link ---------- */
+  (function(){
+    var c=$("#chaincanvas");if(!c)return;var ctx=c.getContext("2d");var W,H,t=0;
+    function size(){var r=c.parentNode.getBoundingClientRect();W=c.width=Math.floor(r.width*devicePixelRatio);H=c.height=Math.floor(r.height*devicePixelRatio)}
+    size();window.addEventListener("resize",size);
+    function link(x,y,w,h,rot,alpha,broken){
+      ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.lineWidth=2.2*devicePixelRatio;ctx.strokeStyle="rgba(201,162,39,"+alpha+")";
+      if(broken){ctx.setLineDash([6*devicePixelRatio,5*devicePixelRatio]);ctx.strokeStyle="rgba(192,94,60,"+(alpha+.15)+")"}
+      var r=h/2;ctx.beginPath();ctx.moveTo(-w/2+r,-r);ctx.lineTo(w/2-r,-r);ctx.arc(w/2-r,0,r,-Math.PI/2,Math.PI/2);ctx.lineTo(-w/2+r,r);ctx.arc(-w/2+r,0,r,Math.PI/2,Math.PI*1.5);ctx.closePath();ctx.stroke();ctx.restore();
+    }
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      var n=11,lw=86*devicePixelRatio,lh=34*devicePixelRatio,gap=lw*.62;
+      var cx=W*.5+Math.sin(t*.0007)*W*.04,cy=H*.46+Math.cos(t*.0005)*H*.03;
+      for(var i=0;i<n;i++){
+        var k=i-(n-1)/2;var x=cx+k*gap;var y=cy+Math.sin(t*.001+i*.9)*8*devicePixelRatio;
+        var rot=(i%2?Math.PI/2:0)+Math.sin(t*.0006+i)*.05;
+        var alpha=.18+.5*Math.max(0,1-Math.abs(k)/(n/2));
+        link(x,y,lw,lh,rot,alpha,i===6);
+      }
+      /* faint second chain, higher, out of focus */
+      for(var j=0;j<9;j++){var kk=j-4;link(W*.28+kk*gap*.8,H*.22+Math.sin(t*.0008+j)*6*devicePixelRatio,lw*.8,lh*.8,(j%2?Math.PI/2:0),.07,false)}
+      t+=16;if(!reduce)requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  /* ---------- chain rail ---------- */
+  (function(){
+    var links=$$(".rail a");var chapters=$$(".chapter");
+    chapters.forEach(function(ch){var a=links[+ch.dataset.ch-1];if(a)a.classList.add(ch.dataset.state==="held"?"held":ch.dataset.state==="broken"?"broken":"open")});
+    if(!("IntersectionObserver" in window))return;
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("active",a.dataset.ch===e.target.dataset.ch)})}})},{rootMargin:"-40% 0px -50% 0px"});
+    chapters.forEach(function(ch){io.observe(ch)});
+  })();
+
+  /* ---------- your first song ---------- */
+  (function(){
+    var inp=$("#yy-year"),out=$("#yy-out");if(!inp)return;
+    function ro(l,v,s,cls){return '<div class="ro"><span class="l">'+l+'</span><span class="v '+(cls||"")+'">'+v+'</span>'+(s?'<span class="s">'+s+'</span>':'')+'</div>'}
+    function render(){
+      var b=+inp.value;if(!b||b<1700||b>2030){out.innerHTML='<p class="desk">Enter a four-digit year.</p>';return}
+      var s=b+20;var h="";var cards="";
+      if(s<1790){cards+=ro("Regime","No federal copyright","The 1790 Act is still "+(1790-s)+" years away. Your song is protected, if at all, by a state statute.")}
+      else if(s<1831){cards+=ro("Regime","Act of 1790 · 14 + 14","Music is not yet a copyrightable subject. Books, maps, and charts only. Music arrives in 1831.")}
+      else if(s<1909){cards+=ro("Regime","Act of 1831 · 28 + 14","Music is covered. The second term is yours if you are alive at year "+(s+28)+". Public performance earns nothing until 1897.")}
+      else if(s<1978){cards+=ro("Regime","Act of 1909 · 28 + 28","Your song reverts to you in <b>"+(s+28)+"</b> if you are living. "+(s<1972?"The recording itself has no federal copyright until 1972.":"Your recording is protected from Feb. 15, 1972."))}
+      else{cards+=ro("Regime","Act of 1976 · life + "+(s<1998?"50":"70"),"No renewal term. Instead, 17 U.S.C. §203: you can terminate the grant between <b>"+(s+35)+"</b> and <b>"+(s+40)+"</b>, with notice from "+(s+25)+".")}
+      if(s<=1865)cards+=ro("The gate","Applies","Before 1866, whether you could hold title at all depended on your legal status, not your authorship. See Exhibit 1.","tag");
+      if(s>=1978){var open=s+35;cards+=ro("Your window",open>2026?"Opens in "+(open-2026)+" yrs":s+40>=2026?"Open now":"Closed "+(s+40),open>2026?"Serve notice no earlier than "+(s+25)+". A work-for-hire clause or a personal bankruptcy can close it first. See Exhibit 4.":"","gold")}
+      if(s>=2023)cards+=ro("Your voice","Unsettled","If you recorded it after 2023, a clone of your voice is governed by a state patchwork and a federal bill in committee. See Exhibit 7.","tag");
+      out.innerHTML='<div class="readout">'+cards+'</div><p class="desk"><b>Assumption</b>Song written and assigned in '+s+'. Dates follow the statutes cited in sources 1, 2 and 62.</p>';
+    }
+    inp.addEventListener("input",render);render();
+  })();
+
+  /* ---------- Exhibit 1A: the patent gate ---------- */
+  (function(){
+    var y=$("#g-year"),w=$("#g-who"),v=$("#g-verdict");if(!y)return;
+    function render(){
+      var yr=y.value,who=w.value,ok=false,b="",t="";
+      if(who==="white"){ok=true;b="Patent issues";t="The applicant swears the inventor's oath, including to citizenship. Nothing in the record bars the claim."}
+      else if(who==="free"){
+        if(yr==="1821"||yr==="1850"){ok=true;b="Patent issues, on the record";t="Thomas Jennings (1821) and Henry Blair (1834, 1836) received patents as free Black inventors. The gate was not yet written."}
+        else if(yr==="1858"||yr==="1861c"){b="Refused in practice";t="Every applicant swore to citizenship. After <em>Dred Scott</em> (1857) and the 1858 opinion that relied on it, a free Black inventor could not truthfully take the oath. Swanson reads the opinion as excluding free inventors by that route."}
+        else{ok=true;b="Reopens";t="The 1866 Civil Rights Act and the 14th Amendment's citizenship clause remove the citizenship bar. The 1858 opinion was never formally overruled; it was made obsolete."}
+      }
+      else if(who==="enslaved"){
+        if(yr==="1821"||yr==="1850"){b="No path to apply";t="The 1793 and 1836 Acts require the inventor's own oath. An enslaved person is not recognized as competent to swear it, and cannot own the resulting property. No application is possible."}
+        else if(yr==="1858"){b="“Cannot be patented”";t="Attorney General Black, June 10, 1858: a machine invented by a slave “cannot be patented,” and a patent to the master “would not protect him in the courts.”"}
+        else if(yr==="1861c"){b="Patent issues, to the enslaver";t="Confederate Patent Act of May 21, 1861, §50: the enslaver may patent the invention of a person he holds. The inventor holds nothing. No evidence the Stuart family ever used it."}
+        else{b="Free, but refused anyway";t="Benjamin Montgomery, freed, reapplied for his steamboat propeller on June 28, 1864 and was rejected again. Freedom removed the bar on paper; the office did not move. (Source 6.)"}
+      }
+      else{ /* enslaver */
+        if(yr==="1861c"){b="Patent issues";t="§50 of the Confederate act was written for exactly this. The invention is treated as the enslaver's property, like the inventor."}
+        else{b="Returned: not the inventor";t="Oscar Stuart's November 1857 application for Ned's cotton scraper was sent back by Commissioner Holt. The 1836 Act's “original and first inventor” language barred the master; Ned was deemed incompetent to swear. Two petitions to Congress and an 1859 bill failed."}
+      }
+      v.className="verdict"+(ok?" ok":"");v.innerHTML="<b>"+b+"</b>"+t;
+    }
+    y.addEventListener("change",render);w.addEventListener("change",render);render();
+  })();
+
+  /* ---------- Exhibit 1B: legend vs ledger ---------- */
+  (function(){
+    var bars=$("#ll-bars"),note=$("#ll-note"),name=$("#ll-name");if(!bars)return;
+    var data={
+      ledger:[
+        {n:"Oliver contract, 3 years (c.1858)",v:15000,y:1858,per:"total · to Bethune",c:"var(--gold)"},
+        {n:"Oliver's reported take, 3 years",v:50000,y:1858,per:"total · reported",c:"var(--kraft)",h:true},
+        {n:"1865 indenture: Tom's share",v:240,y:1865,per:"per year · $20/month",c:"var(--tag)"},
+        {n:"1865 indenture: parents' share",v:500,y:1865,per:"per year",c:"var(--tag)"},
+        {n:"Concerts and sheet music, 1879",v:20000,y:1879,per:"per year · “close to”",c:"var(--gold)"}
+      ],
+      legend:[
+        {n:"“Up to $100,000 a year”",v:100000,y:1874,per:"per year · no visible primary source",c:"var(--kraft)",h:true},
+        {n:"Bethune family lifetime take",v:750000,y:1874,per:"total · no visible primary source",c:"var(--kraft)",h:true},
+        {n:"“Some estimates”",v:50000,y:1879,per:"per year",c:"var(--kraft)",h:true},
+        {n:"Tom's lifetime compensation",v:0,y:1879,per:"room, board, a Steinway",c:"var(--tag)"}
+      ]};
+    var notes={ledger:"<b>Reading</b>The contract and indenture figures are the only ones tied to a document. Even at the documented $18,000–$20,000 a year, about $690,000 in today’s money, Tom’s own share under the 1865 indenture was $20 a month. Whether even that was paid is undocumented.",legend:"<b>Reading</b>The $100,000 figure traces to a 2004 reference work whose citation does not clearly support it. The $750,000 lifetime total has no visible primary source. Both are repeated widely. We show them hatched: plausible, unproven, and not the basis for anything else in this exhibit."};
+    function render(k){
+      var rows=data[k],max=Math.max.apply(null,rows.map(function(r){return r.v}))||1;
+      bars.innerHTML=rows.map(function(r){var m=cpi(r.y);return '<div class="bar'+(r.v===0?' ghost':'')+'"><span class="n">'+r.n+'<br><span class="mono" style="font-size:11px;color:var(--paper-faint)">'+r.per+'</span></span><span class="tr"><span class="f'+(r.h?' hatch':'')+'" style="--c:'+r.c+';width:'+(r.v/max*100)+'%"></span></span><span class="v">'+usd(r.v)+' <span style="color:var(--paper-faint)">≈ '+usd(r.v*m)+'</span></span></div>'}).join("");
+      note.innerHTML=notes[k];name.textContent=k==="ledger"?"the ledger":"the legend";
+      $$("[data-ll]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.ll===k))});
+    }
+    $$("[data-ll]").forEach(function(b){b.addEventListener("click",function(){render(b.dataset.ll)})});render("ledger");
+  })();
+
+  /* ---------- Exhibit 2A: royalty calculator ---------- */
+  (function(){
+    var deal=$("#rc-deal"),cp=$("#rc-copies");if(!deal)return;
+    var D={
+      joplin:{price:.25,y:1899,take:function(n){return .01*n},how:"1¢ per copy",note:"<b>What the paper did</b>Joplin’s name stayed on the work and the royalty paid for life. The first 400 copies took a year; Berlin puts the rag at about $600 a year by 1909. He died in 1917, ten years before the renewal; the second term went to his widow, Lottie, not to Stark.",src:"Sources 16, 17"},
+      handy:{price:.25,y:1912,take:function(){return 100},how:"$100 outright (or $50; accounts differ)",note:"<b>What the paper did</b>Sold outright: no royalty, no credit control. The buyer added lyrics and a military band recorded it in 1914. Handy saw nothing until the copyright’s first term ran out in 1940 and the renewal came back to him.",src:"Sources 19, 20"},
+      waters:{price:1,y:1921,take:function(){return 100},how:"$100 flat for two sides",note:"<b>What the paper did</b>A flat session fee at the first Black-owned label. Waters asked for $100 and got it; the record is credited with turning Black Swan’s income from about $700 a month to about $20,000. As a recording it had no copyright at all until 1972.",src:"Sources 22, 24"},
+      bessie:{price:.75,y:1923,take:function(){return 125},how:"$125 per usable side, no royalty",note:"<b>What the paper did</b>Frank Walker’s Columbia contract paid per side and nothing per copy. “Downhearted Blues” is reported at 780,000 copies in six months. Over about 160 sides, Smith’s total recording income is reported at $28,575. Most of Columbia’s artist files were discarded as junk; the figures survive from one salvaged ledger.",src:"Sources 27, 29, 30"},
+      bessie33:{price:.35,y:1933,take:function(){return 37.5},how:"$37.50 per side, no royalty",note:"<b>What the paper did</b>The Depression sessions for OKeh at a non-royalty fee a third of her 1923 rate. She died in 1937.",src:"Source 28"}
+    };
+    function render(){
+      var d=D[deal.value],n=+cp.value,m=cpi(d.y);$("#rc-copies-out").textContent=fmt(n);
+      var gross=n*d.price,take=d.take(n);
+      $("#rc-gross").textContent=usd(gross);$("#rc-gross-s").textContent=fmt(n)+" × "+usd(d.price,2)+" list ("+d.y+")";
+      $("#rc-take").textContent=usd(take,take<1?2:0);$("#rc-take-s").textContent=d.how;
+      $("#rc-take25").textContent=usd(take*m);
+      var sh=gross?take/gross*100:0;$("#rc-share").textContent=(sh<0.01?"<0.01":fmt(sh,sh<1?2:1))+"%";$("#rc-share-s").textContent="of gross at list · "+(deal.value==="joplin"?"fixed by contract":"falls as sales rise");
+      $("#rc-note").innerHTML=d.note+' <span class="mono" style="font-size:11px;color:var(--paper-faint)">'+d.src+'</span>';
+    }
+    deal.addEventListener("change",render);cp.addEventListener("input",render);render();
+  })();
+
+  /* ---------- Exhibit 2B: renewal clock ---------- */
+  (function(){
+    var svg=$("#clk-svg"),out=$("#clk-out"),ver=$("#clk-verdict");if(!svg)return;
+    var S={
+      memphis:{t:"The Memphis Blues",pub:1912,ren:1940,term:28,author:"W. C. Handy",died:1958,who:"Handy, the living author",ok:true,v:"<b>Came home</b>Sold for $50–$100 in 1912. The first term expired in 1940 and the renewal vested in Handy, alive at 67. Added income followed; his own publishing house, Handy Brothers, is still family-run.",src:"Sources 2, 19, 20"},
+      maple:{t:"Maple Leaf Rag",pub:1899,ren:1927,term:28,author:"Scott Joplin",died:1917,who:"Lottie Joplin, his widow",ok:true,v:"<b>Came home, to the estate</b>Joplin died ten years before the renewal. It passed to his widow rather than to Stark’s 1-cent contract, which is why the estate, not the publisher’s successors, captured the 1970s revival: a million-selling Nonesuch LP, <em>Treemonisha</em> on Broadway, a Pulitzer in 1976.",src:"Sources 16, 17, 18"},
+      oldfolks:{t:"Old Folks at Home",pub:1851,ren:1879,term:28,ren2:14,author:"Stephen Foster (credit sold to E. P. Christy for $15)",died:1864,who:"Foster’s brother, for the widow and daughter",ok:true,v:"<b>The credit came back</b>Foster let Christy be named composer for $15 and could not undo it in 1852. On the 1879 renewal his brother restored Foster’s name. The earliest use in this series of a renewal term to recover authorship from a minstrel performer. No Black creator appears on any revenue line of the song.",src:"Source 15"},
+      crazy:{t:"Crazy Blues",pub:1920,ren:1948,term:28,author:"Perry Bradford",died:1970,who:"Bradford, a Black publisher, the rare holder of the renewable asset",ok:true,v:"<b>Held, then lost another way</b>Bradford held the song and the renewal. But he had sold the same tune to another publisher as “Wicked Blues,” and a 1921 court ordered an accounting. He paid damages, split with Mamie Smith, and worked as a mailman in the 1940s.",src:"Sources 25, 26"},
+      downhearted:{t:"Downhearted Blues (the recording)",pub:1923,ren:null,term:0,author:"Bessie Smith, performer",died:1937,who:"No one. Nothing to renew.",ok:false,v:"<b>No clock at all</b>Sound recordings had no federal copyright until Feb. 15, 1972. The flat-fee singers of the 1920s had nothing to renew in 1951. Only the song underneath, by Alberta Hunter and Lovie Austin, carried a renewal.",src:"Sources 2, 27"}
+    };
+    function render(k){
+      var s=S[k];var x0=60,x1=840,y=95;var minY=1845,maxY=1975;var X=function(yr){return x0+(yr-minY)/(maxY-minY)*(x1-x0)};
+      var h='<line class="ax" x1="'+x0+'" y1="'+y+'" x2="'+x1+'" y2="'+y+'"/>';
+      for(var yr=1850;yr<=1970;yr+=10){h+='<line class="ax" x1="'+X(yr)+'" y1="'+(y-5)+'" x2="'+X(yr)+'" y2="'+(y+5)+'"/><text x="'+X(yr)+'" y="'+(y+24)+'" text-anchor="middle">'+yr+'</text>'}
+      if(s.ren){h+='<rect x="'+X(s.pub)+'" y="'+(y-14)+'" width="'+(X(s.ren)-X(s.pub))+'" height="12" fill="rgba(201,162,39,.25)"/><rect x="'+X(s.ren)+'" y="'+(y-14)+'" width="'+(X(Math.min(s.ren+(s.ren2||s.term),maxY))-X(s.ren))+'" height="12" fill="rgba(124,192,150,.3)"/>';
+        h+='<text class="lab" x="'+((X(s.pub)+X(s.ren))/2)+'" y="'+(y-22)+'" text-anchor="middle">first term · '+s.term+' yrs</text><text class="lab" x="'+((X(s.ren)+X(Math.min(s.ren+(s.ren2||s.term),maxY)))/2)+'" y="'+(y-22)+'" text-anchor="middle">renewal · '+(s.ren2||s.term)+' yrs · back to the author</text>'}
+      else{h+='<rect x="'+X(s.pub)+'" y="'+(y-14)+'" width="'+(X(1972)-X(s.pub))+'" height="12" fill="rgba(192,94,60,.25)"/><text class="lab" x="'+((X(s.pub)+X(1972))/2)+'" y="'+(y-22)+'" text-anchor="middle">no federal copyright in the recording until 1972</text>'}
+      h+='<circle class="dot" cx="'+X(s.pub)+'" cy="'+y+'" r="6"/><text x="'+X(s.pub)+'" y="'+(y+44)+'" text-anchor="middle" class="lab">published '+s.pub+'</text>';
+      if(s.ren)h+='<circle cx="'+X(s.ren)+'" cy="'+y+'" r="6" fill="var(--fact)"/><text x="'+X(s.ren)+'" y="'+(y+44)+'" text-anchor="middle" class="lab">renewal '+s.ren+'</text>';
+      h+='<line x1="'+X(s.died)+'" y1="'+(y-34)+'" x2="'+X(s.died)+'" y2="'+(y+8)+'" stroke="var(--tag)" stroke-width="2" stroke-dasharray="3 3"/><text x="'+X(s.died)+'" y="'+(y-40)+'" text-anchor="middle" fill="var(--tag-lit)">author dies '+s.died+'</text>';
+      svg.innerHTML='<title>Renewal clock for '+s.t+'</title>'+h;
+      out.innerHTML='<div class="ro"><span class="l">Work</span><span class="v" style="font-size:20px">'+s.t+'</span><span class="s">'+s.author+'</span></div><div class="ro"><span class="l">Renewal year</span><span class="v num '+(s.ren?'fact':'tag')+'">'+(s.ren||"none")+'</span><span class="s">'+(s.ren?'Author '+(s.died>=s.ren?'alive':'dead')+' at renewal':'Recording unprotected')+'</span></div><div class="ro"><span class="l">Who held the second term</span><span class="v" style="font-size:18px">'+s.who+'</span></div>';
+      ver.className="verdict"+(s.ok?" ok":"");ver.innerHTML=s.v+' <span class="mono" style="font-size:11px;color:var(--paper-faint)">'+s.src+'</span>';
+      $$("#clk-seg button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.song===k))});
+    }
+    $$("#clk-seg button").forEach(function(b){b.addEventListener("click",function(){render(b.dataset.song)})});render("memphis");
+  })();
+
+  /* ---------- Exhibit 3A: the statement ---------- */
+  (function(){
+    var sold=$("#st-sold"),rate=$("#st-rate"),adv=$("#st-adv"),ref=$("#st-reform");if(!sold)return;
+    var tb=$("#st-table tbody");
+    function render(){
+      var n=+sold.value,r=+rate.value/100,a=+adv.value,reform=ref.checked;
+      if(reform){r=Math.max(r,.10)}
+      $("#st-sold-out").textContent=fmt(n);$("#st-rate-out").textContent=fmt(r*100,1)+"%";$("#st-adv-out").textContent=usd(a);
+      var whole=.50,gross=n*whole;
+      var units90=n*.90,units=units90*.85,base=whole*.90,earned=Math.round(units*base*r),reserve=Math.round(earned*.25),charges=reform?0:a,bal=earned-reserve-charges;
+      var rows=[
+        ["Records sold","reported by the label",fmt(n)],
+        ["Royalty-bearing units","90% of sales (breakage clause) × 85% (free goods)",fmt(Math.round(units))],
+        ["Royalty base price","50¢ wholesale less 10% packaging",usd(base,3)],
+        ["Royalty earned","units × base × "+fmt(r*100,1)+"%",usd(earned)],
+        ["Reserve against returns","25% withheld, released later or never","−"+usd(reserve)],
+        [reform?"Unrecouped balance waived":"Recoupable charges",reform?"1988 reform":"advance and recording costs",reform?"$0":"−"+usd(charges)]
+      ];
+      tb.innerHTML=rows.map(function(x){return '<tr><td class="k">'+x[0]+'</td><td style="color:var(--paper-dim);font-size:15px">'+x[1]+'</td><td class="v">'+x[2]+'</td></tr>'}).join("");
+      $("#st-gross").textContent=usd(gross);
+      var be=$("#st-bal");be.textContent=usd(bal);be.style.color=bal<0?"var(--tag-lit)":"var(--fact)";
+      $("#st-bal-s").textContent=bal<0?"You owe the label. No check is cut.":"A check is cut for this amount.";
+      var v=$("#st-verdict");
+      if(reform){v.className="verdict ok";v.innerHTML="<b>After the 1988 reform</b>Atlantic waived unrecouped balances for its R&amp;B artists and recomputed from 1970 at a higher rate. Ruth Brown’s first check in 28 years was $20,000–$30,000. Most majors followed. The mechanism itself was not abolished; it was reset once, for one roster."}
+      else if(bal<0){v.className="verdict";v.innerHTML="<b>Unrecouped</b>At "+fmt(n)+" records and "+fmt(r*100,1)+"%, the account is still "+usd(Math.abs(bal))+" in the red. Every future royalty pays this down first. If the label books more charges, the line never crosses zero. Atlantic told Ruth Brown she owed $25,000 and could not produce the ledger."}
+      else{v.className="verdict ok";v.innerHTML="<b>Recouped</b>The balance is positive. At this rate it took "+fmt(n)+" records. Now ask how many artists sold that many."}
+    }
+    [sold,rate,adv,ref].forEach(function(e){e.addEventListener("input",render)});render();
+  })();
+
+  /* ---------- Exhibit 3B: who wrote it ---------- */
+  (function(){
+    var host=$("#who-cards");if(!host)return;
+    var cards=[
+      {t:"Maybellene",y:"Chess, 1955",names:[["Chuck Berry","yes","Wrote and recorded it. The pianist Johnnie Johnson later claimed co-authorship of 33 Berry songs; a court ruled in 2002 that he had waited too long, and never reached the merits."],["Alan Freed","no","Disc jockey. Berry: he “didn’t sit down with me at all and write anything.” A quarter of the writer’s share, then heavy airplay. Credit withdrawn in 1986."],["Russ Fratto","no","A Chess creditor, variously described as its landlord or stationer. Credit withdrawn in 1986."]],src:"Sources 36, 37"},
+      {t:"Hound Dog",y:"Peacock, 1952–53",names:[["Leiber & Stoller","yes","Wrote it at 19. Their first advance check from Robey bounced. Stoller: neither they nor Thornton “ever got paid much” for her version."],["Johnny Otis","dis","Credited on Peacock’s 1953 label; whether he was “one of the authors” was litigated in <em>Valjo v. Elvis Presley Music</em> (S.D.N.Y. 1957)."],["Willie Mae Thornton","dis","Sang it. Listed on the 1952 copyright application beside Robey. “I got one check for $500 and never saw another.”"],["Murphy L. Robey","no","Don Robey’s publishing claimant on the 1952 application. The label owner, not a writer."]],src:"Sources 41, 42"},
+      {t:"Maybe",y:"End, 1957",names:[["George Goldner","no","Label owner. Credited on the single and, alone, on the album."],["Casey Case","no","Credited on the single."],["Richard Barrett","no","Credited as sole writer from the mid-1960s on."],["Arlene Smith","yes","The Chantels’ lead singer, now widely cited as the writer. Reportedly the first girl-group million-seller."]],src:"Source 46"},
+      {t:"Several hundred Peacock & Duke songs",y:"1952–73",names:[["Deadric Malone","no","A pseudonym. Don Robey, the label owner, used it to take writing credit and collect the writer’s share."],["Don Robey","no","Sold the catalog, 2,700 copyrights, to ABC-Dunhill in 1973. Roscoe Robinson of the Five Blind Boys said Robey paid a car and uniforms, never royalties, then produced a backdated contract."],["The uncredited writers","yes","Gospel quartets, blues singers, in-house arrangers. Ira Tucker of the Dixie Hummingbirds: “if he could talk you out of it, he would.”"]],src:"Sources 43, 44"}
+    ];
+    host.innerHTML=cards.map(function(c,i){return '<div class="card"><span class="y">'+c.y+'</span><span class="t">'+c.t+'</span><div class="names">'+c.names.map(function(n,j){return '<button type="button" data-c="'+i+'" data-n="'+j+'" aria-expanded="false">'+n[0]+'</button>'}).join("")+'</div><p class="ans" hidden></p><span class="mono" style="font-size:10px;color:var(--paper-faint)">'+c.src+'</span></div>'}).join("");
+    $$("button",host).forEach(function(b){b.addEventListener("click",function(){var c=cards[+b.dataset.c],n=c.names[+b.dataset.n];b.setAttribute("data-r",n[1]);b.setAttribute("aria-expanded","true");var p=$(".ans",b.closest(".card"));p.hidden=false;p.innerHTML="<b>"+n[0]+".</b> "+n[2]})});
+  })();
+
+  /* ---------- Exhibit 4A: Jobete ownership map ---------- */
+  (function(){
+    var yr=$("#jb-year"),bars=$("#jb-bars"),note=$("#jb-note");if(!yr)return;
+    function render(){
+      var y=+yr.value;$("#jb-year-out").textContent=y;var g,e,s,n;
+      if(y<1997){g=100;e=0;s=0;n="<b>Gordy and Esther Edwards hold 100%</b>More than 15,000 songs, written largely by Motown’s Black staff writers under Jobete contracts. "+(y>=1968&&y<1977?"Holland-Dozier-Holland’s $22M counterclaim is pending; it asks for a receiver over these copyrights. Settled 1977.":y>=1993?"Three Vandellas and three Marvelettes are suing for unpaid royalties and an audit.":"1996 gross revenue: about $25 million.")}
+      else if(y<2003){g=50;e=50;s=0;n="<b>EMI buys half, 1997: $132 million</b>Gordy: “Today’s business climate is not for me.” EMI expects $9 million first-year profit."}
+      else if(y<2004){g=20;e=80;s=0;n="<b>EMI to 80%, 2003: $110 million more</b>"}
+      else if(y<2012){g=0;e=100;s=0;n="<b>EMI holds 100%, 2004: about $80 million for the last fifth</b>Total consideration about $322 million, roughly $590 million in 2025 dollars (each tranche converted at its own year)."}
+      else{g=0;e=0;s=100;n="<b>2012: EMI Music Publishing passes to a Sony-led consortium</b>The Motown songbook is now a line item inside the largest music publisher in the world. <span class='tag t-inf'>Inference</span>Four of the five largest transfers of Black-authored copyrights in this series end at a white-controlled conglomerate: Jobete, BET, Specialty, and Duke/Peacock."}
+      bars.innerHTML=[["Berry Gordy / Esther Edwards",g,"var(--gold)"],["EMI Music Publishing",e,"var(--paper-faint)"],["Sony-led consortium",s,"var(--inference)"]].map(function(r){return '<div class="bar'+(r[1]?'':' ghost')+'"><span class="n">'+r[0]+'</span><span class="tr"><span class="f" style="--c:'+r[2]+';width:'+r[1]+'%"></span></span><span class="v">'+r[1]+'%</span></div>'}).join("");
+      note.innerHTML=n;
+    }
+    yr.addEventListener("input",render);render();
+  })();
+
+  /* ---------- Exhibit 4B: reversion clock ---------- */
+  (function(){
+    var y=$("#rv-year"),wfh=$("#rv-wfh"),bk=$("#rv-bk"),svg=$("#rv-svg"),out=$("#rv-out"),ver=$("#rv-verdict");if(!y)return;
+    function render(){
+      var g=+y.value;if(!g||g<1978||g>2026){g=Math.min(2026,Math.max(1978,g||1990))}
+      var n0=g+25,w0=g+35,w1=g+40;var minY=1978,maxY=2070,x0=60,x1=840,yy=80;var X=function(v){return x0+(v-minY)/(maxY-minY)*(x1-x0)};
+      var h='<line class="ax" x1="'+x0+'" y1="'+yy+'" x2="'+x1+'" y2="'+yy+'"/>';
+      for(var t=1980;t<=2070;t+=10)h+='<text x="'+X(t)+'" y="'+(yy+26)+'" text-anchor="middle">'+t+'</text>';
+      var dead=wfh.checked||bk.checked;
+      h+='<rect x="'+X(n0)+'" y="'+(yy-12)+'" width="'+(X(w0)-X(n0))+'" height="10" fill="rgba(224,179,92,.3)"/><text class="lab" x="'+((X(n0)+X(w0))/2)+'" y="'+(yy-20)+'" text-anchor="middle">notice window</text>';
+      h+='<rect x="'+X(w0)+'" y="'+(yy-12)+'" width="'+(X(w1)-X(w0))+'" height="10" fill="'+(dead?'rgba(192,94,60,.35)':'rgba(124,192,150,.35)')+'"/><text class="lab" x="'+((X(w0)+X(w1))/2)+'" y="'+(yy-20)+'" text-anchor="middle">'+(dead?'window closed':'termination window')+'</text>';
+      h+='<circle class="dot" cx="'+X(g)+'" cy="'+yy+'" r="6"/><text class="lab" x="'+X(g)+'" y="'+(yy+44)+'" text-anchor="middle">grant '+g+'</text>';
+      h+='<line x1="'+X(2026)+'" y1="'+(yy-30)+'" x2="'+X(2026)+'" y2="'+(yy+10)+'" stroke="var(--tag)" stroke-width="2" stroke-dasharray="3 3"/><text x="'+X(2026)+'" y="'+(yy-36)+'" text-anchor="middle" fill="var(--tag-lit)">today</text>';
+      svg.innerHTML='<title>Termination window for a '+g+' grant</title>'+h;
+      var status=w0>2026?"Opens "+w0:w1>=2026?"Open now":"Closed "+w1;
+      out.innerHTML='<div class="ro"><span class="l">Earliest notice</span><span class="v num">'+n0+'</span><span class="s">2–10 years before the effective date</span></div><div class="ro"><span class="l">Window</span><span class="v num '+(dead?'tag':'gold')+'">'+w0+'–'+w1+'</span><span class="s">'+status+'</span></div><div class="ro"><span class="l">Who signs</span><span class="v" style="font-size:18px">A majority of authors</span><span class="s">For a group, more than half the writers’ interests</span></div>';
+      if(wfh.checked){ver.className="verdict";ver.innerHTML="<b>No window: “work made for hire”</b>§203 does not apply to works made for hire. Labels have written the phrase into recording contracts since the 1970s; whether a sound recording can be one is contested, and a Florida jury rejected the claim for 2 Live Crew in 2024. But if the clause holds, there is nothing to terminate."}
+      else if(bk.checked){ver.className="verdict";ver.innerHTML="<b>Window closed by a bankruptcy</b>Eleventh Circuit, June 2, 2026: a member’s 2000 Chapter 7 filing swept his future termination interest into the bankruptcy estate, so his 2020 signature on the notice was invalid, and the group fell one short of a majority. <span class='tag t-inf'>Inference</span>TLC (1995), Toni Braxton (1998, 2010), and Luke Records (1995) all filed. If the holding stands, it reaches every 1990s artist who did."}
+      else if(w0>2026){ver.className="verdict ok";ver.innerHTML="<b>Window opens in "+(w0-2026)+" years</b>Serve notice from "+n0+". Expect the label to settle one artist at a time rather than litigate a class; a judge denied class treatment to 200+ artists in <em>Waite v. UMG</em> in 2023."}
+      else{ver.className="verdict ok";ver.innerHTML="<b>Window "+(w1>=2026?"open":"was open "+w0+"–"+w1)+"</b>This is the lever Prince used in 2014 and 2 Live Crew used in 2020. Notice must have been served between "+n0+" and "+(w1-2)+"."}
+    }
+    [y,wfh,bk].forEach(function(e){e.addEventListener("input",render)});render();
+  })();
+
+  /* ---------- Exhibit 5A: the Harpo switch ---------- */
+  (function(){
+    var bars=$("#hp-bars"),note=$("#hp-note");if(!bars)return;
+    var D={
+      salary:{rows:[["Copyright in the program",[["Studio",100,"var(--paper-faint)"]]],["Back-end participation",[["Star",0,"var(--gold)"]]],["Weekly pay",[["Star · $500/wk (≈ $11,500 today)",100,"var(--gold)"]]]],n:"<b>Salary</b>Hattie McDaniel’s Selznick contract, signed Dec. 30, 1939: $500 a week, 20 weeks guaranteed, options to $1,500 by 1946, total exclusivity. No participation in a film that became the highest-grossing ever made. Voided within the year when the studio dissolved."},
+      participation:{rows:[["Copyright in the program",[["Carsey-Werner",100,"var(--paper-faint)"]]],["Syndication proceeds (~$500M first cycle)",[["Carsey-Werner",67,"var(--paper-faint)"],["Cosby (~$166M)",33,"var(--gold)"]]]],n:"<b>Participation</b>Carsey-Werner’s practice was to give the star a stake. <em>The Cosby Show</em> sold at about $4 million an episode, three times any prior sitcom. The star’s share was large and the copyright was not his. (Figures: TV Guide, T4; per-episode price corroborated by Kagan via Newsweek, T2.)"},
+      ownership:{rows:[["Copyright in the program and library",[["Harpo (Winfrey)",100,"var(--gold)"]]],["First syndicated year, 1986\u201387, before ownership (~$125M gross)",[["Winfrey (~$30M)",24,"var(--gold)"],["Distribution, production, stations",76,"var(--paper-faint)"]]],["Revenue by 1997",[["Harpo · $150M",100,"var(--gold)"]]]],n:"<b>Ownership</b>In October 1988 Harpo assumed ownership and all production of the show from Capital Cities/ABC and bought a 100,000-square-foot Chicago plant for $20 million. In the show’s first syndicated year, before the switch, Winfrey’s $30 million was a smaller share of gross than Cosby’s participation. The difference after 1988 is the asset: the library, the plant, and the right to sell the next cycle. Harpo’s revenue reached $150 million by 1997."}
+    };
+    function render(k){
+      bars.innerHTML=D[k].rows.map(function(r){return '<div class="bar"><span class="n">'+r[0]+'</span><span class="tr">'+r[1].map(function(s,i,a){var left=a.slice(0,i).reduce(function(p,c){return p+c[1]},0);return '<span class="f" style="--c:'+s[2]+';left:'+left+'%;width:'+s[1]+'%"></span>'}).join("")+'</span><span class="v">'+r[1].map(function(s){return s[0]+" "+(s[1]||0)+"%"}).join(" · ")+'</span></div>'}).join("");
+      note.innerHTML=D[k].n;$$("#hp-seg button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.hp===k))});
+    }
+    $$("#hp-seg button").forEach(function(b){b.addEventListener("click",function(){render(b.dataset.hp)})});render("salary");
+  })();
+
+  /* ---------- Exhibit 5B: presence vs ownership ---------- */
+  (function(){
+    var bars=$("#pv-bars");if(!bars)return;
+    var rows=[["Share of U.S. population (Black alone, 2020)",12.4,"var(--paper-dim)"],["Share of U.S. streams: hip-hop (2023)",25.5,"var(--gold)"],["Share of top music executives (2021)",4.2,"var(--tag)"],["Full-power commercial TV stations majority Black-owned (2021)",2.9,"var(--tag)"],["Same, prior FCC report (2019)",1.3,"var(--tag)"]];
+    var max=30;bars.innerHTML=rows.map(function(r){return '<div class="bar"><span class="n">'+r[0]+'</span><span class="tr"><span class="f" style="--c:'+r[2]+';width:'+(r[1]/max*100)+'%"></span></span><span class="v">'+r[1]+'%</span></div>'}).join("");
+  })();
+
+  /* ---------- Exhibit 6A: clear the sample ---------- */
+  (function(){
+    var n=$("#cs-n"),yr=$("#cs-year"),cc=$("#cs-circ"),len=$("#cs-len"),rp=$("#cs-replay");if(!n)return;
+    function render(){
+      var k=+n.value,y=+yr.value,c=cc.value,l=len.value,r=rp.checked;$("#cs-n-out").textContent=k;
+      var lic=r?k:k*2,parties=r?k:k;$("#cs-lic").textContent=lic;$("#cs-parties").textContent=parties+"+";
+      var exp,es,v,ok=false;
+      if(r){exp="Publishing only";es="The master owner has no claim on a replayed part";v="<b>Interpolated</b>Chuck D on Dr. Dre’s method after 1991: replay the part, pay the song’s owner, owe the recording’s owner nothing. The clearance count halves and the loudest plaintiffs, master owners like Bridgeport, drop out."}
+      else if(y<1990){exp="Low, until it isn’t";es="Labels not yet screening; a later suit can still enjoin";v="<b>Ships, for now</b>Shocklee: the law “didn’t start catching up with us until <em>Fear of a Black Planet</em>.” A record built this way in 1988 could be enjoined in 1991, and De La Soul’s 1989 debut stayed off streaming until 2023 for exactly this reason."}
+      else if(l==="long"){exp="Maximum";es="Recognizable use needs both licenses in every circuit";v="<b>Clear it or shelve it</b>After <em>Grand Upright</em> (1991) every recognizable sample needs a master license and a publishing license. "+(k>30?"At "+k+" fragments, that is "+lic+" negotiations with no price list. Public Enemy stopped making records this way in 1991.":"Fewer than a dozen fragments is workable if the owners will deal.")}
+      else if(c==="6"&&y>=2006){exp="Maximum";es="Sixth Circuit: no de minimis defense for recordings";v="<b>“Get a license or do not sample”</b><em>Bridgeport v. Dimension</em> (2005): a two-second chord, unrecognizable or not, is infringement. Bridgeport Music, holder of George Clinton’s catalog, filed about 500 claims against about 800 defendants in 2001."}
+      else if(c==="9"&&y>=2017){exp="Reduced";es="Ninth Circuit: sub-second use can be de minimis";ok=true;v="<b>Defensible</b><em>VMG Salsoul v. Ciccone</em> (2016): a quarter-second horn hit in “Vogue” was de minimis. The Ninth Circuit split from the Sixth on purpose. The Supreme Court has not resolved it."}
+      else if(c==="o"&&y>=2006){exp="Uncertain";es="Most courts decline Bridgeport; no binding rule";v="<b>Depends on the judge</b>Outside the Sixth Circuit most district courts have declined to follow <em>Bridgeport</em>, but without a controlling ruling the safe advice is still to clear everything. “It is too expensive to defend against a claim.”"}
+      else{exp="High";es="Post-1991 policing; de minimis unsettled";v="<b>Cleared before release, or not released</b>After 1991 labels policed samples before records shipped. A short, unrecognizable fragment was an argument, not a defense, until the circuits split in 2005 and 2016."}
+      $("#cs-exp").textContent=exp;$("#cs-exp-s").textContent=es;var vd=$("#cs-verdict");vd.className="verdict"+(ok?" ok":"");vd.innerHTML=v;
+    }
+    [n,yr,cc,len,rp].forEach(function(e){e.addEventListener("input",render)});render();
+  })();
+
+  /* ---------- Exhibit 6B: catalog gap ---------- */
+  (function(){
+    var bars=$("#cg-bars");if(!bars)return;
+    var rows=[["Bruce Springsteen · masters + publishing · 2021",500,false],["Bob Dylan · publishing · 2020",300,false],["David Bowie estate · publishing · 2022",250,false],["Dr. Dre · catalog assets · 2023","200+",true],["Lil Wayne · Young Money masters · 2020","100+",true],["Future · publishing 2004–20 · 2022",75,true],["Metro Boomin · catalog stake · 2023",70,true]];
+    bars.innerHTML=rows.map(function(r){var v=parseInt(r[1]);return '<div class="bar"><span class="n">'+r[0]+'</span><span class="tr"><span class="f" style="--c:'+(r[2]?'var(--gold)':'var(--paper-faint)')+';width:'+(v/500*100)+'%"></span></span><span class="v">$'+r[1]+'M</span></div>'}).join("");
+  })();
+
+  /* ---------- Exhibit 7A: who owns the voice ---------- */
+  (function(){
+    var who=$("#wv-who"),law=$("#wv-law"),tb=$("#wv-table tbody");if(!who)return;
+    var F='<span class="tag t-fact">Fact</span>',I='<span class="tag t-inf">Inference</span>',R='<span class="tag t-rep">Reported</span>';
+    function render(){
+      var w=who.value,l=law.value,rows=[];
+      var Q=["Is there a claim at all?","Does it reach an AI-simulated voice?","Who holds the right, artist or label?","Does it survive death?","Can the clone’s output be copyrighted?"];
+      var A={};
+      if(l==="ca"){
+        A[0]=w==="star"?["Yes. <em>Midler</em>: deliberate imitation of a distinctive, widely known voice to sell a product is a tort. <em>Waits</em>: $2.475M upheld.",F]:w==="session"?["Weak. The tort protects a voice that is “distinctive” and “widely known.” An anonymous voice is neither.",I]:w==="estate"?["Partly. California’s statutory post-mortem right runs 70 years, but <em>Midler</em> itself is a living-person common-law claim.",I]:["Yes, in principle; the contract may assign the claim or require label consent.",I];
+        A[1]=["Not addressed. <em>Midler</em> and <em>Waits</em> concern human impersonators. Courts have not squarely applied them to a model.",I];
+        A[2]=["The person. The tort belongs to the singer, not the label, unless assigned.",F];
+        A[3]=["Statutory right: 70 years post-mortem in California.",F];
+        A[4]=["No. <em>Thaler</em>: human authorship required.",F];
+      } else if(l==="tn"){
+        A[0]=w==="session"?["Yes. The ELVIS Act covers any “individual”; it does not require fame. Proving the clone is <em>your</em> voice is the practical hurdle.",F]:["Yes. Voice, actual or simulated, is added to the 1984 Personal Rights Protection Act.",F];
+        A[1]=["Yes, expressly. “Actual or simulated.” Liability also for distributing a tool whose primary purpose is cloning an identifiable person.",F];
+        A[2]=w==="legacy"?["The artist may sue even while under an exclusive label contract; the statute says so.",F]:["The person. Labels may also sue where they hold exclusive rights.",F];
+        A[3]=["Yes; Tennessee’s publicity right is descendible.",F];
+        A[4]=["No. <em>Thaler</em>: human authorship required.",F];
+      } else if(l==="fed"){
+        A[0]=["If enacted: a federal, licensable property right in voice and visual likeness, with notice-and-takedown and a $25,000 floor for knowing misrepresentation. Not law as of this writing.",R];
+        A[1]=["Yes; the bill is written for digital replicas.",R];
+        A[2]=w==="legacy"?["The individual, but the right is licensable; a 2005 contract could be read to have licensed it, or not. The bill does not rewrite old contracts.",I]:["The individual. State publicity laws remain available.",R];
+        A[3]=["Yes, as a post-mortem right with a term; details differ between the 2024, 2025 and 2026 texts.",R];
+        A[4]=["No. <em>Thaler</em>: human authorship required.",F];
+      } else {
+        A[0]=["Copyright gives no claim over a voice. A voice is not a work. The claim, if any, is in the recording or song the model was trained on.",F];
+        A[1]=["Only through the training inputs. Copyright Office Part 3: commercial training to produce competing expressive work “goes beyond established fair use boundaries.”",F];
+        A[2]=w==="legacy"?["The label, for the masters; the publisher, for the songs. The artist on a 2005 deal usually owns neither. The 2025 settlements license both to the AI companies; pass-through to the artist is undisclosed.",I]:w==="estate"?["Whoever holds the masters and publishing now, often not the estate.",I]:["Whoever holds the copyrights in what was trained on.",F];
+        A[3]=["Copyright does; the voice itself is outside it.",F];
+        A[4]=["No. Prompts alone do not make an author (Part 2); <em>Thaler</em> cert. denied Mar. 2, 2026.",F];
+      }
+      tb.innerHTML=Q.map(function(q,i){return '<tr><td class="k" style="white-space:normal;max-width:220px">'+q+'</td><td style="font-size:16px">'+A[i][0]+'</td><td style="width:110px">'+A[i][1]+'</td></tr>'}).join("");
+    }
+    who.addEventListener("change",render);law.addEventListener("change",render);render();
+  })();
+
+  /* ---------- Exhibit 7B: Deezer upload curve ---------- */
+  (function(){
+    var svg=$("#dz-svg");if(!svg)return;
+    var pts=[["Jan 25",10000,10],["Apr 25",20000,18],["Sep 25",30000,28],["Nov 25",50000,34],["Jan 26",60000,39],["Apr 26",75000,44],["Jun 26",90000,51]];
+    var x0=70,x1=830,y0=250,y1=30;var X=function(i){return x0+i/(pts.length-1)*(x1-x0)};var Y=function(v){return y0-(v/100000)*(y0-y1)};var Y2=function(p){return y0-(p/60)*(y0-y1)};
+    var h='';for(var g=0;g<=100000;g+=25000)h+='<line class="ax" x1="'+x0+'" y1="'+Y(g)+'" x2="'+x1+'" y2="'+Y(g)+'"/><text x="'+(x0-8)+'" y="'+(Y(g)+4)+'" text-anchor="end">'+fmt(g/1000)+'k</text>';
+    for(var p=0;p<=60;p+=20)h+='<text x="'+(x1+8)+'" y="'+(Y2(p)+4)+'">'+p+'%</text>';
+    h+='<path class="ar" d="M'+X(0)+','+y0+' '+pts.map(function(p,i){return 'L'+X(i)+','+Y(p[1])}).join(' ')+' L'+X(pts.length-1)+','+y0+' Z"/>';
+    h+='<path class="ln" d="'+pts.map(function(p,i){return (i?'L':'M')+X(i)+','+Y(p[1])}).join(' ')+'"/>';
+    h+='<path class="ln2" d="'+pts.map(function(p,i){return (i?'L':'M')+X(i)+','+Y2(p[2])}).join(' ')+'"/>';
+    pts.forEach(function(p,i){h+='<circle class="dot" cx="'+X(i)+'" cy="'+Y(p[1])+'" r="4"/><text x="'+X(i)+'" y="'+(y0+20)+'" text-anchor="middle">'+p[0]+'</text>'});
+    h+='<text x="'+x0+'" y="18" fill="var(--gold)">● fully-AI uploads per day</text><text x="'+(x0+230)+'" y="18" fill="var(--tag-lit)">– – share of all uploads</text>';
+    svg.innerHTML='<title>Daily AI uploads to Deezer, January 2025 to June 2026</title>'+h;
+  })();
+
+  /* ---------- reels and title-card reveals ---------- */
+  (function(){
+    var CRED={};
+    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(j){CRED=j;$$(".reel .slide").forEach(function(s){var k=s.dataset.plate;var c=CRED[k];var el=$(".cr",s);if(el&&c&&c.credit)el.textContent=c.credit})}}).catch(function(){})}catch(e){}
+    function wrapWords(el){ // wrap text nodes in spans, leave tags (sup, em, b) intact
+      var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);var nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);var i=0;
+      nodes.forEach(function(t){if(t.parentNode.closest&&t.parentNode.closest("sup"))return;var parts=t.nodeValue.split(/(\s+)/);var frag=document.createDocumentFragment();parts.forEach(function(p){if(!p)return;if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(p));return}var s=document.createElement("span");s.className="w";s.style.transitionDelay=Math.min(1400,i*28)+"ms";s.textContent=p;frag.appendChild(s);i++});t.parentNode.replaceChild(frag,t)})}
+    // Auto-reel: group consecutive prose paragraphs in chapter stacks into slides, splitting long ones at sentences
+    function splitSentences(p,max){var html=p.innerHTML;var parts=html.split(/(?<=[.!?”"])\s+(?=[A-Z<“"(])/);var out=[],cur="";parts.forEach(function(s){var words=(cur+" "+s).replace(/<[^>]+>/g,"").split(/\s+/).length;if(cur&&words>max){out.push(cur);cur=s}else cur=cur?cur+" "+s:s});if(cur)out.push(cur);return out}
+    $$(".chapter").forEach(function(ch){
+      var key=null;var pl=$(".plate",ch);if(pl)key=pl.dataset.plate;
+      $$(".stack",ch).forEach(function(st){
+        var ps=$$(":scope > p",st).filter(function(p){return !p.classList.contains("lead")&&!p.classList.contains("pull")&&!p.classList.contains("eyebrow")});
+        if(ps.length<1)return;
+        var extra=(st.dataset.reel||"").split(",").map(function(x){return x.trim()}).filter(Boolean);
+        var slides=[];ps.forEach(function(p){var chunks=splitSentences(p,60);chunks.forEach(function(h){slides.push({html:h})})});
+        if(slides.length<2)return;
+        var reel=document.createElement("div");reel.className="reel";var vp=document.createElement("div");vp.className="vp";reel.appendChild(vp);
+        var keys=extra.length?extra:(key?[key]:[]);
+        slides.forEach(function(s,i){var d=document.createElement("div");d.className="slide";var k=keys.length?keys[i%keys.length]:null;if(k)d.dataset.plate=k;
+          var bg=document.createElement("div");bg.className="bg"+(k?"":" none");if(k){var im=document.createElement("img");im.src="assets/plates/"+k+".jpg";im.alt="";im.loading="lazy";im.addEventListener("error",function(){bg.className="bg none";bg.innerHTML=""});bg.appendChild(im)}d.appendChild(bg);
+          var cr=document.createElement("span");cr.className="cr";cr.textContent=k&&CRED[k]&&CRED[k].credit?CRED[k].credit:"";d.appendChild(cr);
+          var kk=document.createElement("div");kk.className="k";kk.textContent=(i+1)+" / "+slides.length;d.appendChild(kk);
+          var tx=document.createElement("div");tx.className="tx";tx.innerHTML=s.html;d.appendChild(tx);vp.appendChild(d)});
+        var nav=document.createElement("div");nav.className="nav";nav.innerHTML='<button class="pv" aria-label="Previous">‹</button><div class="dots" role="tablist"></div><span class="ct"></span><button class="nx" aria-label="Next">›</button>';reel.appendChild(nav);
+        ps[0].parentNode.insertBefore(reel,ps[0]);ps.forEach(function(p){p.remove()});
+        init(reel)})});
+    function init(reel){var slides=$$(".slide",reel),dots=$(".dots",reel),ct=$(".ct",reel),i=0;slides.forEach(function(s,j){wrapWords($(".tx",s));var d=document.createElement("i");d.setAttribute("role","tab");d.addEventListener("click",function(){go(j)});dots.appendChild(d)});
+      function go(n){i=(n+slides.length)%slides.length;slides.forEach(function(s,j){s.classList.toggle("on",j===i)});$$("i",dots).forEach(function(d,j){d.classList.toggle("on",j===i)});ct.textContent=(i+1)+" of "+slides.length}
+      $(".pv",reel).addEventListener("click",function(){go(i-1)});$(".nx",reel).addEventListener("click",function(){go(i+1)});
+      $(".vp",reel).addEventListener("click",function(e){if(e.target.closest("a"))return;go(i+1)});
+      reel.tabIndex=0;reel.addEventListener("keydown",function(e){if(e.key==="ArrowRight"){go(i+1);e.preventDefault()}if(e.key==="ArrowLeft"){go(i-1);e.preventDefault()}});
+      var x0=null;reel.addEventListener("touchstart",function(e){x0=e.touches[0].clientX},{passive:true});reel.addEventListener("touchend",function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(dx<0?i+1:i-1);x0=null});
+      go(0)}
+    $$(".reel[data-authored]").forEach(init);
+    // title-card reveals on leads and pull quotes
+    var rv=$$(".lead, .pull");rv.forEach(function(p){p.classList.add("rv");wrapWords(p)});
+    if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}})},{rootMargin:"0px 0px -10% 0px"});rv.forEach(function(p){io.observe(p)})}else rv.forEach(function(p){p.classList.add("on")});
+  })();
+
+  /* ---------- plates: reveal on scroll, credits from assets/plates/credits.json when present ---------- */
+  (function(){
+    var ps=$$(".plate");if(!ps.length)return;
+    ps.forEach(function(p){var im=$("img",p);if(im){im.addEventListener("error",function(){p.setAttribute("data-missing","")})}});
+    if("IntersectionObserver" in window&&!reduce){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{rootMargin:"0px 0px -12% 0px"});ps.forEach(function(p){io.observe(p)})}else ps.forEach(function(p){p.classList.add("static")});
+    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(!j)return;ps.forEach(function(p){var k=p.dataset.plate,c=j[k];if(c&&c.credit){var el=$(".cr",p);if(el)el.textContent=c.credit}})}).catch(function(){})}catch(e){}
+  })();
+})();
+</script>

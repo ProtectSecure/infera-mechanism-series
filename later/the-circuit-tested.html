@@ -1,0 +1,1466 @@
+<title>The Circuit Tested</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: one 68ch reading column down a dark evidence room; exhibits break out to 1040px; a chain rail runs the page's left edge and gains or loses a link per chapter. Mechanism Series house style, dark by design. */
+:root{
+  --ground:#14110d; --ground-2:#1c1813; --rule:#3a332a; --rule-soft:#2a241c;
+  --paper:#ece3d0; --paper-dim:#cfc5b0; --paper-faint:#a89d88;
+  --gold:#c9a227; --kraft:#b08a5a; --tag:#c05e3c; --tag-lit:#d98a6a;
+  --fact:#7cc096; --reported:#e0b35c; --inference:#86aac0; --watch:#d98a6a;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+  --mono:"Space Mono", ui-monospace, Menlo, Consolas, monospace;
+  --ease:cubic-bezier(.22,.7,.2,1);
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);background-image:radial-gradient(var(--rule-soft) 1px,transparent 1px);background-size:22px 22px;color:var(--paper);font-family:var(--serif);font-size:19px;line-height:1.62;-webkit-font-smoothing:antialiased;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 96px}
+.col{max-width:68ch;margin:0 auto}
+a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,162,39,.4)}
+a:hover{color:var(--paper)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h1,h2,h3{text-wrap:balance}
+p{margin:0}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--tag-lit)}
+.num{font-variant-numeric:tabular-nums}
+
+/* evidence labels, always beside the claim */
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:1px 6px;border:1px solid;border-radius:2px;white-space:nowrap;vertical-align:2px;margin-right:6px}
+.t-fact{color:var(--fact);border-color:rgba(124,192,150,.5)}
+.t-rep{color:var(--reported);border-color:rgba(224,179,92,.5)}
+.t-inf{color:var(--inference);border-color:rgba(134,170,192,.5)}
+.t-watch{color:var(--watch);border-color:rgba(217,138,106,.55)}
+sup.src{font-family:var(--mono);font-size:10px;color:var(--kraft);margin-left:2px}
+sup.src a{border:0;color:inherit}
+
+/* masthead */
+.mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 20px;padding:16px 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.mast .brand{color:var(--paper);border:0;display:flex;align-items:center;gap:10px}
+.mast .brand i{width:8px;height:8px;border-radius:50%;background:var(--tag);display:inline-block}
+.mast nav{display:flex;flex-wrap:wrap;gap:6px 18px}
+.mast nav a{border:0;color:var(--paper-faint)}
+.mast nav a:hover{color:var(--gold)}
+
+/* hero: a chain drawn in light */
+.hero{position:relative;margin:0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0 calc(-1 * max(16px, env(safe-area-inset-right, 0px)));min-height:560px;display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--rule);background:radial-gradient(1200px 500px at 70% 20%,rgba(201,162,39,.10),transparent 60%),var(--ground)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05) 0%,rgba(20,17,13,.45) 50%,rgba(20,17,13,.97) 100%);pointer-events:none}
+.hero-in{position:relative;z-index:1;width:100%;max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:120px 44px;display:flex;flex-direction:column;gap:16px}
+.hero h1{margin:0;font-weight:300;font-size:clamp(46px,8.4vw,96px);line-height:.96;letter-spacing:-.02em}
+.hero h1 em{font-weight:400;color:var(--gold);font-style:italic}
+.deck{font-size:clamp(19px,2.4vw,23px);font-weight:300;line-height:1.45;color:var(--paper-dim);max-width:660px}
+.boxcount{position:absolute;z-index:1;right:max(16px, env(safe-area-inset-right, 0px));top:calc(20px + env(safe-area-inset-top, 0px));font-family:var(--mono);font-size:11px;letter-spacing:.12em;border:1px solid var(--tag);background:rgba(20,17,13,.82);padding:7px 11px;color:var(--paper)}
+.dateline{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--paper-faint);border-bottom:1px solid var(--rule);padding:14px 0;margin:28px 0 44px}
+.dateline b{font-weight:400;color:var(--paper-dim)}
+
+.stack{display:flex;flex-direction:column;gap:22px}.stack>*{min-width:0}
+.lead{font-size:22px;line-height:1.5;font-weight:300}
+.memo{border:1px solid var(--rule);background:var(--ground-2);padding:16px 18px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--paper-dim)}
+.memo b{color:var(--gold);font-weight:700}
+.pull{font-size:clamp(24px,3.2vw,32px);font-weight:300;line-height:1.3;border-left:2px solid var(--gold);padding-left:20px;font-style:italic;color:var(--paper)}
+.pull small{display:block;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--paper-faint);margin-top:10px;letter-spacing:.08em}
+
+section{margin-top:84px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:26px}
+h2{margin:0;font-weight:400;font-size:clamp(30px,4.4vw,42px);line-height:1.1;letter-spacing:-.01em}
+h2 em{color:var(--gold)}
+h3{margin:0;font-weight:400;font-size:24px;line-height:1.2}
+.sub{color:var(--paper-dim);font-style:italic;font-size:19px}
+
+/* chapter opener */
+.chapter{margin-top:120px;border-top:1px solid var(--rule);padding-top:36px;position:relative}
+.chapter .where{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:20px}
+.chapter .where b{color:var(--kraft);font-weight:400}
+.chapter h2{font-size:clamp(40px,6.4vw,72px);font-weight:300;line-height:.98}
+.chapter .instrument{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ground);background:var(--gold);padding:5px 10px}
+
+ol.facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ol.facts li{padding:14px 0;border-bottom:1px solid var(--rule-soft);display:grid;grid-template-columns:108px minmax(0,1fr);gap:16px}
+ol.facts .when{font-family:var(--mono);font-size:12px;color:var(--kraft);padding-top:4px;font-variant-numeric:tabular-nums}
+
+/* exhibit frame */
+.exhibit{max-width:1040px;margin:0 auto;border:1px solid var(--rule);background:rgba(20,17,13,.94);padding:clamp(20px,3.4vw,38px);display:flex;flex-direction:column;gap:18px}
+.ex-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+.seg{display:inline-flex;border:1px solid var(--kraft);flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 14px;background:transparent;color:var(--paper-dim);border:0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--kraft);color:var(--ground);font-weight:700}
+.ledger{width:100%;border-collapse:collapse;font-size:17px}
+.ledger th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);text-align:left;font-weight:400;padding:10px 12px 10px 0;border-bottom:1px solid var(--rule)}
+.ledger td{padding:12px 12px 12px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+.ledger td.k{font-family:var(--mono);font-size:12px;color:var(--kraft);white-space:nowrap}
+.ledger td.v{font-family:var(--mono);font-size:14px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:11px;color:var(--paper-faint)}
+.legend i{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;background:var(--c,var(--gold))}
+
+/* controls */
+.ctrl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 22px}
+.ctrl label{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);min-width:0}
+.ctrl select,.ctrl input[type=number]{min-height:44px;background:var(--ground-2);color:var(--paper);border:1px solid var(--rule);font-family:var(--mono);font-size:13px;padding:0 10px;width:100%}
+.ctrl input[type=range]{width:100%;accent-color:var(--gold);min-height:44px}
+.ctrl output{font-family:var(--mono);font-size:13px;color:var(--paper);letter-spacing:0;text-transform:none}
+.switch{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);cursor:pointer;min-height:44px}
+.switch input{appearance:none;width:44px;height:24px;border:1px solid var(--kraft);border-radius:12px;background:var(--ground-2);position:relative;cursor:pointer;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--paper-faint);transition:transform .2s var(--ease)}
+.switch input:checked{background:var(--gold);border-color:var(--gold)}
+.switch input:checked::after{transform:translateX(20px);background:var(--ground)}
+
+/* verdict / readout */
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.ro{border:1px solid var(--rule);background:var(--ground-2);padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ro .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.ro .v{font-family:var(--mono);font-size:clamp(20px,2.6vw,28px);line-height:1.1;color:var(--paper);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ro .v.gold{color:var(--gold)}
+.ro .v.tag{color:var(--tag-lit)}
+.ro .v.fact{color:var(--fact)}
+.ro .s{font-size:14px;color:var(--paper-dim);line-height:1.45}
+.verdict{border-left:3px solid var(--tag);padding:14px 18px;background:var(--ground-2);font-size:18px;line-height:1.5}
+.verdict b{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tag-lit);display:block;margin-bottom:6px}
+.verdict.ok{border-color:var(--fact)}
+.verdict.ok b{color:var(--fact)}
+
+/* bars */
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:minmax(120px,220px) minmax(0,1fr) auto;gap:12px;align-items:center;font-size:15px}
+.bar .n{color:var(--paper-dim);min-width:0}
+.bar .tr{height:18px;background:var(--rule-soft);position:relative;min-width:0}
+.bar .f{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .6s var(--ease)}
+.bar .f.hatch{background:repeating-linear-gradient(45deg,var(--c,var(--kraft)) 0 4px,transparent 4px 8px);opacity:.8}
+.bar .v{font-family:var(--mono);font-size:12px;color:var(--paper);white-space:nowrap;font-variant-numeric:tabular-nums}
+.bar.ghost .n,.bar.ghost .v{color:var(--paper-faint)}
+
+/* card game */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .t{font-size:20px;line-height:1.2}
+.card .y{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+.card .names{display:flex;flex-wrap:wrap;gap:6px}
+.card .names button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.06em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px}
+.card .names button:hover{border-color:var(--kraft);color:var(--paper)}
+.card .names button[data-r="yes"]{border-color:var(--fact);color:var(--fact)}
+.card .names button[data-r="no"]{border-color:var(--tag);color:var(--tag-lit);text-decoration:line-through}
+.card .names button[data-r="dis"]{border-color:var(--reported);color:var(--reported)}
+.card .names button:focus-visible{outline:2px solid var(--gold)}
+.card .ans{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.card .ans[hidden]{display:none}
+
+/* chain rail */
+.rail{position:fixed;left:max(6px, env(safe-area-inset-left, 0px));top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:0;font-family:var(--mono)}
+.rail a{border:0;display:flex;align-items:center;justify-content:center;width:34px;height:34px;color:var(--paper-faint);position:relative}
+.rail a svg{width:22px;height:22px;display:block}
+.rail a .lk{fill:none;stroke:currentColor;stroke-width:1.8;transition:stroke .3s}
+.rail a.held{color:var(--gold)}
+.rail a.broken{color:var(--tag)}
+.rail a.broken .lk{stroke-dasharray:3 3}
+.rail a.active{color:var(--paper)}
+.rail a.active::before{content:"";position:absolute;left:-6px;top:50%;width:3px;height:16px;background:var(--gold);transform:translateY(-50%)}
+.rail a .tip{position:absolute;left:40px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--ground-2);border:1px solid var(--rule);padding:4px 8px;color:var(--paper);opacity:0;pointer-events:none;transition:opacity .2s}
+.rail a:hover .tip,.rail a:focus-visible .tip{opacity:1}
+.rail .seg-line{width:2px;height:10px;background:var(--rule)}
+@media (max-width:1180px){.rail{display:none}}
+
+/* hub grid */
+.hub{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;max-width:1040px;margin:0 auto}
+.hub a{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:8px;color:var(--paper);min-width:0;transition:border-color .2s}
+.hub a:hover{border-color:var(--gold)}
+.hub .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.hub .t{font-size:24px;line-height:1.15;font-weight:300}
+.hub .t em{color:var(--gold)}
+.hub .d{font-size:15px;color:var(--paper-dim);line-height:1.45}
+.hub .m{font-family:var(--mono);font-size:10px;color:var(--paper-faint);letter-spacing:.08em;margin-top:auto}
+
+/* your year */
+.yy{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:20px;align-items:start}
+@media (max-width:760px){.yy{grid-template-columns:minmax(0,1fr)}}
+
+/* timeline strip */
+.strip{position:relative;padding:18px 0 0}
+.strip .axis{height:2px;background:var(--rule)}
+.strip .pts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:14px}
+.strip .pt{font-size:14px;color:var(--paper-dim);border-top:2px solid var(--c,var(--gold));padding-top:8px;min-width:0}
+.strip .pt b{display:block;font-family:var(--mono);font-size:11px;color:var(--paper);font-weight:400;letter-spacing:.06em}
+
+/* two sides */
+.sides{display:grid;min-width:0;width:100%;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1040px;margin:0 auto}
+.side{border:1px solid var(--rule);background:var(--ground-2);padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.side h3{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);font-weight:700}
+.side ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:17px;color:var(--paper-dim)}
+.side.gold{border-color:var(--gold)}
+.side.tagb{border-color:var(--tag)}
+
+/* desk note / breadcrumb */
+.desk{border:1px solid var(--rule);border-left:3px solid var(--kraft);background:var(--ground-2);padding:14px 18px;font-size:16px;line-height:1.55;color:var(--paper-dim)}
+.desk b{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--kraft);display:block;margin-bottom:6px;font-weight:400}
+.crumbs{display:flex;flex-wrap:wrap;gap:8px}
+.crumbs a{font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px;display:inline-flex;align-items:center}
+.crumbs a:hover{border-color:var(--gold);color:var(--gold)}
+.crumbs a i{font-style:normal;color:var(--kraft);margin-right:8px}
+
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{font-family:var(--mono);font-size:11px;fill:var(--paper-faint)}
+svg.chart .ax{stroke:var(--rule);stroke-width:1}
+svg.chart .ln{fill:none;stroke:var(--gold);stroke-width:2.2}
+svg.chart .ln2{fill:none;stroke:var(--tag);stroke-width:2;stroke-dasharray:4 4}
+svg.chart .ar{fill:rgba(201,162,39,.12)}
+svg.chart .dot{fill:var(--gold)}
+svg.chart .lab{fill:var(--paper)}
+
+.watchlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
+.watchlist li{padding:12px 0;border-bottom:1px solid var(--rule-soft)}
+
+footer{margin-top:90px;border-top:1px solid var(--rule);padding-top:24px;font-family:var(--mono);font-size:11.5px;line-height:1.85;color:var(--paper-faint)}
+footer ol{padding-left:22px;margin:10px 0 22px;columns:2;column-gap:40px}
+footer li{break-inside:avoid;padding-right:10px}
+footer b{color:var(--paper-dim);font-weight:400}
+@media (max-width:760px){footer ol{columns:1}}
+.tier{font-size:10px;color:var(--kraft);letter-spacing:.08em}
+
+@media (max-width:720px){
+  body{font-size:18px}
+  ol.facts li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .hero{min-height:480px}
+  .bar{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n v" "tr tr"}
+  .bar .n{grid-area:n}.bar .tr{grid-area:tr}.bar .v{grid-area:v}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<style>
+/* Episode 2 additions: the circuit rail, valves, the stage board, the dimmer, the feed toggle. */
+.rail a .nd{fill:none;stroke:currentColor;stroke-width:1.8}
+.ro .v.tag{border:0;padding:0;font-size:clamp(20px,2.6vw,28px);letter-spacing:0;text-transform:none;font-weight:400;white-space:normal;margin:0}
+.rail a.held .nd{fill:rgba(201,162,39,.25)}
+.rail a.broken .nd{stroke-dasharray:3 3}
+.rail a.open .nd{fill:rgba(124,192,150,.25)}
+
+/* the pipe: five valves */
+.pipe{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.valve{all:unset;cursor:pointer;border:1px solid var(--rule);background:var(--ground-2);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:44px;position:relative}
+.valve .y{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+.valve .n{font-size:17px;line-height:1.2;color:var(--paper)}
+.valve .st{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.valve[aria-pressed="true"]{border-color:var(--gold);background:rgba(201,162,39,.08)}
+.valve::after{content:"";position:absolute;right:12px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--tag)}
+.valve[data-k="evolved"]::after{background:var(--fact)}
+.valve:focus-visible{outline:2px solid var(--gold)}
+.flow{height:14px;background:var(--rule-soft);position:relative;overflow:hidden;border:1px solid var(--rule)}
+.flow i{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(201,162,39,.75) 0 14px,transparent 14px 28px);animation:flow 1.1s linear infinite}
+.flow i.cut{background:repeating-linear-gradient(90deg,rgba(192,94,60,.75) 0 6px,transparent 6px 20px);animation-duration:2.6s}
+@keyframes flow{to{transform:translateX(28px)}}
+
+/* dimmer: three dials + a bar */
+.dials{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.dial{border:1px solid var(--rule);background:var(--ground-2);padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.dial .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.dial .m{height:8px;background:var(--rule-soft);position:relative}
+.dial .m i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .5s var(--ease)}
+.dial .v{font-family:var(--mono);font-size:12px;color:var(--paper)}
+.elect{display:flex;flex-wrap:wrap;gap:6px}
+.elect button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:0 12px;min-height:44px;display:inline-flex;align-items:center;color:var(--paper-dim)}
+.elect button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.elect button:focus-visible{outline:2px solid var(--gold)}
+
+/* feed toggle */
+.feed{border:1px solid var(--rule);background:#000;padding:20px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--paper-dim);min-height:150px;position:relative}
+.feed .chy{position:absolute;right:12px;top:10px;font-size:10px;letter-spacing:.14em;color:var(--paper-faint)}
+.feed .q{color:var(--paper);font-family:var(--serif);font-size:20px;line-height:1.4;font-style:italic}
+.feed .cut{color:var(--tag-lit)}
+
+/* stage board */
+.board{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.light{border:1px solid var(--rule);background:var(--ground-2);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.light .lamp{width:14px;height:14px;border-radius:50%;background:var(--rule);box-shadow:none;transition:background .4s,box-shadow .4s}
+.light[data-s="on"] .lamp{background:var(--gold);box-shadow:0 0 14px rgba(201,162,39,.7)}
+.light[data-s="dim"] .lamp{background:var(--reported);box-shadow:0 0 8px rgba(224,179,92,.4)}
+.light[data-s="off"] .lamp{background:var(--tag);box-shadow:0 0 6px rgba(192,94,60,.5)}
+.light[data-s="na"] .lamp{background:var(--rule)}
+.light .n{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper)}
+.light .w{font-size:14px;color:var(--paper-dim);line-height:1.45}
+
+/* interval */
+.ci{position:relative;height:70px}
+.ci .tr{position:absolute;left:0;right:0;top:30px;height:10px;background:var(--rule-soft)}
+.ci .band{position:absolute;top:30px;height:10px;background:rgba(124,192,150,.35);border:1px solid var(--fact)}
+.ci .mk{position:absolute;top:18px;width:2px;height:34px;background:var(--tag)}
+.ci .lab{position:absolute;top:50px;font-family:var(--mono);font-size:10px;color:var(--paper-faint);transform:translateX(-50%);white-space:nowrap}
+.ci .lab.t{top:0}
+.ci .pin{position:absolute;top:24px;width:4px;height:22px;background:var(--gold);transform:translateX(-50%)}
+
+/* timeline filter */
+.tl{display:flex;flex-direction:column}
+.tl .ev{display:grid;grid-template-columns:110px 14px minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:start;font-size:16px}
+.tl .ev .d{font-family:var(--mono);font-size:11px;color:var(--kraft);padding-top:5px}
+.tl .ev .k{width:10px;height:10px;transform:rotate(45deg);margin-top:8px;background:var(--reported)}
+.tl .ev[data-k="evolved"] .k{background:var(--fact)}
+.tl .ev[data-k="muted"] .k{background:var(--tag)}
+.tl .ev[hidden]{display:none}
+.tl .ev .w{color:var(--paper-dim)}
+.tl .ev .w b{color:var(--paper);font-weight:400}
+@media (max-width:720px){.tl .ev{grid-template-columns:14px minmax(0,1fr)}.tl .ev .d{grid-column:2;padding-top:0}}
+
+.stepper{display:flex;flex-direction:column;gap:14px}
+.steps{display:flex;flex-wrap:wrap;gap:6px}
+.steps button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:0 12px;min-height:44px;display:inline-flex;align-items:center;color:var(--paper-dim)}
+.steps button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.step-body{border:1px solid var(--rule);background:var(--ground-2);padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-height:160px}
+.step-body .h{font-size:22px;line-height:1.2}
+.step-body .w{font-size:16px;color:var(--paper-dim);line-height:1.55}
+.step-body .s{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+
+/* plates: archival stills, house-toned, revealed on scroll; degrade to a kraft panel if the file is missing */
+.plate{width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);position:relative;overflow:hidden;opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.plate.in,.plate.static{opacity:1;transform:none}
+.plate .ph{display:block;width:100%;aspect-ratio:21/9;object-fit:cover;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.72) saturate(.9);transition:filter 1.2s var(--ease),transform 8s linear}
+.plate.in .ph{transform:scale(1.03)}
+.plate:hover .ph{filter:grayscale(.6) sepia(.25) contrast(1.05) brightness(.85)}
+.plate::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05),rgba(20,17,13,.55) 70%,rgba(20,17,13,.92)),radial-gradient(900px 300px at 20% 10%,rgba(201,162,39,.16),transparent 60%);pointer-events:none}
+.plate figcaption{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:14px 18px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim)}
+.plate figcaption b{color:var(--gold);font-weight:400}
+.plate figcaption .cr{color:var(--paper-faint)}
+.plate[data-missing] .ph{display:none}
+.plate[data-missing]{aspect-ratio:21/9;background:repeating-linear-gradient(135deg,var(--ground-2) 0 14px,var(--rule-soft) 14px 16px)}
+.plate[data-missing]::before{content:"PLATE PENDING · run fetch-plates.sh";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.plate[data-plate="ep1-c2"] .ph{object-position:50% 14%}
+.plate[data-plate="ep2-c6"] .ph{object-position:50% 40%}
+@media (max-width:720px){.plate .ph{aspect-ratio:16/10}.plate[data-missing]{aspect-ratio:16/10}}
+@media (prefers-reduced-motion:reduce){.plate{opacity:1;transform:none}.plate.in .ph{transform:none}}
+
+/* the engine */
+.engine-wrap{gap:16px}
+.en-ctl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 22px;align-items:center}
+.en-play{display:flex;gap:6px}
+.en-play button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
+.en-play button[aria-pressed="true"]{background:var(--gold);color:var(--ground);border-color:var(--gold)}
+.en-play button:focus-visible{outline:2px solid var(--gold)}
+.en-range{display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);min-width:0}
+.en-range output{color:var(--gold);font-size:13px}
+.en-range input{width:100%;accent-color:var(--gold);min-height:44px}
+.en-years{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--paper-faint);margin-top:-8px;overflow:hidden}
+.en-years span{flex:1;text-align:center;min-width:0;white-space:nowrap}
+.en-years span.on{color:var(--gold)}
+.engine{display:grid;grid-template-columns:minmax(0,3fr) minmax(280px,2fr);gap:18px;min-width:0}
+.en-stage{position:relative;min-width:0;border:1px solid var(--rule);background:radial-gradient(600px 400px at 50% 45%,rgba(201,162,39,.07),transparent 65%),var(--ground)}
+.en-stage canvas{display:block;width:100%;aspect-ratio:1/1;max-height:640px}
+.en-key{position:absolute;left:10px;bottom:8px;display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--mono);font-size:10px;color:var(--paper-faint);letter-spacing:.06em}
+.en-key i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+.en-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.en-micro{border:1px solid var(--gold);background:var(--ground-2);padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.en-micro .eb{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.en-micro .h{font-size:22px;line-height:1.15}
+.en-micro .n{font-family:var(--mono);font-size:clamp(24px,3vw,34px);color:var(--paper);line-height:1;font-variant-numeric:tabular-nums}
+.en-micro .w{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.en-micro .s{font-family:var(--mono);font-size:10.5px;color:var(--kraft);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:6px 14px}
+.en-micro .s a{border:0}
+.en-macro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.en-macro .g{border:1px solid var(--rule);background:var(--ground-2);padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.en-macro .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.en-macro .m{height:6px;background:var(--rule-soft);position:relative}
+.en-macro .m i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .8s var(--ease)}
+.en-macro .v{font-family:var(--mono);font-size:11.5px;color:var(--paper);line-height:1.35}
+.en-macro .g.valve{grid-column:1/-1;border-color:var(--tag)}
+.en-macro .g.valve.open{border-color:var(--fact)}
+.en-macro .g.valve .v b{font-family:var(--mono);font-weight:700;color:var(--tag-lit)}
+.en-macro .g.valve.open .v b{color:var(--fact)}
+.en-edges{display:flex;flex-direction:column;gap:5px;font-family:var(--mono);font-size:10.5px;color:var(--paper-dim)}
+.en-edges .e{display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:8px;align-items:center}
+.en-edges .e .b{height:5px;background:var(--rule-soft);position:relative}
+.en-edges .e .b i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .8s var(--ease)}
+.en-edges .e.closed{color:var(--tag-lit)}
+.en-edges .e.closed .b{background:repeating-linear-gradient(90deg,var(--tag) 0 4px,transparent 4px 8px);opacity:.7}
+@media (max-width:860px){.engine{grid-template-columns:minmax(0,1fr)}.en-ctl{grid-template-columns:minmax(0,1fr)}.en-macro{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:720px){.en-years{display:none}.en-key{position:static;padding:8px 10px;border-top:1px solid var(--rule)}}
+</style>
+
+<nav class="rail" aria-label="Chapters">
+  <a href="#c1" data-ch="1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">1 · The Verdict</span></a>
+  <span class="seg-line"></span>
+  <a href="#c2" data-ch="2"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">2 · The Re-plumbing</span></a>
+  <span class="seg-line"></span>
+  <a href="#c3" data-ch="3"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">3 · Reconnected</span></a>
+  <span class="seg-line"></span>
+  <a href="#c4" data-ch="4"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">4 · The Dimmer</span></a>
+  <span class="seg-line"></span>
+  <a href="#c5" data-ch="5"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">5 · The Pledge</span></a>
+  <span class="seg-line"></span>
+  <a href="#c6" data-ch="6"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">6 · Fifteen Weeks</span></a>
+  <span class="seg-line"></span>
+  <a href="#c7" data-ch="7"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">7 · The Board</span></a>
+</nav>
+
+<div class="wrap">
+  <div class="mast">
+    <a class="brand" href="#top"><i></i>Infera · The Circuit Tested</a>
+    <nav aria-label="Series">
+      <a href="#engine">The engine</a>
+      <a href="#hub">Seven exhibits</a>
+      <a href="#c1">1 Verdict</a><a href="#c2">2 Pipe</a><a href="#c3">3 Reconnect</a><a href="#c4">4 Dimmer</a><a href="#c5">5 Pledge</a><a href="#c6">6 Weeks</a><a href="#c7">7 Board</a>
+      <a href="../the-chain-of-title.html">Episode 1</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </div>
+
+  <header class="hero" id="top">
+    <canvas id="circuitcanvas" aria-hidden="true"></canvas>
+    <div class="boxcount">HELD FOR A LATER SERIES · DRAFT · 1992–2026</div>
+    <div class="hero-in">
+      <span class="eyebrow">Infera · Mechanism Series · A standalone mini-series</span>
+      <h1>The Circuit <em>Tested</em></h1>
+      <p class="deck">Black art, Black money and the movement have run on one circuit for a century: the performer, the room, the audience, the outside dollar that came to watch. Seven exhibits on what happened when that circuit was put under load, from the Los Angeles verdict of 1992 to the last week of October 2026.</p>
+    </div>
+  </header>
+  <p class="eyebrow col" style="padding-top:10px;color:var(--paper-faint)">Hero: a generative circuit drawn in code, one segment cut. No photograph, no real place.</p>
+
+  <div class="col">
+    <div class="dateline">
+      <span><b>AS OF</b> Oct 30, 2026</span>
+      <span><b>READ</b> ~40 min whole · 5–6 min per exhibit</span>
+      <span><b>LAYER</b> Public record · Census · FEC · court files · press</span>
+      <span><b>METHOD</b> SVNIF</span>
+    </div>
+
+    <div class="stack">
+      <p class="lead">A circuit carries current only while every segment holds. The one this episode follows was built in segregated rooms: a performer, a room that would book them, an audience that paid, an outside dollar that came in to watch, and a church and a movement that drew on all of it. By 1968 it was running at national scale. This episode asks what each stress since 1992 did to it. Three answers, and the evidence for each.</p>
+      <p>The method is the same as Episode 1. Every figure carries a label. Political content is descriptive: what each candidate, party, artist and company said and did, and what the pollsters and the Census counted. Where the pollsters disagree they are named one by one. Where the record is silent the page says so rather than fill it, and where it is contested it carries both numbers.</p>
+      <div class="memo"><b>READING MEMO</b> · Every exhibit stands alone. <span class="tag t-fact">Fact</span> is on the record, <span class="tag t-rep">Reported</span> is a credible account we could not independently confirm, <span class="tag t-inf">Inference</span> is our reading, <span class="tag t-watch">Watch</span> is open as of the dateline. Three tags run through the page: <b>TESTED</b> means the circuit was put under load, <b>EVOLVED</b> means a new route opened, <b>MUTED</b> means a route closed. The tags are this page's reading of each event; the dates and numbers are from the record. The midterm election is November 3, 2026, four days after the dateline, and nothing here predicts it. This is an original Infera investigation from the public record; for the long history of Black creative ownership it runs alongside, see Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026), listed in the sources as a further read.<sup class="src"><a href="#s85">85</a></sup></div>
+    </div>
+
+    <section aria-labelledby="h-spine">
+      <div class="sec-head">
+        <span class="eyebrow">The spine</span>
+        <h2 id="h-spine">Three findings, <em>stated first</em></h2>
+        <p class="sub">The exhibits are the evidence. These are the verdicts.</p>
+      </div>
+      <ol class="facts">
+        <li><span class="when">1992–2025</span><span><span class="tag t-inf">Inference</span><b>Re-plumbed, not silenced.</b> The chokepoints moved from the label board (Time Warner, 1992–95) to the distribution layer (the 1996 Telecommunications Act) to the ownership ledger (3.3% of radio, 1.3% of television by 2007) to the network tape delay (NBC, 2005) to the merger desk (the FCC, 2025). At each stage the art kept selling. What changed was who owned the room.<sup class="src"><a href="#s14">14</a>, <a href="#s18">18</a>, <a href="#s20">20</a>, <a href="#s28">28</a></sup></span></li>
+        <li><span class="when">2008–2024</span><span><span class="tag t-fact">Fact</span><b>The stage is not the candidate.</b> Black turnout exceeded white turnout once, in 2012, under a Black incumbent. In 2016, same artists, no Black candidate: 59.6%. In 2024, a Black candidate, $1.5 billion and the fullest celebrity mobilization in the record: 59.6% again.<sup class="src"><a href="#s39">39</a>, <a href="#s42">42</a>, <a href="#s64">64</a></sup></span></li>
+        <li><span class="when">1956–2026</span><span><span class="tag t-fact">Fact</span><b>The oldest tools work; the newest are unaudited.</b> A church-led consumer withdrawal moved a national retailer's numbers in 2025. Ground registration flipped a Senate in 2021. About $340 billion was pledged to racial equity after 2020, tracked by a report-card series that appears to have stopped in 2023; the federal stage opened to Black performance between 1961 and 2016 is, as of this week, closed, renamed or under review.<sup class="src"><a href="#s48">48</a>, <a href="#s53">53</a>, <a href="#s68">68</a>, <a href="#s71">71</a></sup></span></li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="h-yy">
+      <div class="sec-head">
+        <span class="eyebrow">Before you read</span>
+        <h2 id="h-yy">Your first <em>stress test</em></h2>
+        <p class="sub">Enter the year you were born. We find the first stress on the circuit you were old enough to vote through, and the turnout of the first presidential election you could vote in.</p>
+      </div>
+      <div class="exhibit">
+        <div class="yy">
+          <div class="ctrl">
+            <label for="yy-year">Birth year<input type="number" id="yy-year" min="1930" max="2010" value="1985" inputmode="numeric"></label>
+          </div>
+          <div class="stack" id="yy-out" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section aria-labelledby="h-hub" id="hub">
+    <div class="col sec-head">
+      <span class="eyebrow">The series</span>
+      <h2 id="h-hub">Seven exhibits, <em>read in any order</em></h2>
+      <p class="sub">Each one opens on a date. Each one hands you the instrument.</p>
+    </div>
+    <div class="hub">
+      <a href="#c1"><span class="n">01 · 1989–1993</span><span class="t">The <em>Verdict</em></span><span class="d">An FBI letter about a song its author never heard, a shareholder meeting as a political stage, and a nominee who used the Black couch and rebuked the Black performer ten days apart.</span><span class="m">TESTED · 6 MIN · INTERACTIVE: THE DOUBLE MOVE · THE BOYCOTT TEMPLATE</span></a>
+      <a href="#c2"><span class="n">02 · 1994–2001</span><span class="t">The <em>Re-plumbing</em></span><span class="d">$115 million moved by shame, a 40-station cap lifted, 40% of radio sold in a year, and the network that became one fortune and one line item.</span><span class="m">MUTED · 6 MIN · INTERACTIVE: THE PIPE · THE OWNERSHIP FLOOR</span></a>
+      <a href="#c3"><span class="n">03 · 2004–2009</span><span class="t"><em>Reconnected</em></span><span class="d">A telethon muted by a three-hour delay, an endorsement worth a million primary votes by the only peer-reviewed estimate, and four million donors who did what one living room had done.</span><span class="m">EVOLVED · 6 MIN · INTERACTIVE: THE TWO FEEDS · THE OPRAH INTERVAL</span></a>
+      <a href="#c4"><span class="n">04 · 2008–2024</span><span class="t">The <em>Dimmer</em></span><span class="d">Five elections, three dials: candidate, money, stage. Turn the stage to full and watch which one the turnout follows.</span><span class="m">TESTED · 6 MIN · INTERACTIVE: THE DIMMER SWITCH · RESPONSE TIME</span></a>
+      <a href="#c5"><span class="n">05 · 2016–2027</span><span class="t">The <em>Pledge</em></span><span class="d">Protest, administrative closure, market reward, private settlement, contract, the biggest halftime audience in history. Then $340 billion pledged and no audit.</span><span class="m">EVOLVED · 6 MIN · INTERACTIVE: THE SPORTS FRONT · PLEDGED VS. DELIVERED</span></a>
+      <a href="#c6"><span class="n">06 · Jul–Nov 2024</span><span class="t">Fifteen <em>Weeks</em></span><span class="d">$1.5 billion, every major Black performer on the stage, a $1 million production invoice that became a scandal, and three pollsters who agree on direction and not on size.</span><span class="m">TESTED · 6 MIN · INTERACTIVE: THE VOTE BY POLLSTER · WHAT THE MONEY BOUGHT</span></a>
+      <a href="#c7"><span class="n">07 · 2025–2026</span><span class="t">The <em>Board</em></span><span class="d">A year slider across the federal stage, 1939 to 2026: which lights are on, which are dim, which went dark. Then 1956 and 2025 side by side, and the full timeline with a filter.</span><span class="m">WATCH · 7 MIN · INTERACTIVE: THE STAGE BOARD · TWO BOYCOTTS · THE TIMELINE</span></a>
+    </div>
+  </section>
+
+  <!-- ============ THE ENGINE ============ -->
+  <section aria-labelledby="h-engine" id="engine" style="margin-top:110px">
+    <div class="col sec-head">
+      <span class="eyebrow">The engine · macro and micro at once</span>
+      <h2 id="h-engine">The circuit, <em>running</em></h2>
+      <p class="sub">Five stations, one current. Scrub the century and watch where the dollar goes, where it stops, and where it leaves. Every stop pairs one dated event with the whole machine's state.</p>
+    </div>
+    <div class="exhibit engine-wrap">
+      <div class="en-ctl">
+        <div class="en-play">
+          <button id="en-prev" aria-label="Previous stop">‹</button>
+          <button id="en-toggle" aria-pressed="false">▶ RUN THE CENTURY</button>
+          <button id="en-next" aria-label="Next stop">›</button>
+        </div>
+        <label class="en-range" for="en-k"><span class="l">Stop <output id="en-year">1920</output></span><input type="range" id="en-k" min="0" max="16" step="1" value="0" aria-valuetext="1920"></label>
+      </div>
+      <div class="en-years" id="en-years" aria-hidden="true"></div>
+      <div class="engine">
+        <div class="en-stage">
+          <canvas id="en-canvas" role="img" aria-label="The circuit: performer, room, audience, church and movement, outside dollar, and the exit, with current moving along the open routes"></canvas>
+          <div class="en-key" aria-hidden="true"><span><i style="--c:var(--gold)"></i>inside dollar</span><span><i style="--c:var(--kraft)"></i>outside dollar</span><span><i style="--c:var(--fact)"></i>movement</span><span><i style="--c:var(--tag)"></i>exit · closed route</span></div>
+        </div>
+        <div class="en-side">
+          <div class="en-micro" id="en-micro" aria-live="polite"></div>
+          <div class="en-macro" id="en-macro"></div>
+          <div class="en-edges" id="en-edges"></div>
+        </div>
+      </div>
+      <div class="verdict" id="en-v"></div>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 1 ============ -->
+  <article class="chapter" id="c1" data-ch="1" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 1 of 7</span><span><b>1989–1993</b></span><span>Los Angeles · New York · Little Rock</span><span>Standalone</span></div>
+      <h2>The <em>Verdict</em></h2>
+      <span class="instrument">Instrument: the shareholder meeting</span>
+      <figure class="plate" data-plate="ep2-c1"><img class="ph" src="../assets/plates/ep2-c1.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Los Angeles at dusk, looking west · the city of the verdict</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px">
+        <p class="lead">The art had already done the reporting. What the verdict of April 29, 1992 tested was not whether a song could say what the city knew. It was who could be made to pay for its saying so, and the answer came from three places the movement's treasury did not control: a boardroom, a nominee's podium and a late-night couch.</p>
+        <p><span class="tag t-fact">Fact</span>In August 1989, seven months after <em>Straight Outta Compton</em> became a two-million seller, an FBI assistant director wrote Priority Records a three-paragraph letter: "Advocating violence and assault is wrong, and we in the law enforcement community take exception." He admitted he had not heard the song. An informal police fax network urged venues to cancel the tour; Detroit police rushed the Joe Louis Arena stage.<sup class="src"><a href="#s3">3</a></sup> <span class="tag t-inf">Inference</span>The fax network is the template every later boycott of a Black artist would use: organized pressure on the venue and the corporation, not on the artist. In November 1991 some 3,000 Korean-American stores boycotted St. Ides over Ice Cube's <em>Black Korea</em>; the brewer dropped his ads and pledged a community fund within weeks.<sup class="src"><a href="#s4">4</a>, <a href="#s93">93</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The verdict's toll is printed as 53, 55 and 63 in reputable sources, a reclassification dispute; damage of $800 million to $1 billion; more than 2,300 Korean-owned businesses damaged, about 45% of the total.<sup class="src"><a href="#s1">1</a>, <a href="#s2">2</a></sup> Rebuild LA promised $6 billion of private investment; about $1 billion was pledged and $382 million arrived. Vons pledged ten to twelve supermarkets and built one. John Mack of the Urban League: "I said, Peter, this is not the Olympics."<sup class="src"><a href="#s9">9</a>, <a href="#s10">10</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Seven months after the fires, Ice Cube's <em>The Predator</em>, with a track addressing the acquitted officers, debuted at No. 1 with 193,000 copies. <em>The Chronic</em>, which samples the riot documentary <em>Birth of a Nation 4×29×92</em>, reached 5.7 million U.S. copies; Death Row, financed by a $10 million Interscope deal after Sony passed, peaked above $100 million a year.<sup class="src"><a href="#s11">11</a></sup> Spike Lee's <em>Malcolm X</em> opened that November after Warner capped the budget at about $30 million and Bill Cosby, Oprah Winfrey, Prince, Janet Jackson and Magic Johnson covered the overruns.<sup class="src"><a href="#s12">12</a></sup> <span class="tag t-inf">Inference</span>The decade's biggest commercial pivot was routed through a Time Warner-affiliated label, which is the lever Exhibit 2 is about.</p>
+      </div>
+
+      <section aria-labelledby="h-dm">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-dm">The double move</h3><p class="sub">Court the room, rebuke the performer. Three campaigns, same instrument, one that did not use it.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="stepper" id="dm">
+        <div class="steps" role="tablist" aria-label="Campaign">
+          <button role="tab" aria-pressed="true" data-i="0">1992 · CLINTON</button>
+          <button role="tab" aria-pressed="false" data-i="1">2008 · OBAMA</button>
+          <button role="tab" aria-pressed="false" data-i="2">2024 · HARRIS</button>
+        </div>
+        <div class="sides">
+          <div class="side gold"><h3>Court the room</h3><div class="step-body" id="dm-a"></div></div>
+          <div class="side tagb"><h3>Rebuke the performer</h3><div class="step-body" id="dm-b"></div></div>
+        </div>
+        <div class="verdict" id="dm-v"></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-bt">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-bt">The boycott template</h3><p class="sub">Who pressed, on whom, and what happened. Pick the pressure point to see which cases it closed.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <div class="seg" role="group" aria-label="Pressure point" id="bt-seg">
+          <button aria-pressed="true" data-k="all">ALL</button>
+          <button aria-pressed="false" data-k="venue">THE VENUE</button>
+          <button aria-pressed="false" data-k="corp">THE CORPORATION</button>
+          <button aria-pressed="false" data-k="sponsor">THE SPONSOR</button>
+          <button aria-pressed="false" data-k="podium">THE PODIUM</button>
+        </div>
+        <div class="legend"><span><i style="--c:var(--tag)"></i>closed a route</span><span><i style="--c:var(--fact)"></i>route held</span></div>
+      </div>
+      <div class="scroll"><table class="ledger" id="bt-table">
+        <thead><tr><th>Date</th><th>Who pressed</th><th>On whom</th><th>Outcome</th><th>Tag</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <div class="verdict" id="bt-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" style="margin-top:36px">
+        <p class="pull">"It's not a Warner Bros. fight. It's my fight."<small>Ice-T, July 28, 1992, withdrawing <em>Cop Killer</em> after more than a thousand stores had pulled the album · T2</small></p>
+        <p><span class="tag t-fact">Fact</span>Sixty members of Congress had called the song "vile and despicable"; President Bush called Ice-T "sick"; Charlton Heston denounced it at the July shareholder meeting. In January 1993 Time Warner's board rejected the <em>Home Invasion</em> cover and Sire released him.<sup class="src"><a href="#s5">5</a>, <a href="#s6">6</a></sup> <span class="tag t-inf">Inference</span>The artist absorbed the loss to shield the corporation, and content control moved from the label to the board. The muting was voluntary in form and corporate in fact. The two Clinton dates in the exhibit above are ten days apart.<sup class="src"><a href="#s7">7</a>, <a href="#s8">8</a></sup></p>
+        <div class="desk"><b>Desk note · Episode 1</b>The Time Warner that released Ice-T in 1993 is the same Warner whose 1912-style contracts Episode 1 traces, and the Interscope it would sell in 1995 is where <em>The Chronic</em> lived. The paper and the pressure ran through the same building. <a href="../the-chain-of-title.html#c4">The Master's Master</a>.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 2 ============ -->
+  <article class="chapter" id="c2" data-ch="2" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 2 of 7</span><span><b>1994–2001</b></span><span>Washington · Burbank · the dial</span><span>Standalone</span></div>
+      <h2>The <em>Re-plumbing</em></h2>
+      <span class="instrument">Instrument: the Telecommunications Act of 1996</span>
+      <figure class="plate" data-plate="ep2-c2"><img class="ph" src="../assets/plates/ep2-c2.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> A radio station studio · the room the 1996 Act sold</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px">
+        <p class="lead">Nothing silenced the art. What happened in the nineties was a change of pipe: the chokepoint moved from the label board to the distribution layer to the ownership ledger, and the political energy that had lived in lyrics moved into registration machinery. Each valve below is dated; the direction of each is in its color.</p>
+        <p><span class="tag t-fact">Fact</span>May 31, 1995, Los Angeles: Bob Dole named Time Warner and Ice-T, the Geto Boys and 2 Live Crew: "Must you debase our nation and threaten our children for the sake of corporate profits?" He also conceded in the same speech that "movies and music do not make children into murderers."<sup class="src"><a href="#s13">13</a></sup> C. DeLores Tucker of the National Political Congress of Black Women and William Bennett opened their campaign the same month; in August Interscope and Death Row sued Tucker, alleging she had sought her own distribution deal.<sup class="src"><a href="#s15">15</a></sup> On September 27 Time Warner sold its half of Interscope, valued at $115 million. Dole: "Time Warner has felt the sting of shame."<sup class="src"><a href="#s14">14</a></sup></p>
+        <p><span class="tag t-inf">Inference</span>A bipartisan, cross-racial coalition moved $115 million of corporate capital with no statute and no verdict. Shame is cheaper than law. The evenhanded reading: the campaign had Black institutional backing, and the label's counter-suit alleged the campaign was itself a money play. Both are in the record. So is this: the 1994 Crime Bill, the policy hip-hop most consistently criticized, passed with a majority of the Congressional Black Caucus voting yes and 58% Black support in Gallup.<sup class="src"><a href="#s16">16</a></sup> The Million Man March of October 16, 1995 drew 400,000 by the Park Police count and 837,000 by Boston University's; the Park Police stopped issuing counts afterward.<sup class="src"><a href="#s83">83</a></sup></p>
+      </div>
+      <section aria-labelledby="h-pipe">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-pipe">The pipe</h3><p class="sub">Five valves on one circuit, 1992 to 2025. Open each to see what moved through it and what was closed.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="flow" aria-hidden="true"><i id="pipe-flow"></i></div>
+      <div class="pipe" id="pipe">
+        <button class="valve" aria-pressed="true" data-i="0" data-k="muted"><span class="y">1992–95</span><span class="n">The label board</span><span class="st">valve closed</span></button>
+        <button class="valve" aria-pressed="false" data-i="1" data-k="muted"><span class="y">1996</span><span class="n">The distribution layer</span><span class="st">valve closed</span></button>
+        <button class="valve" aria-pressed="false" data-i="2" data-k="muted"><span class="y">2000</span><span class="n">The ownership ledger</span><span class="st">valve closed</span></button>
+        <button class="valve" aria-pressed="false" data-i="3" data-k="muted"><span class="y">2005</span><span class="n">The tape delay</span><span class="st">valve closed</span></button>
+        <button class="valve" aria-pressed="false" data-i="4" data-k="muted"><span class="y">2025</span><span class="n">The merger desk</span><span class="st">valve closed</span></button>
+        <button class="valve" aria-pressed="false" data-i="5" data-k="evolved"><span class="y">2001–2021</span><span class="n">The registration line</span><span class="st">route opened</span></button>
+      </div>
+      <div class="readout" id="pipe-ro"></div>
+      <div class="verdict" id="pipe-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-floor">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-floor">The ownership floor</h3><p class="sub">What the 1996 Act did to who owned the room. Toggle the measure.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <div class="seg" role="group" aria-label="Measure" id="fl-seg">
+          <button aria-pressed="true" data-k="owners">RADIO OWNERS</button>
+          <button aria-pressed="false" data-k="cc">CLEAR CHANNEL</button>
+          <button aria-pressed="false" data-k="minority">MINORITY SHARE</button>
+          <button aria-pressed="false" data-k="tv">BLACK-OWNED TV</button>
+        </div>
+      </div>
+      <div class="bars" id="fl-bars"></div>
+      <div class="verdict" id="fl-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>Radio One's 1999 Nasdaq listing at $24 reached $96.50 in seven months; it bought twelve Clear Channel stations for $1.3 billion in 2000 and peaked at 70 stations in 2007.<sup class="src"><a href="#s21">21</a></sup> The Act had lifted the 40-station cap; owners fell from about 5,100 to 3,800 by 2001, and Black-owned full-power television stations from 25 to 18 between 1998 and 2006.<sup class="src"><a href="#s17">17</a>, <a href="#s19">19</a></sup> BET, founded in 1980 with about $500,000, sold to Viacom in 2000 for about $3 billion. Cathy Hughes: "a great day for Bob Johnson, but … a significant loss for African American ownership."<sup class="src"><a href="#s22">22</a>, <a href="#s23">23</a></sup> <span class="tag t-inf">Inference</span>One Black consolidator rode the wave that shrank the rest; the largest Black media asset became one fortune and one Viacom line item; political programming was the first casualty of the sale. The 2007 floor is the base from which Exhibit 7's 2025 retrenchments should be read.</p>
+        <p><span class="tag t-fact">Fact</span>The contrast case: in June 2000 Bruce Springsteen's <em>American Skin (41 Shots)</em>, about Amadou Diallo, drew a boycott call from the PBA and the New York FOP and a request from Mayor Giuliani not to play it. All ten Madison Square Garden shows sold out; no label action followed.<sup class="src"><a href="#s24">24</a></sup> <span class="tag t-inf">Inference</span>A white rock star faced the Ice-T playbook eight years later and lost no label and no sales. The record does not explain the difference; it only shows it.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 3 ============ -->
+  <article class="chapter" id="c3" data-ch="3" data-state="held">
+    <div class="col">
+      <div class="where"><span>Exhibit 3 of 7</span><span><b>2004–2009</b></span><span>New Orleans · Columbia, S.C. · the Lincoln Memorial</span><span>Standalone</span></div>
+      <h2><em>Reconnected</em></h2>
+      <span class="instrument">Instrument: the endorsement</span>
+      <figure class="plate" data-plate="ep2-c3"><img class="ph" src="../assets/plates/ep2-c3.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The Lincoln Memorial · Anderson 1939, We Are One 2009</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px">
+        <p class="lead">Between the 2004 registration drives and the 2009 inaugural stages, every element of the segregated-era circuit reappeared at national scale with the signs reversed. The performer became the donor and the ticket-seller. The outside money came in four million small pieces. The telethon was the one channel that could not be pre-cleared, and it was muted anyway, by three hours of tape.</p>
+        <p><span class="tag t-fact">Fact</span>2004: Citizen Change ("Vote or Die") and the Hip-Hop Summit Action Network claimed, respectively, 250,000 and "nearly 2 million" registrations; Citizen Change disbanded after the election.<sup class="src"><a href="#s25">25</a></sup> Census and CIRCLE: turnout among 18-to-24-year-olds rose eleven points, from 36% to 47%, the largest gain of any age group.<sup class="src"><a href="#s26">26</a></sup> <span class="tag t-inf">Inference</span>The surge was real and the registration claims were self-reported with no audit, a pattern that recurs in every celebrity-driven drive on this page. September 20, 2007: the Jena Six rally drew 15,000 to 20,000 to a town of 3,000; Al Sharpton credited "black Internet blogs, e-mail, and talk radio."<sup class="src"><a href="#s92">92</a></sup></p>
+      </div>
+      <section aria-labelledby="h-feed">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-feed">The two feeds</h3><p class="sub">September 2, 2005. NBC's <em>Concert for Hurricane Relief</em> raised $50 million. Watch it from each coast.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <div class="seg" role="group" aria-label="Feed" id="feed-seg">
+          <button aria-pressed="true" data-k="east">EAST · LIVE</button>
+          <button aria-pressed="false" data-k="west">WEST · 3-HOUR DELAY</button>
+        </div>
+        <div class="legend"><span><i style="--c:var(--tag)"></i>cut from the feed</span></div>
+      </div>
+      <div class="feed" id="feed" aria-live="polite"></div>
+      <div class="verdict" id="feed-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>NBC: his opinions "in no way represent the views of the networks." In November 2010 Bush called the remark an "all-time low" of his presidency; West apologized on <em>Today</em>, saying he "didn't have the grounds to call him a racist."<sup class="src"><a href="#s27">27</a>, <a href="#s28">28</a></sup> Spike Lee's <em>When the Levees Broke</em>, four hours on a $2 million HBO budget, took a Peabody; the first Musicians' Village homes in the Upper Ninth Ward were built by Harry Connick Jr., Branford Marsalis and Habitat for Humanity.<sup class="src"><a href="#s27">27</a></sup> <span class="tag t-inf">Inference</span>The federal end of the circuit was absent; the commercial and philanthropic ends filled in.</p>
+      </div>
+      <section aria-labelledby="h-ci">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-ci">The Oprah interval</h3><p class="sub">The only peer-reviewed estimate that a Black celebrity decided a nomination. Slide along the confidence interval and compare it with the margin.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ctrl">
+        <label for="ci-pick">Your pick inside the 95% interval<input type="range" id="ci-pick" min="423123" max="1596995" step="1000" value="1015559"><output id="ci-out"></output></label>
+      </div>
+      <div class="ci" id="ci">
+        <div class="tr"></div>
+        <div class="band" id="ci-band"></div>
+        <div class="lab t" id="ci-lo"></div><div class="lab t" id="ci-hi"></div>
+        <div class="mk" id="ci-mk"></div><div class="lab" id="ci-mkl"></div>
+        <div class="pin" id="ci-pin"></div>
+      </div>
+      <div class="readout" id="ci-ro"></div>
+      <div class="verdict" id="ci-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>Oprah Winfrey endorsed on May 1, 2007, her first; her September fundraiser raised about $3 million; her December stops drew 18,000 in Iowa and about 29,000 in Columbia, where 2,307 people signed up online, 68% new to the campaign. "For the first time I'm stepping out of my pew."<sup class="src"><a href="#s30">30</a></sup> Her Gallup favorable fell from 74% to 66% in the year after.<sup class="src"><a href="#s29">29</a>, <a href="#s31">31</a></sup> <span class="tag t-fact">Fact</span>February 2, 2008: will.i.am's <em>Yes We Can</em> reached 26 million views in three weeks; the campaign "had no involvement." June 2007: Edith Childs, a Greenwood council member, started "Fired up! Ready to go!" at a stop of a few dozen; it became the stump finale; she said the campaign never contacted her.<sup class="src"><a href="#s32">32</a>, <a href="#s91">91</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>October 4–5, 2008: Jay-Z's free shows in Detroit and Miami, tickets only through campaign offices, ahead of the October 6 registration deadlines.<sup class="src"><a href="#s35">35</a></sup> The campaign raised about $750 million from just under four million donors.<sup class="src"><a href="#s36">36</a></sup> Black turnout: 65.2% against 60.3% in 2004; Black women 68.8%, the highest of any race-gender group; the gap with white turnout under one point.<sup class="src"><a href="#s37">37</a></sup> January 18, 2009: <em>We Are One</em> at the Lincoln Memorial, more than 400,000, aired free on HBO.<sup class="src"><a href="#s38">38</a></sup></p>
+        <p class="pull">The stage Marian Anderson was given in 1939 because Constitution Hall was closed to her was, seventy years later, underwritten by a pay channel as a free civic event.<small>Inference · the circuit reconnected end to end</small></p>
+        <div class="desk"><b>Desk note</b>The campaign that quoted Jay-Z's shoulder brush in April also called Ludacris's <em>Politics</em> "outrageously offensive" in July, and McCain's "Celeb" ad made celebrity proximity the liability, the inversion of 1992. Exhibit 1's double move, both halves, inside one cycle.<sup class="src"><a href="#s33">33</a>, <a href="#s34">34</a></sup></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 4 ============ -->
+  <article class="chapter" id="c4" data-ch="4" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 4 of 7</span><span><b>2008–2024</b></span><span>Five presidential elections</span><span>Standalone</span></div>
+      <h2>The <em>Dimmer</em></h2>
+      <span class="instrument">Instrument: the Census turnout table</span>
+      <figure class="plate" data-plate="ep2-c4"><img class="ph" src="../assets/plates/ep2-c4.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Voters entering collapsible booths, Arlington, Va., 1944 · the dial the stage cannot turn</span><span class="cr">Farm Security Administration / Office of War Information, Library of Congress · public domain</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px">
+        <p class="lead">With a Black president, the circuit's treasury end and its stage end were briefly the same building, and that alignment produced the one measurable peak in the whole record. It is also where the movement stopped waiting for the stage. This exhibit puts three dials beside every election since 2008 and asks which one the turnout followed.</p>
+        <p><span class="tag t-fact">Fact</span>In 2012 Black turnout, 66.2%, exceeded non-Hispanic white turnout, 64.1%, for the first time the Census had recorded.<sup class="src"><a href="#s39">39</a></sup> On September 18, 2012 Jay-Z and Beyoncé hosted a $40,000-a-ticket fundraiser at the 40/40 Club, reported at about $4 million.<sup class="src"><a href="#s40">40</a></sup> <span class="tag t-inf">Inference</span>The performer who in 1955 was the thing being ticketed is now the host writing the ticket. That is the clearest marker of the ownership shift Episode 1 traces, and it coincides with the peak.</p>
+      </div>
+      <section aria-labelledby="h-dim">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-dim">The dimmer switch</h3><p class="sub">Pick an election. The dials are this page's reading of the record; the bar is the Census.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="elect" id="dim-el" role="group" aria-label="Election">
+        <button aria-pressed="false" data-y="2004">2004</button>
+        <button aria-pressed="true" data-y="2008">2008</button>
+        <button aria-pressed="false" data-y="2012">2012</button>
+        <button aria-pressed="false" data-y="2016">2016</button>
+        <button aria-pressed="false" data-y="2020">2020</button>
+        <button aria-pressed="false" data-y="2024">2024</button>
+      </div>
+      <div class="dials" id="dim-dials"></div>
+      <div class="bars" id="dim-bars"></div>
+      <div class="verdict" id="dim-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>July 13, 2013: #BlackLivesMatter, coined after the Zimmerman acquittal, with no candidate, no label and no telethon. August 2014: J. Cole released <em>Be Free</em> within days of Michael Brown's killing; D'Angelo moved <em>Black Messiah</em> up, citing Ferguson and Garner. July 2015: Cleveland protesters chanted <em>Alright</em>.<sup class="src"><a href="#s82">82</a>, <a href="#s90">90</a></sup> February 7, 2016: <em>Formation</em> at Super Bowl 50; Miami's police union called a boycott and NAPO and the New York SBA backed it.<sup class="src"><a href="#s41">41</a></sup> <span class="tag t-inf">Inference</span>The movement was founded outside both the treasury and the stage; the artists answered in days, bypassing label calendars; a song became movement infrastructure without any campaign's sanction. The Freedom Singers' function, with no SNCC.</p>
+      </div>
+      <section aria-labelledby="h-rt">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-rt">Response time</h3><p class="sub">Days from the event to the art, or to the stage. Shorter is not better or worse; it is the measure of who was waiting for whom.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="bars" id="rt-bars"></div>
+      <div class="legend"><span><i style="--c:var(--gold)"></i>artist to event</span><span><i style="--c:var(--inference)"></i>campaign to artist</span><span><i style="--c:var(--tag)"></i>institution to protest</span></div>
+      <div class="verdict" id="rt-v"><b>Reading</b>In 1992 the police union answered the song in thirteen weeks and the candidate rebuked the artist a month after her words were printed. By 2014 the artist answered the street in six days; by 2024 the campaign licensed the artist in one. The institution's clock stayed slow: the NFL took twenty-one months to write an anthem policy and thirty months to settle. The circuit's fastest segment is now the performer; its slowest is still the room.</div>
+    </div>
+
+    <div class="col">
+      <div class="stack" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>November 4, 2016: Jay-Z and Beyoncé headlined a Clinton rally in Cleveland. Black turnout fell from 66.6% to 59.6% (Pew, from the Census CPS; the Census release itself prints 66.2 for 2012).<sup class="src"><a href="#s42">42</a></sup> From late 2016 Kanye West embraced Donald Trump, visiting the Oval Office on October 11, 2018 in a MAGA cap.<sup class="src"><a href="#s43">43</a></sup> <span class="tag t-inf">Inference</span>Star power did not substitute for a Black candidate at the top of the ticket, and the circuit's exit valve for the performer opened, for the first time at that scale, toward the Republican Party. That thread runs through Ice Cube in 2020, Snoop and Nelly in January 2025 and Nicki Minaj at the end of 2025.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 5 ============ -->
+  <article class="chapter" id="c5" data-ch="5" data-state="held">
+    <div class="col">
+      <div class="where"><span>Exhibit 5 of 7</span><span><b>2016–2027</b></span><span>The NFL · the labels · the Fortune 1000</span><span>Standalone</span></div>
+      <h2>The <em>Pledge</em></h2>
+      <span class="instrument">Instrument: the contract</span>
+      <figure class="plate" data-plate="ep2-c5"><img class="ph" src="../assets/plates/ep2-c5.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Fats Domino's home after Katrina, New Orleans · the federal end absent</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px">
+        <p class="lead">The circuit's outside-money end, which in the 1950s meant a white audience buying a ticket and a Northern donor writing a check, became corporate balance sheets writing pledges. The scale was unprecedented; the verification was not. The sports front showed every stage of the cycle in miniature: protest, administrative closure, market reward, private settlement, contract, and then the largest audience in history for the protest's own imagery.<sup class="src"><a href="#s44">44</a>, <a href="#s45">45</a>, <a href="#s46">46</a></sup></p>
+      </div>
+      <section aria-labelledby="h-sf">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-sf">The sports front</h3><p class="sub">One arc, six steps, 2016 to 2027. Step through it.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="stepper" id="sf">
+        <div class="steps" role="tablist" aria-label="Step">
+          <button role="tab" aria-pressed="true" data-i="0">1 · PROTEST</button>
+          <button role="tab" aria-pressed="false" data-i="1">2 · CLOSURE</button>
+          <button role="tab" aria-pressed="false" data-i="2">3 · MARKET</button>
+          <button role="tab" aria-pressed="false" data-i="3">4 · SETTLEMENT</button>
+          <button role="tab" aria-pressed="false" data-i="4">5 · CONTRACT</button>
+          <button role="tab" aria-pressed="false" data-i="5">6 · THE STAGE</button>
+        </div>
+        <div class="step-body" id="sf-body"></div>
+        <div class="verdict" id="sf-v"><b>Reading</b>The institution absorbs the protest by hiring its most bankable adjacent figure, and the figure uses the contract to put the protest's imagery in front of the largest audience the institution has. Whether that is capture or conquest is the dispute the record cannot settle. The numbers only show that both happened.</div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="stack" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>June 2, 2020: #TheShowMustBePaused, organized by two Atlantic Records executives, Jamila Thomas and Brianna Agyemang, became Blackout Tuesday.<sup class="src"><a href="#s47">47</a></sup> <span class="tag t-inf">Inference</span>The pause was forced by mid-level staff, not by stars or labels: the first time on this page that the industry's own workforce, rather than its talent or its customers, applied the pressure.</p>
+        <p><span class="tag t-fact">Fact</span>September 25, 2020: the Trump campaign's Platinum Plan pledged about $500 billion in capital access for Black communities. Ice Cube, author of a <em>Contract with Black America</em>: "Both parties contacted me. Dems said we'll address it after the election. Trump campaign made some adjustments."<sup class="src"><a href="#s50">50</a></sup> Lil Wayne endorsed the plan in October; on January 20, 2021 Trump pardoned Wayne and commuted Kodak Black's sentence.<sup class="src"><a href="#s51">51</a></sup> <span class="tag t-inf">Inference</span>The artist as freelance policy broker, engaged by both parties and criticized by both bases, is new to the record; the proximity of endorsement and clemency reframed celebrity politics as transactional in a way the 2007 endorsement never was.</p>
+      </div>
+      <section aria-labelledby="h-pl">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-pl">Pledged vs. delivered</h3><p class="sub">Every pledge on this page with a delivery figure beside it, or a hatched bar where none was published. Toggle to see the share that arrived.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <div class="seg" role="group" aria-label="View" id="pl-seg">
+          <button aria-pressed="true" data-k="abs">DOLLARS</button>
+          <button aria-pressed="false" data-k="pct">SHARE DELIVERED</button>
+        </div>
+        <div class="legend"><span><i style="--c:var(--gold)"></i>pledged</span><span><i style="--c:var(--fact)"></i>delivered, on the record</span><span><i style="--c:var(--kraft)"></i>no delivery figure published</span></div>
+      </div>
+      <div class="bars" id="pl-bars"></div>
+      <div class="verdict" id="pl-v"><b>Reading</b>Where a delivery figure exists, between a quarter and two fifths of the pledge arrived. Where it does not, the page draws a hatched bar rather than a number. The Black Music Action Coalition graded the majors on their 2020 pledges in 2021 and 2023 and described progress as paused; no 2025 report card was found. The accountability mechanism appears to have stopped reporting before the commitments did.<sup class="src"><a href="#s48">48</a>, <a href="#s49">49</a>, <a href="#s53">53</a></sup></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>2020 Black turnout 62.6% (white 70.9, a record). January 5, 2021: Warnock and Ossoff won the Georgia runoffs with Stacey Abrams's Fair Fight organizing widely credited. June 17, 2021: Juneteenth became a federal holiday by statute.<sup class="src"><a href="#s52">52</a></sup> <span class="tag t-inf">Inference</span>Recovery from 2016, not a return to 2012; the Senate flipped on ground organizing, not on a concert; the movement's symbolic demand became law. The circuit evolved, through the 1960s' tools, registration and the church, rather than through the stage.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 6 ============ -->
+  <article class="chapter" id="c6" data-ch="6" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 6 of 7</span><span><b>Jul 21 – Nov 5, 2024</b></span><span>Wilmington · Atlanta · Houston · Detroit</span><span>Standalone</span></div>
+      <h2>Fifteen <em>Weeks</em></h2>
+      <span class="instrument">Instrument: the exit poll</span>
+      <figure class="plate" data-plate="ep2-c6"><img class="ph" src="../assets/plates/ep2-c6.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> A citizen leaving the voting booth, Barnesville, Md., 1940s · the number the page returns to</span><span class="cr">Farm Security Administration / Office of War Information, Library of Congress · public domain</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px">
+        <p class="lead">Within four years the 2020 pledges were being reversed by statute, litigation and shareholder politics. Within fifteen weeks of July 21, 2024 the circuit was run at the highest voltage in its history: a Black candidate, more than a billion dollars, nearly every major Black performer on the stage. Black turnout came in at the 2016 level. This exhibit reports what each side said and did and what the pollsters counted. It does not pick a cause.<sup class="src"><a href="#s61">61</a>, <a href="#s62">62</a>, <a href="#s63">63</a>, <a href="#s64">64</a>, <a href="#s65">65</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>June 29, 2023: <em>SFFA v. Harvard</em> ended race-conscious admissions. August 2023 to September 2024: litigation shut the Fearless Fund's $20,000 grant for Black women founders. November 2024 to January 2025: Walmart, McDonald's, Meta and Target ended DEI goals; Costco and Apple shareholders rejected anti-DEI proposals.<sup class="src"><a href="#s54">54</a>, <a href="#s55">55</a>, <a href="#s56">56</a></sup> <span class="tag t-inf">Inference</span>The 2020 commitments reversed inside the same corporate cycle that made them. The retreat was not universal.</p>
+        <p><span class="tag t-fact">Fact</span>July 21: Biden withdrew; the "Win With Black Women" call drew about 44,000 and raised about $1.5 million that night. July 22: Beyoncé cleared <em>Freedom</em>; July 23: Harris walked out to it in Wilmington. July 30: Megan Thee Stallion in Atlanta. July 31: at the NABJ convention Trump said Harris "happened to turn Black." May 23 and June 15: Trump's Bronx rally with drill rappers Sheff G and Sleepy Hallow, and his Detroit church visit. October 25: Beyoncé in Houston, "I'm not here as a celebrity … I'm here as a mother"; she did not perform.<sup class="src"><a href="#s57">57</a></sup></p>
+      </div>
+      <section aria-labelledby="h-vp">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-vp">The vote by pollster</h3><p class="sub">Three pollsters agree on direction and disagree on magnitude. Pick one; levels and shifts are never mixed.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <div class="seg" role="group" aria-label="Pollster" id="vp-seg">
+          <button aria-pressed="true" data-k="ap">AP VOTECAST</button>
+          <button aria-pressed="false" data-k="edison">EDISON / CNN EXIT POLL</button>
+          <button aria-pressed="false" data-k="pew">PEW VALIDATED VOTERS</button>
+          <button aria-pressed="false" data-k="census">CENSUS TURNOUT</button>
+        </div>
+      </div>
+      <div class="bars" id="vp-bars"></div>
+      <div class="verdict" id="vp-v"></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-money">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-money">What the money bought</h3><p class="sub">Every dollar figure in the record of the fifteen weeks, with the tier of the source that printed it.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="scroll"><table class="ledger">
+        <thead><tr><th>Figure</th><th>What it is</th><th>Who says so</th><th></th></tr></thead>
+        <tbody>
+          <tr><td class="v">$1.0B+</td><td>Raised by the campaign in under four months</td><td class="k">AXIOS · AL JAZEERA</td><td><span class="tag t-fact">Fact</span><span class="tier">T2</span></td></tr>
+          <tr><td class="v">$600M+</td><td>Raised by outside groups</td><td class="k">AXIOS</td><td><span class="tag t-fact">Fact</span><span class="tier">T2</span></td></tr>
+          <tr><td class="v">$1.5B</td><td>Spent over fifteen weeks</td><td class="k">AXIOS</td><td><span class="tag t-fact">Fact</span><span class="tier">T2</span></td></tr>
+          <tr><td class="v">~$20M</td><td>Concerts and celebrity appearances in the final days, a press tally of FEC filings; not an FEC category</td><td class="k">PRESS TALLY</td><td><span class="tag t-rep">Reported</span><span class="tier">T2 payments · T4 framing</span></td></tr>
+          <tr><td class="v">$20M</td><td>Post-election debt, per one DNC finance committee member; the campaign said no debt on Election Day</td><td class="k">LINDY LI · CAMPAIGN</td><td><span class="tag t-rep">Reported</span><span class="tier">T2, disputed</span></td></tr>
+          <tr><td class="v">$1.0M</td><td>Paid to Harpo Productions, October 15, for the "Unite for America" livestream; Winfrey: "I was paid nothing — ever"; PolitiFact: Mostly False that she was paid to endorse</td><td class="k">FEC · POLITIFACT</td><td><span class="tag t-fact">Fact</span><span class="tier">T1/T2</span></td></tr>
+          <tr><td class="v">$15M+</td><td>Campaign expenses paid by the DNC in the first half of 2025, plus $1.6 million in October 2025</td><td class="k">AXIOS</td><td><span class="tag t-fact">Fact</span><span class="tier">T2</span></td></tr>
+          <tr><td class="v">406,000</td><td>Visits to vote.gov in the 24 hours after Taylor Swift's endorsement, September 10</td><td class="k">GSA · CBS</td><td><span class="tag t-fact">Fact</span><span class="tier">T2</span></td></tr>
+          <tr><td class="v">190,000 · $4M</td><td>"White Dudes for Harris" call, July 29: participants and money raised</td><td class="k">SALON</td><td><span class="tag t-fact">Fact</span><span class="tier">T2</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="verdict"><b>Reading</b>The celebrity spend became the scapegoat line item of the loss, and the post-election bills kept the story alive for a year. What the record supports is narrower: the money was unprecedented, the celebrity spend was real, and neither moved the number in the exhibit above.<sup class="src"><a href="#s58">58</a>, <a href="#s59">59</a>, <a href="#s60">60</a></sup></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" style="margin-top:36px">
+        <p class="pull">The stage end of the circuit was fully lit. The thing that moved in 2012, the audience, did not move.<small>Inference · the record does not say why, and this page declines to say what the record does not</small></p>
+        <p><span class="tag t-fact">Fact</span>January 17, 2025: Snoop Dogg, Nelly, Rick Ross and Soulja Boy performed at the pre-inaugural Crypto Ball.<sup class="src"><a href="#s67">67</a></sup> Nicki Minaj's alignment came in December 2025, not 2024, and Sexyy Red said she voted for Harris.<sup class="src"><a href="#s89">89</a></sup> February 2, 2025: <em>Cowboy Carter</em> won Album of the Year, the first by a Black woman since Lauryn Hill in 1999, after zero CMA nominations; "Genre is a cold word to keep us in our place."<sup class="src"><a href="#s86">86</a></sup> February 9: Kendrick Lamar's halftime averaged 133.5 million viewers, the most watched ever.<sup class="src"><a href="#s66">66</a></sup> <span class="tag t-inf">Inference</span>Rap's anti-Trump consensus visibly fractured in the same month the Recording Academy vindicated what Nashville refused and the NFL's Roc Nation stage carried coded political satire to the largest audience on record. Three different answers from the same stage in twenty-three days.</p>
+        <div class="desk"><b>Desk note · Episode 1</b>Nashville's gatekeeping and the Academy's vindication are the mechanism Episode 1 traces for the 1920s race-record ledgers: the room that sells the music is not the room that credits it. <a href="../the-chain-of-title.html#c2">One Cent</a>.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 7 ============ -->
+  <article class="chapter" id="c7" data-ch="7" data-state="open">
+    <div class="col">
+      <div class="where"><span>Exhibit 7 of 7</span><span><b>2025–2026</b></span><span>Washington · Minneapolis · the dial again</span><span>Watch layer</span></div>
+      <h2>The <em>Board</em></h2>
+      <span class="instrument">Instrument: the executive order</span>
+      <figure class="plate" data-plate="ep2-c7"><img class="ph" src="../assets/plates/ep2-c7.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The Kennedy Center · dark from July 4, 2026</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" style="margin-top:28px">
+        <p class="lead">For the first time since the 1950s the federal end of the circuit, the stages, museums and grants opened to Black performance across six decades, was being closed, renamed or reviewed, while the commercial stage kept its largest audiences in history and found a new, non-racial protest theme. This exhibit is a lighting board. Slide the year and watch which lights are on.</p>
+      </div>
+      <section aria-labelledby="h-board">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-board">The stage board</h3><p class="sub">Six federal stages, 1939 to 2026. Gold is lit, amber is dim or under review, red went dark, grey has no entry on this page for that year.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ctrl">
+        <label for="bd-year">Year<input type="range" id="bd-year" min="1939" max="2026" step="1" value="2026"><output id="bd-out">2026</output></label>
+      </div>
+      <div class="board" id="board"></div>
+      <div class="verdict" id="bd-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>March 27, 2025: EO 14253, <em>Restoring Truth and Sanity to American History</em>. August 12: a White House letter ordered a content review of eight Smithsonian museums including the National Museum of African American History and Culture, thirty days to submit, 120 to correct.<sup class="src"><a href="#s69">69</a></sup> July 24, 2026: EO 14416 targeted the National Museum of American History and conditioned funding.<sup class="src"><a href="#s70">70</a></sup> <span class="tag t-watch">Watch</span>No public record of specific NMAAHC exhibit changes as of the dateline. <span class="tag t-fact">Fact</span>February 2025: the Kennedy Center's board was replaced; Issa Rae and the <em>Hamilton</em> tour cancelled; December 2025: a vote to rename it; January 31, 2026: no Black History Month programming for the first time in decades; February 1, 2026: a roughly two-year closure announced from July 4.<sup class="src"><a href="#s68">68</a></sup> <span class="tag t-fact">Fact</span>NEA awards were terminated effective May 31, 2025 under new priorities that include HBCUs; the FY2026 budget proposed eliminating the NEA, NEH and IMLS.<sup class="src"><a href="#s75">75</a></sup> <span class="tag t-inf">Inference</span>The administration's chosen channel to Black institutions is the HBCU, not the museum or the arts endowment. That is a descriptive finding about where the federal dollar is being routed. No Juneteenth proclamation, statement or event was issued in 2025 or 2026; the 2021 statute stands.<sup class="src"><a href="#s76">76</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>August 8, 2025: Byron Allen sold ten stations to Gray Media for $171 million, part of a 28-station sale, to "significantly reduce our debt."<sup class="src"><a href="#s77">77</a></sup> August 13: David Ellison said BET was "no longer for sale"; March 2026: Paramount Skydance bought out Tyler Perry's BET+ stake and folded it into Paramount+.<sup class="src"><a href="#s78">78</a>, <a href="#s87">87</a></sup> October 3, 2025: Sean Combs sentenced to 50 months after a July conviction on two Mann Act counts; by then Revolt, Ciroc and DeLeón were gone.<sup class="src"><a href="#s88">88</a></sup> <span class="tag t-inf">Inference</span>The two largest Black-ownership positions in broadcast and cable retrenched in the same twelve months, and the architect of the equity-endorsement model lost the model before the verdict. The Harpo switch in Episode 1, own the show and not the slot, has not been repeated at network scale.</p>
+      </div>
+      <section aria-labelledby="h-tb">
+        <div class="sec-head"><span class="eyebrow">Side by side</span><h3 id="h-tb">Two boycotts</h3><p class="sub">The oldest tool in the circuit, run twice, sixty-nine years apart.</p></div>
+      </section>
+    </div>
+    <div class="sides">
+      <div class="side gold"><h3>Montgomery · 1955–56</h3><ul>
+        <li><span class="tag t-fact">Fact</span>December 5, 1955 to December 20, 1956: 381 days.<sup class="src"><a href="#s84">84</a></sup></li>
+        <li><span class="tag t-fact">Fact</span>Organized through the churches by the Montgomery Improvement Association; a carpool system replaced the buses.</li>
+        <li><span class="tag t-rep">Reported</span>About 40,000 Black riders withheld their fares, the commonly cited figure.</li>
+        <li><span class="tag t-fact">Fact</span>Ended by a court, not by the company: <em>Browder v. Gayle</em>, affirmed by the Supreme Court November 13, 1956, the order served December 20.</li>
+        <li><span class="tag t-inf">Inference</span>The consumer withdrawal held for a year; the result came from the law the withdrawal made possible.</li>
+      </ul></div>
+      <div class="side tagb"><h3>Target · 2025</h3><ul>
+        <li><span class="tag t-fact">Fact</span>January 24, 2025: Target ended its three-year DEI goals. March 5: the Rev. Jamal Bryant's forty-day "Target Fast," more than 250,000 pledges.<sup class="src"><a href="#s71">71</a></sup></li>
+        <li><span class="tag t-fact">Fact</span>Placer.ai: ten consecutive weeks of foot-traffic decline, −7.9% year over year in the week of March 31.</li>
+        <li><span class="tag t-fact">Fact</span>Stock $142 in January to $94 by April 14; net income −21% in the latest quarter; August 20: CEO Brian Cornell announced he would step down.<sup class="src"><a href="#s72">72</a></sup></li>
+        <li><span class="tag t-rep">Reported</span>Bryant said the boycott continues; the company cited several pressures; causation is contested.</li>
+        <li><span class="tag t-inf">Inference</span>The Black church ran a 1955-style withdrawal against a national retailer in 2025 and the retailer's numbers moved. No court was needed for the numbers to move; what the numbers changed is not yet in the record.</li>
+      </ul></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>September 28, 2025: the NFL named Bad Bunny for Super Bowl LX; Trump called it "absolutely ridiculous"; Turning Point USA counter-programmed. February 8, 2026: the halftime averaged 128.2 million; the counter-program peaked at 6.1 million on YouTube. February 1, 2026: at the Grammys Bad Bunny won Album of the Year and said "ICE out"; Kendrick Lamar won Record of the Year and Best Rap Album and made no political statement.<sup class="src"><a href="#s79">79</a>, <a href="#s80">80</a></sup> October 26, 2026: the NFL and Apple named Jay-Z to headline Super Bowl LXI.<sup class="src"><a href="#s81">81</a></sup> <span class="tag t-inf">Inference</span>The halftime stage, a Roc Nation product, became a partisan battleground again, but the protest theme was immigration, not race, and the Black artist on the night was the one who stayed silent. Strategy, fatigue, or the protest function migrating to another community: the record has not answered.</p>
+        <p><span class="tag t-fact">Fact</span>July 30, 2025: Harris announced she would not run for governor of California. September 23: <em>107 Days</em> sold about 350,000 copies in its first week. October 15, 2026, to Keke Palmer: "I haven't decided yet. I will, I promise."<sup class="src"><a href="#s74">74</a></sup> Pew, fielded September 28 to October 4, 2026: Black registered voters 70% Democratic, 7% Republican, 17% unsure for the House.<sup class="src"><a href="#s73">73</a></sup> <span class="tag t-inf">Inference</span>The loss became a media product, the performer's exit valve applied to a politician; the candidate remains the default standard-bearer; and the 17% unsure is the audience's answer to the question this page keeps asking. Partisan loyalty intact. The enthusiasm the stage was hired to produce not visible in the number.</p>
+      </div>
+      <section aria-labelledby="h-tl">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-tl">The timeline</h3><p class="sub">Twenty-three dated stress points. Filter by what each did to the circuit.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <div class="seg" role="group" aria-label="Filter" id="tl-seg">
+          <button aria-pressed="true" data-k="all">ALL 23</button>
+          <button aria-pressed="false" data-k="tested">TESTED</button>
+          <button aria-pressed="false" data-k="evolved">EVOLVED</button>
+          <button aria-pressed="false" data-k="muted">MUTED</button>
+        </div>
+        <div class="legend"><span><i style="--c:var(--reported)"></i>tested</span><span><i style="--c:var(--fact)"></i>evolved</span><span><i style="--c:var(--tag)"></i>muted</span></div>
+      </div>
+      <div class="tl" id="tl"></div>
+      <div class="verdict" id="tl-v"></div>
+    </div>
+  </article>
+
+  <!-- ============ CLOSING ============ -->
+  <section aria-labelledby="h-close" style="margin-top:120px">
+    <div class="col sec-head">
+      <span class="eyebrow">Closing</span>
+      <h2 id="h-close">Three findings, <em>one direction</em></h2>
+      <p class="sub">What the record supports, and what it does not.</p>
+    </div>
+    <div class="col stack">
+      <p>The circuit was never silenced; it was re-plumbed, and at every stage the art kept selling while the room changed hands. The stage can be lit to any brightness and the record shows it does not, by itself, move the audience to the polls; the one peak belonged to a candidate. The oldest tools, the church and the registration line, still move numbers; the newest, the pledge and the contract, are the least audited things on this page. And the federal stage that opened to Black performance between 1939 and 2016 is, as of the dateline, closed, renamed or under review, while the commercial stage has never had a larger audience. Where the current goes next is not in the record. The midterm is Tuesday.</p>
+    </div>
+    <div class="sides" style="margin-top:28px">
+      <div class="side gold"><h3>What the record supports</h3><ul>
+        <li>The Census turnout series, the FEC filings, the Supreme Court opinion, the executive orders and the Garthwaite–Moore estimate are primary (T1).</li>
+        <li>The three pollsters agree on the direction of the 2024 Black male shift; they are named one by one and their levels and shifts are never mixed.</li>
+        <li>Every pledge is shown with its delivery figure or a hatched bar; none is counted as spent.</li>
+      </ul></div>
+      <div class="side tagb"><h3>What it does not</h3><ul>
+        <li>Why Black turnout in 2024 equalled 2016's. The page declines to say what the record does not.</li>
+        <li>Whether the Target boycott caused Target's results; whether the Roc Nation deal was capture or conquest; whether the 2025 silence from the stage is strategy or fatigue.</li>
+        <li>The 1992 death toll, the Million Man March count, the Oprah invoice and the "$20 million on celebrities" line are disputed and carried as such. Sexyy Red (voted Harris) and Nicki Minaj (aligned in 2025, not 2024) were retired from an earlier brief.</li>
+      </ul></div>
+    </div>
+    <div class="col" style="margin-top:28px">
+      <div class="crumbs" aria-label="Related reading on this site">
+        <a href="../the-chain-of-title.html"><i>EP·1</i>The Chain of Title</a>
+        <a href="#"><i>RFY</i>The Crowbar and the Moat</a>
+        <a href="#"><i>RFY</i>Follow the Ownership</a>
+        <a href="episode-12-the-governance-layer.html"><i>S2·12</i>The Governance Layer</a>
+        <a href="episode-09-the-synthetic-self.html"><i>S2·09</i>The Synthetic Self</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="sources">
+    <p><b>INFERA · MECHANISM SERIES · THE CIRCUIT TESTED · Episode 2 of a standalone mini-series · Seven exhibits, original reporting from the public record · © Infera 2026.</b></p>
+    <p style="margin-top:10px"><b>Method.</b> SVNIF: every claim carries Fact, Reported, Inference or Watch. Source tiers: T1 primary document, court record, statute, or government data · T2 major press or peer-reviewed scholarship · T3 reputable secondary reference · T4 trade press. Political content is descriptive. Several primary outlets blocked retrieval during research; facts from them are cited through wire reprints or aggregators at the tier of the copy actually read. Nothing on this page predicts the November 3, 2026 election.</p>
+    <ol>
+      <li id="s1"><span class="tier">T2</span> CNN/WRAL, <a href="https://www.wral.com/los-angeles-riots-fast-facts/17446521/">Los Angeles riots fast facts</a>.</li>
+      <li id="s2"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/1992_Los_Angeles_riots">1992 Los Angeles riots</a> (toll range, damage, Korean-owned losses).</li>
+      <li id="s3"><span class="tier">T2</span> <em>Village Voice</em>, Oct 10, 1989, <a href="https://www.villagevoice.com/crackdown-on-culture-the-fbi-hates-this-band/">"Crackdown on culture: the FBI hates this band"</a>.</li>
+      <li id="s4"><span class="tier">T2</span> <em>Seattle Times</em>, Nov 27, 1991, <a href="https://archive.seattletimes.com/archive/19911127/1319677/">Korean-American merchants' St. Ides boycott</a>.</li>
+      <li id="s5"><span class="tier">T2</span> <em>Deseret News</em>, Jul 29, 1992, <a href="https://www.deseret.com/1992/7/29/18996806/">"Cop Killer dropped from album"</a>; EBSCO, <a href="https://www.ebsco.com/research-starters/music/cop-killer-song-controversy">the controversy</a>.</li>
+      <li id="s6"><span class="tier">T2</span> <em>Variety</em>, 1993, <a href="https://variety.com/1993/music/news/wb-board-put-ice-t-out-in-cold-103473">"WB board put Ice-T out in cold"</a>.</li>
+      <li id="s7"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Sister_Souljah_moment">Sister Souljah moment</a>; <a href="https://en.wikipedia.org/wiki/360_Degrees_of_Power">360 Degrees of Power</a>.</li>
+      <li id="s8"><span class="tier">T2</span> History.com, <a href="https://www.history.com/this-day-in-history/june-3/bill-clinton-saxophone-arsenio-hall">Clinton on Arsenio Hall, June 3, 1992</a>.</li>
+      <li id="s9"><span class="tier">T2</span> <em>Time</em>, <a href="https://content.time.com/time/specials/2007/la_riot/article/0,28804,1614117_1614084_1614519,00.html">Rebuild LA retrospective</a>.</li>
+      <li id="s10"><span class="tier">T2</span> NPR, 2017, <a href="https://www.npr.org/transcripts/526085043">John Mack on Rebuild LA</a>; KPCC/LAist, 2012, liquor stores after 1992.</li>
+      <li id="s11"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/The_Predator_(album)">The Predator</a>; <a href="https://en.wikipedia.org/wiki/The_Chronic">The Chronic</a>; <a href="https://en.wikipedia.org/wiki/Death_Row_Records">Death Row Records</a>.</li>
+      <li id="s12"><span class="tier">T3</span> theGrio, <a href="https://thegrio.com/2012/11/19/malcolm-x-spike-lees-masterpiece-turns-20">Malcolm X at 20</a> (financing).</li>
+      <li id="s13"><span class="tier">T1</span> American Presidency Project, <a href="https://www.presidency.ucsb.edu/documents/remarks-los-angeles-hollywood-speech">Dole, Los Angeles, May 31, 1995</a>.</li>
+      <li id="s14"><span class="tier">T2</span> <em>Seattle Times</em>, Sep 28, 1995, <a href="https://archive.seattletimes.com/archive/19950928/2143958/">Time Warner sells Interscope</a>.</li>
+      <li id="s15"><span class="tier">T2</span> UPI, Aug 15, 1995, <a href="https://www.upi.com/Archives/1995/08/15/Record-label-sues-rap-opponent/3415808459200/">Interscope and Death Row sue Tucker</a>.</li>
+      <li id="s16"><span class="tier">T1/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Violent_Crime_Control_and_Law_Enforcement_Act">Violent Crime Control and Law Enforcement Act</a> (vote, CBC, Gallup).</li>
+      <li id="s17"><span class="tier">T2</span> Center for Public Integrity, <a href="https://publicintegrity.org/inequality-poverty-opportunity/fcc-dawdled-as-radio-grew/">"FCC dawdled as radio grew"</a>; Encyclopedia.com, Clear Channel.</li>
+      <li id="s18"><span class="tier">T1</span> NTIA, 1997, <a href="https://www1.udel.edu/nero/Radio/readings/minown.html">minority commercial broadcast ownership</a>.</li>
+      <li id="s19"><span class="tier">T3</span> Free Press, <a href="https://mediajustice.org/wp-content/uploads/2014/04/out_of_the_picture.pdf">Out of the Picture</a> (2006).</li>
+      <li id="s20"><span class="tier">T3</span> Free Press, <a href="https://policyarchive.org/download/8021">Off the Dial</a> (2007).</li>
+      <li id="s21"><span class="tier">T3</span> <em>Black Enterprise</em>, <a href="https://blackenterprise.com/45-great-moments-in-black-business-no-20-radio-one-founder-cathy-hughes-first-black-woman-to-take-company-public-on-nasdaq/">Radio One's IPO</a>.</li>
+      <li id="s22"><span class="tier">T3</span> <em>Black Enterprise</em>, <a href="https://blackenterprise.com/bet-first-black-billionaire/">the BET sale</a>.</li>
+      <li id="s23"><span class="tier">T2</span> NBC News, <a href="https://www.nbcnews.com/id/wbna8076499">BET at 25</a>; Wikipedia, <a href="https://en.wikipedia.org/wiki/BET:_Uncut">BET: Uncut</a>.</li>
+      <li id="s24"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/American_Skin_(41_Shots)">American Skin (41 Shots)</a>.</li>
+      <li id="s25"><span class="tier">T2</span> <em>The Nation</em>, Aug 2005, <a href="https://www.thenation.com/article/archive/hip-hop-voting-bloc">"The hip-hop voting bloc"</a>; Wikipedia, Citizen Change.</li>
+      <li id="s26"><span class="tier">T1/T3</span> Pew Charitable Trusts/CIRCLE, May 2005, <a href="https://www.pewtrusts.org/about/news-room/press-releases-and-statements/2005/05/26/">Census youth turnout 2004</a>.</li>
+      <li id="s27"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/A_Concert_for_Hurricane_Relief">A Concert for Hurricane Relief</a>; <a href="https://en.wikipedia.org/wiki/When_the_Levees_Broke">When the Levees Broke</a>; <a href="https://en.wikipedia.org/wiki/Musicians%27_Village">Musicians' Village</a>.</li>
+      <li id="s28"><span class="tier">T2</span> HuffPost, <a href="https://huffingtonpost.co.uk/entry/kanye-west-george-bush-black-people_n_55d67c12e4b020c386de2f5e">the West–Bush exchange and NBC's tape delay</a>.</li>
+      <li id="s29"><span class="tier">T1</span> Garthwaite and Moore, "Can celebrity endorsements affect political outcomes?" <em>JLEO</em> 2013, <a href="https://www.kellogg.northwestern.edu/faculty/garthwaite/htm/celebrityendorsements_garthwaitemoore.pdf">PDF</a>.</li>
+      <li id="s30"><span class="tier">T2</span> Salon, Dec 10, 2007, <a href="https://salon.com/2007/12/10/obama_oprah">the Iowa and South Carolina rallies</a>; NPR, Sep 10, 2007, the fundraiser.</li>
+      <li id="s31"><span class="tier">T2</span> NPR, May 2008, <a href="https://www.npr.org/sections/newsandviews/2008/05/is_obama_to_blame_for_oprahs_r.html">Oprah's favorability</a>.</li>
+      <li id="s32"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Yes_We_Can_(will.i.am_song)">Yes We Can</a>.</li>
+      <li id="s33"><span class="tier">T2</span> NPR, Jul 31, 2008, <a href="https://www.npr.org/2008/07/31/93135846">the Ludacris denunciation</a>.</li>
+      <li id="s34"><span class="tier">T2</span> NPR, Jul 30, 2008, <a href="https://www.npr.org/2008/07/30/93083563">the McCain "Celeb" ad</a>.</li>
+      <li id="s35"><span class="tier">T2</span> <em>Spin</em>, Oct 2008, <a href="https://www.spinmagazine.com/2008/10/jay-z-supports-obama-free-shows/">Jay-Z's free shows</a>.</li>
+      <li id="s36"><span class="tier">T1/T2</span> ABC News, Dec 4, 2008, <a href="https://abcnews.com/Politics/Vote2008/story?id=6397572">FEC fundraising totals</a>.</li>
+      <li id="s37"><span class="tier">T1</span> Pew Research, Apr 30, 2009, <a href="https://www.pewresearch.org/race-and-ethnicity/2009/04/30/dissecting-the-2008-electorate-most-diverse-in-us-history/">"Dissecting the 2008 electorate"</a> (Census CPS).</li>
+      <li id="s38"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/We_Are_One:_The_Obama_Inaugural_Celebration_at_the_Lincoln_Memorial">We Are One</a>; ABC News, Jan 20, 2009, the Neighborhood Ball.</li>
+      <li id="s39"><span class="tier">T1</span> Census Bureau, May 8, 2013, <a href="https://www.census.gov/newsroom/archives/2013-pr/cb13-84.html">2012 turnout release</a>; Census historical table A-1 for the 1964–2000 series.</li>
+      <li id="s40"><span class="tier">T3</span> BET, Sep 2012, <a href="https://www.bet.com/news/lifestyle/2012/09/19/jay-z-and-beyonce-host-barack-obama-for-40-40-club-fundraiser.html">the 40/40 Club fundraiser</a>.</li>
+      <li id="s41"><span class="tier">T2</span> CNN, Feb 19, 2016, <a href="https://edition.cnn.com/2016/02/19/us/beyonce-police-boycott">the police boycott of Beyoncé</a>.</li>
+      <li id="s42"><span class="tier">T1/T2</span> Pew Research, May 12, 2017, <a href="https://www.pewresearch.org/short-reads/2017/05/12/black-voter-turnout-fell-in-2016-even-as-a-record-number-of-americans-cast-ballots/">Black turnout fell in 2016</a>.</li>
+      <li id="s43"><span class="tier">T2</span> Axios, Oct 11, 2018, <a href="https://www.axios.com/2018/10/11/kanye-west-donald-trump-oval-office-meeting">the Oval Office meeting</a>.</li>
+      <li id="s44"><span class="tier">T2/T3</span> WFAA/Edison Trends, Sep 2018, <a href="https://www.wfaa.com/article/news/nation-world/study-nike-online-sales-surge-31-percent-days-after-colin-kaepernick-ad-released/507-592239404">Nike sales</a>; KUNC/NPR, May 23, 2018, the anthem policy.</li>
+      <li id="s45"><span class="tier">T2</span> CBS Sports, 2019, <a href="https://www.cbssports.com/nfl/news/colin-kaepernick-eric-reid-collusion-settlement-duo-reportedly-split-less-than-10-million">the collusion settlement</a>; NFL.com, Aug 2016, Kaepernick's explanation.</li>
+      <li id="s46"><span class="tier">T2</span> <em>Black Enterprise</em>, Aug 2019, <a href="https://www.blackenterprise.com/jay-z-nfl-partnership-passed-kneeling-action/">the Roc Nation–NFL deal</a>.</li>
+      <li id="s47"><span class="tier">T2</span> <em>Rolling Stone</em>, <a href="https://www.rollingstone.com/pro/features/blackout-tuesday-music-industry-1009501/">Blackout Tuesday</a>; Exclaim and mxdwn, June 2020, the Sony and Warner funds.</li>
+      <li id="s48"><span class="tier">T2</span> McKinsey, Feb 21, 2023, <a href="https://www.mckinsey.com/bem/our-insights/corporate-commitments-to-racial-justice-an-update">corporate commitments to racial justice, an update</a>.</li>
+      <li id="s49"><span class="tier">T2</span> NBC News, <a href="https://www.nbcnews.com/news/amp/rcna25650">BLMGNF finances</a>.</li>
+      <li id="s50"><span class="tier">T3</span> XXL, Oct 2020, <a href="https://www.xxlmag.com/ice-cube-trump-administration/">Ice Cube and the Platinum Plan</a>.</li>
+      <li id="s51"><span class="tier">T2</span> <em>Billboard</em>, Jan 2021, <a href="https://www.billboard.com/pro/lil-wayne-kodak-black-pardoned-donald-trump">the Wayne and Kodak Black clemencies</a>.</li>
+      <li id="s52"><span class="tier">T1</span> Census Bureau, Apr 2021, <a href="https://www.census.gov/library/stories/2021/04/record-high-turnout-in-2020-general-election.html">2020 turnout</a>; Congress.gov, S. 475; NPR, Jan 6, 2021, the Georgia runoffs.</li>
+      <li id="s53"><span class="tier">T3</span> <em>Variety</em>, 2023, <a href="https://variety.com/2023/music/news/black-music-action-coalition-report-card-2-1235613503/">the BMAC report card</a>.</li>
+      <li id="s54"><span class="tier">T1</span> Supreme Court, <a href="https://www.supremecourt.gov/opinions/22pdf/20-1199_hgdj.pdf">SFFA v. Harvard</a>, Jun 29, 2023.</li>
+      <li id="s55"><span class="tier">T2</span> NPR, Sep 11, 2024, <a href="https://www.npr.org/2024/09/11/nx-s1-5108729/fearless-fund-atlanta-grant-program-shut-down-lawsuit">the Fearless Fund settlement</a>.</li>
+      <li id="s56"><span class="tier">T3</span> TechTarget, <a href="https://www.techtarget.com/whatis/feature/What-companies-are-rolling-back-DEI-policies">companies rolling back DEI</a>.</li>
+      <li id="s57"><span class="tier">T2</span> NPR, Jul 23, 2024, <a href="https://www.npr.org/2024/07/23/g-s1-12881/kamala-harris-beyonce-freedom-speech">Freedom cleared</a>; Salon, Jul 30–31, 2024; theGrio, Jun 16 and Jul 31, 2024; <em>Star Tribune</em>/AP, Oct 25, 2024; The Root and Fox 5, the Bronx rally.</li>
+      <li id="s58"><span class="tier">T2</span> Al Jazeera, Nov 14, 2024, <a href="https://www.aljazeera.com/news/2024/11/14/how-did-kamala-harriss-campaign-rack-up-a-debt-after-record-fundraising/">the campaign's finances</a>.</li>
+      <li id="s59"><span class="tier">T2</span> Axios, Aug 25, 2025, <a href="https://www.axios.com/2025/08/25/kamala-harris-campaign-expenses-dnc">DNC payments</a>.</li>
+      <li id="s60"><span class="tier">T1/T2</span> PolitiFact, Nov 13, 2024, <a href="https://www.politifact.com/factchecks/2024/nov/13/instagram-posts/records-show-harris-campaign-paid-winfreys-company/">the Harpo payment</a>; CBS News, the vote.gov figure.</li>
+      <li id="s61"><span class="tier">T2</span> AP VoteCast via PBS, <a href="https://www.pbs.org/newshour/politics/interactive-how-key-groups-of-americans-voted-in-2024-according-to-ap-votecast">how key groups voted in 2024</a>.</li>
+      <li id="s62"><span class="tier">T2</span> CBS News, <a href="https://www.cbsnews.com/news/exit-polls-2024-presidential-election/">exit polls 2024</a> (Edison).</li>
+      <li id="s63"><span class="tier">T2</span> Pew Research, Jun 26, 2025, <a href="https://www.pewresearch.org/politics/2025/06/26/behind-trumps-2024-victory-a-more-racially-and-ethnically-diverse-voter-coalition/">validated voters</a>.</li>
+      <li id="s64"><span class="tier">T1</span> Census Bureau, Apr 30, 2025, <a href="https://www.census.gov/newsroom/press-releases/2025/2024-presidential-election-voting-registration-tables.html">2024 voting and registration tables</a>; KFF rate table.</li>
+      <li id="s65"><span class="tier">T3</span> Good Authority, Oct 7, 2025, <a href="https://goodauthority.org/news/2024-brought-high-voter-turnout-but-a-growing-racial-gap/">the turnout gap</a>.</li>
+      <li id="s66"><span class="tier">T3</span> <em>Sports Illustrated</em>, <a href="https://www.si.com/nfl/kendrick-lamar-performance-super-bowl-lix-most-watched-halftime-show">Super Bowl LIX halftime audience</a>.</li>
+      <li id="s67"><span class="tier">T2</span> Salon, Jan 20, 2025, <a href="https://salon.com/2025/01/20/snoop-dogg-faces-push-back-for-crypto-ball-performance-before-donald-inauguration">the Crypto Ball</a>.</li>
+      <li id="s68"><span class="tier">T2/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/List_of_Kennedy_Center_cancellations_during_the_Trump_administration">Kennedy Center cancellations</a>; Axios, Feb 2, 2026, <a href="https://www.axios.com/2026/02/02/trump-kennedy-center-close-two-years">the closure</a>; PhillyJazz, Feb 8, 2026.</li>
+      <li id="s69"><span class="tier">T2</span> Boston.com/AP, Aug 13, 2025, <a href="https://www.boston.com/culture/politics/2025/08/13/white-house-orders-a-review-of-exhibits-at-smithsonian-museums-ahead-of-nations-250th-birthday/">the Smithsonian review letter</a>.</li>
+      <li id="s70"><span class="tier">T1</span> White House, Jul 24, 2026, <a href="https://www.whitehouse.gov/presidential-actions/2026/07/restoring-trust-in-the-smithsonian-institution/">EO 14416</a>; Poynter, 2026, the administration and Black history.</li>
+      <li id="s71"><span class="tier">T3</span> <em>Bay State Banner</em>, May 1, 2025, <a href="https://baystatebanner.com/2025/05/01/is-the-target-boycott-working">the Target boycott</a>.</li>
+      <li id="s72"><span class="tier">T3</span> <em>Black Wall Street Times</em>, Aug 20, 2025, <a href="https://theblackwallsttimes.com/2025/08/20/target-ceo-steps-down-amid-weak-sales-and-boycott/">Target's CEO steps down</a>.</li>
+      <li id="s73"><span class="tier">T2</span> Pew Research, Oct 8, 2026, <a href="https://www.pewresearch.org/politics/2026/10/08/midterm-vote-preferences-by-race-and-ethnicity-age-and-other-demographics/">midterm preferences by race</a>.</li>
+      <li id="s74"><span class="tier">T2/T3</span> Jefferson Public Radio/AP, Jul 30, 2025; Publishers Marketplace, Oct 2025, <em>107 Days</em>; Political Wire, Oct 15, 2026, <a href="https://politicalwire.com/2026/10/15/kamala-harris-hasnt-decided-on-presidential-bid/">Harris on 2028</a>.</li>
+      <li id="s75"><span class="tier">T3</span> ARTnews, 2025, <a href="https://www.artnews.com/art-news/news/national-endowment-for-the-arts-cancels-grants-trump-1234740558">NEA cancellations</a>.</li>
+      <li id="s76"><span class="tier">T2</span> NPR, Jun 20, 2025, <a href="https://www.npr.org/2025/06/20/g-s1-73675/trump-silent-about-juneteenth">Juneteenth</a>; GovInfo and the American Presidency Project, the 2025 and 2026 Black History Month proclamations.</li>
+      <li id="s77"><span class="tier">T3</span> AfroTech, Aug 2025, <a href="https://afrotech.com/amg-sell-tv-stations-gray-media-deal">the Allen station sale</a>.</li>
+      <li id="s78"><span class="tier">T3</span> The Desk, Aug 2025, <a href="https://thedesk.net/2025/08/paramount-bet-media-not-for-sale/">BET not for sale</a>.</li>
+      <li id="s79"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Super_Bowl_LX_halftime_show">Super Bowl LX halftime show</a>; Front Office Sports, Oct 2025; Colorado Politics, Oct 9, 2025.</li>
+      <li id="s80"><span class="tier">T2</span> Al Jazeera, Feb 2, 2026, <a href="https://www.aljazeera.com/news/2026/2/2/grammy-winners-2026-bad-bunny-kendrick-lamar-and-ice-criticism">the 68th Grammys</a>.</li>
+      <li id="s81"><span class="tier">T3</span> Yahoo, Oct 26, 2026, <a href="https://yahoo.com/entertainment/music/articles/jay-z-headline-2027-super-140022472.html">Jay-Z to headline Super Bowl LXI</a>.</li>
+      <li id="s82"><span class="tier">T3</span> Pitchfork, Dec 2014, <a href="https://pitchfork.com/news/57822-dangelo-releases-black-messiah-tonight/">D'Angelo releases Black Messiah</a>; J. Cole, "Be Free," Aug 15, 2014.</li>
+      <li id="s83"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Million_Man_March">Million Man March</a> (the two counts).</li>
+      <li id="s84"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Montgomery_bus_boycott">Montgomery bus boycott</a> (dates, MIA, <em>Browder v. Gayle</em>).</li>
+      <li id="s85"><span class="tier">FURTHER READING</span> Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026). Nothing on this page is drawn from it.</li>
+      <li id="s86"><span class="tier">T2</span> Andscape, Feb 2, 2025, <a href="https://andscape.com/features/beyonce-wins-album-of-the-year-at-the-2025-grammys-for-cowboy-carter/">Cowboy Carter wins Album of the Year</a>; <em>Billboard</em>, Sep 2024, the CMA nominations.</li>
+      <li id="s87"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/BET_Media_Group">BET Media Group</a> (2023 bids; 2026 BET+ buyout).</li>
+      <li id="s88"><span class="tier">T2</span> NBC New York, Oct 3, 2025, <a href="https://www.nbcnewyork.com/diddy-sean-combs-trial/live-updates-diddy-court-sentencing-time-prison-cassie-ventura/6400114/">the Combs sentencing</a>; ABC7, the state of his businesses.</li>
+      <li id="s89"><span class="tier">T2</span> PBS NewsHour, Dec 2025, <a href="https://www.pbs.org/newshour/politics/watch-nicki-minaj-discusses-faith-and-politics-with-erika-kirk-at-turning-point-usa-summit">Nicki Minaj at AmericaFest</a>; theGrio, Nov 1, 2024, Sexyy Red.</li>
+      <li id="s90"><span class="tier">T3</span> <em>Rolling Stone</em>, <a href="https://www.rollingstone.com/music/music-news/kendrick-lamars-alright-the-making-of-an-anthem">the making of "Alright"</a>; Wikipedia, Black Lives Matter.</li>
+      <li id="s91"><span class="tier">T2</span> <em>Washington Times</em>, Sep 23, 2007, <a href="https://www.washingtontimes.com/news/2007/sep/23/backers32chant32fired-up32obama/">Edith Childs</a>.</li>
+      <li id="s92"><span class="tier">T2</span> <em>Sun Journal</em>/AP, Sep 21, 2007, <a href="https://www.sunjournal.com/2007/09/21/louisiana-thousands-rally-six-black-teens">the Jena rally</a>.</li>
+      <li id="s93"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Death_Certificate_(album)">Death Certificate</a>.</li>
+    </ol>
+    <p>Hero and charts are drawn in code from the figures above. The seven plates are archival photographs and prints in the public domain or with no known restrictions (Library of Congress; Wikimedia Commons), each credited in its caption and in assets/plates/credits.json; none depicts an identifiable public figure. Contact: infera@melophon.com.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fmt=function(n){return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")};
+  var esc=function(s){return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})};
+
+  /* ---------- the 23 stress points ---------- */
+  var EV=[
+    {d:"1992-06-13",k:"muted",t:"Clinton rebukes Sister Souljah",w:"\"You might think David Duke was giving that speech.\" The artist's album had sold about 27,000 copies."},
+    {d:"1992-07-28",k:"muted",t:"Ice-T withdraws Cop Killer",w:"After a police-union boycott of Time Warner, a shareholder-meeting denunciation and 1,000+ stores pulling the album."},
+    {d:"1995-09-27",k:"muted",t:"Time Warner sells its Interscope stake",w:"$115 million moved by the Dole–Tucker–Bennett campaign, with no statute and no verdict."},
+    {d:"1996-02-08",k:"muted",t:"Telecommunications Act",w:"The 40-station cap lifted; ~3,900 stations change hands for $30.1 billion within a year; minority ownership falls to 2.8%."},
+    {d:"2000-11-03",k:"muted",t:"BET sold to Viacom, about $3 billion",w:"\"A significant loss for African American ownership.\" News and public affairs the first casualty."},
+    {d:"2001-06-13",k:"evolved",t:"Hip-Hop Summit Action Network",w:"The former NAACP director moves into hip-hop's political arm; the arm accepts parental-advisory labeling."},
+    {d:"2005-09-02",k:"tested",t:"Kanye West on the NBC telethon",w:"\"George Bush doesn't care about black people.\" Cut from the West Coast feed three hours later. $50 million raised."},
+    {d:"2007-12-09",k:"evolved",t:"Oprah in Columbia, S.C.",w:"About 29,000 in a stadium; 2,307 online sign-ups, 68% new. Later estimated at ~1 million primary votes."},
+    {d:"2008-11-04",k:"evolved",t:"Obama elected; Black turnout 65.2%",w:"$750 million from just under four million donors. Black women 68.8%, the highest of any race-gender group."},
+    {d:"2012-11-06",k:"evolved",t:"Black turnout exceeds white: 66.2 vs 64.1",w:"The first time the Census had recorded it. A $40,000-a-ticket fundraiser at the 40/40 Club in September."},
+    {d:"2013-07-13",k:"tested",t:"#BlackLivesMatter coined",w:"After the Zimmerman acquittal. No candidate, no label, no telethon."},
+    {d:"2016-02-07",k:"tested",t:"Formation at Super Bowl 50",w:"Panther-styled dancers; a police-union boycott call backed by NAPO and the New York SBA."},
+    {d:"2016-09-01",k:"tested",t:"Kaepernick kneels",w:"Opens a sports-money front that runs through 2027."},
+    {d:"2019-08-14",k:"evolved",t:"Roc Nation and the NFL partner",w:"\"We've moved past kneeling.\" Inspire Change pledge reported at $25 million, later $250 million over ten years."},
+    {d:"2020-06-02",k:"tested",t:"Blackout Tuesday",w:"Organized by two Atlantic executives. Labels pledge $225 million within days; Fortune 1000 pledges reach ~$340 billion by 2022."},
+    {d:"2020-08-11",k:"evolved",t:"Harris named vice-presidential nominee",w:"Walk-on: Mary J. Blige, Work That. 2020 Black turnout 62.6%."},
+    {d:"2023-06-29",k:"tested",t:"SFFA v. Harvard",w:"Race-conscious admissions end; the legal predicate for the corporate DEI retreat."},
+    {d:"2024-11-05",k:"tested",t:"Harris loses; Black turnout 59.6%",w:"$1.5 billion in fifteen weeks. Black men 21–24% for Trump by pollster. Turnout back to the 2016 level."},
+    {d:"2025-02-09",k:"evolved",t:"Kendrick Lamar's halftime, 133.5 million",w:"The most-watched halftime ever, inside the Roc Nation deal. Samuel L. Jackson as Uncle Sam."},
+    {d:"2025-02-12",k:"muted",t:"Kennedy Center board replaced",w:"Issa Rae and Hamilton cancel; December rename; no Black History Month program in 2026; closure from July 4, 2026."},
+    {d:"2025-03-05",k:"evolved",t:"The Target Fast begins",w:"250,000+ pledges; ten weeks of foot-traffic decline; stock $142 to $94 by April 14."},
+    {d:"2025-08-12",k:"tested",t:"Smithsonian content review ordered",w:"Eight museums including NMAAHC; 30 days to submit, 120 to correct. No specific NMAAHC changes on the record by the dateline."},
+    {d:"2026-10-08",k:"muted",t:"Pew: 17% of Black voters unsure",w:"70% Democratic, 7% Republican for the House, fielded Sep 28–Oct 4. The midterm is November 3."}
+  ];
+  var MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var dstr=function(d){return MON[+d.slice(5,7)-1]+" "+(+d.slice(8))+", "+d.slice(0,4)};
+
+  /* ---------- Census Black turnout (CPS, Black alone; pre-2004 from historical table A-1) ---------- */
+  var TURN={1964:58.5,1968:57.6,1972:52.1,1976:48.7,1980:50.5,1984:55.8,1988:51.5,1992:54.0,1996:53.0,2000:56.8,2004:60.3,2008:65.2,2012:66.2,2016:59.6,2020:62.6,2024:59.6};
+  var WHITE={2004:67.2,2008:66.1,2012:64.1,2016:65.3,2020:70.9,2024:67.3};
+
+  /* ---------- hero: a circuit with one cut segment ---------- */
+  (function(){
+    var c=$("#circuitcanvas");if(!c)return;var ctx=c.getContext("2d");var W,H,t=0,dots=[];
+    function size(){var r=c.parentElement.getBoundingClientRect();W=c.width=Math.max(320,Math.floor(r.width));H=c.height=Math.max(300,Math.floor(r.height))}
+    size();window.addEventListener("resize",size);
+    for(var i=0;i<70;i++)dots.push({a:Math.random()*Math.PI*2,v:.0025+Math.random()*.003,r:Math.random()});
+    var N=5,CUT0=Math.PI*1.15,CUT1=Math.PI*1.45;
+    function draw(){
+      ctx.clearRect(0,0,W,H);var cx=W*.68,cy=H*.46,R=Math.min(W,H)*.34;
+      var blink=reduce?0:(Math.sin(t*.06)*.5+.5);
+      // ring
+      ctx.lineWidth=1.2;
+      for(var s=0;s<120;s++){var a0=s/120*Math.PI*2,a1=(s+1)/120*Math.PI*2;var inCut=a0>CUT0&&a0<CUT1;
+        ctx.strokeStyle=inCut?"rgba(192,94,60,"+(0.25+blink*.45)+")":"rgba(201,162,39,.55)";ctx.setLineDash(inCut?[3,5]:[]);
+        ctx.beginPath();ctx.arc(cx,cy,R,a0,a1);ctx.stroke()}
+      ctx.setLineDash([]);
+      // chord: the re-plumbed route around the cut
+      ctx.strokeStyle="rgba(124,192,150,.45)";ctx.lineWidth=1;ctx.beginPath();
+      ctx.arc(cx,cy,R*.78,CUT0-.15,CUT1+.15);ctx.stroke();
+      // nodes
+      var names=["PERFORMER","ROOM","AUDIENCE","OUTSIDE DOLLAR","CHURCH · MOVEMENT"];
+      for(var n=0;n<N;n++){var a=-Math.PI/2+n/N*Math.PI*2;var x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R;
+        ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle="#14110d";ctx.fill();ctx.strokeStyle="rgba(236,227,208,.9)";ctx.lineWidth=1.4;ctx.stroke();
+        ctx.font="10px 'Space Mono',monospace";ctx.fillStyle="rgba(168,157,136,.9)";ctx.textAlign=Math.cos(a)>.2?"left":Math.cos(a)<-.2?"right":"center";
+        ctx.fillText(names[n],x+Math.cos(a)*16,y+Math.sin(a)*16+4)}
+      // dots
+      dots.forEach(function(d){if(!reduce)d.a+=d.v;var inCut=((d.a%(Math.PI*2))+Math.PI*2)%(Math.PI*2);var cut=inCut>CUT0&&inCut<CUT1;var rr=cut?R*.78:R;
+        var x=cx+Math.cos(d.a)*rr,y=cy+Math.sin(d.a)*rr;ctx.beginPath();ctx.arc(x,y,cut?1.4:2,0,Math.PI*2);ctx.fillStyle=cut?"rgba(124,192,150,.8)":"rgba(201,162,39,"+(0.5+d.r*.5)+")";ctx.fill()});
+      t++;if(!reduce)requestAnimationFrame(draw)}
+    draw()
+  })();
+
+  /* ---------- your first stress test ---------- */
+  (function(){
+    var inp=$("#yy-year"),out=$("#yy-out");if(!inp)return;
+    function run(){var y=+inp.value;if(!(y>=1930&&y<=2010)){out.innerHTML="";return}
+      var elig=y+18;var years=Object.keys(TURN).map(Number).sort();var first=null;for(var i=0;i<years.length;i++){if(years[i]>=elig){first=years[i];break}}
+      var ev=null;for(var j=0;j<EV.length;j++){if(+EV[j].d.slice(0,4)>=elig){ev=EV[j];break}}
+      var h="";
+      if(first){h+='<div class="readout"><div class="ro"><span class="l">First presidential election you could vote in</span><span class="v gold">'+first+'</span><span class="s">Black turnout that year: <b class="num">'+TURN[first]+'%</b> (Census CPS)'+(WHITE[first]?' · white '+WHITE[first]+'%':'')+'</span></div>';
+        var peak=66.2;h+='<div class="ro"><span class="l">Distance from the 2012 peak</span><span class="v '+(TURN[first]>=peak?'fact':'tag')+'">'+(TURN[first]-peak>=0?'+':'')+(TURN[first]-peak).toFixed(1)+' pts</span><span class="s">The only year Black turnout exceeded white turnout.</span></div></div>'}
+      else h+='<div class="readout"><div class="ro"><span class="l">First presidential election you could vote in</span><span class="v">before 1964</span><span class="s">The Census series begins in 1964; earlier turnout is not on this page.</span></div></div>';
+      if(ev)h+='<div class="verdict"><b>The first stress on the circuit you were old enough to vote through</b>'+dstr(ev.d)+' · <b style="display:inline;color:var(--paper)">'+esc(ev.t)+'</b> — '+esc(ev.w)+' <span class="tag t-inf" style="margin-left:6px">'+ev.k+'</span></div>';
+      else h+='<div class="verdict"><b>The first stress on the circuit you were old enough to vote through</b>None on this page yet: its record ends October 2026.</div>';
+      out.innerHTML=h}
+    inp.addEventListener("input",run);run()
+  })();
+
+  /* ---------- rail ---------- */
+  (function(){
+    var links=$$(".rail a");$$(".chapter").forEach(function(ch){var a=links.filter(function(l){return l.dataset.ch===ch.dataset.ch})[0];if(a)a.classList.add(ch.dataset.state)});
+    if(!("IntersectionObserver" in window))return;
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("active",a.dataset.ch===e.target.dataset.ch)})}})},{rootMargin:"-40% 0px -50% 0px"});
+    $$(".chapter").forEach(function(ch){io.observe(ch)})
+  })();
+
+  /* generic segmented control */
+  function seg(id,fn){var s=$(id);if(!s)return;$$("button",s).forEach(function(b){b.addEventListener("click",function(){$$("button",s).forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});fn(b.dataset.k||b.dataset.i||b.dataset.y)})})}
+
+  /* ---------- the double move ---------- */
+  (function(){
+    var D=[
+      {a:{h:"June 3, 1992 · The Arsenio Hall Show",w:"The day after clinching the nomination, Bill Clinton played Heartbreak Hotel in sunglasses on the Black-hosted late-night show. Hall later said it \"changed presidential campaigning forever.\"",s:"FACT · T2 · s8"},
+       b:{h:"June 13, 1992 · Rainbow Coalition",w:"Ten days later, before Jesse Jackson's organization, Clinton on Sister Souljah: \"If you took the words 'white' and 'black,' and you reversed them, you might think David Duke was giving that speech.\" Jackson: she \"represents the feelings and hopes of a whole generation.\"",s:"FACT · T3 · s7"},
+       v:"<b>Reading</b>Ten days apart. The candidate used the Black stage to reach the audience and used the Black artist to reassure the outside money. The artist chosen had almost no market power: about 27,000 copies, both videos banned by MTV. That was the point. The move cost the campaign nothing it was counting."},
+      {a:{h:"April–October 2008 · The shoulder brush and the free shows",w:"Obama performed Jay-Z's \"brush your shoulders off\" gesture on April 17; on October 4–5 Jay-Z played free shows in Detroit and Miami with tickets available only through campaign offices, ahead of the October 6 registration deadlines.",s:"FACT · T2/T4 · s35"},
+       b:{h:"July 2008 · Ludacris",w:"The campaign called Politics: Obama Is Here \"outrageously offensive\" and said Ludacris \"should be ashamed.\" Three weeks later McCain's \"Celeb\" ad asked, over images of Britney Spears and Paris Hilton, \"But is he ready to lead?\"",s:"FACT · T2 · s33, s34"},
+       v:"<b>Reading</b>Both halves inside the most hip-hop-literate campaign in history, used selectively, while the opposing campaign inverted 1992 by making celebrity proximity the liability. The Souljah reflex persisted; the stage it was protecting was now the campaign's own."},
+      {a:{h:"July 22 – October 25, 2024 · Freedom, Atlanta, Houston",w:"Beyoncé cleared Freedom within a day of the launch; Harris walked out to it in Wilmington on July 23. Megan Thee Stallion opened the Atlanta rally on July 30. Beyoncé spoke in Houston on October 25 and did not perform: \"I'm not here as a celebrity … I'm here as a mother.\"",s:"FACT · T2/T3 · s57"},
+       b:{h:"No rebuke found",w:"The research found no instance of the Harris campaign publicly rebuking a Black performer. The criticism of the Atlanta performance came from the other side; the criticism of the celebrity spend came from inside the party, after the loss, as a $20 million line item that is not an FEC category.",s:"WATCH · absence, not finding"},
+       v:"<b>Reading</b>The first of the three campaigns not to use the reflex. Whether that mattered is not in the record. What is in the record is the turnout, in Exhibit 4, and it equalled 2016's."}
+    ];
+    var a=$("#dm-a"),b=$("#dm-b"),v=$("#dm-v");if(!a)return;
+    function show(i){var d=D[+i];a.innerHTML='<span class="h">'+esc(d.a.h)+'</span><span class="w">'+esc(d.a.w)+'</span><span class="s">'+esc(d.a.s)+'</span>';b.innerHTML='<span class="h">'+esc(d.b.h)+'</span><span class="w">'+esc(d.b.w)+'</span><span class="s">'+esc(d.b.s)+'</span>';v.innerHTML=d.v}
+    seg("#dm .steps",show);show(0)
+  })();
+
+  /* ---------- the boycott template ---------- */
+  (function(){
+    var R=[
+      {d:"Aug 1989",who:"FBI letter; police fax network",on:"Priority Records; venues (N.W.A tour)",out:"Dates cancelled in places; Detroit police rush the stage; the album passes two million.",k:"venue",r:"held"},
+      {d:"Nov 1991",who:"~3,000 Korean-American grocers",on:"St. Ides / McKenzie River (Ice Cube's sponsor)",out:"Ads dropped and a $90,000 community pledge within weeks. \"We didn't even ask for it.\"",k:"sponsor",r:"closed"},
+      {d:"Jun 1992",who:"Bill Clinton, at the Rainbow Coalition",on:"Sister Souljah",out:"Album ~27,000 copies; MTV bans both videos; the candidate gains standing.",k:"podium",r:"closed"},
+      {d:"Jun–Jul 1992",who:"Texas police union; 60 members of Congress; Charlton Heston; President Bush",on:"Time Warner (Body Count)",out:"Track withdrawn July 28; artist released January 1993.",k:"corp",r:"closed"},
+      {d:"May–Sep 1995",who:"Bob Dole; C. DeLores Tucker; William Bennett",on:"Time Warner (Interscope)",out:"$115 million Interscope stake sold September 27.",k:"corp",r:"closed"},
+      {d:"Jun 2000",who:"PBA; New York FOP; Mayor Giuliani",on:"Bruce Springsteen; Madison Square Garden",out:"All ten shows sell out; no label action.",k:"venue",r:"held"},
+      {d:"Feb 2016",who:"Miami FOP; NAPO; NYC SBA",on:"Beyoncé's Formation tour",out:"Tour proceeds; boycott call fades.",k:"venue",r:"held"},
+      {d:"May 2018",who:"NFL owners",on:"Players who kneel",out:"Anthem policy with fines; players may stay in the locker room.",k:"corp",r:"closed"},
+      {d:"Sep 2018",who:"Boycott calls against Nike",on:"Nike (Kaepernick ad)",out:"Online sales +31% in the following days; shares to a record.",k:"sponsor",r:"held"},
+      {d:"Mar 2025",who:"The Rev. Jamal Bryant; 250,000+ pledges",on:"Target",out:"Ten weeks of foot-traffic decline; the template run in reverse, by the circuit itself.",k:"corp",r:"held"},
+      {d:"Sep 2025 – Feb 2026",who:"President Trump; Turning Point USA",on:"NFL; Bad Bunny's halftime",out:"128.2 million watch the halftime; the counter-program peaks at 6.1 million.",k:"podium",r:"held"}
+    ];
+    var tb=$("#bt-table tbody"),v=$("#bt-v");if(!tb)return;
+    function show(k){var rows=R.filter(function(r){return k==="all"||r.k===k});tb.innerHTML=rows.map(function(r){return '<tr><td class="k">'+esc(r.d)+'</td><td>'+esc(r.who)+'</td><td>'+esc(r.on)+'</td><td>'+esc(r.out)+'</td><td><span class="tag '+(r.r==="closed"?"t-watch":"t-fact")+'">'+(r.r==="closed"?"closed a route":"route held")+'</span></td></tr>'}).join("");
+      var closed=rows.filter(function(r){return r.r==="closed"}).length;
+      var txt={all:"Eleven cases. Five closed a route; six held. Every closure before 2000 ran through a corporation or a podium; every case after 2000 that targeted the venue or the sponsor held. The pressure point that worked was the one with a balance sheet.",venue:"The venue is the weakest point in the template: three cases, none closed. Police pressure on a stage sold tickets in 1989, 2000 and 2016.",corp:"The corporation is the strongest point: four of five closed, and the fifth, Target, is the template run in reverse by the circuit against a company. The balance sheet is where routes close.",sponsor:"Split. A rival merchant bloc closed Ice Cube's sponsor in weeks in 1991; a boycott call against Nike in 2018 raised its sales. The sponsor's exposure depends on who its customers are.",podium:"Two cases, one each way. The nominee's rebuke in 1992 closed a route for an artist with no market; the president's attack on a halftime in 2025 held against an artist with the largest audience in the country."}[k];
+      v.innerHTML="<b>Reading · "+rows.length+" cases · "+closed+" closed</b>"+txt}
+    seg("#bt-seg",show);show("all")
+  })();
+
+  /* ---------- the pipe ---------- */
+  (function(){
+    var V=[
+      {ro:[["Stores pulling the album, July 1992","1,000+","before the track was withdrawn"],["Artist released by the board","Jan 1993","content control moves from label to board"],["Interscope stake sold, 1995","$115M","moved by shame, not statute"]],v:"<b>Valve 1 · the label board · closed</b>The pressure point of 1992–95 was the corporation's own meeting room. It closed routes for Ice-T and for Death Row's distributor, and it is the only valve on this page that closed by the artist's own hand: \"It's my fight.\""},
+      {ro:[["National radio cap","40 → none","Telecommunications Act, Feb 8, 1996"],["Commercial radio owners","5,100 → 3,800","1996 to Nov 2001"],["Stations sold in a year","3,900 · $30.1B","40% of all stations, NTIA"]],v:"<b>Valve 2 · the distribution layer · closed</b>The Act converted Black stations into sale proceeds at exactly the moment hip-hop reached its highest share of record sales. The room that in the 1950s was WDIA was sold out from under the audience during the decade the audience's music was winning."},
+      {ro:[["BET sale, 2000","~$3B","\"a significant loss for African American ownership\""],["Minority share of stations","3.1% → 2.8%","1996 to 1997, NTIA"],["Black-owned full-power TV","25 → 18","1998 to 2006, Free Press"]],v:"<b>Valve 3 · the ownership ledger · closed</b>By 2007 African Americans owned about 3.3% of commercial radio and 1.3% of television. That floor is the base from which Byron Allen's 2025 station sale and BET's 2026 absorption should be read."},
+      {ro:[["Delay on the West Coast feed","3 hours","NBC, Sep 2, 2005"],["Money raised that night","$50M","for the Red Cross"],["Viewers","~8.5M","the one channel that could not be pre-cleared"]],v:"<b>Valve 4 · the tape delay · closed</b>Live charity television was the only unmuted channel left, and it was muted within three hours. The line still became the night's story; the president later called it an all-time low of his term."},
+      {ro:[["FCC probes opened","Mar 2025","Comcast, Disney; DEI as a merger condition"],["Paramount DEI rollback","Feb 2025","merger closed Aug 7"],["BET","\"not for sale\"","Aug 13, 2025; BET+ absorbed Mar 2026"]],v:"<b>Valve 5 · the merger desk · closed</b>Regulatory leverage turned DEI from a brand asset into a merger liability, and the Black-ownership bids for BET ended. The network stays inside a conglomerate that shed the policy to close the deal."},
+      {ro:[["Florida Black vote, 1996 → 2000","+66%","536,815 → 892,955, in a state decided by 537"],["18–24 turnout, 2000 → 2004","+11 pts","36% → 47%, the largest gain of any age group"],["Georgia runoffs, Jan 5, 2021","2 seats","Fair Fight organizing widely credited"]],v:"<b>Valve 6 · the registration line · opened</b>While the pipes above closed, the political energy that had lived in lyrics moved into registration machinery run on Black radio, the church and the ground. It is the route that flipped a Senate and the only one on this page with a measured effect on turnout."}
+    ];
+    var ro=$("#pipe-ro"),v=$("#pipe-v"),fl=$("#pipe-flow");if(!ro)return;
+    function show(i){i=+i;var d=V[i];ro.innerHTML=d.ro.map(function(r){return '<div class="ro"><span class="l">'+esc(r[0])+'</span><span class="v '+(i===5?'fact':'tag')+'">'+esc(r[1])+'</span><span class="s">'+esc(r[2])+'</span></div>'}).join("");v.innerHTML=d.v;v.className="verdict"+(i===5?" ok":"");fl.className=i===5?"":"cut"}
+    var p=$("#pipe");$$("button",p).forEach(function(b){b.addEventListener("click",function(){$$("button",p).forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});show(b.dataset.i)})});show(0)
+  })();
+
+  /* ---------- the ownership floor ---------- */
+  (function(){
+    var M={
+      owners:{rows:[["Commercial radio owners, 1996","~5,100",5100],["Commercial radio owners, Nov 2001","~3,800",3800]],v:"<b>Reading</b>A quarter of the owners gone in five years. Free Press counted a 35% fall in unique owners by 2003. Fewer owners is fewer rooms."},
+      cc:{rows:[["Clear Channel stations, 1995","36",36],["Clear Channel stations, Oct 1998","453",453],["Clear Channel stations, 2003","~1,200",1200]],v:"<b>Reading</b>One company went from 36 stations to about 1,200 in eight years. The dial that carried Black political radio in 2000 and 2007 was increasingly one owner's dial."},
+      minority:{rows:[["Minority share of commercial stations, 1996","3.1%",3.1],["Minority share, 1997","2.8%",2.8],["African-American share of radio, 2007","3.3%",3.3],["All minorities' share of TV, 2006","3.26%",3.26]],v:"<b>Reading</b>The share never recovered to its 1996 level in the decade that followed; Black-owned radio saw the biggest drops in the first year. Against a population share of about a third for all minorities, the ownership floor sat near three percent."},
+      tv:{rows:[["Black-owned full-power TV stations, 1998","25 of 1,349",25],["Black-owned full-power TV stations, 2006","18 of 1,349",18]],v:"<b>Reading</b>Eighteen stations, nine of them through one company. A 28% decline across the decade Black content boomed on screen. Episode 1's Presence vs. Ownership exhibit shows the same gap from the other side."}
+    };
+    var bars=$("#fl-bars"),v=$("#fl-v");if(!bars)return;
+    function show(k){var m=M[k];var max=Math.max.apply(null,m.rows.map(function(r){return r[2]}));bars.innerHTML=m.rows.map(function(r,i){return '<div class="bar"><span class="n">'+esc(r[0])+'</span><span class="tr"><i class="f" style="width:'+(r[2]/max*100)+'%;--c:'+(i===m.rows.length-1?'var(--tag)':'var(--gold)')+'"></i></span><span class="v">'+esc(r[1])+'</span></div>'}).join("");v.innerHTML=m.v}
+    seg("#fl-seg",show);show("owners")
+  })();
+
+  /* ---------- the two feeds ---------- */
+  (function(){
+    var f=$("#feed"),v=$("#feed-v");if(!f)return;
+    function show(k){var west=k==="west";
+      f.innerHTML='<span class="chy">'+(west?"WEST · TAPE · +3:00":"EAST · LIVE")+'</span>'+
+        '<p>NBC · A Concert for Hurricane Relief · September 2, 2005 · Mike Myers and Kanye West, off script</p>'+
+        '<p class="q">"I hate the way they portray us in the media."</p>'+
+        (west?'<p class="cut">[ CUT · the next sentence was removed from the delayed feed without alerting the producers ]</p>':'<p class="q">"George Bush doesn\'t care about black people."</p>')+
+        '<p>NBC statement: his opinions "in no way represent the views of the networks."</p>';
+      v.innerHTML=west?"<b>West Coast</b>Muted by tape delay. The three hours were enough to remove the sentence and not enough to stop it becoming the night's story; the telethon still raised $50 million. The valve closed and the current went around it.":"<b>East Coast</b>Live. The only channel in 2005 that could not be pre-cleared, because charity television is the one format a network cannot script. Five years later a former president ranked the sentence among the worst moments of his term."}
+    seg("#feed-seg",show);show("east")
+  })();
+
+  /* ---------- the Oprah interval ---------- */
+  (function(){
+    var lo=423123,hi=1596995,pt=1015559,margin=278966,turn=2200000;
+    var r=$("#ci-pick"),o=$("#ci-out"),band=$("#ci-band"),mk=$("#ci-mk"),mkl=$("#ci-mkl"),pin=$("#ci-pin"),ro=$("#ci-ro"),v=$("#ci-v");if(!r)return;
+    var X0=0,X1=1700000;var px=function(n){return ((n-X0)/(X1-X0)*100)+"%"};
+    band.style.left=px(lo);band.style.width=((hi-lo)/(X1-X0)*100)+"%";$("#ci-lo").style.left=px(lo);$("#ci-lo").textContent="low "+fmt(lo);$("#ci-hi").style.left=px(hi);$("#ci-hi").textContent="high "+fmt(hi);
+    mk.style.left=px(margin);mkl.style.left=px(margin);mkl.textContent="margin "+fmt(margin);
+    function run(){var n=+r.value;o.textContent=fmt(n)+" votes";pin.style.left=px(n);
+      ro.innerHTML='<div class="ro"><span class="l">Your pick</span><span class="v gold">'+fmt(n)+'</span><span class="s">primary votes attributed to the endorsement</span></div><div class="ro"><span class="l">Point estimate</span><span class="v">'+fmt(pt)+'</span><span class="s">Garthwaite &amp; Moore, JLEO 2013 · T1</span></div><div class="ro"><span class="l">Obama\'s margin over Clinton</span><span class="v tag">'+fmt(margin)+'</span><span class="s">across the 45-state sample</span></div><div class="ro"><span class="l">Pick ÷ margin</span><span class="v fact">'+(n/margin).toFixed(1)+'×</span><span class="s">turnout effect in the paper: ~'+fmt(turn)+' voters</span></div>';
+      v.innerHTML="<b>Reading</b>Every point in the interval exceeds the margin: even the low end, "+fmt(lo)+", is about "+fmt(lo-margin)+" votes above it. The proxy is county-level <i>O</i> Magazine circulation and Book Club sales, so the estimate is of the endorser's audience, not of the candidate's stage. It is the only peer-reviewed number on this page that puts a Black celebrity's effect on an election above the result's margin, and it belongs to the one election where the candidate was also the circuit's own."}
+    r.addEventListener("input",run);run()
+  })();
+
+  /* ---------- the dimmer switch ---------- */
+  (function(){
+    var E={
+      2004:{cand:[0,"No Black nominee"],money:[null,"not on this page's record"],stage:[2,"Vote or Die; HSAN; 18–24 turnout +11 pts"],v:"<b>2004 · tested</b>The first celebrity registration drive at scale; the youth surge was real and the registration claims were self-reported. Black turnout 60.3%, seven points under white turnout."},
+      2008:{cand:[1,"Black nominee"],money:[0.5,"$750M from ~4M donors (T1/T2)"],stage:[4,"Oprah; Jay-Z's free shows; Yes We Can; We Are One"],v:"<b>2008 · evolved</b>Candidate, money and stage pointed the same way for the first time. Black turnout 65.2%, within a point of white turnout; Black women 68.8%, the highest of any group."},
+      2012:{cand:[1,"Black incumbent"],money:[null,"not on this page's record"],stage:[3,"40/40 Club fundraiser, $40,000 a ticket"],v:"<b>2012 · the peak</b>Black turnout 66.2% exceeded white turnout 64.1% for the first time the Census had recorded. The stage was quieter than 2008; the candidate was the same."},
+      2016:{cand:[0,"No Black nominee"],money:[null,"not on this page's record"],stage:[3,"Jay-Z and Beyoncé, Cleveland, Nov 4"],v:"<b>2016 · muted</b>Same artists, no Black candidate. Black turnout fell seven points to 59.6%. The stage did not substitute for the candidate."},
+      2020:{cand:[0.5,"Black vice-presidential nominee"],money:[null,"not on this page's record"],stage:[2,"Mary J. Blige walk-on; Blackout Tuesday era"],v:"<b>2020 · evolved</b>Recovery to 62.6%, not a return to 2012; white turnout a record 70.9. The Senate flipped two months later on ground organizing in Georgia."},
+      2024:{cand:[1,"Black nominee"],money:[1,"$1B+ raised, $1.5B spent in 15 weeks (T2)"],stage:[5,"Beyoncé, Megan, Oprah, Swift, Usher, Cardi B, the calls"],v:"<b>2024 · tested</b>Candidate, money and stage all at full. Black turnout 59.6%, the 2016 level. The dial that moved in 2012 was the candidate's; in 2024 the candidate was there and the audience was not. The record does not say why."}
+    };
+    var dials=$("#dim-dials"),bars=$("#dim-bars"),v=$("#dim-v");if(!dials)return;
+    function show(y){var e=E[+y];
+      dials.innerHTML='<div class="dial"><span class="l">Candidate</span><span class="m"><i style="width:'+(e.cand[0]*100)+'%"></i></span><span class="v">'+esc(e.cand[1])+'</span></div>'+
+        '<div class="dial"><span class="l">Money</span><span class="m"><i style="width:'+(e.money[0]===null?0:e.money[0]*100)+'%;--c:var(--fact)"></i></span><span class="v">'+esc(e.money[1])+'</span></div>'+
+        '<div class="dial"><span class="l">Stage · this page\'s reading</span><span class="m"><i style="width:'+(e.stage[0]*20)+'%;--c:var(--tag-lit)"></i></span><span class="v">'+esc(e.stage[1])+'</span></div>';
+      bars.innerHTML=[2004,2008,2012,2016,2020,2024].map(function(yy){var on=yy===+y;return '<div class="bar'+(on?'':' ghost')+'"><span class="n">'+yy+' · Black turnout'+(on?'':'')+'</span><span class="tr"><i class="f" style="width:'+(TURN[yy]/75*100)+'%;--c:'+(on?'var(--gold)':'var(--kraft)')+'"></i></span><span class="v">'+TURN[yy]+'% · white '+WHITE[yy]+'%</span></div>'}).join("");
+      v.innerHTML=e.v}
+    seg("#dim-el",show);show("2008")
+  })();
+
+  /* ---------- response time ---------- */
+  (function(){
+    var R=[
+      ["Police union to Cop Killer, 1992",92,"var(--tag)","Mar 10 album → Jun 10 boycott call"],
+      ["Clinton to Sister Souljah, 1992",31,"var(--inference)","May 13 Post interview → Jun 13 rebuke"],
+      ["J. Cole to Ferguson, 2014",6,"var(--gold)","Aug 9 → Aug 15, Be Free"],
+      ["Industry to George Floyd, 2020",8,"var(--gold)","May 25 → Jun 2, Blackout Tuesday"],
+      ["Harris campaign to Beyoncé, 2024",1,"var(--inference)","Jul 21 launch → Jul 22 Freedom cleared"],
+      ["NFL to Kaepernick: the policy",635,"var(--tag)","Aug 26, 2016 → May 23, 2018"],
+      ["NFL to Kaepernick: the settlement",903,"var(--tag)","Aug 26, 2016 → Feb 15, 2019"]
+    ];
+    var b=$("#rt-bars");if(!b)return;
+    b.innerHTML=R.map(function(r){var w=Math.log10(r[1]+1)/Math.log10(1000)*100;return '<div class="bar"><span class="n">'+esc(r[0])+'<br><span class="mono" style="font-size:11px;color:var(--paper-faint)">'+esc(r[3])+'</span></span><span class="tr"><i class="f" style="width:'+w+'%;--c:'+r[2]+'"></i></span><span class="v">'+r[1]+' day'+(r[1]===1?'':'s')+'</span></div>'}).join("")+'<p class="legend" style="margin-top:4px">Log scale. Dates from the sources in the footer.</p>'
+  })();
+
+  /* ---------- the sports front ---------- */
+  (function(){
+    var S=[
+      {h:"August 26 / September 1, 2016 · Protest",w:"Colin Kaepernick sits, then kneels, during the anthem. The circuit's sports front opens: an athlete, a stage the league owns, a sponsor economy around both.",s:"FACT · T2 · s45"},
+      {h:"May 23, 2018 · Administrative closure",w:"NFL owners vote to fine teams for on-field anthem protests; players may stay in the locker room. The institution tries to close the protest by rule.",s:"FACT · T2 · s44"},
+      {h:"September 2018 · Market reward",w:"Nike's Dream Crazy ad: online sales up 31% in the following days (Edison Trends), shares to a record high. The market prices the protest as a brand asset.",s:"FACT · T2/T3 · s44"},
+      {h:"February 15, 2019 · Private settlement",w:"Kaepernick and Eric Reid settle their collusion grievance; the total is reported under $10 million. No reinstatement. The protest is resolved privately and cheaply.",s:"FACT · T2 · s45"},
+      {h:"August 13–14, 2019 · Contract",w:"Roc Nation–NFL partnership. Jay-Z: \"we've moved past kneeling.\" Inspire Change pledge reported at $25 million, later framed as $250 million over ten years. Criticized at the time as co-optation.",s:"FACT · T2 · s46"},
+      {h:"February 9, 2025 → February 14, 2027 · The stage",w:"Kendrick Lamar's halftime, produced under the deal, averages 133.5 million viewers, the most ever: Samuel L. Jackson as Uncle Sam, Serena Williams crip-walking. On October 26, 2026 the NFL names Jay-Z to headline Super Bowl LXI. The deal's architect now performs the product he programs.",s:"FACT · T3 · s66, s81"}
+    ];
+    var b=$("#sf-body");if(!b)return;
+    function show(i){var s=S[+i];b.innerHTML='<span class="h">'+esc(s.h)+'</span><span class="w">'+esc(s.w)+'</span><span class="s">'+esc(s.s)+'</span>'}
+    seg("#sf .steps",show);show(0)
+  })();
+
+  /* ---------- pledged vs delivered ---------- */
+  (function(){
+    var P=[
+      {n:"Rebuild LA, 1992–97",p:1e9,d:382e6,u:"$",s:"Time · T2"},
+      {n:"Vons supermarkets pledged to South LA",p:10,d:1,u:"stores",s:"NPR · T2"},
+      {n:"BLM Global Network Foundation, 2020: raised vs. distributed",p:90e6,d:21.7e6,u:"$",s:"NBC News · T2"},
+      {n:"Label funds, June 2020 (Sony $100M, Warner $100M, UMG $25M)",p:225e6,d:null,u:"$",s:"announced totals · T3"},
+      {n:"Roc Nation–NFL Inspire Change, 2019",p:25e6,d:null,u:"$",s:"reported $25M, later $250M/10 yrs · T2"},
+      {n:"Fortune 1000 racial-equity pledges, May 2020 – Oct 2022",p:340e9,d:null,u:"$",s:"McKinsey · deployment \"not always disclosed\" · T2"},
+      {n:"Platinum Plan, Sep 2020 (campaign pledge)",p:500e9,d:null,u:"$",s:"XXL · T3 · a promise, not a fund"}
+    ];
+    var b=$("#pl-bars");if(!b)return;
+    var money=function(n){return n>=1e9?"$"+(n/1e9).toFixed(n>=1e10?0:1)+"B":n>=1e6?"$"+(n/1e6).toFixed(n>=1e8?0:1)+"M":"$"+fmt(n)};
+    function show(k){
+      b.innerHTML=P.map(function(p){var pv=p.u==="$"?money(p.p):p.p+" "+p.u;var dv=p.d===null?"no delivery figure published":(p.u==="$"?money(p.d):p.d+" "+p.u);
+        if(k==="abs"){var L=function(x){return Math.log10(x+1)/Math.log10(1e12)*100};var pw=p.u==="$"?L(p.p):p.p/10*30,dw=p.d===null?0:(p.u==="$"?L(p.d):p.d/10*30);
+          return '<div class="bar"><span class="n">'+esc(p.n)+'<br><span class="mono" style="font-size:11px;color:var(--paper-faint)">'+esc(p.s)+'</span></span><span class="tr"><i class="f" style="width:'+pw+'%;--c:var(--gold)"></i>'+(p.d===null?'<i class="f hatch" style="width:'+pw+'%;--c:var(--kraft)"></i>':'<i class="f" style="width:'+dw+'%;--c:var(--fact)"></i>')+'</span><span class="v">'+pv+' → '+dv+'</span></div>'}
+        var pct=p.d===null?null:p.d/p.p*100;
+        return '<div class="bar"><span class="n">'+esc(p.n)+'</span><span class="tr">'+(pct===null?'<i class="f hatch" style="width:100%;--c:var(--kraft)"></i>':'<i class="f" style="width:'+pct+'%;--c:var(--fact)"></i>')+'</span><span class="v">'+(pct===null?'unaudited':pct.toFixed(0)+'% delivered')+'</span></div>'}).join("")+(k==="abs"?'<p class="legend" style="margin-top:4px">Dollar bars on a log scale; the store count is linear.</p>':'')}
+    seg("#pl-seg",show);show("abs")
+  })();
+
+  /* ---------- the vote by pollster ---------- */
+  (function(){
+    var V={
+      ap:{rows:[["Black voters for Trump, 2020",8],["Black voters for Trump, 2024",16],["Black men for Trump, 2024",24],["Black women for Trump, 2024",9],["Black voters for Harris, 2024",83]],v:"<b>AP VoteCast · levels</b>Black support for the Republican nominee doubled from 8% to 16%; Black men 24%, Black women 9%. Harris 83% against Biden's 91%. The largest Black-vote movement since 2008, in this survey."},
+      edison:{rows:[["Black men for Trump, 2020",12],["Black men for Trump, 2024",21],["Black voters for Trump, 2024",13]],v:"<b>Edison / CNN exit poll · levels</b>Black men roughly 12% to 21%; Black voters overall about 13%. Same direction as AP VoteCast, smaller magnitude. Exit polls and VoteCast sample differently; neither is wrong, and neither is the other."},
+      pew:{rows:[["Black voters for Trump, 2020",8],["Black voters for Trump, 2024",15],["Black voters for Harris, 2024",83],["Shift toward Trump, Black men (pts)",22],["Shift toward Trump, Black women (pts)",9]],v:"<b>Pew validated voters · levels and shifts, kept apart</b>Trump 8% to 15% among Black voters; the last two bars are shifts in points, not levels. Black men moved 22 points, more than any cohort Pew measured; Black women 9. Validated against voter files, published June 26, 2025."},
+      census:{rows:[["Black turnout, 2020",62.6],["Black turnout, 2024",59.6],["White turnout, 2024",67.3],["Hispanic turnout, 2024",50.6],["Asian turnout, 2024",57.1]],v:"<b>Census CPS · turnout, not vote share</b>Black turnout down three points to 59.6%, the 2016 level; the Black–white gap about eight points in the CPS and about sixteen in validated-file research (Good Authority, Oct 2025). This is the number the rest of the page keeps returning to."}
+    };
+    var b=$("#vp-bars"),v=$("#vp-v");if(!b)return;
+    function show(k){var m=V[k];b.innerHTML=m.rows.map(function(r,i){var shift=/Shift/.test(r[0]);return '<div class="bar"><span class="n">'+esc(r[0])+'</span><span class="tr"><i class="f'+(shift?' hatch':'')+'" style="width:'+(r[1]/100*100)+'%;--c:'+(shift?'var(--inference)':/Harris|turnout/.test(r[0])?'var(--gold)':'var(--tag)')+'"></i></span><span class="v">'+r[1]+(shift?' pts':'%')+'</span></div>'}).join("");v.innerHTML=m.v}
+    seg("#vp-seg",show);show("ap")
+  })();
+
+  /* ---------- the stage board ---------- */
+  (function(){
+    var L=[
+      {n:"The Lincoln Memorial",e:[[1939,"on","Easter Sunday, 1939: Marian Anderson sings to 75,000 after Constitution Hall is closed to her."],[1963,"on","August 28, 1963: the March on Washington program, Mahalia Jackson and Marian Anderson among the performers."],[2009,"on","January 18, 2009: We Are One, 400,000+, aired free on HBO."],[2010,"na","No entry on this page after 2009."]]},
+      {n:"The White House stage",e:[[1993,"on","Inaugural week: Maya Angelou reads; Michael Jackson, Aretha Franklin, Diana Ross, LL Cool J, Boyz II Men perform."],[2011,"dim","May 11, 2011: the poetry evening with Common draws attacks from Fox News, Palin and Limbaugh; the press secretary defends it."],[2016,"on","Kendrick Lamar in the Oval Office; the Hamilton cast; BET's Love and Happiness on the South Lawn."],[2025,"dim","2025–26 Black History Month proclamations name Sowell, Thomas and Woods, then say \"we do not celebrate our differences.\" No comparable performance program on this page's record."]]},
+      {n:"The Kennedy Center",e:[[1971,"on","Opened September 1971; its programming across five decades is not itemized on this page."],[2025,"dim","February 2025: the board replaced; Issa Rae, the Hamilton tour and Rhiannon Giddens cancel."],[2026,"off","January 31, 2026: no Black History Month programming for the first time in decades; February 1: closure announced from July 4 for about two years; the board had voted in December to rename it."]]},
+      {n:"NMAAHC · the Smithsonian",e:[[2016,"on","September 24, 2016: the National Museum of African American History and Culture opens on the Mall."],[2025,"dim","August 12, 2025: a White House letter orders a content review of eight museums including NMAAHC, 30 days to submit, 120 to correct."],[2026,"dim","July 24, 2026: EO 14416 targets the National Museum of American History and conditions funding; NMAAHC not named. No specific NMAAHC changes on the public record."]]},
+      {n:"The arts endowments",e:[[1965,"on","September 29, 1965: the National Endowment for the Arts and the Humanities founded."],[2025,"off","April–May 2025: NEH grants terminated; NEA awards terminated effective May 31 under new priorities that include HBCUs; FY2026 budget proposes eliminating NEA, NEH and IMLS."]]},
+      {n:"Juneteenth",e:[[2021,"on","June 17, 2021: Juneteenth National Independence Day Act signed into law."],[2025,"dim","June 19, 2025: no proclamation, statement or event; a post about \"too many non-working holidays.\" The statute stands."],[2026,"dim","June 19, 2026: again no proclamation, statement or scheduled event."]]}
+    ];
+    var r=$("#bd-year"),o=$("#bd-out"),b=$("#board"),v=$("#bd-v");if(!r)return;
+    function run(){var y=+r.value;o.textContent=y;var on=0,dim=0,off=0;
+      b.innerHTML=L.map(function(l){var cur=null;l.e.forEach(function(e){if(e[0]<=y)cur=e});var s=cur?cur[1]:"na";if(s==="on")on++;if(s==="dim")dim++;if(s==="off")off++;
+        return '<div class="light" data-s="'+s+'"><span class="lamp"></span><span class="n">'+esc(l.n)+'</span><span class="w">'+(cur?esc(cur[2]):"No entry on this page before "+l.e[0][0]+".")+'</span></div>'}).join("");
+      var txt=y>=2026?"As of the dateline: no federal stage on this board is fully lit. "+off+" are dark, "+dim+" are dim or under review, and the Lincoln Memorial has no entry on this page since 2009. The commercial stage, meanwhile, drew 133.5 million for a halftime and 128.2 million for the next.":y>=2025?"The year the board changed. Four lights went from lit to dim or dark inside twelve months, by executive order, board vote and grant termination.":y>=2016?"The high point of the board: the White House, the Lincoln Memorial's successor stages and the new museum lit at once, under a Black president in his last year.":y>=2009?"The Lincoln Memorial lit for the inaugural, seventy years after Anderson.":y>=1965?"The endowments founded; the federal dollar enters the circuit as subsidy for the first time.":y>=1939?"One light: a stage given because a hall was refused.":"";
+      v.innerHTML="<b>"+y+" · "+on+" lit · "+dim+" dim · "+off+" dark</b>"+txt}
+    r.addEventListener("input",run);run()
+  })();
+
+  /* ---------- the timeline ---------- */
+  (function(){
+    var t=$("#tl"),v=$("#tl-v");if(!t)return;
+    t.innerHTML=EV.map(function(e){return '<div class="ev" data-k="'+e.k+'"><span class="d">'+dstr(e.d)+'</span><span class="k" aria-hidden="true"></span><span class="w"><b>'+esc(e.t)+'</b> — '+esc(e.w)+'</span></div>'}).join("");
+    function show(k){var n=0;$$(".ev",t).forEach(function(el){var h=k!=="all"&&el.dataset.k!==k;el.hidden=h;if(!h)n++});
+      var txt={all:"Twenty-three stress points. The muted events cluster in the 1990s (the board, the Act, the sale) and again in 2025; the evolved events cluster between 2001 and 2012 and reappear wherever a performer owned the stage. The two turnout bookends are 2012 and 2024.",tested:"The circuit under load: a telethon, a hashtag, a halftime, a knee, a pause, a ruling, a loss, a review. None of these closed a route by itself; each forced the question of which route would hold.",evolved:"New routes: the registration line, the endorsement, the donor-host, the contract, the boycott run by the circuit itself. Every one of them is a performer or a church owning a piece of the room.",muted:"Routes closed: a rebuke, a withdrawal, a sale, a statute, another sale, a board, a poll's unsure column. Four of the seven ran through a corporation's balance sheet."}[k];
+      v.innerHTML="<b>"+n+" events</b>"+txt}
+    seg("#tl-seg",show);show("all")
+  })();
+  /* ---------- plates: reveal on scroll, credits from assets/plates/credits.json when present ---------- */
+  (function(){
+    var ps=$$(".plate");if(!ps.length)return;
+    ps.forEach(function(p){var im=$("img",p);if(im){im.addEventListener("error",function(){p.setAttribute("data-missing","")})}});
+    if("IntersectionObserver" in window&&!reduce){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{rootMargin:"0px 0px -12% 0px"});ps.forEach(function(p){io.observe(p)})}else ps.forEach(function(p){p.classList.add("static")});
+    try{fetch("../assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(!j)return;ps.forEach(function(p){var k=p.dataset.plate,c=j[k];if(c&&c.credit){var el=$(".cr",p);if(el)el.textContent=c.credit}})}).catch(function(){})}catch(e){}
+  })();
+  /* ---------- the engine: the circuit running, 1920–2026 ---------- */
+  (function(){
+    var cv=$("#en-canvas");if(!cv)return;
+    // Stations
+    var N={P:{n:"PERFORMER",a:-90},R:{n:"THE ROOM",a:-18},A:{n:"AUDIENCE",a:54},M:{n:"CHURCH · MOVEMENT",a:126},O:{n:"OUTSIDE DOLLAR",a:198}};
+    // Routes: key, label, kind (in=inside dollar, out=outside dollar, mv=movement, ex=exit)
+    var E=[
+      ["P>R","the work: performer to room","in"],["R>A","the show: room to audience","in"],["A>R","the ticket: audience to room","in"],["R>P","the fee or royalty: room to performer","in"],
+      ["A>M","the collection: audience to church and movement","mv"],["P>M","cash, bail, planes, endorsement: performer to movement","mv"],["M>P","the benefit stage: movement books the performer","mv"],["M>A","the movement on the stage: to the audience","mv"],
+      ["O>R","the tourist, advertiser or corporate dollar: into the room","out"],["R>O","the dividend: room to outside owner","ex"],["O>M","outside donors and pledges: to the movement","out"],["M>O","the image: movement to the outside audience","mv"],
+      ["P>O","the crossing: the sound to the outside audience","in"],["O>P","the outside dollar straight to the performer","out"],["R>X","the sale: the room leaves the community","ex"],["A>X","the withdrawal: the audience stops paying","mv"]
+    ];
+    // Keyframes. f = flows 0–3 per route; closed = routes drawn as cut; g = macro gauges (room: Black-owned share of the room, this page's reading; in: outside dollar in; ex: what leaves; mv: movement draw), 0–100; valve = {n, open, who}
+    var K=[
+      {y:"1920",t:"The circuit before it had a name",h:"TOBA: eighty houses, a third Black-owned",n:"⅓",w:"Sherman Dudley's theaters became TOBA in 1920; at its peak it booked more than eighty houses, about a third Black-owned, with a white president and booker. Bessie Smith at the top is reported at $2,000 a week in her own rail car; by 1933 she recorded for $37.50 a side. In 1930 Dudley sold to a cinema company: the first Black-controlled booking capital exited to white exhibitors.",s:"FACT · T2/T3 · The Circulating Dollar",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"A>M":1,"R>X":1},g:{room:33,in:10,ex:35,mv:20},valve:{n:"Jim Crow: the white room closed to the Black audience",open:false,who:"the state"},v:"The inside dollar, closed and small. Where the room was Black-owned the money recirculated; where it was not, the biggest gates paid Black wages and white dividends. The circuit's first exit is already visible: Dudley, 1930."},
+      {y:"1923",t:"The tourist dollar",h:"The Cotton Club: whites only, $2 minimum",n:"600,000",w:"Owney Madden's Cotton Club on Lenox Avenue was whites-only at the tables; Ellington was broadcast nationally on NBC from 1929; the 1934 Parade drew more than 600,000 paying customers. One block north the Savoy priced for the neighborhood (30 to 85 cents), drew about 700,000 a year, 85 percent Black, and cleared about $250,000 a year, mostly to white owners.",s:"FACT · T3 · The Circulating Dollar",f:{"P>R":3,"R>A":2,"A>R":2,"R>P":1,"O>R":3,"R>O":3,"P>O":2},g:{room:15,in:80,ex:75,mv:10},valve:{n:"The whites-only door on a Black block",open:false,who:"the owner"},v:"Harlem's address, Harlem's performers, downtown's money, and none of it spent on the block. The tourist dollar bought fame and paid wages; it did not build equity."},
+      {y:"1935",t:"The neighborhood keeps the ledger",h:"The Harlem riot: $2 million in damage, on white-owned stores",n:"$2M",w:"When Harlem rioted in March 1935 the damage fell on white-owned stores; Black-owned shops posted \"Colored Store\" signs and were spared. The Dunbar in Philadelphia, built in 1919 by a Black bank, had gone to white owners in the Depression. The Apollo would stay white-owned until 1981.",s:"FACT · T3 · The Circulating Dollar",f:{"P>R":2,"R>A":2,"A>R":1,"R>P":1,"O>R":2,"R>O":3,"A>M":2,"R>X":2},g:{room:12,in:55,ex:80,mv:30},valve:{n:"The withdrawal, by other means",open:true,who:"the audience"},v:"The audience knew exactly which doors its money went through without coming back. The consumer withdrawal exists before it has a strategy; Montgomery will give it one."},
+      {y:"1949",t:"The Negro market, counted",h:"WERD, Atlanta: the first Black-owned station, $50,000",n:"$50,000",w:"Ebony's first 25,000 copies sold out in 1945; Zenith signed as the first national advertiser in 1946; Time priced the \"Negro market\" at $15 billion in 1954 with 374 stations programming for Black listeners. WDIA in Memphis went all-Black in programming in 1949 and earned substantial revenue for white owners; WERD, bought by Jesse Blayton in October 1949, was the exception, in the building that would house the SCLC.",s:"FACT · T1/T2 · The Circulating Dollar",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"O>R":3,"R>O":2,"A>M":2,"M>A":1},g:{room:8,in:85,ex:60,mv:35},valve:{n:"The advertiser's dollar enters a Black-owned company",open:true,who:"Johnson Publishing"},v:"The first reversal of the century's flow: white money entering a Black-owned company to reach Black customers. Radio was the bigger pipe and the leakier one; the station that reached a tenth of Black America paid wages, not dividends, to the people on air."},
+      {y:"1955",t:"The crossing",h:"Tutti Frutti: half a cent a record, $50 for the publishing",n:"13M",w:"Billboard renamed Race Records to Rhythm & Blues in 1949; in 1955 the sound crossed. Little Richard got half a cent a record and $50 for the publishing; Pat Boone's cover charted higher and his singles sold 13 million by 1957. A quarter of Chuck Berry's writer's share on Maybellene went to DJ Alan Freed as payola in copyright.",s:"FACT / REPORTED · T2–T3 · The Circulating Dollar",f:{"P>R":3,"R>A":2,"A>R":2,"R>P":1,"O>R":2,"R>O":3,"P>O":3,"O>P":1,"A>M":2},g:{room:10,in:70,ex:85,mv:40},valve:{n:"The paper on the way across: cover, co-writer, publisher",open:false,who:"the label and the DJ"},v:"The crossing dollar followed the paper, not the performance. The Black artist kept the road: Fats Domino, 340 days a year, up to $2,500 a night."},
+      {y:"1956",t:"The withdrawal, organized",h:"Montgomery: 381 days; the bus line's claim of losing 22¢ a mile",n:"381",w:"December 5, 1955 to December 20, 1956, organized through the churches by the Montgomery Improvement Association, with a carpool in place of the buses; ended by Browder v. Gayle. The primary record of the company's loss is its own claim of 22 cents a mile; the \"65 percent\" figure is not used here.",s:"FACT · T1/T3 · The Circulating Dollar",f:{"P>R":2,"R>A":2,"A>R":1,"A>M":3,"M>A":3,"A>X":3,"M>O":2,"O>M":1,"P>M":1},g:{room:12,in:30,ex:40,mv:85},valve:{n:"The consumer withdrawal",open:true,who:"the church"},v:"The audience's dollar becomes the movement's lever. This is the route the circuit will run again against a national retailer in 2025, and it is the only one on the board that needs no room at all."},
+      {y:"1961",t:"The concert treasury",h:"Carnegie Hall, January 27, 1961: one night, a third of the year",n:"$22,000",w:"The tribute for King's 32nd birthday grossed more than $55,000 and netted about $22,000 against an SCLC annual budget of roughly $60,000. Belafonte's $40,000 check seeded SNCC's field work; in August 1964 he and Poitier carried $70,000 in a bag to Greenwood through a Klan chase. SNCC's New York office raised $350,000 by October 1964; field secretaries got $10 a week.",s:"FACT · T1/T2 · The Circulating Dollar",f:{"P>R":2,"R>A":2,"A>R":2,"R>P":1,"P>M":3,"M>P":3,"A>M":3,"M>O":3,"O>M":2,"M>A":2},g:{room:15,in:45,ex:35,mv:100},valve:{n:"The benefit stage and the broadcast image",open:true,who:"the performer and the movement"},v:"The art was not decorating the movement; it was the movement's cash flow. A two-way exchange: cash, bail, planes and platforms one way; images and the moral license that made Black performers bookable in rooms that had excluded them, the other."},
+      {y:"1966",t:"A Black-owned room captures the crossing",h:"Motown: 70 percent of million-seller buyers white, by Gordy's count",n:"70%",w:"About $20 million in sales in 1966 and a 75 percent hit ratio; eleven acts sent to Ed Sullivan 37 times. The artist-writer royalty was 5 percent with no advance, and Gordy owned every share of Jobete, Hitsville and the management arm. Billboard had suspended the R&B chart from November 1963 to January 1965 because the separate list had stopped meaning anything.",s:"FACT · T2 · The Circulating Dollar · Episode 1, The Master's Master",a:"the-chain-of-title.html#c4",f:{"P>R":3,"R>A":3,"A>R":2,"R>P":1,"O>R":3,"P>O":3,"O>P":1,"R>O":0,"P>M":2,"M>P":1},g:{room:90,in:95,ex:20,mv:55},valve:{n:"Black ownership of the label, industry terms inside it",open:true,who:"Hitsville"},v:"The dollar finally stopped in a Black-owned room, on terms (a 5 percent royalty, no advances, publishing held by the owner) that reproduced the industry's structure inside the community. The crossover of the music was complete; the crossover of ownership had barely begun."},
+      {y:"1972",t:"The exits, and one closed loop",h:"Wattstax: 112,000 at a dollar; Soul Train, owned outright for 35 years",n:"$1",w:"Motown's Detroit payroll left in 1972; Stax went bankrupt in 1975 after Atlantic kept the 1960–67 masters on an unread contract; Vee-Jay had gone bankrupt in 1966 after losing the Beatles in court. Johnson Products (a $250 loan; the first Black company on the AMEX, 1971) to Soul Train (1971) is the one documented closed loop: Black consumer dollars to a Black manufacturer to a Black-owned national show.",s:"FACT · T2/T3 · The Circulating Dollar",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"O>R":2,"R>O":2,"R>X":3,"A>M":2,"P>M":2},g:{room:40,in:60,ex:90,mv:50},valve:{n:"The catalog sold at peak, under distress",open:false,who:"the creditor"},v:"Everywhere but one loop, the circuit opened at the exit: the catalog, the station, the theater went to a white buyer at the moment it was worth the most. The Negro market was counted by its sellers, and its sellers were, with few exceptions, not its members."},
+      {y:"1992",t:"The verdict",h:"Rebuild LA: $382 million delivered of about $1 billion pledged",n:"38%",w:"Ice-T withdrew Cop Killer under a police-union boycott of Time Warner; Clinton rebuked Sister Souljah ten days after playing Arsenio; Interscope's $10 million deal carried The Chronic to a label peaking above $100 million a year. Rebuild LA promised $6 billion; Vons pledged ten to twelve supermarkets and built one.",s:"FACT · T2/T3 · Exhibit 1",a:"#c1",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"O>R":3,"R>O":3,"O>M":1,"A>M":1,"P>O":3},g:{room:10,in:80,ex:75,mv:25},valve:{n:"The shareholder meeting",open:false,who:"the board"},v:"The chokepoint of 1992–95 was the corporation's own meeting room. The art kept selling; what the pressure closed was the route from the performer to the board that distributed him."},
+      {y:"1996",t:"The re-plumbing",h:"The Telecommunications Act: 3,900 stations sold in a year, $30.1 billion",n:"2.8%",w:"The 40-station cap lifted; owners fell from about 5,100 to 3,800 by 2001; minority ownership to 2.8 percent in a year, Black-owned radio the biggest loser. Time Warner had sold its Interscope stake ($115 million) under the Dole–Tucker–Bennett campaign in 1995. BET sold to Viacom in 2000 for about $3 billion; news and public affairs were the first casualty.",s:"FACT · T1/T2 · Exhibit 2",a:"#c2",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"O>R":3,"R>O":3,"R>X":3,"A>M":1},g:{room:3,in:85,ex:95,mv:20},valve:{n:"The distribution layer",open:false,who:"Congress and the FCC"},v:"The room that in 1949 was WDIA was sold out from under the audience during the decade the audience's music was winning. The ownership floor the next thirty years stand on: about three percent of radio, one percent of television."},
+      {y:"2008",t:"Reconnected",h:"The Oprah endorsement: about 1,015,559 primary votes, by the only peer-reviewed estimate",n:"4M",w:"Four million donors gave about $750 million; Jay-Z's free shows sold tickets only through campaign offices; will.i.am's Yes We Can reached 26 million views with no campaign involvement. Black turnout 65.2 percent, within a point of white turnout; We Are One at the Lincoln Memorial, free on HBO.",s:"FACT · T1 · Exhibit 3",a:"#c3",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"P>M":3,"M>P":2,"A>M":3,"M>O":3,"O>M":2,"M>A":3,"O>R":2,"R>O":2},g:{room:12,in:70,ex:50,mv:95},valve:{n:"The endorsement and the small donor",open:true,who:"the performer and the audience"},v:"Every element of the segregated-era circuit back at national scale with the signs reversed: the performer the donor, the outside money in four million pieces, the Lincoln Memorial stage underwritten by a pay channel as a free civic event."},
+      {y:"2012",t:"The peak",h:"Black turnout 66.2 percent, white 64.1: the first time the Census had recorded it",n:"66.2%",w:"Jay-Z and Beyoncé hosted a $40,000-a-ticket fundraiser at the 40/40 Club in September. The performer who in 1955 was the thing being ticketed is now the host writing the ticket.",s:"FACT · T1 · Exhibit 4",a:"#c4",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":3,"P>M":3,"M>P":2,"A>M":3,"M>O":2,"O>M":2,"M>A":3,"O>R":2,"R>O":2},g:{room:15,in:65,ex:45,mv:100},valve:{n:"The candidate",open:true,who:"the audience"},v:"The one election where culture, money and candidate pointed the same way at the same time. The dial that moved was the candidate's; the stage was quieter than 2008."},
+      {y:"2016",t:"The street and the stage",h:"Nike's Kaepernick ad: online sales up 31 percent in the following days",n:"+31%",w:"#BlackLivesMatter was founded with no candidate, label or telethon; Alright became a chant with no campaign's sanction; Formation drew a police-union boycott; Kaepernick knelt. Black turnout fell to 59.6 percent with the same artists on a Clinton stage. The NFL closed the protest by rule in 2018, the market rewarded it, and Roc Nation signed the contract in 2019.",s:"FACT · T2 · Exhibits 4 and 5",a:"#c5",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":3,"P>M":2,"A>M":2,"M>A":3,"O>P":3,"O>R":3,"R>O":2,"P>O":3},g:{room:15,in:85,ex:55,mv:55},valve:{n:"The anthem policy, then the contract",open:false,who:"the league"},v:"The movement left the stage; the performer answered the street in days; the institution absorbed the protest by hiring its most bankable adjacent figure. The audience did not move: the stage is not the candidate."},
+      {y:"2020",t:"The pledge",h:"About $340 billion pledged to racial equity, deployment \"not always disclosed\"",n:"$340B",w:"Blackout Tuesday was forced by two Atlantic executives; the labels pledged $225 million within days; BLM Global Network Foundation raised $90 million against an $8.4 million budget and distributed $21.7 million. Black turnout 62.6 percent; the Senate flipped on Georgia ground organizing; Juneteenth became statute. The BMAC report card graded the pledges in 2021 and 2023 and then stopped.",s:"FACT · T2 · Exhibit 5",a:"#c5",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":3,"O>M":3,"A>M":3,"M>A":2,"P>M":2,"O>R":3,"R>O":2},g:{room:15,in:100,ex:50,mv:80},valve:{n:"The pledge, unaudited",open:true,who:"the balance sheet"},v:"The largest outside-money commitment in the circuit's history, tracked by an accountability mechanism that appears to have stopped reporting before the commitments did. The route that measurably moved anything was the oldest one: registration."},
+      {y:"2024",t:"Fifteen weeks",h:"$1.5 billion in fifteen weeks; Black turnout 59.6 percent, the 2016 level",n:"59.6%",w:"A Black candidate, more than a billion dollars, nearly every major Black performer on the stage. Black men 21 to 24 percent for Trump depending on the pollster; Pew's validated shift 22 points. The $1 million Harpo production invoice and a \"$20 million on celebrities\" tally became the scapegoat line items; the DNC was still paying bills in 2025.",s:"FACT · T1/T2 · Exhibit 6",a:"#c6",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":3,"O>M":3,"P>M":3,"M>A":3,"A>M":1,"M>O":3,"O>R":3,"R>O":2,"O>P":2},g:{room:15,in:100,ex:55,mv:70},valve:{n:"The stage, at full",open:true,who:"the campaign"},v:"The stage end of the circuit fully lit; the thing that moved in 2012, the audience, did not move. The record does not say why, and the engine does not either."},
+      {y:"2026",t:"The board",h:"No federal stage on the board fully lit; the Target Fast; Kendrick's 133.5 million",n:"0 lit",w:"Kennedy Center board replaced, renamed, closing from July 4; eight Smithsonian museums under review; NEA awards terminated; no Juneteenth proclamation two years running; BET absorbed, Allen's stations sold. The church ran a 1955-style withdrawal against Target and the retailer's numbers moved; the most-watched halftime ever carried coded political satire inside the Roc Nation deal. Pew: 17 percent of Black voters unsure.",s:"FACT · T1–T3 · Exhibit 7",a:"#c7",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":3,"A>X":3,"A>M":2,"M>A":2,"P>O":3,"O>P":2,"O>R":3,"R>O":3,"R>X":3,"O>M":0},g:{room:8,in:75,ex:90,mv:60},valve:{n:"The executive order and the merger desk",open:false,who:"the administration"},v:"The federal end of the circuit closed, renamed or under review; the commercial stage with the largest audience in its history; the oldest tool working against a retailer. Where the current goes next is not in the record. The midterm is Tuesday."}
+    ];
+    // State
+    var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
+    var ctx=cv.getContext("2d"),W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
+    function size(){var r=cv.getBoundingClientRect();W=Math.max(300,Math.floor(r.width));H=Math.max(300,Math.floor(r.height));cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0)}
+    size();window.addEventListener("resize",size);
+    var col={in:"201,162,39",out:"176,138,90",mv:"124,192,150",ex:"192,94,60"};
+    function pos(id){var cx=W/2,cy=H*(W<560?.44:.46),R=Math.min(W,H)*(W<560?.29:.36);if(id==="X")return {x:cx,y:cy+R*1.3};var a=N[id].a*Math.PI/180;return {x:cx+Math.cos(a)*R,y:cy+Math.sin(a)*R}}
+    function route(key){var a=pos(key[0]),b=pos(key[2]);var mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1;var off=key[0]<key[2]?1:-1;var bend=key[2]==="X"?0:L*.22*off;return {a:a,b:b,c:{x:mx-dy/L*bend,y:my+dx/L*bend}}}
+    function at(r,t){var u=1-t;return {x:u*u*r.a.x+2*u*t*r.c.x+t*t*r.b.x,y:u*u*r.a.y+2*u*t*r.c.y+t*t*r.b.y}}
+    E.forEach(function(e){cur[e[0]]=0;tgt[e[0]]=0});
+    function setK(i,animate){k=Math.max(0,Math.min(K.length-1,i));var f=K[k];E.forEach(function(e){tgt[e[0]]=f.f[e[0]]||0});lerpT=animate&&!reduce?0:1;if(lerpT===1)E.forEach(function(e){cur[e[0]]=tgt[e[0]]});
+      $("#en-k").value=k;$("#en-year").textContent=f.y;$("#en-k").setAttribute("aria-valuetext",f.y+" · "+f.t);$$("#en-years span").forEach(function(s,j){s.classList.toggle("on",j===k)});
+      $("#en-micro").innerHTML='<span class="eb">Micro · '+f.y+' · '+esc(f.t)+'</span><span class="h">'+esc(f.h)+'</span><span class="n">'+esc(f.n)+'</span><span class="w">'+esc(f.w)+'</span><span class="s"><span>'+esc(f.s)+'</span>'+(f.a?'<a href="'+f.a+'">Open the exhibit →</a>':'')+'</span>';
+      var g=f.g;$("#en-macro").innerHTML='<div class="g"><span class="l">The room · Black-owned</span><span class="m"><i style="width:'+g.room+'%"></i></span><span class="v">'+(g.room>=80?'a Black-owned room captures the dollar':g.room>=30?'partly Black-owned':'the largest rooms owned outside')+'</span></div>'+
+        '<div class="g"><span class="l">Outside dollar in</span><span class="m"><i style="width:'+g.in+'%;--c:var(--kraft)"></i></span><span class="v">'+(g.in>=80?'at full':g.in>=40?'moderate':'thin')+'</span></div>'+
+        '<div class="g"><span class="l">What leaves</span><span class="m"><i style="width:'+g.ex+'%;--c:var(--tag)"></i></span><span class="v">'+(g.ex>=80?'the asset exits at peak':g.ex>=45?'dividends out, some home':'most of it comes home')+'</span></div>'+
+        '<div class="g"><span class="l">Movement draw</span><span class="m"><i style="width:'+g.mv+'%;--c:var(--fact)"></i></span><span class="v">'+(g.mv>=80?'the circuit is the treasury':g.mv>=45?'drawing on the stage':'a hashtag, a collection plate')+'</span></div>'+
+        '<div class="g valve'+(f.valve.open?' open':'')+'"><span class="l">The valve</span><span class="v"><b>'+(f.valve.open?'OPEN':'CLOSED')+'</b> · '+esc(f.valve.n)+' · held by '+esc(f.valve.who)+'</span></div>';
+      $("#en-edges").innerHTML=E.filter(function(e){return (f.f[e[0]]||0)>0||(f.closed||[]).indexOf(e[0])>=0}).map(function(e){var v=f.f[e[0]]||0,closed=(f.closed||[]).indexOf(e[0])>=0;return '<div class="e'+(closed?' closed':'')+'"><span>'+esc(e[1])+'</span><span class="b"><i style="width:'+(v/3*100)+'%;--c:rgb('+col[e[2]]+')"></i></span></div>'}).join("");
+      $("#en-v").innerHTML="<b>Macro · "+f.y+" · "+esc(f.t)+"</b>"+esc(f.v);
+      // reseed particles toward target density
+      parts=parts.filter(function(p){return (tgt[p.e]||0)>0});
+      E.forEach(function(e){var want=Math.round((tgt[e[0]]||0)*5);var have=parts.filter(function(p){return p.e===e[0]}).length;for(var i=have;i<want;i++)parts.push({e:e[0],t:Math.random(),v:.0025+Math.random()*.003,k:e[2]})});
+    }
+    // years strip
+    $("#en-years").innerHTML=K.map(function(f){return "<span>"+f.y+"</span>"}).join("");
+    function draw(ts){var dt=Math.min(40,ts-last)/16.7;last=ts;if(lerpT<1){lerpT=Math.min(1,lerpT+.02*dt);E.forEach(function(e){cur[e[0]]+=(tgt[e[0]]-cur[e[0]])*.08*dt})}
+      ctx.clearRect(0,0,W,H);
+      // routes
+      E.forEach(function(e){var v=cur[e[0]]||0;var r=route(e[0]);var closed=(K[k].closed||[]).indexOf(e[0])>=0;if(v<.05&&!closed){ctx.strokeStyle="rgba(58,51,42,.5)";ctx.lineWidth=1;ctx.setLineDash([2,6])}else{ctx.strokeStyle="rgba("+col[e[2]]+","+(0.18+v*.14)+")";ctx.lineWidth=1+v*.9;ctx.setLineDash(closed?[4,6]:[])}
+        ctx.beginPath();ctx.moveTo(r.a.x,r.a.y);ctx.quadraticCurveTo(r.c.x,r.c.y,r.b.x,r.b.y);ctx.stroke();ctx.setLineDash([]);
+        if(v>.3){var p=at(r,.62),q=at(r,.6);var ang=Math.atan2(p.y-q.y,p.x-q.x);ctx.fillStyle="rgba("+col[e[2]]+","+(0.4+v*.15)+")";ctx.beginPath();ctx.moveTo(p.x+Math.cos(ang)*6,p.y+Math.sin(ang)*6);ctx.lineTo(p.x+Math.cos(ang+2.5)*5,p.y+Math.sin(ang+2.5)*5);ctx.lineTo(p.x+Math.cos(ang-2.5)*5,p.y+Math.sin(ang-2.5)*5);ctx.fill()}});
+      // particles
+      parts.forEach(function(p){if(!reduce)p.t+=p.v*dt*(0.6+(cur[p.e]||0)*.25);if(p.t>1)p.t-=1;var r=route(p.e),q=at(r,p.t);ctx.fillStyle="rgba("+col[p.k]+","+(0.55+0.45*Math.sin(p.t*Math.PI))+")";ctx.beginPath();ctx.arc(q.x,q.y,p.k==="ex"?2.6:2.1,0,Math.PI*2);ctx.fill()});
+      // exit drain
+      var x=pos("X");ctx.strokeStyle="rgba(192,94,60,.8)";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x.x-26,x.y);ctx.lineTo(x.x+26,x.y);ctx.stroke();ctx.font="10px 'Space Mono',monospace";ctx.textAlign="center";ctx.fillStyle="rgba(217,138,106,.95)";ctx.fillText("THE EXIT · leaves the community",x.x,x.y+16);
+      // stations
+      Object.keys(N).forEach(function(id){var p=pos(id);var lit=0;E.forEach(function(e){if(e[0][0]===id||e[0][2]===id)lit+=cur[e[0]]||0});ctx.beginPath();ctx.arc(p.x,p.y,9+Math.min(6,lit*.5),0,Math.PI*2);ctx.fillStyle="#14110d";ctx.fill();ctx.strokeStyle=id==="O"?"rgba(176,138,90,.95)":id==="M"?"rgba(124,192,150,.95)":"rgba(236,227,208,.95)";ctx.lineWidth=1.6;ctx.stroke();
+        ctx.font=(W<560?"9px":"10.5px")+" 'Space Mono',monospace";ctx.fillStyle="rgba(236,227,208,.9)";var a=N[id].a*Math.PI/180;if(id==="O"||(W<560&&id!=="P")){ctx.textAlign="center";ctx.fillText(N[id].n,Math.max(50,Math.min(W-50,p.x)),p.y+(id==="O"||id==="R"?30:30))}else{ctx.textAlign=Math.cos(a)>.3?"left":Math.cos(a)<-.3?"right":"center";ctx.fillText(N[id].n,p.x+Math.cos(a)*22,p.y+Math.sin(a)*22+(Math.abs(Math.cos(a))<.3?(Math.sin(a)<0?-6:12):4))}});
+      // year stamp
+      ctx.font="300 44px 'Newsreader',Georgia,serif";ctx.textAlign="right";ctx.fillStyle="rgba(201,162,39,.55)";ctx.fillText(K[k].y,W-18,42);
+      requestAnimationFrame(draw)}
+    requestAnimationFrame(draw);
+    // controls
+    $("#en-k").addEventListener("input",function(){stop();setK(+this.value,true)});
+    $("#en-prev").addEventListener("click",function(){stop();setK(k-1,true)});
+    $("#en-next").addEventListener("click",function(){stop();setK(k+1,true)});
+    function stop(){playing=false;clearInterval(timer);$("#en-toggle").setAttribute("aria-pressed","false");$("#en-toggle").textContent="▶ RUN THE CENTURY"}
+    $("#en-toggle").addEventListener("click",function(){if(playing){stop();return}playing=true;this.setAttribute("aria-pressed","true");this.textContent="❚❚ PAUSE";if(k>=K.length-1)setK(0,true);timer=setInterval(function(){if(k>=K.length-1){stop();return}setK(k+1,true)},reduce?6000:5200)});
+    cv.parentElement.addEventListener("keydown",function(ev){if(ev.key==="ArrowRight"){stop();setK(k+1,true)}if(ev.key==="ArrowLeft"){stop();setK(k-1,true)}});
+    setK(0,false);
+  })();
+})();
+</script>

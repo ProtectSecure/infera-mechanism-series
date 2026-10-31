@@ -1,0 +1,1363 @@
+<title>The Circulating Dollar</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one 68ch reading column down a dark evidence room; exhibits break out to 1040px; a chain rail runs the page's left edge and gains or loses a link per chapter. Mechanism Series house style, dark by design. */
+:root{
+  --ground:#14110d; --ground-2:#1c1813; --rule:#3a332a; --rule-soft:#2a241c;
+  --paper:#ece3d0; --paper-dim:#cfc5b0; --paper-faint:#a89d88;
+  --gold:#c9a227; --kraft:#b08a5a; --tag:#c05e3c; --tag-lit:#d98a6a;
+  --fact:#7cc096; --reported:#e0b35c; --inference:#86aac0; --watch:#d98a6a;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+  --mono:"Space Mono", ui-monospace, Menlo, Consolas, monospace;
+  --ease:cubic-bezier(.22,.7,.2,1);
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);background-image:radial-gradient(var(--rule-soft) 1px,transparent 1px);background-size:22px 22px;color:var(--paper);font-family:var(--serif);font-size:19px;line-height:1.62;-webkit-font-smoothing:antialiased;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 96px}
+.col{max-width:68ch;margin:0 auto}
+a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,162,39,.4)}
+a:hover{color:var(--paper)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h1,h2,h3{text-wrap:balance}
+p{margin:0}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--tag-lit)}
+.num{font-variant-numeric:tabular-nums}
+
+/* evidence labels, always beside the claim */
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:1px 6px;border:1px solid;border-radius:2px;white-space:nowrap;vertical-align:2px;margin-right:6px}
+.t-fact{color:var(--fact);border-color:rgba(124,192,150,.5)}
+.t-rep{color:var(--reported);border-color:rgba(224,179,92,.5)}
+.t-inf{color:var(--inference);border-color:rgba(134,170,192,.5)}
+.t-watch{color:var(--watch);border-color:rgba(217,138,106,.55)}
+sup.src{font-family:var(--mono);font-size:10px;color:var(--kraft);margin-left:2px}
+sup.src a{border:0;color:inherit}
+
+/* masthead */
+.mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 20px;padding:16px 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.mast .brand{color:var(--paper);border:0;display:flex;align-items:center;gap:10px}
+.mast .brand i{width:8px;height:8px;border-radius:50%;background:var(--tag);display:inline-block}
+.mast nav{display:flex;flex-wrap:wrap;gap:6px 18px}
+.mast nav a{border:0;color:var(--paper-faint)}
+.mast nav a:hover{color:var(--gold)}
+
+/* hero: a chain drawn in light */
+.hero{position:relative;margin:0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0 calc(-1 * max(16px, env(safe-area-inset-right, 0px)));min-height:560px;display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--rule);background:radial-gradient(1200px 500px at 70% 20%,rgba(201,162,39,.10),transparent 60%),var(--ground)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05) 0%,rgba(20,17,13,.45) 50%,rgba(20,17,13,.97) 100%);pointer-events:none}
+.hero-in{position:relative;z-index:1;width:100%;max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:120px 44px;display:flex;flex-direction:column;gap:16px}
+.hero h1{margin:0;font-weight:300;font-size:clamp(46px,8.4vw,96px);line-height:.96;letter-spacing:-.02em}
+.hero h1 em{font-weight:400;color:var(--gold);font-style:italic}
+.deck{font-size:clamp(19px,2.4vw,23px);font-weight:300;line-height:1.45;color:var(--paper-dim);max-width:660px}
+.boxcount{position:absolute;z-index:1;right:max(16px, env(safe-area-inset-right, 0px));top:calc(20px + env(safe-area-inset-top, 0px));font-family:var(--mono);font-size:11px;letter-spacing:.12em;border:1px solid var(--tag);background:rgba(20,17,13,.82);padding:7px 11px;color:var(--paper)}
+.dateline{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--paper-faint);border-bottom:1px solid var(--rule);padding:14px 0;margin:28px 0 44px}
+.dateline b{font-weight:400;color:var(--paper-dim)}
+
+.stack{display:flex;flex-direction:column;gap:22px}.stack>*{min-width:0}
+.lead{font-size:22px;line-height:1.5;font-weight:300}
+.memo{border:1px solid var(--rule);background:var(--ground-2);padding:16px 18px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--paper-dim)}
+.memo b{color:var(--gold);font-weight:700}
+.pull{font-size:clamp(24px,3.2vw,32px);font-weight:300;line-height:1.3;border-left:2px solid var(--gold);padding-left:20px;font-style:italic;color:var(--paper)}
+.pull small{display:block;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--paper-faint);margin-top:10px;letter-spacing:.08em}
+
+section{margin-top:84px}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:26px}
+h2{margin:0;font-weight:400;font-size:clamp(30px,4.4vw,42px);line-height:1.1;letter-spacing:-.01em}
+h2 em{color:var(--gold)}
+h3{margin:0;font-weight:400;font-size:24px;line-height:1.2}
+.sub{color:var(--paper-dim);font-style:italic;font-size:19px}
+
+/* chapter opener */
+.chapter{margin-top:120px;border-top:1px solid var(--rule);padding-top:36px;position:relative}
+.chapter .where{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:20px}
+.chapter .where b{color:var(--kraft);font-weight:400}
+.chapter h2{font-size:clamp(40px,6.4vw,72px);font-weight:300;line-height:.98}
+.chapter .instrument{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ground);background:var(--gold);padding:5px 10px}
+
+ol.facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ol.facts li{padding:14px 0;border-bottom:1px solid var(--rule-soft);display:grid;grid-template-columns:108px minmax(0,1fr);gap:16px}
+ol.facts .when{font-family:var(--mono);font-size:12px;color:var(--kraft);padding-top:4px;font-variant-numeric:tabular-nums}
+
+/* exhibit frame */
+.exhibit{max-width:1040px;margin:0 auto;border:1px solid var(--rule);background:rgba(20,17,13,.94);padding:clamp(20px,3.4vw,38px);display:flex;flex-direction:column;gap:18px}
+.ex-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+.seg{display:inline-flex;border:1px solid var(--kraft);flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 14px;background:transparent;color:var(--paper-dim);border:0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--kraft);color:var(--ground);font-weight:700}
+.ledger{width:100%;border-collapse:collapse;font-size:17px}
+.ledger th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);text-align:left;font-weight:400;padding:10px 12px 10px 0;border-bottom:1px solid var(--rule)}
+.ledger td{padding:12px 12px 12px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+.ledger td.k{font-family:var(--mono);font-size:12px;color:var(--kraft);white-space:nowrap}
+.ledger td.v{font-family:var(--mono);font-size:14px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:11px;color:var(--paper-faint)}
+.legend i{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;background:var(--c,var(--gold))}
+
+/* controls */
+.ctrl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 22px}
+.ctrl label{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);min-width:0}
+.ctrl select,.ctrl input[type=number]{min-height:44px;background:var(--ground-2);color:var(--paper);border:1px solid var(--rule);font-family:var(--mono);font-size:13px;padding:0 10px;width:100%}
+.ctrl input[type=range]{width:100%;accent-color:var(--gold);min-height:44px}
+.ctrl output{font-family:var(--mono);font-size:13px;color:var(--paper);letter-spacing:0;text-transform:none}
+.switch{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);cursor:pointer;min-height:44px}
+.switch input{appearance:none;width:44px;height:24px;border:1px solid var(--kraft);border-radius:12px;background:var(--ground-2);position:relative;cursor:pointer;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--paper-faint);transition:transform .2s var(--ease)}
+.switch input:checked{background:var(--gold);border-color:var(--gold)}
+.switch input:checked::after{transform:translateX(20px);background:var(--ground)}
+
+/* verdict / readout */
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.ro{border:1px solid var(--rule);background:var(--ground-2);padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ro .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.ro .v{font-family:var(--mono);font-size:clamp(20px,2.6vw,28px);line-height:1.1;color:var(--paper);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ro .v.gold{color:var(--gold)}
+.ro .v.tag{color:var(--tag-lit)}
+.ro .v.fact{color:var(--fact)}
+.ro .s{font-size:14px;color:var(--paper-dim);line-height:1.45}
+.verdict{border-left:3px solid var(--tag);padding:14px 18px;background:var(--ground-2);font-size:18px;line-height:1.5}
+.verdict b{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tag-lit);display:block;margin-bottom:6px}
+.verdict.ok{border-color:var(--fact)}
+.verdict.ok b{color:var(--fact)}
+
+/* bars */
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:minmax(120px,220px) minmax(0,1fr) auto;gap:12px;align-items:center;font-size:15px}
+.bar .n{color:var(--paper-dim);min-width:0}
+.bar .tr{height:18px;background:var(--rule-soft);position:relative;min-width:0}
+.bar .f{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .6s var(--ease)}
+.bar .f.hatch{background:repeating-linear-gradient(45deg,var(--c,var(--kraft)) 0 4px,transparent 4px 8px);opacity:.8}
+.bar .v{font-family:var(--mono);font-size:12px;color:var(--paper);white-space:nowrap;font-variant-numeric:tabular-nums}
+.bar.ghost .n,.bar.ghost .v{color:var(--paper-faint)}
+
+/* card game */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .t{font-size:20px;line-height:1.2}
+.card .y{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+.card .names{display:flex;flex-wrap:wrap;gap:6px}
+.card .names button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.06em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px}
+.card .names button:hover{border-color:var(--kraft);color:var(--paper)}
+.card .names button[data-r="yes"]{border-color:var(--fact);color:var(--fact)}
+.card .names button[data-r="no"]{border-color:var(--tag);color:var(--tag-lit);text-decoration:line-through}
+.card .names button[data-r="dis"]{border-color:var(--reported);color:var(--reported)}
+.card .names button:focus-visible{outline:2px solid var(--gold)}
+.card .ans{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.card .ans[hidden]{display:none}
+
+/* chain rail */
+.rail{position:fixed;left:max(6px, env(safe-area-inset-left, 0px));top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:0;font-family:var(--mono)}
+.rail a{border:0;display:flex;align-items:center;justify-content:center;width:34px;height:34px;color:var(--paper-faint);position:relative}
+.rail a svg{width:22px;height:22px;display:block}
+.rail a .lk{fill:none;stroke:currentColor;stroke-width:1.8;transition:stroke .3s}
+.rail a.held{color:var(--gold)}
+.rail a.broken{color:var(--tag)}
+.rail a.broken .lk{stroke-dasharray:3 3}
+.rail a.active{color:var(--paper)}
+.rail a.active::before{content:"";position:absolute;left:-6px;top:50%;width:3px;height:16px;background:var(--gold);transform:translateY(-50%)}
+.rail a .tip{position:absolute;left:40px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--ground-2);border:1px solid var(--rule);padding:4px 8px;color:var(--paper);opacity:0;pointer-events:none;transition:opacity .2s}
+.rail a:hover .tip,.rail a:focus-visible .tip{opacity:1}
+.rail .seg-line{width:2px;height:10px;background:var(--rule)}
+@media (max-width:1180px){.rail{display:none}}
+
+/* hub grid */
+.hub{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;max-width:1040px;margin:0 auto}
+.hub a{border:1px solid var(--rule);background:var(--ground-2);padding:18px;display:flex;flex-direction:column;gap:8px;color:var(--paper);min-width:0;transition:border-color .2s}
+.hub a:hover{border-color:var(--gold)}
+.hub .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.hub .t{font-size:24px;line-height:1.15;font-weight:300}
+.hub .t em{color:var(--gold)}
+.hub .d{font-size:15px;color:var(--paper-dim);line-height:1.45}
+.hub .m{font-family:var(--mono);font-size:10px;color:var(--paper-faint);letter-spacing:.08em;margin-top:auto}
+
+/* your year */
+.yy{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:20px;align-items:start}
+@media (max-width:760px){.yy{grid-template-columns:minmax(0,1fr)}}
+
+/* timeline strip */
+.strip{position:relative;padding:18px 0 0}
+.strip .axis{height:2px;background:var(--rule)}
+.strip .pts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:14px}
+.strip .pt{font-size:14px;color:var(--paper-dim);border-top:2px solid var(--c,var(--gold));padding-top:8px;min-width:0}
+.strip .pt b{display:block;font-family:var(--mono);font-size:11px;color:var(--paper);font-weight:400;letter-spacing:.06em}
+
+/* two sides */
+.sides{display:grid;min-width:0;width:100%;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1040px;margin:0 auto}
+.side{border:1px solid var(--rule);background:var(--ground-2);padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.side h3{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);font-weight:700}
+.side ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:17px;color:var(--paper-dim)}
+.side.gold{border-color:var(--gold)}
+.side.tagb{border-color:var(--tag)}
+
+/* desk note / breadcrumb */
+.desk{border:1px solid var(--rule);border-left:3px solid var(--kraft);background:var(--ground-2);padding:14px 18px;font-size:16px;line-height:1.55;color:var(--paper-dim)}
+.desk b{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--kraft);display:block;margin-bottom:6px;font-weight:400}
+.crumbs{display:flex;flex-wrap:wrap;gap:8px}
+.crumbs a{font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:8px 10px;color:var(--paper-dim);min-height:36px;display:inline-flex;align-items:center}
+.crumbs a:hover{border-color:var(--gold);color:var(--gold)}
+.crumbs a i{font-style:normal;color:var(--kraft);margin-right:8px}
+
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{font-family:var(--mono);font-size:11px;fill:var(--paper-faint)}
+svg.chart .ax{stroke:var(--rule);stroke-width:1}
+svg.chart .ln{fill:none;stroke:var(--gold);stroke-width:2.2}
+svg.chart .ln2{fill:none;stroke:var(--tag);stroke-width:2;stroke-dasharray:4 4}
+svg.chart .ar{fill:rgba(201,162,39,.12)}
+svg.chart .dot{fill:var(--gold)}
+svg.chart .lab{fill:var(--paper)}
+
+.watchlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
+.watchlist li{padding:12px 0;border-bottom:1px solid var(--rule-soft)}
+
+footer{margin-top:90px;border-top:1px solid var(--rule);padding-top:24px;font-family:var(--mono);font-size:11.5px;line-height:1.85;color:var(--paper-faint)}
+footer ol{padding-left:22px;margin:10px 0 22px;columns:2;column-gap:40px}
+footer li{break-inside:avoid;padding-right:10px}
+footer b{color:var(--paper-dim);font-weight:400}
+@media (max-width:760px){footer ol{columns:1}}
+.tier{font-size:10px;color:var(--kraft);letter-spacing:.08em}
+
+@media (max-width:720px){
+  body{font-size:18px}
+  ol.facts li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .hero{min-height:480px}
+  .bar{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n v" "tr tr"}
+  .bar .n{grid-area:n}.bar .tr{grid-area:tr}.bar .v{grid-area:v}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>
+/* Episode 2 additions: the circuit rail, valves, the stage board, the dimmer, the feed toggle. */
+.rail a .nd{fill:none;stroke:currentColor;stroke-width:1.8}
+.ro .v.tag{border:0;padding:0;font-size:clamp(20px,2.6vw,28px);letter-spacing:0;text-transform:none;font-weight:400;white-space:normal;margin:0}
+.rail a.held .nd{fill:rgba(201,162,39,.25)}
+.rail a.broken .nd{stroke-dasharray:3 3}
+.rail a.open .nd{fill:rgba(124,192,150,.25)}
+
+/* the pipe: five valves */
+.pipe{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.valve{all:unset;cursor:pointer;border:1px solid var(--rule);background:var(--ground-2);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:44px;position:relative}
+.valve .y{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+.valve .n{font-size:17px;line-height:1.2;color:var(--paper)}
+.valve .st{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.valve[aria-pressed="true"]{border-color:var(--gold);background:rgba(201,162,39,.08)}
+.valve::after{content:"";position:absolute;right:12px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--tag)}
+.valve[data-k="evolved"]::after{background:var(--fact)}
+.valve:focus-visible{outline:2px solid var(--gold)}
+.flow{height:14px;background:var(--rule-soft);position:relative;overflow:hidden;border:1px solid var(--rule)}
+.flow i{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(201,162,39,.75) 0 14px,transparent 14px 28px);animation:flow 1.1s linear infinite}
+.flow i.cut{background:repeating-linear-gradient(90deg,rgba(192,94,60,.75) 0 6px,transparent 6px 20px);animation-duration:2.6s}
+@keyframes flow{to{transform:translateX(28px)}}
+
+/* dimmer: three dials + a bar */
+.dials{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.dial{border:1px solid var(--rule);background:var(--ground-2);padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.dial .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.dial .m{height:8px;background:var(--rule-soft);position:relative}
+.dial .m i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .5s var(--ease)}
+.dial .v{font-family:var(--mono);font-size:12px;color:var(--paper)}
+.elect{display:flex;flex-wrap:wrap;gap:6px}
+.elect button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:0 12px;min-height:44px;display:inline-flex;align-items:center;color:var(--paper-dim)}
+.elect button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.elect button:focus-visible{outline:2px solid var(--gold)}
+
+/* feed toggle */
+.feed{border:1px solid var(--rule);background:#000;padding:20px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--paper-dim);min-height:150px;position:relative}
+.feed .chy{position:absolute;right:12px;top:10px;font-size:10px;letter-spacing:.14em;color:var(--paper-faint)}
+.feed .q{color:var(--paper);font-family:var(--serif);font-size:20px;line-height:1.4;font-style:italic}
+.feed .cut{color:var(--tag-lit)}
+
+/* stage board */
+.board{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.light{border:1px solid var(--rule);background:var(--ground-2);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.light .lamp{width:14px;height:14px;border-radius:50%;background:var(--rule);box-shadow:none;transition:background .4s,box-shadow .4s}
+.light[data-s="on"] .lamp{background:var(--gold);box-shadow:0 0 14px rgba(201,162,39,.7)}
+.light[data-s="dim"] .lamp{background:var(--reported);box-shadow:0 0 8px rgba(224,179,92,.4)}
+.light[data-s="off"] .lamp{background:var(--tag);box-shadow:0 0 6px rgba(192,94,60,.5)}
+.light[data-s="na"] .lamp{background:var(--rule)}
+.light .n{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper)}
+.light .w{font-size:14px;color:var(--paper-dim);line-height:1.45}
+
+/* interval */
+.ci{position:relative;height:70px}
+.ci .tr{position:absolute;left:0;right:0;top:30px;height:10px;background:var(--rule-soft)}
+.ci .band{position:absolute;top:30px;height:10px;background:rgba(124,192,150,.35);border:1px solid var(--fact)}
+.ci .mk{position:absolute;top:18px;width:2px;height:34px;background:var(--tag)}
+.ci .lab{position:absolute;top:50px;font-family:var(--mono);font-size:10px;color:var(--paper-faint);transform:translateX(-50%);white-space:nowrap}
+.ci .lab.t{top:0}
+.ci .pin{position:absolute;top:24px;width:4px;height:22px;background:var(--gold);transform:translateX(-50%)}
+
+/* timeline filter */
+.tl{display:flex;flex-direction:column}
+.tl .ev{display:grid;grid-template-columns:110px 14px minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:start;font-size:16px}
+.tl .ev .d{font-family:var(--mono);font-size:11px;color:var(--kraft);padding-top:5px}
+.tl .ev .k{width:10px;height:10px;transform:rotate(45deg);margin-top:8px;background:var(--reported)}
+.tl .ev[data-k="evolved"] .k{background:var(--fact)}
+.tl .ev[data-k="muted"] .k{background:var(--tag)}
+.tl .ev[hidden]{display:none}
+.tl .ev .w{color:var(--paper-dim)}
+.tl .ev .w b{color:var(--paper);font-weight:400}
+@media (max-width:720px){.tl .ev{grid-template-columns:14px minmax(0,1fr)}.tl .ev .d{grid-column:2;padding-top:0}}
+
+.stepper{display:flex;flex-direction:column;gap:14px}
+.steps{display:flex;flex-wrap:wrap;gap:6px}
+.steps button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--rule);padding:0 12px;min-height:44px;display:inline-flex;align-items:center;color:var(--paper-dim)}
+.steps button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.step-body{border:1px solid var(--rule);background:var(--ground-2);padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-height:160px}
+.step-body .h{font-size:22px;line-height:1.2}
+.step-body .w{font-size:16px;color:var(--paper-dim);line-height:1.55}
+.step-body .s{font-family:var(--mono);font-size:11px;color:var(--kraft);letter-spacing:.08em}
+
+/* plates: archival stills, house-toned, revealed on scroll; degrade to a kraft panel if the file is missing */
+.plate{width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);position:relative;overflow:hidden;opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.plate.in,.plate.static{opacity:1;transform:none}
+.plate .ph{display:block;width:100%;aspect-ratio:21/9;object-fit:cover;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.72) saturate(.9);transition:filter 1.2s var(--ease),transform 8s linear}
+.plate.in .ph{transform:scale(1.03)}
+.plate:hover .ph{filter:grayscale(.6) sepia(.25) contrast(1.05) brightness(.85)}
+.plate::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.05),rgba(20,17,13,.55) 70%,rgba(20,17,13,.92)),radial-gradient(900px 300px at 20% 10%,rgba(201,162,39,.16),transparent 60%);pointer-events:none}
+.plate figcaption{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:14px 18px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim)}
+.plate figcaption b{color:var(--gold);font-weight:400}
+.plate figcaption .cr{color:var(--paper-faint)}
+.plate[data-missing] .ph{display:none}
+.plate[data-missing]{aspect-ratio:21/9;background:repeating-linear-gradient(135deg,var(--ground-2) 0 14px,var(--rule-soft) 14px 16px)}
+.plate[data-missing]::before{content:"PLATE PENDING · run fetch-plates.sh";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--kraft)}
+.plate[data-plate="cd-c2"] .ph{object-position:50% 35%}
+@media (max-width:720px){.plate .ph{aspect-ratio:16/10}.plate[data-missing]{aspect-ratio:16/10}}
+@media (prefers-reduced-motion:reduce){.plate{opacity:1;transform:none}.plate.in .ph{transform:none}}
+
+/* the engine */
+.engine-wrap{gap:16px}
+.en-ctl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 22px;align-items:center}
+.en-play{display:flex;gap:6px}
+.en-play button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
+.en-play button[aria-pressed="true"]{background:var(--gold);color:var(--ground);border-color:var(--gold)}
+.en-play button:focus-visible{outline:2px solid var(--gold)}
+.en-range{display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);min-width:0}
+.en-range output{color:var(--gold);font-size:13px}
+.en-range input{width:100%;accent-color:var(--gold);min-height:44px}
+.en-years{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--paper-faint);margin-top:-8px;overflow:hidden}
+.en-years span{flex:1;text-align:center;min-width:0;white-space:nowrap}
+.en-years span.on{color:var(--gold)}
+.engine{display:grid;grid-template-columns:minmax(0,3fr) minmax(280px,2fr);gap:18px;min-width:0}
+.en-stage{position:relative;min-width:0;border:1px solid var(--rule);background:radial-gradient(600px 400px at 50% 45%,rgba(201,162,39,.07),transparent 65%),var(--ground)}
+.en-stage canvas{display:block;width:100%;aspect-ratio:1/1;max-height:640px}
+.en-key{position:absolute;left:10px;bottom:8px;display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--mono);font-size:10px;color:var(--paper-faint);letter-spacing:.06em}
+.en-key i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+.en-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.en-micro{border:1px solid var(--gold);background:var(--ground-2);padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.en-micro .eb{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.en-micro .h{font-size:22px;line-height:1.15}
+.en-micro .n{font-family:var(--mono);font-size:clamp(24px,3vw,34px);color:var(--paper);line-height:1;font-variant-numeric:tabular-nums}
+.en-micro .w{font-size:15px;color:var(--paper-dim);line-height:1.5}
+.en-micro .s{font-family:var(--mono);font-size:10.5px;color:var(--kraft);letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:6px 14px}
+.en-micro .s a{border:0}
+.en-macro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.en-macro .g{border:1px solid var(--rule);background:var(--ground-2);padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.en-macro .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint)}
+.en-macro .m{height:6px;background:var(--rule-soft);position:relative}
+.en-macro .m i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .8s var(--ease)}
+.en-macro .v{font-family:var(--mono);font-size:11.5px;color:var(--paper);line-height:1.35}
+.en-macro .g.valve{grid-column:1/-1;border-color:var(--tag)}
+.en-macro .g.valve.open{border-color:var(--fact)}
+.en-macro .g.valve .v b{font-family:var(--mono);font-weight:700;color:var(--tag-lit)}
+.en-macro .g.valve.open .v b{color:var(--fact)}
+.en-edges{display:flex;flex-direction:column;gap:5px;font-family:var(--mono);font-size:10.5px;color:var(--paper-dim)}
+.en-edges .e{display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:8px;align-items:center}
+.en-edges .e .b{height:5px;background:var(--rule-soft);position:relative}
+.en-edges .e .b i{position:absolute;inset:0 auto 0 0;background:var(--c,var(--gold));transition:width .8s var(--ease)}
+.en-edges .e.closed{color:var(--tag-lit)}
+.en-edges .e.closed .b{background:repeating-linear-gradient(90deg,var(--tag) 0 4px,transparent 4px 8px);opacity:.7}
+@media (max-width:860px){.engine{grid-template-columns:minmax(0,1fr)}.en-ctl{grid-template-columns:minmax(0,1fr)}.en-macro{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:720px){.en-years{display:none}.en-key{position:static;padding:8px 10px;border-top:1px solid var(--rule)}}
+</style>
+<style>
+/* Episode 2 specifics: the door, the split, the price-of-a-room chart */
+.door{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.door .d{border:1px solid var(--rule);background:var(--ground-2);padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.door .d h4{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper)}
+.door .d .big{font-family:var(--mono);font-size:clamp(22px,3vw,30px);color:var(--gold);line-height:1}
+.door .d .big.tag{color:var(--tag-lit)}
+.door .d .s{font-size:14px;color:var(--paper-dim);line-height:1.45}
+.split{display:flex;height:34px;border:1px solid var(--rule);overflow:hidden}
+.split i{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ground);min-width:0;overflow:hidden;white-space:nowrap;transition:flex .6s var(--ease)}
+.split i.a{background:var(--gold)}.split i.b{background:var(--kraft)}.split i.c{background:var(--tag)}.split i.d{background:var(--paper-faint)}.split i.e{background:var(--fact)}
+.room-ctl{display:flex;flex-wrap:wrap;gap:6px}
+.room-ctl button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.06em;border:1px solid var(--rule);padding:0 12px;min-height:44px;display:inline-flex;align-items:center;color:var(--paper-dim)}
+.room-ctl button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.room-ctl button:focus-visible{outline:2px solid var(--gold)}
+.then-now{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.tn{border:1px solid var(--rule);background:var(--ground-2);padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tn .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--kraft)}
+.tn .t{font-size:19px;line-height:1.25}
+.tn .w{font-size:14.5px;color:var(--paper-dim);line-height:1.5}
+.tn[data-side="now"]{border-color:var(--gold)}
+.tn[data-side="now"] .l{color:var(--gold)}
+
+/* reels: one point per slide, period art behind it, words landing like a title card */
+.reel{position:relative;width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto}
+.reel .vp{position:relative;display:grid;min-height:420px;overflow:hidden}
+.reel .slide{grid-area:1/1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(22px,4vw,48px);padding-top:64px;min-height:420px;opacity:0;visibility:hidden;transition:opacity .9s var(--ease),visibility 0s linear .9s}
+.reel .slide.on{opacity:1;visibility:visible;transition:opacity .9s var(--ease)}
+.reel .slide .bg{position:absolute;inset:0;z-index:0}
+.reel .slide .bg img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.55) saturate(.9);transform:scale(1.04);transition:transform 9s linear}
+.reel .slide.on .bg img{transform:scale(1.12)}
+.reel .slide .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.18),rgba(20,17,13,.6) 55%,rgba(20,17,13,.94)),radial-gradient(700px 300px at 15% 15%,rgba(201,162,39,.18),transparent 60%)}
+.reel .slide .bg.none{background:radial-gradient(900px 420px at 30% 20%,rgba(201,162,39,.12),transparent 60%),repeating-linear-gradient(135deg,var(--ground-2) 0 18px,var(--rule-soft) 18px 20px)}
+.reel .slide .tx{position:relative;z-index:1;max-width:60ch;font-size:clamp(18px,2.1vw,22px);line-height:1.5;color:var(--paper)}
+.reel .slide .tx .w{display:inline-block;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.reel .slide.on .tx .w{opacity:1;transform:none}
+.reel .slide .tx sup.src{opacity:1}
+.reel .slide .k{position:relative;z-index:1;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.reel .slide .cr{position:absolute;right:14px;top:12px;z-index:1;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);max-width:60%;text-align:right}
+.reel .nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid var(--rule);background:var(--ground)}
+.reel .nav button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:40px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
+.reel .nav button:focus-visible{outline:2px solid var(--gold)}
+.reel .nav .dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.reel .nav .dots i{width:22px;height:4px;background:var(--rule);display:block;cursor:pointer}
+.reel .nav .dots i.on{background:var(--gold)}
+.reel .nav .ct{font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);letter-spacing:.1em;white-space:nowrap}
+.lead.rv .w,.pull.rv .w{display:inline-block;opacity:0;transform:translateY(6px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.lead.rv.on .w,.pull.rv.on .w{opacity:1;transform:none}
+@media (max-width:720px){.reel,.reel .vp{min-height:460px}.reel .slide .tx{font-size:17px}}
+@media (prefers-reduced-motion:reduce){.reel .slide .tx .w,.lead.rv .w,.pull.rv .w{opacity:1;transform:none;transition:none}.reel .slide .bg img{transform:none;transition:none}}
+</style>
+
+<nav class="rail" aria-label="Chapters">
+  <a href="#c1" data-ch="1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">1 · The Inside Dollar</span></a>
+  <span class="seg-line"></span>
+  <a href="#c2" data-ch="2"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">2 · The Tourist Dollar</span></a>
+  <span class="seg-line"></span>
+  <a href="#c3" data-ch="3"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">3 · The Market, Counted</span></a>
+  <span class="seg-line"></span>
+  <a href="#c4" data-ch="4"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">4 · The Crossing</span></a>
+  <span class="seg-line"></span>
+  <a href="#c5" data-ch="5"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">5 · The Benefit Stage</span></a>
+  <span class="seg-line"></span>
+  <a href="#c6" data-ch="6"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">6 · The Exits</span></a>
+  <span class="seg-line"></span>
+  <a href="#c7" data-ch="7"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nd" cx="12" cy="12" r="7"/></svg><span class="tip">7 · The Room Costs a Phone</span></a>
+</nav>
+
+<div class="wrap">
+  <div class="mast">
+    <a class="brand" href="#top"><i></i>Infera · The Circulating Dollar</a>
+    <nav aria-label="Series">
+      <a href="#engine">The engine</a>
+      <a href="#hub">Seven exhibits</a>
+      <a href="#c1">1 Inside</a><a href="#c2">2 Tourist</a><a href="#c3">3 Market</a><a href="#c4">4 Crossing</a><a href="#c5">5 Stage</a><a href="#c6">6 Exits</a><a href="#c7">7 Phone</a>
+      <a href="the-chain-of-title.html">Ep 1</a><a href="the-terms.html">Ep 3</a><a href="the-feed.html">Ep 4</a><a href="the-dilution.html">Ep 5</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </div>
+
+  <header class="hero" id="top">
+    <canvas id="circuitcanvas" aria-hidden="true"></canvas>
+    <div class="boxcount">MINI-SERIES · EPISODE 2 · 7 EXHIBITS · 1910–2026</div>
+    <div class="hero-in">
+      <span class="eyebrow">Infera · Mechanism Series · A standalone mini-series</span>
+      <h1>The Circulating <em>Dollar</em></h1>
+      <p class="deck">Segregation built the first Black entertainment economy by accident: a captive audience, barred from white rooms, filled Black ones, and the dollar did double duty. Seven exhibits on where that dollar went at every turn, who owned the room it stopped in, and what it costs to own a room now.</p>
+    </div>
+  </header>
+  <p class="eyebrow col" style="padding-top:10px;color:var(--paper-faint)">Hero: a generative circuit drawn in code, one segment cut. No photograph, no real place.</p>
+
+  <div class="col">
+    <div class="dateline">
+      <span><b>AS OF</b> Oct 30, 2026</span>
+      <span><b>READ</b> ~40 min whole · 5–6 min per exhibit</span>
+      <span><b>LAYER</b> Public record · ledgers · trade charts · court files</span>
+      <span><b>METHOD</b> SVNIF</span>
+    </div>
+
+    <div class="stack">
+      <p class="lead">Gordon B. Hancock gave the idea its name in the 1930s: the double-duty dollar. A ticket bought in a Black-owned theater paid the performer and the usher, the hotel that put the band up and the printer who sold the guidebook that got them there. Madison Avenue priced that audience at $15 billion a year in 1954; the University of Georgia's series puts it at $1.6 trillion in 2020. The question this episode follows is not how big the dollar grew but where it went at each turn: who owned the room, who held the paper, and how much came home.</p>
+      <p>Three movements of money run through the century. The <b>inside dollar</b>: the theaters, ballrooms, hotels and labels Black capital built and Black audiences sustained. The <b>tourist dollar</b>: white money paying to watch Black performance in rooms whites owned. The <b>crossing dollar</b>: the moment after 1955 when the sound crossed the color line and the question became who captured the sale. Episode 1 followed the paper; this one follows the room.</p>
+      <div class="memo"><b>READING MEMO</b> · Every exhibit stands alone. <span class="tag t-fact">Fact</span> is on the record, <span class="tag t-rep">Reported</span> is a credible account we could not independently confirm, <span class="tag t-inf">Inference</span> is our reading, <span class="tag t-watch">Watch</span> is open as of the dateline. Dollar figures are as printed in their year unless marked; the engine's flow levels are this page's reading of the record, anchored to the number on each card. Figures the record disputes by an order of magnitude (the Green Book's circulation, Montgomery's "65 percent") are named and not used. This is an original Infera investigation from the public record; for the long history of Black creative ownership it runs alongside, see Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026), listed in the sources as a further read.<sup class="src"><a href="#s60">60</a></sup></div>
+    </div>
+
+    <section aria-labelledby="h-spine">
+      <div class="sec-head">
+        <span class="eyebrow">The spine</span>
+        <h2 id="h-spine">Three findings, <em>stated first</em></h2>
+        <p class="sub">The exhibits are the evidence. These are the verdicts.</p>
+      </div>
+      <ol class="facts">
+        <li><span class="when">1910–1968</span><span><span class="tag t-inf">Inference</span><b>The money stops at the room.</b> Where the room was Black-owned (the Howard, the Royal Peacock, the Theresa, the Gaston Motel) the dollar recirculated. Where the largest rooms were white-owned (the Regal, the Apollo, the Lincoln, the Cotton Club) the circuit's biggest gates paid Black wages and white dividends.<sup class="src"><a href="#s2">2</a>, <a href="#s5">5</a>, <a href="#s7">7</a>, <a href="#s59">59</a></sup></span></li>
+        <li><span class="when">1955–1975</span><span><span class="tag t-fact">Fact</span><b>The crossing dollar followed the paper, not the performance.</b> Half a cent a record and $50 for the publishing against a cover that sold 13 million; a quarter of a writer's share to the DJ; by 1967 a Black-owned company selling 70 percent of its million-sellers to white buyers, on a 5 percent royalty with no advance.<sup class="src"><a href="#s20">20</a>, <a href="#s21">21</a>, <a href="#s25">25</a></sup></span></li>
+        <li><span class="when">1923–2026</span><span><span class="tag t-fact">Fact</span><b>The asset exits at peak.</b> Black Swan (1923), Vee-Jay (1966), Stax (1975), Motown (1988), BET (2000, and absorbed in 2026) all left the community at or near the moment they were worth the most, usually under distress. The one documented closed loop, Johnson Products to <em>Soul Train</em>, ran for 35 years.<sup class="src"><a href="#s26">26</a>, <a href="#s27">27</a>, <a href="#s45">45</a></sup></span></li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="h-yy">
+      <div class="sec-head">
+        <span class="eyebrow">Before you read</span>
+        <h2 id="h-yy">Trace <em>one dollar</em></h2>
+        <p class="sub">Pick a room from the record and a year. We follow a dollar spent at its door to where it stopped.</p>
+      </div>
+      <div class="exhibit">
+        <div class="ctrl">
+          <label for="td-room">The room<select id="td-room">
+            <option value="howard">Howard Theatre, Washington (Black-owned from 1910)</option>
+            <option value="cotton">Cotton Club, Harlem (whites only, 1923–40)</option>
+            <option value="savoy" selected>Savoy Ballroom, Harlem (85% Black audience, white owners)</option>
+            <option value="peacock">Royal Peacock, Auburn Avenue, Atlanta (Carrie Cunningham, 1949)</option>
+            <option value="wdia">WDIA, Memphis (all-Black programming, white owners, 1949)</option>
+            <option value="werd">WERD, Atlanta (first Black-owned station, 1949)</option>
+            <option value="motown">Hitsville U.S.A., Detroit (1959–1988)</option>
+            <option value="soultrain">Soul Train (Don Cornelius, 1971–2006)</option>
+            <option value="bet">BET (1980; sold 2000; absorbed 2026)</option>
+            <option value="phone">A phone, 2026 (UnitedMasters, a $30 beat)</option>
+          </select></label>
+        </div>
+        <div class="stack" id="td-out" aria-live="polite"></div>
+      </div>
+    </section>
+  </div>
+
+  <section aria-labelledby="h-hub" id="hub">
+    <div class="col sec-head">
+      <span class="eyebrow">The series</span>
+      <h2 id="h-hub">Seven exhibits, <em>read in any order</em></h2>
+      <p class="sub">Each one opens on a room. Each one hands you the ledger.</p>
+    </div>
+    <div class="hub">
+      <a href="#c1"><span class="n">01 · 1910–1966</span><span class="t">The Inside <em>Dollar</em></span><span class="d">Eighty TOBA houses, a third Black-owned; the Dunbar built by a Black bank and lost in the Depression; a 25-cent pamphlet that routed Black travel money to Black beds.</span><span class="m">ROOM · 6 MIN · INTERACTIVE: WHO OWNED THE ROOM · THE GREEN BOOK ROUTER</span></a>
+      <a href="#c2"><span class="n">02 · 1914–1947</span><span class="t">The Tourist <em>Dollar</em></span><span class="d">Whites only at $2 a table on Lenox Avenue, 700,000 a year at 30 cents one block north, and a riot that knew which doors its money went through.</span><span class="m">GATE · 6 MIN · INTERACTIVE: TWO DOORS ON LENOX AVENUE · THE 1935 LEDGER</span></a>
+      <a href="#c3"><span class="n">03 · 1942–1955</span><span class="t">The Market, <em>Counted</em></span><span class="d">$500 and a pawned sofa; the first national advertiser; $15 billion a year by 1954; the station that reached a tenth of Black America and paid wages, not dividends.</span><span class="m">PIPE · 6 MIN · INTERACTIVE: BUYING POWER, 1954–2020 · TWO STATIONS</span></a>
+      <a href="#c4"><span class="n">04 · 1949–1977</span><span class="t">The <em>Crossing</em></span><span class="d">Half a cent a record, a quarter of a writer's share to the DJ, $35,000 that kept Sun alive, and a chart suspended because the sound had already crossed.</span><span class="m">PAPER · 7 MIN · INTERACTIVE: WHO KEPT THE CROSSING DOLLAR · THE SPONSOR VETO</span></a>
+      <a href="#c5"><span class="n">05 · 1939–1972</span><span class="t">The Benefit <em>Stage</em></span><span class="d">One Carnegie Hall night equal to a third of a year's budget, $70,000 in a bag through a Klan chase, a no-segregation clause in a contract rider, and $1 a ticket at Wattstax.</span><span class="m">TREASURY · 6 MIN · INTERACTIVE: ONE NIGHT, A THIRD OF THE YEAR · THE CLAUSE</span></a>
+      <a href="#c6"><span class="n">06 · 1923–2000</span><span class="t">The <em>Exits</em></span><span class="d">Nine companies founded on a few hundred dollars, what each peaked at, and the sale that took it out; then the 1996 Act and the ownership floor it left.</span><span class="m">SALE · 7 MIN · INTERACTIVE: THE EXIT LEDGER · THE OWNERSHIP FLOOR</span></a>
+      <a href="#c7"><span class="n">07 · 2001–2026</span><span class="t">The Room Costs a <em>Phone</em></span><span class="d">A $30 beat under the longest-running No. 1, a $550 million distributor that pays every royalty, three old mechanisms under new names, and the deed that has not moved as far as the room.</span><span class="m">PLATFORM · 7 MIN · INTERACTIVE: THE PRICE OF A ROOM · THEN AND NOW</span></a>
+    </div>
+  </section>
+
+  <!-- ============ THE ENGINE ============ -->
+  <section aria-labelledby="h-engine" id="engine" style="margin-top:110px">
+    <div class="col sec-head">
+      <span class="eyebrow">The engine · macro and micro at once</span>
+      <h2 id="h-engine">The dollar, <em>circulating</em></h2>
+      <p class="sub">Five stations, one current. Scrub the century and watch where the dollar goes, where it stops, and where it leaves. Every stop pairs one dated ledger entry with the whole machine's state.</p>
+    </div>
+    <div class="exhibit engine-wrap">
+      <div class="en-ctl">
+        <div class="en-play">
+          <button id="en-prev" aria-label="Previous stop">‹</button>
+          <button id="en-toggle" aria-pressed="false">▶ RUN THE CENTURY</button>
+          <button id="en-next" aria-label="Next stop">›</button>
+        </div>
+        <label class="en-range" for="en-k"><span class="l">Stop <output id="en-year">1920</output></span><input type="range" id="en-k" min="0" max="13" step="1" value="0" aria-valuetext="1920"></label>
+      </div>
+      <div class="en-years" id="en-years" aria-hidden="true"></div>
+      <div class="engine">
+        <div class="en-stage">
+          <canvas id="en-canvas" role="img" aria-label="The circuit: performer, room, audience, Black capital, outside dollar, and the exit, with current moving along the open routes"></canvas>
+          <div class="en-key" aria-hidden="true"><span><i style="--c:var(--gold)"></i>inside dollar</span><span><i style="--c:var(--kraft)"></i>outside dollar</span><span><i style="--c:var(--fact)"></i>Black capital</span><span><i style="--c:var(--tag)"></i>exit · closed route</span></div>
+        </div>
+        <div class="en-side">
+          <div class="en-micro" id="en-micro" aria-live="polite"></div>
+          <div class="en-macro" id="en-macro"></div>
+          <div class="en-edges" id="en-edges"></div>
+        </div>
+      </div>
+      <div class="verdict" id="en-v"></div>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 1 ============ -->
+  <article class="chapter" id="c1" data-ch="1" data-state="held">
+    <div class="col">
+      <div class="where"><span>Exhibit 1 of 7</span><span><b>1910–1966</b></span><span>Washington · Philadelphia · Harlem · Auburn Avenue</span><span>Standalone</span></div>
+      <h2>The Inside <em>Dollar</em></h2>
+      <span class="instrument">Instrument: the deed to the theater</span>
+      <figure class="plate" data-plate="cd-c1"><img class="ph" src="assets/plates/cd-c1.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Entrance to a movie house, Beale Street, Memphis, 1939 · the inside dollar's door</span><span class="cr">Marion Post Wolcott, FSA/OWI, Library of Congress · public domain</span></figcaption></figure>
+      <div class="stack" data-reel="cd-c1,x-peacock,x-auburn,x-beale2" style="margin-top:28px">
+        <p class="lead">The inside dollar had its own infrastructure before it had a name. Sherman Dudley's chain of more than twenty Black-owned or Black-operated theaters became the basis of TOBA in 1920, which at its peak booked more than eighty houses. Only about a third were Black-owned; its president and chief booker were white; it paid less than white vaudeville and performers covered their own travel. They called it "Tough on Black Artists."<sup class="src"><a href="#s1">1</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Bessie Smith at the top is reported at $2,000 a week in her own rail car (the ledger behind it not located); by 1933 she recorded for a flat $37.50 a side. TOBA collapsed in 1930 when Dudley sold his theaters to a cinema company.<sup class="src"><a href="#s1">1</a></sup> <span class="tag t-inf">Inference</span>The first Black-controlled booking capital exited to white film exhibitors. That is the circuit's first recorded exit, and the pattern every later chapter repeats.</p>
+      </div>
+      <section aria-labelledby="h-rooms">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-rooms">Who owned the room</h3><p class="sub">Ten rooms from the record. Filter by who held the deed and read where the profit went.<sup class="src"><a href="#s2">2</a>, <a href="#s3">3</a>, <a href="#s4">4</a>, <a href="#s5">5</a>, <a href="#s6">6</a></sup></p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <div class="seg" role="group" aria-label="Owner" id="rm-seg">
+          <button aria-pressed="true" data-k="all">ALL TEN</button>
+          <button aria-pressed="false" data-k="black">BLACK-OWNED</button>
+          <button aria-pressed="false" data-k="white">WHITE-OWNED</button>
+          <button aria-pressed="false" data-k="exit">LATER SOLD OUT</button>
+        </div>
+      </div>
+      <div class="scroll"><table class="ledger" id="rm-table"><thead><tr><th>Room</th><th>City</th><th>Owner</th><th>What the record shows</th><th>Tier</th></tr></thead><tbody></tbody></table></div>
+      <div class="verdict" id="rm-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c1,x-peacock,x-auburn,x-beale2" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>The connective tissue was a 25-cent pamphlet. <em>The Negro Motorist Green Book</em> (1936–1966) started at ten pages, ran past eighty by 1949, was distributed through Esso stations, and listed thousands of Black lodgings by the early 1940s. Its circulation is disputed by two orders of magnitude (15,000 a year by one account, two million copies in 1962 by another), so this page uses neither number. It stopped publishing after the Civil Rights Act of 1964, because the economy it mapped had dissolved.<sup class="src"><a href="#s8">8</a></sup></p>
+      </div>
+      <section aria-labelledby="h-gb">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-gb">The Green Book router</h3><p class="sub">A band's travel dollar in 1949, routed by the pamphlet. Toggle it off and watch where the same dollar goes.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <label class="switch"><input type="checkbox" id="gb-on" checked> The Green Book in the glovebox</label>
+        <div class="legend"><span><i style="--c:var(--gold)"></i>stays in Black-owned rooms</span><span><i style="--c:var(--tag)"></i>leaves, or is refused</span></div>
+      </div>
+      <div class="bars" id="gb-bars"></div>
+      <div class="verdict" id="gb-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c1,x-peacock,x-auburn,x-beale2" style="margin-top:36px">
+        <p class="pull">Where ownership was Black, the money recirculated. Where the largest rooms were white-owned, the circuit's biggest gates paid Black wages and white dividends.<small>Inference · the inside dollar was real, closed, and small</small></p>
+        <p><span class="tag t-fact">Fact</span>And the Black-owned assets rarely compounded: Dudley sold out in 1930, the Dunbar went white in the Depression, Denver Ferguson was bankrupt by 1953, the Apollo stayed white-owned until Percy Sutton's group bought it in 1981.<sup class="src"><a href="#s2">2</a>, <a href="#s5">5</a></sup></p>
+        <div class="desk"><b>Desk note · Episode 1</b>The one-cent contract and the $125-a-side ledger in Episode 1 are the paper side of this chapter's rooms: the theater paid the wage, the publisher held the song. <a href="the-chain-of-title.html#c2">One Cent</a>.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 2 ============ -->
+  <article class="chapter" id="c2" data-ch="2" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 2 of 7</span><span><b>1914–1947</b></span><span>Storyville · Lenox Avenue · Central Avenue</span><span>Standalone</span></div>
+      <h2>The Tourist <em>Dollar</em></h2>
+      <span class="instrument">Instrument: the door policy</span>
+      <figure class="plate" data-plate="cd-c2"><img class="ph" src="assets/plates/cd-c2.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> 52nd Street, New York, 1948 · the tourist dollar's block</span><span class="cr">William P. Gottlieb Collection, Library of Congress · public domain</span></figcaption></figure>
+      <div class="stack" data-reel="cd-c2,x-harlem43b,x-tavern,x-harlem43" style="margin-top:28px">
+        <p class="lead">White tourism of Black performance is older than the Harlem Renaissance. A 1914 Committee of Fourteen letter already complained that New York's "black and tan" clubs catered to whites who came "slumming." In Storyville, where early jazz was waged labor inside a vice district, Black men were barred from buying services in any house, Black or white; Lulu White's Mahogany Hall cost $40,000 to build and sold for $11,000 in 1929.<sup class="src"><a href="#s9">9</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The pattern reached its purest form on Lenox Avenue. Jack Johnson's Club Deluxe became, in 1923, the Cotton Club: owned by the bootlegger Owney Madden, whites-only at the tables, a $2 weekday minimum, chorus girls required to be light-skinned and under 21. Ellington's band was broadcast nationally on NBC from 1929; the 1934 Parade drew more than 600,000 paying customers. Connie's Inn next door ran the same model at a $2.50 cover.<sup class="src"><a href="#s10">10</a></sup> <span class="tag t-inf">Inference</span>Harlem's address, Harlem's performers, downtown's money, and none of it spent on the block.</p>
+      </div>
+      <section aria-labelledby="h-doors">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-doors">Two doors on Lenox Avenue</h3><p class="sub">The Cotton Club and the Savoy, one block apart. Choose a night's gate and see who kept it.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ctrl">
+        <label for="dr-n">Paying customers tonight<input type="range" id="dr-n" min="200" max="4000" step="100" value="1500"><output id="dr-out"></output></label>
+      </div>
+      <div class="door" id="doors"></div>
+      <div class="verdict" id="dr-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c2,x-harlem43b,x-tavern,x-harlem43" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>The counterexample is one block north. The Savoy Ballroom (1926) priced for the neighborhood (30 cents before six, 85 cents after eight), admitted everyone, drew about 700,000 visitors a year, 85 percent of them Black, and cleared an estimated $250,000 a year at its peak. Its owners were white; its manager and later co-owner, Charles Buchanan, was Black. The city shut it on vice charges for six months in 1943 and for good in 1958.<sup class="src"><a href="#s11">11</a></sup> In Los Angeles, Club Alabam carried a $1,500 weekly payroll for about a hundred Black Angelenos on an audience a saxophonist put at 90 percent white; Central Avenue died not of the market but of LAPD raids after 1947 and the dispersal that followed the 1948 covenant ruling.<sup class="src"><a href="#s12">12</a></sup></p>
+      </div>
+      <section aria-labelledby="h-35">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-35">The 1935 ledger</h3><p class="sub">When Harlem rioted in March 1935, the $2 million in damage fell on white-owned stores; Black-owned shops posted "Colored Store" signs and were spared. Hang the sign.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <label class="switch"><input type="checkbox" id="cs-on"> "Colored Store" sign in the window</label>
+      </div>
+      <div class="readout" id="cs-ro"></div>
+      <div class="verdict" id="cs-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c2,x-harlem43b,x-tavern,x-harlem43" style="margin-top:36px">
+        <p class="pull">The tourist dollar bought fame and paid wages; it did not build equity.<small>Inference · the rooms kept the gate</small></p>
+        <p><span class="tag t-fact">Fact</span>The performers it made famous (Ellington, Calloway, Bill Robinson at $3,500 a week in 1936) converted the exposure into touring value elsewhere. And the two things that could end a Black nightlife district were the same two that still can: the police and the developers. Beale Street, built on Robert Church's land and bank, was razed by urban renewal in the 1960s and 70s.<sup class="src"><a href="#s12">12</a>, <a href="#s13">13</a></sup></p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 3 ============ -->
+  <article class="chapter" id="c3" data-ch="3" data-state="held">
+    <div class="col">
+      <div class="where"><span>Exhibit 3 of 7</span><span><b>1942–1955</b></span><span>Chicago · Memphis · Atlanta · Madison Avenue</span><span>Standalone</span></div>
+      <h2>The Market, <em>Counted</em></h2>
+      <span class="instrument">Instrument: the advertising rate card</span>
+      <figure class="plate" data-plate="cd-c3"><img class="ph" src="assets/plates/cd-c3.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> A radio station studio · the pipe that ran both ways</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="cd-c3,x-palm,x-memphis" style="margin-top:28px">
+        <p class="lead">The inside dollar became a market when someone counted it. In July 1954 <em>Time</em> reported the "Negro market" at $15 billion a year, nonwhite median income up from $489 in 1939 to $1,943 in 1951, BBDO's Negro-market accounts up from two to forty in two years, and 374 radio stations programming for Black listeners.<sup class="src"><a href="#s14">14</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>The man who did the counting ran the medium that sold it. John H. Johnson launched <em>Negro Digest</em> in 1942 on $500 raised by pawning his mother's furniture; <em>Ebony</em>'s first 25,000 copies sold out in November 1945; Zenith signed as the first national advertiser in 1946; the magazine was profitable by 1948 on Pepsi, Colgate and Seagram money. Johnson Publishing reached about $30 million in revenue by 1972 and $400 million by 2000, and Johnson was the first Black name on the Forbes 400 in 1982.<sup class="src"><a href="#s15">15</a></sup> <span class="tag t-inf">Inference</span>This is the first reversal of the century's flow: white money entering a Black-owned company to reach Black customers.</p>
+      </div>
+      <section aria-labelledby="h-bp">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-bp">Buying power, 1954–2020</h3><p class="sub">The number the sellers counted. Toggle between the printed dollars and 2025 dollars.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <div class="seg" role="group" aria-label="Dollars" id="bp-seg"><button aria-pressed="true" data-k="nom">AS PRINTED</button><button aria-pressed="false" data-k="real">2025 DOLLARS</button></div>
+        <div class="legend"><span><i style="--c:var(--gold)"></i>Black buying power, U.S.</span></div>
+      </div>
+      <div class="bars" id="bp-bars"></div>
+      <div class="verdict" id="bp-v"><b>Reading</b>The 1954 figure is Madison Avenue's; the later ones are the Selig Center's. They measure the same thing from the same side: what Black households spend, counted by people selling to them. None of these numbers measures what Black households own. The ownership series is Exhibit 6.<sup class="src"><a href="#s14">14</a>, <a href="#s16">16</a></sup></div>
+    </div>
+
+    <div class="col">
+      <section aria-labelledby="h-st">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-st">Two stations, 1949</h3><p class="sub">Radio was the bigger pipe and the leakier one. Pick the station.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="st-ctl"><button aria-pressed="true" data-k="wdia">WDIA · MEMPHIS</button><button aria-pressed="false" data-k="werd">WERD · ATLANTA</button></div>
+      <div class="readout" id="st-ro"></div>
+      <div class="verdict" id="st-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c3,x-palm,x-memphis" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>By 1955 more than 600 stations ran "Negro appeal" programming, up from a handful in 1949. The capital that could have owned more of it sat in the insurance companies. North Carolina Mutual aggregated dimes a week into the largest Black-run balance sheet in America; Harry Pace, after Black Swan Records failed in 1923, built Supreme Liberty Life to $208 million in force by 1965 and gave John H. Johnson his first job. A. G. Gaston's burial society became a $40 million empire and a motel. There were more than fifty Black insurers in the late 1960s and two today.<sup class="src"><a href="#s17">17</a>, <a href="#s18">18</a></sup></p>
+        <p class="pull">That was the pipe through which white advertisers reached Black listeners, and through which Black music reached white ones.<small>Inference · the same pipe ran both ways; the deed to it ran one</small></p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 4 ============ -->
+  <article class="chapter" id="c4" data-ch="4" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 4 of 7</span><span><b>1949–1977</b></span><span>Chess · Specialty · Sun · Hitsville · Ed Sullivan's stage</span><span>Standalone</span></div>
+      <h2>The <em>Crossing</em></h2>
+      <span class="instrument">Instrument: the writer's share</span>
+      <figure class="plate" data-plate="cd-c4"><img class="ph" src="assets/plates/cd-c4.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Fats Domino's home, New Orleans · the artist who kept the road</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="cd-c4,x-sun,x-fame,x-stlouis" style="margin-top:28px">
+        <p class="lead">The sound crossed before the audience did, and the trade's own charts record the moment. <em>Billboard</em> renamed "Race Records" to "Rhythm &amp; Blues" in June 1949; in 1955 <em>Maybellene</em> went to No. 5 pop and <em>Ain't That a Shame</em> to the Top Ten; and from November 1963 to January 1965 <em>Billboard</em> suspended the R&amp;B chart altogether, because so many Black records were pop records that the separate list had stopped meaning anything. In 1960 four singles by Black artists had reached the pop Top 100; in late 1968 Motown alone held half of the Top Ten.<sup class="src"><a href="#s19">19</a></sup></p>
+        <p><span class="tag t-inf">Inference</span>The crossing dollar went to whoever held the paper on the way across. The exhibit below hands you the paper.</p>
+      </div>
+      <section aria-labelledby="h-split">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-split">Who kept the crossing dollar</h3><p class="sub">Pick a crossing. The bar splits a dollar of the sale by the terms the record shows; where the record gives only a share, the split is to scale and labeled.<sup class="src"><a href="#s20">20</a>, <a href="#s21">21</a>, <a href="#s22">22</a>, <a href="#s23">23</a>, <a href="#s24">24</a>, <a href="#s25">25</a></sup></p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="xs-ctl">
+        <button aria-pressed="true" data-k="tutti">TUTTI FRUTTI · 1955</button>
+        <button aria-pressed="false" data-k="maybellene">MAYBELLENE · 1955</button>
+        <button aria-pressed="false" data-k="shame">AIN'T THAT A SHAME · 1955</button>
+        <button aria-pressed="false" data-k="sun">ELVIS'S SUN CONTRACT · 1955</button>
+        <button aria-pressed="false" data-k="chess">CHESS CATALOG · 1969</button>
+        <button aria-pressed="false" data-k="motown">MOTOWN · 1966</button>
+        <button aria-pressed="false" data-k="pir">PHILADELPHIA INTERNATIONAL · 1971</button>
+        <button aria-pressed="false" data-k="superfly">SUPER FLY · 1972</button>
+      </div>
+      <div class="split" id="xs-split" aria-hidden="true"></div>
+      <div class="legend" id="xs-leg"></div>
+      <div class="readout" id="xs-ro"></div>
+      <div class="verdict" id="xs-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c4,x-sun,x-fame,x-stlouis" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>Acceptance was engineered as carefully as the records. Gordy sent eleven acts to Ed Sullivan 37 times between 1964 and 1971; the Supremes alone appeared about fifteen times, and sales "picked up like crazy on a Monday." Maxine Powell's finishing school taught the roster to be "fit for kings and queens"; the Copacabana, not the Apollo, was the benchmark. The State Department ran the same play abroad, sending Gillespie, Brubeck and Ellington as Cold War ambassadors from 1956.<sup class="src"><a href="#s25">25</a>, <a href="#s28">28</a></sup></p>
+      </div>
+      <section aria-labelledby="h-veto">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-veto">The sponsor veto</h3><p class="sub">Television's gate was the advertiser's, and it opened in stages. Step through.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="stepper" id="veto">
+        <div class="steps" role="tablist" aria-label="Stage">
+          <button role="tab" aria-pressed="true" data-i="0">1956 · COLE</button>
+          <button role="tab" aria-pressed="false" data-i="1">1965 · I SPY</button>
+          <button role="tab" aria-pressed="false" data-i="2">1970 · FLIP WILSON</button>
+          <button role="tab" aria-pressed="false" data-i="3">1971 · SOUL TRAIN</button>
+          <button role="tab" aria-pressed="false" data-i="4">1977 · ROOTS</button>
+        </div>
+        <div class="step-body" id="veto-body"></div>
+        <div class="verdict" id="veto-v"><b>Reading</b>The sponsor's veto broke in stages, and the one stage a Black company held outright was the one it had to buy its own advertiser for: Johnson Products' Afro Sheen money put <em>Soul Train</em> on the air and Don Cornelius owned it for 35 years.<sup class="src"><a href="#s29">29</a>, <a href="#s27">27</a></sup></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c4,x-sun,x-fame,x-stlouis" style="margin-top:36px">
+        <p class="pull">The crossover of the music was complete by 1965; the crossover of ownership was the work of the next sixty years.<small>Inference · and the subject of Episode 1</small></p>
+        <div class="desk"><b>Desk note · Episode 1</b>The 5 percent royalty with no advance, and Gordy holding every share of Jobete, is the chapter Episode 1 calls The Master's Master: who got the masters, who got the publishing, and the $322 million three-step sale of the songbook. <a href="the-chain-of-title.html#c4">Open it</a>.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 5 ============ -->
+  <article class="chapter" id="c5" data-ch="5" data-state="held">
+    <div class="col">
+      <div class="where"><span>Exhibit 5 of 7</span><span><b>1939–1972</b></span><span>Carnegie Hall · Greenwood · Miles College · Montgomery · Watts</span><span>Standalone</span></div>
+      <h2>The Benefit <em>Stage</em></h2>
+      <span class="instrument">Instrument: the benefit ledger</span>
+      <figure class="plate" data-plate="cd-c5"><img class="ph" src="assets/plates/cd-c5.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The Lincoln Memorial · the benefit stage, 1939</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="cd-c5,x-march,x-march2" style="margin-top:28px">
+        <p class="lead">The inside dollar had one more customer: the movement that was trying to end the segregation that had built it. Two of its books survive. The SCLC's 1963 budget was $300,000: $80,000 from appeal letters, $75,000 from church pledges, and $30,000 projected from "Special Fund Raising (Benefits)." Ten percent on paper. In practice the concerts were the liquidity.<sup class="src"><a href="#s30">30</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>A single Carnegie Hall tribute for King's 32nd birthday in January 1961, organized by Maya Angelou and Sammy Davis Jr., grossed more than $55,000 and netted about $22,000 against an SCLC annual budget of roughly $60,000. The other ledger is SNCC's New York office: $60,000 raised in 1963, $350,000 by October 1964; Belafonte's fall-1964 house parties netted $9,000 to $15,500 a night; field secretaries were paid about $10 a week.<sup class="src"><a href="#s30">30</a>, <a href="#s31">31</a></sup> <span class="tag t-inf">Inference</span>The art was not decorating the movement; it was the movement's cash flow.</p>
+      </div>
+      <section aria-labelledby="h-night">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-night">One night, a third of the year</h3><p class="sub">Book the benefits from the ledger and watch what they do to a $60,000 budget.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="bn-ctl"></div>
+      <div class="bars" id="bn-bars"></div>
+      <div class="verdict" id="bn-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c5,x-march,x-march2" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>The artists also used the platform's contract. Norman Granz had stripped the restroom signs and written a no-segregation clause into Jazz at the Philharmonic contracts by 1955, when Ella Fitzgerald and Dizzy Gillespie were arrested backstage in Houston on a dice pretext. Ray Charles cancelled Augusta in March 1961 on learning the seating was segregated and paid a civil judgment for it (there was no Georgia "ban"; that is legend). In 1964 the Beatles' rider carried clause 6, "Artists will not be required to perform before a segregated audience," and the Gator Bowl integrated for 23,000.<sup class="src"><a href="#s32">32</a>, <a href="#s33">33</a></sup></p>
+      </div>
+      <section aria-labelledby="h-clause">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-clause">The clause</h3><p class="sub">A rider is a contract the venue signs. Put the clause in and watch which rooms the tour can play.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top"><label class="switch"><input type="checkbox" id="cl-on"> Clause 6 in the rider</label></div>
+      <div class="cards" id="cl-cards"></div>
+      <div class="verdict" id="cl-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c5,x-march,x-march2" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>The movement even owned an anthem: Seeger, Carawan and Hamilton registered <em>We Shall Overcome</em> in 1960 and assigned every royalty to a fund for Black grassroots arts; a court put it in the public domain in 2018. King treated his own voice as property: he refused royalties on Motown's march album, directing them to the SCLC, then sued two labels in October 1963 over unauthorized "I Have a Dream" records and briefly named Motown, which pulled its album within days.<sup class="src"><a href="#s34">34</a></sup> <span class="tag t-inf">Inference</span>A two-way exchange, not patronage: the artists supplied cash, bail, planes and platforms; the movement supplied the images and the moral license that made Black performers bookable in rooms that had excluded them. And it was policed in both directions: the NAACP criticized Nat King Cole for playing segregated houses in 1956; Black audiences booed Sammy Davis Jr. at a benefit in 1972, and James Brown had no R&amp;B number one the year after his Oval Office visit.<sup class="src"><a href="#s35">35</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>August 20, 1972: Wattstax, about 112,000 at $1 a ticket; film rentals $1.56 million; the LP past 220,000. The ticket money went to the Watts Summer Festival; the album's upside went to Stax and Columbia.<sup class="src"><a href="#s36">36</a></sup></p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 6 ============ -->
+  <article class="chapter" id="c6" data-ch="6" data-state="broken">
+    <div class="col">
+      <div class="where"><span>Exhibit 6 of 7</span><span><b>1923–2000</b></span><span>Harlem · Chicago · Houston · Detroit · Memphis · the dial</span><span>Standalone</span></div>
+      <h2>The <em>Exits</em></h2>
+      <span class="instrument">Instrument: the bill of sale</span>
+      <figure class="plate" data-plate="cd-c6"><img class="ph" src="assets/plates/cd-c6.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> A vintage jukebox · the room that got sold</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="cd-c6,x-regal,x-lincoln80" style="margin-top:28px">
+        <p class="lead">Nine companies, each founded on a few hundred dollars or a mortgage, each the largest thing of its kind for a season. The ledger below records what each was founded on, what it peaked at, and what happened to the asset. One of the nine closed its loop. The rest opened at the exit.</p>
+      </div>
+      <section aria-labelledby="h-exit">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-exit">The exit ledger</h3><p class="sub">Sort by what the record shows.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <div class="seg" role="group" aria-label="Sort" id="ex-seg"><button aria-pressed="true" data-k="year">BY YEAR FOUNDED</button><button aria-pressed="false" data-k="seed">BY SEED CAPITAL</button><button aria-pressed="false" data-k="fate">BY WHAT HAPPENED</button></div>
+        <div class="legend"><span><i style="--c:var(--tag)"></i>exited under distress</span><span><i style="--c:var(--reported)"></i>sold by choice</span><span><i style="--c:var(--fact)"></i>closed loop</span></div>
+      </div>
+      <div class="scroll"><table class="ledger" id="ex-table"><thead><tr><th>Company</th><th>Founded on</th><th>Peak</th><th>What happened to the asset</th><th>Tier</th></tr></thead><tbody></tbody></table></div>
+      <div class="verdict" id="ex-v"><b>Reading</b>Johnson Products to <em>Soul Train</em> is the one documented closed loop of the era: Black consumer dollars to a Black manufacturer to a Black-owned national show. Everywhere else the loop opened at the exit, usually under distress (Black Swan, Vee-Jay, Stax) and sometimes by choice (Motown, 1988). The Negro market was counted by its sellers, and its sellers were, with few exceptions, not its members.<sup class="src"><a href="#s26">26</a>, <a href="#s27">27</a></sup></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c6,x-regal,x-lincoln80" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>The 1990s ran the same ledger on the next medium. Death Row, financed by a $10 million Interscope deal in 1992 after Sony passed on <em>The Chronic</em>, peaked above $100 million a year; Dre left in 1996, Interscope dropped the label after Suge Knight's 1997 sentence, and it was auctioned out of bankruptcy for $18 million in 2009.<sup class="src"><a href="#s37">37</a></sup> Rush Communications sold 60 percent of Def Jam to PolyGram in 1995 and the rest to Universal in 1999.<sup class="src"><a href="#s38">38</a></sup> BET, founded in 1980 with about $500,000, listed on the NYSE in 1991 and sold to Viacom in 2000 for about $3 billion; Robert Johnson received $2.4 billion in stock. Cathy Hughes: "a great day for Bob Johnson, but … a significant loss for African American ownership." News and public affairs were the first casualty of the sale.<sup class="src"><a href="#s39">39</a>, <a href="#s40">40</a></sup></p>
+      </div>
+      <section aria-labelledby="h-floor">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-floor">The ownership floor</h3><p class="sub">What the Telecommunications Act of 1996 did to who owned the room. Toggle the measure.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <div class="seg" role="group" aria-label="Measure" id="fl-seg">
+          <button aria-pressed="true" data-k="owners">RADIO OWNERS</button>
+          <button aria-pressed="false" data-k="cc">CLEAR CHANNEL</button>
+          <button aria-pressed="false" data-k="minority">MINORITY SHARE</button>
+          <button aria-pressed="false" data-k="tv">BLACK-OWNED TV</button>
+        </div>
+      </div>
+      <div class="bars" id="fl-bars"></div>
+      <div class="verdict" id="fl-v"></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c6,x-regal,x-lincoln80" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>The Act lifted the 40-station national cap; within a year about 3,900 stations, 40 percent of the total, had changed hands for $30.1 billion, and minority ownership fell from 3.1 to 2.8 percent, with Black-owned radio the biggest loser.<sup class="src"><a href="#s41">41</a>, <a href="#s42">42</a></sup> One Black consolidator rode the wave that shrank the rest: Radio One's 1999 Nasdaq listing at $24 reached $96.50 in seven months; it bought twelve Clear Channel stations for $1.3 billion in 2000 and peaked at 70 stations in 2007.<sup class="src"><a href="#s43">43</a></sup> By 2007 African Americans owned about 3.3 percent of commercial radio stations and 1.3 percent of full-power television stations, eighteen of 1,349.<sup class="src"><a href="#s44">44</a></sup></p>
+        <p class="pull">The room that in 1949 was WDIA was sold out from under the audience during the decade the audience's music was winning.<small>Inference · the 1970s Black-owned radio boom had run on a federal ownership subsidy repealed in 1995</small></p>
+        <div class="desk"><b>Desk note · Episode 1</b>The station count is the ownership side of Episode 1's Presence vs. Ownership exhibit: who was on screen against who held the program copyright. <a href="the-chain-of-title.html#c5">The Screen Deed</a>.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CHAPTER 7 ============ -->
+  <article class="chapter" id="c7" data-ch="7" data-state="open">
+    <div class="col">
+      <div class="where"><span>Exhibit 7 of 7</span><span><b>2001–2026</b></span><span>The feed · the marketplace · the courtroom</span><span>Watch layer</span></div>
+      <h2>The Room Costs a <em>Phone</em></h2>
+      <span class="instrument">Instrument: the platform's terms of service</span>
+      <figure class="plate" data-plate="cd-c7"><img class="ph" src="assets/plates/cd-c7.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Los Angeles at dusk · the room that costs a phone</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
+      <div class="stack" data-reel="cd-c7,x-capitol,x-atlanta" style="margin-top:28px">
+        <p class="lead">The circuit teaches one lesson across three eras: the money follows the room, and the room follows the technology that defines it. The theater was the room until radio; radio until the record; the record until the screen; the screen until the feed. At each turn Black creators were first into the new room and last to hold its deed. What has changed is the price of a room.</p>
+      </div>
+      <section aria-labelledby="h-price">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-price">The price of a room</h3><p class="sub">What it cost to open one, 1942 to 2026, as printed and in 2025 dollars. Log scale.</p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="ex-top">
+        <div class="seg" role="group" aria-label="Dollars" id="pr-seg"><button aria-pressed="true" data-k="nom">AS PRINTED</button><button aria-pressed="false" data-k="real">2025 DOLLARS</button></div>
+      </div>
+      <div class="bars" id="pr-bars"></div>
+      <div class="verdict" id="pr-v"><b>Reading</b>The inside dollar can be assembled faster and with less capital than at any point in the century. Chance the Rapper built a national audience with no label in 2016 and forced the Recording Academy to change its eligibility rules; a nineteen-year-old bought the beat under the longest-running No. 1 in chart history for $30 on a marketplace in 2018; UnitedMasters let artists keep every royalty and was valued at $550 million by Apple and Andreessen Horowitz in 2021. The room now costs a phone. The deed side has not moved as far.<sup class="src"><a href="#s46">46</a>, <a href="#s47">47</a>, <a href="#s48">48</a></sup></div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c7,x-capitol,x-atlanta" style="margin-top:36px">
+        <p><span class="tag t-fact">Fact</span>The commercial stage has never been larger. <em>Black Panther</em> grossed about $1.35 billion in 2018.<sup class="src"><a href="#s49">49</a></sup> Kendrick Lamar's Super Bowl LIX halftime in February 2025 averaged 133.5 million viewers, the most watched ever, produced under the 2019 Roc Nation–NFL partnership; in October 2026 the NFL named Jay-Z to headline Super Bowl LXI.<sup class="src"><a href="#s50">50</a>, <a href="#s51">51</a></sup> <em>Cowboy Carter</em> debuted at No. 1 in March 2024, received zero Country Music Association nominations, and won Album of the Year in February 2025, the first by a Black woman since Lauryn Hill in 1999: "Genre is a cold word to keep us in our place."<sup class="src"><a href="#s52">52</a></sup> <span class="tag t-inf">Inference</span>Nashville's gatekeeping and the Academy's vindication are the 1920s race-record ledger again: the room that sells the music is not the room that credits it.</p>
+        <p><span class="tag t-fact">Fact</span>And the exits continue. Paramount explored selling BET in 2023 to bidders including Tyler Perry, Byron Allen ($3.5 billion) and Sean Combs, and shelved the sale; in August 2025 the new owner said BET was "no longer for sale," and in March 2026 it bought out Perry's BET+ stake and folded the service into Paramount+.<sup class="src"><a href="#s45">45</a>, <a href="#s53">53</a></sup> Byron Allen sold ten stations to Gray Media for $171 million in August 2025 to "significantly reduce our debt."<sup class="src"><a href="#s54">54</a></sup> Sean Combs, the architect of the equity-endorsement model (Ciroc, DeLeón, Revolt), had divested or surrendered all three before his 2025 conviction.<sup class="src"><a href="#s55">55</a></sup> The headline Black catalog sales of 2020–23 (Dre $200 million-plus, Lil Wayne $100 million-plus) run at a fraction of the rock deals (Springsteen $500 million), partly because the catalogs are younger and partly because the terms are private.<sup class="src"><a href="#s56">56</a></sup></p>
+      </div>
+      <section aria-labelledby="h-tn">
+        <div class="sec-head"><span class="eyebrow">Interactive</span><h3 id="h-tn">Then and now</h3><p class="sub">Four mechanisms from the circuit era, running again under new names. Flip each card.<sup class="src"><a href="#s58">58</a></sup></p></div>
+      </section>
+    </div>
+    <div class="exhibit">
+      <div class="room-ctl" id="tn-ctl"><button aria-pressed="true" data-k="then">THEN</button><button aria-pressed="false" data-k="now">NOW</button><button aria-pressed="false" data-k="both">SIDE BY SIDE</button></div>
+      <div class="then-now" id="tn"></div>
+      <div class="verdict" id="tn-v"><b>Reading</b>The hinge is the one A. G. Gaston and Harry Pace understood: capital that stays in the community compounds, and capital that exits at the moment of peak value does not. The platform era's version of the Royal Peacock is a creator who owns the masters, the audience list and the merchandise line; its version of the Motown sale is the catalog deal.</div>
+    </div>
+
+    <div class="col">
+      <div class="stack" data-reel="cd-c7,x-capitol,x-atlanta" style="margin-top:36px">
+        <p><span class="tag t-watch">Watch</span>The technology that most threatens the deed is also the first that could enforce it. A voice-cloning model needs the voice; a dance emote needs the dance; a training set needs the catalog. Each is a point where a license can be required, if the law names the right and the holder is the person rather than the platform or the label. Universal settled with Udio in October 2025 and Warner with Suno in November 2025 on licensed, opt-in terms; no race-specific terms were disclosed, and no one at either table represented the catalog-heavy Black genres as such.<sup class="src"><a href="#s57">57</a></sup> Whether the holder of the new title is the singer or the company holding her 2005 contract is the open question of this decade, and the one the circuit's history says to watch most closely.</p>
+        <p class="pull">What a reader can do with this: trace one dollar. Pick an artist, a room or a label from any table above and follow its money to the exit.<small>The records are public; the pattern is the same each time; the next exit is being negotiated now</small></p>
+        <div class="desk"><b>Desk note · Episode 1</b>The voice deed, the two settled lawsuits and the upload curve are Episode 1's closing exhibit. <a href="the-chain-of-title.html#c7">The Voice Deed</a>.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ CLOSING ============ -->
+  <section aria-labelledby="h-close" style="margin-top:120px">
+    <div class="col sec-head">
+      <span class="eyebrow">Closing</span>
+      <h2 id="h-close">Three findings, <em>one direction</em></h2>
+      <p class="sub">What the record supports, and what it does not.</p>
+    </div>
+    <div class="col stack">
+      <p>The money stops at the room, and the room changed hands at every turn of the technology that defined it. The crossing dollar followed the paper, and the paper was held by the cover singer, the DJ, the publisher and the label until a Black-owned company captured it on the industry's own terms. The asset left at peak, usually under distress, in every era but one closed loop that ran for thirty-five years. The room now costs a phone; the deed has not moved as far. Where the next exit is negotiated is in the record: a Nashville statute, a Boston courtroom, and a licensing table with no one from the catalog's community at it.</p>
+    </div>
+    <div class="sides" style="margin-top:28px">
+      <div class="side gold"><h3>What the record supports</h3><ul>
+        <li>The SCLC and SNCC ledgers, the Carnegie Hall archive, the NTIA and Free Press ownership counts, the Billboard chart history and the bankruptcy filings are primary or near-primary (T1–T2).</li>
+        <li>The terms on each crossing (half a cent, $50, a quarter of a writer's share, 5 percent with no advance) are documented; the proportions drawn from them are labeled illustrative.</li>
+        <li>Every exit in the ledger is dated to a sale, a court, or a filing.</li>
+      </ul></div>
+      <div class="side tagb"><h3>What it does not</h3><ul>
+        <li>The Green Book's circulation (15,000 vs. two million), Montgomery's "65 percent," Ellington's and Calloway's Cotton Club salaries, the James Brown Boston payment, and "Tell them about the dream" are disputed or single-sourced and not used.</li>
+        <li>Bessie Smith's $2,000 a week and Johnson Publishing's revenue series are reported, not audited.</li>
+        <li>No public study measures what Black households own of the entertainment assets their spending built; the ownership floor is the closest proxy and it is a count of stations, not of equity.</li>
+      </ul></div>
+    </div>
+    <div class="col" style="margin-top:28px">
+      <div class="crumbs" aria-label="Related reading on this site">
+        <a href="the-chain-of-title.html"><i>EP·1</i>The Chain of Title</a>
+        <a href="the-terms.html"><i>EP·3</i>The Terms</a>
+        <a href="the-feed.html"><i>EP·4</i>The Feed</a>
+        <a href="the-dilution.html"><i>EP·5</i>The Dilution</a>
+        <a href="the-chain-of-title.html#c4"><i>EP·1·04</i>The Master's Master</a>
+        <a href="the-chain-of-title.html#c7"><i>EP·1·07</i>The Voice Deed</a>
+        <a href="#"><i>RFY</i>Follow the Ownership</a>
+        <a href="episode-12-the-governance-layer.html"><i>S2·12</i>The Governance Layer</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="sources">
+    <p><b>INFERA · MECHANISM SERIES · THE CIRCULATING DOLLAR · Episode 2 of a standalone mini-series · Seven exhibits, original reporting from the public record · © Infera 2026.</b></p>
+    <p style="margin-top:10px"><b>Method.</b> SVNIF: every claim carries Fact, Reported, Inference or Watch. Source tiers: T1 primary document, court record, statute, ledger or government data · T2 major press or peer-reviewed scholarship · T3 reputable secondary reference · T4 trade press. Dollar conversions to 2025 use the Minneapolis Fed CPI series, rounded, and are orders of magnitude, not audits. The engine's flow levels are this page's reading of the record, anchored to the figure on each card.</p>
+    <ol>
+      <li id="s1"><span class="tier">T2/T3</span> Michelle R. Scott, <em>T.O.B.A. Time</em> (2023); Wikipedia, <a href="https://en.wikipedia.org/wiki/Theater_Owners_Booking_Association">Theater Owners Booking Association</a> (Dudley, the 1930 sale, Bessie Smith's reported pay and 1933 rate).</li>
+      <li id="s2"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Howard_Theatre">Howard Theatre</a>; <a href="https://en.wikipedia.org/wiki/Apollo_Theater">Apollo Theater</a> (Schiffman–Brecher ownership; Sutton, 1981; the 1934 $25 prize).</li>
+      <li id="s3"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Dunbar_Theatre_(Philadelphia)">Dunbar Theatre</a>; <a href="https://en.wikipedia.org/wiki/Regal_Theater_(Chicago)">Regal Theater</a>; Lincoln Theatre, Washington.</li>
+      <li id="s4"><span class="tier">T3</span> Atlanta History Center, the Royal Peacock and Carrie Cunningham; Wikipedia, <a href="https://en.wikipedia.org/wiki/Royal_Peacock">Royal Peacock</a>.</li>
+      <li id="s5"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Denver_Ferguson">Denver Ferguson</a> (Sunset Terrace; Ferguson Brothers Agency); <a href="https://en.wikipedia.org/wiki/Hotel_Theresa">Hotel Theresa</a>; <a href="https://en.wikipedia.org/wiki/Dunbar_Hotel">Dunbar Hotel</a>.</li>
+      <li id="s6"><span class="tier">T1/T2</span> Encyclopedia of Alabama, <a href="https://encyclopediaofalabama.org/article/a-g-gaston/">A. G. Gaston</a>; NPS, the A. G. Gaston Motel.</li>
+      <li id="s7"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Cotton_Club">Cotton Club</a>; <a href="https://en.wikipedia.org/wiki/Savoy_Ballroom">Savoy Ballroom</a>.</li>
+      <li id="s8"><span class="tier">T2/T3</span> Hagley Museum, the Green Book; Wikipedia, <a href="https://en.wikipedia.org/wiki/The_Negro_Motorist_Green_Book">The Negro Motorist Green Book</a> (pages, distribution, the two circulation claims).</li>
+      <li id="s9"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Storyville,_New_Orleans">Storyville</a>; Mahogany Hall; the Committee of Fourteen, 1914.</li>
+      <li id="s10"><span class="tier">T3</span> Wikipedia, Cotton Club (Madden; the $2 minimum; the 1934 Parade; Connie's Inn).</li>
+      <li id="s11"><span class="tier">T3</span> Wikipedia, Savoy Ballroom (prices, attendance, Buchanan, the 1943 and 1958 closures).</li>
+      <li id="s12"><span class="tier">T2</span> LAist, Club Alabam and Central Avenue; Wikipedia, Central Avenue (Los Angeles) jazz.</li>
+      <li id="s13"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Beale_Street">Beale Street</a> (Robert Church; urban renewal); Harlem riot of 1935.</li>
+      <li id="s14"><span class="tier">T1/T2</span> <em>Time</em>, July 5, 1954, "The Negro Market" ($15 billion; income series; BBDO; 374 stations).</li>
+      <li id="s15"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Ebony_(magazine)">Ebony</a>; <a href="https://en.wikipedia.org/wiki/John_H._Johnson">John H. Johnson</a>; Johnson Publishing Company (revenue series; Forbes 400, 1982).</li>
+      <li id="s16"><span class="tier">T2</span> Selig Center for Economic Growth, University of Georgia, the multicultural buying-power series (2020 figure $1.6 trillion).</li>
+      <li id="s17"><span class="tier">T2</span> NPR Radio Diaries, <a href="https://www.npr.org/2021/06/30/1011901555/radio-diaries-harry-pace-and-the-rise-and-fall-of-black-swan-records">Harry Pace and the rise and fall of Black Swan Records</a>; Supreme Liberty Life.</li>
+      <li id="s18"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/WDIA">WDIA</a>; <a href="https://en.wikipedia.org/wiki/WERD">WERD</a>; North Carolina Mutual; Black-owned insurers.</li>
+      <li id="s19"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Hot_R%26B/Hip-Hop_Songs">Billboard R&amp;B chart history</a> (the 1949 rename; the 1963–65 suspension).</li>
+      <li id="s20"><span class="tier">T2/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Tutti_Frutti_(song)">Tutti Frutti</a>; Pat Boone (sales; the 95 percent remark).</li>
+      <li id="s21"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Maybellene">Maybellene</a> (Freed and Fratto credits; withdrawn 1986).</li>
+      <li id="s22"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Fats_Domino">Fats Domino</a> (the road; the 1957 Ebony gross); Ain't That a Shame.</li>
+      <li id="s23"><span class="tier">T3/T4</span> Cleveland Historical, the Moondog Coronation Ball; Brooklyn Paramount runs; Elvis's Sun contract, Nov 21, 1955.</li>
+      <li id="s24"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Chess_Records">Chess Records</a> (the 1969 GRT sale; Arc Music suits).</li>
+      <li id="s25"><span class="tier">T2</span> <em>Fortune</em>, Sept 1967, "The Motown Sound of Money"; Adam White, Motown on Ed Sullivan; Wikipedia, <a href="https://en.wikipedia.org/wiki/Motown">Motown</a> (the $800 loan; 1988 and 1997 sales).</li>
+      <li id="s26"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Black_Swan_Records">Black Swan Records</a>; <a href="https://en.wikipedia.org/wiki/Vee-Jay_Records">Vee-Jay Records</a>; <a href="https://en.wikipedia.org/wiki/Duke_Records">Duke/Peacock</a>; <a href="https://en.wikipedia.org/wiki/Stax_Records">Stax Records</a>; U.S. Bankruptcy Court, W.D. Tenn., Stax.</li>
+      <li id="s27"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Johnson_Products_Company">Johnson Products</a>; <a href="https://en.wikipedia.org/wiki/Soul_Train">Soul Train</a>.</li>
+      <li id="s28"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Jazz_ambassadors">Jazz ambassadors</a> (State Department tours from 1956).</li>
+      <li id="s29"><span class="tier">T2/T3</span> NMAAHC, Nat King Cole and Flip Wilson; Wikipedia, <a href="https://en.wikipedia.org/wiki/I_Spy_(1965_TV_series)">I Spy</a>; <a href="https://en.wikipedia.org/wiki/Roots_(1977_miniseries)">Roots</a>.</li>
+      <li id="s30"><span class="tier">T1</span> The SCLC 1963 budget (King Institute); Carnegie Hall archive, the January 27, 1961 tribute.</li>
+      <li id="s31"><span class="tier">T1</span> SNCC Digital Gateway, the New York office and Belafonte; King Institute, Belafonte; the Greenwood cash run, 1964.</li>
+      <li id="s32"><span class="tier">T2/T3</span> Norman Granz and Jazz at the Philharmonic (the 1955 Houston arrest); Wikipedia, Ray Charles (the Augusta cancellation and judgment).</li>
+      <li id="s33"><span class="tier">T3</span> The Beatles' 1964 rider, clause 6; the Gator Bowl, September 11, 1964; Sam Cooke and Clyde McPhatter, Memphis, May 1961.</li>
+      <li id="s34"><span class="tier">T1</span> Library of Congress, <a href="https://www.loc.gov/item/ihas.200000012/">We Shall Overcome</a>; King Institute, the Motown march album and the 1963 suits.</li>
+      <li id="s35"><span class="tier">T2/T3</span> NMAAHC, Cole and the 1956 criticism; bhamwiki, the 1956 Cole assault; Sammy Davis Jr. at PUSH, 1972; James Brown's 1972 chart year.</li>
+      <li id="s36"><span class="tier">T2</span> NPR, Wattstax; Wikipedia, <a href="https://en.wikipedia.org/wiki/Wattstax">Wattstax</a>.</li>
+      <li id="s37"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Death_Row_Records">Death Row Records</a>; <a href="https://en.wikipedia.org/wiki/The_Chronic">The Chronic</a>.</li>
+      <li id="s38"><span class="tier">T3</span> FundingUniverse, <a href="https://www.fundinguniverse.com/company-histories/rush-communications-history/">Rush Communications history</a>.</li>
+      <li id="s39"><span class="tier">T3</span> <em>Black Enterprise</em>, <a href="https://blackenterprise.com/bet-first-black-billionaire/">the BET sale</a>.</li>
+      <li id="s40"><span class="tier">T2</span> NBC News, <a href="https://www.nbcnews.com/id/wbna8076499">BET at 25</a>.</li>
+      <li id="s41"><span class="tier">T2</span> Center for Public Integrity, <a href="https://publicintegrity.org/inequality-poverty-opportunity/fcc-dawdled-as-radio-grew/">"FCC dawdled as radio grew"</a>.</li>
+      <li id="s42"><span class="tier">T1</span> NTIA, 1997, <a href="https://www1.udel.edu/nero/Radio/readings/minown.html">minority commercial broadcast ownership</a>.</li>
+      <li id="s43"><span class="tier">T3</span> <em>Black Enterprise</em>, <a href="https://blackenterprise.com/45-great-moments-in-black-business-no-20-radio-one-founder-cathy-hughes-first-black-woman-to-take-company-public-on-nasdaq/">Radio One's IPO</a>.</li>
+      <li id="s44"><span class="tier">T3</span> Free Press, <a href="https://mediajustice.org/wp-content/uploads/2014/04/out_of_the_picture.pdf">Out of the Picture</a> (2006); <a href="https://policyarchive.org/download/8021">Off the Dial</a> (2007).</li>
+      <li id="s45"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/BET_Media_Group">BET Media Group</a> (2023 bids; 2026 BET+ buyout).</li>
+      <li id="s46"><span class="tier">T2</span> The Recording Academy's 2016 streaming-eligibility change; <em>Coloring Book</em>.</li>
+      <li id="s47"><span class="tier">T2</span> The $30 beat under <em>Old Town Road</em> (2018); Billboard, the longest-running No. 1.</li>
+      <li id="s48"><span class="tier">T3</span> Music Business Worldwide, <a href="https://musicbusinessworldwide.com/unitedmasters-valued-at-550m-after-raising-50m-in-new-funding-round">UnitedMasters valued at $550 million</a>.</li>
+      <li id="s49"><span class="tier">T3</span> Box Office Mojo, <a href="https://www.boxofficemojo.com/title/tt1825683/">Black Panther</a>.</li>
+      <li id="s50"><span class="tier">T3</span> <em>Sports Illustrated</em>, <a href="https://www.si.com/nfl/kendrick-lamar-performance-super-bowl-lix-most-watched-halftime-show">Super Bowl LIX halftime audience</a>; <em>Black Enterprise</em>, the 2019 Roc Nation–NFL partnership.</li>
+      <li id="s51"><span class="tier">T3</span> Yahoo, Oct 26, 2026, <a href="https://yahoo.com/entertainment/music/articles/jay-z-headline-2027-super-140022472.html">Jay-Z to headline Super Bowl LXI</a>.</li>
+      <li id="s52"><span class="tier">T2</span> Andscape, Feb 2, 2025, <a href="https://andscape.com/features/beyonce-wins-album-of-the-year-at-the-2025-grammys-for-cowboy-carter/">Cowboy Carter wins Album of the Year</a>; <em>Billboard</em>, the 2024 CMA nominations.</li>
+      <li id="s53"><span class="tier">T3</span> The Desk, Aug 2025, <a href="https://thedesk.net/2025/08/paramount-bet-media-not-for-sale/">BET not for sale</a>.</li>
+      <li id="s54"><span class="tier">T3</span> AfroTech, Aug 2025, <a href="https://afrotech.com/amg-sell-tv-stations-gray-media-deal">the Allen station sale</a>.</li>
+      <li id="s55"><span class="tier">T2</span> ABC7, <a href="https://abc7news.com/post/diddy-trial-verdict-sean-combs-conviction-heres-where-business-ventures-stand/16922319/">where Combs's business ventures stand</a> (2025).</li>
+      <li id="s56"><span class="tier">T2/T4</span> Reported catalog sales 2020–23: Dr. Dre, Lil Wayne, Springsteen (trade press; terms private).</li>
+      <li id="s57"><span class="tier">T2/T3</span> Music Business Worldwide, <a href="https://www.musicbusinessworldwide.com/universal-music-settles-udio-lawsuit-strikes-deal-for-licensed-ai-music-platform">the Udio settlement</a>; TheWrap, <a href="https://www.thewrap.com/warner-music-group-partnership-suno-settles-lawsuit-ai-music-company">the Suno settlement</a>.</li>
+      <li id="s58"><span class="tier">T2</span> The 2021 TikTok choreographers' strike; the Copyright Office's "Carlton" refusal; Spotify Discovery Mode and the 2021 House inquiry; the MLC's $424 million (2021); Deezer's 2026 AI-upload reporting; "Heart on My Sleeve" (2023); Tennessee's ELVIS Act (2024); the NO FAKES Act (Senate Judiciary, June 2026).</li>
+      <li id="s59"><span class="tier">T2</span> NPS and Weems, post-war advertising to Black consumers; Robert E. Weems Jr., <em>Desegregating the Dollar</em> (1998); Emilie Raymond, <em>Stars for Freedom</em> (2015).</li>
+      <li id="s60"><span class="tier">FURTHER READING</span> Lisa E. Davis, <em>Our Minds Were Always Free</em> (Simon &amp; Schuster, 2026). Nothing on this page is drawn from it.</li>
+    </ol>
+    <p>Hero and charts are drawn in code from the figures above. The seven plates are archival photographs and prints in the public domain or with no known restrictions (Library of Congress; Wikimedia Commons), each credited in its caption and in assets/plates/credits.json; none depicts an identifiable public figure. Contact: infera@melophon.com.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fmt=function(n){return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")};
+  var esc=function(s){return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})};
+  var money=function(n){return n>=1e12?"$"+(n/1e12).toFixed(1)+"T":n>=1e9?"$"+(n/1e9).toFixed(n>=1e10?0:1)+"B":n>=1e6?"$"+(n/1e6).toFixed(n>=1e8?0:1)+"M":"$"+fmt(n)};
+  // Minneapolis Fed CPI multipliers to 2025 dollars, rounded
+  var CPI={1920:16.0,1923:18.4,1926:17.9,1930:19.0,1936:23.6,1942:19.6,1945:17.8,1949:13.4,1953:12.0,1954:11.9,1957:11.4,1959:11.0,1961:10.7,1963:10.4,1964:10.3,1965:10.1,1966:9.9,1967:9.6,1971:7.9,1972:7.6,1975:5.9,1980:3.9,1988:2.7,1990:2.4,1997:2.0,2000:1.85,2008:1.48,2010:1.46,2016:1.33,2018:1.27,2021:1.17,2026:1.0};
+  function seg(id,fn){var s=$(id);if(!s)return;$$("button",s).forEach(function(b){b.addEventListener("click",function(){$$("button",s).forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});fn(b.dataset.k||b.dataset.i||b.dataset.y)})})}
+
+  /* ---------- hero: a circuit with one cut segment ---------- */
+  (function(){
+    var c=$("#circuitcanvas");if(!c)return;var ctx=c.getContext("2d");var W,H,t=0,dots=[];
+    function size(){var r=c.parentElement.getBoundingClientRect();W=c.width=Math.max(320,Math.floor(r.width));H=c.height=Math.max(300,Math.floor(r.height))}
+    size();window.addEventListener("resize",size);
+    for(var i=0;i<70;i++)dots.push({a:Math.random()*Math.PI*2,v:.0025+Math.random()*.003,r:Math.random()});
+    var N=5,CUT0=Math.PI*1.15,CUT1=Math.PI*1.45;
+    function draw(){
+      ctx.clearRect(0,0,W,H);var cx=W*.68,cy=H*.46,R=Math.min(W,H)*.34;var blink=reduce?0:(Math.sin(t*.06)*.5+.5);
+      ctx.lineWidth=1.2;
+      for(var s=0;s<120;s++){var a0=s/120*Math.PI*2,a1=(s+1)/120*Math.PI*2;var inCut=a0>CUT0&&a0<CUT1;ctx.strokeStyle=inCut?"rgba(192,94,60,"+(0.25+blink*.45)+")":"rgba(201,162,39,.55)";ctx.setLineDash(inCut?[3,5]:[]);ctx.beginPath();ctx.arc(cx,cy,R,a0,a1);ctx.stroke()}
+      ctx.setLineDash([]);ctx.strokeStyle="rgba(124,192,150,.45)";ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,R*.78,CUT0-.15,CUT1+.15);ctx.stroke();
+      var names=["PERFORMER","THE ROOM","AUDIENCE","OUTSIDE DOLLAR","BLACK CAPITAL"];
+      for(var n=0;n<N;n++){var a=-Math.PI/2+n/N*Math.PI*2;var x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R;ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle="#14110d";ctx.fill();ctx.strokeStyle="rgba(236,227,208,.9)";ctx.lineWidth=1.4;ctx.stroke();ctx.font="10px 'Space Mono',monospace";ctx.fillStyle="rgba(168,157,136,.9)";ctx.textAlign=Math.cos(a)>.2?"left":Math.cos(a)<-.2?"right":"center";ctx.fillText(names[n],x+Math.cos(a)*16,y+Math.sin(a)*16+4)}
+      dots.forEach(function(d){if(!reduce)d.a+=d.v;var inCut=((d.a%(Math.PI*2))+Math.PI*2)%(Math.PI*2);var cut=inCut>CUT0&&inCut<CUT1;var rr=cut?R*.78:R;var x=cx+Math.cos(d.a)*rr,y=cy+Math.sin(d.a)*rr;ctx.beginPath();ctx.arc(x,y,cut?1.4:2,0,Math.PI*2);ctx.fillStyle=cut?"rgba(124,192,150,.8)":"rgba(201,162,39,"+(0.5+d.r*.5)+")";ctx.fill()});
+      t++;if(!reduce)requestAnimationFrame(draw)}
+    draw()
+  })();
+
+  /* ---------- rail ---------- */
+  (function(){
+    var links=$$(".rail a");$$(".chapter").forEach(function(ch){var a=links.filter(function(l){return l.dataset.ch===ch.dataset.ch})[0];if(a)a.classList.add(ch.dataset.state)});
+    if(!("IntersectionObserver" in window))return;
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("active",a.dataset.ch===e.target.dataset.ch)})}})},{rootMargin:"-40% 0px -50% 0px"});
+    $$(".chapter").forEach(function(ch){io.observe(ch)})
+  })();
+
+  /* ---------- trace one dollar ---------- */
+  (function(){
+    var D={
+      howard:{stops:[["The door","Howard Theatre, Washington, Black-owned from 1910",1],["The wage","Performer and staff paid from the gate",1],["The profit","Stays with the Black owner; the building is destroyed in 1968 and restored for $29 million in 2012",1]],v:"Recirculates. Described as the first major Black-owned theater; the dollar stops inside the community.",s:"FACT · T3 · s2"},
+      cotton:{stops:[["The door","Whites only; $2 weekday minimum",0],["The wage","Ellington's band and the chorus line paid; broadcast on NBC from 1929",1],["The profit","Owney Madden's syndicate",0]],v:"Leaves. Harlem's address and performers, downtown's money, none of it spent on the block.",s:"FACT · T3 · s10"},
+      savoy:{stops:[["The door","30 cents before six, 85 after eight; everyone admitted; 85 percent Black",1],["The wage","Bands and staff; Charles Buchanan manages, later co-owns",1],["The profit","About $250,000 a year at peak, mostly to white owners Faggen and Gale",0]],v:"Mostly leaves. The neighborhood's room at the neighborhood's price, with the deed held one block downtown.",s:"FACT · T3 · s11"},
+      peacock:{stops:[["The door","Royal Peacock, Auburn Avenue, bought by Carrie Cunningham for $31,000 in 1949",1],["The wage","Venue, hotel and Black promoters on one street",1],["The profit","Stays on Auburn Avenue",1]],v:"Recirculates. A fully closed loop on one street.",s:"FACT · T3 · s4"},
+      wdia:{stops:[["The dial","All-Black programming from 1949; 50,000 watts; a tenth of Black America",1],["The wage","Nat D. Williams, B.B. King: wages and exposure",1],["The profit","\"Substantial advertising revenues\" to white owners",0]],v:"Leaves. The pipe reached a tenth of the country's Black population; the deed to it did not.",s:"FACT · T3 · s18"},
+      werd:{stops:[["The dial","Bought by Jesse Blayton for $50,000, October 1949: the first Black-owned station",1],["The wage","Paid inside the building that would house the SCLC from 1957",1],["The profit","Stays with Blayton",1]],v:"Recirculates. The exception that shows what the rule cost.",s:"FACT · T3 · s18"},
+      motown:{stops:[["The sale","About $20 million in 1966; 70 percent of million-seller buyers white",1],["The wage","Artist-writer royalty 5 percent, no advance",1],["The profit","Gordy owns every share of Jobete, Hitsville and the management arm; sold for $61 million in 1988, Jobete half for $132 million in 1997",1]],v:"Recirculates to one owner, on industry terms, until the 1988 sale takes it out.",s:"FACT · T2 · s25"},
+      soultrain:{stops:[["The screen","Seven of 25 markets at launch in 1971, 25 by season's end",1],["The sponsor","Johnson Products' Afro Sheen: Black consumer dollars to a Black manufacturer",1],["The profit","Don Cornelius owns the show outright for 35 years; ad revenue never disclosed",1]],v:"Recirculates. The one documented closed loop of the era.",s:"FACT · T3 · s27"},
+      bet:{stops:[["The screen","Founded 1980 on about $500,000; NYSE 1991",1],["The sale","About $3 billion to Viacom in 2000; $2.4 billion in stock to Robert Johnson",0],["The asset","\"No longer for sale,\" 2025; BET+ folded into Paramount+, 2026",0]],v:"Leaves, twice. One fortune, one line item, then absorbed.",s:"FACT · T2/T3 · s39, s45"},
+      phone:{stops:[["The room","A phone; UnitedMasters pays every royalty; a beat for $30 under a No. 1",1],["The wage","The creator keeps the masters, the list and the merch line, if she holds the paper",1],["The exit","The catalog deal, the training-data license, the platform's terms of service",0]],v:"Open. The room costs a phone; the deed is the question.",s:"FACT / WATCH · s46–s48, s57"}
+    };
+    var sel=$("#td-room"),out=$("#td-out");if(!sel)return;
+    function run(){var d=D[sel.value];out.innerHTML='<div class="bars">'+d.stops.map(function(s){return '<div class="bar"><span class="n"><b style="font-weight:400;color:var(--paper)">'+esc(s[0])+'</b><br><span style="font-size:14px">'+esc(s[1])+'</span></span><span class="tr"><i class="f" style="width:100%;--c:'+(s[2]?'var(--gold)':'var(--tag)')+'"></i></span><span class="v">'+(s[2]?'stays':'leaves')+'</span></div>'}).join("")+'</div><div class="verdict'+(/^Recirculates/.test(d.v)?' ok':'')+'"><b>'+esc(d.s)+'</b>'+esc(d.v)+'</div>'}
+    sel.addEventListener("change",run);run()
+  })();
+
+  /* ---------- the engine ---------- */
+  (function(){
+    var cv=$("#en-canvas");if(!cv)return;
+    var N={P:{n:"PERFORMER",a:-90},R:{n:"THE ROOM",a:-18},A:{n:"AUDIENCE",a:54},B:{n:"BLACK CAPITAL · church · insurer · bank",a:126},O:{n:"OUTSIDE DOLLAR",a:198}};
+    var E=[
+      ["P>R","the work: performer to room","in"],["R>A","the show: room to audience","in"],["A>R","the ticket: audience to room","in"],["R>P","the fee or royalty: room to performer","in"],
+      ["A>B","the premium, the pledge, the collection: audience to Black capital","mv"],["B>R","the loan, the mortgage, the sponsor: Black capital opens a room","mv"],["P>B","cash, bail, the benefit night: performer to the treasury","mv"],["B>P","the benefit stage: the treasury books the performer","mv"],
+      ["O>R","the tourist, advertiser or corporate dollar: into the room","out"],["R>O","the dividend: room to outside owner","ex"],["O>P","the outside dollar straight to the performer","out"],["P>O","the crossing: the sound to the outside audience","in"],
+      ["O>B","outside donors to the treasury","out"],["B>O","the image: the treasury to the outside audience","mv"],["R>X","the sale: the room leaves the community","ex"],["A>X","the withdrawal: the audience stops paying","mv"]
+    ];
+    var K=[
+      {y:"1920",t:"The circuit before it had a name",h:"TOBA: eighty houses, a third Black-owned",n:"⅓",w:"Dudley's theaters became TOBA in 1920; more than eighty houses at peak, about a third Black-owned, a white president and booker, performers paying their own travel. Bessie Smith reported at $2,000 a week; $37.50 a side by 1933. Dudley sold to a cinema company in 1930.",s:"FACT · T2/T3 · Exhibit 1",a:"#c1",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"A>B":1,"B>R":1,"R>X":1},g:{room:33,in:10,ex:35,cap:25},valve:{n:"The whites-only room, closed to the Black audience",open:false,who:"the owner"},v:"The inside dollar, closed and small. Where the room was Black-owned the money recirculated; where it was not, the biggest gates paid Black wages and white dividends."},
+      {y:"1923",t:"The tourist dollar",h:"The Cotton Club: whites only, $2 minimum; the Savoy, 700,000 a year",n:"600,000",w:"Madden's Cotton Club was whites-only at the tables; Ellington on NBC from 1929; the 1934 Parade drew more than 600,000 paying customers. One block north the Savoy priced for the neighborhood, drew 700,000 a year, 85 percent Black, and cleared about $250,000 a year, mostly to white owners.",s:"FACT · T3 · Exhibit 2",a:"#c2",f:{"P>R":3,"R>A":2,"A>R":2,"R>P":1,"O>R":3,"R>O":3,"P>O":2},g:{room:15,in:80,ex:75,cap:10},valve:{n:"The door policy",open:false,who:"the owner"},v:"Harlem's address, Harlem's performers, downtown's money, none of it spent on the block. Fame and wages, not equity."},
+      {y:"1935",t:"The neighborhood keeps the ledger",h:"The Harlem riot: $2 million in damage, on white-owned stores",n:"$2M",w:"Black-owned shops posted \"Colored Store\" signs and were spared. The Dunbar in Philadelphia, built in 1919 by a Black bank, had gone to white owners in the Depression; the Apollo would stay white-owned until 1981.",s:"FACT · T3 · Exhibit 2",a:"#c2",f:{"P>R":2,"R>A":2,"A>R":1,"R>P":1,"O>R":2,"R>O":3,"A>B":2,"R>X":2},g:{room:12,in:55,ex:80,cap:30},valve:{n:"The withdrawal, by other means",open:true,who:"the audience"},v:"The audience knew which doors its money went through without coming back. The withdrawal exists before it has a strategy."},
+      {y:"1945",t:"The market, counted",h:"Ebony: 25,000 copies sold out; Zenith the first national advertiser; $15 billion by 1954",n:"$15B",w:"Negro Digest launched on $500 and a pawned sofa in 1942; Ebony's first run sold out in November 1945; profitable by 1948 on Pepsi, Colgate and Seagram money. Time, 1954: a $15 billion market, 374 stations programming for Black listeners. The first reversal: white money entering a Black-owned company to reach Black customers.",s:"FACT · T1/T3 · Exhibit 3",a:"#c3",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":2,"O>R":3,"R>O":1,"A>B":2,"B>R":2},g:{room:40,in:85,ex:40,cap:45},valve:{n:"The advertiser's dollar enters a Black-owned company",open:true,who:"Johnson Publishing"},v:"The inside dollar became a market when someone counted it, and the man who counted it owned the medium that sold it."},
+      {y:"1949",t:"Two stations",h:"WDIA reaches a tenth of Black America for white owners; WERD bought for $50,000",n:"$50,000",w:"WDIA went all-Black in programming and jumped to first in the market at 50,000 watts; Nat D. Williams and B.B. King got wages and exposure, the owners got the revenue. Jesse Blayton's WERD in Atlanta was the first Black-owned station. By 1955 more than 600 stations ran Negro-appeal programming.",s:"FACT · T3 · Exhibit 3",a:"#c3",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"O>R":3,"R>O":3,"A>B":2,"B>R":1},g:{room:8,in:85,ex:65,cap:40},valve:{n:"The deed to the pipe",open:false,who:"the station owner"},v:"Radio was the bigger pipe and the leakier one: the pipe ran both ways, the deed ran one."},
+      {y:"1955",t:"The crossing",h:"Tutti Frutti: half a cent a record, $50 for the publishing; the cover sold 13 million",n:"13M",w:"Billboard renamed Race Records to Rhythm & Blues in 1949; in 1955 the sound crossed. Little Richard got half a cent a record; a quarter of Chuck Berry's writer's share on Maybellene went to DJ Alan Freed; $35,000 from RCA for Elvis's contract kept Sun alive and none of it reached the Black artists whose style Sun had sold.",s:"FACT / REPORTED · T2–T3 · Exhibit 4",a:"#c4",f:{"P>R":3,"R>A":2,"A>R":2,"R>P":1,"O>R":2,"R>O":3,"P>O":3,"O>P":1,"A>B":2},g:{room:10,in:70,ex:85,cap:35},valve:{n:"The paper on the way across: cover, co-writer, publisher",open:false,who:"the label and the DJ"},v:"The crossing dollar followed the paper, not the performance. The Black artist kept the road."},
+      {y:"1961",t:"The benefit stage",h:"Carnegie Hall, January 27, 1961: one night, a third of the year",n:"$22,000",w:"The tribute grossed more than $55,000 and netted about $22,000 against an SCLC budget of roughly $60,000. Belafonte's $40,000 check seeded SNCC's field work; $70,000 in a bag to Greenwood in 1964; SNCC's New York office raised $350,000 by October 1964. The movement was the inside dollar's one more customer.",s:"FACT · T1/T2 · Exhibit 5",a:"#c5",f:{"P>R":2,"R>A":2,"A>R":2,"R>P":1,"P>B":3,"B>P":3,"A>B":3,"B>O":3,"O>B":2,"B>R":1},g:{room:15,in:45,ex:35,cap:100},valve:{n:"The benefit night and the no-segregation clause",open:true,who:"the performer and the treasury"},v:"The art was the movement's cash flow; the movement was the art's moral license into rooms that had excluded it. A two-way exchange, policed in both directions."},
+      {y:"1966",t:"A Black-owned room captures the crossing",h:"Motown: 70 percent of million-seller buyers white, by Gordy's count",n:"70%",w:"About $20 million in sales, a 75 percent hit ratio, eleven acts to Ed Sullivan 37 times. The artist-writer royalty was 5 percent with no advance; Gordy owned every share of Jobete, Hitsville and the management arm.",s:"FACT · T2 · Exhibit 4 · Episode 1, The Master's Master",a:"the-chain-of-title.html#c4",f:{"P>R":3,"R>A":3,"A>R":2,"R>P":1,"O>R":3,"P>O":3,"O>P":1,"B>R":1,"P>B":1},g:{room:90,in:95,ex:20,cap:50},valve:{n:"Black ownership of the label, industry terms inside it",open:true,who:"Hitsville"},v:"The dollar stopped in a Black-owned room, on terms that reproduced the industry's structure inside the community."},
+      {y:"1972",t:"The exits, and one closed loop",h:"Wattstax at $1 a ticket; Soul Train owned outright for 35 years; Stax bankrupt in 1975",n:"$1",w:"Motown's Detroit payroll left in 1972; Stax lost its 1960–67 masters to Atlantic on an unread contract and went bankrupt in 1975; Vee-Jay had gone under in 1966. Johnson Products ($250 loan; AMEX 1971) to Soul Train is the one documented closed loop.",s:"FACT · T2/T3 · Exhibit 6",a:"#c6",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"O>R":2,"R>O":2,"R>X":3,"A>B":2,"B>R":2},g:{room:40,in:60,ex:90,cap:55},valve:{n:"The catalog sold at peak, under distress",open:false,who:"the creditor"},v:"Everywhere but one loop, the circuit opened at the exit: the catalog, the station, the theater went to a buyer at the moment it was worth the most."},
+      {y:"1988",t:"Sold by choice",h:"Motown sold for $61 million; the Jobete half for $132 million in 1997",n:"$61M",w:"The one Black-owned company that had captured the crossing dollar sold the label in 1988 and half the publishing in 1997. BET listed on the NYSE in 1991, the first majority-Black-controlled company to do so. Def Jam's majority went to PolyGram in 1995.",s:"FACT · T2/T3 · Exhibit 6 · Episode 1",a:"the-chain-of-title.html#c4",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"O>R":3,"R>O":2,"R>X":3,"P>O":3,"A>B":1},g:{room:25,in:80,ex:85,cap:30},valve:{n:"The sale, by choice",open:false,who:"the founder"},v:"Capital that exits at the moment of peak value does not compound in the community. Motown's exit was the one on this board that was chosen."},
+      {y:"1996",t:"The re-plumbing",h:"The Telecommunications Act: 3,900 stations sold in a year; BET for $3 billion in 2000",n:"2.8%",w:"The 40-station cap lifted; 3,900 stations changed hands for $30.1 billion within a year; minority ownership fell to 2.8 percent, Black-owned radio the biggest loser. Radio One rode the wave the rest drowned in. BET sold to Viacom; news and public affairs went first.",s:"FACT · T1/T2 · Exhibit 6",a:"#c6",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"O>R":3,"R>O":3,"R>X":3,"A>B":1},g:{room:3,in:85,ex:95,cap:20},valve:{n:"The distribution layer",open:false,who:"Congress and the FCC"},v:"The room that in 1949 was WDIA was sold out from under the audience during the decade the audience's music was winning. The floor: about three percent of radio, one percent of television."},
+      {y:"2016",t:"The room costs a phone",h:"Chance the Rapper with no label; a $30 beat under the longest-running No. 1; UnitedMasters at $550 million",n:"$30",w:"Chance built a national audience without a label in 2016 and forced the Recording Academy to change its rules; in 2018 a nineteen-year-old bought the beat under Old Town Road for $30; in 2021 UnitedMasters, paying artists every royalty, was valued at $550 million by Apple and Andreessen Horowitz.",s:"FACT · T2/T3 · Exhibit 7",a:"#c7",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":3,"P>O":3,"O>P":3,"O>R":2,"R>O":2,"B>R":1},g:{room:55,in:85,ex:45,cap:35},valve:{n:"The platform's terms of service",open:true,who:"the feed"},v:"The inside dollar can be assembled faster and with less capital than at any point in the century. The deed side has not moved as far: the feed owns the room, the creator supplies the show."},
+      {y:"2025",t:"The largest stage in the record",h:"Kendrick's halftime: 133.5 million; Cowboy Carter: zero CMA nominations, Album of the Year",n:"133.5M",w:"Black Panther had grossed about $1.35 billion in 2018. The most-watched halftime ever ran inside the 2019 Roc Nation–NFL partnership. Beyoncé's country album debuted at No. 1, got no Country Music Association nominations, and won the Grammy: \"Genre is a cold word to keep us in our place.\"",s:"FACT · T2/T3 · Exhibit 7",a:"#c7",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":3,"P>O":3,"O>P":3,"O>R":3,"R>O":2},g:{room:20,in:100,ex:55,cap:25},valve:{n:"The genre gate, then the Academy",open:true,who:"the room that credits"},v:"The room that sells the music is not the room that credits it; the 1920s race-record ledger again, at the largest audience in the record."},
+      {y:"2026",t:"The exits continue; the deed is open",h:"BET+ folded into Paramount+; Allen's stations sold for $171 million; the AI catalogs licensed",n:"$171M",w:"BET \"no longer for sale\" in 2025, then absorbed; Byron Allen's ten stations to Gray Media to reduce debt; Universal and Warner licensed their catalogs to Udio and Suno with no race-specific terms and no one at the table for the catalog-heavy Black genres as such. Tennessee's ELVIS Act and the NO FAKES Act are the first attempts to write a deed for the voice.",s:"FACT / WATCH · T2/T3 · Exhibit 7",a:"#c7",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":3,"P>O":3,"O>P":2,"O>R":3,"R>O":3,"R>X":3},g:{room:8,in:80,ex:90,cap:25},valve:{n:"The training-data license",open:true,who:"the label, so far"},v:"The technology that most threatens the deed is the first that could enforce it: a model needs the voice, the dance, the catalog. Whether the holder of the new title is the singer or the company holding her contract is the open question."}
+    ];
+    var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
+    var ctx=cv.getContext("2d"),W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
+    function size(){var r=cv.getBoundingClientRect();W=Math.max(300,Math.floor(r.width));H=Math.max(300,Math.floor(r.height));cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0)}
+    size();window.addEventListener("resize",size);
+    var col={in:"201,162,39",out:"176,138,90",mv:"124,192,150",ex:"192,94,60"};
+    function pos(id){var cx=W/2,cy=H*(W<560?.44:.46),R=Math.min(W,H)*(W<560?.29:.36);if(id==="X")return {x:cx,y:cy+R*1.3};var a=N[id].a*Math.PI/180;return {x:cx+Math.cos(a)*R,y:cy+Math.sin(a)*R}}
+    function route(key){var a=pos(key[0]),b=pos(key[2]);var mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1;var off=key[0]<key[2]?1:-1;var bend=key[2]==="X"?0:L*.22*off;return {a:a,b:b,c:{x:mx-dy/L*bend,y:my+dx/L*bend}}}
+    function at(r,t){var u=1-t;return {x:u*u*r.a.x+2*u*t*r.c.x+t*t*r.b.x,y:u*u*r.a.y+2*u*t*r.c.y+t*t*r.b.y}}
+    E.forEach(function(e){cur[e[0]]=0;tgt[e[0]]=0});
+    function setK(i,animate){k=Math.max(0,Math.min(K.length-1,i));var f=K[k];E.forEach(function(e){tgt[e[0]]=f.f[e[0]]||0});lerpT=animate&&!reduce?0:1;if(lerpT===1)E.forEach(function(e){cur[e[0]]=tgt[e[0]]});
+      $("#en-k").value=k;$("#en-year").textContent=f.y;$("#en-k").setAttribute("aria-valuetext",f.y+" · "+f.t);$$("#en-years span").forEach(function(s,j){s.classList.toggle("on",j===k)});
+      $("#en-micro").innerHTML='<span class="eb">Micro · '+f.y+' · '+esc(f.t)+'</span><span class="h">'+esc(f.h)+'</span><span class="n">'+esc(f.n)+'</span><span class="w">'+esc(f.w)+'</span><span class="s"><span>'+esc(f.s)+'</span>'+(f.a?'<a href="'+f.a+'">Open the exhibit →</a>':'')+'</span>';
+      var g=f.g;$("#en-macro").innerHTML='<div class="g"><span class="l">The room · Black-owned</span><span class="m"><i style="width:'+g.room+'%"></i></span><span class="v">'+(g.room>=80?'a Black-owned room captures the dollar':g.room>=30?'partly Black-owned':'the largest rooms owned outside')+'</span></div>'+
+        '<div class="g"><span class="l">Outside dollar in</span><span class="m"><i style="width:'+g.in+'%;--c:var(--kraft)"></i></span><span class="v">'+(g.in>=80?'at full':g.in>=40?'moderate':'thin')+'</span></div>'+
+        '<div class="g"><span class="l">What leaves</span><span class="m"><i style="width:'+g.ex+'%;--c:var(--tag)"></i></span><span class="v">'+(g.ex>=80?'the asset exits at peak':g.ex>=45?'dividends out, some home':'most of it comes home')+'</span></div>'+
+        '<div class="g"><span class="l">Black capital at work</span><span class="m"><i style="width:'+g.cap+'%;--c:var(--fact)"></i></span><span class="v">'+(g.cap>=80?'the treasury is the circuit':g.cap>=45?'banks, insurers and the church opening rooms':'thin: dimes, dues and the collection plate')+'</span></div>'+
+        '<div class="g valve'+(f.valve.open?' open':'')+'"><span class="l">The valve</span><span class="v"><b>'+(f.valve.open?'OPEN':'CLOSED')+'</b> · '+esc(f.valve.n)+' · held by '+esc(f.valve.who)+'</span></div>';
+      $("#en-edges").innerHTML=E.filter(function(e){return (f.f[e[0]]||0)>0}).map(function(e){var v=f.f[e[0]]||0;return '<div class="e"><span>'+esc(e[1])+'</span><span class="b"><i style="width:'+(v/3*100)+'%;--c:rgb('+col[e[2]]+')"></i></span></div>'}).join("");
+      $("#en-v").innerHTML="<b>Macro · "+f.y+" · "+esc(f.t)+"</b>"+esc(f.v);
+      parts=parts.filter(function(p){return (tgt[p.e]||0)>0});
+      E.forEach(function(e){var want=Math.round((tgt[e[0]]||0)*5);var have=parts.filter(function(p){return p.e===e[0]}).length;for(var i=have;i<want;i++)parts.push({e:e[0],t:Math.random(),v:.0025+Math.random()*.003,k:e[2]})});
+    }
+    $("#en-years").innerHTML=K.map(function(f){return "<span>"+f.y+"</span>"}).join("");
+    function draw(ts){var dt=Math.min(40,ts-last)/16.7;last=ts;if(lerpT<1){lerpT=Math.min(1,lerpT+.02*dt);E.forEach(function(e){cur[e[0]]+=(tgt[e[0]]-cur[e[0]])*.08*dt})}
+      ctx.clearRect(0,0,W,H);
+      E.forEach(function(e){var v=cur[e[0]]||0;var r=route(e[0]);if(v<.05){ctx.strokeStyle="rgba(58,51,42,.5)";ctx.lineWidth=1;ctx.setLineDash([2,6])}else{ctx.strokeStyle="rgba("+col[e[2]]+","+(0.18+v*.14)+")";ctx.lineWidth=1+v*.9;ctx.setLineDash([])}
+        ctx.beginPath();ctx.moveTo(r.a.x,r.a.y);ctx.quadraticCurveTo(r.c.x,r.c.y,r.b.x,r.b.y);ctx.stroke();ctx.setLineDash([]);
+        if(v>.3){var p=at(r,.62),q=at(r,.6);var ang=Math.atan2(p.y-q.y,p.x-q.x);ctx.fillStyle="rgba("+col[e[2]]+","+(0.4+v*.15)+")";ctx.beginPath();ctx.moveTo(p.x+Math.cos(ang)*6,p.y+Math.sin(ang)*6);ctx.lineTo(p.x+Math.cos(ang+2.5)*5,p.y+Math.sin(ang+2.5)*5);ctx.lineTo(p.x+Math.cos(ang-2.5)*5,p.y+Math.sin(ang-2.5)*5);ctx.fill()}});
+      parts.forEach(function(p){if(!reduce)p.t+=p.v*dt*(0.6+(cur[p.e]||0)*.25);if(p.t>1)p.t-=1;var r=route(p.e),q=at(r,p.t);ctx.fillStyle="rgba("+col[p.k]+","+(0.55+0.45*Math.sin(p.t*Math.PI))+")";ctx.beginPath();ctx.arc(q.x,q.y,p.k==="ex"?2.6:2.1,0,Math.PI*2);ctx.fill()});
+      var x=pos("X");ctx.strokeStyle="rgba(192,94,60,.8)";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x.x-26,x.y);ctx.lineTo(x.x+26,x.y);ctx.stroke();ctx.font="10px 'Space Mono',monospace";ctx.textAlign="center";ctx.fillStyle="rgba(217,138,106,.95)";ctx.fillText("THE EXIT · leaves the community",x.x,x.y+16);
+      Object.keys(N).forEach(function(id){var p=pos(id);var lit=0;E.forEach(function(e){if(e[0][0]===id||e[0][2]===id)lit+=cur[e[0]]||0});ctx.beginPath();ctx.arc(p.x,p.y,9+Math.min(6,lit*.5),0,Math.PI*2);ctx.fillStyle="#14110d";ctx.fill();ctx.strokeStyle=id==="O"?"rgba(176,138,90,.95)":id==="B"?"rgba(124,192,150,.95)":"rgba(236,227,208,.95)";ctx.lineWidth=1.6;ctx.stroke();
+        ctx.font=(W<560?"9px":"10.5px")+" 'Space Mono',monospace";ctx.fillStyle="rgba(236,227,208,.9)";var a=N[id].a*Math.PI/180;var nm=(W<560&&id==="B")?"BLACK CAPITAL":N[id].n;
+        if(id==="O"||id==="B"||(W<560&&id!=="P")){ctx.textAlign="center";ctx.fillText(nm,Math.max(60,Math.min(W-60,p.x+(id==="B"?40:0))),p.y+30)}else{ctx.textAlign=Math.cos(a)>.3?"left":Math.cos(a)<-.3?"right":"center";ctx.fillText(nm,p.x+Math.cos(a)*22,p.y+Math.sin(a)*22+(Math.abs(Math.cos(a))<.3?(Math.sin(a)<0?-6:12):4))}});
+      ctx.font="300 44px 'Newsreader',Georgia,serif";ctx.textAlign="right";ctx.fillStyle="rgba(201,162,39,.55)";ctx.fillText(K[k].y,W-18,42);
+      requestAnimationFrame(draw)}
+    requestAnimationFrame(draw);
+    $("#en-k").addEventListener("input",function(){stop();setK(+this.value,true)});
+    $("#en-prev").addEventListener("click",function(){stop();setK(k-1,true)});
+    $("#en-next").addEventListener("click",function(){stop();setK(k+1,true)});
+    function stop(){playing=false;clearInterval(timer);$("#en-toggle").setAttribute("aria-pressed","false");$("#en-toggle").textContent="▶ RUN THE CENTURY"}
+    $("#en-toggle").addEventListener("click",function(){if(playing){stop();return}playing=true;this.setAttribute("aria-pressed","true");this.textContent="❚❚ PAUSE";if(k>=K.length-1)setK(0,true);timer=setInterval(function(){if(k>=K.length-1){stop();return}setK(k+1,true)},reduce?6000:5200)});
+    cv.parentElement.addEventListener("keydown",function(ev){if(ev.key==="ArrowRight"){stop();setK(k+1,true)}if(ev.key==="ArrowLeft"){stop();setK(k-1,true)}});
+    setK(0,false);
+  })();
+
+  /* ---------- who owned the room ---------- */
+  (function(){
+    var R=[
+      ["Howard Theatre","Washington","Black-owned from 1910","Described as the first major Black-owned theater; destroyed 1968; $29M restoration 2012","black","T3"],
+      ["Dunbar Theatre","Philadelphia","E. C. Brown's Quality Amusement Co., 1919, financed by the Black bank Brown & Stevens","1,600 seats for an estimated 50,000 Black theatergoers; sold to white owners in the Depression","black exit","T3"],
+      ["Regal Theater","Chicago","Balaban & Katz (white chain), 1928","$1.5M, 3,000 seats: a white chain's investment in Black ticket dollars","white","T3"],
+      ["Lincoln Theatre","Washington","White exhibitors Crandall, then Lichtman","423 of 434 employees Black: wages stayed local, profits did not","white","T3"],
+      ["Apollo Theater","Harlem","Schiffman and Brecher families, 1935–1976","White-owned for 42 years; Black ownership (Percy Sutton's group) only in 1981. Ella Fitzgerald's Amateur Night prize in 1934: $25","white","T3"],
+      ["Royal Peacock","Atlanta","Carrie Cunningham, bought for $31,000 in 1949","Venue, hotel and Black promoters on one street: a fully closed loop on Auburn Avenue","black","T3"],
+      ["Sunset Terrace · Ferguson Brothers Agency","Indianapolis","Denver Ferguson, 1938; agency 1941–51","\"The most powerful Black-owned talent agency in the country,\" running a dozen bands; Ferguson bankrupt by 1953","black exit","T3"],
+      ["Hotel Theresa","Harlem","Love B. Woods, 1937","Whites-only until a Black owner bought it; Castro's 80 rooms at $800 a day in 1960","black","T3"],
+      ["Gaston Motel","Birmingham","A. G. Gaston, 1954","Built on 25-cent-a-week burial-insurance premiums; bombed May 1963; Gaston spent more than $160,000 bailing out demonstrators","black","T1/T2"],
+      ["Dunbar Hotel","Los Angeles","Somervilles 1928; Lucius Lomax for $100,000 in 1930","Central Avenue's anchor passed between Black owners, not out","black","T3"]
+    ];
+    var tb=$("#rm-table tbody"),v=$("#rm-v");if(!tb)return;
+    function show(k){var rows=R.filter(function(r){return k==="all"||r[4].split(" ").indexOf(k)>=0});tb.innerHTML=rows.map(function(r){return '<tr><td><b style="font-weight:400;color:var(--paper)">'+esc(r[0])+'</b></td><td class="k">'+esc(r[1]).toUpperCase()+'</td><td>'+esc(r[2])+'</td><td>'+esc(r[3])+'</td><td><span class="tier">'+r[5]+'</span></td></tr>'}).join("");
+      v.innerHTML="<b>Reading · "+rows.length+" rooms</b>"+{all:"Ten rooms; six Black-owned, three white-owned, and two of the six later sold out or bankrupt. The biggest gates (Regal, Apollo, Lincoln) were white-owned; the closed loops (Peacock, Theresa, Gaston, the Dunbar Hotel) were small.",black:"Where ownership was Black the money recirculated: a motel built on 25-cent premiums bailed out a movement; a venue, a hotel and the promoters shared one street.",white:"The circuit's largest rooms. Wages stayed local, profits did not: 423 of 434 employees Black at the Lincoln, and a $25 prize at the Apollo.",exit:"Two of the Black-owned assets did not compound: the Dunbar went white in the Depression and the most powerful Black-owned agency in the country was bankrupt within two years of its last booking."}[k]}
+    seg("#rm-seg",show);show("all")
+  })();
+
+  /* ---------- the Green Book router ---------- */
+  (function(){
+    var on=$("#gb-on"),b=$("#gb-bars"),v=$("#gb-v");if(!on)return;
+    var ROWS=[["Lodging","A listed Black-owned tourist home or hotel","Refused at the white hotel; the car, or a listed home if the band knows one"],["Meals","A listed restaurant","Takeout at the back door, or nothing"],["Fuel","Esso, which distributed the book; the one national brand that would serve","Whichever station would; many would not"],["Repairs","A listed garage","Whichever garage would"],["The theater","A TOBA or circuit house booked in advance","The same house; the route to it is the problem"]];
+    function run(){var y=on.checked;b.innerHTML=ROWS.map(function(r){return '<div class="bar"><span class="n"><b style="font-weight:400;color:var(--paper)">'+r[0]+'</b><br><span style="font-size:14px">'+esc(y?r[1]:r[2])+'</span></span><span class="tr"><i class="f" style="width:100%;--c:'+(y?'var(--gold)':'var(--tag)')+'"></i></span><span class="v">'+(y?'stays':'leaves · refused')+'</span></div>'}).join("");
+      v.innerHTML=y?"<b>With the book</b>Ten pages in 1936, past eighty by 1949, thousands of listings by the early 1940s. What it did is not disputed: it routed Black travel money to Black beds. <span class='tag t-inf'>Inference</span> The categories above are the book's own sections; the proportions are not measured and are not drawn.":"<b>Without the book</b>The same trip, with the money refused, spent at the back door, or kept in the car. The book stopped publishing after the Civil Rights Act of 1964 because the economy it mapped had dissolved."}
+    on.addEventListener("change",run);run()
+  })();
+
+  /* ---------- two doors on Lenox Avenue ---------- */
+  (function(){
+    var r=$("#dr-n"),o=$("#dr-out"),d=$("#doors"),v=$("#dr-v");if(!r)return;
+    function run(){var n=+r.value;o.textContent=fmt(n)+" customers";var cc=n*2,sv=n*.85;
+      d.innerHTML='<div class="d"><h4>Cotton Club · 1923–40</h4><span class="big tag">'+money(cc)+'</span><span class="s">At the $2 weekday minimum. Whites only at the tables; Harlem address, downtown money.</span><span class="s">Kept by: <b style="color:var(--tag-lit)">Owney Madden\'s syndicate</b></span><span class="s">Black customers in the room: <b style="color:var(--paper)">0</b></span></div>'+
+        '<div class="d"><h4>Savoy Ballroom · 1926–58</h4><span class="big">'+money(sv)+'</span><span class="s">At the 85-cent evening price (30 cents before six). Everyone admitted; about 85 percent Black.</span><span class="s">Kept by: <b style="color:var(--kraft)">white owners Faggen and Gale</b>, with Black manager and later co-owner Charles Buchanan</span><span class="s">Black customers in the room: about <b style="color:var(--paper)">'+fmt(n*.85)+'</b></span></div>';
+      v.innerHTML="<b>Reading</b>Two doors a block apart, one night. The Cotton Club's gate was larger and none of its customers were from the block; the Savoy's was smaller, the block was in the room, and the deed was still downtown: about 700,000 visitors a year and about $250,000 cleared, mostly to white owners. <span class='tag t-inf'>Inference</span> The night is illustrative; the prices and the ownership are the record."}
+    r.addEventListener("input",run);run()
+  })();
+
+  /* ---------- the 1935 ledger ---------- */
+  (function(){
+    var on=$("#cs-on"),ro=$("#cs-ro"),v=$("#cs-v");if(!on)return;
+    function run(){var y=on.checked;ro.innerHTML='<div class="ro"><span class="l">The store</span><span class="v '+(y?'fact':'tag')+'">'+(y?'Colored Store':'White-owned')+'</span><span class="s">March 1935, Harlem</span></div><div class="ro"><span class="l">Damage that night</span><span class="v">'+(y?'spared':'part of $2M')+'</span><span class="s">'+(y?'Black-owned shops that hung the sign were passed over':'the $2 million in damage fell on white-owned stores')+'</span></div><div class="ro"><span class="l">What the neighborhood knew</span><span class="v gold">which doors</span><span class="s">its money went through without coming back</span></div>';
+      v.innerHTML=y?"<b>Fact · T3</b>Black-owned shops posted \"Colored Store\" signs and were spared. The withdrawal exists before it has a strategy; Montgomery will give it one in 1955.":"<b>Fact · T3</b>The $2 million in damage fell on white-owned stores. The same block that filled the Savoy knew where the Savoy's profit went."}
+    on.addEventListener("change",run);run()
+  })();
+
+  /* ---------- buying power ---------- */
+  (function(){
+    var D=[[1954,15e9,"Time, July 1954 · T2"],[1990,318e9,"Selig Center · T2"],[2000,590e9,"Selig Center · T2"],[2010,957e9,"Selig Center · T2"],[2020,1.6e12,"Selig Center · T2"]];
+    var b=$("#bp-bars");if(!b)return;
+    function show(k){var vals=D.map(function(d){return k==="real"?d[1]*(CPI[d[0]]||1):d[1]});var max=Math.max.apply(null,vals);b.innerHTML=D.map(function(d,i){return '<div class="bar"><span class="n">'+d[0]+'<br><span class="mono" style="font-size:11px;color:var(--paper-faint)">'+esc(d[2])+'</span></span><span class="tr"><i class="f" style="width:'+(vals[i]/max*100)+'%"></i></span><span class="v">'+money(vals[i])+(k==="real"?' (2025 $)':'')+'</span></div>'}).join("")}
+    seg("#bp-seg",show);show("nom")
+  })();
+
+  /* ---------- two stations ---------- */
+  (function(){
+    var S={wdia:{ro:[["Programming","All-Black from 1949","jumped from second to first in the market"],["Reach","a tenth","of the country's Black population, at 50,000 watts"],["Who got what","wages","Nat D. Williams and B.B. King; \"substantial advertising revenues\" to white owners"]],v:"<b>WDIA · Memphis</b>The pipe that reached a tenth of Black America. The people on air got wages and exposure; the deed, and the revenue, sat with white owners. By 1955 more than 600 stations ran the format."},
+      werd:{ro:[["Bought","$50,000","by Jesse Blayton, October 1949"],["Status","first","Black-owned station in the country"],["The building","Masonic","the same building that would house the SCLC from 1957"]],v:"<b>WERD · Atlanta</b>The exception. One Black-owned station against a format running on hundreds; the capital that could have owned more of the dial sat in the insurance companies."}};
+    var ro=$("#st-ro"),v=$("#st-v");if(!ro)return;
+    function show(k){var s=S[k];ro.innerHTML=s.ro.map(function(r){return '<div class="ro"><span class="l">'+esc(r[0])+'</span><span class="v '+(k==="werd"?'fact':'tag')+'">'+esc(r[1])+'</span><span class="s">'+esc(r[2])+'</span></div>'}).join("");v.innerHTML=s.v;v.className="verdict"+(k==="werd"?" ok":"")}
+    seg("#st-ctl",show);show("wdia")
+  })();
+
+  /* ---------- who kept the crossing dollar ---------- */
+  (function(){
+    var X={
+      tutti:{segs:[["a",3,"Little Richard: half a cent a record"],["c",7,"publishing, bought for $50"],["d",90,"label and distributor (terms not public)"]],ro:[["The artist's rate","½¢ a record","white artists typically 3–5%"],["The publishing","$50","sold outright"],["The cover","13M","Pat Boone's singles sold by 1957; he said 95% of stations would not play R&B"]],v:"The paper on the way across: the artist's rate, the publishing sold for the price of a suit, and the cover charting higher on the airplay the original could not get.",t:"FACT / REPORTED · T2–T3 · s20"},
+      maybellene:{segs:[["a",50,"Chuck Berry: the writer's share"],["c",25,"Alan Freed, DJ: a quarter of the writer's share"],["c",8,"Russ Fratto, Chess's creditor: a cut"],["d",17,"Chess: the label's side"]],ro:[["Sales","1 million","copies, 1955"],["The DJ's cut","¼","of the writer's share, as payola in copyright"],["Withdrawn","1986","Freed's and Fratto's credits removed"]],v:"Promotion priced in the copyright itself. The mechanism returns with the sign reversed in Exhibit 7: airplay for a lower royalty.",t:"FACT · T3 · s21"},
+      shame:{segs:[["a",20,"Fats Domino: a royalty deal since 1949"],["c",40,"Pat Boone's cover: No. 1 on wider airplay"],["e",40,"Domino's road: 340 days a year, up to $2,500 a night"]],ro:[["The cover","No. 1","on airplay the original could not get"],["The road","340","days a year"],["Grossed, 1957","$500,000","per Ebony"]],v:"The Black artist kept the road. The crossing dollar went to the cover; the touring dollar, which the paper could not capture, went to the performer.",t:"FACT · T3 · s22"},
+      sun:{segs:[["d",100,"RCA's $35,000 to Sam Phillips: kept Sun alive"],["a",0,"the Black artists whose style Sun had sold: none of it"]],ro:[["The contract","$35,000","November 21, 1955"],["To the Black artists","$0","whose style the label had sold"],["Effect","kept Sun alive","the first independent of the rock era"]],v:"The style crossed as an asset of the label that had recorded it, and the sale of the asset paid no one who had made the style.",t:"FACT · T4 · s23"},
+      chess:{segs:[["d",92,"GRT's $6.5 million to the Chess brothers"],["a",8,"Muddy Waters and Willie Dixon: sued Arc Music in the 1970s to be paid"]],ro:[["The sale","$6.5M","1969, to GRT"],["The writers","sued","Waters and Dixon v. Arc Music, 1970s"],["Berry's credits","1986","the co-writers removed"]],v:"The catalog exited at peak and the writers went to court afterward to be paid on it. Episode 1's Unrecouped chapter is the same ledger.",t:"FACT · T3 · s24"},
+      motown:{segs:[["a",5,"the artist-writer: 5% royalty, no advance"],["e",95,"Hitsville, Jobete and the management arm: every share Gordy's"]],ro:[["Buyers","70%","white, by Gordy's count, 1966"],["Sales","~$20M","1966; 75% hit ratio"],["Sullivan","37","appearances by eleven acts, 1964–71"]],v:"A Black-owned company captured the crossing on terms that reproduced the industry's structure inside the community. The dollar stayed; the artist's share did not grow.",t:"FACT · T2 · s25"},
+      pir:{segs:[["d",60,"Columbia: $75,000 guaranteed per fifteen singles; kept the masters when the deal ended"],["e",40,"Gamble and Huff: kept the publishing, later sold for $15 million"]],ro:[["The guarantee","$75,000","per fifteen singles"],["The masters","Columbia's","when the deal ended"],["The publishing","$15M","kept, then sold"]],v:"Columbia commissioned a Harvard study of the soul music environment before signing. The producers kept the one piece of paper the label did not ask for.",t:"FACT · T2 · s25"},
+      superfly:{segs:[["d",80,"Warner's distribution: $24.8 million gross"],["a",17,"Curtis Mayfield's soundtrack: about $5 million"],["e",3,"the Harlem businesses that financed it: terms not public"]],ro:[["Financed by","Harlem","businesses, 1972"],["Gross","$24.8M","for Warner's distribution"],["The soundtrack","~$5M","Mayfield"]],v:"Harlem money financed the picture; the distribution dollar went to Burbank; the one Black-held asset that paid was the music.",t:"FACT · T2 · s25"}
+    };
+    var sp=$("#xs-split"),lg=$("#xs-leg"),ro=$("#xs-ro"),v=$("#xs-v");if(!sp)return;
+    var names={a:"the artist",c:"the cut-in · cover · DJ · publisher",d:"the label · distributor · buyer",e:"Black-held",b:"other"};
+    function show(k){var x=X[k];sp.innerHTML=x.segs.filter(function(s){return s[1]>0}).map(function(s){return '<i class="'+s[0]+'" style="flex:'+s[1]+'">'+(s[1]>=12?s[1]+'%':'')+'</i>'}).join("");lg.innerHTML=x.segs.map(function(s){return '<span><i style="--c:'+{a:"var(--gold)",c:"var(--tag)",d:"var(--paper-faint)",e:"var(--fact)",b:"var(--kraft)"}[s[0]]+'"></i>'+esc(s[2])+'</span>'}).join("");ro.innerHTML=x.ro.map(function(r){return '<div class="ro"><span class="l">'+esc(r[0])+'</span><span class="v gold">'+esc(r[1])+'</span><span class="s">'+esc(r[2])+'</span></div>'}).join("");v.innerHTML="<b>"+esc(x.t)+"</b>"+esc(x.v)+' <span class="tag t-inf" style="margin-left:6px">proportions illustrative · terms exact</span>'}
+    seg("#xs-ctl",show);show("tutti")
+  })();
+
+  /* ---------- the sponsor veto ---------- */
+  (function(){
+    var S=[
+      {h:"1956–57 · The Nat King Cole Show",w:"Ran 64 episodes on NBC without a national advertiser. Cole: \"Madison Avenue is afraid of the dark.\" The stage was open; the gate was the sponsor's, and it stayed shut.",s:"FACT · T2 · s29"},
+      {h:"1965 · I Spy",w:"Four affiliates refused to carry a series with a Black lead; more than 180 did. The veto broke station by station, not sponsor by sponsor.",s:"FACT · T3 · s29"},
+      {h:"1970 · The Flip Wilson Show",w:"No. 2 in the ratings, with premium advertisers. Fourteen years after Cole, the sponsor's dollar arrived at a Black host's stage on its own.",s:"FACT · T2 · s29"},
+      {h:"1971 · Soul Train",w:"Seven of 25 markets at launch, 25 by season's end, on Johnson Products' Afro Sheen money. Don Cornelius owned the show outright for 35 years; its ad revenue was never disclosed. The one stage a Black company held, it had to bring its own advertiser to.",s:"FACT · T3 · s27"},
+      {h:"1977 · Roots",w:"Scheduled on eight straight nights by a network hedging its losses; reached 85 percent of television homes. The audience the sponsors had feared was the country.",s:"FACT · T3 · s29"}
+    ];
+    var b=$("#veto-body");if(!b)return;function show(i){var s=S[+i];b.innerHTML='<span class="h">'+esc(s.h)+'</span><span class="w">'+esc(s.w)+'</span><span class="s">'+esc(s.s)+'</span>'}
+    seg("#veto .steps",show);show(0)
+  })();
+
+  /* ---------- one night, a third of the year ---------- */
+  (function(){
+    var B=[["Carnegie Hall tribute, Jan 27, 1961",22000,"net, for the SCLC · T1/T2"],["Belafonte's personal check, 1961",40000,"seed money for SNCC's field work · T1"],["Afternoon of Jazz, Jun 27, 1963",15000,"Jackie Robinson's lawn; Gillespie, Brubeck, Ellington · T2"],["Greenwood cash run, Aug 1964",70000,"Belafonte and Poitier, two days, carried in a bag · T1"],["Broadway Answers Selma, Apr 4, 1965",150000,"split among SCLC, CORE, SNCC and two families · Reported T3"],["Seven-city tour, 1967",250000,"Aretha Franklin, Belafonte, Poitier, Baez, for the SCLC · T1"]];
+    var ctl=$("#bn-ctl"),bars=$("#bn-bars"),v=$("#bn-v");if(!ctl)return;var on=[true,false,false,false,false,false];
+    ctl.innerHTML=B.map(function(b,i){return '<button aria-pressed="'+on[i]+'" data-i="'+i+'">'+esc(b[0].split(",")[0]).toUpperCase()+'</button>'}).join("");
+    function run(){var sum=0;var rows=B.map(function(b,i){if(on[i])sum+=b[1];return b});var max=Math.max(60000,sum);bars.innerHTML='<div class="bar"><span class="n">SCLC annual budget, c. 1961</span><span class="tr"><i class="f" style="width:'+(60000/max*100)+'%;--c:var(--kraft)"></i></span><span class="v">$60,000</span></div>'+rows.map(function(b,i){return '<div class="bar'+(on[i]?'':' ghost')+'"><span class="n">'+esc(b[0])+'<br><span class="mono" style="font-size:11px;color:var(--paper-faint)">'+esc(b[2])+'</span></span><span class="tr"><i class="f" style="width:'+(on[i]?b[1]/max*100:0)+'%;--c:var(--fact)"></i></span><span class="v">'+money(b[1])+'</span></div>'}).join("")+'<div class="bar"><span class="n"><b style="font-weight:400;color:var(--paper)">Benefits booked</b></span><span class="tr"><i class="f" style="width:'+(sum/max*100)+'%"></i></span><span class="v">'+money(sum)+' · '+(sum/60000).toFixed(1)+'× the budget</span></div>';
+      v.innerHTML="<b>Reading</b>"+(sum>=60000?"The benefits you booked exceed a year of the SCLC's budget. ":"One night equals "+Math.round(sum/60000*100)+" percent of a year's budget. ")+"The SCLC's 1963 budget put benefits at ten percent on paper; in practice the concerts were the liquidity, and SNCC's field secretaries, on $10 a week, were paid out of house parties that netted $9,000 to $15,500 a night."}
+    $$("button",ctl).forEach(function(b){b.addEventListener("click",function(){var i=+b.dataset.i;on[i]=!on[i];b.setAttribute("aria-pressed",on[i]);run()})});run()
+  })();
+
+  /* ---------- the clause ---------- */
+  (function(){
+    var on=$("#cl-on"),c=$("#cl-cards"),v=$("#cl-v");if(!on)return;
+    var R=[["Houston, 1955","Jazz at the Philharmonic","Granz had stripped the restroom signs and written a no-segregation clause; Ella Fitzgerald and Dizzy Gillespie were arrested backstage on a dice pretext.","Plays integrated; the police answer with a pretext","Plays as the house seats it"],["Augusta, March 1961","Ray Charles","Cancelled on learning the seating was segregated; paid a civil judgment. No Georgia \"ban\" followed; that is legend.","The date is cancelled; the artist pays the judgment","The artist plays or pays"],["Memphis, May 1961","Sam Cooke and Clyde McPhatter","Walked two hours before showtime on an NAACP telegram.","Walk, and the promoter eats the night","Play the segregated house"],["Birmingham, August 5, 1963","Salute to Freedom '63","The city auditorium cancelled; police refused security; about 20,000 tickets at $5 at Miles College; the stage collapsed at 1 a.m.","Moves to a Black college; the city withholds the room","No room in the city at all"],["Jacksonville, September 1964","The Beatles, clause 6","\"Artists will not be required to perform before a segregated audience.\" The Gator Bowl integrated for 23,000.","The room integrates to keep the date","The room seats as it likes"]];
+    function run(){var y=on.checked;c.innerHTML=R.map(function(r){return '<div class="card"><span class="y">'+esc(r[0])+'</span><span class="t">'+esc(r[1])+'</span><span class="ans" style="display:block">'+esc(r[2])+'</span><span class="names"><button data-r="'+(y?'yes':'no')+'" tabindex="-1">'+esc(y?r[3]:r[4])+'</button></span></div>'}).join("");
+      v.innerHTML=y?"<b>With the clause</b>The rider is a contract the venue signs. It moved the cost of segregation from the artist's conscience to the promoter's ledger, and in 1964 a British band's clause 6 integrated a Florida stadium that American law had not.":"<b>Without the clause</b>The artist bears the cost each night: play the house as it seats, cancel and pay, or walk and leave the promoter the loss. The movement policed it from the other side, criticizing Nat King Cole for playing segregated houses in 1956."}
+    on.addEventListener("change",run);run()
+  })();
+
+  /* ---------- the exit ledger ---------- */
+  (function(){
+    var C=[
+      {n:"Black Swan",y:1921,seed:"Harlem elite and NAACP capital (The Crisis)",seedv:null,peak:">$100,000 first-year sales",fate:"Bankrupt 1923; catalog to Paramount",k:"distress",t:"T3"},
+      {n:"Vee-Jay",y:1953,seed:"$500 loan to Vivian Carter and James Bracken",seedv:500,peak:"2.6 million Beatles singles in one month, 1964",fate:"Lost the Beatles to Capitol in court; bankrupt Aug 1966",k:"distress",t:"T3"},
+      {n:"Duke/Peacock",y:1949,seed:"Don Robey's Houston club and booking agency",seedv:null,peak:"2,700 copyrights",fate:"Robey bought writers' publishing outright under a pseudonym; sold to ABC-Dunhill 1973",k:"choice",t:"T3"},
+      {n:"Motown",y:1959,seed:"$800 from the Gordy family credit union",seedv:800,peak:"~$20M sales 1966; $46M/yr by 1973",fate:"Detroit payroll left 1972; sold for $61M (1988), Jobete half for $132M (1997)",k:"choice",t:"T2"},
+      {n:"Johnson Products",y:1954,seed:"$250 loan",seedv:250,peak:"80% of Black hair care; $40M and 500 Chicago jobs by 1976",fate:"First Black company on the AMEX (1971); first to sponsor a national TV show",k:"loop",t:"T3"},
+      {n:"Soul Train",y:1971,seed:"Don Cornelius, Afro Sheen money",seedv:null,peak:"7 of 25 markets at launch, 25 by season's end",fate:"Owned outright for 35 years; ad revenue never disclosed",k:"loop",t:"T3"},
+      {n:"Stax",y:1957,seed:"Estelle Axton's $2,500 mortgage",seedv:2500,peak:"Integrated staff; session players on $125/week",fate:"Atlantic kept the 1960–67 masters on an unread contract; four ownership changes; bankrupt 1975",k:"distress",t:"T3"},
+      {n:"Death Row",y:1992,seed:"$10M Interscope finance and distribution deal",seedv:1e7,peak:"$100M+/yr",fate:"Dre leaves 1996; Interscope drops the label 1997; Chapter 11 2006; auctioned for $18M 2009",k:"distress",t:"T3"},
+      {n:"BET",y:1980,seed:"About $500,000",seedv:500000,peak:"62.4M households at the 2000 sale; 80M+ later",fate:"Sold to Viacom for ~$3B (2000); \"not for sale\" 2025; BET+ absorbed 2026",k:"choice",t:"T2/T3"}
+    ];
+    var tb=$("#ex-table tbody");if(!tb)return;
+    function show(k){var rows=C.slice();if(k==="year")rows.sort(function(a,b){return a.y-b.y});if(k==="seed")rows.sort(function(a,b){return (a.seedv||1e12)-(b.seedv||1e12)});if(k==="fate")rows.sort(function(a,b){return ["loop","choice","distress"].indexOf(a.k)-["loop","choice","distress"].indexOf(b.k)});
+      tb.innerHTML=rows.map(function(c){return '<tr><td><b style="font-weight:400;color:var(--paper)">'+esc(c.n)+'</b><br><span class="k" style="font-family:var(--mono);font-size:11px;color:var(--kraft)">'+c.y+'</span></td><td>'+esc(c.seed)+'</td><td>'+esc(c.peak)+'</td><td>'+esc(c.fate)+' <span class="tag '+(c.k==="loop"?"t-fact":c.k==="choice"?"t-rep":"t-watch")+'" style="margin-left:6px">'+(c.k==="loop"?"closed loop":c.k==="choice"?"sold by choice":"distress")+'</span></td><td><span class="tier">'+c.t+'</span></td></tr>'}).join("")}
+    seg("#ex-seg",show);show("year")
+  })();
+
+  /* ---------- the ownership floor ---------- */
+  (function(){
+    var M={
+      owners:{rows:[["Commercial radio owners, 1996","~5,100",5100],["Commercial radio owners, Nov 2001","~3,800",3800]],v:"<b>Reading</b>A quarter of the owners gone in five years; Free Press counted a 35 percent fall in unique owners by 2003. Fewer owners is fewer rooms."},
+      cc:{rows:[["Clear Channel stations, 1995","36",36],["Clear Channel stations, Oct 1998","453",453],["Clear Channel stations, 2003","~1,200",1200]],v:"<b>Reading</b>One company went from 36 stations to about 1,200 in eight years. The dial that carried Black radio in 1949 was increasingly one owner's dial."},
+      minority:{rows:[["Minority share of commercial stations, 1996","3.1%",3.1],["Minority share, 1997","2.8%",2.8],["African-American share of radio, 2007","3.3%",3.3],["All minorities' share of TV, 2006","3.26%",3.26]],v:"<b>Reading</b>The share never recovered to its 1996 level in the decade that followed; Black-owned radio saw the biggest drops in the first year. Against a population share of about a third for all minorities, the ownership floor sat near three percent."},
+      tv:{rows:[["Black-owned full-power TV stations, 1998","25 of 1,349",25],["Black-owned full-power TV stations, 2006","18 of 1,349",18]],v:"<b>Reading</b>Eighteen stations, nine of them through one company: a 28 percent decline across the decade Black content boomed on screen."}
+    };
+    var bars=$("#fl-bars"),v=$("#fl-v");if(!bars)return;
+    function show(k){var m=M[k];var max=Math.max.apply(null,m.rows.map(function(r){return r[2]}));bars.innerHTML=m.rows.map(function(r,i){return '<div class="bar"><span class="n">'+esc(r[0])+'</span><span class="tr"><i class="f" style="width:'+(r[2]/max*100)+'%;--c:'+(i===m.rows.length-1?'var(--tag)':'var(--gold)')+'"></i></span><span class="v">'+esc(r[1])+'</span></div>'}).join("");v.innerHTML=m.v}
+    seg("#fl-seg",show);show("owners")
+  })();
+
+  /* ---------- the price of a room ---------- */
+  (function(){
+    var P=[[1942,500,"Negro Digest: $500 and a pawned sofa"],[1949,50000,"WERD: the first Black-owned station"],[1953,500,"Vee-Jay: a $500 loan"],[1957,2500,"Stax: Estelle Axton's mortgage"],[1959,800,"Motown: the Gordy family credit union"],[1980,500000,"BET"],[2008,3e7,"A soundstage in Atlanta (c. 2008)"],[2018,30,"A beat under the longest-running No. 1"]];
+    var b=$("#pr-bars");if(!b)return;
+    function show(k){var vals=P.map(function(p){return k==="real"?p[1]*(CPI[p[0]]||1):p[1]});var L=function(x){return Math.log10(x+1)/Math.log10(1e9)*100};b.innerHTML=P.map(function(p,i){return '<div class="bar"><span class="n">'+p[0]+' · '+esc(p[2])+'</span><span class="tr"><i class="f" style="width:'+L(vals[i])+'%;--c:'+(p[1]<=800?'var(--fact)':'var(--gold)')+'"></i></span><span class="v">'+money(vals[i])+(k==="real"?' (2025 $)':'')+'</span></div>'}).join("")+'<div class="bar"><span class="n">2026 · A phone, a distributor that pays every royalty</span><span class="tr"><i class="f hatch" style="width:8%;--c:var(--fact)"></i></span><span class="v">the room now costs a phone</span></div><p class="legend" style="margin-top:4px">Log scale. Green: founded on under $1,000 as printed.</p>'}
+    seg("#pr-seg",show);show("nom")
+  })();
+
+  /* ---------- then and now ---------- */
+  (function(){
+    var T=[
+      {t:["The whites-only room on a Black block","Cotton Club, 1923: Harlem's address and performers, downtown's money, none of it spent on the block."],n:["The platform: the feed owns the room, the creator supplies the show","TikTok's Black choreographers struck in June 2021 over uncredited dances; the Copyright Office refused the \"Carlton\" as a simple routine; no viral social dance has yet been held protectable. Fact."]},
+      {t:["The DJ cut in as co-writer","Maybellene, 1955: a quarter of the writer's share to Alan Freed, as payola in copyright; withdrawn 1986."],n:["Promotion priced in royalty","Spotify's Discovery Mode trades airplay for a lower rate; Congress asked questions in 2021. The mechanism is payola with the sign reversed. Fact / Inference."]},
+      {t:["The unrecouped balance","Ruth Brown: $754 in twenty years (Episode 1)."],n:["The pro-rata pool, diluted","Deezer reports more than half of daily uploads fully AI-generated by mid-2026, with up to 70% of plays on them fraudulent; $424 million in unmatched royalties sat at the MLC in 2021. Fact."]},
+      {t:["The flat fee for a voice on wax","Bessie Smith: $125 a side, no copyright in the recording until 1972."],n:["The voice as training data","\"Heart on My Sleeve\" drew 15 million views on two cloned voices in 2023; Tennessee's ELVIS Act (2024) and the NO FAKES Act (Senate Judiciary, June 2026) are the first attempts to write a deed for the voice; the Suno and Udio settlements license the catalogs to the labels' benefit first. Fact."]}
+    ];
+    var c=$("#tn");if(!c)return;
+    function show(k){c.innerHTML=T.map(function(p){var a=(k==="then"||k==="both")?'<div class="tn" data-side="then"><span class="l">Then</span><span class="t">'+esc(p.t[0])+'</span><span class="w">'+esc(p.t[1])+'</span></div>':'';var b=(k==="now"||k==="both")?'<div class="tn" data-side="now"><span class="l">Now</span><span class="t">'+esc(p.n[0])+'</span><span class="w">'+esc(p.n[1])+'</span></div>':'';return a+b}).join("")}
+    seg("#tn-ctl",show);show("then")
+  })();
+
+  /* ---------- reels and title-card reveals ---------- */
+  (function(){
+    var CRED={};
+    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(j){CRED=j;$$(".reel .slide").forEach(function(s){var k=s.dataset.plate;var c=CRED[k];var el=$(".cr",s);if(el&&c&&c.credit)el.textContent=c.credit})}}).catch(function(){})}catch(e){}
+    function wrapWords(el){ // wrap text nodes in spans, leave tags (sup, em, b) intact
+      var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);var nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);var i=0;
+      nodes.forEach(function(t){if(t.parentNode.closest&&t.parentNode.closest("sup"))return;var parts=t.nodeValue.split(/(\s+)/);var frag=document.createDocumentFragment();parts.forEach(function(p){if(!p)return;if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(p));return}var s=document.createElement("span");s.className="w";s.style.transitionDelay=Math.min(1400,i*28)+"ms";s.textContent=p;frag.appendChild(s);i++});t.parentNode.replaceChild(frag,t)})}
+    // Auto-reel: group consecutive prose paragraphs in chapter stacks into slides, splitting long ones at sentences
+    function splitSentences(p,max){var html=p.innerHTML;var parts=html.split(/(?<=[.!?”"])\s+(?=[A-Z<“"(])/);var out=[],cur="";parts.forEach(function(s){var words=(cur+" "+s).replace(/<[^>]+>/g,"").split(/\s+/).length;if(cur&&words>max){out.push(cur);cur=s}else cur=cur?cur+" "+s:s});if(cur)out.push(cur);return out}
+    $$(".chapter").forEach(function(ch){
+      var key=null;var pl=$(".plate",ch);if(pl)key=pl.dataset.plate;
+      $$(".stack",ch).forEach(function(st){
+        var ps=$$(":scope > p",st).filter(function(p){return !p.classList.contains("lead")&&!p.classList.contains("pull")&&!p.classList.contains("eyebrow")});
+        if(ps.length<1)return;
+        var extra=(st.dataset.reel||"").split(",").map(function(x){return x.trim()}).filter(Boolean);
+        var slides=[];ps.forEach(function(p){var chunks=splitSentences(p,60);chunks.forEach(function(h){slides.push({html:h})})});
+        if(slides.length<2)return;
+        var reel=document.createElement("div");reel.className="reel";var vp=document.createElement("div");vp.className="vp";reel.appendChild(vp);
+        var keys=extra.length?extra:(key?[key]:[]);
+        slides.forEach(function(s,i){var d=document.createElement("div");d.className="slide";var k=keys.length?keys[i%keys.length]:null;if(k)d.dataset.plate=k;
+          var bg=document.createElement("div");bg.className="bg"+(k?"":" none");if(k){var im=document.createElement("img");im.src="assets/plates/"+k+".jpg";im.alt="";im.loading="lazy";im.addEventListener("error",function(){bg.className="bg none";bg.innerHTML=""});bg.appendChild(im)}d.appendChild(bg);
+          var cr=document.createElement("span");cr.className="cr";cr.textContent=k&&CRED[k]&&CRED[k].credit?CRED[k].credit:"";d.appendChild(cr);
+          var kk=document.createElement("div");kk.className="k";kk.textContent=(i+1)+" / "+slides.length;d.appendChild(kk);
+          var tx=document.createElement("div");tx.className="tx";tx.innerHTML=s.html;d.appendChild(tx);vp.appendChild(d)});
+        var nav=document.createElement("div");nav.className="nav";nav.innerHTML='<button class="pv" aria-label="Previous">‹</button><div class="dots" role="tablist"></div><span class="ct"></span><button class="nx" aria-label="Next">›</button>';reel.appendChild(nav);
+        ps[0].parentNode.insertBefore(reel,ps[0]);ps.forEach(function(p){p.remove()});
+        init(reel)})});
+    function init(reel){var slides=$$(".slide",reel),dots=$(".dots",reel),ct=$(".ct",reel),i=0;slides.forEach(function(s,j){wrapWords($(".tx",s));var d=document.createElement("i");d.setAttribute("role","tab");d.addEventListener("click",function(){go(j)});dots.appendChild(d)});
+      function go(n){i=(n+slides.length)%slides.length;slides.forEach(function(s,j){s.classList.toggle("on",j===i)});$$("i",dots).forEach(function(d,j){d.classList.toggle("on",j===i)});ct.textContent=(i+1)+" of "+slides.length}
+      $(".pv",reel).addEventListener("click",function(){go(i-1)});$(".nx",reel).addEventListener("click",function(){go(i+1)});
+      $(".vp",reel).addEventListener("click",function(e){if(e.target.closest("a"))return;go(i+1)});
+      reel.tabIndex=0;reel.addEventListener("keydown",function(e){if(e.key==="ArrowRight"){go(i+1);e.preventDefault()}if(e.key==="ArrowLeft"){go(i-1);e.preventDefault()}});
+      var x0=null;reel.addEventListener("touchstart",function(e){x0=e.touches[0].clientX},{passive:true});reel.addEventListener("touchend",function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(dx<0?i+1:i-1);x0=null});
+      go(0)}
+    $$(".reel[data-authored]").forEach(init);
+    // title-card reveals on leads and pull quotes
+    var rv=$$(".lead, .pull");rv.forEach(function(p){p.classList.add("rv");wrapWords(p)});
+    if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}})},{rootMargin:"0px 0px -10% 0px"});rv.forEach(function(p){io.observe(p)})}else rv.forEach(function(p){p.classList.add("on")});
+  })();
+
+  /* ---------- plates: reveal on scroll, credits from assets/plates/credits.json when present ---------- */
+  (function(){
+    var ps=$$(".plate");if(!ps.length)return;
+    ps.forEach(function(p){var im=$("img",p);if(im){im.addEventListener("error",function(){p.setAttribute("data-missing","")})}});
+    if("IntersectionObserver" in window&&!reduce){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{rootMargin:"0px 0px -12% 0px"});ps.forEach(function(p){io.observe(p)})}else ps.forEach(function(p){p.classList.add("static")});
+    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(!j)return;ps.forEach(function(p){var k=p.dataset.plate,c=j[k];if(c&&c.credit){var el=$(".cr",p);if(el)el.textContent=c.credit}})}).catch(function(){})}catch(e){}
+  })();
+})();
+</script>

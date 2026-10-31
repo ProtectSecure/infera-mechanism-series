@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Field Note № 13 · Closed On Paper · Sunday, June 21, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;600&family=Newsreader:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4efe2;        /* cream field */
+    --paper-soft: #ece6d4;
+    --ink: #15222b;          /* flat editorial ink */
+    --ink-dim: #46535d;
+    --ink-faint: #8b9097;
+    --rule: #d9d2bf;
+    --loud: #e8472b;         /* vivid red, the declaration */
+    --band: #e8872d;         /* poster orange */
+    --quiet: #2b5d6e;        /* deep teal, the water that keeps moving */
+    --accent: #b3641f;       /* ochre for fine labels */
+    --gold: #c79a2e;         /* the one hard fact */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection { background: var(--loud); color: var(--paper); }
+
+  /* ───────── fixed editorial strip (mandatory nav header) ───────── */
+  nav.strip {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-dim);
+    background: linear-gradient(to bottom, rgba(244,239,226,0.96), rgba(244,239,226,0));
+    backdrop-filter: blur(8px);
+  }
+  nav.strip a { color: var(--ink); text-decoration: none; transition: color 0.2s ease; }
+  nav.strip a:hover { color: var(--loud); }
+  nav.strip .navlinks { display: flex; gap: 26px; align-items: center; }
+  nav.strip .stamp { color: var(--ink-faint); }
+  @media (max-width: 720px) { nav.strip .stamp { display: none; } nav.strip .navlinks { gap: 16px; } }
+  nav.strip .dot { width: 6px; height: 6px; background: var(--loud); border-radius: 50%; display: inline-block; margin-right: 8px; vertical-align: middle; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* ───────── hero ───────── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-rows: 1fr auto 1fr;
+    padding: 90px 6vw 50px;
+    position: relative; overflow: hidden;
+  }
+  .hero .art { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hero-content { grid-row: 2; text-align: center; position: relative; z-index: 2; }
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--ink); background: var(--paper);
+    display: inline-block; padding: 6px 14px;
+    opacity: 0; animation: fadeUp 1s ease 0.3s forwards;
+  }
+  h1.headline {
+    font-family: 'Fraunces', serif; font-weight: 380;
+    font-size: clamp(58px, 11vw, 168px);
+    line-height: 0.92; letter-spacing: -0.04em;
+    margin: 26px 0 22px;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    color: var(--ink);
+  }
+  h1.headline .word { display: inline-block; opacity: 0; transform: translateY(40px); animation: dropIn 1.2s cubic-bezier(0.2,0.8,0.2,1) forwards; }
+  h1.headline .word:nth-child(1) { animation-delay: 0.7s; }
+  h1.headline .word:nth-child(2) { animation-delay: 1.3s; color: var(--loud); font-style: italic; }
+  h1.headline .word:nth-child(3) { animation-delay: 1.9s; }
+  .hero-sub {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(15px, 1.6vw, 20px);
+    color: var(--ink-dim); max-width: 640px; margin: 0 auto;
+    background: rgba(244,239,226,0.88); padding: 10px 16px;
+    opacity: 0; animation: fadeUp 1.2s ease 2.2s forwards;
+  }
+  .hero-foot {
+    grid-row: 3; align-self: end;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    position: relative; z-index: 2;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim);
+    opacity: 0; animation: fadeUp 1s ease 3s forwards;
+  }
+  .scroll-hint { animation: bob 2.2s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes dropIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ───────── shared section bones ───────── */
+  section { padding: 104px 6vw; position: relative; }
+  .measure { max-width: 680px; margin: 0 auto; }
+  .wide { max-width: 1040px; margin: 0 auto; }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 1s ease, transform 1s cubic-bezier(0.2,0.8,0.2,1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* museum placard */
+  .placard {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; flex-wrap: wrap; gap: 8px 28px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 0; margin: 0 0 44px;
+  }
+  .placard b { color: var(--accent); font-weight: 500; }
+
+  .ex-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 18px;
+  }
+  h2.ex-title {
+    font-family: 'Fraunces', serif; font-weight: 380;
+    font-size: clamp(34px, 4.6vw, 60px);
+    line-height: 1.04; letter-spacing: -0.02em; margin-bottom: 28px;
+    font-variation-settings: "opsz" 144;
+  }
+  .lede {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: clamp(18px, 2vw, 23px); line-height: 1.5;
+    color: var(--ink); margin-bottom: 26px;
+  }
+  p.body { color: var(--ink-dim); font-size: 16px; margin-bottom: 22px; }
+  p.body strong { color: var(--ink); font-weight: 500; }
+
+  /* confidence labels */
+  .conf {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500;
+    padding: 2px 7px; border-radius: 2px; vertical-align: middle;
+    white-space: nowrap;
+  }
+  .conf.fact   { background: var(--gold);  color: #2a200a; }
+  .conf.rep    { background: var(--quiet); color: var(--paper); }
+  .conf.watch  { background: var(--loud);  color: var(--paper); }
+
+  /* the split: declaration vs water */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--ink); margin: 34px 0; }
+  @media (max-width: 720px){ .split { grid-template-columns: 1fr; } }
+  .split .col { padding: 26px 24px; }
+  .split .col.red  { background: rgba(232,71,43,0.06); border-right: 1px solid var(--rule); }
+  .split .col.teal { background: rgba(43,93,110,0.06); }
+  @media (max-width: 720px){ .split .col.red { border-right: none; border-bottom: 1px solid var(--rule); } }
+  .split .col h3 {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; margin-bottom: 14px; font-weight: 500;
+  }
+  .split .col.red h3 { color: var(--loud); }
+  .split .col.teal h3 { color: var(--quiet); }
+  .split .col p { font-size: 14.5px; color: var(--ink-dim); margin-bottom: 12px; }
+  .split .col p strong { color: var(--ink); font-weight: 500; }
+
+  /* pull quote */
+  .pull {
+    font-family: 'Fraunces', serif; font-weight: 300; font-style: italic;
+    font-size: clamp(24px, 3.4vw, 40px); line-height: 1.25; letter-spacing: -0.01em;
+    color: var(--ink); border-left: 3px solid var(--loud); padding-left: 26px; margin: 8px 0;
+  }
+  .pull .hl { color: var(--loud); font-style: normal; }
+
+  /* scaffold / confidence ledger */
+  .ledger { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: 22px; }
+  .ledger th, .ledger td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  .ledger th {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-faint); font-weight: 500; border-bottom: 1px solid var(--ink);
+  }
+  .ledger td b { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); font-weight: 500; }
+  .ledger td.c { white-space: nowrap; }
+  .ledger .v { color: var(--ink); }
+
+  /* honesty placard */
+  .honesty .box {
+    border: 1px solid var(--loud); background: rgba(232,71,43,0.05);
+    padding: 30px 28px; max-width: 760px; margin: 0 auto;
+  }
+  .honesty .hd {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--loud); margin-bottom: 18px; font-weight: 500;
+  }
+  .honesty p { font-size: 15px; color: var(--ink-dim); margin-bottom: 14px; }
+  .honesty p strong { color: var(--ink); font-weight: 600; }
+
+  /* colophon */
+  .colophon { background: var(--paper-soft); }
+  .colophon .lab {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 18px;
+  }
+  .colophon p { max-width: 760px; color: var(--ink-dim); font-size: 15px; margin-bottom: 16px; }
+  .colophon p.payoff { font-family: 'Fraunces', serif; font-size: 19px; color: var(--ink); font-weight: 300; }
+  .colophon p.payoff b { color: var(--loud); font-weight: 500; }
+
+  /* sources */
+  .sources { font-size: 13px; color: var(--ink-dim); }
+  .sources a { color: var(--quiet); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .sources a:hover { color: var(--loud); }
+  .sources li { margin-bottom: 8px; list-style: none; padding-left: 16px; text-indent: -16px; }
+
+  /* note footer (mandatory nav footer) */
+  footer.note-footer {
+    background: var(--ink); color: var(--paper);
+    padding: 46px 6vw 40px; text-align: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  footer.note-footer .fnav { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 28px; margin-bottom: 26px; }
+  footer.note-footer .fnav a { color: var(--paper); text-decoration: none; opacity: 0.82; transition: opacity 0.2s, color 0.2s; }
+  footer.note-footer .fnav a:hover { color: var(--band); opacity: 1; }
+  footer.note-footer .fdot { color: var(--ink-faint); }
+  footer.note-footer .fcopy { margin-top: 18px; color: var(--ink-faint); font-size: 9px; letter-spacing: 0.12em; }
+</style>
+</head>
+<body>
+
+<!-- ════════ MANDATORY NAV HEADER (series strip) ════════ -->
+<nav class="strip">
+  <a href="../index.html"><span class="dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="../index.html">← All Episodes</a>
+    <a href="index.html">Field Notes</a>
+    <span class="stamp">№ 13 · WEEKEND WATCH · 06.21.2026</span>
+  </div>
+</nav>
+
+<!-- ════════ HERO ════════ -->
+<div class="hero">
+  <!-- Thesis image, no human figures: a strait between two flat landmasses. A red word-stamp
+       "CLOSED" is pressed over the water like an order, while teal vessel marks keep crossing
+       it. The gold tick is the one hard fact: ships counted through. -->
+  <svg class="art" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <!-- upper landmass -->
+    <path d="M0,0 H1440 V300 C1140,330 980,250 760,360 C560,460 360,420 0,470 Z" fill="#e8872d" opacity="0.16"/>
+    <!-- lower landmass -->
+    <path d="M0,900 H1440 V640 C1150,600 980,690 740,560 C540,450 320,520 0,470 Z" fill="#2b5d6e" opacity="0.12"/>
+    <!-- the water channel: faint teal current lines crossing -->
+    <g stroke="#2b5d6e" stroke-width="2" fill="none" opacity="0.5">
+      <path d="M120,520 C420,470 1020,560 1360,500"/>
+      <path d="M120,548 C420,500 1020,588 1360,532"/>
+      <path d="M120,576 C420,532 1020,616 1360,566"/>
+    </g>
+    <!-- vessel marks still transiting (teal) -->
+    <g fill="#2b5d6e" opacity="0.85">
+      <path d="M300,512 l26,0 l-5,12 l-16,0 Z"/>
+      <path d="M560,548 l26,0 l-5,12 l-16,0 Z"/>
+      <path d="M860,560 l26,0 l-5,12 l-16,0 Z"/>
+      <path d="M1120,524 l26,0 l-5,12 l-16,0 Z"/>
+    </g>
+    <!-- the order, stamped over the water -->
+    <text x="720" y="430" text-anchor="middle" font-family="JetBrains Mono, monospace"
+          font-size="160" font-weight="500" fill="#e8472b" opacity="0.12"
+          letter-spacing="14" transform="rotate(-6 720 430)">CLOSED</text>
+  </svg>
+
+  <div class="hero-content">
+    <span class="kicker">Field Note № 13 · Weekend Watch</span>
+    <h1 class="headline"><span class="word">Closed</span> <span class="word">on</span> <span class="word">paper</span></h1>
+    <p class="hero-sub">A navy declares the Strait of Hormuz shut. Its own foreign ministry says ships are moving, and the other side counts fifty-five of them through. One waterway, two official stories, and a peace deal trying to be signed on top of both.</p>
+  </div>
+
+  <div class="hero-foot">
+    <span>Infera · The Mechanism Series</span>
+    <span class="scroll-hint">scroll ↓</span>
+    <span>Sunday · 06.21.2026 · 11:08 AM ET</span>
+  </div>
+</div>
+
+<main>
+
+<!-- ════════ OPENING ════════ -->
+<section class="reveal">
+  <div class="measure">
+    <div class="placard">
+      <span>Note · <b>№ 13</b></span>
+      <span>Cycle · <b>Weekend Watch</b></span>
+      <span>Filed · <b>Sun 06.21.2026</b></span>
+      <span>Lead · <b>F02 · gravity 90</b></span>
+      <span>Labels · <b>FACT / REPORTED / WATCH</b></span>
+    </div>
+
+    <p class="ex-kicker">The thing that literally happened</p>
+    <h2 class="ex-title">A closure order, and traffic that ignored it</h2>
+
+    <p class="lede">On June 20, into June 21, Iran's Islamic Revolutionary Guard Corps Navy announced the Strait of Hormuz closed to all vessels, warning ships not to approach. <span class="conf rep">Reported</span> The cited reason: Israeli strikes in Lebanon and a claimed United States failure to uphold ceasefire commitments under the June 17 memorandum.</p>
+
+    <p class="body">That is the order. The water tells a different story. Within hours Iran's own foreign ministry spokesman, Esmail Baghaei, said the armed forces had taken measures to ensure safe passage and that shipping through the strait was underway. <span class="conf rep">Reported</span> United States Central Command said fifty-five ships transited despite the IRGC claim. <span class="conf watch">Watch</span></p>
+
+    <p class="body">So the headline word, closed, is doing less than it appears. The declaration is real and sourced. The stoppage it describes is contested by the declaring government's own diplomats and by the other party's count of hulls in the water. This note is about the gap between the word and the wake.</p>
+  </div>
+</section>
+
+<!-- ════════ THE SPLIT ════════ -->
+<section class="reveal">
+  <div class="measure">
+    <p class="ex-kicker">Two official stories, side by side</p>
+    <h2 class="ex-title">The declaration and the water</h2>
+    <div class="split">
+      <div class="col red">
+        <h3>● The declaration</h3>
+        <p><strong>IRGC Navy, 06.20 into 06.21:</strong> strait closed to all vessels, ships warned away, security at risk.</p>
+        <p><strong>Stated cause:</strong> Israeli strikes in Lebanon, claimed US breach of the memorandum.</p>
+        <p><strong>Trackers:</strong> aggregator monitors describe near zero visible traffic.</p>
+        <p style="color:var(--loud);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-top:14px">Confidence · Reported</p>
+      </div>
+      <div class="col teal">
+        <h3>● The water</h3>
+        <p><strong>Iran foreign ministry (Baghaei):</strong> safe passage ensured, commercial shipping currently underway.</p>
+        <p><strong>US CENTCOM:</strong> fifty-five ships transited despite the closure claim.</p>
+        <p><strong>Constraint:</strong> minesweeping and the stranded-vessel backlog remain the real gate, not the announcement.</p>
+        <p style="color:var(--quiet);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-top:14px">Confidence · Watch</p>
+      </div>
+    </div>
+    <p class="body">When a government contradicts itself on whether its own waterway is open, the contradiction is the signal. We do not assert a stoppage this cycle. We report the order, the denial, and the count, and we let the gap stand.</p>
+  </div>
+</section>
+
+<!-- ════════ THE ROOM ════════ -->
+<section class="reveal">
+  <div class="measure">
+    <p class="ex-kicker">Where the deal is, or is not</p>
+    <h2 class="ex-title">Underway, or called off</h2>
+
+    <p class="lede">As the strait argued with itself, Vice President JD Vance arrived in Switzerland for the implementation session at the Burgenstock. <span class="conf rep">Reported</span> Iran's delegation is led by Parliament Speaker and head negotiator Mohammad Bagher Ghalibaf, alongside Foreign Minister Abbas Araghchi.</p>
+
+    <p class="body">The agenda itself carries the friction. The United States wants to open on the nuclear file. Iran wants to lead with ending the fighting in Lebanon, and an emergency Israel-Hezbollah session was added to the first day. <span class="conf rep">Reported</span> The two sides agreed earlier in the week to a sixty-day window for the talks.</p>
+
+    <p class="body">Even the existence of Sunday's round is reported two ways. Some outlets say the planned session was called off as Tehran pressed its Lebanon demand. Others report Vance meeting Iranian officials with talks begun. <span class="conf watch">Watch</span> We carry the round as underway but contested, an on-again off-again pattern we are not resolving for the reader before it resolves itself.</p>
+
+    <p class="pull">The deal is <span class="hl">announced, not signed</span>. The strait is <span class="hl">ordered shut, not stopped</span>. Both are true at once, and that is the whole story this weekend.</p>
+  </div>
+</section>
+
+<!-- ════════ THE LEDGER ════════ -->
+<section class="reveal">
+  <div class="wide">
+    <p class="ex-kicker">The board, as it stands at 11:08 AM ET</p>
+    <h2 class="ex-title">Confidence ledger</h2>
+    <table class="ledger">
+      <thead>
+        <tr><th>Thread</th><th class="c">Gravity</th><th class="c">Label</th><th>Where it stands</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b>us-iran-burgenstock</b></td><td class="c">90</td><td class="c"><span class="conf rep">Reported</span></td><td class="v">Vance in Switzerland, session reported underway, Ghalibaf and Araghchi leading for Iran, Lebanon emergency item added to day one. Start-stop status contested.</td></tr>
+        <tr><td><b>hormuz-closure-claim</b></td><td class="c">90</td><td class="c"><span class="conf watch">Watch</span></td><td class="v">IRGC re-declared closed; Iran MFA says open; CENTCOM counts fifty-five transits. Not asserted as an actual stoppage.</td></tr>
+        <tr><td><b>israel-hezbollah-truce</b></td><td class="c">80</td><td class="c"><span class="conf rep">Reported</span></td><td class="v">Renewed Friday, holding but fragile. IDF ordered to hold fire everywhere except Ali al-Taher Hill.</td></tr>
+        <tr><td><b>fisa-702-lapse</b></td><td class="c">76</td><td class="c"><span class="conf fact">Fact</span></td><td class="v">Lapsed since 06.13. House short-term extension failed 198 to 218. March FISC certifications valid to about March 2027.</td></tr>
+        <tr><td><b>india-mariners</b></td><td class="c">72</td><td class="c"><span class="conf rep">Reported</span></td><td class="v">Three Indian mariners killed in blockade strikes; India lodged repeated protests. No independent vessel-by-vessel confirmation.</td></tr>
+        <tr><td><b>cairo-r4-quadrilateral</b></td><td class="c">70</td><td class="c"><span class="conf rep">Reported</span></td><td class="v">Egypt, Saudi, Turkey, Pakistan FMs convening on deal implementation, no Iran. Venue reported inconsistently between Cairo and the New Alamein coast.</td></tr>
+        <tr><td><b>georgia-ltgov-runoff</b></td><td class="c">30</td><td class="c"><span class="conf fact">Fact</span></td><td class="v">Resolved. Dolezal and McLaurin won nominations. Exact margins not independently certified here.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════ HONESTY PLACARD ════════ -->
+<section class="honesty reveal">
+  <div class="box">
+    <div class="hd">⚠ Honest limitation · read before trusting</div>
+    <p><strong>This is a weekend snapshot, not a close.</strong> Markets are shut on Sunday, so the Brent level near eighty dollars is Friday's settle carried forward, not a live weekend price. We do not assert a market level this cycle.</p>
+    <p><strong>What is solid.</strong> The FISA 702 lapse and the failed 198 to 218 House vote are FACT. The IRGC declaration, the foreign ministry denial, the CENTCOM count, the Burgenstock arrivals, and the Cairo meeting are REPORTED, each from named outlets.</p>
+    <p><strong>What is contested.</strong> Whether the strait is actually closed, and whether Sunday's Burgenstock round proceeded or was called off, are both reported two ways. They carry WATCH and are deliberately left unresolved.</p>
+    <p><strong>What is inference.</strong> Any reading of the closure order as a bargaining chip timed to the Lebanon demand is an interpretation. It is staged in our review queue and held for human clearance, not published as a claim here.</p>
+  </div>
+</section>
+
+<!-- ════════ COLOPHON ════════ -->
+<section class="colophon reveal">
+  <div class="wide">
+    <div class="lab">Colophon · method and title</div>
+    <p>This note is a Weekend Watch for Sunday, June 21, 2026, built from the 11:08 AM ET Real-time Monitor refresh. It reconciles the day's live threads across AP, Reuters, Al Jazeera, CBS, Dawn, the Times of Israel, the Jerusalem Post, and trade maritime press. Gravity scores come from Infera's coverage-gravity rubric, where each point is sourced to a structural feature of the event, not a vibe. Confidence labels throughout: FACT, REPORTED, WATCH.</p>
+    <p>The two-color logic of this note: red marks the declaration, the order that says closed; teal marks the water, the traffic that keeps moving under it; gold is reserved for the one thing that is simply on the record, the lapsed surveillance law and its failed vote.</p>
+    <p class="payoff">A navy can post a closure to the world and have its own diplomats reopen it by lunch. A peace round can be both arriving and called off in the same hour. Read the wake, not the stamp. <b>Closed on paper is not closed on the water.</b></p>
+  </div>
+</section>
+
+<!-- ════════ SOURCES ════════ -->
+<section class="reveal">
+  <div class="measure">
+    <p class="ex-kicker">Sources</p>
+    <ul class="sources">
+      <li>Al Jazeera, <a href="https://www.aljazeera.com/news/2026/6/21/vance-arrives-in-switzerland-for-us-iran-talks">Vance arrives in Switzerland for US-Iran talks</a> · Jun 21, 2026</li>
+      <li>CBS News, <a href="https://www.cbsnews.com/live-updates/iran-us-war-talks-suspended-trump-mou-israel-lebanon-hezbollah-fighting/">Vance appears directly with Iranian officials as talks begin</a> · Jun 21, 2026</li>
+      <li>Dawn, <a href="https://www.dawn.com/news/2009504">US-Iran talks mediated by Pakistan, Qatar kick off in Burgenstock</a> · Jun 21, 2026</li>
+      <li>The Times of Israel, <a href="https://www.timesofisrael.com/first-round-of-us-iran-talks-in-switzerland-called-off-clouding-prospects-for-lasting-truce/">Opening round of US-Iran talks called off as Tehran demands Lebanon halt</a> · Jun 2026</li>
+      <li>Business Standard, <a href="https://www.business-standard.com/amp/world-news/strait-of-hormuz-closed-to-all-vessels-says-iran-s-irgc-after-us-strikes-126061100091_1.html">Strait of Hormuz closed to all vessels, says Iran's IRGC</a> · Jun 2026</li>
+      <li>MSN / wire, <a href="https://www.msn.com/en-us/news/world/iran-declares-the-strait-of-hormuz-closed-again-after-us-lifts-blockade/ar-AA263IiK">Iran foreign ministry says strait is open after IRGC warned it was closed</a> · Jun 2026</li>
+      <li>The Times of Israel liveblog, <a href="https://www.timesofisrael.com/liveblog-june-21-2026/">IDF ordered to hold fire except Ali al-Taher Hill</a> · Jun 21, 2026</li>
+      <li>Asharq Al-Awsat, <a href="https://english.aawsat.com/arab-world/5283179-cairo-host-fourth-quadrilateral-meeting-iran-war">Cairo to host fourth quadrilateral meeting on Iran war</a> · Jun 2026</li>
+      <li>NBC News, <a href="https://www.nbcnews.com/politics/trump-administration/live-blog/trump-congress-fisa-doj-ufc-2026-primary-elections-dhs-live-updates-rcna349535">Foreign surveillance program set to expire after Democrats reject short-term renewal</a> · Jun 2026</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<!-- ════════ MANDATORY NAV FOOTER ════════ -->
+<footer class="note-footer">
+  <div class="fnav">
+    <a href="index.html">← Field Notes</a>
+    <a href="../index.html">Series Home</a>
+    <a href="12-the-cliffs-that-didnt-fall.html">Prev · № 12 The Cliffs That Didn't Fall</a>
+    <a href="../legal.html">Legal · Privacy</a>
+    <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+  </div>
+  INFERA <span class="fdot">·</span> MECHANISM SERIES <span class="fdot">·</span> FIELD NOTE № 13 <span class="fdot">·</span> "CLOSED ON PAPER" <span class="fdot">·</span> WEEKEND WATCH 06.21.2026
+  <div class="fcopy">© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com</div>
+</footer>
+
+<!-- ════════ SITE-WIDE PROTECTIVE LEGAL BLOCK (canonical) ════════ -->
+<style id="infera-legal-footer">
+.legal-footer{
+  background:#06060a; color:rgba(168,162,152,.75);
+  font-family:'IBM Plex Sans', system-ui, sans-serif; font-size:11.5px; line-height:1.55;
+  padding:32px 6vw 36px;
+  border-top:1px solid rgba(168,162,152,.12);
+}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{
+  display:grid; grid-template-columns:1fr auto; gap:24px 32px;
+  padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08);
+  margin-bottom:14px;
+}
+.legal-footer .lf-brand{
+  font-family:'IBM Plex Mono', ui-monospace, monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.legal-footer .lf-brand b{color:#c8ff1e; font-family:inherit; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; align-self:center}
+.legal-footer .lf-disclaim{
+  font-size:11.5px; line-height:1.6; max-width:none; color:rgba(168,162,152,.62);
+}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+.legal-footer details.lf-more{margin-top:8px; padding:0}
+.legal-footer details.lf-more summary{
+  cursor:pointer; list-style:none;
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700;
+  display:inline-flex; align-items:center; gap:8px; padding:5px 0;
+}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+.legal-footer .lf-links{
+  display:flex; flex-wrap:wrap; gap:0 18px;
+  padding-top:14px; border-top:1px dashed rgba(168,162,152,.12);
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+@media (max-width:780px){
+  .legal-footer .lf-top{grid-template-columns:1fr}
+  .legal-footer{padding:26px 5vw 30px; font-size:11px}
+}
+@media (prefers-reduced-motion: reduce){
+  .legal-footer details.lf-more summary::before{transition:none}
+}
+.legal-footer .lf-infra{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:10px 14px 12px; margin-bottom:14px;
+  background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6);
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:560px){
+  .legal-footer .lf-infra{font-size:9px; gap:8px; padding:8px 10px 10px}
+}
+</style>
+
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+      <nav class="lf-infra" aria-label="Infrastructure links">
+        <span class="lf-infra-lbl">More from Infera</span>
+        <a href="../systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+        <a href="../claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+        <a href="../case-file.html">Your Case File</a><span class="lf-sep">·</span>
+        <a href="../founding.html">Founding 500</a><span class="lf-sep">·</span>
+        <a href="../field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+        <a href="../index.html#about">About</a>
+      </nav>
+
+    <div class="lf-top">
+      <div class="lf-brand">
+        <span>© 2026 <b>Infera</b></span>
+        <span class="sep">·</span>
+        <span>All rights reserved</span>
+        <span class="sep">·</span>
+        <em>The Mechanism Series™</em>
+      </div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis &mdash; <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided &ldquo;as is&rdquo; without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> &ldquo;Infera,&rdquo; &ldquo;The Mechanism Series,&rdquo; and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission, usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for persona memory, reading log, and evidence-mode preference, none transmitted. Subscriber emails stored at Buttondown. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with: (1) the copyrighted work, (2) the allegedly infringing URL, (3) your contact info, (4) good-faith statement, (5) statement under penalty of perjury, (6) your signature. Knowingly false DMCA notices may incur liability under 17 U.S.C. § 512(f). Counter-notices follow § 512(g).</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action arising from these terms shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Underwriters do not see episodes prior to publication. Editorial decisions are independent.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication. AI does not author episodes.</p>
+          <p style="margin-top:10px; font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="../legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="../legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="../legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="../legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="../legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="../legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="../legal.html#unsubscribe">Unsubscribe</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+
+    <div class="lf-tail">
+      <em>Atlanta, GA · USA · v.2026.05</em>
+      <span>Last updated · 26 May 2026</span>
+    </div>
+  </div>
+</aside>
+
+<script>
+  (function(){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  })();
+</script>
+</body>
+</html>

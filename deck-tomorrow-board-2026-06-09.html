@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Open Record Order · 06.09.2026 · Infera Tomorrow Board — Deck</title>
+<meta name="description" content="Infera's Tomorrow Board for Tuesday June 9, 2026, presented as an on-brand war-room slide deck: what Infera is, the daily rhythm, coverage gravity, and the day's Open Record Order as the worked example.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#06060a; --ink2:#0b0c12; --panel:#101219; --line:rgba(168,162,152,.14);
+  --cream:#fbf7eb; --muted:#a8a29a; --dim:rgba(168,162,152,.55);
+  --lime:#c8ff1e; --amber:#ffb02e; --ember:#ff5a3c; --ice:#5ad1ff;
+  --mono:'JetBrains Mono',ui-monospace,monospace; --body:'Inter',system-ui,sans-serif;
+  --serif:'Fraunces',Georgia,serif; --script:'Instrument Serif',Georgia,serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  background:var(--ink); color:var(--cream); font-family:var(--body);
+  -webkit-font-smoothing:antialiased; overflow:hidden; line-height:1.6;
+}
+/* atmospheric environment */
+.bg{position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(1200px 700px at 78% -8%, rgba(255,90,60,.16), transparent 60%),
+    radial-gradient(900px 600px at 12% 8%, rgba(90,209,255,.10), transparent 55%),
+    radial-gradient(1000px 900px at 50% 120%, rgba(200,255,30,.06), transparent 60%),
+    linear-gradient(180deg,#05050a, #07070d 40%, #05050a);}
+.bg::after{content:""; position:absolute; inset:0; opacity:.05; mix-blend-mode:overlay;
+  background-image:repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 3px);
+  animation:scan 9s linear infinite;}
+@keyframes scan{from{background-position:0 0}to{background-position:0 300px}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* progress + nav strip */
+.progress{position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--ember),var(--amber),var(--lime)); z-index:60; width:0; transition:width .5s cubic-bezier(.2,.8,.2,1); box-shadow:0 0 12px rgba(200,255,30,.4)}
+nav.strip{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; align-items:center; justify-content:space-between;
+  gap:10px; padding:13px 5vw; background:rgba(6,6,10,.72); backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line); font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;}
+nav.strip a{color:var(--cream); text-decoration:none; font-weight:700; display:inline-flex; align-items:center; gap:9px}
+nav.strip .dot{width:7px; height:7px; border-radius:50%; background:var(--lime); box-shadow:0 0 12px var(--lime); animation:pulse 2.4s ease-in-out infinite}
+nav.strip .navlinks{display:flex; align-items:center; gap:16px; flex-wrap:wrap; color:var(--dim)}
+nav.strip .navlinks a{color:var(--muted); font-weight:500}
+nav.strip .navlinks a:hover{color:var(--lime)}
+nav.strip .stamp{color:var(--ember); border:1px solid rgba(255,90,60,.3); padding:3px 9px; font-weight:700}
+
+/* deck / slides */
+.deck{position:fixed; inset:0; z-index:1}
+.slide{position:absolute; inset:0; padding:96px 6vw 84px; overflow-y:auto; overflow-x:hidden;
+  opacity:0; visibility:hidden; transform:translateY(18px) scale(.995);
+  transition:opacity .55s ease, transform .55s ease, visibility 0s linear .55s;
+  display:flex; flex-direction:column; justify-content:center;}
+.slide.active{opacity:1; visibility:visible; transform:none; transition:opacity .6s ease, transform .6s ease; z-index:2}
+.slide.past{transform:translateY(-18px) scale(.995)}
+.inner{max-width:1160px; margin:0 auto; width:100%}
+
+/* shared type */
+.kicker{font-family:var(--mono); font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--ember); display:flex; align-items:center; gap:12px; margin-bottom:22px}
+.kicker .live{width:8px;height:8px;border-radius:50%;background:var(--ember);box-shadow:0 0 10px var(--ember);animation:pulse 1.3s infinite}
+.kicker.lime{color:var(--lime)} .kicker.lime .live{background:var(--lime); box-shadow:0 0 10px var(--lime)}
+.kicker.ice{color:var(--ice)} .kicker.ice .live{background:var(--ice); box-shadow:0 0 10px var(--ice)}
+h1.big{font-family:var(--serif); font-weight:340; font-size:clamp(2.6rem,6.4vw,5rem); line-height:1.02; margin:0 0 6px; letter-spacing:-.02em}
+h1.big em{font-family:var(--script); font-style:italic; color:var(--amber)}
+h2.sec{font-family:var(--serif); font-weight:380; font-size:clamp(1.9rem,4.4vw,3rem); margin:0 0 4px; letter-spacing:-.01em}
+h2.sec em{font-family:var(--script); font-style:italic; color:var(--ice)}
+.sub{font-family:var(--script); font-style:italic; font-size:clamp(1.15rem,2.4vw,1.7rem); color:var(--muted); max-width:62ch; margin:18px 0 0}
+.lede{color:var(--muted); max-width:74ch; margin:14px 0 26px; font-size:1.04rem}
+.lede em{font-family:var(--script); font-style:italic; color:var(--cream)}
+.snum{font-family:var(--mono); font-size:12px; color:var(--lime); letter-spacing:.2em; font-weight:700; display:inline-block; margin-bottom:14px}
+.meta{margin-top:30px; display:flex; gap:26px; flex-wrap:wrap; font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--dim); text-transform:uppercase}
+.meta b{color:var(--cream); font-weight:700}
+
+/* chips */
+.chip{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding:2px 7px; border:1px solid currentColor; white-space:nowrap; display:inline-block}
+.fact{color:var(--ice)} .reported{color:var(--amber)} .watch{color:var(--lime)}
+
+/* rhythm rail */
+.rhythm{display:grid; grid-template-columns:repeat(5,1fr); gap:0; margin-top:14px; border:1px solid var(--line)}
+.rhythm .cell{padding:22px 18px; border-right:1px solid var(--line); position:relative}
+.rhythm .cell:last-child{border-right:0}
+.rhythm .cell.now{background:rgba(200,255,30,.06)}
+.rhythm .t{font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--amber); font-weight:700}
+.rhythm .cell.now .t{color:var(--lime)}
+.rhythm h4{font-family:var(--serif); font-weight:440; font-size:1.12rem; margin:10px 0 6px}
+.rhythm p{margin:0; color:var(--muted); font-size:.86rem}
+.rhythm .tag{position:absolute; top:14px; right:14px; font-family:var(--mono); font-size:8.5px; letter-spacing:.16em; color:var(--lime); border:1px solid rgba(200,255,30,.4); padding:2px 6px; text-transform:uppercase}
+
+/* explainer cards */
+.cards{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:14px}
+.card{padding:24px 22px; border:1px solid var(--line); background:linear-gradient(100deg, rgba(255,255,255,.025), rgba(255,255,255,.01)); border-top:3px solid var(--amber)}
+.card.a{border-top-color:var(--ice)} .card.b{border-top-color:var(--amber)} .card.c{border-top-color:var(--lime)}
+.card h4{font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; margin:0 0 12px; color:var(--cream); font-weight:700}
+.card p{margin:0; color:var(--muted); font-size:.94rem}
+.card .big-n{font-family:var(--serif); font-weight:300; font-size:2.6rem; line-height:1; color:var(--cream); margin-bottom:10px}
+
+/* ladder */
+.ladder{display:flex; flex-direction:column; gap:12px}
+.rung{position:relative; display:grid; grid-template-columns:50px 1fr auto; gap:20px; align-items:center;
+  padding:16px 20px; background:linear-gradient(100deg, rgba(255,255,255,.025), rgba(255,255,255,.01));
+  border:1px solid var(--line); border-left:3px solid var(--ember); overflow:hidden;}
+.rung:nth-child(2){border-left-color:var(--amber)} .rung:nth-child(3){border-left-color:#ffe08a}
+.rung:nth-child(4){border-left-color:var(--lime)} .rung:nth-child(5){border-left-color:var(--lime)}
+.rung .rank{font-family:var(--serif); font-size:2.1rem; font-weight:300; color:var(--dim); line-height:1}
+.rung h3{margin:0 0 5px; font-family:var(--serif); font-weight:440; font-size:1.1rem; letter-spacing:-.01em}
+.rung p{margin:0; color:var(--muted); font-size:.9rem; max-width:78ch}
+.rung .tags{margin-top:9px; display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.rung .id{font-family:var(--mono); font-size:10px; color:var(--dim); letter-spacing:.12em}
+.gm{width:122px; text-align:right}
+.gm .num{font-family:var(--mono); font-weight:700; font-size:1.7rem; color:var(--cream); line-height:1}
+.gm .bar{height:6px; margin-top:8px; background:rgba(255,255,255,.07); position:relative; overflow:hidden}
+.gm .bar i{position:absolute; left:0; top:0; bottom:0; width:0; background:linear-gradient(90deg,var(--ember),var(--amber)); transition:width 1.3s cubic-bezier(.2,.8,.2,1)}
+.slide.active .gm .bar i{width:var(--w)}
+.gm small{display:block; margin-top:6px; font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim)}
+
+/* board table */
+.board{width:100%; border-collapse:collapse; margin-top:6px; font-size:.86rem}
+.board th{font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); font-weight:700}
+.board td{padding:11px 12px; border-bottom:1px solid rgba(168,162,152,.07); vertical-align:top; color:var(--muted)}
+.board tr:hover td{background:rgba(255,255,255,.02)}
+.board td.ev{color:var(--cream); max-width:520px}
+.board td.id{font-family:var(--mono); font-size:10px; color:var(--dim); letter-spacing:.1em; white-space:nowrap}
+.board td.g{font-family:var(--mono); font-weight:700; color:var(--cream); font-size:1rem; white-space:nowrap}
+.board .micro{height:4px; width:70px; background:rgba(255,255,255,.07); margin-top:6px; position:relative}
+.board .micro i{position:absolute; inset:0 auto 0 0; background:var(--amber); width:0; transition:width 1s ease}
+.slide.active .board .micro i{width:var(--w)}
+
+/* dimension bars */
+.dims{display:flex; flex-direction:column; gap:10px; margin-top:10px}
+.dimrow{display:grid; grid-template-columns:200px 1fr 36px; gap:16px; align-items:center}
+.dimrow .lbl{font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:right}
+.dimrow .track{height:18px; background:rgba(255,255,255,.05); position:relative; overflow:hidden}
+.dimrow .track i{position:absolute; left:0; top:0; bottom:0; width:0; background:linear-gradient(90deg,var(--ice),var(--lime)); transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.slide.active .dimrow .track i{width:var(--w)}
+.dimrow .v{font-family:var(--mono); font-weight:700; color:var(--cream); font-size:1rem}
+.dimrow.zero .track i{background:rgba(168,162,152,.25)} .dimrow.zero .v{color:var(--dim)}
+
+/* convergence panel */
+.conv{display:grid; grid-template-columns:1.3fr 1fr; gap:20px; margin-top:14px}
+.panelbox{padding:26px 24px; border:1px solid var(--line); background:rgba(255,255,255,.015)}
+.panelbox.yes{border-color:rgba(255,90,60,.35); background:rgba(255,90,60,.05)}
+.panelbox.no{border-color:rgba(90,209,255,.28); background:rgba(90,209,255,.04)}
+.panelbox .verdict{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; font-weight:700; margin-bottom:14px}
+.panelbox.yes .verdict{color:var(--ember)} .panelbox.no .verdict{color:var(--ice)}
+.panelbox h4{font-family:var(--serif); font-weight:440; font-size:1.2rem; margin:0 0 10px}
+.panelbox p{margin:0; color:var(--muted); font-size:.92rem}
+.dimtags{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap}
+.dimtag{font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; padding:3px 8px; border:1px solid rgba(255,176,46,.4); color:var(--amber)}
+
+/* timeline (collision) */
+.timeline{position:relative; margin-top:18px; padding:30px 24px 44px; border:1px solid var(--line);
+  background:linear-gradient(180deg, rgba(255,90,60,.05), rgba(255,255,255,.01))}
+.track2{position:relative; height:120px; margin-top:18px; border-left:1px solid var(--line); border-bottom:1px solid var(--line)}
+.hourmark{position:absolute; bottom:-22px; transform:translateX(-50%); font-family:var(--mono); font-size:9.5px; color:var(--dim); letter-spacing:.1em}
+.evdot{position:absolute; transform:translate(-50%,-50%); width:13px; height:13px; border-radius:50%; background:var(--amber); box-shadow:0 0 0 4px rgba(255,176,46,.12)}
+.evdot.iran{background:var(--ember); box-shadow:0 0 0 4px rgba(255,90,60,.14)}
+.evdot.ndaa{background:var(--lime); box-shadow:0 0 0 4px rgba(200,255,30,.14)}
+.evlabel{position:absolute; transform:translateX(-50%); font-family:var(--mono); font-size:9px; letter-spacing:.05em; color:var(--muted); white-space:nowrap; text-transform:uppercase}
+.sweep{position:absolute; top:0; bottom:0; width:2px; background:linear-gradient(180deg,transparent,var(--ice),transparent); left:0; animation:sweep 7s linear infinite; opacity:.8}
+@keyframes sweep{from{left:0}to{left:100%}}
+.splitnote{margin-top:30px; font-family:var(--script); font-style:italic; font-size:1.18rem; color:var(--cream); border-left:2px solid var(--ember); padding-left:16px; max-width:80ch}
+
+/* curator / principle */
+.curator{padding:34px 30px; border:1px solid var(--line); background:rgba(255,255,255,.015); position:relative; margin-top:10px}
+.curator::before{content:"THE INFERA PRINCIPLE"; position:absolute; top:-8px; left:22px; background:var(--ink); padding:0 8px; font-family:var(--mono); font-size:9px; letter-spacing:.2em; color:var(--dim)}
+.curator p{font-family:var(--script); font-style:italic; font-size:clamp(1.4rem,3vw,2rem); line-height:1.45; color:var(--cream); margin:0; max-width:80ch}
+.curator .by{font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--ember); margin-top:20px}
+
+/* scaffold list */
+.scaffolds{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:12px}
+.scaf{padding:18px 20px; border:1px solid var(--line); background:rgba(255,255,255,.015); border-left:3px solid var(--ice)}
+.scaf h4{font-family:var(--serif); font-weight:460; font-size:1.05rem; margin:0 0 4px}
+.scaf .when{font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--amber); margin-bottom:8px}
+.scaf p{margin:0; color:var(--muted); font-size:.86rem}
+
+/* controls */
+.controls{position:fixed; bottom:18px; right:5vw; z-index:55; display:flex; align-items:center; gap:14px; font-family:var(--mono)}
+.controls button{background:rgba(255,255,255,.04); color:var(--cream); border:1px solid var(--line); width:40px; height:40px; cursor:pointer; font-size:16px; transition:.18s; display:flex; align-items:center; justify-content:center}
+.controls button:hover{border-color:var(--lime); color:var(--lime); background:rgba(200,255,30,.06)}
+.counter{font-size:11px; letter-spacing:.18em; color:var(--dim); text-transform:uppercase}
+.counter b{color:var(--cream)}
+.dotrail{position:fixed; left:5vw; bottom:18px; z-index:55; display:flex; gap:7px}
+.dotrail span{width:8px; height:8px; border:1px solid var(--dim); border-radius:50%; cursor:pointer; transition:.18s}
+.dotrail span.on{background:var(--lime); border-color:var(--lime); box-shadow:0 0 8px var(--lime)}
+.hint{position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:54; font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); pointer-events:none; transition:opacity .6s}
+
+/* final legal footer (canonical chassis) */
+.legal-footer{background:#06060a; color:rgba(168,162,152,.75); font-family:'Inter',system-ui,sans-serif; font-size:11.5px; line-height:1.55; padding:24px 0 8px; border-top:1px solid rgba(168,162,152,.12); margin-top:26px}
+.legal-footer .lf-top{display:grid; grid-template-columns:1fr auto; gap:14px 32px; padding-bottom:12px; border-bottom:1px solid rgba(168,162,152,.08); margin-bottom:12px}
+.legal-footer .lf-brand{font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700; display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+.legal-footer .lf-brand b{color:var(--lime)} .legal-footer .lf-brand em{font-family:var(--script); font-style:italic; color:rgba(251,247,235,.7); text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; padding:3px 8px; border:1px solid rgba(168,162,152,.18)}
+.legal-footer .lf-disclaim{font-size:11px; color:rgba(168,162,152,.62); max-width:none}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:var(--script); font-style:italic; color:rgba(232,227,212,.78)}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85)}
+.legal-footer .lf-links{display:flex; flex-wrap:wrap; gap:0 16px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.12); margin-top:10px; font-family:var(--mono); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0}
+.legal-footer .lf-links a:hover{color:var(--lime)} .legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+
+@media (max-width:900px){
+  .rhythm{grid-template-columns:1fr 1fr} .cards{grid-template-columns:1fr}
+  .conv{grid-template-columns:1fr} .scaffolds{grid-template-columns:1fr}
+  .rung{grid-template-columns:36px 1fr; gap:12px} .gm{grid-column:2; text-align:left; width:100%}
+  .dimrow{grid-template-columns:120px 1fr 30px; gap:10px}
+  .slide{padding:88px 6vw 96px}
+  nav.strip .navlinks a{display:none} nav.strip .navlinks .stamp{display:inline}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:opacity .2s ease !important}
+  .gm .bar i, .board .micro i, .dimrow .track i{transition:none}
+  .sweep{display:none} .bg::after{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<div class="progress" id="progress"></div>
+
+<nav class="strip" aria-label="Series navigation">
+  <a href="index.html"><span class="dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="index.html">← All Episodes</a>
+    <a href="field-notes/index.html">Field Notes</a>
+    <span class="stamp">DECK · TOMORROW BOARD · 06.09.2026</span>
+  </div>
+</nav>
+
+<main class="deck" id="deck">
+
+  <!-- 1 · TITLE -->
+  <section class="slide active">
+    <div class="inner">
+      <div class="kicker"><span class="live"></span> The Open Record Order · Tuesday 06.09.2026 · built 4–6 PM ET</div>
+      <h1 class="big">What the machinery has <em>already scheduled</em> for tomorrow</h1>
+      <p class="sub">Infera reads the public record the day before it becomes the news. This is tomorrow's board — twenty things government has put on the calendar, ranked by how hard each one will pull on attention.</p>
+      <div class="meta">
+        <span><b>20</b> events on the board</span>
+        <span><b>1</b> above gravity 80</span>
+        <span><b>3</b> civic dimensions converging</span>
+        <span><b>CPI-eve</b> — print lands Wed 06/10</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · WHAT INFERA IS -->
+  <section class="slide">
+    <div class="inner">
+      <span class="snum">01 · CONTEXT</span>
+      <h2 class="sec">Infera reads the record <em>before the headline hardens</em></h2>
+      <p class="lede">Infera is investigative civic intelligence, built as an experience. The thesis is simple: the earlier you can see how a story is forming, the more power you have to understand it, challenge it, prepare for it, or use it. Most coverage arrives after the event. Infera works the other side of the clock — the scheduled, the mandated, the filed, the docketed — and turns the public record into a daily watchboard.</p>
+      <div class="cards">
+        <div class="card a">
+          <div class="big-n">9</div>
+          <h4>Civic dimensions</h4>
+          <p>Every event is tagged to one of nine universal dimensions — public money, elections, lawmaking, courts, services, safety, environment, workforce, oversight — so the day reads as a structure, not a feed.</p>
+        </div>
+        <div class="card b">
+          <div class="big-n">T1–T4</div>
+          <h4>Sourced, every claim</h4>
+          <p>Each row carries a public source and a tier rating. Nothing is asserted from a vibe. Confidence is stamped FACT, REPORTED, or WATCH — and withdrawable items say so.</p>
+        </div>
+        <div class="card c">
+          <div class="big-n">0–100</div>
+          <h4>Coverage gravity</h4>
+          <p>A structured estimate of which events earn the next five minutes of a producer's, reader's, or analyst's attention. Not a prediction. Not a verdict on truth.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · THE DAILY RHYTHM -->
+  <section class="slide">
+    <div class="inner">
+      <span class="snum">02 · THE RHYTHM</span>
+      <h2 class="sec">Planning happens <em>the day before</em></h2>
+      <p class="lede">The Tomorrow Board is the planning-cycle anchor. By 4–6 PM the next-day Open Record Order already exists; the overnight and morning cycles roll in late changes before the 8:30 economic releases hit. This deck is the artifact that makes <em>before the headline</em> operational — once a day, every day.</p>
+      <div class="rhythm">
+        <div class="cell now"><span class="tag">You are here</span><div class="t">4–6 PM</div><h4>Tomorrow Board</h4><p>Build the next-day open record order. This deck.</p></div>
+        <div class="cell"><div class="t">11:30 PM–1 AM</div><h4>Overnight Desk</h4><p>WH schedule, late agency updates, international. Delta to the board.</p></div>
+        <div class="cell"><div class="t">5:30–8:15 AM</div><h4>Morning Lock</h4><p>Refresh high-priority sources before the 8:30 releases. Confirm + prewrite.</p></div>
+        <div class="cell"><div class="t">every 5–30 min</div><h4>Real-time Monitor</h4><p>Detect changes, live events, hearings, streams. Change alerts.</p></div>
+        <div class="cell"><div class="t">6–9 PM</div><h4>Evening Close</h4><p>Planned vs. actual. Archive outcomes to the ledger.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · HOW WE READ THE DAY -->
+  <section class="slide">
+    <div class="inner">
+      <span class="snum">03 · THE METHOD</span>
+      <h2 class="sec">Gravity ranks it. <em>Confidence</em> qualifies it.</h2>
+      <p class="lede">Coverage gravity blends power proximity, institutional venue, camera availability, conflict level, novelty, recurrence, and same-time collision — with power proximity capped so no event inflates on proximity to the president alone. Every point traces to a structural feature of the event. Confidence is stamped separately, because how loud a story is and how sure we are are two different questions.</p>
+      <div class="cards">
+        <div class="card a">
+          <h4><span class="chip fact">FACT</span></h4>
+          <p style="margin-top:12px">On the public surface now — a scheduled release, a filed document, a recorded vote count. Verifiable against a primary source.</p>
+        </div>
+        <div class="card b">
+          <h4><span class="chip reported">REPORTED</span></h4>
+          <p style="margin-top:12px">Carried by sourcing we trust but have not independently confirmed, or attributed to a single or adversarial source. Treated as a signal, not a settled fact.</p>
+        </div>
+        <div class="card c">
+          <h4><span class="chip watch">WATCH</span></h4>
+          <p style="margin-top:12px">Scheduled but withdrawable, projected from a known cadence, or running on a cached snapshot. Flagged, re-polled, never asserted as done.</p>
+        </div>
+      </div>
+      <p class="lede" style="margin-top:24px">Tiers run T1 (official primary source) through T4 (attention-optimized). Urgency without panic: every alert carries a date, a confidence label, and a next checkpoint.</p>
+    </div>
+  </section>
+
+  <!-- 5 · DIVIDER: THE WORKED EXAMPLE -->
+  <section class="slide">
+    <div class="inner" style="text-align:center">
+      <div class="kicker lime" style="justify-content:center"><span class="live"></span> The worked example</div>
+      <h1 class="big">Tuesday, <em>June 9, 2026</em></h1>
+      <p class="sub" style="margin-left:auto;margin-right:auto">A money-and-security day, lit by a war that keeps trying to end. Here is the Open Record Order, scored and tagged.</p>
+      <div class="meta" style="justify-content:center">
+        <span><b>20</b> events</span><span><b>16</b> federal + state</span><span><b>4</b> county (cached)</span><span><b>0</b> mechanical collisions</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · TOP FIVE -->
+  <section class="slide">
+    <div class="inner">
+      <span class="snum">04 · THE TOP FIVE</span>
+      <h2 class="sec">Where the weight sits tomorrow</h2>
+      <div class="ladder">
+        <article class="rung">
+          <div class="rank">1</div>
+          <div>
+            <h3>Iran–US: the ceasefire push holds, but unsettled</h3>
+            <p>POTUS is publicly driving an "immediate ceasefire" and Iran says it halted operations; the port blockade stays and prior strikes are unreversed. A de-escalation attempt on a fraying truce — the readout that hardens or breaks it is tomorrow's pivot.</p>
+            <div class="tags"><span class="id">T01</span><span class="chip reported">REPORTED</span><span class="chip fact">FACT</span><span class="id">PUBLIC_SAFETY</span></div>
+          </div>
+          <div class="gm"><div class="num">84</div><div class="bar"><i style="--w:84%"></i></div><small>Gravity · Alert</small></div>
+        </article>
+        <article class="rung">
+          <div class="rank">2</div>
+          <div>
+            <h3>FISA Section 702 lapse countdown — 3 days out</h3>
+            <p>Cloture failed 47-52; the live vehicle is the bipartisan SAFE Act, not a clean extension, and the acting-DNI fight entangles the count. A surveillance authority is closer to going dark than the calendar suggests.</p>
+            <div class="tags"><span class="id">T02</span><span class="chip fact">FACT</span><span class="id">COURTS_JUSTICE</span></div>
+          </div>
+          <div class="gm"><div class="num">70</div><div class="bar"><i style="--w:70%"></i></div><small>Gravity · High</small></div>
+        </article>
+        <article class="rung">
+          <div class="rank">3</div>
+          <div>
+            <h3>SASC marks up the NDAA FY2027 — behind closed doors</h3>
+            <p>Cyber subcommittee 11 AM, full committee 2:30 PM. Markups are customarily closed, so the news is the post-markup summary and the topline. The Gulf backdrop raises the stakes on the Iran and Indo-Pacific provisions.</p>
+            <div class="tags"><span class="id">T03</span><span class="chip fact">FACT</span><span class="id">PUBLIC_SAFETY · PUBLIC_MONEY</span></div>
+          </div>
+          <div class="gm"><div class="num">64</div><div class="bar"><i style="--w:64%"></i></div><small>Gravity · High</small></div>
+        </article>
+        <article class="rung">
+          <div class="rank">4</div>
+          <div>
+            <h3>State consular fee rule publishes in the Federal Register</h3>
+            <p>A visa and citizenship services fee change (FR Doc 2026-11513) — a burden shift that lands quietly, salient because it rhymes with the World Cup visa-refusal thread. Withdrawable until printed.</p>
+            <div class="tags"><span class="id">T04</span><span class="chip fact">FACT</span><span class="chip watch">WATCH</span><span class="id">PUBLIC_MONEY</span></div>
+          </div>
+          <div class="gm"><div class="num">60</div><div class="bar"><i style="--w:60%"></i></div><small>Gravity · High</small></div>
+        </article>
+        <article class="rung">
+          <div class="rank">5</div>
+          <div>
+            <h3>Senate War Powers vote — still unscheduled</h3>
+            <p>S.J.Res.59 advanced ~50-47 in May; the final Senate floor vote has no time. The ceasefire push gives leadership a reason to keep it parked. The veto endgame is the real story.</p>
+            <div class="tags"><span class="id">T05</span><span class="chip fact">FACT</span><span class="id">LAWMAKING_RULES</span></div>
+          </div>
+          <div class="gm"><div class="num">58</div><div class="bar"><i style="--w:58%"></i></div><small>Gravity · Likely</small></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · FULL BOARD -->
+  <section class="slide">
+    <div class="inner">
+      <span class="snum">05 · THE BOARD</span>
+      <h2 class="sec">The rest of the order</h2>
+      <p class="lede">Likely coverage and watch items below the top five. The Federal Register trio (T04/T07/T09) are rules that publish without a hearing — the burden-shift and preemption mechanisms Infera reads while no one livestreams them.</p>
+      <table class="board">
+        <thead><tr><th>ID</th><th>Event</th><th>Dimension</th><th>Conf.</th><th>Gravity</th></tr></thead>
+        <tbody>
+          <tr><td class="id">T07</td><td class="ev">DHS/HHS IIRIRA determination publishes — posture by finding, not rulemaking</td><td class="id">LAWMAKING · COURTS</td><td><span class="chip watch">WATCH</span></td><td class="g">56<div class="micro"><i style="--w:56%"></i></div></td></tr>
+          <tr><td class="id">T06</td><td class="ev">Frozen Iranian assets — Iran ties unfreeze to talks; possible ceasefire sweetener, no OFAC instrument yet</td><td class="id">PUBLIC_MONEY</td><td><span class="chip reported">REPORTED</span></td><td class="g">55<div class="micro"><i style="--w:55%"></i></div></td></tr>
+          <tr><td class="id">T08</td><td class="ev">CPI-eve — May print lands Wed 06/10 8:30 AM; branches prewritten, shelter + tariff watched</td><td class="id">PUBLIC_MONEY · WORKFORCE</td><td><span class="chip fact">FACT</span></td><td class="g">52<div class="micro"><i style="--w:52%"></i></div></td></tr>
+          <tr><td class="id">T09</td><td class="ev">NCUA preemption rule publishes — federal fee preemption displaces state consumer-fee caps</td><td class="id">LAWMAKING · MONEY</td><td><span class="chip watch">WATCH</span></td><td class="g">50<div class="micro"><i style="--w:50%"></i></div></td></tr>
+          <tr><td class="id">T10</td><td class="ev">NFIB Small Business Optimism (May), ~6 AM — April was 95.9, below the 52-yr average</td><td class="id">WORKFORCE_ECONOMY</td><td><span class="chip fact">FACT</span></td><td class="g">46<div class="micro"><i style="--w:46%"></i></div></td></tr>
+          <tr><td class="id">T14</td><td class="ev">Georgia Lt. Governor runoff runup — 7 days to June 16; turnout-collapse pattern to pre-position</td><td class="id">DEMOCRACY_ELECTIONS</td><td><span class="chip fact">FACT</span></td><td class="g">45<div class="micro"><i style="--w:45%"></i></div></td></tr>
+          <tr><td class="id">T11</td><td class="ev">Schedule Policy/Career EO — signed; live story is the court-challenge calendar</td><td class="id">WORKFORCE · OVERSIGHT</td><td><span class="chip watch">WATCH</span></td><td class="g">45<div class="micro"><i style="--w:45%"></i></div></td></tr>
+          <tr><td class="id">T13</td><td class="ev">SASC cyber subcommittee markup, 11 AM — feeder to the full markup; the quiet authorities</td><td class="id">PUBLIC_SAFETY · MONEY</td><td><span class="chip fact">FACT</span></td><td class="g">44<div class="micro"><i style="--w:44%"></i></div></td></tr>
+          <tr><td class="id">T15</td><td class="ev">World Cup visa refusals — adversarial single-source, unconfirmed by US; visa-leverage signal</td><td class="id">PUBLIC_SAFETY</td><td><span class="chip reported">REPORTED</span></td><td class="g">42<div class="micro"><i style="--w:42%"></i></div></td></tr>
+          <tr><td class="id">T12</td><td class="ev">Treasury 3-year note auction, 1 PM — bid-to-cover + tail a clean demand read into a risk-off tape</td><td class="id">PUBLIC_MONEY</td><td><span class="chip watch">WATCH</span></td><td class="g">40<div class="micro"><i style="--w:40%"></i></div></td></tr>
+          <tr><td class="id">L01</td><td class="ev">Pittsburgh City Council + 1:30 PM automated red-light enforcement briefing <span class="chip watch">cached</span></td><td class="id">LAWMAKING · SAFETY</td><td><span class="chip watch">WATCH</span></td><td class="g">36<div class="micro"><i style="--w:36%"></i></div></td></tr>
+          <tr><td class="id">T16</td><td class="ev">SCOTUS June opinion watch — no opinion day tomorrow; next handed-down Thu 06/11</td><td class="id">COURTS_JUSTICE</td><td><span class="chip fact">FACT</span></td><td class="g">35<div class="micro"><i style="--w:35%"></i></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 8 · CIVIC DIMENSION DISTRIBUTION -->
+  <section class="slide">
+    <div class="inner">
+      <span class="snum">06 · THE SHAPE</span>
+      <h2 class="sec">A <em>money-and-security</em> day</h2>
+      <p class="lede">Tag instances across the board. Public money and public safety dominate, with lawmaking riding the three Federal Register rule publications. Environment &amp; utilities is dark tomorrow — the PA PUC meets 06/04 and 06/18, and the Peoples Natural Gas rate hearings sit on 06/10.</p>
+      <div class="dims">
+        <div class="dimrow"><span class="lbl">Public Money</span><div class="track"><i style="--w:100%"></i></div><span class="v">7</span></div>
+        <div class="dimrow"><span class="lbl">Public Safety</span><div class="track"><i style="--w:86%"></i></div><span class="v">6</span></div>
+        <div class="dimrow"><span class="lbl">Lawmaking &amp; Rules</span><div class="track"><i style="--w:86%"></i></div><span class="v">6</span></div>
+        <div class="dimrow"><span class="lbl">Courts &amp; Justice</span><div class="track"><i style="--w:43%"></i></div><span class="v">3</span></div>
+        <div class="dimrow"><span class="lbl">Workforce &amp; Economy</span><div class="track"><i style="--w:43%"></i></div><span class="v">3</span></div>
+        <div class="dimrow"><span class="lbl">Public Services</span><div class="track"><i style="--w:29%"></i></div><span class="v">2</span></div>
+        <div class="dimrow"><span class="lbl">Democracy &amp; Elections</span><div class="track"><i style="--w:14%"></i></div><span class="v">1</span></div>
+        <div class="dimrow"><span class="lbl">Records &amp; Oversight</span><div class="track"><i style="--w:14%"></i></div><span class="v">1</span></div>
+        <div class="dimrow zero"><span class="lbl">Environment &amp; Utilities</span><div class="track"><i style="--w:3%"></i></div><span class="v">0</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · CONVERGENCE -->
+  <section class="slide">
+    <div class="inner">
+      <span class="snum">07 · CONVERGENCE</span>
+      <h2 class="sec">Three dimensions fire <em>at once</em></h2>
+      <div class="conv">
+        <div class="panelbox yes">
+          <div class="verdict">● National convergence — YES</div>
+          <h4>Security-by-administrative-mechanism</h4>
+          <p>Three civic dimensions fire at high gravity (60+) on the same day. The through-line is national security moving through quiet machinery — surveillance authority, defense authorization, and visa/fee leverage all advancing the same day against a live Gulf crisis.</p>
+          <div class="dimtags"><span class="dimtag">PUBLIC_SAFETY · T01 84 / T03 64</span><span class="dimtag">COURTS_JUSTICE · T02 70</span><span class="dimtag">PUBLIC_MONEY · T04 60</span></div>
+        </div>
+        <div class="panelbox no">
+          <div class="verdict">○ Cross-state (PA+NC) — 0</div>
+          <h4>County layer is PA-only</h4>
+          <p>Tomorrow's county events are all Pennsylvania — Lancaster, Pittsburgh, Westmoreland, Bucks. The configured NC tenants are quiet on 06/09, so the cross-state same-dimension flag does not trip at the county level. Re-poll on the Overnight Desk.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · COLLISION MAP -->
+  <section class="slide">
+    <div class="inner">
+      <span class="snum">08 · COLLISION MAP</span>
+      <h2 class="sec">No mechanical collision. <em>One afternoon split-screen.</em></h2>
+      <p class="lede">The mechanical penalty fires only when 3+ events above gravity 70 cross the same hour. Only T01 (84) and T02 (70) clear 70, and they are not time-boxed to a shared hour — so the penalty does not apply. The real clash is flagged by hand.</p>
+      <div class="timeline">
+        <div class="track2">
+          <div class="sweep"></div>
+          <div class="evdot iran" style="left:18%; top:30%"></div>
+          <div class="evlabel" style="left:18%; top:8%">Iran diplomacy · intraday</div>
+          <div class="evdot" style="left:38%; top:62%"></div>
+          <div class="evlabel" style="left:38%; top:80%">County 10 AM cluster</div>
+          <div class="evdot ndaa" style="left:52%; top:46%"></div>
+          <div class="evlabel" style="left:52%; top:24%">Cyber subcmte 11 AM</div>
+          <div class="evdot ndaa" style="left:82%; top:40%"></div>
+          <div class="evlabel" style="left:82%; top:18%">NDAA full markup 2:30 PM</div>
+          <div class="hourmark" style="left:6%">8 AM</div>
+          <div class="hourmark" style="left:38%">11 AM</div>
+          <div class="hourmark" style="left:64%">1 PM</div>
+          <div class="hourmark" style="left:92%">4 PM</div>
+        </div>
+        <p class="splitnote">At 2:30 PM the closed NDAA markup opens while the Iran ceasefire track runs intraday. Same beat, same afternoon — the markup's Iran and Indo-Pacific provisions will be read through the day's Gulf headlines, and the closed room produces no live visual. Watch for the post-markup summary to drop late, into a saturated cycle.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · SCAFFOLDS / PRINCIPLE -->
+  <section class="slide">
+    <div class="inner">
+      <span class="snum">09 · PREWRITE</span>
+      <h2 class="sec">Branches written <em>before</em> the number prints</h2>
+      <p class="lede">For every scheduled major release, Infera prepares the interpretive branches in advance. At release time we fill the actual numbers and ship the correct branch — newsroom speed without newsroom access. Five scaffolds are loaded for tomorrow's eve.</p>
+      <div class="scaffolds">
+        <div class="scaf"><div class="when">Wed 06/10 · 8:30 AM</div><h4>CPI (May 2026)</h4><p>Hot / cool / shelter-driven / energy-driven / tariff-effect visible. The story is which branch fires Wednesday.</p></div>
+        <div class="scaf"><div class="when">Tue 06/09 · ~6 AM</div><h4>NFIB Small Business</h4><p>Below-average-again / rebound / hiring softens / price-plans re-accelerate. Tape-setter into CPI-eve.</p></div>
+        <div class="scaf"><div class="when">Tue 06/09 · 2:30 PM</div><h4>SASC NDAA markup</h4><p>Topline above request / Iran provisions added / cyber authorities expand / bipartisan / partisan split.</p></div>
+        <div class="scaf"><div class="when">This week · floor window</div><h4>FISA 702 floor vote</h4><p>Cloture succeeds / fails again / short-term extension / lapse / declassification timed to the vote.</p></div>
+      </div>
+      <div class="curator" style="margin-top:22px">
+        <p>The earlier you can see how a story is forming, the more power you have to understand it, challenge it, prepare for it, or use it.</p>
+        <div class="by">— The Infera principle</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · NEXT CHECKPOINTS + LEGAL -->
+  <section class="slide">
+    <div class="inner">
+      <span class="snum">10 · NEXT CHECKPOINTS</span>
+      <h2 class="sec">What the desk watches <em>tonight and at dawn</em></h2>
+      <div class="cards">
+        <div class="card a">
+          <h4>Overnight Desk · tonight</h4>
+          <p>Re-poll county L2 tenants for live 06/09 confirmations; pull WH / State / DoD / Treasury press; watch ODNI for a 702 declassification timed to the lapse fight; watch Treasury/OFAC for any frozen-asset instrument.</p>
+        </div>
+        <div class="card b">
+          <h4>Morning Lock · 5:30–8:15 AM</h4>
+          <p>Confirm NFIB time, the Treasury 3-year auction date, and the Federal Register published-issue confirmation of T04/T07/T09; check SASC markup status; lock the CPI scaffold for the 06/10 8:30 print.</p>
+        </div>
+        <div class="card c">
+          <h4>Data note</h4>
+          <p>Federal and state layers are live-sourced (FACT where cited). The four county rows run on a cached snapshot and are flagged WATCH/cached pending re-poll — the sandbox had no direct network this cycle.</p>
+        </div>
+      </div>
+
+      <aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+        <div class="lf-top">
+          <div class="lf-brand"><span>© 2026 <b>Infera</b></span><span class="sep">·</span><span>All rights reserved</span><span class="sep">·</span><em>The Mechanism Series™</em></div>
+          <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+        </div>
+        <div class="lf-disclaim">
+          <div class="lf-row"><strong>Editorial</strong> This deck is journalism, opinion, and analysis &mdash; <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and gravity scores reflect editorial assessment of evidentiary weight and likely attention, not guarantees. Modeled estimates and projected cadences are explicitly labeled.</div>
+        </div>
+        <nav class="lf-links" aria-label="Legal links">
+          <a href="legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+          <a href="legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+          <a href="legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+          <a href="legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+          <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+        </nav>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<div class="dotrail" id="dotrail" aria-hidden="true"></div>
+<div class="hint" id="hint">← / → · space · swipe to navigate</div>
+<div class="controls">
+  <span class="counter"><b id="cur">1</b> / <span id="total">12</span></span>
+  <button id="prev" aria-label="Previous slide">‹</button>
+  <button id="next" aria-label="Next slide">›</button>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var n = slides.length, i = 0;
+  var progress = document.getElementById('progress');
+  var cur = document.getElementById('cur'), total = document.getElementById('total');
+  var dotrail = document.getElementById('dotrail'), hint = document.getElementById('hint');
+  total.textContent = n;
+  // build dot rail
+  slides.forEach(function(s, idx){
+    var d = document.createElement('span');
+    d.addEventListener('click', function(){ go(idx); });
+    dotrail.appendChild(d);
+  });
+  var dots = Array.prototype.slice.call(dotrail.children);
+  function go(idx){
+    idx = Math.max(0, Math.min(n-1, idx));
+    slides.forEach(function(s, k){
+      s.classList.toggle('active', k===idx);
+      s.classList.toggle('past', k<idx);
+    });
+    dots.forEach(function(d,k){ d.classList.toggle('on', k===idx); });
+    i = idx;
+    cur.textContent = idx+1;
+    progress.style.width = ((idx)/(n-1)*100) + '%';
+    if(idx>0 && hint){ hint.style.opacity='0'; }
+  }
+  function nextS(){ go(i+1); } function prevS(){ go(i-1); }
+  document.getElementById('next').addEventListener('click', nextS);
+  document.getElementById('prev').addEventListener('click', prevS);
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); nextS(); }
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); prevS(); }
+    else if(e.key==='Home'){ go(0); } else if(e.key==='End'){ go(n-1); }
+    else if(/^[1-9]$/.test(e.key)){ go(parseInt(e.key,10)-1); }
+  });
+  // touch swipe
+  var x0=null;
+  document.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if(x0===null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if(Math.abs(dx)>50){ dx<0 ? nextS() : prevS(); }
+    x0=null;
+  }, {passive:true});
+  go(0);
+})();
+</script>
+</body>
+</html>

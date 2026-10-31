@@ -1,0 +1,73 @@
+<!--
+  STICKY EXECUTIVE NAV · paste-in component
+  Replace [BRAND], [SUBTITLE], nav items, and CTA verb.
+  Requires the global :root tokens (color, type, motion) from starter-page.html.
+-->
+
+<header class="exec-nav" role="banner">
+  <div class="brand">[BRAND] <em>· [SUBTITLE]</em></div>
+
+  <!-- optional chapter strip — remove if not using scroll progression -->
+  <div class="chapter-strip" aria-hidden="true">
+    <span class="ch on" data-ch="1"></span>
+    <span class="ch" data-ch="2"></span>
+    <span class="ch" data-ch="3"></span>
+    <span class="ch" data-ch="4"></span>
+  </div>
+
+  <ul class="links" role="navigation">
+    <li><a href="#setup">Why now</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#proof">Proof</a></li>
+    <li><a href="#begin">Begin</a></li>
+  </ul>
+
+  <a class="cta" href="#begin">Begin briefing</a>
+</header>
+
+<style>
+.exec-nav{position:sticky;top:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:18px 36px;background:rgba(6,10,20,.6);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--rule);transition:padding var(--motion-quick) var(--ease-confident),background var(--motion-quick) var(--ease-confident)}
+.exec-nav.scrolled{padding:12px 36px;background:rgba(6,10,20,.88)}
+.exec-nav .brand{font-family:var(--font-display);font-weight:700;font-size:18px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.exec-nav .brand em{font-style:italic;font-weight:400;color:var(--ink-soft)}
+.exec-nav .chapter-strip{display:flex;gap:6px;align-items:center}
+.exec-nav .ch{width:28px;height:2px;background:rgba(255,255,255,.18);transition:background var(--motion-quick),width var(--motion-quick)}
+.exec-nav .ch.on{background:var(--accent);width:42px}
+.exec-nav .ch.done{background:rgba(255,255,255,.55)}
+.exec-nav .links{display:flex;gap:28px;list-style:none}
+.exec-nav .links a{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);text-decoration:none;transition:color var(--motion-instant)}
+.exec-nav .links a:hover{color:var(--ink)}
+.exec-nav .cta{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:9px 16px;border:1px solid rgba(255,255,255,.35);text-decoration:none;transition:background var(--motion-quick),border-color var(--motion-quick)}
+.exec-nav .cta:hover{background:rgba(255,255,255,.08);border-color:var(--ink)}
+@media (max-width:1000px){
+  .exec-nav{padding:14px 22px;flex-wrap:wrap;gap:14px}
+  .exec-nav .links{order:3;width:100%;justify-content:center}
+}
+</style>
+
+<script>
+(function(){
+  const nav = document.querySelector('.exec-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // chapter strip — only if you've put data-chapter on sections
+  const stripChs = document.querySelectorAll('.chapter-strip .ch');
+  const chapters = document.querySelectorAll('[data-chapter]');
+  if (stripChs.length && chapters.length) {
+    const chObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const n = +e.target.dataset.chapter;
+          stripChs.forEach((s, i) => {
+            s.classList.toggle('on', i === n - 1);
+            s.classList.toggle('done', i < n - 1);
+          });
+        }
+      });
+    }, { threshold: 0.35 });
+    chapters.forEach(c => chObs.observe(c));
+  }
+})();
+</script>
