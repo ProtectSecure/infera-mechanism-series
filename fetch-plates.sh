@@ -28,7 +28,13 @@ def loc_largest(src):
     j = get(u)
     urls = []
     item = j.get("item", {}) or {}
-    # Multi-photo survey records (HABS/HAER ...?sp=N): take page N's own files first
+    # Multi-photo survey records (HABS/HAER ...?sp=N): the record's "page" list holds page N's own files
+    if sp and isinstance(j.get("page"), list):
+        pj = [f.get("url","") for f in j["page"] if isinstance(f, dict) and re.search(r"\.jpe?g(\?|$)", f.get("url",""), re.I) and "_150px" not in f.get("url","")]
+        pj.sort(key=lambda x: {"u":4,"v":3,"r":2,"t":1}.get(re.sub(r".*\d\w*?(\w)\.jpe?g.*", r"\1", x), 0), reverse=True)
+        if pj:
+            cap = next((f.get("title") for f in j["page"] if isinstance(f, dict) and f.get("use") == "caption"), "")
+            return pj[0], (cap or item.get("title") or j.get("title") or ""), (item.get("rights") or j.get("rights") or "")
     if sp:
         for res in j.get("resources", []) or []:
             fl = res.get("files") or []
@@ -66,7 +72,24 @@ def loc_largest(src):
         else:
             return f"https://tile.loc.gov/storage-services/service/pnp/fsa/{rid[:4]}000/{rid[:5]}00/{rid}v.jpg", (item.get("title") or j.get("title") or ""), (item.get("rights") or j.get("rights") or "")
         return f"https://tile.loc.gov/image-services/iiif/{svc}/full/1800,/0/default.jpg", (item.get("title") or j.get("title") or ""), (item.get("rights") or j.get("rights") or "")
+    # Wider net: any tile.loc.gov image link anywhere in the record (non-paged records only)
+    if not sp:
+        def walk(o):
+            if isinstance(o, dict):
+                for v in o.values(): yield from walk(v)
+            elif isinstance(o, list):
+                for v in o: yield from walk(v)
+            elif isinstance(o, str) and "tile.loc.gov" in o:
+                yield o
+        allu = list(walk(j))
+        for x in allu:
+            mm = re.search(r"(https://tile\.loc\.gov/image-services/iiif/[^/]+)/", x)
+            if mm: return mm.group(1) + "/full/1800,/0/default.jpg", (item.get("title") or j.get("title") or ""), (item.get("rights") or j.get("rights") or "")
+        urls += allu
     jpgs = [x for x in urls if re.search(r"\.jpe?g(\?|$)", x, re.I) and "_150px" not in x]
+    if not jpgs:
+        os.makedirs("assets/plates/_debug", exist_ok=True)
+        json.dump(j, open("assets/plates/_debug/" + re.sub(r"[^a-z0-9]+", "_", src.lower())[-60:] + ".json", "w"), indent=1)
     def rank(x):
         m = re.search(r"pct:(\d+)", x);
         if m: return int(m.group(1))
