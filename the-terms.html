@@ -1,5 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>The Terms</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Layout: one 68ch reading column down a dark evidence room; exhibits break out to 1040px; a chain rail runs the page's left edge and gains or loses a link per chapter. Mechanism Series house style, dark by design. */
 :root{
@@ -225,6 +230,30 @@ footer b{color:var(--paper-dim);font-weight:400}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+<style id="infera-house-nav">
+.hf-strip{position:relative;z-index:60;display:flex;justify-content:space-between;align-items:center;gap:10px 24px;flex-wrap:wrap;padding:12px max(16px,env(safe-area-inset-left,0px));padding-top:calc(12px + env(safe-area-inset-top,0px));background:#06060a;color:#fbf7eb;font:700 10.5px/1.4 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid rgba(168,162,152,.15)}
+.hf-strip a{color:#fbf7eb;text-decoration:none;border:0}
+.hf-strip a:hover,.hf-strip a:focus-visible{color:#c8ff1e}
+.hf-strip .hf-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#c8ff1e;margin-right:8px;vertical-align:middle}
+.hf-strip .hf-links{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.hf-strip .hf-stamp{color:rgba(168,162,152,.75)}
+.hf-foot{background:#06060a;color:rgba(232,227,212,.85);padding:22px max(16px,env(safe-area-inset-left,0px));border-top:1px solid rgba(168,162,152,.15);font:700 10.5px/1.6 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase}
+.hf-foot .hf-row{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center}
+.hf-foot a{color:rgba(232,227,212,.85);text-decoration:none;border:0}
+.hf-foot a:hover,.hf-foot a:focus-visible{color:#c8ff1e}
+.hf-foot .hf-disc{max-width:1280px;margin:12px auto 0;font-weight:400;letter-spacing:.06em;text-transform:none;color:rgba(168,162,152,.75)}
+@media (max-width:720px){.hf-strip .hf-stamp{display:none}.hf-strip .hf-links{gap:14px}}
+</style>
+</head>
+<body>
+<nav class="hf-strip" id="infera-nav-strip" aria-label="Site">
+  <a href="index.html"><span class="hf-dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="hf-links">
+    <a href="index.html">&larr; All Episodes</a>
+    <a href="index.html#chain-of-title">The Chain of Title</a>
+    <span class="hf-stamp">THE CHAIN OF TITLE · EP 3 · 11.01.2026</span>
+  </div>
+</nav>
 <style>
 /* Episode 2 additions: the circuit rail, valves, the stage board, the dimmer, the feed toggle. */
 .rail a .nd{fill:none;stroke:currentColor;stroke-width:1.8}
@@ -371,33 +400,137 @@ footer b{color:var(--paper-dim);font-weight:400}
 </style>
 <style>
 
-/* reels: one point per slide, period art behind it, words landing like a title card */
-.reel{position:relative;width:min(1040px,calc(100vw - 32px));margin:30px 0 0 calc(50% - min(520px, 50vw - 16px));border:1px solid var(--rule);background:var(--ground-2);overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto}
-.reel .vp{position:relative;display:grid;min-height:420px;overflow:hidden}
-.reel .slide{grid-area:1/1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(22px,4vw,48px);padding-top:64px;min-height:420px;opacity:0;visibility:hidden;transition:opacity .9s var(--ease),visibility 0s linear .9s}
-.reel .slide.on{opacity:1;visibility:visible;transition:opacity .9s var(--ease)}
-.reel .slide .bg{position:absolute;inset:0;z-index:0}
-.reel .slide .bg img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) sepia(.42) contrast(1.08) brightness(.55) saturate(.9);transform:scale(1.04);transition:transform 9s linear}
-.reel .slide.on .bg img{transform:scale(1.12)}
-.reel .slide .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.18),rgba(20,17,13,.6) 55%,rgba(20,17,13,.94)),radial-gradient(700px 300px at 15% 15%,rgba(201,162,39,.18),transparent 60%)}
-.reel .slide .bg.none{background:radial-gradient(900px 420px at 30% 20%,rgba(201,162,39,.12),transparent 60%),repeating-linear-gradient(135deg,var(--ground-2) 0 18px,var(--rule-soft) 18px 20px)}
-.reel .slide .tx{position:relative;z-index:1;max-width:60ch;font-size:clamp(18px,2.1vw,22px);line-height:1.5;color:var(--paper)}
-.reel .slide .tx .w{display:inline-block;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
-.reel .slide.on .tx .w{opacity:1;transform:none}
-.reel .slide .tx sup.src{opacity:1}
-.reel .slide .k{position:relative;z-index:1;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
-.reel .slide .cr{position:absolute;right:14px;top:12px;z-index:1;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);max-width:60%;text-align:right}
-.reel .nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid var(--rule);background:var(--ground)}
-.reel .nav button{all:unset;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--kraft);padding:0 14px;min-height:40px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;color:var(--paper)}
-.reel .nav button:focus-visible{outline:2px solid var(--gold)}
-.reel .nav .dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.reel .nav .dots i{width:22px;height:4px;background:var(--rule);display:block;cursor:pointer}
-.reel .nav .dots i.on{background:var(--gold)}
-.reel .nav .ct{font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);letter-spacing:.1em;white-space:nowrap}
+/* ===== journey layer: chapter scenes, pinned archival stage, era grading, time passages ===== */
+html,body{overflow-x:clip}
+.j-bleed{width:100vw;position:relative;left:50%;margin-left:-50vw}
+
+/* film grain over everything, never intercepts input */
+.j-grain{position:fixed;inset:-50%;z-index:60;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:jgrain 1.1s steps(6) infinite}
+@keyframes jgrain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+.j-bar{position:fixed;left:0;top:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--kraft),var(--gold));z-index:70;pointer-events:none}
+
+/* era grades: the photograph is toned to the decade being read */
+.e-a{--jf:grayscale(1) sepia(.75) contrast(1.12) brightness(.56)}
+.e-b{--jf:grayscale(1) sepia(.32) contrast(1.18) brightness(.56)}
+.e-c{--jf:sepia(.3) saturate(.75) hue-rotate(-10deg) contrast(1.06) brightness(.58)}
+.e-d{--jf:saturate(.7) contrast(1.16) brightness(.52)}
+.e-e{--jf:saturate(.55) contrast(1.05) brightness(.52)}
+.e-f{--jf:saturate(.8) hue-rotate(8deg) contrast(1.04) brightness(.48)}
+.j-scan{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1s var(--ease);background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px)}
+.e-d .j-scan{opacity:.55}
+
+/* ---------- chapter opener: a full-screen scene ---------- */
+.chapter{border-top:0;padding-top:0;margin-top:0}
+.j-open{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;isolation:isolate;margin-bottom:56px}
+.j-open .j-bg{position:absolute;inset:-12% 0;z-index:-3}
+.j-open .j-bg img{width:100%;height:100%;object-fit:cover;display:block;filter:var(--jf);transform:scale(1.08);will-change:transform}
+.j-open .j-shade{position:absolute;inset:0;z-index:-2;background:
+  radial-gradient(120% 90% at 50% 40%,transparent 30%,rgba(10,8,6,.75) 100%),
+  linear-gradient(180deg,rgba(20,17,13,.55) 0%,rgba(20,17,13,.1) 30%,rgba(20,17,13,.55) 62%,var(--ground) 100%)}
+.j-open .j-num{position:absolute;right:max(16px,4vw);top:8vh;z-index:-1;font-family:var(--serif);font-weight:300;font-size:clamp(160px,30vw,420px);line-height:.8;color:transparent;-webkit-text-stroke:1px rgba(201,162,39,.38);letter-spacing:-.04em;will-change:transform;user-select:none}
+.j-open .j-in{width:min(1040px,calc(100% - 32px));margin:0 auto;padding-bottom:max(120px,15vh)}
+.j-open .j-kick{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.j-open .j-kick::before{content:"";width:42px;height:1px;background:var(--gold)}
+.j-open h2{font-size:clamp(52px,9vw,128px);font-weight:300;line-height:.92;margin:0;text-shadow:0 2px 30px rgba(0,0,0,.5)}
+.j-open h2 em{color:var(--gold)}
+.j-open .instrument{margin-top:22px}
+.j-open .where{margin:22px 0 0;color:var(--paper-dim)}
+.j-open .j-foot{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;gap:16px;padding:12px max(16px,3vw);font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint)}
+.j-open .j-cap{max-width:60%}
+.j-open .j-cue{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--paper-faint);display:flex;flex-direction:column;align-items:center;gap:8px}
+.j-open .j-cue::after{content:"";width:1px;height:38px;background:linear-gradient(var(--gold),transparent);animation:jcue 2.2s var(--ease) infinite}
+@keyframes jcue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.j-open .j-in>*{opacity:0;transform:translateY(22px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+.j-open.in .j-in>*{opacity:1;transform:none}
+.j-open.in .j-in>*:nth-child(2){transition-delay:.15s}.j-open.in .j-in>*:nth-child(3){transition-delay:.3s}.j-open.in .j-in>*:nth-child(4){transition-delay:.45s}
+
+/* ---------- the pinned stage with steps scrolling over it ---------- */
+.j-scrolly{margin-top:40px;margin-bottom:24px}
+.j-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;z-index:0}
+.j-stage .j-img{position:absolute;inset:-6% 0;opacity:0;transition:opacity 1.4s var(--ease)}
+.j-stage .j-img.on{opacity:1}
+.j-stage .j-img img{width:100%;height:100%;object-fit:cover;display:block;filter:var(--jf);transition:filter 1.6s var(--ease),transform 14s linear;transform:scale(1.04)}
+.j-stage .j-img.on img{transform:scale(1.14)}
+.j-stage .j-img.none{background:radial-gradient(900px 420px at 30% 20%,rgba(201,162,39,.12),transparent 60%),repeating-linear-gradient(135deg,var(--ground-2) 0 18px,var(--rule-soft) 18px 20px)}
+.j-stage .j-vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(110% 80% at 50% 50%,transparent 35%,rgba(8,6,4,.78) 100%),linear-gradient(180deg,var(--ground) 0%,transparent 14%,transparent 82%,var(--ground) 100%)}
+.j-stage .j-frame{position:absolute;inset:max(14px,2.2vw);pointer-events:none;
+  background:
+   linear-gradient(var(--gold),var(--gold)) 0 0/22px 1px,linear-gradient(var(--gold),var(--gold)) 0 0/1px 22px,
+   linear-gradient(var(--gold),var(--gold)) 100% 0/22px 1px,linear-gradient(var(--gold),var(--gold)) 100% 0/1px 22px,
+   linear-gradient(var(--gold),var(--gold)) 0 100%/22px 1px,linear-gradient(var(--gold),var(--gold)) 0 100%/1px 22px,
+   linear-gradient(var(--gold),var(--gold)) 100% 100%/22px 1px,linear-gradient(var(--gold),var(--gold)) 100% 100%/1px 22px;
+  background-repeat:no-repeat;opacity:.55}
+.j-stage .j-meta{position:absolute;right:max(26px,3.4vw);top:max(26px,3.4vw);text-align:right;font-family:var(--mono);color:var(--paper);pointer-events:none}
+.j-stage .j-year{display:block;font-size:clamp(46px,7.5vw,104px);line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--paper);opacity:.9;text-shadow:0 2px 24px rgba(0,0,0,.55)}
+.j-stage .j-era{display:block;margin-top:8px;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+.j-stage .j-tag{position:absolute;left:max(26px,3.4vw);bottom:max(22px,3vw);right:max(26px,3.4vw);display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint);pointer-events:none}
+.j-stage .j-tag .j-stamp{color:var(--kraft);border:1px solid rgba(176,138,90,.5);padding:2px 7px;white-space:nowrap}
+.j-stage .j-tag .j-cr{max-width:62%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.j-stage .j-count{position:absolute;left:max(26px,3.4vw);top:max(30px,3.6vw);font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--paper-faint)}
+
+.j-steps{position:relative;z-index:1;margin-top:-100vh;margin-top:-100svh;padding:0 0 30vh}
+.j-step{min-height:88vh;min-height:88svh;display:flex;align-items:center;padding:0 max(16px,6vw)}
+.j-step:first-child{min-height:100vh;min-height:100svh}
+.j-card{max-width:560px;background:rgba(20,17,13,.78);-webkit-backdrop-filter:blur(6px) saturate(.9);backdrop-filter:blur(6px) saturate(.9);border:1px solid rgba(201,162,39,.22);border-left:2px solid var(--gold);padding:26px 28px;font-size:clamp(18px,1.6vw,20.5px);line-height:1.6;box-shadow:0 30px 70px -30px rgba(0,0,0,.8);opacity:.25;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.j-step.on .j-card{opacity:1;transform:none}
+.j-step:nth-child(even) .j-card{margin-left:auto}
+.j-step.lead{align-items:flex-end;padding-bottom:16vh}
+.j-step.lead .j-card{background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0;max-width:820px;font-size:clamp(23px,2.6vw,34px);line-height:1.35;text-shadow:0 2px 20px rgba(0,0,0,.75);opacity:1;transform:none}
+.j-step.lead .j-card .w{display:inline-block;opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .7s var(--ease),transform .7s var(--ease),filter .7s var(--ease)}
+.j-step.lead.on .j-card .w{opacity:1;transform:none;filter:none}
+.j-card .tag{background:rgba(20,17,13,.6)}
+.j-step.lead .j-card{position:relative}
+.j-step.lead .j-card::before{content:"";position:absolute;inset:-60px -90px -60px -120px;z-index:-1;background:radial-gradient(closest-side,rgba(12,10,8,.72),transparent);pointer-events:none}
+
+/* ---------- time passage between chapters ---------- */
+.j-pass{height:150vh;height:150svh;position:relative}
+.j-pass .j-pin{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:0 16px;overflow:hidden}
+.j-pass .j-pin::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 50% at 50% 50%,rgba(201,162,39,.08),transparent 70%)}
+.j-pass .j-dir{font-family:var(--mono);font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--tag-lit)}
+.j-pass .j-py{font-family:var(--serif);font-weight:300;font-size:clamp(96px,20vw,260px);line-height:.85;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--paper)}
+.j-pass .j-line{width:min(620px,80vw);height:1px;background:var(--rule);position:relative}
+.j-pass .j-line i{position:absolute;left:0;top:-1px;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--gold)}
+.j-pass .j-ends{width:min(620px,80vw);display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--paper-faint)}
+.j-pass .j-next{margin-top:26px;border:0;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--paper);max-width:620px}
+.j-pass .j-next small{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.j-pass .j-next b{font-weight:300;font-size:clamp(30px,4.4vw,52px);line-height:1}
+.j-pass .j-next b em{color:var(--gold)}
+.j-pass .j-next span{font-size:16px;color:var(--paper-dim);line-height:1.5}
+
+/* ---------- the journey clock ---------- */
+.j-clock{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:14px;z-index:65;font-family:var(--mono);background:rgba(20,17,13,.82);border:1px solid var(--rule);padding:7px 11px;display:flex;align-items:baseline;gap:10px;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease);pointer-events:none}
+.j-clock.show{opacity:1;transform:none}
+.j-clock small{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-faint)}
+.j-clock b{font-weight:400;font-size:17px;color:var(--gold);font-variant-numeric:tabular-nums}
+
+/* ---------- everything else arrives rather than sits ---------- */
+.j-rv{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.j-rv.in{opacity:1;transform:none}
 .lead.rv .w,.pull.rv .w{display:inline-block;opacity:0;transform:translateY(6px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
 .lead.rv.on .w,.pull.rv.on .w{opacity:1;transform:none}
-@media (max-width:720px){.reel,.reel .vp{min-height:460px}.reel .slide .tx{font-size:17px}}
-@media (prefers-reduced-motion:reduce){.reel .slide .tx .w,.lead.rv .w,.pull.rv .w{opacity:1;transform:none;transition:none}.reel .slide .bg img{transform:none;transition:none}}
+
+@media (max-width:720px){
+  .j-card{opacity:0}
+  .j-step.lead .j-card{opacity:1}
+  .j-clock{display:none}
+  .j-step{padding:0 14px;align-items:flex-end;padding-bottom:12vh}
+  .j-step:nth-child(even) .j-card{margin-left:0}
+  .j-card{padding:20px 20px;font-size:17.5px}
+  .j-stage .j-meta{top:22px;right:20px}
+  .j-stage .j-count{top:26px;left:20px}
+  .j-stage .j-tag .j-cr{display:none}
+  .j-open .j-num{top:12vh;font-size:44vw}
+  .j-open .j-cap{display:none}
+  .j-pass{height:120svh}
+}
+@media (prefers-reduced-motion:reduce){
+  .j-grain{animation:none}
+  .j-open .j-bg img,.j-stage .j-img img{transform:none!important;transition:none}
+  .j-open .j-in>*,.j-card,.j-rv,.j-step.lead .j-card .w,.lead.rv .w,.pull.rv .w{opacity:1!important;transform:none!important;filter:none!important;transition:none}
+  .j-open .j-cue::after{animation:none}
+}
 
 </style>
 <style>
@@ -441,7 +574,7 @@ footer b{color:var(--paper-dim);font-weight:400}
 
   <header class="hero" id="top">
     <canvas id="circuitcanvas" aria-hidden="true"></canvas>
-    <div class="boxcount">MINI-SERIES · EPISODE 3 · 7 EXHIBITS · 1955–2026</div>
+    <div class="boxcount">MINI-SERIES · EPISODE 3 · 7 EXHIBITS · 1955 to 2026</div>
     <div class="hero-in">
       <span class="eyebrow">Infera · Mechanism Series · A standalone mini-series</span>
       <h1>The <em>Terms</em></h1>
@@ -471,9 +604,9 @@ footer b{color:var(--paper-dim);font-weight:400}
         <p class="sub">The exhibits are the evidence. These are the verdicts.</p>
       </div>
       <ol class="facts">
-        <li><span class="when">1971–2003</span><span><span class="tag t-fact">Fact</span><b>Capital, not price, was the gate.</b> Inner City Broadcasting needed $1.1 million to buy WBLS in 1974 and was turned down by thirty-six banks. Sugar Hill's seed money came from Morris Levy. The first independents to keep their masters did it with distribution deals, not loans, and two of the three went bankrupt anyway.<sup class="src"><a href="#s2">2</a>, <a href="#s8">8</a>, <a href="#s18">18</a></sup></span></li>
-        <li><span class="when">1995–2020</span><span><span class="tag t-fact">Fact</span><b>The split moved; the structure did not, until it was posted.</b> TLC filed for bankruptcy on a seven percent rate while selling ten million; Megan Thee Stallion's 2018 contract gave the label 60 percent after recoupment, half the copyrights and 30 percent of everything else; Kanye West's posted pages show one artist's arc from a 14 percent royalty to a profit split to "100 percent minus a distribution fee."<sup class="src"><a href="#s27">27</a>, <a href="#s52">52</a>, <a href="#s54">54</a></sup></span></li>
-        <li><span class="when">2007–2026</span><span><span class="tag t-fact">Fact</span><b>Equity beat royalty, and the biggest equity was outside music.</b> Beats sold for $3 billion; Fenty is 49.99 percent of a brand worth about $2.8 billion; the Cîroc "equal share" ended with the artist exiting both brands; the AI settlements of 2025 pay the opt-in and nothing to the opt-out.<sup class="src"><a href="#s31">31</a>, <a href="#s34">34</a>, <a href="#s67">67</a></sup></span></li>
+        <li><span class="when">1971 to 2003</span><span><span class="tag t-fact">Fact</span><b>Capital, not price, was the gate.</b> Inner City Broadcasting needed $1.1 million to buy WBLS in 1974 and was turned down by thirty-six banks. Sugar Hill's seed money came from Morris Levy. The first independents to keep their masters did it with distribution deals, not loans, and two of the three went bankrupt anyway.<sup class="src"><a href="#s2">2</a>, <a href="#s8">8</a>, <a href="#s18">18</a></sup></span></li>
+        <li><span class="when">1995 to 2020</span><span><span class="tag t-fact">Fact</span><b>The split moved; the structure did not, until it was posted.</b> TLC filed for bankruptcy on a seven percent rate while selling ten million; Megan Thee Stallion's 2018 contract gave the label 60 percent after recoupment, half the copyrights and 30 percent of everything else; Kanye West's posted pages show one artist's arc from a 14 percent royalty to a profit split to "100 percent minus a distribution fee."<sup class="src"><a href="#s27">27</a>, <a href="#s52">52</a>, <a href="#s54">54</a></sup></span></li>
+        <li><span class="when">2007 to 2026</span><span><span class="tag t-fact">Fact</span><b>Equity beat royalty, and the biggest equity was outside music.</b> Beats sold for $3 billion; Fenty is 49.99 percent of a brand worth about $2.8 billion; the Cîroc "equal share" ended with the artist exiting both brands; the AI settlements of 2025 pay the opt-in and nothing to the opt-out.<sup class="src"><a href="#s31">31</a>, <a href="#s34">34</a>, <a href="#s67">67</a></sup></span></li>
       </ol>
     </section>
 
@@ -512,13 +645,13 @@ footer b{color:var(--paper-dim);font-weight:400}
       <p class="sub">Each one opens on a deal memo. Each one hands you the terms.</p>
     </div>
     <div class="hub">
-      <a href="#c1"><span class="n">01 · 1971–1988</span><span class="t">The <em>Handshake</em></span><span class="d">Thirty-six banks, a $1.9 million radio station that sold for $131 million to no Black buyer, the bootlegger's money behind the first rap hit, and a $61 million sale that kept the publishing.</span><span class="m">CAPITAL · 6 MIN · INTERACTIVE: THIRTY-SIX BANKS · THE HANDSHAKE LEDGER</span></a>
-      <a href="#c2"><span class="n">02 · 1992–2004</span><span class="t">Eighty-Five <em>Fifteen</em></span><span class="d">Financed against distributed: a $10 million label that ended at auction, two that kept their masters on splits the record gives in two versions, and half a company bought for $1.4 million and sold for $10 million.</span><span class="m">DISTRIBUTION · 7 MIN · INTERACTIVE: FINANCED OR DISTRIBUTED · HALF THE COMPANY</span></a>
-      <a href="#c3"><span class="n">03 · 1955–1999</span><span class="t">Platinum and <em>Bankrupt</em></span><span class="d">Half a cent a record, $754 in twenty years, a Chapter 11 filing on a diamond album, 33 cents on twenty-four million, and the 1988 reform that recalculated a rate from 4.5 to 10 percent without a lawsuit.</span><span class="m">RECOUPMENT · 6 MIN · INTERACTIVE: THE STATEMENT · THE REFORM</span></a>
-      <a href="#c4"><span class="n">04 · 2007–2024</span><span class="t">The Equity <em>Turn</em></span><span class="d">An equal share of a vodka that ended in a lawsuit, $2.6 billion in cash and $400 million in stock, a streaming service bought for $56 million and sold for $302 million, and 49.99 percent of a beauty brand.</span><span class="m">EQUITY · 7 MIN · INTERACTIVE: EQUITY VS. ROYALTY · THE EXIT MULTIPLE</span></a>
-      <a href="#c5"><span class="n">05 · 1992–2025</span><span class="t">The Clause <em>War</em></span><span class="d">A $100 million deal with no masters, "slave" on a cheek, five hundred counts against eight hundred defendants, a 60/40 contract read aloud, and one artist's contract pages posted for everyone.</span><span class="m">CONTRACT · 7 MIN · INTERACTIVE: THE CONTRACT, POSTED · THE 360</span></a>
-      <a href="#c6"><span class="n">06 · 2011–2026</span><span class="t">The <em>Lot</em></span><span class="d">330 acres for $30 million, a network sold in three pieces, ten stations sold to cut debt, and a streaming stake cashed out the month the service was absorbed. The room as a capital expenditure.</span><span class="m">OWNERSHIP · 6 MIN · INTERACTIVE: THE VALUATION LADDER · OWNED OR OVERALL</span></a>
-      <a href="#c7"><span class="n">07 · 2017–2026</span><span class="t">One Hundred <em>Percent</em></span><span class="d">Ten percent or five dollars a month, a $200 million sale of income streams against a $500 million one, and the AI license that pays the artist who opts in and nothing to the one who doesn't.</span><span class="m">THE DEED · 6 MIN · INTERACTIVE: THE CATALOG GAP · OPT IN</span></a>
+      <a href="#c1"><span class="n">01 · 1971 to 1988</span><span class="t">The <em>Handshake</em></span><span class="d">Thirty-six banks, a $1.9 million radio station that sold for $131 million to no Black buyer, the bootlegger's money behind the first rap hit, and a $61 million sale that kept the publishing.</span><span class="m">CAPITAL · 6 MIN · INTERACTIVE: THIRTY-SIX BANKS · THE HANDSHAKE LEDGER</span></a>
+      <a href="#c2"><span class="n">02 · 1992 to 2004</span><span class="t">Eighty-Five <em>Fifteen</em></span><span class="d">Financed against distributed: a $10 million label that ended at auction, two that kept their masters on splits the record gives in two versions, and half a company bought for $1.4 million and sold for $10 million.</span><span class="m">DISTRIBUTION · 7 MIN · INTERACTIVE: FINANCED OR DISTRIBUTED · HALF THE COMPANY</span></a>
+      <a href="#c3"><span class="n">03 · 1955 to 1999</span><span class="t">Platinum and <em>Bankrupt</em></span><span class="d">Half a cent a record, $754 in twenty years, a Chapter 11 filing on a diamond album, 33 cents on twenty-four million, and the 1988 reform that recalculated a rate from 4.5 to 10 percent without a lawsuit.</span><span class="m">RECOUPMENT · 6 MIN · INTERACTIVE: THE STATEMENT · THE REFORM</span></a>
+      <a href="#c4"><span class="n">04 · 2007 to 2024</span><span class="t">The Equity <em>Turn</em></span><span class="d">An equal share of a vodka that ended in a lawsuit, $2.6 billion in cash and $400 million in stock, a streaming service bought for $56 million and sold for $302 million, and 49.99 percent of a beauty brand.</span><span class="m">EQUITY · 7 MIN · INTERACTIVE: EQUITY VS. ROYALTY · THE EXIT MULTIPLE</span></a>
+      <a href="#c5"><span class="n">05 · 1992 to 2025</span><span class="t">The Clause <em>War</em></span><span class="d">A $100 million deal with no masters, "slave" on a cheek, five hundred counts against eight hundred defendants, a 60/40 contract read aloud, and one artist's contract pages posted for everyone.</span><span class="m">CONTRACT · 7 MIN · INTERACTIVE: THE CONTRACT, POSTED · THE 360</span></a>
+      <a href="#c6"><span class="n">06 · 2011 to 2026</span><span class="t">The <em>Lot</em></span><span class="d">330 acres for $30 million, a network sold in three pieces, ten stations sold to cut debt, and a streaming stake cashed out the month the service was absorbed. The room as a capital expenditure.</span><span class="m">OWNERSHIP · 6 MIN · INTERACTIVE: THE VALUATION LADDER · OWNED OR OVERALL</span></a>
+      <a href="#c7"><span class="n">07 · 2017 to 2026</span><span class="t">One Hundred <em>Percent</em></span><span class="d">Ten percent or five dollars a month, a $200 million sale of income streams against a $500 million one, and the AI license that pays the artist who opts in and nothing to the one who doesn't.</span><span class="m">THE DEED · 6 MIN · INTERACTIVE: THE CATALOG GAP · OPT IN</span></a>
     </div>
   </section>
 
@@ -557,13 +690,13 @@ footer b{color:var(--paper-dim);font-weight:400}
   <!-- ============ CHAPTER 1 ============ -->
   <article class="chapter" id="c1" data-ch="1" data-state="broken">
     <div class="col">
-      <div class="where"><span>Exhibit 1 of 7</span><span><b>1971–1988</b></span><span>Harlem · Englewood · Houston · Detroit</span><span>Standalone</span></div>
+      <div class="where"><span>Exhibit 1 of 7</span><span><b>1971 to 1988</b></span><span>Harlem · Englewood · Houston · Detroit</span><span>Standalone</span></div>
       <h2>The <em>Handshake</em></h2>
       <span class="instrument">Instrument: the bank's answer</span>
       <figure class="plate" data-plate="x-lincoln80"><img class="ph" src="assets/plates/x-lincoln80.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The Lincoln Theatre, U Street, Washington, before its restoration · the handshake</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
       <div class="stack" style="margin-top:28px" data-reel="x-lincoln80,x-bronner,x-auburn,x-lincoln">
         <p class="lead">The first Black-owned terms were written by people who could find the deal but not the money. Inner City Broadcasting, founded in 1970 by Percy Sutton and Clarence Jones with more than fifty shareholders, bought WLIB in 1972, reportedly for $1.9 million; in 1974 it needed $1.1 million to exercise its right to buy the FM that became WBLS and was turned down by thirty-six banks.<sup class="src"><a href="#s1">1</a>, <a href="#s2">2</a></sup></p>
-        <p><span class="tag t-fact">Fact</span>Sutton bought the shuttered Apollo for $250,000 in 1981. Creditors forced Inner City into bankruptcy in August 2011; its stations went to a Burkle–Magic Johnson vehicle for a reported $180 million in 2012 and WBLS and WLIB to Emmis for $131 million in 2014. NABOB said none of the seventeen former Inner City stations went to a Black buyer.<sup class="src"><a href="#s3">3</a>, <a href="#s4">4</a></sup></p>
+        <p><span class="tag t-fact">Fact</span>Sutton bought the shuttered Apollo for $250,000 in 1981. Creditors forced Inner City into bankruptcy in August 2011; its stations went to a Burkle-Magic Johnson vehicle for a reported $180 million in 2012 and WBLS and WLIB to Emmis for $131 million in 2014. NABOB said none of the seventeen former Inner City stations went to a Black buyer.<sup class="src"><a href="#s3">3</a>, <a href="#s4">4</a></sup></p>
         <p><span class="tag t-fact">Fact</span>Sugar Hill Records was founded in 1979 by Sylvia and Joe Robinson and funded by Tony Riviera and Morris Levy of Roulette. "Rapper's Delight" is certified at about five million worldwide and reported at fourteen. Chic's writers settled for credits; Grandmaster Caz, who wrote the verses, got none.<sup class="src"><a href="#s5">5</a>, <a href="#s6">6</a></sup></p>
         <p><span class="tag t-fact">Fact</span>In 1983 Sugar Hill signed with MCA through a Levy associate; by 1985 MCA had taken the Chess catalog against $3 million in debt; the Robinsons sued for $240 million, said they had received $481,000, and settled in 1990 keeping Sugar Hill and losing Chess.<sup class="src"><a href="#s7">7</a></sup> <span class="tag t-inf">Inference</span>A Black-owned label lost a Black catalog to a major in a debt workout, the exit from Episode 2 run from the inside.</p>
         <p><span class="tag t-fact">Fact</span>Don Robey took writer credit as "Deadric Malone" on Duke/Peacock songs, paying, by one of his artists' accounts, "25 or 50 bucks" for them. Clarence Avant's Sussex Records was seized by the IRS in 1975 over $48,000 in liens; Bill Withers said of it, "They weren't paying me."<sup class="src"><a href="#s8">8</a>, <a href="#s9">9</a></sup> <span class="tag t-inf">Inference</span>Ownership changed who held the paper. It did not, by itself, change what the paper said.</p>
@@ -586,14 +719,14 @@ footer b{color:var(--paper-dim);font-weight:400}
     </div>
     <div class="exhibit">
       <div class="scroll"><table class="ledger" id="hl-table"><thead><tr><th>Owner</th><th>The asset</th><th>Capital</th><th>What the paper said</th><th>Exit</th></tr></thead><tbody></tbody></table></div>
-      <div class="verdict"><b>Reading</b>Five handshakes. Four needed outside money, from a bootlegger's associate, a buyout fund, or a bank that said no thirty-six times. Three ended in a sale to a non-Black buyer; one in an IRS seizure; one, Motown, by choice with the publishing kept. The handshake got the deed. It did not get the capital to hold it.<sup class="src"><a href="#s1">1</a>–<a href="#s11">11</a></sup></div>
+      <div class="verdict"><b>Reading</b>Five handshakes. Four needed outside money, from a bootlegger's associate, a buyout fund, or a bank that said no thirty-six times. Three ended in a sale to a non-Black buyer; one in an IRS seizure; one, Motown, by choice with the publishing kept. The handshake got the deed. It did not get the capital to hold it.<sup class="src"><a href="#s1">1</a>-<a href="#s11">11</a></sup></div>
     </div>
   </article>
 
   <!-- ============ CHAPTER 2 ============ -->
   <article class="chapter" id="c2" data-ch="2" data-state="held">
     <div class="col">
-      <div class="where"><span>Exhibit 2 of 7</span><span><b>1992–2004</b></span><span>Los Angeles · New Orleans · Houston · New York</span><span>Standalone</span></div>
+      <div class="where"><span>Exhibit 2 of 7</span><span><b>1992 to 2004</b></span><span>Los Angeles · New Orleans · Houston · New York</span><span>Standalone</span></div>
       <h2>Eighty-Five <em>Fifteen</em></h2>
       <span class="instrument">Instrument: the distribution deal</span>
       <figure class="plate" data-plate="x-sun"><img class="ph" src="assets/plates/x-sun.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Sun Records Studio, Memphis · eighty-five fifteen</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
@@ -631,7 +764,7 @@ footer b{color:var(--paper-dim);font-weight:400}
   <!-- ============ CHAPTER 3 ============ -->
   <article class="chapter" id="c3" data-ch="3" data-state="broken">
     <div class="col">
-      <div class="where"><span>Exhibit 3 of 7</span><span><b>1955–1999</b></span><span>Specialty · Atlantic · LaFace</span><span>Standalone</span></div>
+      <div class="where"><span>Exhibit 3 of 7</span><span><b>1955 to 1999</b></span><span>Specialty · Atlantic · LaFace</span><span>Standalone</span></div>
       <h2>Platinum and <em>Bankrupt</em></h2>
       <span class="instrument">Instrument: the royalty statement</span>
       <figure class="plate" data-plate="x-palm"><img class="ph" src="assets/plates/x-palm.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The bar at the Palm Tavern, 47th Street, Chicago, 1941 · platinum and bankrupt</span><span class="cr">Russell Lee, Farm Security Administration, Library of Congress · public domain</span></figcaption></figure>
@@ -667,7 +800,7 @@ footer b{color:var(--paper-dim);font-weight:400}
   <!-- ============ CHAPTER 4 ============ -->
   <article class="chapter" id="c4" data-ch="4" data-state="held">
     <div class="col">
-      <div class="where"><span>Exhibit 4 of 7</span><span><b>2007–2024</b></span><span>Diageo · Cupertino · Square · LVMH</span><span>Standalone</span></div>
+      <div class="where"><span>Exhibit 4 of 7</span><span><b>2007 to 2024</b></span><span>Diageo · Cupertino · Square · LVMH</span><span>Standalone</span></div>
       <h2>The Equity <em>Turn</em></h2>
       <span class="instrument">Instrument: the cap table</span>
       <figure class="plate" data-plate="x-capitol"><img class="ph" src="assets/plates/x-capitol.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The Capitol Records Tower, Hollywood and Vine · the equity turn</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
@@ -684,7 +817,7 @@ footer b{color:var(--paper-dim);font-weight:400}
       </section>
     </div>
     <div class="exhibit">
-      <div class="room-ctl" id="er-ctl"><button aria-pressed="true" data-k="ciroc">CÎROC · 2007</button><button aria-pressed="false" data-k="beats">BEATS · 2014</button><button aria-pressed="false" data-k="tidal">TIDAL · 2015–21</button><button aria-pressed="false" data-k="fenty">FENTY BEAUTY · 2017</button><button aria-pressed="false" data-k="yeezy">YEEZY · 2013–22</button><button aria-pressed="false" data-k="hart">HARTBEAT · 2022</button><button aria-pressed="false" data-k="nipsey">CRENSHAW · 2013</button></div>
+      <div class="room-ctl" id="er-ctl"><button aria-pressed="true" data-k="ciroc">CÎROC · 2007</button><button aria-pressed="false" data-k="beats">BEATS · 2014</button><button aria-pressed="false" data-k="tidal">TIDAL · 2015 to 21</button><button aria-pressed="false" data-k="fenty">FENTY BEAUTY · 2017</button><button aria-pressed="false" data-k="yeezy">YEEZY · 2013 to 22</button><button aria-pressed="false" data-k="hart">HARTBEAT · 2022</button><button aria-pressed="false" data-k="nipsey">CRENSHAW · 2013</button></div>
       <div class="deal" id="er-ro"></div>
       <div class="verdict" id="er-v"></div>
     </div>
@@ -703,7 +836,7 @@ footer b{color:var(--paper-dim);font-weight:400}
   <!-- ============ CHAPTER 5 ============ -->
   <article class="chapter" id="c5" data-ch="5" data-state="broken">
     <div class="col">
-      <div class="where"><span>Exhibit 5 of 7</span><span><b>1992–2025</b></span><span>Paisley Park · Detroit · Houston · Twitter</span><span>Standalone</span></div>
+      <div class="where"><span>Exhibit 5 of 7</span><span><b>1992 to 2025</b></span><span>Paisley Park · Detroit · Houston · Twitter</span><span>Standalone</span></div>
       <h2>The Clause <em>War</em></h2>
       <span class="instrument">Instrument: the contract, read aloud</span>
       <figure class="plate" data-plate="x-regal"><img class="ph" src="assets/plates/x-regal.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Crowd coming out of the Regal Theater, South Side of Chicago, 1941 · the clause war</span><span class="cr">Russell Lee, Farm Security Administration, Library of Congress · public domain</span></figcaption></figure>
@@ -743,14 +876,14 @@ footer b{color:var(--paper-dim);font-weight:400}
   <!-- ============ CHAPTER 6 ============ -->
   <article class="chapter" id="c6" data-ch="6" data-state="broken">
     <div class="col">
-      <div class="where"><span>Exhibit 6 of 7</span><span><b>2011–2026</b></span><span>Fort McPherson · Chicago · the cable dial</span><span>Standalone</span></div>
+      <div class="where"><span>Exhibit 6 of 7</span><span><b>2011 to 2026</b></span><span>Fort McPherson · Chicago · the cable dial</span><span>Standalone</span></div>
       <h2>The <em>Lot</em></h2>
       <span class="instrument">Instrument: the deed to the land</span>
       <figure class="plate" data-plate="x-atlanta"><img class="ph" src="assets/plates/x-atlanta.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> The skyline of Atlanta from the air · the lot</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
       <div class="stack" style="margin-top:28px" data-reel="x-atlanta,x-lincoln,x-capitol,x-paramount">
         <p class="lead">Episode 1 called it the Harpo switch: own the show, not the slot. This chapter is what the switch cost and what it was worth when the people who threw it sold. The room, as a capital expenditure.<sup class="src"><a href="#s58">58</a></sup></p>
         <p><span class="tag t-fact">Fact</span>June 2015: Atlanta's redevelopment authority approved selling 330 of Fort McPherson's 488 acres to Tyler Perry for $30 million; the authority had paid $26 million for the whole base. March 13, 2026: Paramount bought Perry's equity stake in BET+, believed to be a quarter, for "tens of millions," as it folded the service into Paramount+; his nine-figure overall deal with BET runs to 2028.<sup class="src"><a href="#s58">58</a>, <a href="#s59">59</a></sup></p>
-        <p><span class="tag t-fact">Fact</span>OWN launched on January 1, 2011 as a 50/50 Discovery–Harpo joint venture on Discovery's $100 million; in December 2017 Discovery bought another 24.5 percent for $70 million, pricing the network near $280 million; in December 2020 Winfrey sold most of the rest for about $36 million in Discovery stock and extended her exclusivity through 2025.<sup class="src"><a href="#s60">60</a>, <a href="#s61">61</a></sup> <span class="tag t-inf">Inference</span>About $106 million across the two sales for a network built on her name: a good exit, a modest one, and a full one.</p>
+        <p><span class="tag t-fact">Fact</span>OWN launched on January 1, 2011 as a 50/50 Discovery-Harpo joint venture on Discovery's $100 million; in December 2017 Discovery bought another 24.5 percent for $70 million, pricing the network near $280 million; in December 2020 Winfrey sold most of the rest for about $36 million in Discovery stock and extended her exclusivity through 2025.<sup class="src"><a href="#s60">60</a>, <a href="#s61">61</a></sup> <span class="tag t-inf">Inference</span>About $106 million across the two sales for a network built on her name: a good exit, a modest one, and a full one.</p>
         <p><span class="tag t-rep">Reported</span>Byron Allen bought the Weather Channel's cable network for about $300 million in March 2018 and more than $1 billion of television stations after it; on August 8, 2025 he sold ten of them to Gray Media for $171 million to cut debt. Paramount shelved the BET sale in 2023 at his $3.5 billion bid.<sup class="src"><a href="#s62">62</a>, <a href="#s63">63</a></sup></p>
         <p><span class="tag t-rep">Reported</span>The overall deal is the lot's opposite: Shonda Rhimes's Netflix pact, reported at $100 to $150 million in 2017 and $300 to $400 million at renewal in 2021; Ava DuVernay's $100 million Warner deal, which ended at term in 2023; Issa Rae's WarnerMedia deal, estimated at $40 million, which she disputed in public, "any number you read is cap"; Jordan Peele's five-year Universal partnership, exclusive but not equity.<sup class="src"><a href="#s64">64</a>, <a href="#s65">65</a>, <a href="#s66">66</a></sup></p>
       </div>
@@ -760,7 +893,7 @@ footer b{color:var(--paper-dim);font-weight:400}
     </div>
     <div class="exhibit">
       <div class="bars" id="lad-bars"></div>
-      <div class="verdict"><b>Reading</b>Three kinds of number on one ladder: the price of land, the price of a network in pieces, and the price of a person's output over a term. Only the first is a deed. The second was sold in three transactions. The third expires.<sup class="src"><a href="#s58">58</a>–<a href="#s66">66</a></sup></div>
+      <div class="verdict"><b>Reading</b>Three kinds of number on one ladder: the price of land, the price of a network in pieces, and the price of a person's output over a term. Only the first is a deed. The second was sold in three transactions. The third expires.<sup class="src"><a href="#s58">58</a>-<a href="#s66">66</a></sup></div>
     </div>
 
     <div class="col">
@@ -778,7 +911,7 @@ footer b{color:var(--paper-dim);font-weight:400}
   <!-- ============ CHAPTER 7 ============ -->
   <article class="chapter" id="c7" data-ch="7" data-state="open">
     <div class="col">
-      <div class="where"><span>Exhibit 7 of 7</span><span><b>2017–2026</b></span><span>UnitedMasters · Shamrock · the AI license</span><span>Watch layer</span></div>
+      <div class="where"><span>Exhibit 7 of 7</span><span><b>2017 to 2026</b></span><span>UnitedMasters · Shamrock · the AI license</span><span>Watch layer</span></div>
       <h2>One Hundred <em>Percent</em></h2>
       <span class="instrument">Instrument: the opt-in</span>
       <figure class="plate" data-plate="x-jukebox2"><img class="ph" src="assets/plates/x-jukebox2.jpg" alt="" loading="lazy" decoding="async"><figcaption><span><b>Plate</b> Smitty's Jukebox Museum, Pharr, Texas · one hundred percent</span><span class="cr">Carol M. Highsmith Archive, Library of Congress · no known restrictions</span></figcaption></figure>
@@ -795,7 +928,7 @@ footer b{color:var(--paper-dim);font-weight:400}
     </div>
     <div class="exhibit">
       <div class="bars" id="cg-bars"></div>
-      <div class="verdict"><b>Reading</b>Every figure here is reported; none is a filing. The highest belongs to a fund buying 65,000 songs. The Black sales sit at a fifth to half of the rock sales, on assets twenty to forty years younger, and on terms that stayed private. Episode 1's Catalog Gap exhibit is the long form.<sup class="src"><a href="#s70">70</a>–<a href="#s72">72</a></sup></div>
+      <div class="verdict"><b>Reading</b>Every figure here is reported; none is a filing. The highest belongs to a fund buying 65,000 songs. The Black sales sit at a fifth to half of the rock sales, on assets twenty to forty years younger, and on terms that stayed private. Episode 1's Catalog Gap exhibit is the long form.<sup class="src"><a href="#s70">70</a>-<a href="#s72">72</a></sup></div>
     </div>
 
     <div class="col">
@@ -822,7 +955,7 @@ footer b{color:var(--paper-dim);font-weight:400}
     </div>
     <div class="sides" style="margin-top:28px">
       <div class="side gold"><h3>What the record supports</h3><ul>
-        <li>The Square 8-K, the Sixth Circuit opinion, the 1501 contract as published, Kanye West's posted pages, the Apple–Beats terms and the two AI settlements' public statements are primary (T1) or contemporaneous press (T2).</li>
+        <li>The Square 8-K, the Sixth Circuit opinion, the 1501 contract as published, Kanye West's posted pages, the Apple-Beats terms and the two AI settlements' public statements are primary (T1) or contemporaneous press (T2).</li>
         <li>The Atlantic reform, the TLC and Braxton filings and the Motown price are dated to the trade paper of the day.</li>
         <li>Every exit is tied to a sale, a court or an auction.</li>
       </ul></div>
@@ -846,15 +979,16 @@ footer b{color:var(--paper-dim);font-weight:400}
 
   <footer id="sources">
     <p><b>INFERA · MECHANISM SERIES · THE TERMS · Episode 3 of a standalone mini-series · Seven exhibits, original reporting from the public record · © Infera 2026.</b></p>
+    <p style="margin-top:10px"><b>Disclosure.</b> Researched and compiled with Claude (Anthropic). Final editorial judgment: Melophon.</p>
     <p style="margin-top:10px"><b>Method.</b> SVNIF: every claim carries Fact, Reported, Inference or Watch; Disputed marks a term the record gives in more than one version. Source tiers: T1 court, SEC, statute or company release · T2 major press or scholarship · T3 reputable secondary · T4 trade press or an artist's own account. No figure here is a measurement of what an artist is worth; each is a measurement of what a piece of paper said.</p>
     <ol>
-      <li id="s1"><span class="tier">T2/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Inner_City_Broadcasting_Corporation">Inner City Broadcasting Corporation</a>; <a href="https://en.wikipedia.org/wiki/WLIB">WLIB</a> (citing <em>Broadcasting</em>, 1971–72).</li>
+      <li id="s1"><span class="tier">T2/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Inner_City_Broadcasting_Corporation">Inner City Broadcasting Corporation</a>; <a href="https://en.wikipedia.org/wiki/WLIB">WLIB</a> (citing <em>Broadcasting</em>, 1971 to 72).</li>
       <li id="s2"><span class="tier">T3</span> <em>Black Enterprise</em>, <a href="https://www.blackenterprise.com/the-legacy-of-percy-e-sutton-remains-a-model-for-multi-generational-wealth/amp/">the legacy of Percy E. Sutton</a> (the $1.9 million); NextTV, "Committed to the cause" (the thirty-six banks).</li>
       <li id="s3"><span class="tier">T3</span> theGrio, Dec 27, 2009, <a href="https://thegrio.com/2009/12/27/percy-sutton-attorney-politician-and-media-mogul-dies-at-89/">Percy Sutton dies at 89</a> (the Apollo, $250,000).</li>
       <li id="s4"><span class="tier">T2/T4</span> Wikipedia, WLIB (Emmis, $131 million, 2014); RBR, NABOB on the Inner City stations.</li>
       <li id="s5"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Sugar_Hill_Records_(hip-hop_label)">Sugar Hill Records</a>.</li>
       <li id="s6"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Rapper%27s_Delight">Rapper's Delight</a> (certifications; the Chic credits; Grandmaster Caz).</li>
-      <li id="s7"><span class="tier">T2</span> <em>Los Angeles Times</em> and <em>Billboard</em> via Wikipedia, Sugar Hill–MCA, 1983–1990.</li>
+      <li id="s7"><span class="tier">T2</span> <em>Los Angeles Times</em> and <em>Billboard</em> via Wikipedia, Sugar Hill-MCA, 1983 to 1990.</li>
       <li id="s8"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Don_Robey">Don Robey</a> ("Deadric Malone"; Roy Head's account).</li>
       <li id="s9"><span class="tier">T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/Clarence_Avant">Clarence Avant</a> (Sussex; the IRS seizure); <a href="https://en.wikipedia.org/wiki/Bill_Withers">Bill Withers</a>.</li>
       <li id="s10"><span class="tier">T2</span> <em>Billboard</em>, July 9, 1988, via <a href="https://mcrfb.com/?p=110448">MCRFB</a>: Motown to MCA/Boston Ventures, $61 million.</li>
@@ -870,14 +1004,14 @@ footer b{color:var(--paper-dim);font-weight:400}
       <li id="s20"><span class="tier">T2</span> <em>Atlanta Journal-Constitution</em>, Jul and Aug 2026, <a href="https://www.ajc.com/business/2026/07/atlanta-megaproducer-jermaine-dupri-alleges-sony-owes-him-18m-in-royalties/">Dupri v. Sony</a>.</li>
       <li id="s21"><span class="tier">T3</span> Complex, Apr 2015 and Apr 2017, the Jay-Z albums pulled from streaming.</li>
       <li id="s22"><span class="tier">T3</span> theGrio, May 17, 2020, <a href="https://thegrio.com/2020/05/17/little-richard-bad-contract-tutti-frutti">Little Richard's contract</a>.</li>
-      <li id="s23"><span class="tier">T3</span> UPI, Nov 27, 1984, the $112–115 million suit (settlement undisclosed).</li>
+      <li id="s23"><span class="tier">T3</span> UPI, Nov 27, 1984, the $112 to 115 million suit (settlement undisclosed).</li>
       <li id="s24"><span class="tier">T2</span> <em>Las Vegas Sun</em>, Mar 31, 1997, <a href="https://lasvegassun.com/news/1997/mar/31/soul-beneficiary/">"Soul beneficiary"</a> (Ruth Brown's accounting).</li>
       <li id="s25"><span class="tier">T2/T3</span> Howell Begle obituary, Aug 2024; Wikipedia, <a href="https://en.wikipedia.org/wiki/Rhythm_and_Blues_Foundation">Rhythm and Blues Foundation</a>.</li>
       <li id="s26"><span class="tier">T2/T3</span> AfroTech, <a href="https://afrotech.com/tlc-bankruptcy">the TLC bankruptcy</a> (citing the <em>Los Angeles Times</em>, 1996).</li>
       <li id="s27"><span class="tier">T3</span> Beat, <a href="https://www.beat.com.au/the-dark-tale-of-tlc-going-bankrupt-in-the-90s/">TLC's bankruptcy</a> (the July 3, 1995 filing; under $50,000 a year).</li>
       <li id="s28"><span class="tier">T2</span> New Georgia Encyclopedia, <a href="https://www.georgiaencyclopedia.org/articles/arts-culture/toni-braxton-b-1968/">Toni Braxton</a>.</li>
       <li id="s29"><span class="tier">T3</span> Showbiz Cheat Sheet, <a href="https://www.cheatsheet.com/news/toni-braxtons-highest-selling-album-debuted-24-years-ago-and-she-filed-bankruptcy-shortly-afterward.html">the 33 cents and the memoir's settlement</a>.</li>
-      <li id="s30"><span class="tier">T2/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/C%C3%AEroc">Cîroc</a>; CNBC, Jan 8, 2014, <a href="https://www.cnbc.com/2014/01/08/sean-combs-p-diddy-diageo-alliance-tequila-takeover-ciroc.html">the Combs–Diageo alliance</a>.</li>
+      <li id="s30"><span class="tier">T2/T3</span> Wikipedia, <a href="https://en.wikipedia.org/wiki/C%C3%AEroc">Cîroc</a>; CNBC, Jan 8, 2014, <a href="https://www.cnbc.com/2014/01/08/sean-combs-p-diddy-diageo-alliance-tequila-takeover-ciroc.html">the Combs-Diageo alliance</a>.</li>
       <li id="s31"><span class="tier">T2</span> Claims Journal, Jan 18, 2024, <a href="https://www.claimsjournal.com/news/national/2024/01/18/321537.htm">Combs and Diageo settle</a>.</li>
       <li id="s32"><span class="tier">T2</span> AP via NBC News, 2013, <a href="https://www.nbcnews.com/id/wbna53147897">Beats, HTC and Carlyle</a>; Engadget, May 28, 2014, <a href="https://www.engadget.com/2014-05-28-apple-to-acquire-beats-electronics-and-beats-music-for-3-billio.html">Apple to acquire Beats</a>.</li>
       <li id="s33"><span class="tier">T2</span> CNBC, May 9, 2014, <a href="https://www.cnbc.com/2014/05/09/dr-dre-beats-and-apple-and-billionaire-math.html">Dre, Beats and billionaire math</a>.</li>
@@ -1007,14 +1141,14 @@ footer b{color:var(--paper-dim);font-weight:400}
       {y:"1992",t:"Financed",h:"Prince's $100 million deal without masters; Interscope's $10 million into Death Row",n:"$10M",w:"Six albums at $10 million each and a vice-president's title, and no masters: 'slave' on his face by 1993. Death Row, financed by Interscope, peaked above $100 million a year and was auctioned out of bankruptcy for $18 million in 2009.",s:"FACT · T2/T3 · Exhibits 2, 5",a:"#c5",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"B>R":3,"R>O":3,"R>X":3},g:{share:25,masters:10,cap:60,ex:85},valve:{n:"The advance, in exchange for the masters",open:false,who:"the label"},v:"The biggest advance of its day did not include masters; the biggest financing of its day ended at auction. Financed is someone else's equity."},
       {y:"1995",t:"Platinum and bankrupt",h:"TLC files Chapter 11 on a diamond album: about 7 percent, about 20 cents, split three ways",n:"7%",w:"$3.5 million in debts; each member clearing under $50,000 a year; the 1996 settlement cut out the production company on confidential terms. Toni Braxton would file in January 1998 on a contract her lawyer put at 33 cents an album.",s:"REPORTED · T2/T3 · Exhibit 3",a:"#c3",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":1,"R>O":3,"R>X":2,"A>X":1},g:{share:7,masters:0,cap:30,ex:85},valve:{n:"The bankruptcy court",open:true,who:"the artist, as leverage"},v:"The recoupable advance from Episode 1 as a court file. Two Arista/LaFace acts used bankruptcy as contract leverage within thirty months."},
       {y:"1996",t:"Distributed",h:"No Limit keeps the masters: 85/15 and $375,000 an album, by Master P's account",n:"85/15",w:"The label kept its masters and its studio and paid Priority for the trucks; 23 albums and 15 million units in 1998, more than $150 million by his count, $56.5 million to him by Forbes'. Bankrupt in December 2003.",s:"REPORTED · T4 · Exhibit 2",a:"#c2",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":3,"R>O":1,"B>R":1},g:{share:60,masters:95,cap:35,ex:30},valve:{n:"The distribution deal",open:true,who:"the owner-operator"},v:"The first of the independents to keep the masters did it with a distribution deal, not a loan; ownership did not insulate it from the exit."},
-      {y:"1998",t:"The thirty-million-dollar deal",h:"Cash Money–Universal: $2 million a year, masters and publishing kept, 80/20 or 85/15",n:"$30M",w:"Three years, $1.5 million per artist for up to six a year, Universal taking 20 percent 'for its services' by one account and 15 after recoupment by another. Birdman has said the masters still earn $20 to $30 million a year; Lil Wayne's $51 million suit against the label came in 2015.",s:"REPORTED · T3/T4 · Exhibit 2",a:"#c2",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"R>O":1,"B>R":2,"P>B":1},g:{share:55,masters:95,cap:50,ex:25},valve:{n:"Pressing and distribution",open:true,who:"the label that owned itself"},v:"The canonical masters-retained deal, in two versions. Inside the masters-owning label the artist still had to sue."},
+      {y:"1998",t:"The thirty-million-dollar deal",h:"Cash Money-Universal: $2 million a year, masters and publishing kept, 80/20 or 85/15",n:"$30M",w:"Three years, $1.5 million per artist for up to six a year, Universal taking 20 percent 'for its services' by one account and 15 after recoupment by another. Birdman has said the masters still earn $20 to $30 million a year; Lil Wayne's $51 million suit against the label came in 2015.",s:"REPORTED · T3/T4 · Exhibit 2",a:"#c2",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"R>O":1,"B>R":2,"P>B":1},g:{share:55,masters:95,cap:50,ex:25},valve:{n:"Pressing and distribution",open:true,who:"the label that owned itself"},v:"The canonical masters-retained deal, in two versions. Inside the masters-owning label the artist still had to sue."},
       {y:"2004",t:"Half the company",h:"Roc-A-Fella's other half for $10 million, seven years after the first half went for an estimated $1.4 million",n:"$10M",w:"Island Def Jam bought the remaining 50 percent in December 2004 and made Jay-Z its president. The masters sit in a three-way-owned corporation, not with him personally; the record places Roc-A-Fella's recovery from Def Jam around 2009, undated.",s:"REPORTED · T2/T3 · Exhibit 2",a:"#c2",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"R>X":3,"R>O":2,"P>B":2},g:{share:40,masters:50,cap:55,ex:60},valve:{n:"The buyout, with the chair",open:true,who:"the major"},v:"Half a company for $1.4 million, then $10 million. The artist's masters stayed with the corporation that bore his label's name."},
       {y:"2007",t:"The equal share",h:"Cîroc: profits split with Diageo; 40,000 cases to two million a year",n:"50/50",w:"No equity in the brand, an equal share of its profit. DeLeón in 2013 was a true 50/50. In 2023 Combs sued over Diageo's investment in the brands; in January 2024 he dropped the suit and Diageo became sole owner of both. No payment disclosed.",s:"FACT · T2 · Exhibit 4",a:"#c4",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":2,"O>P":3,"P>O":3,"O>B":2},g:{share:50,masters:50,cap:70,ex:70},valve:{n:"The profit share without the equity",open:true,who:"the brand"},v:"The flagship of the equity turn ended with the artist exiting both brands. A share of profit is not a share of the company."},
       {y:"2014",t:"Equity, and the masters back",h:"Apple buys Beats for $3 billion; Warner returns Prince's masters",n:"$3B",w:"$2.6 billion in cash and $400 million in stock; Forbes put Dre's stake at 20 to 25 percent. The same spring Warner agreed Prince 'will take ownership of the master recordings of his previous Warner Bros. releases,' twenty-two years after the $100 million deal.",s:"FACT · T2 · Exhibits 4, 5",a:"#c4",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":2,"P>B":3,"B>P":3,"O>P":3,"B>O":3},g:{share:80,masters:80,cap:100,ex:40},valve:{n:"The cap table",open:true,who:"the founder"},v:"The biggest equity a Black artist took was a pair of headphones; the masters came back by agreement, not by court."},
       {y:"2016",t:"The exit, and the rule",h:"Frank Ocean's 14 to 70 percent; Chance's no-label Grammys",n:"70%",w:"Endless fulfilled the Def Jam contract on August 19; Blonde came out on his own label a day later; Billboard's sources put the profit share at 70 percent from 14. The Recording Academy made streaming-only releases eligible in June; Chance won three Grammys and said Apple 'gave me half a mil and a commercial.'",s:"REPORTED · T2 · Exhibit 5",a:"#c5",f:{"P>R":1,"R>A":3,"A>R":3,"R>P":3,"O>P":3,"P>O":3,"O>R":1},g:{share:70,masters:90,cap:60,ex:20},valve:{n:"The last album on the contract",open:true,who:"the artist"},v:"The clearest single-artist share jump in the record, reported; and the platform's money replacing the advance with no masters transferred."},
       {y:"2020",t:"The contract, posted",h:"Kanye West's pages: 14 percent to a profit split to '100 percent minus a distribution fee'; Megan's 60/40",n:"60/40",w:"A 2005 advance of $2.8 million and a royalty rising from 14 to 18; 2012 amendments to a 50 percent profit split and then P&D with masters reverting. The 1501 contract of 2018: 60 percent to the label after recoupment, half the copyrights, 30 percent of everything else; she sued in March 2020.",s:"FACT · T2 · Exhibit 5",a:"#c5",f:{"P>R":3,"R>A":3,"A>R":3,"R>P":2,"R>O":3,"R>X":2,"O>P":2},g:{share:40,masters:40,cap:50,ex:60},valve:{n:"The 360 clause",open:false,who:"the label, until the pages were posted"},v:"The rarest thing in the record: the whole arc inside one artist's paper, visible only because he posted it; and the most fully published 360 split, visible because she sued."},
       {y:"2021",t:"One hundred percent",h:"Tidal to Square for $302 million; UnitedMasters at $550 million, 100 percent for $5 a month",n:"100%",w:"Square's 8-K closed April 30, 2021 with Carter retaining an undisclosed minority; Apple led UnitedMasters' $50 million round in March. Hipgnosis's 65,000 tracks would go to Blackstone for $1.6 billion in 2024; Dre's income streams for upwards of $200 million in 2023.",s:"FACT / REPORTED · T1/T2 · Exhibits 4, 7",a:"#c7",f:{"P>R":1,"R>A":3,"A>R":3,"R>P":3,"P>B":3,"B>P":3,"O>P":3,"B>O":3,"R>X":2},g:{share:90,masters:90,cap:90,ex:50},valve:{n:"The subscription",open:true,who:"the artist, for $5"},v:"Ownership became a subscription. What one hundred percent sells for, when sold, is the catalog gap: younger assets, private terms, a fund at the top."},
-      {y:"2025",t:"The opt-in",h:"UMG–Udio and WMG–Suno: paid if you opt in, nothing if you opt out; the NO FAKES Act advanced",n:"opt-in",w:"October 29 and November 25, 2025: compensatory settlements and licenses, walled gardens in 2026, 'an opt-in for the use of their name, image, likeness, voice and compositions.' No dollar figure public. June 23, 2026: the Senate Judiciary Committee advanced a federal, licensable right in voice and likeness.",s:"FACT / WATCH · T2 · Exhibit 7",a:"#c7",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":1,"O>R":3,"R>O":3,"O>P":1,"R>X":3},g:{share:30,masters:60,cap:70,ex:75},valve:{n:"The opt-in",open:true,who:"the label, so far"},v:"The newest term of all is a license between a label and a machine for the use of a voice. Who holds the deed to the voice is the question this episode ends on."}
+      {y:"2025",t:"The opt-in",h:"UMG-Udio and WMG-Suno: paid if you opt in, nothing if you opt out; the NO FAKES Act advanced",n:"opt-in",w:"October 29 and November 25, 2025: compensatory settlements and licenses, walled gardens in 2026, 'an opt-in for the use of their name, image, likeness, voice and compositions.' No dollar figure public. June 23, 2026: the Senate Judiciary Committee advanced a federal, licensable right in voice and likeness.",s:"FACT / WATCH · T2 · Exhibit 7",a:"#c7",f:{"P>R":2,"R>A":3,"A>R":3,"R>P":1,"O>R":3,"R>O":3,"O>P":1,"R>X":3},g:{share:30,masters:60,cap:70,ex:75},valve:{n:"The opt-in",open:true,who:"the label, so far"},v:"The newest term of all is a license between a label and a machine for the use of a voice. Who holds the deed to the voice is the question this episode ends on."}
     ];
 var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
     var ctx=cv.getContext("2d"),W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
@@ -1074,7 +1208,7 @@ var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
   (function(){
     var R=[["Percy Sutton, Inner City Broadcasting","WLIB (1972), WBLS (1974), the Apollo (1981)","Fifty-plus shareholders; $1.9M reported; a $1.1M loan refused 36 times","The first Black-owned stations in New York","Involuntary bankruptcy 2011; stations to Emmis $131M (2014); none to a Black buyer"],
       ["Dick Griffey, SOLAR","Soul Train Records, 1977","$300,000 to buy out Don Cornelius","Black-owned label, major distribution (RCA, Elektra, Capitol, Epic)","Catalog licensed to EMI 1996"],
-      ["Sylvia and Joe Robinson, Sugar Hill","Rapper's Delight, 1979","Tony Riviera and Morris Levy of Roulette","Writing credit to Chic's writers; none to Grandmaster Caz","MCA deal 1983; Chess catalog lost 1985–90; $481,000 received, they said"],
+      ["Sylvia and Joe Robinson, Sugar Hill","Rapper's Delight, 1979","Tony Riviera and Morris Levy of Roulette","Writing credit to Chic's writers; none to Grandmaster Caz","MCA deal 1983; Chess catalog lost 1985 to 90; $481,000 received, they said"],
       ["Don Robey, Duke/Peacock","2,700 copyrights","His Houston club and agency","Writer credit as 'Deadric Malone'; '25 or 50 bucks'","Sold to ABC-Dunhill 1973"],
       ["Clarence Avant, Sussex","Bill Withers, 1970","Buddah distribution","Withers: 'They weren't paying me'","IRS seizure, June 1975, $48,000 in liens"],
       ["Berry Gordy, Motown","The label, 1988","$800 from the family credit union, 1959","Publishing excluded from the sale; 20% equity open to minorities","$61M to MCA/Boston Ventures, June 28, 1988; Jobete half for $132M, 1997"]];
@@ -1103,7 +1237,7 @@ var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
   (function(){
     var S={tlc:function(){return D("Headline rate","~7%","of each album, LaFace/Pebbitone, 1991","gold")+D("After expenses","~20¢","per album, split three ways (LA Times); 56¢ in another account "+CH,"tag")+D("On 14 million","~$933,000","each member's gross share at 20¢ ÷ 3 (inference)","dim")+D("Filed","Jul 3, 1995","Chapter 11; $3.5 million in debts; under $50,000 a year each","tag")},
       braxton:function(){return D("Per album","33¢","her lawyer's account; 35¢ also circulates "+CH,"gold")+D("Units","24M+","Toni Braxton 9M+, Secrets 15M+","fact")+D("Gross at 33¢","~$8M","before recoupment (inference)","dim")+D("Filed","Jan 1998","settlement reported at $20M in her memoir, under a gag order","tag")},
-      brown:function(){return D("Rate","4.5%","another account: 5%","gold")+D("Royalties earned, 1960–80","$754","by Atlantic's own accounting","tag")+D("Balance","−$25,000","charged expenses; she left owing $30,000","tag")+D("1988","10%","recalculated to 1970; first check in 28 years, $20,000–$30,000","fact")}};
+      brown:function(){return D("Rate","4.5%","another account: 5%","gold")+D("Royalties earned, 1960 to 80","$754","by Atlantic's own accounting","tag")+D("Balance","−$25,000","charged expenses; she left owing $30,000","tag")+D("1988","10%","recalculated to 1970; first check in 28 years, $20,000-$30,000","fact")}};
     var ro=$("#st-ro"),v=$("#st-v");if(!ro)return;function show(k){ro.innerHTML=S[k]();v.innerHTML={tlc:"<b>Reported · T2/T3</b>A diamond album and a Chapter 11 filing in the same twelve months. The headline rate was seven percent; the effective rate, by the Times's math, was about one.",braxton:"<b>Reported · T3</b>Thirty-three cents on twenty-four million is about eight million dollars gross, before the recoupment that made it less. The settlement is memoir-only.",brown:"<b>Fact · T2</b>Twenty years, $754, and a negative balance. The 1988 reform is the next exhibit."}[k]}
     seg("#st-ctl",show);show("tlc")
   })();
@@ -1111,20 +1245,20 @@ var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
   /* ---------- the reform ---------- */
   (function(){
     var on=$("#rf-on"),ro=$("#rf-ro"),v=$("#rf-v");if(!on)return;
-    function run(){var y=on.checked;ro.innerHTML=D("Ruth Brown's rate",y?"10%":"4.5%",y?"recalculated back to 1970":"the 1950s contract",y?"fact":"tag")+D("Unrecouped balance",y?"waived":"−$25,000",y?"Atlantic waived its R&B artists' debts, 1988":"charged expenses carried for decades",y?"fact":"tag")+D("The check",y?"$20,000–$30,000":"$0",y?"her first royalty check in 28 years":"nothing owed under the old math",y?"gold":"dim")+D("The foundation",y?"$1.5–2M":"—",y?"the Rhythm & Blues Foundation seeded by Atlantic":"",y?"fact":"dim");
+    function run(){var y=on.checked;ro.innerHTML=D("Ruth Brown's rate",y?"10%":"4.5%",y?"recalculated back to 1970":"the 1950s contract",y?"fact":"tag")+D("Unrecouped balance",y?"waived":"−$25,000",y?"Atlantic waived its R&B artists' debts, 1988":"charged expenses carried for decades",y?"fact":"tag")+D("The check",y?"$20,000-$30,000":"$0",y?"her first royalty check in 28 years":"nothing owed under the old math",y?"gold":"dim")+D("The foundation",y?"$1.5 to 2M":"·",y?"the Rhythm & Blues Foundation seeded by Atlantic":"",y?"fact":"dim");
       v.innerHTML=y?"<b>Fact · T2</b>Won without a lawsuit, by a label approaching its fortieth anniversary and a lawyer who would not stop writing. Most other majors followed by precedent. It changed the legacy artists' rates. It did not change the structure, which is why TLC's filing came seven years later.":"<b>Fact · T2</b>The statement as it stood: a rate under five percent, expenses charged against it, a balance that never turned positive on a career of hits."}
     on.addEventListener("change",run);run()
   })();
 
   /* ---------- equity vs royalty ---------- */
   (function(){
-    var X={ciroc:function(){return D("Fee","—","")+D("Rate","—","")+D("Profit share","50/50","an 'equal-share venture' on U.S. marketing, 2007","gold")+D("Equity","none","in Cîroc; DeLeón (2013) was a true 50/50","tag")+D("Control","Diageo","the brand owner","dim")+D("Outcome","exit, 2024","suit dropped; Diageo sole owner; no payment disclosed","tag")},
-      beats:function(){return D("Fee","—","")+D("Rate","—","")+D("Profit share","—","")+D("Equity","20–25%","Dre's stake, per Forbes "+CH,"gold")+D("Control","founders","after buying HTC out by 2013","fact")+D("Outcome","$3B","Apple, May 28, 2014: $2.6B cash + $400M stock","fact")},
-      tidal:function(){return D("Fee","—","")+D("Rate","—","")+D("Profit share","—","")+D("Equity","owner → minority","bought for $56M (2015); Sprint 33% for $200M (2017)","gold")+D("Control","Square","majority from April 30, 2021","dim")+D("Outcome","$302M","Square's 8-K; retained stake undisclosed","fact")},
-      fenty:function(){return D("Fee","—","")+D("Rate","—","")+D("Profit share","—","")+D("Equity","49.99%","LVMH's Kendo holds 50.01","gold")+D("Control","LVMH","by 0.02 points","dim")+D("Outcome","~$2.8B brand","€500M first full year; Forbes valuation "+CH,"fact")},
-      yeezy:function(){return D("Fee","—","")+D("Rate","11%","royalty, per Forbes; ~$191M in 2020 "+CH,"gold")+D("Profit share","—","")+D("Equity","none","in Adidas or the line","tag")+D("Control","Adidas","terminated the partnership Oct 25, 2022","dim")+D("Outcome","$0","2024 settlement moved no money; royalty income ended at termination","tag")},
-      hart:function(){return D("Fee","—","")+D("Rate","—","")+D("Profit share","—","")+D("Equity","85% retained","Abry bought 15% for $100M, April 2022","gold")+D("Control","founder","Hart remains chairman","fact")+D("Outcome",">$650M","implied valuation","fact")},
-      nipsey:function(){return D("Fee","$100","per physical copy, 1,000 copies, October 2013","gold")+D("Rate","100%","of the unit; the download was free","fact")+D("Profit share","—","")+D("Equity","the line","All Money In; Marathon Clothing","fact")+D("Control","the artist","")+D("Outcome","~$100,000","in under a day; Jay-Z bought a hundred copies","fact")}};
+    var X={ciroc:function(){return D("Fee","·","")+D("Rate","·","")+D("Profit share","50/50","an 'equal-share venture' on U.S. marketing, 2007","gold")+D("Equity","none","in Cîroc; DeLeón (2013) was a true 50/50","tag")+D("Control","Diageo","the brand owner","dim")+D("Outcome","exit, 2024","suit dropped; Diageo sole owner; no payment disclosed","tag")},
+      beats:function(){return D("Fee","·","")+D("Rate","·","")+D("Profit share","·","")+D("Equity","20 to 25%","Dre's stake, per Forbes "+CH,"gold")+D("Control","founders","after buying HTC out by 2013","fact")+D("Outcome","$3B","Apple, May 28, 2014: $2.6B cash + $400M stock","fact")},
+      tidal:function(){return D("Fee","·","")+D("Rate","·","")+D("Profit share","·","")+D("Equity","owner → minority","bought for $56M (2015); Sprint 33% for $200M (2017)","gold")+D("Control","Square","majority from April 30, 2021","dim")+D("Outcome","$302M","Square's 8-K; retained stake undisclosed","fact")},
+      fenty:function(){return D("Fee","·","")+D("Rate","·","")+D("Profit share","·","")+D("Equity","49.99%","LVMH's Kendo holds 50.01","gold")+D("Control","LVMH","by 0.02 points","dim")+D("Outcome","~$2.8B brand","€500M first full year; Forbes valuation "+CH,"fact")},
+      yeezy:function(){return D("Fee","·","")+D("Rate","11%","royalty, per Forbes; ~$191M in 2020 "+CH,"gold")+D("Profit share","·","")+D("Equity","none","in Adidas or the line","tag")+D("Control","Adidas","terminated the partnership Oct 25, 2022","dim")+D("Outcome","$0","2024 settlement moved no money; royalty income ended at termination","tag")},
+      hart:function(){return D("Fee","·","")+D("Rate","·","")+D("Profit share","·","")+D("Equity","85% retained","Abry bought 15% for $100M, April 2022","gold")+D("Control","founder","Hart remains chairman","fact")+D("Outcome",">$650M","implied valuation","fact")},
+      nipsey:function(){return D("Fee","$100","per physical copy, 1,000 copies, October 2013","gold")+D("Rate","100%","of the unit; the download was free","fact")+D("Profit share","·","")+D("Equity","the line","All Money In; Marathon Clothing","fact")+D("Control","the artist","")+D("Outcome","~$100,000","in under a day; Jay-Z bought a hundred copies","fact")}};
     var ro=$("#er-ro"),v=$("#er-v");if(!ro)return;var T={ciroc:"A share of profit is not a share of the company. The equity turn's flagship ended with the artist exiting both brands.",beats:"The biggest equity in the chapter, and the share of it is a magazine's estimate.",tidal:"Owner to minority holder in six years, at a 5.4x price. The retained percentage is the number the filing withholds.",fenty:"Fifty-fifty by two hundredths of a point. The conglomerate holds control; the artist holds half of a brand worth more than most catalogs.",yeezy:"A royalty on a brand you do not own ends when the brand owner says so. The only deal here with no equity and the only one that went to zero.",hart:"The cleanest founder retention on the ladder: 85 percent, the chair, and a nine-figure check.",nipsey:"The smallest deal and the cleanest: one hundred percent of a $100 unit, sold by the artist, from his own store."};
     function show(k){ro.innerHTML=X[k]();v.innerHTML="<b>Reading</b>"+esc(T[k])}
     seg("#er-ctl",show);show("ciroc")
@@ -1159,7 +1293,7 @@ var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
 
   /* ---------- the valuation ladder ---------- */
   (function(){
-    var b=$("#lad-bars");if(!b)return;var R=[["Fort McPherson, 330 acres, to Tyler Perry (2015)",3e7,false,"deed"],["OWN: 24.5% for $70M → whole network implied (2017)",2.86e8,true,"network"],["Weather Channel to Allen Media (2018)",3e8,true,"network"],["Allen's ten stations to Gray (2025)",1.71e8,false,"network"],["Issa Rae–WarnerMedia (2021), Variety estimate; 'cap,' she said",4e7,true,"overall"],["DuVernay–Warner Bros. TV (2018–23)",1e8,true,"overall"],["Rhimes–Netflix renewal (2021)",3.5e8,true,"overall"],["SpringHill valuation (2021)",7.25e8,false,"company"],["HartBeat implied valuation (2022)",6.5e8,false,"company"],["Westbrook valuation (2022)",6e8,true,"company"]];
+    var b=$("#lad-bars");if(!b)return;var R=[["Fort McPherson, 330 acres, to Tyler Perry (2015)",3e7,false,"deed"],["OWN: 24.5% for $70M → whole network implied (2017)",2.86e8,true,"network"],["Weather Channel to Allen Media (2018)",3e8,true,"network"],["Allen's ten stations to Gray (2025)",1.71e8,false,"network"],["Issa Rae-WarnerMedia (2021), Variety estimate; 'cap,' she said",4e7,true,"overall"],["DuVernay-Warner Bros. TV (2018 to 23)",1e8,true,"overall"],["Rhimes-Netflix renewal (2021)",3.5e8,true,"overall"],["SpringHill valuation (2021)",7.25e8,false,"company"],["HartBeat implied valuation (2022)",6.5e8,false,"company"],["Westbrook valuation (2022)",6e8,true,"company"]];
     var L=function(x){return Math.log10(x)/Math.log10(1e9)*100};
     b.innerHTML=R.map(function(r){return '<div class="bar"><span class="n">'+esc(r[0])+'<br><span class="mono" style="font-size:11px;color:var(--paper-faint)">'+r[3]+(r[2]?' · estimate':'')+'</span></span><span class="tr"><i class="f'+(r[2]?' hatch':'')+'" style="width:'+L(r[1])+'%;--c:'+(r[3]==="deed"?'var(--fact)':r[3]==="overall"?'var(--kraft)':'var(--gold)')+'"></i></span><span class="v">'+money(r[1])+'</span></div>'}).join("")+'<p class="legend" style="margin-top:4px">Log scale. Green: a deed to land. Kraft: a term deal that expires. Hatched: an estimate.</p>'
   })();
@@ -1167,7 +1301,7 @@ var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
   /* ---------- owned or overall ---------- */
   (function(){
     var on=$("#oo-on"),ro=$("#oo-ro"),v=$("#oo-v");if(!on)return;
-    function run(){var y=on.checked;ro.innerHTML=y?D("The instrument","a deed","330 acres, Fort McPherson, $30 million, 2015","gold")+D("What it pays","rent and use","the studio books productions; the land appreciates or does not","fact")+D("When it ends","never","unless sold","fact")+D("The risk","the lot","a capital expenditure the owner carries","tag"):D("The instrument","an overall deal","Rhimes–Netflix, reported $300–400M at renewal","gold")+D("What it pays","a term","five years of output, exclusively","fact")+D("When it ends","at term","DuVernay's $100M Warner deal ended in 2023 at expiry","tag")+D("The risk","the renewal","the studio's decision","tag");
+    function run(){var y=on.checked;ro.innerHTML=y?D("The instrument","a deed","330 acres, Fort McPherson, $30 million, 2015","gold")+D("What it pays","rent and use","the studio books productions; the land appreciates or does not","fact")+D("When it ends","never","unless sold","fact")+D("The risk","the lot","a capital expenditure the owner carries","tag"):D("The instrument","an overall deal","Rhimes-Netflix, reported $300 to 400M at renewal","gold")+D("What it pays","a term","five years of output, exclusively","fact")+D("When it ends","at term","DuVernay's $100M Warner deal ended in 2023 at expiry","tag")+D("The risk","the renewal","the studio's decision","tag");
       v.innerHTML=y?"<b>Reading</b>The lot is Episode 1's Harpo switch at the scale of a military base: own the room, carry the cost, keep the appreciation. It is the only instrument in the chapter that does not expire.":"<b>Reading</b>The overall deal buys a person's output for a term at a price the trade paper estimates and the person disputes. It is the richest instrument in the chapter and the only one with an end date written in."}
     on.addEventListener("change",run);run()
   })();
@@ -1183,50 +1317,132 @@ var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
     var ro=$("#op-ro"),v=$("#op-v");if(!ro)return;
     var X={"in":function(){return D("Training","paid","a share for the use of your catalog in training, as reported","fact")+D("Subscribers' creations","paid","a share when subscribers generate with your voice or songs","fact")+D("Your name, image, likeness, voice","licensed","Warner: 'an opt-in for the use of their name, image, likeness, voice and compositions'","gold")+D("The dollar figure","not public","no amount in either settlement","dim")},
       out:function(){return D("Training","$0","'no money,' as the structure was reported","tag")+D("Subscribers' creations","$0","","tag")+D("Your voice","withheld","from the licensed platform; the unlicensed internet is another matter","gold")+D("The dollar figure","not public","","dim")},
-      none:function(){return D("Who was asked","the label","the settlement is between the label and the company","tag")+D("Who holds the catalog","the label","under the contracts in Exhibits 2–5","tag")+D("The federal right","a bill","NO FAKES advanced from committee June 23, 2026; not law","dim")+D("The dollar figure","not public","","dim")}};
+      none:function(){return D("Who was asked","the label","the settlement is between the label and the company","tag")+D("Who holds the catalog","the label","under the contracts in Exhibits 2 to 5","tag")+D("The federal right","a bill","NO FAKES advanced from committee June 23, 2026; not law","dim")+D("The dollar figure","not public","","dim")}};
     function show(k){ro.innerHTML=X[k]();v.innerHTML={"in":"<b>Reported · T4, structure; Fact · T2, the Warner statement</b>Paid for the use of the voice: the deed Episode 1 said was being written. Whether the holder of the new right is the singer or the company holding her contract is decided by which contract she is on.",out:"<b>Reported · T4</b>Nothing from the licensed garden, and no control over the unlicensed one. The opt-out is a deed with no income attached.",none:"<b>Watch</b>Most artists in the record were never at this table; the labels settled. The NO FAKES Act would make the voice a tradeable right. The question of who trades it is the question this episode ends on."}[k]}
     seg("#op-ctl",show);show("in")
   })();
 
 
-  /* ---------- reels and title-card reveals ---------- */
+  /* ---------- journey: chapter scenes, pinned archival stage, era grading, time passages ---------- */
   (function(){
+    var q=function(s,r){return (r||document).querySelector(s)},qa=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+    var RM=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var VH=function(){return window.innerHeight||800};
+    var YR=/\b(1[6-9]\d\d|20[0-3]\d)\b/;
     var CRED={};
-    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(j){CRED=j;$$(".reel .slide").forEach(function(s){var k=s.dataset.plate;var c=CRED[k];var el=$(".cr",s);if(el&&c&&c.credit)el.textContent=c.credit})}}).catch(function(){})}catch(e){}
-    function wrapWords(el){ // wrap text nodes in spans, leave tags (sup, em, b) intact
-      var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);var nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);var i=0;
-      nodes.forEach(function(t){if(t.parentNode.closest&&t.parentNode.closest("sup"))return;var parts=t.nodeValue.split(/(\s+)/);var frag=document.createDocumentFragment();parts.forEach(function(p){if(!p)return;if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(p));return}var s=document.createElement("span");s.className="w";s.style.transitionDelay=Math.min(1400,i*28)+"ms";s.textContent=p;frag.appendChild(s);i++});t.parentNode.replaceChild(frag,t)})}
-    // Auto-reel: group consecutive prose paragraphs in chapter stacks into slides, splitting long ones at sentences
-    function splitSentences(p,max){var html=p.innerHTML;var parts=html.split(/(?<=[.!?”"])\s+(?=[A-Z<“"(])/);var out=[],cur="";parts.forEach(function(s){var words=(cur+" "+s).replace(/<[^>]+>/g,"").split(/\s+/).length;if(cur&&words>max){out.push(cur);cur=s}else cur=cur?cur+" "+s:s});if(cur)out.push(cur);return out}
-    $$(".chapter").forEach(function(ch){
-      var key=null;var pl=$(".plate",ch);if(pl)key=pl.dataset.plate;
-      $$(".stack",ch).forEach(function(st){
-        var ps=$$(":scope > p",st).filter(function(p){return !p.classList.contains("lead")&&!p.classList.contains("pull")&&!p.classList.contains("eyebrow")});
-        if(ps.length<1)return;
-        var extra=(st.dataset.reel||"").split(",").map(function(x){return x.trim()}).filter(Boolean);
-        var slides=[];ps.forEach(function(p){var chunks=splitSentences(p,60);chunks.forEach(function(h){slides.push({html:h})})});
-        if(slides.length<2)return;
-        var reel=document.createElement("div");reel.className="reel";var vp=document.createElement("div");vp.className="vp";reel.appendChild(vp);
-        var keys=extra.length?extra:(key?[key]:[]);
-        slides.forEach(function(s,i){var d=document.createElement("div");d.className="slide";var k=keys.length?keys[i%keys.length]:null;if(k)d.dataset.plate=k;
-          var bg=document.createElement("div");bg.className="bg"+(k?"":" none");if(k){var im=document.createElement("img");im.src="assets/plates/"+k+".jpg";im.alt="";im.loading="lazy";im.addEventListener("error",function(){bg.className="bg none";bg.innerHTML=""});bg.appendChild(im)}d.appendChild(bg);
-          var cr=document.createElement("span");cr.className="cr";cr.textContent=k&&CRED[k]&&CRED[k].credit?CRED[k].credit:"";d.appendChild(cr);
-          var kk=document.createElement("div");kk.className="k";kk.textContent=(i+1)+" / "+slides.length;d.appendChild(kk);
-          var tx=document.createElement("div");tx.className="tx";tx.innerHTML=s.html;d.appendChild(tx);vp.appendChild(d)});
-        var nav=document.createElement("div");nav.className="nav";nav.innerHTML='<button class="pv" aria-label="Previous">‹</button><div class="dots" role="tablist"></div><span class="ct"></span><button class="nx" aria-label="Next">›</button>';reel.appendChild(nav);
-        ps[0].parentNode.insertBefore(reel,ps[0]);ps.forEach(function(p){p.remove()});
-        init(reel)})});
-    function init(reel){var slides=$$(".slide",reel),dots=$(".dots",reel),ct=$(".ct",reel),i=0;slides.forEach(function(s,j){wrapWords($(".tx",s));var d=document.createElement("i");d.setAttribute("role","tab");d.addEventListener("click",function(){go(j)});dots.appendChild(d)});
-      function go(n){i=(n+slides.length)%slides.length;slides.forEach(function(s,j){s.classList.toggle("on",j===i)});$$("i",dots).forEach(function(d,j){d.classList.toggle("on",j===i)});ct.textContent=(i+1)+" of "+slides.length}
-      $(".pv",reel).addEventListener("click",function(){go(i-1)});$(".nx",reel).addEventListener("click",function(){go(i+1)});
-      $(".vp",reel).addEventListener("click",function(e){if(e.target.closest("a"))return;go(i+1)});
-      reel.tabIndex=0;reel.addEventListener("keydown",function(e){if(e.key==="ArrowRight"){go(i+1);e.preventDefault()}if(e.key==="ArrowLeft"){go(i-1);e.preventDefault()}});
-      var x0=null;reel.addEventListener("touchstart",function(e){x0=e.touches[0].clientX},{passive:true});reel.addEventListener("touchend",function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(dx<0?i+1:i-1);x0=null});
-      go(0)}
-    $$(".reel[data-authored]").forEach(init);
-    // title-card reveals on leads and pull quotes
-    var rv=$$(".lead, .pull");rv.forEach(function(p){p.classList.add("rv");wrapWords(p)});
-    if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}})},{rootMargin:"0px 0px -10% 0px"});rv.forEach(function(p){io.observe(p)})}else rv.forEach(function(p){p.classList.add("on")});
+    function mk(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+    function eraOf(y){return !y?"e-c":y<1930?"e-a":y<1960?"e-b":y<1980?"e-c":y<2000?"e-d":y<2015?"e-e":"e-f"}
+    var ERAS=["e-a","e-b","e-c","e-d","e-e","e-f"];
+    function setEra(el,y){ERAS.forEach(function(c){el.classList.remove(c)});el.classList.add(eraOf(y))}
+    function decade(y){return y?"The "+(Math.floor(y/10)*10)+"s":""}
+    function plain(h){return h.replace(/<sup[\s\S]*?<\/sup>/g,"").replace(/<[^>]+>/g,"")}
+    function stampOf(k){var c=CRED[k];if(!c)return "";var s=c.source||"";var m=s.match(/\/resource\/([a-z]+)\.([0-9a-z]+)/i);if(m)return "LOC · "+m[1]+"."+m[2];m=s.match(/\/item\/(\d+)/);if(m)return "LOC · "+m[1];if(/^File:|commons/i.test(s))return "Wikimedia Commons";return ""}
+    function credOf(k){var c=CRED[k];return c&&c.credit?c.credit:""}
+    var POS={"dl-c2":"50% 92%"}; // keep faces on screens and boards out of frame
+    function img(k,cls,onfail){var w=mk("div",cls);if(!k){w.classList.add("none");return w}var i=new Image();i.alt="";if(POS[k])i.style.objectPosition=POS[k];i.decoding="async";i.loading="lazy";i.src="assets/plates/"+k+".jpg";i.addEventListener("error",function(){w.classList.add("none");if(i.parentNode)i.remove();if(onfail)onfail()});w.appendChild(i);return w}
+    function splitSentences(html,max){var parts=html.split(/(?<=[.!?”"])\s+(?=[A-Z<“"(])/);var out=[],cur="";parts.forEach(function(s){var n=plain(cur+" "+s).split(/\s+/).length;if(cur&&n>max){out.push(cur);cur=s}else cur=cur?cur+" "+s:s});if(cur)out.push(cur);return out}
+    function wrapWords(el){var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);var nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);var i=0;
+      nodes.forEach(function(t){if(t.parentNode.closest&&t.parentNode.closest("sup,.tag"))return;var parts=t.nodeValue.split(/(\s+)/);var f=document.createDocumentFragment();parts.forEach(function(p){if(!p)return;if(/^\s+$/.test(p)){f.appendChild(document.createTextNode(p));return}var s=mk("span","w");s.style.transitionDelay=Math.min(1600,i*34)+"ms";s.textContent=p;f.appendChild(s);i++});t.parentNode.replaceChild(f,t)})}
+
+    var chapters=qa(".chapter");if(!chapters.length)return;
+    document.body.appendChild(mk("div","j-grain"));
+    var bar=mk("div","j-bar");document.body.appendChild(bar);
+    var clock=mk("div","j-clock",'<small>In the record</small><b>·</b>');clock.setAttribute("aria-hidden","true");document.body.appendChild(clock);
+    var clockY=null;function setClock(y){if(!y||y===clockY)return;clockY=y;q("b",clock).textContent=y}
+
+    /* 1 · chapter openers */
+    chapters.forEach(function(ch,ci){
+      var col=q(":scope > .col",ch);if(!col)return;
+      var where=q(".where",col),h2=q(":scope > h2",col),ins=q(".instrument",col),fig=q(".plate",col);
+      var wt=where?where.textContent:"";var ym=wt.match(/(\d{4})\s*[--]\s*(\d{4})/)||wt.match(/(\d{4})/);
+      var y0=ym?+ym[1]:null,y1=ym&&ym[2]?+ym[2]:y0;ch.dataset.y0=y0||"";ch.dataset.y1=y1||"";
+      ch.dataset.title=h2?h2.innerHTML:"";
+      var key=fig?fig.dataset.plate:null;var capEl=fig?q("figcaption span",fig):null;var cap=capEl?capEl.textContent.replace(/^Plate\s*/,""):"";
+      var op=mk("section","j-open j-bleed "+eraOf(y0));op.dataset.k=key||"";
+      op.appendChild(img(key,"j-bg"));op.appendChild(mk("div","j-shade"));
+      op.appendChild(mk("div","j-num",String(ci+1).padStart(2,"0"))).setAttribute("aria-hidden","true");
+      var inn=mk("div","j-in");inn.appendChild(mk("div","j-kick",(decade(y0)||"")+(y0&&y1&&y1!==y0?" · "+y0+"-"+y1:"")));
+      if(h2)inn.appendChild(h2);if(ins)inn.appendChild(ins);if(where)inn.appendChild(where);op.appendChild(inn);
+      var foot=mk("div","j-foot");var c1=mk("span","j-cap");c1.textContent=cap;foot.appendChild(c1);foot.appendChild(mk("span","j-stamp"));op.appendChild(foot);
+      op.appendChild(mk("div","j-cue","Enter"));
+      ch.insertBefore(op,ch.firstChild);if(fig)fig.remove();
+    });
+
+    /* 2 · stacks become a pinned stage with steps scrolling over it */
+    var scrollies=[];
+    qa(".chapter .stack").forEach(function(st){
+      var ch=st.closest(".chapter");
+      var lead=q(":scope > p.lead",st);
+      var ps=qa(":scope > p",st).filter(function(p){return !p.classList.contains("lead")&&!p.classList.contains("pull")&&!p.classList.contains("eyebrow")});
+      var steps=[];if(lead)steps.push({html:lead.innerHTML,lead:true});
+      ps.forEach(function(p){splitSentences(p.innerHTML,58).forEach(function(h){steps.push({html:h})})});
+      if(steps.length<2)return;
+      var keys=(st.dataset.reel||"").split(",").map(function(x){return x.trim()}).filter(Boolean);
+      var op=q(".j-open",ch);if(!keys.length&&op&&op.dataset.k)keys=[op.dataset.k];
+      var yp=+ch.dataset.y0||null;steps.forEach(function(s){var m=plain(s.html).match(YR);s.y=m?+m[1]:yp;yp=s.y});
+      var sc=mk("div","j-scrolly j-bleed");var stage=mk("div","j-stage "+eraOf(steps[0].y));
+      var imgs=keys.length?keys.map(function(k){var w=img(k,"j-img");w.dataset.k=k;stage.appendChild(w);return w}):[(function(){var w=mk("div","j-img none on");stage.appendChild(w);return w})()];
+      stage.appendChild(mk("div","j-scan"));stage.appendChild(mk("div","j-vig"));stage.appendChild(mk("div","j-frame"));
+      var meta=mk("div","j-meta",'<span class="j-year">'+(steps[0].y||"")+'</span><span class="j-era">'+decade(steps[0].y)+'</span>');meta.setAttribute("aria-hidden","true");stage.appendChild(meta);
+      var count=mk("div","j-count");count.setAttribute("aria-hidden","true");stage.appendChild(count);
+      stage.appendChild(mk("div","j-tag",'<span class="j-cr"></span><span class="j-stamp"></span>'));
+      sc.appendChild(stage);
+      var wrap=mk("div","j-steps");
+      steps.forEach(function(s,i){var d=mk("div","j-step"+(s.lead?" lead":""));d.dataset.y=s.y||"";d.dataset.i=Math.min(imgs.length-1,Math.floor(i*imgs.length/steps.length));var c=mk("div","j-card",s.html);if(s.lead)wrapWords(c);d.appendChild(c);wrap.appendChild(d)});
+      sc.appendChild(wrap);
+      var first=lead||ps[0];first.parentNode.insertBefore(sc,first);if(lead)lead.remove();ps.forEach(function(p){p.remove()});
+      // the stage is full-bleed; a stack inside a .col needs no other change
+      var o={el:sc,stage:stage,imgs:imgs,steps:qa(".j-step",wrap),year:q(".j-year",stage),era:q(".j-era",stage),count:count,cr:q(".j-cr",stage),stamp:q(".j-stamp",stage),cur:-1,shownY:steps[0].y};
+      scrollies.push(o);activate(o,0,true);
+    });
+    function animYear(o,to){if(!to){return}var from=o.shownY||to;o.shownY=to;if(RM||from===to){o.year.textContent=to;return}var t0=performance.now(),dur=Math.min(1400,240+Math.abs(to-from)*14);(function f(t){var p=Math.min(1,(t-t0)/dur);p=1-Math.pow(1-p,3);o.year.textContent=Math.round(from+(to-from)*p);if(p<1)requestAnimationFrame(f)})(t0)}
+    function activate(o,i,quiet){if(o.cur===i)return;o.cur=i;var s=o.steps[i];o.steps.forEach(function(x,j){x.classList.toggle("on",j===i)});
+      var ii=+s.dataset.i;o.imgs.forEach(function(w,j){w.classList.toggle("on",j===ii)});
+      var k=o.imgs[ii]&&o.imgs[ii].dataset.k;o.cr.textContent=credOf(k);o.stamp.textContent=stampOf(k);o.stamp.style.display=o.stamp.textContent?"":"none";
+      var y=+s.dataset.y||null;setEra(o.stage,y);if(y){animYear(o,y);o.era.textContent=decade(y)}
+      o.count.textContent=String(i+1).padStart(2,"0")+" / "+String(o.steps.length).padStart(2,"0");
+      if(!quiet&&y)setClock(y)}
+    if("IntersectionObserver" in window){
+      scrollies.forEach(function(o){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)activate(o,o.steps.indexOf(e.target))})},{rootMargin:"-45% 0px -45% 0px"});o.steps.forEach(function(s){io.observe(s)})});
+    }else scrollies.forEach(function(o){o.steps.forEach(function(s){s.classList.add("on")})});
+
+    /* 3 · time passages between chapters */
+    var passes=[];
+    chapters.forEach(function(ch,i){var nx=chapters[i+1];if(!nx)return;var a=+ch.dataset.y1,b=+nx.dataset.y0;if(!a||!b)return;
+      var n=i+2,hub=q('.hub a[href="#c'+n+'"] .d'),desc=hub?hub.textContent:"";
+      var back=b<a;var p=mk("div","j-pass j-bleed");p.setAttribute("aria-hidden","true");
+      p.innerHTML='<div class="j-pin"><span class="j-dir">'+(back?"◂◂ Rewind":a===b?"● Same year":"Forward ▸▸")+'</span><span class="j-py">'+a+'</span><span class="j-line"><i></i></span><span class="j-ends"><span>'+a+'</span><span>'+b+'</span></span></div>';
+      var link=mk("a","j-next");link.href="#c"+n;link.setAttribute("tabindex","-1");link.innerHTML='<small>Next · Exhibit '+n+' of '+chapters.length+'</small><b>'+(nx.dataset.title||"")+'</b>'+(desc?'<span></span>':'');if(desc)q("span",link).textContent=desc;q(".j-pin",p).appendChild(link);
+      ch.parentNode.insertBefore(p,nx);passes.push({el:p,a:a,b:b,py:q(".j-py",p),line:q(".j-line i",p)})});
+
+    /* 4 · everything else arrives */
+    var rv=qa(".chapter .exhibit, .chapter .sec-head, .chapter .verdict, .chapter .desk, .chapter .plate, .sides .side, .facts li, .hub a, .crumbs");
+    rv.forEach(function(e){if(!e.closest(".j-scrolly")&&!e.closest(".engine-wrap"))e.classList.add("j-rv")});
+    var leads=qa(".lead, .pull").filter(function(p){return !p.closest(".j-scrolly")});leads.forEach(function(p){p.classList.add("rv");wrapWords(p)});
+    if("IntersectionObserver" in window){
+      var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add(e.target.classList.contains("rv")?"on":"in");io2.unobserve(e.target)}})},{rootMargin:"0px 0px -8% 0px"});
+      qa(".j-rv").concat(leads).forEach(function(e){io2.observe(e)});
+      var io3=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");var ch=e.target.closest(".chapter");if(ch&&ch.dataset.y0)setClock(+ch.dataset.y0)}})},{threshold:.25});
+      qa(".j-open").forEach(function(o){io3.observe(o)});
+    }else{qa(".j-rv,.j-open").forEach(function(e){e.classList.add("in")});leads.forEach(function(e){e.classList.add("on")})}
+
+    /* 5 · one scroll loop: progress bar, parallax, passages, clock visibility */
+    var opens=qa(".j-open"),ticking=false;
+    function frame(){ticking=false;var vh=VH(),sy=window.scrollY||window.pageYOffset,dh=document.documentElement.scrollHeight-vh;
+      bar.style.transform="scaleX("+(dh>0?Math.min(1,sy/dh):0)+")";
+      var inChap=false;var c0=chapters[0].getBoundingClientRect(),cl=chapters[chapters.length-1].getBoundingClientRect();inChap=c0.top<vh*.5&&cl.bottom>vh*.5;clock.classList.toggle("show",inChap&&!!clockY);
+      if(RM)return;
+      opens.forEach(function(o){var r=o.getBoundingClientRect();if(r.bottom<0||r.top>vh)return;var p=-r.top/r.height;var im=q(".j-bg img",o),nm=q(".j-num",o);if(im)im.style.transform="translate3d(0,"+(p*14)+"%,0) scale("+(1.08+p*.06)+")";if(nm)nm.style.transform="translate3d(0,"+(p*-40)+"%,0)"});
+      passes.forEach(function(s){var r=s.el.getBoundingClientRect();if(r.bottom<0||r.top>vh)return;var p=Math.max(0,Math.min(1,-r.top/Math.max(1,r.height-vh)));var y=Math.round(s.a+(s.b-s.a)*p);s.py.textContent=y;s.line.style.transform="scaleX("+p+")";if(y)setClock(y)});
+    }
+    function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(frame)}}
+    window.addEventListener("scroll",onScroll,{passive:true});window.addEventListener("resize",onScroll);frame();
+    if(RM)passes.forEach(function(s){s.py.textContent=s.a+" → "+s.b;s.line.style.transform="scaleX(1)"});
+
+    /* credits and archive stamps once the ledger loads */
+    try{fetch("assets/plates/credits.json").then(function(r){return r.ok?r.json():null}).then(function(j){if(!j)return;CRED=j;
+      scrollies.forEach(function(o){var c=o.cur;o.cur=-1;activate(o,Math.max(0,c),true)});
+      opens.forEach(function(o){var s=q(".j-stamp",o);if(s)s.textContent=stampOf(o.dataset.k)})}).catch(function(){})}catch(e){}
   })();
 
 /* ---------- plates: reveal on scroll, credits from assets/plates/credits.json when present ---------- */
@@ -1238,3 +1454,149 @@ var k=0,cur={},tgt={},lerpT=1,playing=false,timer=null,parts=[],last=0;
   })();
 })();
 </script>
+<nav class="hf-foot" id="infera-nav-footer" aria-label="Series">
+  <div class="hf-row"><a href="index.html#chain-of-title">&larr; The Chain of Title</a> <span aria-hidden="true">·</span> <a href="index.html">Series Home</a> <span aria-hidden="true">·</span> <a href="the-circulating-dollar.html" rel="prev">Prev · The Circulating Dollar</a> <span aria-hidden="true">·</span> <a href="the-feed.html" rel="next">Next · The Feed</a> <span aria-hidden="true">·</span> <a href="legal.html">Legal · Privacy</a> <span aria-hidden="true">·</span> <span>infera@melophon.com</span></div>
+  <p class="hf-disc">© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com</p>
+</nav>
+<style id="infera-legal-footer">
+.legal-footer{
+  background:#06060a; color:rgba(168,162,152,.75);
+  font-family:'Inter', system-ui, sans-serif; font-size:11.5px; line-height:1.55;
+  padding:32px 6vw 36px;
+  border-top:1px solid rgba(168,162,152,.12);
+}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{
+  display:grid; grid-template-columns:1fr auto; gap:24px 32px;
+  padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08);
+  margin-bottom:14px;
+}
+.legal-footer .lf-brand{
+  font-family:'JetBrains Mono', ui-monospace, monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.legal-footer .lf-brand b{color:#c8ff1e; font-family:inherit; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; padding:3px 8px; border:1px solid rgba(168,162,152,.18); white-space:nowrap}
+.legal-footer .lf-disclaim{
+  font-size:11.5px; line-height:1.6; max-width:none; color:rgba(168,162,152,.62);
+}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+
+.legal-footer details.lf-more{margin-top:8px; padding:0}
+.legal-footer details.lf-more summary{
+  cursor:pointer; list-style:none;
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700;
+  display:inline-flex; align-items:center; gap:8px; padding:5px 0;
+}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+
+.legal-footer .lf-links{
+  display:flex; flex-wrap:wrap; gap:0 18px;
+  padding-top:14px; border-top:1px dashed rgba(168,162,152,.12);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+
+@media (max-width:780px){
+  .legal-footer .lf-top{grid-template-columns:1fr}
+  .legal-footer{padding:26px 5vw 30px; font-size:11px}
+}
+@media (prefers-reduced-motion: reduce){
+  .legal-footer details.lf-more summary::before{transition:none}
+}
+
+.legal-footer .lf-infra{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:10px 14px 12px; margin-bottom:14px;
+  background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:560px){
+  .legal-footer .lf-infra{font-size:9px; gap:8px; padding:8px 10px 10px}
+}
+</style>
+
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+      <nav class="lf-infra" aria-label="Infrastructure links">
+        <span class="lf-infra-lbl">More from Infera</span>
+        <a href="systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+        <a href="claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+        <a href="case-file.html">Your Case File</a><span class="lf-sep">·</span>
+        <a href="founding.html">Founding 500</a><span class="lf-sep">·</span>
+        <a href="field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+        <a href="index.html#about">About</a>
+      </nav>
+
+    <div class="lf-top">
+      <div class="lf-brand">
+        <span>© 2026 <b>Infera</b></span>
+        <span class="sep">·</span>
+        <span>All rights reserved</span>
+        <span class="sep">·</span>
+        <em>The Mechanism Series™</em>
+      </div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis &mdash; <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided &ldquo;as is&rdquo; without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> &ldquo;Infera,&rdquo; &ldquo;The Mechanism Series,&rdquo; and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis (echo dots, provenance layer, evidence mode, chapter rails, claims atlas format, systems atlas format) are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission &mdash; usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for persona memory, reading log, and evidence-mode preference &mdash; none transmitted. Subscriber emails stored at Buttondown. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with: (1) the copyrighted work, (2) the allegedly infringing URL, (3) your contact info, (4) good-faith statement, (5) statement under penalty of perjury, (6) your signature. Knowingly false DMCA notices may incur liability under 17 U.S.C. § 512(f). Counter-notices follow § 512(g).</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action arising from these terms shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Underwriters do not see episodes prior to publication. Editorial decisions are independent.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication. AI does not author episodes.</p>
+          <p style="margin-top:10px; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="legal.html#unsubscribe">Unsubscribe</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+
+    <div class="lf-tail">
+      <em>Atlanta, GA · USA · v.2026.05</em>
+      <span>Last updated · 26 May 2026</span>
+    </div>
+  </div>
+</aside>
+</body>
+</html>
