@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Night Line · 11.03.2026 · Infera Tomorrow Board Exhibit</title>
+<meta name="description" content="Election Day, Tuesday November 3, 2026, as a transit map in daylight: four lines, twenty-three stations, one interchange at 7:30 to 8:00 PM. Same board as The Returns Switchboard, opposite imagination.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1e8;--paper:#fffdf6;--ink:#0f1b33;--dim:#46526b;--faint:#6a7387;--red:#d62839;--blue:#1d5fd0;--green:#0b8f69;--org:#e07b00;--line:#d9d3c2;--g:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}a:hover{color:var(--red)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.strip{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px 28px;font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;background:linear-gradient(#f4f1e8f5,#f4f1e800);backdrop-filter:blur(6px)}
+.strip a{color:var(--ink);text-decoration:none}.strip a:hover{color:var(--red)}
+.strip .navlinks{display:flex;gap:24px;align-items:center}.strip .stamp{color:var(--faint)}
+.strip .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:8px;animation:pl 2.4s ease-in-out infinite}
+@keyframes pl{50%{opacity:.25}}
+@media(max-width:760px){.strip .stamp{display:none}.strip .navlinks{gap:14px}.strip{padding:12px 16px}}
+.hero{padding:120px 6vw 40px;max-width:1280px;margin:0 auto}
+.eyebrow{font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--red)}
+h1{font:800 clamp(48px,9.5vw,148px)/.88 'Archivo',sans-serif;letter-spacing:-.04em;margin:.18em 0 .22em}
+h1 span{display:inline-block;background:var(--ink);color:var(--bg);padding:0 .12em;border-radius:.08em}
+.dek{font-size:clamp(16px,1.6vw,20px);color:var(--dim);max-width:64ch}
+section{padding:9vh 6vw;position:relative}
+.wrap{max-width:1180px;margin:0 auto}
+h2{font:800 clamp(30px,4.6vw,58px)/1 'Archivo',sans-serif;letter-spacing:-.03em;margin:.2em 0 .35em}
+.secdek{color:var(--dim);max-width:72ch;margin-bottom:30px}
+.rv{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}.rv.in{opacity:1;transform:none}
+.mapbox{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:12px;overflow-x:auto;box-shadow:8px 8px 0 var(--ink)}
+.mapbox svg{min-width:900px;width:100%;height:auto;display:block}
+.m-t{font:500 11px 'IBM Plex Mono',monospace;fill:#4a556c}.m-l{font:700 13px 'Archivo',sans-serif;fill:#0f1b33}.m-s{font:500 11px 'IBM Plex Mono',monospace;fill:#2a3550}
+.train{animation:run 26s linear infinite}.train.t2{animation-duration:34s;animation-delay:-9s}.train.t3{animation-duration:30s;animation-delay:-17s}.train.t4{animation-duration:40s;animation-delay:-4s}
+@keyframes run{from{transform:translateX(0)}to{transform:translateX(700px)}}
+.inter{animation:pulseb 2.8s ease-in-out infinite}@keyframes pulseb{50%{opacity:.45}}
+.clock{animation:run 22s linear infinite}
+.board{background:#0f1b33;color:#fffdf6;border-radius:14px;padding:10px 0;box-shadow:8px 8px 0 var(--red)}
+.dep{display:grid;grid-template-columns:52px 70px 1fr 120px 96px;gap:14px;align-items:center;padding:16px 22px;border-bottom:1px solid #ffffff22}
+.dep:last-child{border-bottom:0}
+.dep .no{font:700 28px 'Archivo',sans-serif;opacity:.55}
+.dep .lc{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font:700 13px 'IBM Plex Mono',monospace;color:#fff}
+.dep h3{font:700 clamp(18px,2.2vw,26px)/1.15 'Archivo',sans-serif}
+.dep .sub{font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#b9c2d8;text-transform:uppercase}
+.dep .rd{grid-column:3/-1;color:#d6dcec;font-size:14.5px;max-width:78ch}
+.flap{font:700 40px 'IBM Plex Mono',monospace;background:#fffdf6;color:#0f1b33;border-radius:6px;padding:2px 10px;text-align:center;letter-spacing:.05em;position:relative}
+.flap::after{content:'';position:absolute;left:0;right:0;top:50%;height:2px;background:#0f1b3355}
+.bar{height:8px;background:#ffffff22;border-radius:4px;overflow:hidden;align-self:center}.bar span{display:block;height:100%;width:0;background:#fffdf6;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.in .bar span{width:calc(var(--g)*1%)}
+@media(max-width:760px){.dep{grid-template-columns:44px 1fr 84px}.dep .lc,.dep .bar{display:none}.dep .rd{grid-column:1/-1}.flap{font-size:30px}}
+.runner{margin-top:16px;padding:14px 18px;border:2px dashed var(--ink);border-radius:10px;color:var(--dim);font-size:14px;background:var(--paper)}
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
+.filters button{font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.06em;padding:9px 14px;border-radius:99px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.route{list-style:none;position:relative}
+.st{position:relative;display:grid;grid-template-columns:96px 1fr;gap:22px;padding:0 0 26px}
+.st .tm{font:600 12px 'IBM Plex Mono',monospace;text-align:right;padding-top:6px;color:var(--dim)}
+.st .box{position:relative;background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:16px 18px 14px 22px}
+.st .box::before{content:'';position:absolute;left:-17px;top:12px;width:18px;height:18px;border-radius:50%;background:var(--paper);border:5px solid var(--lc,#0f1b33)}
+.st::before{content:'';position:absolute;left:110px;top:0;bottom:0;width:6px;background:var(--lc,#0f1b33);opacity:.35}
+.st .gv{float:right;font:800 30px 'Archivo',sans-serif;margin-left:10px}
+.st h4{font:700 19px/1.2 'Archivo',sans-serif}
+.st .tag{font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:4px}
+.st .tag b{color:var(--ink)}
+.st .mt{height:7px;background:#0f1b3318;border-radius:4px;margin:10px 0 8px;overflow:hidden}.st .mt span{display:block;height:100%;width:0;background:var(--lc);transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.st.in .mt span{width:calc(var(--g)*1%)}
+.st .read{font-size:14px;color:var(--dim)}.st .nx{font-size:13px;margin-top:6px}.st .nx b{font-weight:700}
+.st.cty .read{display:none}.st.hidden{display:none}
+@media(max-width:700px){.st{grid-template-columns:1fr}.st .tm{text-align:left}.st::before{display:none}.st .box::before{display:none}.st .box{padding-left:18px}}
+.mems{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:900px){.mems{grid-template-columns:1fr}}
+.mem{background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:22px 22px 12px;position:relative;border-top:14px solid var(--blue)}
+.mem.learned{border-top-color:var(--red)}.mem.next{border-top-color:var(--green)}
+.mem h5{font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px}
+.mi{margin-bottom:14px;padding-bottom:12px;border-bottom:2px dotted var(--line)}.mi:last-child{border-bottom:0}.mi b{display:block;font:700 16px 'Archivo',sans-serif}.mi p{font-size:13.5px;color:var(--dim)}
+.br{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.br div{background:#ffe9a8;border:2px solid var(--ink);border-radius:10px;padding:12px 16px}.br b{display:block;font:700 15px 'Archivo',sans-serif}.br p{font-size:13.5px;color:#2b3550}
+.xlink{margin-top:40px;padding:18px 22px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.05em}
+.honest{margin-top:20px;font-size:13px;color:var(--faint);max-width:80ch}
+nav.footnav{display:grid;grid-template-columns:1fr 1fr;gap:26px;padding:46px 6vw 18px;border-top:4px solid var(--ink);margin-top:50px}
+nav.footnav h5{font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+nav.footnav a{display:block;color:var(--ink);text-decoration:none;font-size:14px;padding:5px 0}nav.footnav a:hover{color:var(--red)}
+@media(max-width:640px){nav.footnav{grid-template-columns:1fr}}
+.postfoot{padding:10px 6vw 40px;font-size:11.5px;color:var(--faint)}
+@media (prefers-reduced-motion: reduce){
+ *{animation:none!important;transition:none!important}
+ .rv{opacity:1;transform:none}.bar span{width:calc(var(--g)*1%)}.st .mt span{width:calc(var(--g)*1%)}
+ .train{transform:translateX(260px)}.clock{transform:translateX(535px)}
+}
+</style>
+<noscript><style>.rv{opacity:1;transform:none}.bar span,.st .mt span{width:calc(var(--g)*1%)}</style></noscript>
+</head>
+<body>
+<nav class="strip" aria-label="Series navigation">
+  <a href="index.html"><span class="dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a href="index.html">← All Episodes</a>
+    <a href="field-notes/index.html">Field Notes</a>
+    <span class="stamp">EXHIBIT · TOMORROW BOARD · 11.03.2026 · ALT</span>
+  </div>
+</nav>
+<main>
+<header class="hero">
+ <p class="eyebrow">Election Day · Tuesday, November 3, 2026 · Open Record Order</p>
+ <h1>The <span>Night</span> Line</h1>
+ <p class="dek">Same twenty-three entries as the Switchboard, drawn as a transit map. Four lines run through the day, and every line crosses the same platform between 7:30 and 8:00 PM, when North Carolina and Pennsylvania close within thirty minutes (LIKELY, poll-close times from the board). Riders are advised to watch the schedule, not the rumor. Next checkpoint: 7:00 AM, polls open.</p>
+</header>
+<section aria-labelledby="map"><div class="wrap">
+ <p class="eyebrow">Act I · The System Map</p>
+ <h2 id="map">Four lines, one interchange.</h2>
+ <p class="secdek">Station size follows gravity, filled stations are over the alert line (80 and up), and dashed stations have no fixed time. The dashed ruler is the day running; the white trains are ambient. The red band is the collision window from the collision map: three high-gravity events inside thirty minutes, with Pennsylvania mail-ballot count timing and North Carolina court races the stories most at risk of thin coverage (LIKELY).</p>
+ <div class="mapbox rv"><svg viewBox="0 0 1000 430" role="img" aria-label="Transit map of Tuesday November 3 from 6 AM to midnight Eastern. Four lines: Elections, Law, Economy and Safety. Georgia closes 7:00 PM, North Carolina 7:30, Pennsylvania 8:00 and Arizona 9:00 on the Elections line, with a red interchange band from 7:30 to 8:00 PM. Federal Register, Supreme Court and North Carolina appeals sit on the Law line in the morning; JOLTS and the equity open on the Economy line. Alaska ruling, the president's schedule and Iran talks sit in a depot at the far right because their times are not set."><line x1="130.0" x2="130.0" y1="70" y2="400" stroke="#d9d3c2"/><text class="m-t" x="130.0" y="418" text-anchor="middle">6 AM</text><line x1="246.7" x2="246.7" y1="70" y2="400" stroke="#d9d3c2"/><text class="m-t" x="246.7" y="418" text-anchor="middle">9 AM</text><line x1="363.3" x2="363.3" y1="70" y2="400" stroke="#d9d3c2"/><text class="m-t" x="363.3" y="418" text-anchor="middle">Noon</text><line x1="480.0" x2="480.0" y1="70" y2="400" stroke="#d9d3c2"/><text class="m-t" x="480.0" y="418" text-anchor="middle">3 PM</text><line x1="596.7" x2="596.7" y1="70" y2="400" stroke="#d9d3c2"/><text class="m-t" x="596.7" y="418" text-anchor="middle">6 PM</text><line x1="713.3" x2="713.3" y1="70" y2="400" stroke="#d9d3c2"/><text class="m-t" x="713.3" y="418" text-anchor="middle">9 PM</text><line x1="830.0" x2="830.0" y1="70" y2="400" stroke="#d9d3c2"/><text class="m-t" x="830.0" y="418" text-anchor="middle">Midnight</text><rect class="inter" x="655.0" y="66" width="19.4" height="340" fill="#d62839" opacity=".15"/><text class="m-s" x="664.7" y="60" text-anchor="middle" fill="#a1111f">INTERCHANGE 7:30 to 8:00 PM</text><rect x="130.0" y="14" width="700.0" height="16" rx="8" fill="#d62839"/><text class="m-s" x="142.0" y="26" fill="#fff" style="fill:#fff">T01 Election Day, all day, 97</text><rect x="130.0" y="36" width="700.0" height="16" rx="8" fill="#8e1b27"/><text class="m-s" x="142.0" y="48" fill="#fff" style="fill:#fff">T09 DOJ demands and monitors, all day, 82</text><text class="m-l" x="8" y="110">Elections</text><line x1="130.0" x2="830.0" y1="105" y2="105" stroke="#d62839" stroke-width="10" stroke-linecap="round"/><line x1="830.0" x2="970.0" y1="105" y2="105" stroke="#d62839" stroke-width="10" stroke-dasharray="4 10" stroke-linecap="round" opacity=".6"/><text class="m-l" x="8" y="200">Law</text><line x1="130.0" x2="830.0" y1="195" y2="195" stroke="#1d5fd0" stroke-width="10" stroke-linecap="round"/><line x1="830.0" x2="970.0" y1="195" y2="195" stroke="#1d5fd0" stroke-width="10" stroke-dasharray="4 10" stroke-linecap="round" opacity=".6"/><text class="m-l" x="8" y="280">Economy</text><line x1="130.0" x2="830.0" y1="275" y2="275" stroke="#0b8f69" stroke-width="10" stroke-linecap="round"/><line x1="830.0" x2="970.0" y1="275" y2="275" stroke="#0b8f69" stroke-width="10" stroke-dasharray="4 10" stroke-linecap="round" opacity=".6"/><text class="m-l" x="8" y="360">Safety</text><line x1="130.0" x2="830.0" y1="355" y2="355" stroke="#e07b00" stroke-width="10" stroke-linecap="round"/><line x1="830.0" x2="970.0" y1="355" y2="355" stroke="#e07b00" stroke-width="10" stroke-dasharray="4 10" stroke-linecap="round" opacity=".6"/><rect x="168.9" y="115" width="661.1" height="9" rx="4" fill="#fff" stroke="#d62839" stroke-width="2" stroke-dasharray="3 3"/><text class="m-t" x="172.9" y="141">county counts 7 AM to close, 9 offices (INFERRED)</text><circle cx="205.6" cy="119" r="3" fill="#d62839"/><circle cx="279.1" cy="119" r="3" fill="#d62839"/><circle cx="352.5" cy="119" r="3" fill="#d62839"/><circle cx="426.0" cy="119" r="3" fill="#d62839"/><circle cx="499.4" cy="119" r="3" fill="#d62839"/><circle cx="572.9" cy="119" r="3" fill="#d62839"/><circle cx="646.4" cy="119" r="3" fill="#d62839"/><circle cx="719.8" cy="119" r="3" fill="#d62839"/><circle cx="793.3" cy="119" r="3" fill="#d62839"/><g><circle cx="236.9" cy="195" r="10.4" fill="#fffdf6" stroke="#1d5fd0" stroke-width="5"/><text class="m-l" x="222.9" y="167" text-anchor="end">Fed. Register 8:45 38</text></g><g><circle cx="266.1" cy="195" r="13.3" fill="#fffdf6" stroke="#1d5fd0" stroke-width="5"/><text class="m-l" x="272.1" y="167" text-anchor="start">SCOTUS 9:30 70</text></g><g><circle cx="285.6" cy="195" r="11.0" fill="#fffdf6" stroke="#1d5fd0" stroke-width="5"/><text class="m-l" x="293.6" y="231" text-anchor="start">NC COA 10:00 44</text></g><g><circle cx="266.1" cy="275" r="11.9" fill="#fffdf6" stroke="#0b8f69" stroke-width="5"/><text class="m-l" x="256.1" y="247" text-anchor="end">Equity open 9:30 55</text></g><g><circle cx="285.6" cy="275" r="12.2" fill="#fffdf6" stroke="#0b8f69" stroke-width="5"/><text class="m-l" x="293.6" y="311" text-anchor="start">JOLTS 10:00 58</text></g><g><circle cx="635.6" cy="105" r="14.0" fill="#fffdf6" stroke="#d62839" stroke-width="5"/><text class="m-l" x="623.6" y="77" text-anchor="end">GA 7:00 PM 78</text></g><g><circle cx="674.4" cy="105" r="15.1" fill="#0f1b33" stroke="#d62839" stroke-width="5"/><text class="m-l" x="686.4" y="77" text-anchor="start">PA 8:00 90</text></g><g><circle cx="655.0" cy="105" r="14.9" fill="#0f1b33" stroke="#d62839" stroke-width="5"/><text class="m-l" x="649.0" y="143" text-anchor="end">NC 7:30 88</text></g><g><circle cx="713.3" cy="105" r="13.5" fill="#fffdf6" stroke="#d62839" stroke-width="5"/><text class="m-l" x="721.3" y="143" text-anchor="start">AZ 9:00 72</text></g><g><circle cx="905" cy="105" r="13.7" fill="#fffdf6" stroke="#d62839" stroke-width="5" stroke-dasharray="4 3"/><text class="m-l" x="905" y="75" text-anchor="middle">Alaska 84</text></g><g><circle cx="945" cy="105" r="12.9" fill="#fffdf6" stroke="#d62839" stroke-width="5" stroke-dasharray="4 3"/><text class="m-l" x="945" y="139" text-anchor="middle">POTUS 74</text></g><g><circle cx="925" cy="355" r="13.4" fill="#fffdf6" stroke="#e07b00" stroke-width="5" stroke-dasharray="4 3"/><text class="m-l" x="925" y="325" text-anchor="middle">Doha 80</text></g><text class="m-t" x="905" y="388" >TBA depot</text><g class="train t1"><rect x="126.0" y="98" width="34" height="14" rx="7" fill="#fffdf6" stroke="#d62839" stroke-width="3"/><circle cx="136.0" cy="105" r="2.5" fill="#d62839"/><circle cx="152.0" cy="105" r="2.5" fill="#d62839"/></g><g class="train t2"><rect x="126.0" y="188" width="34" height="14" rx="7" fill="#fffdf6" stroke="#1d5fd0" stroke-width="3"/><circle cx="136.0" cy="195" r="2.5" fill="#1d5fd0"/><circle cx="152.0" cy="195" r="2.5" fill="#1d5fd0"/></g><g class="train t3"><rect x="126.0" y="268" width="34" height="14" rx="7" fill="#fffdf6" stroke="#0b8f69" stroke-width="3"/><circle cx="136.0" cy="275" r="2.5" fill="#0b8f69"/><circle cx="152.0" cy="275" r="2.5" fill="#0b8f69"/></g><g class="train t4"><rect x="126.0" y="348" width="34" height="14" rx="7" fill="#fffdf6" stroke="#e07b00" stroke-width="3"/><circle cx="136.0" cy="355" r="2.5" fill="#e07b00"/><circle cx="152.0" cy="355" r="2.5" fill="#e07b00"/></g><g class="clock"><line x1="130.0" x2="130.0" y1="66" y2="402" stroke="#0f1b33" stroke-width="2" stroke-dasharray="5 4"/><polygon points="124.0,66 136.0,66 130.0,76" fill="#0f1b33"/></g></svg></div>
+</div></section>
+<section aria-labelledby="t5"><div class="wrap">
+ <p class="eyebrow">Act II · The Departure Board</p>
+ <h2 id="t5">The five that leave first.</h2>
+ <p class="secdek">Top 5 by frozen gravity at the 4 PM build. Numbers tick up to their scores. Gravity is a planning estimate, not a forecast, so each departure carries its label and a next checkpoint.</p>
+ <div class="board" role="list"><div class="dep rv" style="--g:97"><span class="no">1</span><span class="lc" style="background:#d62839" title="Elections Line" aria-hidden="true">EL</span><div><h3>Election Day, the whole exhibit</h3><div class="sub">T01 · all day · LIKELY</div></div><div class="bar" role="img" aria-label="Gravity 97 of 100"><span></span></div><div class="flap" data-n="97" aria-label="Gravity 97">97</div><p class="rd">The story is the machinery, not the margin: hour extensions, count timing, and who demands what from whom. Next checkpoint: polls open 7:00 AM.</p></div><div class="dep rv" style="--g:90"><span class="no">2</span><span class="lc" style="background:#d62839" title="Elections Line" aria-hidden="true">EL</span><div><h3>Pennsylvania polls close</h3><div class="sub">T04 · 8:00 PM · LIKELY</div></div><div class="bar" role="img" aria-label="Gravity 90 of 100"><span></span></div><div class="flap" data-n="90" aria-label="Gravity 90">90</div><p class="rd">Pennsylvania cannot pre-canvass mail ballots before 7 AM or report before 8 PM, so a slow count is the calendar working, not a plot (REPORTED law). Next checkpoint: 8:00 PM close.</p></div><div class="dep rv" style="--g:88"><span class="no">3</span><span class="lc" style="background:#d62839" title="Elections Line" aria-hidden="true">EL</span><div><h3>North Carolina polls close</h3><div class="sub">T03 · 7:30 PM · LIKELY</div></div><div class="bar" role="img" aria-label="Gravity 88 of 100"><span></span></div><div class="flap" data-n="88" aria-label="Gravity 88">88</div><p class="rd">North Carolina drops an early-vote-heavy batch first; in 2022 the lead flipped about ninety minutes later. Do not call on the first drop. Next checkpoint: 7:30 PM close.</p></div><div class="dep rv" style="--g:84"><span class="no">4</span><span class="lc" style="background:#d62839" title="Elections Line" aria-hidden="true">EL</span><div><h3>Alaska ballot-segregation ruling</h3><div class="sub">T08 · TBA · UNCONFIRMED</div></div><div class="bar" role="img" aria-label="Gravity 84 of 100"><span></span></div><div class="flap" data-n="84" aria-label="Gravity 84">84</div><p class="rd">A ruling was sought by Monday and none was found; if the docket stayed silent, the fight arrives mid-count (UNCONFIRMED). Next checkpoint: Judge Gleason docket, any hour.</p></div><div class="dep rv" style="--g:82"><span class="no">5</span><span class="lc" style="background:#d62839" title="Elections Line" aria-hidden="true">EL</span><div><h3>DOJ ballot demands and monitors</h3><div class="sub">T09 · all day · REPORTED</div></div><div class="bar" role="img" aria-label="Gravity 82 of 100"><span></span></div><div class="flap" data-n="82" aria-label="Gravity 82">82</div><p class="rd">Pennsylvania sits on DOJ&#x27;s contact list and under the 8 PM spotlight, so federal-state friction and the count clock share one state (REPORTED). Next checkpoint: DOJ and state AG statements.</p></div></div>
+ <p class="runner">Standing room: Iran and the Doha talks (T10, 80, REPORTED) sit exactly on the alert line, and can pull the cameras off any platform at any hour. Next checkpoint: the Monday evening US reply and any presidential remarks (T11, 74, UNCONFIRMED).</p>
+</div></section>
+<section aria-labelledby="st"><div class="wrap">
+ <p class="eyebrow">Act III · Every Station, In Order</p>
+ <h2 id="st">All twenty-three, one wall label each.</h2>
+ <p class="secdek">Same rows and frozen scores as the board of record, in clock order, then all-day services, then unscheduled, then the nine county offices. County rows are INFERRED placeholders from a stale June cache, not verified events. Filter by line below.</p>
+ <div class="filters" role="group" aria-label="Filter stations by line"><button type="button" aria-pressed="true" data-f="ALL">All lines (23)</button><button type="button" aria-pressed="false" data-f="DEMOCRACY_ELECTIONS">Elections Line (17)</button><button type="button" aria-pressed="false" data-f="LAWMAKING_RULES">Law Line (3)</button><button type="button" aria-pressed="false" data-f="WORKFORCE_ECONOMY">Economy Line (2)</button><button type="button" aria-pressed="false" data-f="PUBLIC_SAFETY">Safety Line (1)</button></div>
+ <ol class="route" id="route"><li class="st rv" data-line="LAWMAKING_RULES" style="--lc:#1d5fd0;--g:38"><div class="tm">8:45 AM</div><div class="box"><span class="gv" aria-label="Gravity 38">38</span><h4>Federal Register, November 3 issue</h4><div class="tag">T12 · <b>WATCH</b> · Law Line</div><div class="mt" role="img" aria-label="Gravity 38 of 100"><span></span></div><p class="read">Content not retrieved this cycle.</p><p class="nx"><b>Next checkpoint:</b> Re-pull on Overnight Desk</p></div></li><li class="st rv" data-line="LAWMAKING_RULES" style="--lc:#1d5fd0;--g:70"><div class="tm">9:30 AM</div><div class="box"><span class="gv" aria-label="Gravity 70">70</span><h4>Supreme Court on Election Day</h4><div class="tag">T07 · High gravity · <b>WATCH</b> · Law Line</div><div class="mt" role="img" aria-label="Gravity 70 of 100"><span></span></div><p class="read">Any election-law application is decided under Purcell; expect denials of late changes.</p><p class="nx"><b>Next checkpoint:</b> Docket filings Mon night; Circuit-justice orders</p></div></li><li class="st rv" data-line="WORKFORCE_ECONOMY" style="--lc:#0b8f69;--g:55"><div class="tm">9:30 AM</div><div class="box"><span class="gv" aria-label="Gravity 55">55</span><h4>Equity open on Election Day</h4><div class="tag">T14 · Likely coverage · <b>LIKELY</b> · Economy Line</div><div class="mt" role="img" aria-label="Gravity 55 of 100"><span></span></div><p class="read">Markets price ~94% Dem House; surprise is the tail.</p><p class="nx"><b>Next checkpoint:</b> Futures overnight</p></div></li><li class="st rv" data-line="WORKFORCE_ECONOMY" style="--lc:#0b8f69;--g:58"><div class="tm">10:00 AM</div><div class="box"><span class="gv" aria-label="Gravity 58">58</span><h4>JOLTS, September job openings</h4><div class="tag">T06 · Likely coverage · <b>LIKELY</b> · Economy Line</div><div class="mt" role="img" aria-label="Gravity 58 of 100"><span></span></div><p class="read">Quits and hires rate matter more than openings ahead of Fri NFP (+55k cons.).</p><p class="nx"><b>Next checkpoint:</b> Fri 11/6 NFP; Wed refunding</p></div></li><li class="st rv" data-line="LAWMAKING_RULES" style="--lc:#1d5fd0;--g:44"><div class="tm">10:00 AM (first Tue)</div><div class="box"><span class="gv" aria-label="Gravity 44">44</span><h4>NC Court of Appeals opinions</h4><div class="tag">T13 · Watch · <b>LIKELY</b> · Law Line</div><div class="mt" role="img" aria-label="Gravity 44 of 100"><span></span></div><p class="read">Check for election-law or certification-adjacent opinions.</p><p class="nx"><b>Next checkpoint:</b> Opinion list</p></div></li><li class="st rv" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:78"><div class="tm">7:00 PM</div><div class="box"><span class="gv" aria-label="Gravity 78">78</span><h4>Georgia polls close</h4><div class="tag">T02 · High gravity · <b>LIKELY</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 78 of 100"><span></span></div><p class="read">First big southern read; Clayton County is the cited turnout bellwether.</p><p class="nx"><b>Next checkpoint:</b> Early-vote batch size; Fulton posting cadence</p></div></li><li class="st rv" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:88"><div class="tm">7:30 PM</div><div class="box"><span class="gv" aria-label="Gravity 88">88</span><h4>North Carolina polls close</h4><div class="tag">T03 · Alert now · <b>LIKELY</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 88 of 100"><span></span></div><p class="read">Early-vote-heavy first batch then Election Day batch; avoid calling on first drop. Wake is the suburban bellwether.</p><p class="nx"><b>Next checkpoint:</b> NC SBE results page; Wake/Mecklenburg/Guilford first drops; court races</p></div></li><li class="st rv" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:90"><div class="tm">8:00 PM</div><div class="box"><span class="gv" aria-label="Gravity 90">90</span><h4>Pennsylvania polls close</h4><div class="tag">T04 · Alert now · <b>LIKELY</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 90 of 100"><span></span></div><p class="read">Slow-count explainer is the under-covered layer; Luzerne is the working-class bellwether.</p><p class="nx"><b>Next checkpoint:</b> Philadelphia/Allegheny mail batch timing; DOS guidance; provisional ballot litigation</p></div></li><li class="st rv" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:72"><div class="tm">9:00 PM</div><div class="box"><span class="gv" aria-label="Gravity 72">72</span><h4>Arizona polls close</h4><div class="tag">T05 · High gravity · <b>LIKELY</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 72 of 100"><span></span></div><p class="read">Late-count state; narrative risk of premature calls.</p><p class="nx"><b>Next checkpoint:</b> Maricopa drop schedule</p></div></li><li class="st rv" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:97"><div class="tm">all day</div><div class="box"><span class="gv" aria-label="Gravity 97">97</span><h4>Election Day, the whole exhibit</h4><div class="tag">T01 · Alert now · <b>LIKELY</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 97 of 100"><span></span></div><p class="read">Administration, not outcome, is the story layer: hour extensions, count timing, DOJ ballot demands. Markets priced a Dem House ~94% (Nov 1 note).</p><p class="nx"><b>Next checkpoint:</b> Polling-hour extension orders; DOJ/state guidance; first-batch vs late-batch count shifts</p></div></li><li class="st rv" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:82"><div class="tm">all day</div><div class="box"><span class="gv" aria-label="Gravity 82">82</span><h4>DOJ ballot demands and monitors</h4><div class="tag">T09 · Alert now · <b>REPORTED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 82 of 100"><span></span></div><p class="read">PA is both on the DOJ contact list and a Tuesday count-timing story: cross-state convergence driver.</p><p class="nx"><b>Next checkpoint:</b> DOJ press; state AG statements; TRO enforcement in CA</p></div></li><li class="st rv" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:84"><div class="tm">TBA</div><div class="box"><span class="gv" aria-label="Gravity 84">84</span><h4>Alaska ballot-segregation ruling</h4><div class="tag">T08 · Alert now · <b>UNCONFIRMED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 84 of 100"><span></span></div><p class="read">Ruling sought by Mon 11/2; if none, spills into Election Day.</p><p class="nx"><b>Next checkpoint:</b> Docket; any appeal to Ninth Circuit</p></div></li><li class="st rv" data-line="PUBLIC_SAFETY" style="--lc:#e07b00;--g:80"><div class="tm">TBA</div><div class="box"><span class="gv" aria-label="Gravity 80">80</span><h4>Iran talks in Doha, day four or later</h4><div class="tag">T10 · Alert now · <b>REPORTED</b> · Safety Line</div><div class="mt" role="img" aria-label="Gravity 80 of 100"><span></span></div><p class="read">Can displace election-night coverage; oil and NFP read-through.</p><p class="nx"><b>Next checkpoint:</b> Mon evening US reply; UKMTO notices</p></div></li><li class="st rv" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:74"><div class="tm">TBA</div><div class="box"><span class="gv" aria-label="Gravity 74">74</span><h4>The president&#x27;s Election Day schedule</h4><div class="tag">T11 · High gravity · <b>UNCONFIRMED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 74 of 100"><span></span></div><p class="read">Remarks on fraud/results pre-poll-close are the risk branch.</p><p class="nx"><b>Next checkpoint:</b> Overnight Desk: WH schedule, Factba.se</p></div></li><li class="st rv cty" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:78"><div class="tm">7:00 AM-close</div><div class="box"><span class="gv" aria-label="Gravity 78">78</span><h4>Philadelphia count</h4><div class="tag">T15 · High gravity · <b>INFERRED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 78 of 100"><span></span></div><p class="read">County drop timing feeds PA statewide narrative.</p><p class="nx"><b>Next checkpoint:</b> County results page/returns</p></div></li><li class="st rv cty" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:74"><div class="tm">7:00 AM-close</div><div class="box"><span class="gv" aria-label="Gravity 74">74</span><h4>Wake County returns</h4><div class="tag">T16 · High gravity · <b>INFERRED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 74 of 100"><span></span></div><p class="read">County drop timing feeds NC statewide narrative.</p><p class="nx"><b>Next checkpoint:</b> County results page/returns</p></div></li><li class="st rv cty" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:72"><div class="tm">7:00 AM-close</div><div class="box"><span class="gv" aria-label="Gravity 72">72</span><h4>Mecklenburg County returns</h4><div class="tag">T17 · High gravity · <b>INFERRED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 72 of 100"><span></span></div><p class="read">County drop timing feeds NC statewide narrative.</p><p class="nx"><b>Next checkpoint:</b> County results page/returns</p></div></li><li class="st rv cty" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:64"><div class="tm">7:00 AM-close</div><div class="box"><span class="gv" aria-label="Gravity 64">64</span><h4>Guilford County returns</h4><div class="tag">T18 · Likely coverage · <b>INFERRED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 64 of 100"><span></span></div><p class="read">County drop timing feeds NC statewide narrative.</p><p class="nx"><b>Next checkpoint:</b> County results page/returns</p></div></li><li class="st rv cty" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:66"><div class="tm">7:00 AM-close</div><div class="box"><span class="gv" aria-label="Gravity 66">66</span><h4>Bucks County count</h4><div class="tag">T19 · High gravity · <b>INFERRED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 66 of 100"><span></span></div><p class="read">County drop timing feeds PA statewide narrative.</p><p class="nx"><b>Next checkpoint:</b> County results page/returns</p></div></li><li class="st rv cty" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:64"><div class="tm">7:00 AM-close</div><div class="box"><span class="gv" aria-label="Gravity 64">64</span><h4>Chester County count</h4><div class="tag">T20 · Likely coverage · <b>INFERRED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 64 of 100"><span></span></div><p class="read">County drop timing feeds PA statewide narrative.</p><p class="nx"><b>Next checkpoint:</b> County results page/returns</p></div></li><li class="st rv cty" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:58"><div class="tm">7:00 AM-close</div><div class="box"><span class="gv" aria-label="Gravity 58">58</span><h4>Westmoreland County count</h4><div class="tag">T21 · Likely coverage · <b>INFERRED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 58 of 100"><span></span></div><p class="read">County drop timing feeds PA statewide narrative.</p><p class="nx"><b>Next checkpoint:</b> County results page/returns</p></div></li><li class="st rv cty" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:52"><div class="tm">7:00 AM-close</div><div class="box"><span class="gv" aria-label="Gravity 52">52</span><h4>Cabarrus County returns</h4><div class="tag">T22 · Likely coverage · <b>INFERRED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 52 of 100"><span></span></div><p class="read">County drop timing feeds NC statewide narrative.</p><p class="nx"><b>Next checkpoint:</b> County results page/returns</p></div></li><li class="st rv cty" data-line="DEMOCRACY_ELECTIONS" style="--lc:#d62839;--g:56"><div class="tm">7:00 AM-close</div><div class="box"><span class="gv" aria-label="Gravity 56">56</span><h4>Berks County count</h4><div class="tag">T23 · Likely coverage · <b>INFERRED</b> · Elections Line</div><div class="mt" role="img" aria-label="Gravity 56 of 100"><span></span></div><p class="read">County drop timing feeds PA statewide narrative.</p><p class="nx"><b>Next checkpoint:</b> County results page/returns</p></div></li></ol>
+</div></section>
+<section aria-labelledby="br"><div class="wrap">
+ <p class="eyebrow">Act IV · Service Alerts, Pre-Written</p>
+ <h2 id="br">If this happens, read this first.</h2>
+ <p class="secdek">Six branch notes written before the night so the explanation arrives before the surprise (from the board's prewrite scaffold, WATCH).</p>
+ <div class="br"><div><b>NC first drop leans one way, then shifts</b><p>Early vote reports first, Election Day batch later. Do not call on the first drop; cite the 2022 timing.</p></div><div><b>PA count runs slow</b><p>Philadelphia and Allegheny batch timing decides the pace. A call delay is normal, not an anomaly.</p></div><div><b>A county extends polling hours</b><p>Record the order, the county, the minutes extended, and how provisional ballots are handled.</p></div><div><b>A DOJ demand meets the California order</b><p>Name the court order and the state. The restraining order bars federal ballot-segregation demands (REPORTED).</p></div><div><b>The Alaska ruling lands, or does not</b><p>Branch on the text of Judge Gleason&#x27;s order; silence means the fight spills into the count.</p></div><div><b>An Iran announcement lands during polls</b><p>Deal or force, the market and turnout framing changes. The Doha talks are the displacement risk (REPORTED).</p></div></div>
+</div></section>
+<section aria-labelledby="mem"><div class="wrap">
+ <p class="eyebrow">Act V · The Timetable Carries Forward</p>
+ <h2 id="mem">What we knew, what we learned, what we watch.</h2>
+ <p class="secdek">Yesterday's exhibit was <a href="tomorrow-exhibit-2026-11-02-alt.html">the Hand-Marked Ballot of November 2</a>, with its twin <a href="tomorrow-exhibit-2026-11-02.html">the Lighthouse Log</a>. Running threads carried in: DOJ and ballot administration, Iran and Hormuz, energy to inflation, and the Pennsylvania count clock.</p>
+ <div class="mems"><div class="mem knew rv"><h5>What we knew</h5><div class="mi"><b>Monday called it the last quiet day</b><p>Yesterday&#x27;s exhibit (The Lighthouse Log and The Hand-Marked Ballot) put election administration, not outcome, at the top and listed Alaska, DOJ and Doha as the alert lanterns (FACT, our own board).</p></div><div class="mi"><b>Pennsylvania&#x27;s clock was already known</b><p>Pre-canvass only from 7 AM Election Day and no reporting before 8 PM (REPORTED law).</p></div><div class="mi"><b>Doha had a three-day pattern</b><p>Indirect talks, a two-day Hormuz reopening proposal, and a president who said deal or force &quot;very soon&quot; (REPORTED).</p></div><div class="mi"><b>Energy is the transmission belt</b><p>Brent near $103 on Oct 30 and December hike odds near 85% (REPORTED); Friday NFP consensus +55k.</p></div></div><div class="mem learned rv"><h5>What we learned today</h5><div class="mi"><b>Gravity moved from filings to clocks</b><p>Pennsylvania rose 80 to 90 and North Carolina 78 to 88, while the DOJ lane fell from 90 to 82 and Alaska from 86 to 84 (FACT, frozen scores).</p></div><div class="mi"><b>Georgia and Arizona join the wall</b><p>New rows: Georgia closes 7:00 PM (78) and Arizona 9:00 PM (72). Four closing times now stack inside two hours (LIKELY).</p></div><div class="mi"><b>The county layer is a placeholder</b><p>Nine county election offices are INFERRED rows from a stale June cache, not verified events (FACT, flagged).</p></div><div class="mi"><b>Monday&#x27;s outcomes stayed dark</b><p>The Alaska ruling, the 9:30 AM SCOTUS list and ISM actuals were not retrievable in the Monday lock (WATCH). We will not guess them.</p></div></div><div class="mem next rv"><h5>What we're watching next</h5><div class="mi"><b>Tue 7:00 AM</b><p>Polls open; Pennsylvania pre-canvass begins.</p></div><div class="mi"><b>Tue 9:30 AM</b><p>SCOTUS orders watch and the equity open; JOLTS 10:00 AM (confirm with BLS).</p></div><div class="mi"><b>Tue 7:00 PM</b><p>Georgia closes. 7:30 PM North Carolina, 8:00 PM Pennsylvania, 9:00 PM Arizona.</p></div><div class="mi"><b>Wed Nov 4</b><p>Treasury refunding statement; agency statements from NC SBE and PA DOS due by 5 PM.</p></div><div class="mi"><b>Fri Nov 6</b><p>NFP at 8:30 AM, consensus +55k.</p></div></div></div>
+ <p class="xlink">SAME BOARD, OPPOSITE IMAGINATION → <a href="tomorrow-exhibit-2026-11-03.html">See the other imagination of today's board: The Returns Switchboard, the same twenty-three entries as brass jacks and blinking lamps at night</a></p>
+ <p class="honest">Degraded sources (WATCH): outbound feeds were blocked on the build run, so Legistar, county calendars, the Federal Register live list, state agencies and court dockets were not pulled. Poll-close times are standard practice and the board marks them LIKELY. The JOLTS date comes from a third-party calendar and should be confirmed with BLS.</p>
+</div></section>
+</main>
+<nav class="footnav" aria-label="Post navigation">
+  <div>
+    <h5>This sequence</h5>
+    <a href="tomorrow-exhibit-2026-11-02-alt.html">← Prev · The Open Record Order, 11.02.2026 (The Hand-Marked Ballot)</a>
+    <a href="tomorrow-exhibit-2026-11-03.html">Today's other imagination · The Returns Switchboard →</a>
+    <a href="field-notes/index.html">← Field Notes index</a>
+  </div>
+  <div>
+    <h5>Elsewhere</h5>
+    <a href="index.html">Series Home</a>
+    <a href="systems-atlas.html">Systems Atlas</a>
+    <a href="legal.html">Legal · Privacy</a>
+    <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+  </div>
+</nav>
+<div class="postfoot">© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com<br>The Open Record Order is Infera's public-source emulation of a newsroom assignment desk. Gravity scores are frozen planning-time estimates, not predictions, and gravity is not accuracy. Built Monday Nov 2 around 4 PM ET on a degraded layer: county, Federal Register, state and docket feeds were not pulled live, so county rows are INFERRED placeholders (WATCH). Tomorrow's 8:30 AM Morning Lock supersedes any entry here.</div>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.rv');
+  var flaps = document.querySelectorAll('.flap');
+  if (reduce || !('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('in'); }); }
+  else {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);
+      var f = en.target.querySelector('.flap'); if(f){ var n=+f.dataset.n, t0=null; (function step(t){ if(!t0)t0=t; var p=Math.min((t-t0)/1200,1); f.textContent=Math.round(n*p); if(p<1)requestAnimationFrame(step); })(performance.now()); } } }); }, {threshold:0.15});
+    els.forEach(function(e){ io.observe(e); });
+  }
+  var btns = document.querySelectorAll('.filters button'), sts = document.querySelectorAll('.st');
+  btns.forEach(function(b){ b.addEventListener('click', function(){
+    btns.forEach(function(x){ x.setAttribute('aria-pressed', x===b ? 'true':'false'); });
+    var f = b.dataset.f; sts.forEach(function(s){ s.classList.toggle('hidden', f!=='ALL' && s.dataset.line!==f); });
+  }); });
+})();
+</script>
+<style id="infera-legal-footer">
+.legal-footer{background:#06060a; color:rgba(168,162,152,.75); font-family:'Inter', system-ui, sans-serif; font-size:11.5px; line-height:1.55; padding:32px 6vw 36px; border-top:1px solid rgba(168,162,152,.12);}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{display:grid; grid-template-columns:1fr auto; gap:24px 32px; padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08); margin-bottom:14px;}
+.legal-footer .lf-brand{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700; display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+.legal-footer .lf-brand b{color:#c8ff1e; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; padding:3px 8px; border:1px solid rgba(168,162,152,.18); white-space:nowrap}
+.legal-footer .lf-disclaim{font-size:11.5px; line-height:1.6; color:rgba(168,162,152,.62);}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+.legal-footer details.lf-more{margin-top:8px}
+.legal-footer details.lf-more summary{cursor:pointer; list-style:none; font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700; display:inline-flex; align-items:center; gap:8px; padding:5px 0;}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+.legal-footer .lf-links{display:flex; flex-wrap:wrap; gap:0 18px; padding-top:14px; border-top:1px dashed rgba(168,162,152,.12); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+.legal-footer .lf-infra{display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:10px 14px 12px; margin-bottom:14px; background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:780px){.legal-footer .lf-top{grid-template-columns:1fr}.legal-footer{padding:26px 5vw 30px; font-size:11px}}
+@media (prefers-reduced-motion: reduce){.legal-footer details.lf-more summary::before{transition:none}}
+</style>
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+    <nav class="lf-infra" aria-label="Infrastructure links">
+      <span class="lf-infra-lbl">More from Infera</span>
+      <a href="systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+      <a href="claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+      <a href="case-file.html">Your Case File</a><span class="lf-sep">·</span>
+      <a href="founding.html">Founding 500</a><span class="lf-sep">·</span>
+      <a href="field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+      <a href="index.html#about">About</a>
+    </nav>
+    <div class="lf-top">
+      <div class="lf-brand"><span>© 2026 <b>Infera</b></span><span class="sep">·</span><span>All rights reserved</span><span class="sep">·</span><em>The Mechanism Series™</em></div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis, <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided "as is" without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> "Infera," "The Mechanism Series," and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong>Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission, usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong>Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for reading preferences, none transmitted. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong>DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with the required statutory elements under 17 U.S.C. § 512. Knowingly false notices may incur liability under § 512(f).</p>
+          <p><strong>Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong>Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Editorial decisions are independent.</p>
+          <p><strong>AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication.</p>
+          <p style="margin-top:10px; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+    <div class="lf-tail"><em>Atlanta, GA · USA · v.2026.05</em><span>Last updated · 26 May 2026</span></div>
+  </div>
+</aside>
+</body>
+</html>
