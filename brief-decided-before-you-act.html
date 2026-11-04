@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Mechanism Brief № 013 · Decided Before You Act · Infera</title>
+<meta name="description" content="Store face matches, speed limiters, driving scores and behavioral models act on a prediction of you before you act. Why American law fits badly, where it caught up, and a guide to requesting the file behind each decision.">
+<link rel="canonical" href="brief-decided-before-you-act.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Brief № 013 · Decided Before You Act">
+<meta property="og:description" content="Systems that act on a model of you before you act, and how to request the file behind each decision.">
+<meta property="og:url" content="https://series.melophon.com/brief-decided-before-you-act.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* Layout: Mechanism Brief house system (paper pages, ink slides). Opens on a case file that stamps itself, then a staged build of the file assembled before you act, the act-versus-prediction gap, the See Your File tool, counterexamples, the GM layering timeline, both sides, tie-ins and checkpoints. Single-theme by design, matching the series. Accent: stamp pink on ink. */
+:root{
+  --ink:#0A0A0A; --paper:#FBF7EB; --paper2:#F3EEDC; --cha:#C8FF1E; --pnk:#FF1A6B; --blu:#1E3CFF; --yel:#FFD500; --gray:#57534A; --gray2:#8C877A; --soft:#d8d2c2; --line:#2b2a27; --manila:#E9D8A6;
+  --f-display:'Archivo Black',Impact,'Arial Black',sans-serif; --f-body:'Space Grotesk',system-ui,-apple-system,sans-serif; --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace; --f-serif:'Instrument Serif',Georgia,serif;
+  --maxw:1120px; color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;overflow-x:hidden;margin:0}
+::selection{background:var(--yel);color:var(--ink)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blu);outline-offset:3px}
+.ab{font-family:var(--f-display);letter-spacing:-.01em;line-height:1.03;font-weight:400}
+.band{padding-block:80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.band.dark{background:var(--ink);color:var(--paper)}
+.band.alt{background:var(--paper2)}
+.wrap{max-width:var(--maxw);margin:0 auto;display:grid;gap:22px}
+.eco{font:500 10.5px/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-wrap:wrap;gap:6px 14px;border-bottom:3px solid var(--ink);background:var(--paper)}
+.eco a{text-decoration:none} .eco .cur{color:var(--pnk)} .eco .rv{margin-left:auto;background:var(--yel);padding:2px 7px}
+.stageno{font:500 12px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tag{border:2px solid currentColor;padding:3px 8px;font-size:10.5px}
+h1,h2,h3{margin:0;text-wrap:balance}
+.h-xl{font-size:clamp(44px,8vw,104px)} .h-l{font-size:clamp(30px,5vw,58px)} .h-m{font-size:clamp(22px,2.6vw,30px)}
+.hl-y{background:var(--yel);color:var(--ink);padding:0 .12em} .hl-p{background:var(--pnk);color:var(--paper);padding:0 .12em}
+.lede{font-size:clamp(18px,2vw,22px);max-width:62ch;margin:0}
+.p{max-width:66ch;margin:0}
+.src{font:500 11px/1.5 var(--f-mono);letter-spacing:.04em;color:var(--gray)}
+.dark .src{color:var(--gray2)}
+.chip{display:inline-block;font:700 10px/1 var(--f-mono);letter-spacing:.08em;padding:4px 6px 3px;border:1.5px solid currentColor;vertical-align:1px;white-space:nowrap}
+.fact{color:#127a43}.rep{color:#9a6400}.inf{color:#5a43a0}.watch{color:var(--gray)}
+.dark .fact{color:var(--cha)}.dark .rep{color:var(--yel)}.dark .inf{color:#b9a3ff}.dark .watch{color:var(--soft)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:center}
+.hero > *{min-width:0}
+.folder{max-width:420px;width:100%;justify-self:center}
+.folder svg{display:block;width:100%;height:auto}
+.stamp{transform-origin:270px 215px;transform:rotate(-12deg)}
+.fline{opacity:1}
+@media (prefers-reduced-motion:no-preference){
+  .fline{animation:fl .5s both}
+  .fline:nth-of-type(1){animation-delay:.3s}.fline:nth-of-type(2){animation-delay:.6s}.fline:nth-of-type(3){animation-delay:.9s}.fline:nth-of-type(4){animation-delay:1.2s}
+  @keyframes fl{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+  .stamp{animation:st .45s 1.8s both cubic-bezier(.3,1.6,.5,1)}
+  @keyframes st{from{opacity:0;transform:rotate(-12deg) scale(1.8)}to{opacity:1;transform:rotate(-12deg) scale(1)}}
+}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:8px}
+.stat{border:3px solid var(--paper);padding:14px 16px;display:grid;gap:6px;align-content:start}
+.stat .n{font:400 clamp(28px,4vw,46px)/1 var(--f-display)}
+.stat .l{font:500 11px/1.45 var(--f-mono);letter-spacing:.06em}
+.stat.y{background:var(--yel);color:var(--ink);border-color:var(--yel)}
+.stat.y .chip{color:var(--ink)}
+
+/* staged file */
+.stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:22px;border:3px solid var(--ink);background:var(--paper);padding:20px}
+.stage > *{min-width:0}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.steps button{width:100%;font:600 15px var(--f-body);text-align:left;background:transparent;color:var(--ink);border:2px solid var(--ink);padding:11px 14px;cursor:pointer;display:flex;gap:12px;align-items:baseline}
+.steps button .no{font:700 11px var(--f-mono);letter-spacing:.1em}
+.steps button[aria-current="step"]{background:var(--ink);color:var(--paper)}
+.steps button.done:not([aria-current="step"]){background:var(--paper2)}
+.ctrl{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.ctrl button{font:700 13px var(--f-mono);letter-spacing:.08em;background:var(--pnk);color:var(--paper);border:0;padding:10px 16px;cursor:pointer}
+.ctrl button.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.dossier{background:var(--manila);border:3px solid var(--ink);padding:18px;display:grid;gap:10px;align-content:start;min-height:360px;position:relative}
+.dossier .hdr{font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;display:flex;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.entry{background:var(--paper);border:2px solid var(--ink);padding:10px 12px;display:grid;gap:4px}
+.entry .t{font:700 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.entry p{margin:0;font-size:15px}
+.entry .out{font:700 12px var(--f-mono);letter-spacing:.06em;color:var(--pnk)}
+.entry.new{outline:3px solid var(--yel)}
+@media (prefers-reduced-motion:no-preference){.entry.new{animation:pop .4s both}@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}}
+.verdictline{font:400 clamp(20px,2.4vw,26px)/1.15 var(--f-display);margin:0}
+
+/* see your file */
+.picker{display:grid;grid-template-columns:minmax(0,250px) minmax(0,1fr);border:3px solid var(--ink);background:var(--paper)}
+.opts{display:grid;align-content:start;border-right:3px solid var(--ink)}
+.opts button{font:600 15px var(--f-body);text-align:left;background:transparent;color:var(--ink);border:0;border-bottom:1.5px solid var(--ink);padding:13px 16px;cursor:pointer}
+.opts button:hover{background:var(--paper2)}
+.opts button[aria-selected="true"]{background:var(--yel)}
+.panel{padding:20px 22px;display:grid;gap:14px;align-content:start;min-width:0}
+.panel h3{font:400 clamp(24px,3vw,34px)/1.05 var(--f-display)}
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 22px}
+.rule b{display:block;font:700 10.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:3px}
+.rule p{margin:0;font-size:15.5px}
+.rule.wide{grid-column:1/-1}
+.gapbar{display:flex;gap:10px;align-items:center;border-top:1.5px dashed var(--gray);padding-top:12px;flex-wrap:wrap}
+.gapbar b{font:700 10.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
+.note{border-left:6px solid var(--pnk);padding:6px 0 6px 14px;max-width:72ch;font-size:15px;margin:0}
+
+/* tables */
+.tablewrap{overflow-x:auto;border:3px solid var(--ink);background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:12px 14px;border-bottom:1.5px solid var(--ink)}
+thead th{background:var(--ink);color:var(--paper);font:700 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
+tbody th{font:700 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:var(--paper2);width:16%}
+tr:last-child th,tr:last-child td{border-bottom:0}
+.meter{display:inline-flex;gap:3px;vertical-align:middle;margin-right:6px}
+.meter i{width:12px;height:12px;border:1.5px solid var(--ink);display:inline-block}
+.meter i.on{background:var(--ink)}
+.dark .meter i{border-color:var(--paper)} .dark .meter i.on{background:var(--paper)}
+
+/* counter cards */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{border:3px solid var(--paper);padding:18px;display:grid;gap:10px;align-content:start}
+.card h3{font:400 24px/1.1 var(--f-display)}
+.card p{margin:0;font-size:15.5px}
+.card .lim{border-top:1.5px dashed var(--gray2);padding-top:10px;font-size:14.5px}
+.card .k{font:700 10.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gray2)}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:0;border-left:4px solid var(--ink);margin-left:8px}
+.tl li{position:relative;padding:12px 0 12px 22px;display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px}
+.tl li::before{content:"";position:absolute;left:-12px;top:17px;width:16px;height:16px;background:var(--yel);border:3px solid var(--ink);border-radius:50%}
+.tl li.live::before{background:var(--pnk)}
+.tl .d{font:700 12px var(--f-mono);letter-spacing:.06em}
+.tl p{margin:0;font-size:15.5px}
+
+/* sides, ties, watch */
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.side{border-top:6px solid var(--ink);padding-top:14px;display:grid;gap:10px;align-content:start}
+.side h3{font:400 24px/1.1 var(--f-display)}
+.side ul{margin:0;padding-left:20px;display:grid;gap:8px}
+.ties{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tie{border:3px solid var(--ink);padding:16px;display:grid;gap:8px;align-content:start;text-decoration:none;background:var(--paper)}
+a.tie:hover{background:var(--yel)}
+.tie .k{font:700 10.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+.tie h3{font:400 20px/1.1 var(--f-display)}
+.tie p{margin:0;font-size:15px}
+.tie.sib{border-style:dashed}
+.watchlist{display:grid;border-top:3px solid var(--ink)}
+.w{display:grid;grid-template-columns:170px minmax(0,1fr) 90px;gap:14px;padding:12px 0;border-bottom:1.5px solid var(--ink);align-items:baseline}
+.w .d{font:700 12px var(--f-mono);letter-spacing:.06em}
+.w p{margin:0;font-size:15.5px}
+.sources{columns:2;column-gap:32px;font-size:13px;margin:0;padding-left:18px}
+.sources li{break-inside:avoid;margin-bottom:6px;overflow-wrap:anywhere}
+footer.colo{font:500 12px/1.6 var(--f-mono);display:grid;gap:8px}
+
+@media (max-width:900px){
+  .hero,.picker,.stage{grid-template-columns:1fr}
+  .opts{border-right:0;border-bottom:3px solid var(--ink);grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ties{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr}
+}
+@media (max-width:620px){
+  .ties,.sides,.rules,.cards{grid-template-columns:1fr}
+  .sources{columns:1}
+  .w{grid-template-columns:1fr;gap:4px}
+  .tl li{grid-template-columns:1fr;gap:2px}
+  .band{padding-block:56px}
+  .dossier{min-height:0}
+}
+</style>
+<style id="infera-house-nav">
+.hf-strip{position:relative;z-index:60;display:flex;justify-content:space-between;align-items:center;gap:10px 24px;flex-wrap:wrap;padding:12px max(16px,env(safe-area-inset-left,0px));padding-top:calc(12px + env(safe-area-inset-top,0px));background:#06060a;color:#fbf7eb;font:700 10.5px/1.4 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid rgba(168,162,152,.15)}
+.hf-strip a{color:#fbf7eb;text-decoration:none;border:0}
+.hf-strip a:hover,.hf-strip a:focus-visible{color:#c8ff1e}
+.hf-strip .hf-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#c8ff1e;margin-right:8px;vertical-align:middle}
+.hf-strip .hf-links{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.hf-strip .hf-stamp{color:rgba(168,162,152,.75)}
+.hf-foot{background:#06060a;color:rgba(232,227,212,.85);padding:22px max(16px,env(safe-area-inset-left,0px));border-top:1px solid rgba(168,162,152,.15);font:700 10.5px/1.6 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase}
+.hf-foot .hf-row{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center}
+.hf-foot a{color:rgba(232,227,212,.85);text-decoration:none;border:0}
+.hf-foot a:hover,.hf-foot a:focus-visible{color:#c8ff1e}
+.hf-foot .hf-disc{max-width:1280px;margin:12px auto 0;font-weight:400;letter-spacing:.06em;text-transform:none;color:rgba(168,162,152,.75)}
+@media (max-width:720px){.hf-strip .hf-stamp{display:none}.hf-strip .hf-links{gap:14px}}
+</style>
+</head>
+<body>
+<nav class="hf-strip" id="infera-nav-strip" aria-label="Site">
+  <a href="index.html"><span class="hf-dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="hf-links">
+    <a href="index.html">&larr; All Episodes</a>
+    <a href="briefs/index.html">Mechanism Briefs</a>
+    <span class="hf-stamp">BRIEF № 013 · NOV 3, 2026</span>
+  </div>
+</nav>
+<header class="band dark">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">Mechanism Brief № 013</span><span>Nov. 3, 2026</span><span>~14 min</span><span>Prediction · the file before the act</span></div>
+    <div class="hero">
+      <div style="display:grid;gap:20px">
+        <h1 class="ab h-xl">Decided Before <span class="hl-p">You Act</span></h1>
+        <p class="lede">A store camera flags your face before you shop. A box in your car caps your speed before you press the pedal. Your driving data prices your insurance before you file a claim. A trading model guesses your next move before you make it. More and more systems act on a model of you, and American law was mostly built to judge what you did.</p>
+      </div>
+      <figure class="folder" aria-label="Illustration: a case file with four entries (face match, speed log, driving score, behavior forecast) and a pink stamp reading DECIDED">
+        <svg viewBox="0 0 400 300" role="img" aria-hidden="true">
+          <path d="M30 60 h110 l18 -22 h212 v240 h-340 z" fill="#E9D8A6" stroke="#FBF7EB" stroke-width="3"/>
+          <rect x="30" y="70" width="340" height="208" fill="#E9D8A6" stroke="#0A0A0A" stroke-width="3"/>
+          <g font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#0A0A0A">
+            <g class="fline"><rect x="52" y="92" width="296" height="30" fill="#FBF7EB" stroke="#0A0A0A" stroke-width="2"/><text x="64" y="112">01 FACE MATCH ........ 0.91</text></g>
+            <g class="fline"><rect x="52" y="132" width="296" height="30" fill="#FBF7EB" stroke="#0A0A0A" stroke-width="2"/><text x="64" y="152">02 SPEED LOG ......... 24 HRS</text></g>
+            <g class="fline"><rect x="52" y="172" width="296" height="30" fill="#FBF7EB" stroke="#0A0A0A" stroke-width="2"/><text x="64" y="192">03 DRIVING SCORE ..... HIGH RISK</text></g>
+            <g class="fline"><rect x="52" y="212" width="296" height="30" fill="#FBF7EB" stroke="#0A0A0A" stroke-width="2"/><text x="64" y="232">04 NEXT MOVE ......... SELL?</text></g>
+          </g>
+          <g class="stamp"><rect x="200" y="190" width="150" height="50" fill="#FBF7EB" fill-opacity=".9" stroke="#FF1A6B" stroke-width="5"/><text x="275" y="224" text-anchor="middle" font-family="Archivo Black, Impact, sans-serif" font-size="24" fill="#FF1A6B" textLength="124" lengthAdjust="spacingAndGlyphs">DECIDED</text></g>
+        </svg>
+      </figure>
+    </div>
+    <div class="stats">
+      <div class="stat y"><span class="n">$220M</span><span class="l">GM's settlement with 36 attorneys general over selling driving data that reached insurers, Oct. 29, 2026 <span class="chip fact">FACT</span></span></div>
+      <div class="stat"><span class="n">0</span><span class="l">Federal laws giving shoppers a right to see or contest a store's face watchlist <span class="chip inf">INFERENCE</span></span></div>
+      <div class="stat"><span class="n">29</span><span class="l">Jurisdictions that adopted the insurance regulators' model AI bulletin, as of Oct. 8, 2026 <span class="chip fact">FACT</span></span></div>
+      <div class="stat"><span class="n">1 / yr</span><span class="l">Free LexisNexis insurance report you can request, covering claims and driving behavior data <span class="chip fact">FACT</span></span></div>
+    </div>
+    <p class="src">Sources: Michigan Attorney General (Oct. 29, 2026); NAIC adoption map; CFPB company profile for LexisNexis C.L.U.E. and Telematics OnDemand. The "0" is Infera's reading of federal law; see section 02.</p>
+  </div>
+</header>
+
+<section class="band" aria-labelledby="build">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">01</span><span>The file assembles itself</span></div>
+    <h2 id="build" class="ab h-l">Four decisions, <span class="hl-y">none</span> about anything you did</h2>
+    <p class="p">Play the file. Each step is a real system the series has reported on. The person in it is a composite, not a real case. <span class="chip inf">INFERENCE</span></p>
+    <div class="stage">
+      <div>
+        <ol class="steps" id="steps"></ol>
+        <div class="ctrl"><button type="button" id="play">Play the file</button><button type="button" class="ghost" id="restart">Start over</button></div>
+      </div>
+      <div class="dossier" aria-live="polite" id="dossier">
+        <div class="hdr"><span>File: composite person</span><span id="count">0 of 4 entries</span></div>
+      </div>
+    </div>
+    <p class="p" id="closer"></p>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="gap">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">02</span><span>Why the law fits badly</span></div>
+    <h2 id="gap" class="ab h-l">Built for acts, facing <span class="hl-p">forecasts</span></h2>
+    <p class="p">Due process, discrimination law and consumer protection mostly start from something that happened: an arrest, a denial, a deceptive sale. A forecast changes what you are offered before anything happens, and often no one tells you it was used. <span class="chip inf">INFERENCE</span> The one big exception is credit-style reporting, where the Fair Credit Reporting Act already makes companies tell you when a report hurt you and lets you see and dispute the file. <span class="chip fact">FACT</span></p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">System</th><th scope="col">What it predicts</th><th scope="col">Do you get told?</th><th scope="col">Can you see the file?</th><th scope="col">Can you contest it?</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Store face watchlist</th><td>That you will steal or cause trouble</td><td>Only where local law requires signs, as in New York City <span class="chip rep">REPORTED</span></td><td>No federal right; Illinois requires consent before collection; California and Maryland residents can request their data <span class="chip rep">REPORTED</span></td><td><span class="meter" aria-label="0 of 3"><i></i><i></i><i></i></span>Rarely</td></tr>
+          <tr><th scope="row">Speed limiter</th><td>That you will speed again</td><td>Yes, by court or agency order <span class="chip fact">FACT</span></td><td>Depends on the state; Virginia's law is silent on who reads the logs <span class="chip fact">FACT</span></td><td><span class="meter" aria-label="2 of 3"><i class="on"></i><i class="on"></i><i></i></span>In court</td></tr>
+          <tr><th scope="row">Driving score for insurance</th><td>That you will file a claim</td><td>Not unless an adverse action notice names the report <span class="chip inf">INFERENCE</span></td><td>Yes: free LexisNexis report once a year under the FCRA <span class="chip fact">FACT</span></td><td><span class="meter" aria-label="2 of 3"><i class="on"></i><i class="on"></i><i></i></span>Dispute right</td></tr>
+          <tr><th scope="row">Lending model</th><td>That you will default</td><td>Yes: the lender must give specific reasons for a denial <span class="chip fact">FACT</span></td><td>Your credit reports, free weekly; not the model itself <span class="chip fact">FACT</span></td><td><span class="meter" aria-label="2 of 3"><i class="on"></i><i class="on"></i><i></i></span>Dispute right</td></tr>
+          <tr><th scope="row">Behavioral world model</th><td>How you will trade under stress</td><td>No requirement found <span class="chip inf">INFERENCE</span></td><td>No; the company says its model "never knows who the person is" <span class="chip rep">REPORTED</span></td><td><span class="meter" aria-label="0 of 3"><i></i><i></i><i></i></span>No path found</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src">42AI's description of its model comes from its founders' interview with TechCrunch (Nov. 2, 2026); its accuracy and revenue claims have not been independently verified. <span class="chip rep">REPORTED</span></p>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="see">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">03</span><span>Use it · See your file</span></div>
+    <h2 id="see" class="ab h-l">Who holds the file on you, and how to <span class="hl-y">ask for it</span></h2>
+    <p class="p">Pick the decision that affected you. Each panel names who likely holds the record, the request route Infera verified, the law behind it, and what to do if it is wrong. This is general information, not legal advice. <span class="chip inf">INFERENCE</span></p>
+    <div class="picker">
+      <div class="opts" role="tablist" aria-label="Decisions" id="opts"></div>
+      <div class="panel" role="tabpanel" id="panel" aria-live="polite"></div>
+    </div>
+    <p class="note">The pattern across all eight: where a decision runs through a consumer reporting company, you have a right to see and dispute the file. Where it runs through a store, a vendor's model or an employer's own software, you often have nothing, unless your state wrote something in. <span class="chip inf">INFERENCE</span></p>
+  </div>
+</section>
+
+<section class="band dark" aria-labelledby="counter">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">04</span><span>Counterexamples · where the law caught up</span></div>
+    <h2 id="counter" class="ab h-l">It can be done. Here is where it was.</h2>
+    <p class="p">The fixes that held share a shape: an old law with an enforcer willing to use it, and a choke point every decision has to pass through, such as a warrant, a data broker or a lender's notice. <span class="chip inf">INFERENCE</span></p>
+    <div class="cards">
+      <div class="card"><span class="k">Detroit · police face recognition</span><h3>A match is a lead, not an arrest</h3><p>Robert Williams was wrongly arrested from a face match. His 2024 settlement, binding on the city, bars arrests or lineups based only on a match and required an audit of every warrant since 2017 that used one. <span class="chip fact">FACT</span> Violent-crime searches fell from about 100 in 2023 to 9 in 2025, and one produced a lead. <span class="chip rep">REPORTED</span></p><p class="lim">Limit: all nine 2025 searches targeted Black men, the audit's results have not been released, and Detroit can still ask State Police to run searches. <span class="chip rep">REPORTED</span></p></div>
+      <div class="card"><span class="k">FTC · General Motors</span><h3>Every driver can ask for the data</h3><p>The FTC's final order of January 2026 runs 20 years. GM may not give driving-behavior or location data to consumer reporting agencies for five years, must get affirmative consent, and must let every U.S. consumer request a copy and deletion. <span class="chip fact">FACT</span></p><p class="lim">Limit: no money for drivers and no admission, and the reporting ban ends after five years. <span class="chip fact">FACT</span></p></div>
+      <div class="card"><span class="k">Colorado and 28 others · insurance</span><h3>Insurers must govern their models</h3><p>Colorado extended its rule against unfair discrimination by insurer algorithms from life to auto and health insurance in 2025. It requires board oversight, fixes for unfair outcomes and enough information for consumers to act on an adverse decision. 29 jurisdictions have adopted the regulators' model AI bulletin. <span class="chip fact">FACT</span></p><p class="lim">Limit: the bulletin is guidance, and Colorado's quantitative bias test is still a draft. <span class="chip rep">REPORTED</span></p></div>
+      <div class="card"><span class="k">Massachusetts · AI lending</span><h3>A state enforced what federal regulators dropped</h3><p>In May 2025 the CFPB withdrew its guidance that AI-driven denials still need specific reasons. <span class="chip fact">FACT</span> Two months later, Massachusetts settled with student lender Earnest for $2.5 million over a model variable that penalized Black and Hispanic applicants, a rule that auto-denied applicants by immigration status, and inaccurate denial notices. <span class="chip fact">FACT</span></p><p class="lim">Limit: a settlement, so nothing was decided in court. The federal reasons requirement in the Equal Credit Opportunity Act still stands. <span class="chip inf">INFERENCE</span></p></div>
+      <div class="card"><span class="k">European Union · AI Act</span><h3>Some predictions are banned outright</h3><p>Since Feb. 2, 2025, the EU bans emotion recognition at work and in schools and predictive policing based only on profiling. The 2026 changes left the bans in place and added two more. <span class="chip fact">FACT</span></p><p class="lim">Limit: no confirmed fine under these bans yet, and the high-risk rules were pushed to December 2027. <span class="chip watch">WATCH</span></p></div>
+      <div class="card"><span class="k">The data broker side · Verisk</span><h3>One seller walked away</h3><p>After a March 2024 report that GM driving data was reaching insurers, Verisk stopped providing its Driving Behavior Data History Report, telling a privacy group that GM, Honda and Hyundai had supplied data. <span class="chip fact">FACT</span></p><p class="lim">Limit: a business decision under public pressure, not a rule. LexisNexis still runs a telematics exchange that insurers can query. <span class="chip fact">FACT</span></p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="layers">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">05</span><span>One case, every layer</span></div>
+    <h2 id="layers" class="ab h-l">How GM drivers got protection <span class="hl-y">in layers</span></h2>
+    <p class="p">No single law covered it. Protection arrived in layers, from a newspaper, a regulator, a court, states and a competitor's marketing. That is what "the system catching up" looks like in practice: slow, overlapping and uneven by state. <span class="chip inf">INFERENCE</span></p>
+    <ol class="tl">
+      <li class="live"><span class="d">March 2024</span><p><b>The report.</b> A newspaper investigation shows GM driving data reaching insurers through brokers. <span class="chip fact">FACT</span></p></li>
+      <li><span class="d">May to June 2024</span><p><b>A seller exits.</b> Verisk drops its driving-behavior report. <span class="chip fact">FACT</span></p></li>
+      <li class="live"><span class="d">January 2026</span><p><b>The regulator.</b> FTC finalizes its 20-year order: consent, access and deletion for every U.S. consumer. <span class="chip fact">FACT</span></p></li>
+      <li><span class="d">April 2026</span><p><b>The court.</b> Judge Thomas Thrash lets the consolidated class action go forward in Georgia, including wiretap, stored communications and FCRA claims against GM, OnStar, LexisNexis and Verisk; some claims were dismissed. <span class="chip rep">REPORTED</span></p></li>
+      <li><span class="d">May 2026</span><p><b>One state alone.</b> California settles separately for $12.75 million. <span class="chip rep">REPORTED</span></p></li>
+      <li class="live"><span class="d">Oct. 29, 2026</span><p><b>The states.</b> 35 states and D.C. settle for $220 million. GM must get affirmative consent, limit collection and oversee dealers. Nothing goes to drivers. <span class="chip fact">FACT</span></p></li>
+      <li><span class="d">Nov. 2, 2026</span><p><b>The market.</b> Ford publishes a privacy promise saying it does not sell data about how customers drive to data brokers or insurers. A company pledge, not a legal duty. <span class="chip fact">FACT</span></p></li>
+      <li><span class="d">Pending</span><p><b>The next rules.</b> California's AB 311 would let insurers use telematics only with consent and approved discounts; it was in a Senate committee in July. <span class="chip rep">REPORTED</span> A 2025 Maryland bill would have barred insurers from using telematics to cancel or non-renew policies; its outcome is not confirmed. <span class="chip watch">WATCH</span></p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="sides">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">06</span><span>Both sides</span></div>
+    <h2 id="sides" class="ab h-l">Smarter decisions, or guilt in advance?</h2>
+    <div class="sides">
+      <div class="side"><h3>For prediction</h3><ul>
+        <li>Pricing on actual driving can reward careful drivers who used to pay for others; California's AB 311 is written around that idea. <span class="chip rep">REPORTED</span></li>
+        <li>A small group of repeat speeders causes outsized harm, and a limiter lets them keep a license instead of driving suspended. <span class="chip rep">REPORTED</span></li>
+        <li>Brokerages say behavioral forecasts help them manage margin and liquidity risk that can hurt all customers in a crash. <span class="chip rep">REPORTED</span></li>
+        <li>Where rules exist, as in credit, a predicted decision comes with a notice and a dispute right that many human judgments never had. <span class="chip inf">INFERENCE</span></li>
+      </ul></div>
+      <div class="side"><h3>Against, or wary</h3><ul>
+        <li>Forecasts can repeat old patterns: Detroit's 2025 searches all targeted Black men, per police data reported by BridgeDetroit <span class="chip rep">REPORTED</span>, and Massachusetts alleged Earnest's model penalized Black and Hispanic applicants. <span class="chip fact">FACT</span></li>
+        <li>Most people never learn a prediction was used, so they cannot use the rights they have. <span class="chip inf">INFERENCE</span></li>
+        <li>42AI's own CTO called it "a valid concern" that a brokerage could use forecasts against its customers; the founders did not explain what would stop it. <span class="chip rep">REPORTED</span></li>
+        <li>Federal guidance is retreating while states move, so your rights depend on your ZIP code. <span class="chip fact">FACT</span></li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="ties">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">07</span><span>Infera read · ties to the series</span></div>
+    <h2 id="ties" class="ab h-l">The composite state, run forward</h2>
+    <p class="p">The series has tracked how records about a person are joined into one file. This brief is the next step: the file starts making decisions before the person does. <span class="chip inf">INFERENCE</span></p>
+    <div class="ties">
+      <div class="tie"><span class="k">Draft · Brief № 008</span><h3>The List at the Door</h3><p>The store watchlist in full: who is on it, how errors happen, and the UK and U.S. rules side by side.</p></div>
+      <a class="tie" href="brief-who-holds-the-speedometer.html"><span class="k">Live · Brief № 009</span><h3>Who Holds the Speedometer</h3><p>The speed limiter's override rules and the state-by-state ledger of who reads the trip log.</p></a>
+      <a class="tie" href="episode-06-composite-state.html"><span class="k">Season I · Preview</span><h3>The Composite State</h3><p>How tickets, records and flags merge into one profile. Here, the profile starts acting.</p></a>
+      <a class="tie" href="episode-03-trust-market.html"><span class="k">Season II · Live</span><h3>The Trust Market</h3><p>The scoring economy that LexisNexis reports and driving scores plug into.</p></a>
+      <div class="tie"><span class="k">Season II · 11 · Drafting</span><h3>The Afterlife of Your Data</h3><p>Drivers told they were unenrolled whose data stayed with brokers: the file that outlives the consent.</p></div>
+      <div class="tie"><span class="k">Research doc</span><h3>Patent Mashups 2026</h3><p>The patent filings that point to what prediction systems get built next.</p></div>
+      <a class="tie" href="brief-the-one-way-mirror.html"><span class="k">Live · Brief № 010</span><h3>The One-Way Mirror</h3><p>You can be on a watchlist with no notice, while the people running it can have their names scrubbed from the web.</p></a>
+      <a class="tie" href="brief-the-price-of-no.html"><span class="k">Live · Brief № 011</span><h3>The Price of No</h3><p>Opting out of the prediction often costs the feature, and some people are not allowed to opt out at all.</p></a>
+      <a class="tie" href="brief-nobody-is-coming-to-patch-it.html"><span class="k">Live · Brief № 012</span><h3>Nobody Is Coming to Patch It</h3><p>The same connected box that writes your file can be switched by someone else, or abandoned by its maker.</p></a>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="next">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">08</span><span>What we're watching next</span></div>
+    <h2 id="next" class="ab h-l">Checkpoints</h2>
+    <div class="watchlist">
+      <div class="w"><span class="d">Next filings</span><p>The GM driving data class action in Georgia: class certification and whether the FCRA claims against LexisNexis and Verisk survive. Is the consent decree in the $220M settlement public?</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">This session</span><p>California AB 311: does insurer use of telematics become legal there, and on what consent terms? Did Maryland's telematics bill pass, and does it return?</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Filed July 2026</span><p>Colorado insurers' first annual AI compliance reports. Will regulators publish what they found?</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Jan. 1, 2027</span><p>California's right to opt out of automated decisions in lending, housing, jobs, school and health care takes effect, and Vermont's data broker deletion law begins.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Unreleased</span><p>Detroit's audit of every face-recognition warrant since 2017.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Open</span><p>Which brokerages use 42AI, which biobank supplied its data, and on what consent terms.</p><span class="chip watch">WATCH</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="src">
+  <div class="wrap">
+    <h2 id="src" class="ab h-m">Sources</h2>
+    <ol class="sources">
+      <li><a href="https://apple.com/legal/privacy/data/en/ask-siri-dictation">Apple, Siri, Dictation and Privacy</a></li>
+      <li><a href="https://www.eff.org/deeplinks/2026/09/how-limit-what-apples-new-siri-ai-can-access-ios-27">EFF on limiting Siri AI's access, Sept. 18, 2026, updated Oct. 28</a></li>
+      <li><a href="https://www.michigan.gov/ag/news/press-releases/2026/10/29/nessel-coalition-reach-220-million-settlement-with-gm">Michigan Attorney General, GM settlement, Oct. 29, 2026</a></li>
+      <li><a href="https://www.repairerdrivennews.com/2026/01/27/ftc-finalizes-20-year-gm-onstar-data-collection-order/">Repairer Driven News on the final FTC order, Jan. 27, 2026</a> and <a href="https://www.ftc.gov/node/327916">FTC</a></li>
+      <li><a href="https://dicellolevitt.com/court-allows-gm-onstar-vehicle-data-privacy-lawsuit-to-move-forward/">DiCello Levitt on the class action ruling (plaintiffs' counsel)</a>; <a href="https://news.bloomberglaw.com/litigation/gm-analytics-firms-fail-to-shake-lawsuit-over-drivers-data">Bloomberg Law</a>; <a href="https://gmauthority.com/blog/2026/05/gm-onstar-lawsuit-to-continue-in-court/">GM Authority</a></li>
+      <li><a href="https://www.fromtheroad.ford.com/us/en/articles/2026/introducing-the-ford-privacy-promise">Ford Privacy Promise, Nov. 2, 2026</a></li>
+      <li><a href="https://therecord.media/data-broker-shuts-product-driver-patterns">The Record on Verisk ending its driving behavior report, June 11, 2024</a></li>
+      <li><a href="https://www.consumerfinance.gov/consumer-tools/credit-reports-and-scores/consumer-reporting-companies/companies-list/comprehensive-loss-underwriting-exchange/">CFPB profile: LexisNexis C.L.U.E. and Telematics OnDemand</a></li>
+      <li><a href="https://consumer.risk.lexisnexis.com/request">LexisNexis Risk consumer disclosure request</a></li>
+      <li><a href="https://consumer.ftc.gov/consumer-alerts/2023/10/you-now-have-permanent-access-free-weekly-credit-reports">FTC: free weekly credit reports are permanent</a></li>
+      <li><a href="https://www.ftc.gov/system/files/documents/plain-language/bus49-using-consumer-reports-what-landlords-need-know.pdf">FTC: Using Consumer Reports, What Landlords Need to Know</a></li>
+      <li><a href="https://www.polsinelli.com/polsinelli-at-work/three-steps-for-complying-with-the-requirements-of-the-fair-credit-reporting-act-in-employee-hiring">Polsinelli on FCRA steps in hiring</a></li>
+      <li><a href="https://files.consumerfinance.gov/f/documents/cfpb_consumer-reporting-companies-list.pdf">CFPB list of consumer reporting companies</a></li>
+      <li><a href="https://www.consumerfinance.gov/compliance/guidance/withdrawn-guidance/">CFPB withdrawn guidance, May 12, 2025</a></li>
+      <li><a href="https://www.mass.gov/news/ag-campbell-announces-25-million-settlement-with-student-loan-lender-for-unlawful-practices-through-ai-use-other-consumer-protection-violations">Massachusetts AG, Earnest settlement, July 10, 2025</a></li>
+      <li><a href="https://www.debevoise.com/insights/publications/2025/09/colorado-approves-extension-of-ai-regulation-to">Debevoise on Colorado's insurance AI rule</a> and <a href="https://doi.colorado.gov/for-consumers/sb21-169-protecting-consumers-from-unfair-discrimination-in-insurance-practices">Colorado Division of Insurance</a></li>
+      <li><a href="https://content.naic.org/sites/default/files/legal-adoption-map-ai-model-bulletin.pdf">NAIC model AI bulletin adoption map</a></li>
+      <li><a href="https://aclu.org/press-releases/civil-rights-advocates-achieve-the-nations-strongest-police-department-policy-on-facial-recognition-technology">ACLU on the Williams settlement</a></li>
+      <li><a href="https://www.bridgedetroit.com/detroits-use-of-facial-recognition-for-violent-crime-investigations-is-down-heres-why/">BridgeDetroit on Detroit's searches</a>; <a href="https://idtechwire.com/detroit-police-facial-recognition-use-drops-91-percent-after-settlement-tightens-policy/">ID Tech</a></li>
+      <li><a href="https://www.lewissilkin.com/insights/2025/02/03/prohibited-practices-and-ai-literacy-requirements-of-eu-ai-act-now-applicable-102jytk">Lewis Silkin on EU AI Act bans</a>; <a href="https://www.orrick.com/de-DE/Insights/2026/05/EUs-Digital-Omnibus-on-AI-7-Key-Changes-You-Need-to-Know">Orrick on the 2026 omnibus</a></li>
+      <li><a href="https://techcrunch.com/2026/11/02/42ai-comes-out-of-stealth-with-62-5m-and-a-world-model-that-can-predict-human-behavior/">TechCrunch on 42AI, Nov. 2, 2026</a></li>
+      <li><a href="https://amp.insurancejournal.com/news/west/2026/07/09/876870.htm">Insurance Journal on California AB 311, July 9, 2026</a></li>
+      <li><a href="https://insurify.com/car-insurance/news/maryland-weighs-guardrails-on-insurer-use-of-telematics-data">Insurify on Maryland's 2025 telematics bill</a></li>
+      <li><a href="https://natlawreview.com/article/californias-drop-enforcement-phase-live">National Law Review on California's DROP</a> and <a href="https://privacy.ca.gov/drop-for-data-brokers/">CalPrivacy</a></li>
+      <li><a href="https://www.hunton.com/privacy-and-cybersecurity-law-blog/vermont-enacts-significant-amendments-to-data-broker-legislation">Hunton on Vermont's data broker law</a></li>
+      <li><a href="https://www.bakerdonelson.com/consumer-data-privacy-law-guide-maryland">Baker Donelson on Maryland's Online Data Privacy Act</a></li>
+      <li><a href="https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=3004&amp;ChapterID=57">Illinois Biometric Information Privacy Act, 740 ILCS 14</a></li>
+    </ol>
+    <footer class="colo">
+      <span>Labels: FACT = primary document or two independent outlets · REPORTED = one outlet or a party's own claim · INFERENCE = Infera's reasoning · WATCH = open.</span>
+      <span>Researched and compiled with Claude (Anthropic). Final editorial judgment: Melophon.</span>
+      <span>© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com</span>
+    </footer>
+  </div>
+</section>
+
+<script>
+(function(){
+function chip(t){return '<span class="chip '+({FACT:'fact',REPORTED:'rep',INFERENCE:'inf',WATCH:'watch'}[t])+'">'+t+'</span>'}
+
+// staged file
+var S=[
+ {name:'Store entrance',t:'09:14 · Grocery store camera',p:'Face compared against the chain\'s watchlist. The vendor\'s system reports a likely match and staff are alerted before you reach the first aisle.',out:'Flagged before shopping',tag:'INFERENCE',note:'Store systems of this kind are covered in Brief № 008.'},
+ {name:'The drive home',t:'11:02 · Speed-limiting device',p:'The box caps the car at the posted limit and logs the trip. In Virginia the log goes to the state within 24 hours.',out:'Capped before the pedal',tag:'FACT',note:'Virginia Code § 46.2-507; Brief № 009.'},
+ {name:'Insurance renewal',t:'14:30 · Driving score',p:'Months of braking, speed and late-night trips from the car\'s connected services reach an insurer as a score.',out:'Priced before a claim',tag:'FACT',note:'The pattern behind the FTC\'s GM order and the 36-state settlement.'},
+ {name:'Brokerage app',t:'16:45 · Behavioral world model',p:'Support calls, voice sentiment and past trades feed a model that forecasts how this customer will trade if markets turn.',out:'Forecast before a decision',tag:'REPORTED',note:'42AI\'s description of its own model, TechCrunch, Nov. 2, 2026.'}
+];
+var steps=document.getElementById('steps'),dos=document.getElementById('dossier'),cnt=document.getElementById('count'),closer=document.getElementById('closer'),playB=document.getElementById('play'),idx=0,timer=null;
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+S.forEach(function(s,i){var li=document.createElement('li');var b=document.createElement('button');b.type='button';b.innerHTML='<span class="no">0'+(i+1)+'</span><span>'+s.name+'</span>';b.addEventListener('click',function(){stop();show(i+1)});li.appendChild(b);steps.appendChild(li)});
+function show(n){idx=n;
+ [].forEach.call(dos.querySelectorAll('.entry'),function(e){e.remove()});
+ for(var i=0;i<n;i++){var s=S[i],d=document.createElement('div');d.className='entry'+(i===n-1?' new':'');d.innerHTML='<span class="t">'+s.t+'</span><p>'+s.p+' '+chip(s.tag)+'</p><span class="out">'+s.out.toUpperCase()+'</span><span class="src">'+s.note+'</span>';dos.appendChild(d)}
+ cnt.textContent=n+' of 4 entries';
+ [].forEach.call(steps.querySelectorAll('button'),function(b,i){b.classList.toggle('done',i<n);if(i===n-1)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')});
+ closer.innerHTML=n===4?'<span class="verdictline">Four decisions by five o\'clock. The person has not done anything yet.</span>':'';
+ playB.textContent=n>=4?'Play again':'Play the file';}
+function stop(){if(timer){clearInterval(timer);timer=null;playB.textContent=idx>=4?'Play again':'Play the file'}}
+playB.addEventListener('click',function(){if(timer){stop();return}
+ if(idx>=4)show(0);
+ if(reduce){show(4);return}
+ playB.textContent='Pause';show(idx+1);
+ timer=setInterval(function(){if(idx>=4){stop();return}show(idx+1)},2600)});
+document.getElementById('restart').addEventListener('click',function(){stop();show(0)});
+show(0);
+
+// see your file
+var R=[
+ {id:'ins',name:'Insurance price',holder:'LexisNexis C.L.U.E. keeps up to seven years of auto and home claims, and its Telematics OnDemand unit holds driving-behavior data insurers can query. Credit-based insurance scores draw on Equifax, Experian and TransUnion.',hT:'FACT',how:'Request online at consumer.risk.lexisnexis.com, call 866-897-8126, or mail LexisNexis Risk Solutions Consumer Center, P.O. Box 105108, Atlanta, GA 30348-5108. You need your name, address, date of birth and either a Social Security or driver\'s license number.',howT:'FACT',law:'Fair Credit Reporting Act. LexisNexis files reports as a consumer reporting company.',cost:'Free once every 12 months; the company says within 15 days. Requesting your own report does not affect your credit score.',costT:'FACT',wrong:'Dispute with LexisNexis and with the insurer or company that supplied the data. The FCRA requires a free reasonable investigation and correction.',extra:'Verisk stopped providing its driving-behavior report in 2024 after GM data reached insurers. LexisNexis still runs its telematics exchange.',exT:'FACT',rights:2},
+ {id:'drv',name:'Driving score',holder:'Your carmaker\'s connected-services unit, and any broker it shared with. For GM vehicles, the FTC order covers what GM collected.',hT:'FACT',how:'GM: the FTC order requires GM to let any U.S. consumer request a copy of their data and its deletion. Other makers: use the privacy request process in the brand\'s app or website; residents of states with privacy laws, such as California and Maryland, can request access and deletion.',howT:'FACT',law:'FTC order against GM and OnStar (January 2026, 20 years); state privacy laws where you live; the FCRA once the data reaches a consumer reporting company.',cost:'Free under the GM order and state privacy laws. Timing set by each law.',costT:'REPORTED',wrong:'Ask the carmaker to delete it, then pull your LexisNexis report to see whether the data reached insurers, and dispute it there.',extra:'Ford says it does not sell data about how customers drive to data brokers or insurers. That is a company promise, not a legal duty.',exT:'FACT',rights:2},
+ {id:'loan',name:'Loan denial',holder:'The three nationwide credit bureaus, plus the lender\'s own model, which you cannot see.',hT:'FACT',how:'AnnualCreditReport.com: free reports from Equifax, Experian and TransUnion every week. The lender\'s denial notice must name any report it used.',howT:'FACT',law:'Equal Credit Opportunity Act: the lender must give the specific main reasons for the denial. FCRA: if a report was used, you can get a free copy within 60 days and dispute it.',cost:'Free.',costT:'FACT',wrong:'Dispute errors with the bureau and the lender. If the reasons given are vague, ask for specifics; a state attorney general can act, as Massachusetts did against Earnest in 2025.',extra:'The CFPB withdrew its guidance on AI-driven denials in May 2025. The law requiring specific reasons did not change.',exT:'FACT',rights:3},
+ {id:'ten',name:'Tenant screening',holder:'The tenant screening company the landlord used. The adverse action notice must name it.',hT:'FACT',how:'Use the contact details in the landlord\'s notice. The CFPB publishes a list of screening companies and how to reach them.',howT:'FACT',law:'FCRA: a landlord that rejects you, or charges more, because of a report must tell you, name the company, and tell you of your right to a free copy within 60 days and to dispute.',cost:'Free within 60 days of the notice.',costT:'FACT',wrong:'Dispute with the screening company and the source of the error, such as a court record that belongs to someone else.',extra:'The screening company did not make the decision and cannot tell you the landlord\'s reasons; ask the landlord.',exT:'FACT',rights:3},
+ {id:'job',name:'Job screening',holder:'The background check company the employer hired.',hT:'REPORTED',how:'You must get a copy of the report and a summary of your rights before the employer makes a final decision against you.',howT:'REPORTED',law:'FCRA pre-adverse action rule for employment, the one place the law gives notice before the decision, not after.',cost:'Free.',costT:'REPORTED',wrong:'Use the window between the two notices to dispute with the screening company and tell the employer.',extra:'An employer\'s own AI hiring tool that does not use an outside report may not trigger these rules. California\'s automated-decision opt-out starts in 2027.',exT:'INFERENCE',rights:3},
+ {id:'store',name:'Store entry',holder:'The store or its face-recognition vendor.',hT:'INFERENCE',how:'No federal route. Illinois residents: the store needed written consent before collecting your biometrics, and you can sue if it did not. California and Maryland residents: a privacy request can ask what biometric data a business holds. New York City: businesses must post signs.',howT:'REPORTED',law:'Illinois Biometric Information Privacy Act; state privacy laws; local notice rules. The FTC\'s order against Rite Aid banned its face recognition, but the chain has since closed.',cost:'Free where a right exists.',costT:'REPORTED',wrong:'Ask for the record and the reason in writing. Without a state law, remedies are thin.',extra:'Brief № 008 compares these rules with the United Kingdom\'s.',exT:'INFERENCE',rights:0},
+ {id:'phone',name:"Your phone's AI assistant",holder:'On an iPhone, Apple, but only if you agreed to the Improve Siri setting; otherwise transcripts stay on the device. The new Siri also reads your Notes, Messages and email to answer you.',hT:'FACT',how:'There is no request route for the training data: Apple ties it to a random identifier that rotates several times an hour, not to your account. Turning off Siri deletes the transcripts on your device; turning off the Improve settings stops future collection.',howT:'FACT',law:'No federal right. State privacy laws give access rights, but de-identified data generally sits outside them.',cost:'Free.',costT:'FACT',wrong:'Settings, Privacy and Security, Analytics and Improvements: switch the Improve settings off. Exclude sensitive apps from Siri search, or switch to Siri Classic in Screen Time.',extra:'The rotating identifier protects you, and it also means there is no file with your name on it to request. Privacy by design and the right to see your file pull in opposite directions.',exT:'INFERENCE',rights:1},
+ {id:'brk',name:'Data broker profile',holder:'Data brokers, which compile profiles used for marketing, pricing and risk.',hT:'FACT',how:'California: one request through the state\'s DROP system reaches every registered broker; brokers must check it every 45 days. Vermont: a deletion right begins Jan. 1, 2027. Maryland and other states with privacy laws: ask each company directly.',howT:'REPORTED',law:'California Delete Act; Vermont Act 138; Maryland Online Data Privacy Act and similar laws.',cost:'Free. California fines brokers $200 a day per ignored request.',costT:'REPORTED',wrong:'Re-file and report the broker to your state privacy regulator or attorney general.',extra:'Behavioral models such as 42AI\'s say they work without names, so there may be no "you" to request. That is the gap.',exT:'INFERENCE',rights:1}
+];
+var opts=document.getElementById('opts'),panel=document.getElementById('panel');
+function meter(n){var s='<span class="meter" aria-label="'+n+' of 3">';for(var i=0;i<3;i++)s+='<i'+(i<n?' class="on"':'')+'></i>';return s+'</span>'}
+function draw(r){panel.innerHTML='<h3>'+r.name+'</h3><div class="rules">'+
+ '<div class="rule"><b>Who holds the file</b><p>'+r.holder+' '+chip(r.hT)+'</p></div>'+
+ '<div class="rule"><b>How to ask</b><p>'+r.how+' '+chip(r.howT)+'</p></div>'+
+ '<div class="rule"><b>The law behind it</b><p>'+r.law+'</p></div>'+
+ '<div class="rule"><b>Cost and timing</b><p>'+r.cost+' '+chip(r.costT)+'</p></div>'+
+ '<div class="rule wide"><b>If it is wrong</b><p>'+r.wrong+'</p></div>'+
+ '<div class="rule wide"><b>Worth knowing</b><p>'+r.extra+' '+chip(r.exT)+'</p></div></div>'+
+ '<div class="gapbar"><b>Your rights here</b>'+meter(r.rights)+'<span class="src">'+['No clear right found','Partial, by state','Access and dispute','Notice, access and dispute'][r.rights]+'</span></div>'}
+function pick(id,focus){var r=R.filter(function(x){return x.id===id})[0];
+ opts.querySelectorAll('button').forEach(function(b){var on=b.dataset.id===id;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;if(on&&focus)b.focus()});draw(r)}
+R.forEach(function(r){var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.dataset.id=r.id;b.textContent=r.name;b.addEventListener('click',function(){pick(r.id)});opts.appendChild(b)});
+opts.addEventListener('keydown',function(e){var k=e.key;if(['ArrowDown','ArrowUp','ArrowLeft','ArrowRight'].indexOf(k)<0)return;e.preventDefault();var bs=[].slice.call(opts.querySelectorAll('button')),i=bs.findIndex(function(b){return b.getAttribute('aria-selected')==='true'});i=(i+(k==='ArrowDown'||k==='ArrowRight'?1:-1)+bs.length)%bs.length;pick(bs[i].dataset.id,true)});
+pick('ins');
+})();
+</script>
+<nav class="hf-foot" id="infera-nav-footer" aria-label="Series">
+  <div class="hf-row"><a href="briefs/index.html">&larr; Mechanism Briefs</a> <span aria-hidden="true">·</span> <a href="index.html">Series Home</a> <span aria-hidden="true">·</span> <a href="brief-nobody-is-coming-to-patch-it.html" rel="prev">Prev · Brief № 012</a> <span aria-hidden="true">·</span> <a href="legal.html">Legal · Privacy</a> <span aria-hidden="true">·</span> <span>infera@melophon.com</span></div>
+  <p class="hf-disc">© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com</p>
+</nav>
+<style id="infera-legal-footer">
+.legal-footer{
+  background:#06060a; color:rgba(168,162,152,.75);
+  font-family:'Inter', system-ui, sans-serif; font-size:11.5px; line-height:1.55;
+  padding:32px 6vw 36px;
+  border-top:1px solid rgba(168,162,152,.12);
+}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{
+  display:grid; grid-template-columns:1fr auto; gap:24px 32px;
+  padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08);
+  margin-bottom:14px;
+}
+.legal-footer .lf-brand{
+  font-family:'JetBrains Mono', ui-monospace, monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.legal-footer .lf-brand b{color:#c8ff1e; font-family:inherit; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; padding:3px 8px; border:1px solid rgba(168,162,152,.18); white-space:nowrap}
+.legal-footer .lf-disclaim{
+  font-size:11.5px; line-height:1.6; max-width:none; color:rgba(168,162,152,.62);
+}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+
+.legal-footer details.lf-more{margin-top:8px; padding:0}
+.legal-footer details.lf-more summary{
+  cursor:pointer; list-style:none;
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700;
+  display:inline-flex; align-items:center; gap:8px; padding:5px 0;
+}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+
+.legal-footer .lf-links{
+  display:flex; flex-wrap:wrap; gap:0 18px;
+  padding-top:14px; border-top:1px dashed rgba(168,162,152,.12);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+
+@media (max-width:780px){
+  .legal-footer .lf-top{grid-template-columns:1fr}
+  .legal-footer{padding:26px 5vw 30px; font-size:11px}
+}
+@media (prefers-reduced-motion: reduce){
+  .legal-footer details.lf-more summary::before{transition:none}
+}
+
+.legal-footer .lf-infra{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:10px 14px 12px; margin-bottom:14px;
+  background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:560px){
+  .legal-footer .lf-infra{font-size:9px; gap:8px; padding:8px 10px 10px}
+}
+</style>
+
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+      <nav class="lf-infra" aria-label="Infrastructure links">
+        <span class="lf-infra-lbl">More from Infera</span>
+        <a href="systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+        <a href="claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+        <a href="case-file.html">Your Case File</a><span class="lf-sep">·</span>
+        <a href="founding.html">Founding 500</a><span class="lf-sep">·</span>
+        <a href="field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+        <a href="index.html#about">About</a>
+      </nav>
+
+    <div class="lf-top">
+      <div class="lf-brand">
+        <span>© 2026 <b>Infera</b></span>
+        <span class="sep">·</span>
+        <span>All rights reserved</span>
+        <span class="sep">·</span>
+        <em>The Mechanism Series™</em>
+      </div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis &mdash; <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided &ldquo;as is&rdquo; without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> &ldquo;Infera,&rdquo; &ldquo;The Mechanism Series,&rdquo; and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis (echo dots, provenance layer, evidence mode, chapter rails, claims atlas format, systems atlas format) are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission &mdash; usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for persona memory, reading log, and evidence-mode preference &mdash; none transmitted. Subscriber emails stored at Buttondown. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with: (1) the copyrighted work, (2) the allegedly infringing URL, (3) your contact info, (4) good-faith statement, (5) statement under penalty of perjury, (6) your signature. Knowingly false DMCA notices may incur liability under 17 U.S.C. § 512(f). Counter-notices follow § 512(g).</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action arising from these terms shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Underwriters do not see episodes prior to publication. Editorial decisions are independent.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication. AI does not author episodes.</p>
+          <p style="margin-top:10px; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="legal.html#unsubscribe">Unsubscribe</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+
+    <div class="lf-tail">
+      <em>Atlanta, GA · USA · v.2026.05</em>
+      <span>Last updated · 26 May 2026</span>
+    </div>
+  </div>
+</aside>
+</body>
+</html>

@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Mechanism Brief № 012 · Nobody Is Coming to Patch It · Infera</title>
+<meta name="description" content="Attackers heated supermarket freezers across Europe and reached France&#x27;s blood bank cold rooms through old, unsupported controllers. Who can reach the machines around you, when their makers stop fixing them, and the few rules that reach devices already installed.">
+<link rel="canonical" href="brief-nobody-is-coming-to-patch-it.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Brief № 012 · Nobody Is Coming to Patch It">
+<meta property="og:description" content="The freezer attacks, the blood bank cold rooms, and the devices nobody patches anymore.">
+<meta property="og:url" content="https://series.melophon.com/brief-nobody-is-coming-to-patch-it.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* Layout: Mechanism Brief house system (paper pages, ink slides). Opens on a freezer display climbing from minus 18 to 50 degrees, then a timed replay of the attack nights, the end-of-life story, the support clock, the rules table, what worked, a home checklist, both sides, tie-ins and checkpoints. Single-theme by design, matching the series. Accent: alarm pink on ink. */
+:root{
+  --ink:#0A0A0A; --paper:#FBF7EB; --paper2:#F3EEDC; --cha:#C8FF1E; --pnk:#FF1A6B; --blu:#1E3CFF; --yel:#FFD500; --gray:#57534A; --gray2:#8C877A; --soft:#d8d2c2; --line:#2b2a27; --ice:#9FE3FF;
+  --f-display:'Archivo Black',Impact,'Arial Black',sans-serif; --f-body:'Space Grotesk',system-ui,-apple-system,sans-serif; --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace; --f-serif:'Instrument Serif',Georgia,serif;
+  --maxw:1120px; color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;overflow-x:hidden;margin:0}
+::selection{background:var(--yel);color:var(--ink)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blu);outline-offset:3px}
+.ab{font-family:var(--f-display);letter-spacing:-.01em;line-height:1.03;font-weight:400}
+.band{padding-block:80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.band.dark{background:var(--ink);color:var(--paper)}
+.band.alt{background:var(--paper2)}
+.wrap{max-width:var(--maxw);margin:0 auto;display:grid;gap:22px}
+.eco{font:500 10.5px/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-wrap:wrap;gap:6px 14px;border-bottom:3px solid var(--ink);background:var(--paper)}
+.eco a{text-decoration:none} .eco .cur{color:var(--pnk)} .eco .rv{margin-left:auto;background:var(--yel);padding:2px 7px}
+.stageno{font:500 12px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tag{border:2px solid currentColor;padding:3px 8px;font-size:10.5px}
+h1,h2,h3{margin:0;text-wrap:balance}
+.h-xl{font-size:clamp(42px,7.4vw,96px)} .h-l{font-size:clamp(30px,5vw,58px)} .h-m{font-size:clamp(22px,2.6vw,30px)}
+.hl-y{background:var(--yel);color:var(--ink);padding:0 .12em} .hl-p{background:var(--pnk);color:var(--paper);padding:0 .12em}
+.lede{font-size:clamp(18px,2vw,22px);max-width:62ch;margin:0}
+.p{max-width:66ch;margin:0}
+.src{font:500 11px/1.5 var(--f-mono);letter-spacing:.04em;color:var(--gray)}
+.dark .src{color:var(--gray2)}
+.chip{display:inline-block;font:700 10px/1 var(--f-mono);letter-spacing:.08em;padding:4px 6px 3px;border:1.5px solid currentColor;vertical-align:1px;white-space:nowrap}
+.fact{color:#127a43}.rep{color:#9a6400}.inf{color:#5a43a0}.watch{color:var(--gray)}
+.dark .fact{color:var(--cha)}.dark .rep{color:var(--yel)}.dark .inf{color:#b9a3ff}.dark .watch{color:var(--soft)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:40px;align-items:center}
+.hero > *{min-width:0}
+.unit{max-width:380px;width:100%;justify-self:center;border:4px solid var(--paper);padding:18px;display:grid;gap:14px;background:#151513}
+.unit .lbl{font:700 10.5px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gray2);display:flex;justify-content:space-between}
+.unit .lcd{background:#0d1a12;border:3px solid #2b2a27;padding:16px 14px;text-align:right;font:700 clamp(46px,7vw,72px)/1 var(--f-mono);color:var(--ice);letter-spacing:-.02em;transition:color .4s}
+.unit .lcd.hot{color:var(--pnk)}
+.unit .lcd small{font-size:.38em;margin-left:4px}
+.unit .bar{height:14px;border:2px solid var(--paper);position:relative;background:linear-gradient(90deg,var(--ice) 0%,var(--ice) 25%,var(--yel) 55%,var(--pnk) 100%)}
+.unit .bar i{position:absolute;top:-6px;width:4px;height:22px;background:var(--paper);left:0;transition:left 3.2s cubic-bezier(.4,.1,.3,1)}
+.unit .scale{display:flex;justify-content:space-between;font:500 11px var(--f-mono);color:var(--gray2)}
+.unit .st{font:700 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cha)}
+.unit .st.hot{color:var(--pnk)}
+.unit button{justify-self:start;font:700 12px var(--f-mono);letter-spacing:.08em;background:var(--paper);color:var(--ink);border:0;padding:8px 12px;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:8px}
+.stat{border:3px solid var(--paper);padding:14px 16px;display:grid;gap:6px;align-content:start}
+.stat .n{font:400 clamp(28px,4vw,46px)/1 var(--f-display)}
+.stat .l{font:500 11px/1.45 var(--f-mono);letter-spacing:.06em}
+.stat.p2{background:var(--pnk);color:var(--paper);border-color:var(--pnk)}
+.stat.p2 .chip{color:var(--paper)}
+
+/* replay */
+.replay{border:3px solid var(--ink);background:var(--paper);display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr)}
+.replay .ctl{border-right:3px solid var(--ink);padding:18px;display:grid;gap:12px;align-content:start;background:var(--ink);color:var(--paper)}
+.replay .clock{font:700 clamp(26px,3vw,36px)/1 var(--f-mono);color:var(--yel)}
+.replay .ctl small{font:500 11px/1.5 var(--f-mono);color:var(--gray2)}
+.replay .ctl button{font:700 13px var(--f-mono);letter-spacing:.08em;background:var(--pnk);color:var(--paper);border:0;padding:10px 14px;cursor:pointer;text-align:left}
+.replay .ctl button.sec{background:transparent;border:2px solid var(--paper)}
+.feed{list-style:none;margin:0;padding:0;display:grid}
+.feed li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;padding:13px 18px;border-bottom:1.5px solid var(--ink);opacity:.18;transition:opacity .5s,background .5s}
+.feed li:last-child{border-bottom:0}
+.feed li.on{opacity:1}
+.feed li.now{background:var(--yel)}
+.feed .d{font:700 12px var(--f-mono);letter-spacing:.06em}
+.feed p{margin:0;font-size:15.5px}
+
+/* support clock */
+.picker{display:grid;grid-template-columns:minmax(0,250px) minmax(0,1fr);border:3px solid var(--ink);background:var(--paper)}
+.opts{display:grid;align-content:start;border-right:3px solid var(--ink)}
+.opts button{font:600 15px var(--f-body);text-align:left;background:transparent;color:var(--ink);border:0;border-bottom:1.5px solid var(--ink);padding:12px 16px;cursor:pointer}
+.opts button small{display:block;font:500 10.5px var(--f-mono);letter-spacing:.06em;color:var(--gray);text-transform:uppercase}
+.opts button:hover{background:var(--paper2)}
+.opts button[aria-selected="true"]{background:var(--yel)}
+.panel{padding:20px 22px;display:grid;gap:14px;align-content:start;min-width:0}
+.panel h3{font:400 clamp(24px,3vw,34px)/1.05 var(--f-display)}
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 22px}
+.rule b{display:block;font:700 10.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:3px}
+.rule p{margin:0;font-size:15.5px}
+.dial{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;border-top:1.5px dashed var(--gray);padding-top:14px}
+.dial svg{width:92px;height:92px;display:block}
+.dial .dt{font:500 13px/1.5 var(--f-mono)}
+.dial .dt b{font:400 20px/1.1 var(--f-display);display:block;margin-bottom:2px}
+.arc{transition:stroke-dashoffset .9s cubic-bezier(.3,.8,.3,1)}
+
+/* tables */
+.tablewrap{overflow-x:auto;border:3px solid var(--ink);background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:12px 14px;border-bottom:1.5px solid var(--ink)}
+thead th{background:var(--ink);color:var(--paper);font:700 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
+tbody th{font:700 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:var(--paper2);width:16%}
+tr:last-child th,tr:last-child td{border-bottom:0}
+.yes{background:var(--cha);font:700 11px var(--f-mono);padding:2px 6px;letter-spacing:.06em;white-space:nowrap}
+.no{background:var(--pnk);color:var(--paper);font:700 11px var(--f-mono);padding:2px 6px;letter-spacing:.06em;white-space:nowrap}
+.part{background:var(--yel);font:700 11px var(--f-mono);padding:2px 6px;letter-spacing:.06em;white-space:nowrap}
+
+/* worked */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{border:3px solid var(--paper);padding:18px;display:grid;gap:10px;align-content:start}
+.card .k{font:700 10.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cha)}
+.card h3{font:400 24px/1.1 var(--f-display)}
+.card p{margin:0;font-size:15.5px}
+.card .lim{border-top:1.5px dashed var(--gray2);padding-top:10px;font-size:14.5px;color:var(--soft)}
+
+/* checklist */
+.check{list-style:none;margin:0;padding:0;display:grid;border-top:3px solid var(--ink)}
+.check li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:14px 0;border-bottom:1.5px solid var(--ink);align-items:start}
+.check input{width:26px;height:26px;accent-color:var(--pnk);margin:2px 0 0}
+.check label b{display:block;font-weight:700}
+.check label span{font-size:15.5px}
+.check label span.chip{font-size:10px}
+.check li.done label b{text-decoration:line-through;text-decoration-thickness:2px}
+.prog{font:700 12px var(--f-mono);letter-spacing:.08em}
+
+/* sides, ties, watch */
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.side{border-top:6px solid var(--ink);padding-top:14px;display:grid;gap:10px;align-content:start}
+.side h3{font:400 24px/1.1 var(--f-display)}
+.side ul{margin:0;padding-left:20px;display:grid;gap:8px}
+.ties{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tie{border:3px solid var(--ink);padding:16px;display:grid;gap:8px;align-content:start;text-decoration:none;background:var(--paper)}
+a.tie:hover{background:var(--yel)}
+.tie.sib{border-style:dashed}
+.tie .k{font:700 10.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+.tie h3{font:400 20px/1.1 var(--f-display)}
+.tie p{margin:0;font-size:15px}
+.watchlist{display:grid;border-top:3px solid var(--ink)}
+.w{display:grid;grid-template-columns:170px minmax(0,1fr) 90px;gap:14px;padding:12px 0;border-bottom:1.5px solid var(--ink);align-items:baseline}
+.w .d{font:700 12px var(--f-mono);letter-spacing:.06em}
+.w p{margin:0;font-size:15.5px}
+.w .chip{justify-self:start}
+.sources{columns:2;column-gap:32px;font-size:13px;margin:0;padding-left:18px}
+.sources li{break-inside:avoid;margin-bottom:6px;overflow-wrap:anywhere}
+footer.colo{font:500 12px/1.6 var(--f-mono);display:grid;gap:8px}
+
+@media (max-width:900px){
+  .hero,.picker,.replay{grid-template-columns:1fr}
+  .opts{border-right:0;border-bottom:3px solid var(--ink);grid-template-columns:repeat(2,minmax(0,1fr))}
+  .replay .ctl{border-right:0;border-bottom:3px solid var(--ink)}
+  .ties{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr}
+}
+@media (max-width:620px){
+  .ties,.sides,.rules,.cards{grid-template-columns:1fr}
+  .sources{columns:1}
+  .w{grid-template-columns:1fr;gap:4px}
+  .feed li{grid-template-columns:1fr;gap:2px}
+  .band{padding-block:56px}
+  .dial{grid-template-columns:1fr}
+}
+</style>
+<style id="infera-house-nav">
+.hf-strip{position:relative;z-index:60;display:flex;justify-content:space-between;align-items:center;gap:10px 24px;flex-wrap:wrap;padding:12px max(16px,env(safe-area-inset-left,0px));padding-top:calc(12px + env(safe-area-inset-top,0px));background:#06060a;color:#fbf7eb;font:700 10.5px/1.4 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid rgba(168,162,152,.15)}
+.hf-strip a{color:#fbf7eb;text-decoration:none;border:0}
+.hf-strip a:hover,.hf-strip a:focus-visible{color:#c8ff1e}
+.hf-strip .hf-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#c8ff1e;margin-right:8px;vertical-align:middle}
+.hf-strip .hf-links{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.hf-strip .hf-stamp{color:rgba(168,162,152,.75)}
+.hf-foot{background:#06060a;color:rgba(232,227,212,.85);padding:22px max(16px,env(safe-area-inset-left,0px));border-top:1px solid rgba(168,162,152,.15);font:700 10.5px/1.6 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase}
+.hf-foot .hf-row{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center}
+.hf-foot a{color:rgba(232,227,212,.85);text-decoration:none;border:0}
+.hf-foot a:hover,.hf-foot a:focus-visible{color:#c8ff1e}
+.hf-foot .hf-disc{max-width:1280px;margin:12px auto 0;font-weight:400;letter-spacing:.06em;text-transform:none;color:rgba(168,162,152,.75)}
+@media (max-width:720px){.hf-strip .hf-stamp{display:none}.hf-strip .hf-links{gap:14px}}
+</style>
+</head>
+<body>
+<nav class="hf-strip" id="infera-nav-strip" aria-label="Site">
+  <a href="index.html"><span class="hf-dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="hf-links">
+    <a href="index.html">&larr; All Episodes</a>
+    <a href="briefs/index.html">Mechanism Briefs</a>
+    <span class="hf-stamp">BRIEF № 012 · NOV 3, 2026</span>
+  </div>
+</nav>
+<header class="band dark">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">Mechanism Brief № 012</span><span>Nov. 3, 2026</span><span>~14 min</span><span>Freezes · the machine someone else can reach</span></div>
+    <div class="hero">
+      <div style="display:grid;gap:20px">
+        <h1 class="ab h-xl">Nobody Is Coming to <span class="hl-p">Patch It</span></h1>
+        <p class="lede">Overnight, someone reached into supermarket freezers across Europe and turned them into ovens. The machines were old, online and out of support. Their makers had stopped fixing them, and no law said they had to keep going. The same is true of the router in your hallway and the camera on your door.</p>
+      </div>
+      <figure class="unit" aria-label="Illustration: a supermarket freezer controller display climbing from minus 18 degrees Celsius to 50">
+        <div class="lbl"><span>Case 4 · frozen</span><span>Controller</span></div>
+        <div class="lcd" id="lcd" aria-hidden="true">-18<small>°C</small></div>
+        <div class="bar" aria-hidden="true"><i id="pin"></i></div>
+        <div class="scale" aria-hidden="true"><span>-30</span><span>0</span><span>25</span><span>50</span></div>
+        <div class="st" id="lcdst">Set point -18 · normal</div>
+        <button type="button" id="replayhero">Replay the night</button>
+      </figure>
+    </div>
+    <div class="stats">
+      <div class="stat p2"><span class="n">~700</span><span class="l">French food retailers hit on the night of Oct. 11 to 12, per the Paris prosecutor and the economy minister <span class="chip fact">FACT</span></span></div>
+      <div class="stat"><span class="n">50°C</span><span class="l">Peak temperature in hacked display cases, held about six hours at some stores; some caught fire <span class="chip fact">FACT</span></span></div>
+      <div class="stat"><span class="n">2016</span><span class="l">Year Danfoss phased out one of the hit controller lines; the other reached end of life in 2021 <span class="chip rep">REPORTED</span></span></div>
+      <div class="stat"><span class="n">0</span><span class="l">Products carrying the U.S. Cyber Trust Mark security label as of Oct. 28, 2026 <span class="chip rep">REPORTED</span></span></div>
+    </div>
+    <p class="src">Sources: AP (Oct. 13); Reuters via Daily Maverick and The Star; The Record (Nov. 2); The Hacker News; Nextgov (Oct. 28).</p>
+  </div>
+</header>
+
+<section class="band" aria-labelledby="night">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">01</span><span>The nights the freezers ran hot</span></div>
+    <h2 id="night" class="ab h-l">Two waves, no <span class="hl-y">claim</span></h2>
+    <p class="p">The attackers never needed to enter a store. They reached refrigeration controllers, the small computers that hold a case at its set point, through interfaces left reachable on the internet. Press play to step through what is on the record.</p>
+    <div class="replay">
+      <div class="ctl">
+        <span class="clock" id="rclock">Late Aug.</span>
+        <small id="rcount">Event 1 of 10</small>
+        <button type="button" id="rplay">Play the record</button>
+        <button type="button" class="sec" id="rnext">Step forward</button>
+        <button type="button" class="sec" id="rall">Show everything</button>
+      </div>
+      <ol class="feed" id="feed"></ol>
+    </div>
+    <p class="src">Built only from published reporting and official statements. Store counts are the agencies' and companies' own. No government has named the attackers.</p>
+    <p class="p">The blood service attack changes the stakes more than the scale. A supermarket loses stock; a blood bank holds plasma for transfusion and biobank samples that cannot be replaced. What saved it was not a patch but a person: monitoring alarms and a technician on call. <span class="chip inf">INFERENCE</span> The 110°C figure is the set point the attackers programmed, not a temperature the products reached. <span class="chip rep">REPORTED</span> FrenchBreaches, citing Le Canard enchaîné; The U.S. Sun, citing BFMTV.</p>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="eol">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">02</span><span>Why the old ones</span></div>
+    <h2 id="eol" class="ab h-l">End of life is not <span class="hl-p">end of use</span></h2>
+    <p class="p">Danfoss says most of the hit units were older products it no longer updates, including the AK-SM 800 (end of life May 2021) and the AK-SC 355 (phased out in 2016). Some current AK-SM 800A units were also hit because they ran outdated firmware. <span class="chip rep">REPORTED</span> Danfoss announced a "hard End of Service" policy for legacy products in October 2025. <span class="chip rep">REPORTED</span> After the French attack, Danfoss and Copeland both said the affected devices were mainly discontinued products that no longer received security updates. <span class="chip rep">REPORTED</span></p>
+    <p class="p">A freezer controller can run for many years after its maker stops patching it. The store still owns a working machine; nobody owns its security. In Belgium, the installer Sabcobel said about 20 affected units it manages need physical modification, not just a software update. <span class="chip rep">REPORTED</span></p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">Measure</th><th scope="col">What was found</th><th scope="col">By whom</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Danfoss interfaces online</th><td>More than 4,500 internet-exposed Danfoss controller interfaces, over half in France, days after the attack <span class="chip rep">REPORTED</span></td><td>Shodan count, via The Register</td></tr>
+          <tr><th scope="row">AK-SM 800A online</th><td>2,765 units exposed; three flaws (CVE-2025-41450, -41451, -41452) patched in firmware R4.2 and R4.3.1 <span class="chip fact">FACT</span></td><td>Claroty Team82; CISA ICSA-25-140-03</td></tr>
+          <tr><th scope="row">Worldwide</th><td>12,976 exposed refrigeration services in 99 countries, 4,697 of them Danfoss StoreView <span class="chip rep">REPORTED</span></td><td>Forescout, via Hackread</td></tr>
+          <tr><th scope="row">Copeland, U.S.</th><td>Ten "Frostbyte10" flaws in Copeland E2 and E3 controllers (2025); the E2 reached end of life in October 2025. Copeland says about two-thirds of North American grocery stores use its products <span class="chip rep">REPORTED</span></td><td>Armis, via The Register</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="p">That last row is the American exposure. France's cyber agency said Copeland and its Dixell brand were also compromised in October; Copeland declined to confirm. <span class="chip rep">REPORTED</span> Coopérative U, which had 80 stores hit, says it is not a Danfoss customer. <span class="chip rep">REPORTED</span> No U.S. chain has reported an attack, and no CISA statement on the European attacks was found. <span class="chip watch">WATCH</span></p>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="clock">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">03</span><span>The support clock</span></div>
+    <h2 id="clock" class="ab h-l">Who keeps your machine <span class="hl-y">safe</span>, and for how long?</h2>
+    <p class="p">Every connected device has two lifespans: how long it runs, and how long someone keeps fixing it. Pick a machine to see who can reach it, what happens when support ends and which rule, if any, applies.</p>
+    <div class="picker">
+      <div class="opts" role="tablist" aria-label="Devices" id="opts"></div>
+      <div class="panel" role="tabpanel" id="panel" aria-live="polite"></div>
+    </div>
+    <p class="src">The dial is Infera's reading of how strongly current rules protect each device, from 0 (nothing required) to 3 (binding duty with oversight). <span class="chip inf">INFERENCE</span></p>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="law">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">04</span><span>What the rules reach</span></div>
+    <h2 id="law" class="ab h-l">New products, yes. The ones already <span class="hl-p">installed</span>, rarely.</h2>
+    <p class="p">The rules written for connected devices mostly apply at the point of sale. The freezer controllers that failed were sold years before any of them. <span class="chip inf">INFERENCE</span></p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">Rule</th><th scope="col">What it requires</th><th scope="col">In force</th><th scope="col">Covers devices already installed?</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">EU Cyber Resilience Act</th><td>Report actively exploited flaws within 24 hours (fuller notices at 72 hours and 14 days); from Dec. 11, 2027, security by design and a support period generally of at least five years <span class="chip fact">FACT</span></td><td>Reporting since Sept. 11, 2026</td><td><span class="no">NO</span> Products placed on the market</td></tr>
+          <tr><th scope="row">EU Radio Equipment rules</th><td>Cybersecurity requirements for wireless products (EN 18031) <span class="chip fact">FACT</span></td><td>Aug. 1, 2025</td><td><span class="no">NO</span> New products</td></tr>
+          <tr><th scope="row">EU phone ecodesign</th><td>OS updates for at least five years after a model stops being sold <span class="chip fact">FACT</span></td><td>June 20, 2025</td><td><span class="no">NO</span> New models</td></tr>
+          <tr><th scope="row">UK PSTI regime</th><td>No default passwords; publish the minimum security update period <span class="chip fact">FACT</span> No public enforcement action found <span class="chip watch">WATCH</span></td><td>April 2024</td><td><span class="no">NO</span> New products</td></tr>
+          <tr><th scope="row">California SB 327</th><td>Connected devices sold in the state need "reasonable" security, such as unique passwords <span class="chip fact">FACT</span></td><td>Jan. 1, 2020</td><td><span class="no">NO</span> Devices sold after</td></tr>
+          <tr><th scope="row">U.S. Cyber Trust Mark</th><td>Voluntary security label run for the FCC <span class="chip fact">FACT</span> No labeled products as of Oct. 28, 2026 <span class="chip rep">REPORTED</span></td><td>Program stalled</td><td><span class="no">NO</span> Voluntary, new products</td></tr>
+          <tr><th scope="row">FTC and five states v. Deere</th><td>Ten years of dealer-level repair tools for owners and independent shops <span class="chip fact">FACT</span></td><td>July 8, 2026</td><td><span class="yes">YES</span> Machines already owned</td></tr>
+          <tr><th scope="row">FBI router operation</th><td>Court-authorized remote fix of hijacked home routers <span class="chip fact">FACT</span></td><td>April 7, 2026</td><td><span class="part">ONCE</span> One-time, reset undoes it</td></tr>
+          <tr><th scope="row">France, CERT-FR alert</th><td>Disconnect or filter the controllers; reset, patch, rotate credentials <span class="chip rep">REPORTED</span></td><td>Oct. 12, 2026</td><td><span class="part">ADVICE</span> Emergency guidance</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="band dark" aria-labelledby="worked">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">05</span><span>Counterexamples</span></div>
+    <h2 id="worked" class="ab h-l">Where control came <span class="hl-y">back</span></h2>
+    <p class="p">The lag is real, but not total. These are the cases where a rule, a court or an agency moved control back toward owners or closed a hole fast.</p>
+    <div class="cards">
+      <div class="card"><span class="k">Farm equipment · July 2026</span><h3>Deere opens its tools</h3><p>The FTC, with Illinois, Arizona, Minnesota, Michigan and Wisconsin, settled its antitrust suit. For ten years, owners and independent shops get dealer-level tools on "fair and reasonable terms," including resetting electronic locks and immobilizers, reprogramming engine computers and an offline mode. Deere files compliance reports every 60 days, verified by its CEO. <span class="chip fact">FACT</span></p><p class="lim">Limit: access to engine software depends on approval from a third-party vendor, and Deere can seek "good cause" extensions. <span class="chip fact">FACT</span></p></div>
+      <div class="card"><span class="k">European Union · Sept. 2026</span><h3>A 24-hour clock on exploited flaws</h3><p>Since Sept. 11, makers selling into the EU must report actively exploited vulnerabilities to ENISA's platform within 24 hours. <span class="chip fact">FACT</span> The rule works at the point of sale, before harm, not through lawsuits after it.</p><p class="lim">Limit: it does not reach the controllers already on store walls, and enforcement is untested. <span class="chip watch">WATCH</span></p></div>
+      <div class="card"><span class="k">Phones · June 2025</span><h3>Five years after the shelf</h3><p>The EU requires OS updates for at least five years after a phone model leaves the market. <span class="chip fact">FACT</span> Google, Samsung and Honor now promise six to seven years. <span class="chip rep">REPORTED</span> It proves a minimum support period can be required.</p><p class="lim">Limit: phones only, and one maker argues the wording makes updates optional. <span class="chip rep">REPORTED</span></p></div>
+      <div class="card"><span class="k">Home routers · April 2026</span><h3>The FBI patches for you</h3><p>Under a court order, the FBI sent commands to Russian-hijacked TP-Link routers in more than 23 states, removing the attackers' settings and blocking their way back in. <span class="chip fact">FACT</span> It fixed devices whose owners would never have patched them.</p><p class="lim">Limit: a factory reset undoes the fix, and the Justice Department gave no router count. <span class="chip fact">FACT</span></p></div>
+    </div>
+    <p class="src">The response in France was fast: CERT-FR issued containment guidance within a day and the prime minister ordered ANSSI to investigate. That is a strong response, not prevention. <span class="chip inf">INFERENCE</span></p>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="who">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">06</span><span>Who holds the switch</span></div>
+    <h2 id="who" class="ab h-l">Control moves when <span class="hl-y">ownership</span> does</h2>
+    <p class="p">A connected device answers to whoever runs the service behind it, and that can change without the owner doing anything. <span class="chip inf">INFERENCE</span></p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">Device</th><th scope="col">Who can reach it</th><th scope="col">What just changed</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Store freezer</th><td>The maker's software, the installer or service company, and anyone who finds an exposed login</td><td>Makers ended support for legacy lines; attackers found them first <span class="chip rep">REPORTED</span></td></tr>
+          <tr><th scope="row">Home security system</th><td>The alarm company's monitoring service</td><td>ADT agreed Oct. 29 to be bought by Thrive Holdings for $10 a share ($15.3B enterprise value). OpenAI took a stake in Thrive Holdings in December 2025. ADT also installs Apple's new home cameras at Apple stores <span class="chip fact">FACT</span> The deal can be topped until Nov. 28 and is expected to close in early 2027 <span class="chip fact">FACT</span></td></tr>
+          <tr><th scope="row">Court-ordered speed limiter</th><td>The vendor and the state, which receives the driving log</td><td>Virginia's devices send logs within 24 hours; the statute is silent on access <span class="chip fact">FACT</span> (see № 009)</td></tr>
+          <tr><th scope="row">Pickup truck, no modem</th><td>Only someone with the phone nearby</td><td>Slate's truck ships without a cellular modem; its app works only near the truck <span class="chip rep">REPORTED</span> Deliveries not yet begun <span class="chip watch">WATCH</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src">Conflict note: OpenAI, which holds a stake in Thrive Holdings, competes with Anthropic, the maker of the AI used to research this brief.</p>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="home">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">07</span><span>For your own machines</span></div>
+    <h2 id="home" class="ab h-l">A five-minute <span class="hl-p">support check</span></h2>
+    <p class="p">Information, not a guarantee. Tick each item as you go. <span class="prog" id="prog">0 of 6 done</span></p>
+    <ul class="check" id="check">
+      <li><input type="checkbox" id="c1"><label for="c1"><b>Find your router's support end date.</b><span>Search the model number and "end of life" or "end of support" on the maker's site. If support has ended, the maker no longer ships security fixes.</span></label></li>
+      <li><input type="checkbox" id="c2"><label for="c2"><b>Update the firmware.</b><span>Most routers and cameras have an update setting in their app or admin page; turn on automatic updates if offered.</span></label></li>
+      <li><input type="checkbox" id="c3"><label for="c3"><b>Change any default password.</b><span>UK law now bans universal default passwords on new devices; older devices and many U.S. ones may still ship with them. <span class="chip fact">FACT</span></span></label></li>
+      <li><input type="checkbox" id="c4"><label for="c4"><b>Before you buy, look for the support period.</b><span>UK sellers must publish a minimum security update period. In the EU, phones carry a repair and update label. In the U.S., no label is required and the Cyber Trust Mark has no products yet. <span class="chip fact">FACT</span></span></label></li>
+      <li><input type="checkbox" id="c5"><label for="c5"><b>Know what a factory reset does.</b><span>A reset can clear an infection, but it also undoes outside fixes like the FBI's router repair and returns any default password. Update and reset the password right after. <span class="chip fact">FACT</span></span></label></li>
+      <li><input type="checkbox" id="c6"><label for="c6"><b>Ask who can reach it.</b><span>For an alarm, camera or connected car, read who the monitoring company is and what happens to your data and control if the company is sold.</span></label></li>
+    </ul>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="sides">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">08</span><span>Both sides</span></div>
+    <h2 id="sides" class="ab h-l">Should makers keep old machines safe?</h2>
+    <div class="sides">
+      <div class="side"><h3>Make makers carry it longer</h3><ul>
+        <li>The harm lands on people who never chose the device: shoppers, workers and the food supply. <span class="chip inf">INFERENCE</span></li>
+        <li>The EU already requires minimum support periods for phones and, from 2027, for most connected products; a rule can be written. <span class="chip fact">FACT</span></li>
+        <li>Makers know how long their machines stay in service; ending patches while units run keeps the risk in the field. <span class="chip inf">INFERENCE</span></li>
+        <li>Some units need physical work to fix, which owners cannot do alone. <span class="chip rep">REPORTED</span></li>
+      </ul></div>
+      <div class="side"><h3>Owners and operators must replace</h3><ul>
+        <li>Danfoss announced the end of service for legacy products a year before the attacks and urged updates. <span class="chip rep">REPORTED</span></li>
+        <li>CERT-FR's first fix was to take the controllers off the open internet, a choice the operator controls. <span class="chip rep">REPORTED</span></li>
+        <li>Indefinite support raises costs for every buyer, including those who replace on schedule. <span class="chip inf">INFERENCE</span></li>
+        <li>The cost of new controllers would fall hardest on small grocers either way. <span class="chip inf">INFERENCE</span></li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="ties">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">09</span><span>Infera read · ties to the series</span></div>
+    <h2 id="ties" class="ab h-l">The Freeze Button, turned up to 50</h2>
+    <p class="p">The Freeze Button asks who can stop your money. This asks who can heat your food. Same mechanism: a remote party holding a switch over something you rely on, with no duty to keep it safe. <span class="chip inf">INFERENCE</span></p>
+    <div class="ties">
+      <div class="tie"><span class="k">In development · Freezes thread</span><h3>The Freeze Button</h3><p>Private power that stops you. Here it reached the cold chain.</p></div>
+      <a class="tie" href="brief-who-holds-the-speedometer.html"><span class="k">Live · Brief № 009</span><h3>Who Holds the Speedometer</h3><p>A box someone else controls, in your car, with a log nobody governs.</p></a>
+      <div class="tie"><span class="k">Exhibits · Grid thread</span><h3>Who Owns the Current · The Owners' Table</h3><p>Who owns the infrastructure decides who keeps it safe. Freezers are the grid's edge.</p></div>
+      <div class="tie"><span class="k">Targeting Map subject</span><h3>Plate readers and camera networks</h3><p>The home camera network is changing hands, from ADT to an OpenAI-backed holding company.</p></div>
+      <div class="tie"><span class="k">Framework doc</span><h3>The Four-Year Claim</h3><p>Systems lag in one picture: rules for new products, nothing for the installed base.</p></div>
+      <a class="tie" href="brief-the-one-way-mirror.html"><span class="k">Live · Brief № 010</span><h3>The One-Way Mirror</h3><p>Who gets to stay anonymous while the machines watch everyone else.</p></a>
+      <a class="tie" href="brief-the-price-of-no.html"><span class="k">Live · Brief № 011</span><h3>The Price of No</h3><p>Turn off connected services and you lose the features. What refusal costs.</p></a>
+      <a class="tie" href="brief-decided-before-you-act.html"><span class="k">Live · Brief № 013</span><h3>Decided Before You Act</h3><p>The systems that act on a model of you, and how to see your file.</p></a>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="next">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">10</span><span>What we're watching next</span></div>
+    <h2 id="next" class="ab h-l">Checkpoints</h2>
+    <div class="watchlist">
+      <div class="w"><span class="d">Open</span><p>Who did it, and whether the October and November waves are linked. No group has claimed either.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Open</span><p>The U.S. commissary attacks: Nextgov's sources say about six, Reuters says about a dozen, starting in late August. Cyber Command is reported to be investigating.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Open</span><p>Any CISA statement or advisory on the European attacks, and any U.S. grocer reporting a hit on Copeland or Danfoss gear.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Open</span><p>France's findings on the blood service attack: which controllers, how the contractor's access was reached, and whether U.S. blood banks, hospital pharmacies or vaccine storage run the same equipment.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Nov. 28, 2026</span><p>ADT's go-shop window closes; then the stockholder vote and antitrust review.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Late 2026</span><p>Slate's first deliveries, and the first products with the U.S. Cyber Trust Mark.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Dec. 11, 2027</span><p>The EU Cyber Resilience Act's full obligations, including minimum support periods, apply.</p><span class="chip watch">WATCH</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="src">
+  <div class="wrap">
+    <h2 id="src" class="ab h-m">Sources</h2>
+    <ol class="sources">
+      <li><a href="https://frenchbreaches.com/alertes/cyberattaque-coolworld-efs-banques-sang-chambres-froides-mw17qluzro5uv8dn4l">FrenchBreaches on the EFS cold room attack, Nov. 3, 2026, citing Le Canard enchaîné</a></li>
+      <li><a href="https://www.franceinfo.fr/internet/securite-sur-internet/cyberattaques/une-cyberattaque-touche-des-installations-frigorifiques-utilisees-par-l-etablissement-francais-du-sang-sans-impact-sur-les-echantillons-conserves_8267426.html">franceinfo on the EFS attack (not opened; headline reports no impact on samples)</a></li>
+      <li>The U.S. Sun, Nov. 4, 2026, citing BFMTV and the French Health Ministry (provided by Jared)</li>
+      <li><a href="https://www.news4jax.com/business/2026/10/13/cyberattack-targeting-refrigeration-systems-hits-700-supermarkets-french-government-says/">AP via News4Jax, 700 supermarkets, Oct. 13, 2026</a></li>
+      <li><a href="https://www.dailymaverick.co.za/article/2026-10-12-hackers-heat-french-supermarket-fridges-sparking-fires-and-spoiling-food/">Reuters via Daily Maverick, Oct. 12, 2026</a></li>
+      <li><a href="https://www.thestar.com.my/tech/tech-news/2026/10/14/copeland-dixell-refrigeration-systems-also-hacked-french-cybersecurity-agency-says">Reuters via The Star, Copeland and Dixell, Oct. 14, 2026</a></li>
+      <li><a href="https://www.theregister.com/a/5302784">The Register, Oct. 13, 2026</a></li>
+      <li><a href="https://krdo.com/news/2026/10/14/thousands-of-refrigerators-were-hacked-across-france-how-worried-should-you-be/">KRDO (CNN), Oct. 14, 2026</a></li>
+      <li><a href="https://therecord.media/cyberattack-grocery-freezers-europe">The Record, second wave, Nov. 2, 2026</a></li>
+      <li><a href="https://www.kyivpost.com/post/88939">Kyiv Post roundup of retailers</a></li>
+      <li><a href="https://thehackernews.com/2026/10/attackers-heat-french-supermarket.html">The Hacker News on Danfoss end-of-life models</a></li>
+      <li><a href="https://therecord.media/cyberattack-disrupts-refridgeration-in-france">The Record on CERT-FR's alert</a></li>
+      <li><a href="https://claroty.com/team82/research/freeze-the-controller-defrost-the-food-uncovering-vulnerabilities-in-danfoss-refrigeration-controllers">Claroty Team82, Danfoss research</a></li>
+      <li><a href="https://www.cisa.gov/news-events/ics-advisories/icsa-25-140-03">CISA ICSA-25-140-03</a></li>
+      <li><a href="https://hackread.com/refrigeration-controls-exposed-online-99-countries/">Hackread on Forescout's count, Oct. 26, 2026</a></li>
+      <li><a href="https://www.theregister.com/2025/09/02/frostbyte10_copeland_controller_bugs/">The Register on Frostbyte10, Sept. 2, 2025</a></li>
+      <li><a href="https://www.nextgov.com/cybersecurity/2026/10/officials-suspect-iran-series-cyberattacks-military-base-freezers/416934/">Nextgov on military base freezers, Oct. 2026</a></li>
+      <li><a href="https://www.dtnpf.com/agriculture/web/ag/equipment/article/2026/07/08/ftc-orders-deere-open-repair-tools">DTN on the Deere order, July 8, 2026</a></li>
+      <li><a href="https://pbswisconsin.org/news-item/john-deere-owners-win-right-to-repair-equipment-under-settlement-with-ftc-wisconsin-and-four-other-states/">PBS Wisconsin on the Deere settlement</a></li>
+      <li><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-reporting">European Commission, CRA reporting</a></li>
+      <li><a href="https://www.springlex.eu/en/packages/cra/cra-regulation/article-13/">CRA Article 13 text (support period)</a></li>
+      <li><a href="https://www.sgs.com/en-se/news/2025/06/red-cybersecurity-requirements-mandatory-on-1-august-2025">SGS on EU radio equipment rules</a></li>
+      <li><a href="https://heise.de/-10447853">heise on EU phone ecodesign rules</a> and <a href="https://heise.de/-11163863">update promises</a></li>
+      <li><a href="https://themodernregulator.com/secure-by-design-cybersecurity-product-safety/">The Modern Regulator on UK PSTI</a></li>
+      <li><a href="https://www.which.co.uk/news/article/online-marketplaces-smart-tech-aqJAQ7v8rRew">Which? on noncompliant listings</a></li>
+      <li><a href="https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=201720180SB327">California SB 327</a></li>
+      <li><a href="https://www.nextgov.com/cybersecurity/2026/10/fcc-commissioner-hopes-cyber-trust-mark-products-reach-shoppers-within-year/416878/">Nextgov on the Cyber Trust Mark, Oct. 28, 2026</a></li>
+      <li><a href="https://www.justice.gov/opa/pr/justice-department-conducts-court-authorized-disruption-dns-hijacking-network-controlled">Justice Department, router operation, April 7, 2026</a></li>
+      <li><a href="https://investor.adt.com/News--Events/news/news-details/2026/ADT-to-be-Acquired-by-Thrive-Holdings-in-15-3-Billion-Transaction/default.aspx">ADT release, Oct. 29, 2026</a></li>
+      <li><a href="https://openai.com/index/thrive-holdings">OpenAI on Thrive Holdings, Dec. 1, 2025</a></li>
+      <li><a href="https://tidbits.com/2026/10/22/apple-home-collection-introduces-new-cameras-doorbell-lock-and-thermostats/">TidBITS on Apple Home Collection and ADT installation</a></li>
+      <li><a href="https://www.carscoops.com/2026/06/slate-truck-privacy/">CarScoops on Slate's no-modem truck</a></li>
+      <li><a href="https://solarbuildermag.com/products/slate-auto-to-begin-ev-truck-deliveries-by-end-of-2026/">Solar Builder on Slate deliveries</a></li>
+    </ol>
+    <footer class="colo">
+      <span>Labels: FACT = primary document or two independent outlets · REPORTED = one outlet or a party's own claim · INFERENCE = Infera's reasoning · WATCH = open.</span>
+      <span>Researched and compiled with Claude (Anthropic). Final editorial judgment: Melophon.</span>
+      <span>© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com</span>
+    </footer>
+  </div>
+</section>
+
+<script>
+(function(){
+var RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function chip(t){return '<span class="chip '+({FACT:'fact',REPORTED:'rep',INFERENCE:'inf',WATCH:'watch'}[t])+'">'+t+'</span>'}
+
+// hero controller display
+var lcd=document.getElementById('lcd'),pin=document.getElementById('pin'),st=document.getElementById('lcdst'),timer=null;
+function pos(t){return ((t+30)/80*100)+'%'}
+function heat(){clearInterval(timer);var t=-18;lcd.classList.remove('hot');st.classList.remove('hot');lcd.innerHTML='-18<small>°C</small>';st.textContent='Set point -18 · normal';pin.style.transition='none';pin.style.left=pos(-18);
+ if(RM){lcd.innerHTML='50<small>°C</small>';lcd.classList.add('hot');st.classList.add('hot');st.textContent='Set point changed remotely · 50';pin.style.left=pos(50);return}
+ setTimeout(function(){pin.style.transition='';pin.style.left=pos(50);
+  timer=setInterval(function(){t+=2;if(t>=50){t=50;clearInterval(timer);st.textContent='Set point changed remotely · 50';st.classList.add('hot')}
+   lcd.innerHTML=t+'<small>°C</small>';if(t>4){lcd.classList.add('hot')}},45)},700)}
+document.getElementById('replayhero').addEventListener('click',heat);heat();
+
+// replay
+var E=[
+ {d:'Late Aug. 2026',t:'U.S. military commissary freezers are hit in a series of attacks. U.S. officials suspect Iran-linked hackers, per two anonymous sources; Reuters counts about a dozen, Nextgov about six.',c:'WATCH'},
+ {d:'Night of Oct. 11',t:'Controllers at hundreds of French supermarkets are reset remotely. Display cases climb as high as 50°C, held about six hours at some stores; some catch fire.',c:'FACT'},
+ {d:'Oct. 12',t:'Intermarché\'s owner says about 150 stores were hit, Carrefour about 80, Monoprix about 5% of its stores. CERT-FR alert CERTFR-2026-ALE-012 tells operators to disconnect or filter AK-SM and AK-SC controllers. The prime minister orders ANSSI to investigate.',c:'REPORTED'},
+ {d:'Oct. 13',t:'Economy minister Roland Lescure tells Parliament about 700 of France\'s 10,000 supermarkets were affected. The Paris prosecutor\'s cybercrime unit investigates.',c:'FACT'},
+ {d:'Oct. 13',t:'France\'s cyber agency says Copeland and its Dixell controllers were also compromised. Copeland declines to confirm. Coopérative U, with 80 stores hit, says it is not a Danfoss customer.',c:'REPORTED'},
+ {d:'Oct. 26',t:'Forescout counts 12,976 refrigeration services exposed online in 99 countries.',c:'REPORTED'},
+ {d:'Night of Nov. 1',t:'The attacks reach health care. Cold rooms used by France\'s national blood service, the Établissement français du sang, are reprogrammed from their normal minus 30°C toward a 110°C set point, on equipment in Bourgogne-Franche-Comté maintained by a contractor. An on-call technician catches the rise. The service says no blood products were lost; investigators have not linked it to the supermarket attacks.',c:'REPORTED'},
+ {d:'Nov. 2, 1 a.m.',t:'A second wave. Installer Sabcobel mobilizes technicians in Belgium, where more than 50 stores are affected; more than a dozen across Ireland, Estonia, the Netherlands and Luxembourg; a limited number in Sweden.',c:'FACT'},
+ {d:'Nov. 2',t:'"Heat is blowing into the freezers," a Swedish store manager says. Sabcobel says about 20 units need physical modification, not only a software update.',c:'REPORTED'},
+ {d:'Nov. 3',t:'No group has claimed either wave, and no government has named the attackers.',c:'FACT'}
+];
+var feed=document.getElementById('feed'),rc=document.getElementById('rclock'),rn=document.getElementById('rcount'),i=0,play=null;
+E.forEach(function(e){var li=document.createElement('li');li.innerHTML='<span class="d">'+e.d+'</span><p>'+e.t+' '+chip(e.c)+'</p>';feed.appendChild(li)});
+var L=feed.children;
+function show(n){i=n;for(var k=0;k<L.length;k++){L[k].classList.toggle('on',k<=n);L[k].classList.toggle('now',k===n)}rc.textContent=E[n].d;rn.textContent='Event '+(n+1)+' of '+E.length}
+function stop(){clearInterval(play);play=null;document.getElementById('rplay').textContent='Play the record'}
+document.getElementById('rplay').addEventListener('click',function(){if(play){stop();return}
+ if(i>=E.length-1)show(0);this.textContent='Pause';play=setInterval(function(){if(i>=E.length-1){stop();return}show(i+1)},RM?400:2400)});
+document.getElementById('rnext').addEventListener('click',function(){stop();show(Math.min(i+1,E.length-1))});
+document.getElementById('rall').addEventListener('click',function(){stop();for(var k=0;k<L.length;k++){L[k].classList.add('on');L[k].classList.remove('now')}rc.textContent='All events';rn.textContent=E.length+' events'});
+show(0);
+
+// support clock
+var D=[
+ {id:'sc355',name:'Freezer controller',sub:'Danfoss AK-SC 355',ends:'Phased out in 2016. '+chip('REPORTED'),reach:'The store\'s installer or service company, through a web interface; anyone who finds it exposed online.',ab:'No patches. CERT-FR\'s advice: take it off the open internet or filter access, then reset and reconfigure. '+chip('REPORTED'),rule:'None required support. The EU\'s new rules apply only to products sold from now on.',s:0},
+ {id:'sm800',name:'Freezer controller',sub:'Danfoss AK-SM 800',ends:'End of life May 2021; Danfoss set a "hard End of Service" policy in October 2025. '+chip('REPORTED'),reach:'The store\'s installer or service company through a web interface. More than 4,500 Danfoss interfaces were visible online after the attack. '+chip('REPORTED'),ab:'Hit in France. The newer AK-SM 800A has patches, but units on old firmware were hit too. '+chip('REPORTED'),rule:'CISA advisory ICSA-25-140-03 is guidance only. '+chip('FACT'),s:0},
+ {id:'e2',name:'Freezer controller',sub:'Copeland E2 (U.S. stores)',ends:'End of life October 2025, with one critical Frostbyte10 flaw. '+chip('REPORTED'),reach:'Store facility systems for refrigeration, HVAC and lighting. Copeland says about two-thirds of North American grocery stores use its products. '+chip('REPORTED'),ab:'Upgrade to the E3 is the maker\'s advice. France says Copeland gear was hit in October; Copeland has not confirmed. '+chip('REPORTED'),rule:'No U.S. law requires support or replacement.',s:0},
+ {id:'router',name:'Home router',sub:'Typical U.S. model',ends:'Set by the maker; no U.S. minimum. '+chip('FACT'),reach:'The maker\'s update servers, your internet provider in some cases, and attackers who hijack it.',ab:'In April 2026 the FBI used a court order to clean hijacked TP-Link routers in 23-plus states. A factory reset undoes that fix. '+chip('FACT'),rule:'UK sellers must publish a minimum update period; the EU requires about five years from Dec. 2027. The U.S. Cyber Trust Mark has no products. '+chip('FACT'),s:1},
+ {id:'phone',name:'Phone',sub:'Sold in the EU',ends:'At least five years after the model stops being sold. '+chip('FACT'),reach:'The phone maker and the operating system maker push updates.',ab:'Major makers now promise six to seven years. '+chip('REPORTED'),rule:'EU ecodesign regulation, since June 20, 2025. '+chip('FACT'),s:3},
+ {id:'car',name:'Connected car',sub:'U.S. market',ends:'Set by the carmaker; no U.S. minimum. '+chip('INFERENCE'),reach:'The carmaker\'s telematics service, over the cellular modem; for court-ordered speed limiters, a vendor and the state.',ab:'Turning off connected services can cost features. Slate\'s truck has no modem at all. '+chip('REPORTED'),rule:'The FTC\'s 2026 GM order limits data sharing, not support. '+chip('FACT'),s:1},
+ {id:'deere',name:'Tractor',sub:'John Deere',ends:'Not a support period, a repair right: ten years of dealer-level tools. '+chip('FACT'),reach:'Deere\'s software and dealers, and now owners and independent shops.',ab:'Owners can reset locks and immobilizers and run an offline mode. '+chip('FACT'),rule:'FTC and five states\' order, July 8, 2026, with reports every 60 days. '+chip('FACT'),s:3},
+ {id:'cam',name:'Home security camera',sub:'Alarm-company system',ends:'Set by the company; no U.S. minimum. '+chip('INFERENCE'),reach:'The monitoring company. ADT has agreed to be bought by OpenAI-backed Thrive Holdings. '+chip('FACT'),ab:'If the service changes hands, so does control of the cameras.',rule:'California SB 327 requires reasonable security for devices sold since 2020; UK bans default passwords. '+chip('FACT'),s:1}
+];
+var opts=document.getElementById('opts'),panel=document.getElementById('panel');
+var lbl=['Nothing required','Disclosure or guidance only','Partial duty','Binding duty with oversight'];
+function draw(d){var C=2*Math.PI*36,off=C*(1-d.s/3);
+ panel.innerHTML='<div class="src">'+d.sub+'</div><h3>'+d.name+'</h3><div class="rules"><div class="rule"><b>Support ends</b><p>'+d.ends+'</p></div><div class="rule"><b>Who can reach it</b><p>'+d.reach+'</p></div><div class="rule"><b>When it is abandoned</b><p>'+d.ab+'</p></div><div class="rule"><b>Rule that applies</b><p>'+d.rule+'</p></div></div>'+
+ '<div class="dial"><svg viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="46" r="36" fill="none" stroke="#d8d2c2" stroke-width="10"/><circle class="arc" cx="46" cy="46" r="36" fill="none" stroke="'+(d.s>=3?'#127a43':d.s===0?'#FF1A6B':'#FFD500')+'" stroke-width="10" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+C.toFixed(1)+'" transform="rotate(-90 46 46)"/><text x="46" y="53" text-anchor="middle" font-family="Archivo Black, Impact, sans-serif" font-size="22" fill="#0A0A0A">'+d.s+'/3</text></svg><div class="dt"><b>'+lbl[d.s]+'</b>Infera\'s reading of rule strength. '+chip('INFERENCE')+'</div></div>';
+ var a=panel.querySelector('.arc');requestAnimationFrame(function(){requestAnimationFrame(function(){a.style.strokeDashoffset=off.toFixed(1)})})}
+function pick(id,focus){var d=D.filter(function(x){return x.id===id})[0];
+ opts.querySelectorAll('button').forEach(function(b){var on=b.dataset.id===id;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;if(on&&focus)b.focus()});draw(d)}
+D.forEach(function(d){var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.dataset.id=d.id;b.innerHTML=d.name+'<small>'+d.sub+'</small>';b.addEventListener('click',function(){pick(d.id)});opts.appendChild(b)});
+opts.addEventListener('keydown',function(e){var k=e.key;if(['ArrowDown','ArrowUp','ArrowLeft','ArrowRight'].indexOf(k)<0)return;e.preventDefault();var bs=[].slice.call(opts.querySelectorAll('button')),j=bs.findIndex(function(b){return b.getAttribute('aria-selected')==='true'});j=(j+(k==='ArrowDown'||k==='ArrowRight'?1:-1)+bs.length)%bs.length;pick(bs[j].dataset.id,true)});
+pick('sm800');
+
+// checklist
+var boxes=document.querySelectorAll('#check input'),prog=document.getElementById('prog');
+function upd(){var n=0;boxes.forEach(function(b){b.closest('li').classList.toggle('done',b.checked);if(b.checked)n++});prog.textContent=n+' of '+boxes.length+' done'}
+boxes.forEach(function(b){b.addEventListener('change',upd)});
+})();
+</script>
+<nav class="hf-foot" id="infera-nav-footer" aria-label="Series">
+  <div class="hf-row"><a href="briefs/index.html">&larr; Mechanism Briefs</a> <span aria-hidden="true">·</span> <a href="index.html">Series Home</a> <span aria-hidden="true">·</span> <a href="brief-the-price-of-no.html" rel="prev">Prev · Brief № 011</a> <span aria-hidden="true">·</span> <a href="brief-decided-before-you-act.html" rel="next">Next · Brief № 013</a> <span aria-hidden="true">·</span> <a href="legal.html">Legal · Privacy</a> <span aria-hidden="true">·</span> <span>infera@melophon.com</span></div>
+  <p class="hf-disc">© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com</p>
+</nav>
+<style id="infera-legal-footer">
+.legal-footer{
+  background:#06060a; color:rgba(168,162,152,.75);
+  font-family:'Inter', system-ui, sans-serif; font-size:11.5px; line-height:1.55;
+  padding:32px 6vw 36px;
+  border-top:1px solid rgba(168,162,152,.12);
+}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{
+  display:grid; grid-template-columns:1fr auto; gap:24px 32px;
+  padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08);
+  margin-bottom:14px;
+}
+.legal-footer .lf-brand{
+  font-family:'JetBrains Mono', ui-monospace, monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.legal-footer .lf-brand b{color:#c8ff1e; font-family:inherit; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; padding:3px 8px; border:1px solid rgba(168,162,152,.18); white-space:nowrap}
+.legal-footer .lf-disclaim{
+  font-size:11.5px; line-height:1.6; max-width:none; color:rgba(168,162,152,.62);
+}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+
+.legal-footer details.lf-more{margin-top:8px; padding:0}
+.legal-footer details.lf-more summary{
+  cursor:pointer; list-style:none;
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700;
+  display:inline-flex; align-items:center; gap:8px; padding:5px 0;
+}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+
+.legal-footer .lf-links{
+  display:flex; flex-wrap:wrap; gap:0 18px;
+  padding-top:14px; border-top:1px dashed rgba(168,162,152,.12);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+
+@media (max-width:780px){
+  .legal-footer .lf-top{grid-template-columns:1fr}
+  .legal-footer{padding:26px 5vw 30px; font-size:11px}
+}
+@media (prefers-reduced-motion: reduce){
+  .legal-footer details.lf-more summary::before{transition:none}
+}
+
+.legal-footer .lf-infra{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:10px 14px 12px; margin-bottom:14px;
+  background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:560px){
+  .legal-footer .lf-infra{font-size:9px; gap:8px; padding:8px 10px 10px}
+}
+</style>
+
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+      <nav class="lf-infra" aria-label="Infrastructure links">
+        <span class="lf-infra-lbl">More from Infera</span>
+        <a href="systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+        <a href="claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+        <a href="case-file.html">Your Case File</a><span class="lf-sep">·</span>
+        <a href="founding.html">Founding 500</a><span class="lf-sep">·</span>
+        <a href="field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+        <a href="index.html#about">About</a>
+      </nav>
+
+    <div class="lf-top">
+      <div class="lf-brand">
+        <span>© 2026 <b>Infera</b></span>
+        <span class="sep">·</span>
+        <span>All rights reserved</span>
+        <span class="sep">·</span>
+        <em>The Mechanism Series™</em>
+      </div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis &mdash; <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided &ldquo;as is&rdquo; without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> &ldquo;Infera,&rdquo; &ldquo;The Mechanism Series,&rdquo; and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis (echo dots, provenance layer, evidence mode, chapter rails, claims atlas format, systems atlas format) are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission &mdash; usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for persona memory, reading log, and evidence-mode preference &mdash; none transmitted. Subscriber emails stored at Buttondown. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with: (1) the copyrighted work, (2) the allegedly infringing URL, (3) your contact info, (4) good-faith statement, (5) statement under penalty of perjury, (6) your signature. Knowingly false DMCA notices may incur liability under 17 U.S.C. § 512(f). Counter-notices follow § 512(g).</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action arising from these terms shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Underwriters do not see episodes prior to publication. Editorial decisions are independent.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication. AI does not author episodes.</p>
+          <p style="margin-top:10px; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="legal.html#unsubscribe">Unsubscribe</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+
+    <div class="lf-tail">
+      <em>Atlanta, GA · USA · v.2026.05</em>
+      <span>Last updated · 26 May 2026</span>
+    </div>
+  </div>
+</aside>
+</body>
+</html>
