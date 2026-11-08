@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Field Note 19 · The Capital Call · The Mechanism Series</title>
+<meta name="description" content="One of the biggest AI data centers in America was built with about 10 percent down. How the money behind the AI boom works, in plain English: the power, the chips, the building and the loans.">
+<link rel="canonical" href="https://series.melophon.com/field-notes/19-the-capital-call.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Palette (note 19): blueprint ground. Four trades, four stamps.
+   ELECTRICITY copper · COMPUTING led mint · ARCHITECTURE blueprint blue · BANKING ledger green.
+   Chart marks validated (dataviz, dark, surface #0c1f36): base #5f8fd8, accent #cf7a12. */
+:root{
+  --ground:#0c1f36; --panel:#122a4a; --panel2:#18355c; --line:rgba(150,190,240,.16); --line2:rgba(150,190,240,.32);
+  --cream:#f3ecda; --dim:#a9b8cf; --faint:#7387a6;
+  --blue:#5f8fd8; --blue-t:#9cc0f2;
+  --copper:#cf7a12; --copper-t:#f2a54a;
+  --ledger:#3ecf8e; --led:#7ef0c8;
+  --fact:#9fe3c9; --fact-bg:rgba(62,207,142,.14);
+  --rep:#f6d08a; --rep-bg:rgba(207,122,18,.18);
+  --inf:#c4ccff; --inf-bg:rgba(129,140,248,.18);
+  --watch:#f6a6a6; --watch-bg:rgba(239,68,68,.16);
+  --th-money:#06d6a0; --th-clocks:#e7b8ff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ground);color:var(--cream);font-family:'Source Serif 4',Georgia,serif;font-size:18px;line-height:1.65;padding-top:48px;overflow-x:hidden;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px),linear-gradient(rgba(150,190,240,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(150,190,240,.06) 1px,transparent 1px);
+  background-size:96px 96px,96px 96px,24px 24px,24px 24px;background-attachment:fixed}
+a{color:var(--blue-t)}
+button{font:inherit;color:inherit}
+nav.strip{position:fixed;top:0;left:0;right:0;z-index:40;height:48px;background:#081629;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;border-bottom:2px solid var(--copper)}
+nav.strip a{color:var(--cream);text-decoration:none}
+nav.strip .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--copper);margin-right:10px}
+nav.strip .navlinks{display:flex;gap:22px;align-items:center}
+nav.strip .stamp{color:var(--dim)}
+@media(max-width:720px){nav.strip .stamp,nav.strip .hide-sm{display:none}nav.strip{font-size:10px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 6vw}
+header.hero{padding:52px 0 18px}
+.kicker{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--copper-t)}
+h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(44px,9vw,92px);line-height:.95;letter-spacing:-.03em;margin:14px 0 16px}
+h1 span{color:var(--copper-t)}
+.dek{font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:clamp(20px,2.6vw,27px);line-height:1.3;max-width:30em;margin-bottom:16px}
+.lede{font-size:clamp(18px,2.1vw,21px);line-height:1.55;max-width:36em;color:var(--cream)}
+.meta{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:18px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.disclose{margin:22px 0 0;padding:12px 16px;border:1px dashed var(--copper);background:rgba(207,122,18,.08);font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;letter-spacing:.02em;color:var(--cream);max-width:46em}
+.disclose b{color:var(--copper-t)}
+.trades{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:24px 0 0}
+@media(max-width:720px){.trades{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.trade{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line2);background:rgba(8,22,41,.6);text-decoration:none;color:var(--cream);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;transition:border-color .2s}
+.trade:hover{border-color:var(--c)}
+.trade svg{width:26px;height:26px;flex:none}
+.trade small{display:block;color:var(--dim);letter-spacing:.04em;text-transform:none;font-size:11px}
+figure.plate{margin:28px 0 0;border:2px solid var(--line2);background:#0a1a2f}
+figure.plate svg{display:block;width:100%;height:auto}
+figure.plate figcaption{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:10px 14px;border-top:1px solid var(--line2);color:var(--dim)}
+
+/* tags */
+.tag{display:inline-block;font:700 10.5px/1 'Space Mono',monospace;letter-spacing:.05em;padding:4px 6px 3px;border-radius:3px;white-space:nowrap;vertical-align:2px;margin-left:3px}
+.fact{color:var(--fact);background:var(--fact-bg)}.rep{color:var(--rep);background:var(--rep-bg)}.inf{color:var(--inf);background:var(--inf-bg)}.watch{color:var(--watch);background:var(--watch-bg)}
+.sub{font:11px/1 'Space Mono',monospace;color:var(--faint);margin-left:4px}
+
+/* glossary terms */
+.term{background:none;border:0;border-bottom:1.5px dashed var(--led);cursor:help;padding:0;font:inherit;color:inherit}
+.term:focus-visible{outline:2px solid var(--led);outline-offset:2px}
+#gloss{position:fixed;z-index:80;max-width:320px;background:#081629;border:1px solid var(--led);padding:12px 14px;font-size:15px;line-height:1.5;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+#gloss[hidden]{display:none}
+#gloss b{display:block;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--led);margin-bottom:4px}
+
+/* sections */
+section.ex{padding:56px 0;border-top:2px solid var(--line2)}
+.placard{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:.06em;line-height:1.6;border:1px solid var(--line2);background:rgba(8,22,41,.75);padding:10px 14px;margin:0 0 22px;text-transform:uppercase;color:var(--dim)}
+.placard .st{display:inline-flex;align-items:center;gap:8px;color:var(--c);font-weight:700}
+.placard .st svg{width:18px;height:18px}
+h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,4.6vw,46px);line-height:1.04;letter-spacing:-.02em;margin-bottom:16px}
+h2 em{font-style:normal;color:var(--c,var(--copper-t))}
+p{margin-bottom:16px;max-width:38em}
+.big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0 22px}
+@media(max-width:720px){.big3{grid-template-columns:1fr}}
+.big3 div{border:1px solid var(--line2);background:var(--panel);padding:16px 16px 14px}
+.big3 .n{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:40px;line-height:1;color:var(--copper-t);letter-spacing:-.02em}
+.big3 .w{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:6px 0 8px}
+.big3 p{font-size:15.5px;line-height:1.5;margin:0}
+.why{border-left:5px solid var(--ledger);background:var(--panel);padding:14px 18px;margin:22px 0;max-width:40em}
+.why h4{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ledger);margin-bottom:6px}
+.why p{margin:0;font-size:16.5px}
+.compare{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+@media(max-width:720px){.compare{grid-template-columns:1fr}}
+.compare div{border:1px solid var(--line2);padding:14px 16px;background:rgba(8,22,41,.7)}
+.compare .n{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:30px;color:var(--copper-t);line-height:1}
+.compare .w{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+
+/* chart (bars) */
+.chart{border:1px solid var(--line2);background:#0c1f36;padding:18px 18px 12px;margin:20px 0 10px;position:relative;overflow:hidden}
+.chart h3,.instr h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;margin-bottom:4px}
+.chart .cap,.instr .cap{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:.04em;margin-bottom:12px;line-height:1.5}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:170px 1fr;gap:12px;align-items:center}
+@media(max-width:620px){.bar{grid-template-columns:1fr;gap:4px}}
+.bar .lbl{font-family:'Space Mono',monospace;font-size:12px;color:var(--cream);letter-spacing:.02em}
+.bar .lbl small{display:block;color:var(--faint);font-size:10.5px}
+.bar .trk{position:relative;height:26px;border-left:1px solid var(--line2)}
+.bar .fill{position:absolute;left:0;top:3px;bottom:3px;background:#5f8fd8;border-radius:0 4px 4px 0;transition:width 1s cubic-bezier(.2,.8,.2,1);width:0}
+.bar.ai .fill{background:#cf7a12}
+.bar .val{position:absolute;top:50%;transform:translateY(-50%);font-family:'Space Mono',monospace;font-size:12px;color:var(--cream);white-space:nowrap;padding-left:8px}
+@media(max-width:620px){.bar .val{left:auto!important;right:6px;padding-left:0;color:#0c1f36;font-weight:700}}
+.bar .hit{position:absolute;inset:-4px 0;cursor:default}
+.axis{display:grid;grid-template-columns:170px 1fr;gap:12px;margin-top:6px}
+@media(max-width:620px){.axis{grid-template-columns:1fr}.axis .sp{display:none}}
+.axis .tk{position:relative;height:16px;font-family:'Space Mono',monospace;font-size:10px;color:var(--faint)}
+.axis .tk span{position:absolute;transform:translateX(-50%)}
+.tip{position:absolute;pointer-events:none;background:#081629;border:1px solid var(--line2);padding:8px 10px;font-family:'Space Mono',monospace;font-size:11.5px;line-height:1.5;color:var(--cream);z-index:5;max-width:260px}
+.tip[hidden]{display:none}
+details.tbl{margin:8px 0 0;font-family:'Space Mono',monospace;font-size:12px;color:var(--dim)}
+details.tbl summary{cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-size:11px}
+details.tbl table{border-collapse:collapse;margin-top:8px;width:100%;max-width:520px}
+details.tbl td,details.tbl th{text-align:left;padding:5px 8px;border-top:1px solid var(--line)}
+
+/* unit chart */
+.units{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:4px;max-width:560px;margin:10px 0 8px}
+.u{aspect-ratio:1;background:#5f8fd8;border-radius:3px;position:relative;overflow:hidden}
+.u.part{background:linear-gradient(90deg,#5f8fd8 var(--p),rgba(95,143,216,.18) var(--p))}
+.u.ai{background:#cf7a12}
+.u.ai.part{background:linear-gradient(90deg,#cf7a12 var(--p),rgba(95,143,216,.18) var(--p))}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-family:'Space Mono',monospace;font-size:11.5px;color:var(--cream);margin:6px 0}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:6px}
+
+/* instruments */
+.instr{border:1px solid var(--line2);background:rgba(8,22,41,.85);padding:20px;margin:22px 0}
+.ctrls{display:grid;grid-template-columns:1fr 1fr;gap:14px 26px;margin:6px 0 14px}
+@media(max-width:720px){.ctrls{grid-template-columns:1fr}}
+.ctrl label{display:flex;justify-content:space-between;gap:10px;font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.ctrl output{color:var(--cream)}
+.ctrl input[type=range]{width:100%;accent-color:var(--copper)}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.presets button{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:8px 11px;background:transparent;border:1px solid var(--line2);color:var(--cream);cursor:pointer}
+.presets button[aria-pressed=true]{background:var(--copper);border-color:var(--copper);color:#0c1f36;font-weight:700}
+.stackwrap{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:22px;align-items:start}
+@media(max-width:720px){.stackwrap{grid-template-columns:1fr}}
+.stackwrap svg{width:100%;height:auto;display:block}
+.readout{display:grid;gap:10px}
+.ro{border:1px solid var(--line2);padding:12px 14px;background:var(--panel)}
+.ro .k{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:34px;line-height:1.05}
+.ro.own .v{color:var(--ledger)}.ro.lend .v{color:var(--blue-t)}
+.verdict{font-size:17px;line-height:1.5;padding:12px 14px;border-left:4px solid var(--copper);background:rgba(207,122,18,.08)}
+.model{font-family:'Space Mono',monospace;font-size:11px;color:var(--faint);line-height:1.6;margin-top:10px}
+
+/* clocks */
+.clocks{display:grid;gap:12px;margin:8px 0 12px}
+.clk{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center}
+@media(max-width:620px){.clk{grid-template-columns:1fr;gap:4px}}
+.clk .lbl{font-family:'Space Mono',monospace;font-size:12px}
+.clk .lbl small{display:block;color:var(--faint);font-size:10.5px}
+.clk .trk{position:relative;height:22px;background:rgba(150,190,240,.08);border-radius:3px;overflow:hidden}
+.clk .run{position:absolute;left:0;top:0;bottom:0;border-radius:3px}
+.clk .end{position:absolute;top:0;bottom:0;width:2px;background:var(--cream)}
+.clk .ghost{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-family:'Space Mono',monospace;font-size:10px;color:var(--faint)}
+#clockNow{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--copper-t);box-shadow:0 0 8px var(--copper-t)}
+.clockline{position:relative}
+.clockmsg{min-height:3.2em;font-size:16.5px;padding:10px 14px;border-left:4px solid var(--th-clocks);background:rgba(231,184,255,.07)}
+
+/* both sides / not proven */
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+@media(max-width:720px){.sides{grid-template-columns:1fr}}
+.sides>div{border:1px solid var(--line2);background:var(--panel);padding:16px 18px}
+.sides h4{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px}
+.sides .for h4{color:var(--ledger)}.sides .worry h4{color:var(--copper-t)}
+.sides ul{list-style:none}
+.sides li{padding:8px 0;border-top:1px solid var(--line);font-size:16px;line-height:1.5}
+.notproven li{margin-bottom:8px}
+
+/* thread layer */
+.thbar{position:fixed;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:30}
+.thbar button{width:14px;height:14px;border-radius:50%;border:2px solid var(--c);background:transparent;cursor:pointer;opacity:.45;padding:0;transition:opacity .3s,background .3s}
+.thbar button.lit{opacity:1;background:var(--c);box-shadow:0 0 10px var(--c)}
+@media(max-width:900px){.thbar{right:auto;left:0;top:auto;bottom:0;transform:none;flex-direction:row;width:100%;justify-content:center;gap:18px;padding:10px;background:rgba(8,22,41,.92);border-top:1px solid var(--line2)}}
+.thlist{position:fixed;right:42px;top:50%;transform:translateY(-50%);width:min(320px,88vw);background:#081629;border:1px solid var(--line2);padding:16px 18px;z-index:45;font-size:14px}
+.thlist[hidden]{display:none}
+.thlist h5{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--c);margin-bottom:8px}
+.thlist ol{list-style:none}.thlist li{padding:7px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}
+.thlist li a{color:var(--cream);text-decoration:none}.thlist .s{font-family:'Space Mono',monospace;font-size:10px;color:var(--faint);white-space:nowrap}
+.thlist li.here,.thlist li.here .s{color:var(--c)}
+.thlist .x{position:absolute;top:6px;right:10px;background:none;border:0;color:var(--dim);font-size:18px;cursor:pointer}
+@media(max-width:900px){.thlist{right:auto;left:50%;top:auto;bottom:56px;transform:translateX(-50%)}}
+.thm{background:none;border:0;border-bottom:2px dotted var(--c);cursor:pointer;padding:0;font:inherit;color:inherit}
+.peek{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);width:min(440px,92vw);background:#081629;border:1px solid var(--c);border-left:4px solid var(--c);padding:14px 16px;z-index:70;font-size:15px;line-height:1.5}
+.peek[hidden]{display:none}
+.peek .k{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--c);margin-bottom:6px}
+.peek .m{font-family:'Space Mono',monospace;font-size:10.5px;color:var(--faint);margin-top:6px}
+.peek .acts{display:flex;gap:10px;margin-top:10px}
+.peek .acts a,.peek .acts button{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 11px;border:1px solid var(--line2);background:transparent;color:var(--cream);text-decoration:none;cursor:pointer}
+.peek .acts a{border-color:var(--c);color:var(--c)}
+.crumb{margin:18px 0;border:1px dashed var(--c);padding:12px 14px;font-size:15px;line-height:1.5;color:var(--dim);max-width:40em}
+.crumb .k{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+.crumb a{color:var(--cream)}
+.endcard{border:2px solid var(--line2);background:var(--panel);padding:22px 22px;margin:30px 0 10px}
+.endcard .k{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.endcard .q{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:clamp(20px,2.6vw,27px);line-height:1.25;max-width:30em}
+.endcard .next{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+@media(max-width:720px){.endcard .next{grid-template-columns:1fr}}
+.endcard .next a{display:block;border-top:3px solid var(--c);background:#0c1f36;padding:12px 14px;text-decoration:none;color:var(--cream);font-size:15px;line-height:1.4}
+.endcard .next .t{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+.endcard .next .s{display:block;font-family:'Space Mono',monospace;font-size:10px;color:var(--faint);margin-top:4px}
+.sources{font-size:14px;line-height:1.6;color:var(--dim)}
+.sources ol{padding-left:20px}.sources li{margin-bottom:6px}
+.sign{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--dim);line-height:1.7;margin-top:18px}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .8s,transform .8s}.rv.in{opacity:1;transform:none}
+.led{animation:blink 2.4s infinite}
+@keyframes blink{0%,100%{opacity:.9}50%{opacity:.25}}
+.flow{stroke-dasharray:6 8;animation:flow 1.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-28}}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.led,.flow{animation:none}.bar .fill{transition:none}}
+</style>
+</head>
+<body>
+
+<nav class="strip">
+  <a href="../index.html"><span class="dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="navlinks">
+    <a class="hide-sm" href="../index.html">← All Episodes</a>
+    <a href="index.html">Field Notes</a>
+    <span class="stamp">№ 19 · MONEY AND MACHINES · 11.08.2026</span>
+  </div>
+</nav>
+
+<div class="thbar" role="group" aria-label="Threads on this page">
+  <button type="button" data-th="money" style="--c:var(--th-money)" aria-label="Thread: Money" title="Money"></button>
+  <button type="button" data-th="clocks" style="--c:var(--th-clocks)" aria-label="Thread: Clocks" title="Clocks"></button>
+</div>
+<div class="thlist" id="thlist" hidden role="dialog" aria-label="Pieces on this thread"><button class="x" type="button" aria-label="Close">×</button><h5 id="thlistH"></h5><ol id="thlistL"></ol></div>
+<div class="peek" id="peek" hidden role="dialog" aria-label="Peek"><div class="k"><span id="peekK"></span><span id="peekTag"></span></div><div id="peekT"></div><div class="m" id="peekM"></div><div class="acts"><button type="button" id="peekClose">Close</button><a id="peekGo" href="#">Go</a></div></div>
+<div id="gloss" hidden role="tooltip"><b id="glossK"></b><span id="glossV"></span></div>
+
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Field Note № 19 · Money and Machines · Sunday, 8 November 2026</div>
+  <h1>The Capital <span>Call.</span></h1>
+  <p class="dek">One of the biggest AI data centers in America was built with about 10 percent down. Here is how the money behind the AI boom works, in plain English.</p>
+  <p class="lede">Every AI answer you get runs on four things: electricity, computer chips, a building to hold them, and a pile of money to pay for all three. This note walks through each one like a trade school course. By the end you will know why a few lines in a company's paperwork matter to your family's electric bill, your parents' retirement account and maybe your first job.</p>
+  <div class="meta"><span>Reading time · about 14 min</span><span>Written for high school juniors and up</span><span>Tap any <button class="term" data-term="glossary">dashed word</button> for a definition</span></div>
+  <div class="disclose"><b>Conflict, stated up front.</b> Melophon is built with Claude, which is made by Anthropic. Anthropic is one of the companies in this story. Anthropic had no role in this note and did not see it before publication. Weigh what we say about it with that in mind.</div>
+
+  <nav class="trades" aria-label="The four trades">
+    <a class="trade" href="#ex1" style="--c:var(--ledger)"><svg viewBox="0 0 26 26" aria-hidden="true"><rect x="3" y="6" width="20" height="14" rx="2" fill="none" stroke="#3ecf8e" stroke-width="1.6"/><circle cx="13" cy="13" r="3.2" fill="none" stroke="#3ecf8e" stroke-width="1.6"/><path d="M6 9v8M20 9v8" stroke="#3ecf8e" stroke-width="1.2"/></svg><span>01 · The bill<small>Banking</small></span></a>
+    <a class="trade" href="#ex2" style="--c:var(--copper)"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M14 2 6 15h6l-2 9 9-14h-6z" fill="none" stroke="#f2a54a" stroke-width="1.6" stroke-linejoin="round"/></svg><span>02 · The plug<small>Electricity</small></span></a>
+    <a class="trade" href="#ex3" style="--c:var(--led)"><svg viewBox="0 0 26 26" aria-hidden="true"><rect x="5" y="5" width="16" height="16" rx="2" fill="none" stroke="#7ef0c8" stroke-width="1.6"/><rect x="9" y="9" width="8" height="8" fill="none" stroke="#7ef0c8" stroke-width="1.2"/><path d="M9 2v3M13 2v3M17 2v3M9 21v3M13 21v3M17 21v3M2 9h3M2 13h3M2 17h3M21 9h3M21 13h3M21 17h3" stroke="#7ef0c8" stroke-width="1.2"/></svg><span>03 · The chips<small>Computing</small></span></a>
+    <a class="trade" href="#ex4" style="--c:var(--blue)"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M3 23h20M5 23V8l8-5 8 5v15" fill="none" stroke="#9cc0f2" stroke-width="1.6"/><path d="M9 23v-6h8v6M9 11h2M15 11h2" stroke="#9cc0f2" stroke-width="1.2"/></svg><span>04 · The building<small>Architecture</small></span></a>
+  </nav>
+
+  <figure class="plate">
+    <!-- Plate 1, illustration: blueprint cross section. Power line from a substation enters the basement (electricity),
+         racks with blinking LEDs fill the floors (computing), dimension lines frame the shell (architecture),
+         and a check stub along the base names the borrowed share (banking). No people, no logos. -->
+    <svg viewBox="0 0 900 470" role="img" aria-label="Illustration: a blueprint cross section of a data center. A power line enters the basement, racks of computers fill the floors, and a check stub along the bottom reads about 27 billion dollars borrowed, about 10 percent down.">
+      <defs><pattern id="bp" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="rgba(150,190,240,.12)" stroke-width="1"/></pattern></defs>
+      <rect width="900" height="470" fill="url(#bp)"/>
+      <!-- substation and line -->
+      <g stroke="#f2a54a" stroke-width="2" fill="none">
+        <path d="M60 330 L80 210 L100 330 M66 290 H94 M72 250 H88 M54 210 H106"/>
+        <path class="flow" d="M80 210 C 160 180, 220 260, 300 300 L 300 350 L 330 350"/>
+      </g>
+      <text x="40" y="355" fill="#f2a54a" font-family="Space Mono" font-size="12" letter-spacing="1">SUBSTATION</text>
+      <text x="40" y="371" fill="#a9b8cf" font-family="Space Mono" font-size="11">2 GW+ planned</text>
+      <!-- building shell -->
+      <g stroke="#9cc0f2" stroke-width="2" fill="none">
+        <rect x="330" y="80" width="400" height="290"/>
+        <path d="M330 152H730M330 224H730M330 296H730"/>
+      </g>
+      <!-- dimension lines -->
+      <g stroke="#9cc0f2" stroke-width="1" fill="none" opacity=".8">
+        <path d="M330 60H730M330 54v12M730 54v12"/><path d="M752 80V370M746 80h12M746 370h12"/>
+      </g>
+      <text x="470" y="52" fill="#9cc0f2" font-family="Space Mono" font-size="12" letter-spacing="1">SHELL · BUILT FOR DECADES</text>
+      <text x="770" y="230" fill="#9cc0f2" font-family="Space Mono" font-size="12" letter-spacing="1" transform="rotate(90 770 230)">LEASE TERM · 4 YR INITIAL</text>
+      <!-- racks -->
+      <g id="racks"></g>
+      <text x="345" y="100" fill="#7ef0c8" font-family="Space Mono" font-size="11" letter-spacing="1">CHIPS · FINANCED ABOUT 4 TO 6 YR</text>
+      <!-- basement meter -->
+      <circle cx="380" cy="333" r="18" fill="none" stroke="#f2a54a" stroke-width="2"/><path d="M380 333 L392 323" stroke="#f2a54a" stroke-width="2"/>
+      <text x="408" y="337" fill="#f2a54a" font-family="Space Mono" font-size="11">METER · RUNS ALL DAY, ALL YEAR</text>
+      <!-- check stub -->
+      <g transform="translate(330 392)">
+        <rect width="400" height="62" fill="#0e2a1f" stroke="#3ecf8e" stroke-width="1.6"/>
+        <path d="M0 0H400" stroke="#3ecf8e" stroke-dasharray="4 4"/>
+        <text x="14" y="22" fill="#3ecf8e" font-family="Space Mono" font-size="11" letter-spacing="1">PAY TO · THE LENDERS</text>
+        <text x="14" y="44" fill="#f3ecda" font-family="Bricolage Grotesque" font-weight="800" font-size="20">≈ $27,000,000,000</text>
+        <text x="236" y="22" fill="#a9b8cf" font-family="Space Mono" font-size="10.5">MEMO · HYPERION</text>
+        <text x="236" y="44" fill="#a9b8cf" font-family="Space Mono" font-size="10.5">ABOUT 10% DOWN</text>
+      </g>
+    </svg>
+    <figcaption>Plate 1 · Illustration, not a document. Four trades in one building: the power comes in at the bottom, the chips fill the floors, the shell is built to last decades, and most of it was paid for with borrowed money.</figcaption>
+  </figure>
+</header>
+
+<!-- ================= EXHIBIT 1 · THE BILL · BANKING ================= -->
+<section class="ex rv" id="ex1" style="--c:var(--ledger)">
+  <div class="placard"><span class="st"><svg viewBox="0 0 26 26" aria-hidden="true"><rect x="3" y="6" width="20" height="14" rx="2" fill="none" stroke="#3ecf8e" stroke-width="1.8"/><circle cx="13" cy="13" r="3.2" fill="none" stroke="#3ecf8e" stroke-width="1.8"/></svg>Banking</span><span>Exhibit 1 · The bill</span><span>Provenance: filings and announcements of 26 Oct 2026, as reported</span></div>
+  <h2>One Monday, <em>three huge asks.</em></h2>
+  <p>On Monday, 26 October 2026, three of the biggest names in tech went looking for money on the same day.</p>
+  <div class="big3">
+    <div><div class="n">up to $100B</div><div class="w">Anthropic · going public</div><p>Anthropic filed paperwork to sell its <button class="term" data-term="stock">stock</button> to the public for the first time, an <button class="term" data-term="ipo">IPO</button>, on the Nasdaq. Press reports say it could raise up to $100 billion. <span class="tag rep">REPORTED</span></p></div>
+    <div><div class="n">up to $95B</div><div class="w">Meta · selling more stock</div><p>Meta said it would sell up to $95 billion in new stock to pay for AI. Its filing said competition for investors' money has created "an increasingly challenging environment for raising capital." <span class="tag rep">REPORTED</span></p></div>
+    <div><div class="n">≈60,000</div><div class="w">Microsoft · buyouts</div><p>Microsoft offered voluntary buyouts to about 60,000 workers, about a quarter of its workforce, as its AI spending climbs. A spokeswoman said only a fraction are expected to take them. <span class="tag rep">REPORTED</span></p></div>
+  </div>
+  <p>Anthropic's filing says it earned $16.3 billion in revenue in the first half of 2026, up from $1.2 billion a year earlier, and spent $8.9 billion in those six months on chips and other equipment. It also says: "We anticipate making significant and increased investments for the foreseeable future." <span class="tag rep">REPORTED</span><span class="sub">CBS News; Washington Post · see the conflict note above</span></p>
+  <p>Why so much money? Because the plan is enormous. An economist at Columbia University, Stijn Van Nieuwerburgh, added it up for the Brookings Institution. He estimates the AI buildout in the United States will cost about <b>$10.3 trillion from 2025 to 2032</b>. That works out to about 3.6 percent of everything the country produces in a year, every year, for eight years. <span class="tag fact">FACT</span><span class="sub">his published estimate</span></p>
+
+  <div class="chart" id="gdpChart">
+    <h3>The biggest building booms in American history</h3>
+    <div class="cap">Average yearly spending during each boom, as a share of the whole US economy (GDP). Hover or tap a bar. Source: Van Nieuwerburgh, Brookings Papers on Economic Activity, Oct 2026.</div>
+    <div class="bars" id="bars"></div>
+    <div class="axis"><span class="sp"></span><div class="tk" id="ticks"></div></div>
+    <div class="tip" id="gdpTip" hidden></div>
+    <details class="tbl"><summary>Show as a table</summary>
+      <table><thead><tr><th>Boom</th><th>Share of GDP per year</th></tr></thead><tbody id="gdpTbody"></tbody></table>
+    </details>
+  </div>
+  <p>Railroads are an imperfect comparison: the estimate leaves out the trains themselves, and some railroad years ran above 4 percent. Even so, the AI estimate is about 50 percent bigger than the biggest boom before it, and more than three times the internet boom. <span class="tag fact">FACT</span><span class="sub">his comparison</span></p>
+  <div class="why"><h4>Why this reaches you</h4><p>Nobody has $10 trillion sitting around. So companies borrow it, sell stock to raise it, or cut costs to free it up. If your family has a retirement account invested in a broad stock fund, it very likely owns small slices of these companies already. <span class="tag inf">INFERENCE</span></p></div>
+</section>
+
+<!-- ================= EXHIBIT 2 · THE PLUG · ELECTRICITY ================= -->
+<section class="ex rv" id="ex2" style="--c:var(--copper-t)">
+  <div class="placard"><span class="st" style="--c:var(--copper-t)"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M14 2 6 15h6l-2 9 9-14h-6z" fill="none" stroke="#f2a54a" stroke-width="1.8" stroke-linejoin="round"/></svg>Electricity</span><span>Exhibit 2 · The plug</span><span>Provenance: deal announcements, Oct 2025; EP 07 grid figures</span></div>
+  <h2>It starts with <em>a plug.</em></h2>
+  <p>AI chips run hot and run all day. A data center is less like an office and more like a factory that never turns its lights off. The building at the center of this note is Hyperion, a campus Meta is building in Richland Parish, Louisiana. It is planned to draw more than 2 <button class="term" data-term="gw">gigawatts</button> of power. <span class="tag rep">REPORTED</span></p>
+  <div class="compare">
+    <div><div class="n">1 MW</div><div class="w">≈ 750 to 1,000 homes</div></div>
+    <div><div class="n">≈150 MW</div><div class="w">Atlanta's airport, the world's busiest</div></div>
+    <div><div class="n">2,000+ MW</div><div class="w">Hyperion, as planned</div></div>
+  </div>
+  <p>Do the math with the first two cards and Hyperion's plan is like adding more than thirteen Atlanta airports to the grid, or the power for well over a million homes, running every hour of every day. <span class="tag inf">INFERENCE</span><span class="sub">our arithmetic, from figures in EP 07</span></p>
+  <p>Georgia has its own version of this story. Its main power company has planned for about <button class="thm" style="--c:var(--th-money)" data-peek="ep07">forty giant data centers</button> by 2030, and somebody has to pay for the new power plants and lines they need.</p>
+  <div class="why"><h4>Why this reaches you</h4><p>When a utility builds new power plants and lines, the cost usually shows up in everyone's electric rates unless regulators make the data centers pay their own way. That decision is made by elected or appointed officials most people have never heard of. <span class="tag inf">INFERENCE</span></p></div>
+</section>
+
+<!-- ================= EXHIBIT 3 · THE CHIPS · COMPUTING ================= -->
+<section class="ex rv" id="ex3" style="--c:var(--led)">
+  <div class="placard"><span class="st" style="--c:var(--led)"><svg viewBox="0 0 26 26" aria-hidden="true"><rect x="5" y="5" width="16" height="16" rx="2" fill="none" stroke="#7ef0c8" stroke-width="1.8"/><rect x="9" y="9" width="8" height="8" fill="none" stroke="#7ef0c8" stroke-width="1.3"/></svg>Computing</span><span>Exhibit 3 · The chips</span><span>Provenance: Brookings paper; Gartner forecast, as reported</span></div>
+  <h2>The expensive part <em>gets old fast.</em></h2>
+  <p>Inside the building are racks of <button class="term" data-term="gpu">GPUs</button>, the chips that do AI's math. They are the most expensive thing in the building, and they age like phones, not like buildings. Newer, faster chips come out every year or two. Loans used to buy them run about four to six years, according to Van Nieuwerburgh, far shorter than the buildings they sit in. <span class="tag fact">FACT</span><span class="sub">his description of the financing</span></p>
+  <p>A whole new kind of company has grown up just to buy these chips and rent out the computing power. They are called <button class="term" data-term="neocloud">neoclouds</button>. Many of them borrow to buy chips today and hope the rent checks keep coming tomorrow. The research firm Gartner predicts that more than 80 percent of them will stop operating on their own by 2030, either shutting down or being bought. <span class="tag rep">REPORTED</span><span class="sub">Gartner forecast via CRN and Network World, Oct 2026</span></p>
+  <div class="why"><h4>Why this reaches you</h4><p>If you are thinking about a career in tech, this is the part of the industry hiring fastest and also the part most likely to shake out. Both things can be true at once. <span class="tag inf">INFERENCE</span></p></div>
+</section>
+
+<!-- ================= EXHIBIT 4 · THE BUILDING · ARCHITECTURE ================= -->
+<section class="ex rv" id="ex4" style="--c:var(--blue-t)">
+  <div class="placard"><span class="st" style="--c:var(--blue-t)"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M3 23h20M5 23V8l8-5 8 5v15" fill="none" stroke="#9cc0f2" stroke-width="1.8"/></svg>Architecture</span><span>Exhibit 4 · The building</span><span>Provenance: Meta and Blue Owl deal announcements, 21 Oct 2025; Brookings paper</span></div>
+  <h2>Who owns the building, and <em>whose books it is on.</em></h2>
+  <p>You might assume Meta simply bought Hyperion. It did not. Here is how the deal was set up, step by step:</p>
+  <ol style="margin:0 0 16px 22px;max-width:38em">
+    <li style="margin-bottom:8px">A new company was created just for this building. Investment funds run by a firm called Blue Owl own most of it. Meta kept about 20 percent. <span class="tag rep">REPORTED</span></li>
+    <li style="margin-bottom:8px">That new company borrowed most of the money by selling <button class="term" data-term="bond">bonds</button> to big investors such as PIMCO. <span class="tag rep">REPORTED</span><span class="sub">advisers' announcement</span></li>
+    <li style="margin-bottom:8px">Meta then rents the campus back. Its first <button class="term" data-term="lease">lease</button> runs four years, with the option to keep extending. <span class="tag rep">REPORTED</span></li>
+    <li>Meta also signed a <button class="term" data-term="rvg">residual value guarantee</button>: a promise to cover some of the loss if the campus is worth less than expected when Meta's lease ends. <span class="tag rep">REPORTED</span><span class="sub">advisers' announcement</span></li>
+  </ol>
+  <p>Van Nieuwerburgh's paper puts the borrowed share at about $27 billion against a building worth about $30 billion. That is roughly <b>90 percent borrowed, 10 percent down</b>, and the debt sits on the new company's books, not Meta's. <span class="tag fact">FACT</span><span class="sub">his figures</span></p>
+  <p>Why would it stay off Meta's <button class="term" data-term="bs">balance sheet</button>? Accounting rules generally require a company to report a future cost only if it is likely to happen. Under the standard he describes, a commitment judged less than about 70 percent likely does not have to appear there. <span class="tag fact">FACT</span><span class="sub">his description of the rule</span> So the guarantee can be real and still not show up as debt. Off the balance sheet is not the same as off the hook.</p>
+
+  <div class="instr" id="clocksBox">
+    <h3>Three clocks, one building</h3>
+    <div class="cap">Drag the year. Watch which promise runs out first. Lease and chip terms are reported; the building's life is our general description.</div>
+    <div class="ctrl"><label for="yr">Year after opening <output id="yrOut">0</output></label><input type="range" id="yr" min="0" max="20" value="0" step="1"></div>
+    <div class="clockline">
+      <div class="clocks">
+        <div class="clk"><div class="lbl">The lease<small>first term · 4 yr · REPORTED</small></div><div class="trk"><div class="run" style="width:20%;background:var(--th-clocks)"></div><div class="end" style="left:20%"></div></div></div>
+        <div class="clk"><div class="lbl">The chip loans<small>about 4 to 6 yr · FACT</small></div><div class="trk"><div class="run" style="width:20%;background:rgba(126,240,200,.35)"></div><div class="run" style="width:30%;background:transparent;border-right:2px dashed var(--led)"></div><div class="run" style="width:20%;left:0;background:var(--led);opacity:.9"></div><div class="end" style="left:30%"></div></div></div>
+        <div class="clk"><div class="lbl">The building<small>built for decades · INFERENCE</small></div><div class="trk"><div class="run" style="width:100%;background:var(--blue)"></div><span class="ghost">continues →</span></div></div>
+      </div>
+      <div id="clockNowWrap" aria-hidden="true"></div>
+    </div>
+    <p class="clockmsg" id="clockMsg" aria-live="polite">Year 0. The building opens. Meta's lease begins, and the chips inside are brand new.</p>
+  </div>
+  <div class="crumb" style="--c:var(--th-clocks)"><span class="k">Margin crumb · Clocks thread</span>Clocks that run at different speeds are a pattern across this site: rules, counts and deadlines that do not line up. In <a href="../the-provisional-ballot.html">The Provisional Ballot Maze</a>, it was ballots and deadlines. Here it is leases, loans and buildings. <span class="tag inf">INFERENCE</span> · Live</div>
+</section>
+
+<!-- ================= EXHIBIT 5 · THE STACK · BANKING ================= -->
+<section class="ex rv" id="ex5" style="--c:var(--ledger)">
+  <div class="placard"><span class="st"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 22h18M6 22V12h3v10M11.5 22V8h3v14M17 22V4h3v18" fill="none" stroke="#3ecf8e" stroke-width="1.8"/></svg>Banking</span><span>Exhibit 5 · The stack</span><span>Provenance: Brookings paper; Treasury via the Joint Economic Committee</span></div>
+  <h2>Your down payment is <em>your shock absorber.</em></h2>
+  <p>Think about buying a house. If you put 20 percent down and borrow the rest, you own the first slice of any loss. If the house drops 10 percent in value, you lose half your down payment, but the bank is fine. If you put only 10 percent down and the house drops 10 percent, your whole down payment is gone. One more dip and the bank starts losing money too.</p>
+  <p>Big projects work the same way. The owners' money, called <button class="term" data-term="equity">equity</button>, sits on top and takes losses first. The lenders sit underneath. Van Nieuwerburgh's point about a 90 percent borrowed project is simple: a 10 percent drop in the money coming in can wipe out the owners. <span class="tag fact">FACT</span><span class="sub">his statement</span> Try it.</p>
+
+  <div class="instr" id="stackBox">
+    <h3>Build the capital stack</h3>
+    <div class="cap">A simplified model for learning: the building's value moves with the rent it earns. Owners lose first; lenders lose only after the owners are wiped out.</div>
+    <div class="presets" role="group" aria-label="Presets">
+      <button type="button" data-dp="10" aria-pressed="true">Hyperion-style · 10% down</button>
+      <button type="button" data-dp="20" aria-pressed="false">Classic house · 20% down</button>
+      <button type="button" data-dp="40" aria-pressed="false">Cautious company · 40% down</button>
+    </div>
+    <div class="ctrls">
+      <div class="ctrl"><label for="dp">Down payment (owners' money) <output id="dpOut">10%</output></label><input type="range" id="dp" min="5" max="50" step="5" value="10"></div>
+      <div class="ctrl"><label for="rent">Rent coming in, vs. the plan <output id="rentOut">100%</output></label><input type="range" id="rent" min="50" max="100" step="5" value="100"></div>
+    </div>
+    <div class="stackwrap">
+      <svg viewBox="0 0 300 320" id="stackSvg" role="img" aria-label="A ten floor building. Top floors are owners' money, lower floors are borrowed money. Lost value fills from the top."></svg>
+      <div class="readout">
+        <div class="ro own"><div class="k">Owners have lost</div><div class="v" id="ownLoss">0%</div></div>
+        <div class="ro lend"><div class="k">Lenders have lost</div><div class="v" id="lendLoss">0%</div></div>
+        <p class="verdict" id="stackVerdict">Everything is on plan. Nobody has lost anything yet.</p>
+      </div>
+    </div>
+    <p class="model">Model: loss = building value × (1 − rent vs plan). Real projects are messier: leases, guarantees and contracts change who pays what. Hyperion's tenant is Meta, one of the most profitable companies in the world, and nothing here says its rent is in doubt. <span class="tag inf">INFERENCE</span><span class="sub">editorial model, for learning</span></p>
+  </div>
+
+  <h2 style="font-size:clamp(24px,3.4vw,34px);margin-top:34px">How big is AI debt next to <em>the national debt?</em></h2>
+  <p>Van Nieuwerburgh counts about $1.4 trillion of debt issued on these kinds of AI building deals so far, with roughly half held by banks. <span class="tag fact">FACT</span><span class="sub">one economist's tally, not an official series</span> The federal government owes $40.55 trillion in total, as of 4 November 2026. <span class="tag fact">FACT</span><span class="sub">Treasury data</span></p>
+  <div class="chart" id="unitChart">
+    <h3>Each square is $1 trillion</h3>
+    <div class="cap">Federal debt (gross) vs. debt issued on AI building deals. Hover or tap a square.</div>
+    <div class="legend"><span><i style="background:#5f8fd8"></i>Federal debt · $40.55T</span><span><i style="background:#cf7a12"></i>AI building deals · about $1.4T</span></div>
+    <div class="units" id="units"></div>
+    <div class="tip" id="unitTip" hidden></div>
+    <details class="tbl"><summary>Show as a table</summary><table><tbody><tr><td>Federal debt, gross (4 Nov 2026)</td><td>$40.55 trillion</td></tr><tr><td>Federal debt held by the public</td><td>$32.77 trillion</td></tr><tr><td>Debt on AI building deals (one economist's tally)</td><td>about $1.4 trillion</td></tr><tr><td>Ratio</td><td>about 1 to 29</td></tr></tbody></table></details>
+  </div>
+  <p>So the AI debt is small next to the national debt: about one dollar for every 29. The worry is not its size. It is its shape. The national debt is spread across the whole economy and backed by the government. The AI debt is packed into a few kinds of projects, it is mostly due within a few years, the projects are heavily borrowed, and some of it sits off the books of the companies that use the buildings. The question Van Nieuwerburgh asks is whether, if things go wrong, losses stay with stock investors or reach the banks holding half the loans. <span class="tag fact">FACT</span><span class="sub">his framing</span></p>
+  <div class="crumb" style="--c:var(--th-money)"><span class="k">Margin crumb · Money thread</span>The same pattern shows up on a smaller scale in <a href="../episode-09-the-synthetic-self.html">EP 09 · The Synthetic Self</a>: the copy is cheap to make, and the real thing is rent you keep paying. <span class="tag inf">INFERENCE</span> · Live · 18 min</div>
+  <div class="why"><h4>Why this reaches you</h4><p>Banks lend to families, small businesses and these projects from the same pile of money. If a wave of AI projects ever went bad, the bigger question would be what it does to banks' willingness to lend for car loans, mortgages and college. That has not happened, and pickier lenders now make it less likely. <span class="tag inf">INFERENCE</span></p></div>
+</section>
+
+<!-- ================= EXHIBIT 6 · BOTH SIDES ================= -->
+<section class="ex rv" id="ex6" style="--c:var(--cream)">
+  <div class="placard"><span class="st" style="--c:var(--cream)">Both sides</span><span>Exhibit 6 · The case for, and the worry</span><span>Provenance: Washington Post; J.P. Morgan Asset Management; Brookings</span></div>
+  <h2>Is this a bubble? <em>Smart people disagree.</em></h2>
+  <div class="sides">
+    <div class="for"><h4>The case for calm</h4><ul>
+      <li>The biggest tech companies' finances "remain among the strongest" in the bond market, J.P. Morgan's asset managers wrote in August. <span class="tag rep">REPORTED</span></li>
+      <li>Moody's chief credit officer, Atsi Sheth, said it is healthy that investors are getting pickier about which AI companies to fund, and that pickiness lowers the odds of a bubble. <span class="tag rep">REPORTED</span></li>
+      <li>One investment strategist said investors were reassured by revenue growing across a broad set of AI customers. "There will be plenty of room for everyone to win significantly," he said. "The market is questioning how quickly that will happen." <span class="tag rep">REPORTED</span></li>
+      <li>Hyperion's tenant is Meta, and Meta signed a guarantee. Lenders are not relying on a startup's promise. <span class="tag rep">REPORTED</span></li>
+    </ul></div>
+    <div class="worry"><h4>The worry</h4><ul>
+      <li>The spending is bigger than any American building boom before it, about 3.6 percent of the economy a year. <span class="tag fact">FACT</span></li>
+      <li>Heavily borrowed projects leave little room for surprises. At 90 percent borrowed, a 10 percent shortfall wipes out the owners. <span class="tag fact">FACT</span></li>
+      <li>Loans on chips run about four to six years, shorter than the life of the buildings, and chips go out of date. <span class="tag fact">FACT</span></li>
+      <li>Some commitments do not show up where most investors look, on the main company's balance sheet. <span class="tag fact">FACT</span></li>
+    </ul></div>
+  </div>
+</section>
+
+
+<!-- ================= EXHIBIT 6B · THE TOWN THAT SAID YES ================= -->
+<section class="ex rv" id="ex6b" style="--c:var(--blue-t)">
+  <div class="placard"><span class="st" style="--c:var(--blue-t)"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M3 23h20M5 23V8l8-5 8 5v15" fill="none" stroke="#9cc0f2" stroke-width="1.8"/></svg>Architecture</span><span>Exhibit 6b · The town that said yes</span><span>Provenance: Ballotpedia count via iRecruit, 5 Nov 2026; Washington Post, 8 Nov 2026</span></div>
+  <h2>The country said no. <em>One town did the math.</em></h2>
+  <p>While the money people argued about balance sheets, voters got their own say. On 3 November 2026 there were 41 local ballot measures in 10 states that could have restricted data centers, by Ballotpedia's count. Voters passed every one of them but one. <span class="tag rep">REPORTED</span><span class="sub">Ballotpedia via iRecruit, 5 Nov 2026</span> Network exit polls found 76 percent of voters would oppose a new data center in their community, and 57 percent said AI would do more to hurt than help society. <span class="tag rep">REPORTED</span><span class="sub">Washington Post, 8 Nov 2026</span></p>
+  <p>The one exception was Harwood, North Dakota, population 845. Applied Digital is building a $3 billion, 1.8 million square foot data center on its edge. A resident organized a ballot measure requiring independent reviews and public hearings for big industrial projects. It lost, 325 votes to 105. <span class="tag rep">REPORTED</span><span class="sub">Washington Post, 8 Nov 2026</span></p>
+  <div class="compare">
+    <div><div class="n">$1.65M</div><div class="w">property tax the mayor expects each year · about six times what the town collected in 2024</div></div>
+    <div><div class="n">200+</div><div class="w">full time jobs the company says it will create</div></div>
+    <div><div class="n">325 to 105</div><div class="w">the vote against more oversight</div></div>
+  </div>
+  <p>Why did Harwood go the other way? Three things the Post reported line up with the four trades in this note. <b>The plug:</b> the local utility is a member owned cooperative, and one resident said that once its officials walked him through the power use, he was on board, "not because I like data centers" but because the deal was good for the town. <b>The building:</b> the land was going to be developed either way, since Harwood and Fargo had both tried to annex it, so the mayor's argument was to take the tax revenue rather than watch a neighbor take it. <b>The bill:</b> a $1.65 million tax check is a very large number for a town with a couple of bars and a grain elevator. <span class="tag rep">REPORTED</span></p>
+  <p>The worry in Harwood was the worry in this note, stated by a resident who backed the measure. He pointed to Janesville, Wisconsin, where a closed General Motors plant left the city a cleanup bill reported at $35 million. "I compare that to what's going to happen to these data centers when they're done," he said. "Who's going to be left with the bill?" <span class="tag rep">REPORTED</span> That is the residual value question from Exhibit 4, asked by a neighbor instead of a bondholder.</p>
+  <div class="why"><h4>Why this reaches you</h4><p>Harwood shows the yes case is real: tax money, jobs, and a utility that answered questions. It also shows what made it work, a cooperative the residents could call and a deal where the town got paid. Most of the 40 towns that voted no did not have both. <span class="tag inf">INFERENCE</span></p></div>
+</section>
+
+<!-- ================= EXHIBIT 7 · WHAT WE DID NOT PROVE ================= -->
+<section class="ex rv" id="ex7" style="--c:var(--watch)">
+  <div class="placard"><span class="st" style="--c:var(--watch)">Discipline</span><span>Exhibit 7 · What this note does not show</span></div>
+  <h2>What we are <em>not</em> saying.</h2>
+  <ul class="notproven" style="margin-left:22px;max-width:38em">
+    <li>We are not calling a bubble or predicting a crash. Nobody knows yet whether AI revenue will grow fast enough. <span class="tag watch">WATCH</span></li>
+    <li>We found nothing showing Hyperion or Meta is in financial trouble. Hyperion is an example of how these deals are built, not a warning about that building. <span class="tag inf">INFERENCE</span></li>
+    <li>The $1.4 trillion is one economist's count. There is no official tally of AI building debt. <span class="tag watch">WATCH</span></li>
+    <li>Anthropic's numbers come from news reports of its filing; we did not read the filing itself, and we have a stated conflict. <span class="tag watch">WATCH</span></li>
+    <li>The capital stack instrument is a teaching model, not a forecast. <span class="tag inf">INFERENCE</span></li>
+    <li>Harwood's vote counts, tax estimate and quotes come from one newspaper report; we have not seen the county canvass. <span class="tag rep">REPORTED</span></li>
+  </ul>
+
+  <div class="endcard">
+    <div class="k">The question this note cannot answer yet</div>
+    <p class="q">Hyperion's first lease term is four years. When year four comes, will the tenant renew, and what will the chips inside be worth by then? <span class="tag watch">WATCH</span></p>
+    <div class="next">
+      <a href="../episode-07-the-physical-plant.html" style="--c:var(--copper-t)"><span class="t">Electricity · next</span>EP 07 · The Physical Plant<span class="s">Live · who pays for the power in Georgia</span></a>
+      <a href="../the-trickle.html" style="--c:var(--th-money)"><span class="t">Money · next</span>S1 · The Trickle<span class="s">Live · how one paycheck moves a county</span></a>
+      <a href="../episode-09-the-synthetic-self.html" style="--c:var(--th-clocks)"><span class="t">Money · next</span>EP 09 · The Synthetic Self<span class="s">Live · the copy is cheap, the original is rent</span></a>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h4 style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin:26px 0 10px">Sources · evidence through 8 November 2026</h4>
+    <ol>
+      <li>Stijn Van Nieuwerburgh, "Financing the AI Buildout," Brookings Papers on Economic Activity, October 2026 (buildout cost, share of GDP, historical comparisons, Hyperion leverage, accounting threshold, loan terms, debt tally).</li>
+      <li>US Treasury data via the Joint Economic Committee, Monthly Debt Update, 4 November 2026.</li>
+      <li>CBS News, "Anthropic files for IPO," 27 October 2026; Washington Post, Shira Ovide, November 2026 (filing quotes, Meta filing language, Moody's and Raymond James comments, Microsoft spokeswoman).</li>
+      <li>Meta stock offering: Semafor and Tech Insider, 26 to 27 October 2026. Microsoft buyouts: KUOW and Reuters, 26 October 2026.</li>
+      <li>Hyperion deal: Kirkland &amp; Ellis announcement and Yahoo Finance, 21 October 2025 (ownership, bonds, lease, guarantee, 2 GW).</li>
+      <li>Gartner neocloud forecast as reported by CRN Asia and Network World, October 2026.</li>
+      <li>J.P. Morgan Asset Management, "Can credit markets absorb the AI buildout?", 5 August 2026.</li>
+      <li>Washington Post, Miriam Waldvogel, "The only town in the U.S. that said yes to data centers," 8 November 2026; Ballotpedia count of 41 measures in 10 states as reported by iRecruit, 5 November 2026.</li>
+      <li>Power comparisons: EP 07 · The Physical Plant (EIA residential averages; Hartsfield-Jackson load).</li>
+    </ol>
+    <p class="sign">Researched and compiled with Claude (Anthropic). Final editorial judgment: Melophon. Conflict: Anthropic is a subject of this note and had no role in it.</p>
+  </div>
+</section>
+</div>
+
+<style id="infera-legal-footer">
+.legal-footer{
+  background:#06060a; color:rgba(168,162,152,.75);
+  font-family:'IBM Plex Sans', system-ui, sans-serif; font-size:11.5px; line-height:1.55;
+  padding:32px 6vw 36px;
+  border-top:1px solid rgba(168,162,152,.12);
+}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{
+  display:grid; grid-template-columns:1fr auto; gap:24px 32px;
+  padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08);
+  margin-bottom:14px;
+}
+.legal-footer .lf-brand{
+  font-family:'IBM Plex Mono', ui-monospace, monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.legal-footer .lf-brand b{color:#c8ff1e; font-family:inherit; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; align-self:center}
+.legal-footer .lf-disclaim{
+  font-size:11.5px; line-height:1.6; max-width:none; color:rgba(168,162,152,.62);
+}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+.legal-footer details.lf-more{margin-top:8px; padding:0}
+.legal-footer details.lf-more summary{
+  cursor:pointer; list-style:none;
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700;
+  display:inline-flex; align-items:center; gap:8px; padding:5px 0;
+}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+.legal-footer .lf-links{
+  display:flex; flex-wrap:wrap; gap:0 18px;
+  padding-top:14px; border-top:1px dashed rgba(168,162,152,.12);
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Newsreader', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+@media (max-width:780px){
+  .legal-footer .lf-top{grid-template-columns:1fr}
+  .legal-footer{padding:26px 5vw 30px; font-size:11px}
+}
+@media (prefers-reduced-motion: reduce){
+  .legal-footer details.lf-more summary::before{transition:none}
+}
+.legal-footer .lf-infra{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:10px 14px 12px; margin-bottom:14px;
+  background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6);
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:560px){
+  .legal-footer .lf-infra{font-size:9px; gap:8px; padding:8px 10px 10px}
+}
+</style>
+
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+      <nav class="lf-infra" aria-label="Infrastructure links">
+        <span class="lf-infra-lbl">More from Infera</span>
+        <a href="../systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+        <a href="../claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+        <a href="../case-file.html">Your Case File</a><span class="lf-sep">·</span>
+        <a href="../founding.html">Founding 500</a><span class="lf-sep">·</span>
+        <a href="../field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+        <a href="../index.html#about">About</a>
+      </nav>
+
+    <div class="lf-top">
+      <div class="lf-brand">
+        <span>© 2026 <b>Infera</b></span>
+        <span class="sep">·</span>
+        <span>All rights reserved</span>
+        <span class="sep">·</span>
+        <em>The Mechanism Series™</em>
+      </div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis &mdash; <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided &ldquo;as is&rdquo; without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> &ldquo;Infera,&rdquo; &ldquo;The Mechanism Series,&rdquo; and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission, usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Privacy.</strong> Zero third-party tracking. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for persona memory, reading log, and evidence-mode preference, none transmitted. Subscriber emails stored at Buttondown. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with: (1) the copyrighted work, (2) the allegedly infringing URL, (3) your contact info, (4) good-faith statement, (5) statement under penalty of perjury, (6) your signature. Knowingly false DMCA notices may incur liability under 17 U.S.C. § 512(f). Counter-notices follow § 512(g).</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action arising from these terms shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Underwriters do not see episodes prior to publication. Editorial decisions are independent.</p>
+          <p><strong style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication. AI does not author episodes.</p>
+          <p style="margin-top:10px; font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="../legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="../legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="../legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="../legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="../legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="../legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="../legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="../legal.html#unsubscribe">Unsubscribe</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+
+    <div class="lf-tail">
+      <em>Atlanta, GA · USA · v.2026.05</em>
+      <span>Last updated · 26 May 2026</span>
+    </div>
+  </div>
+</aside>
+
+<script>
+(function(){
+  // ---------- glossary ----------
+  var G={
+    glossary:['Glossary','Dashed words open a short definition. Press Escape or tap elsewhere to close.'],
+    stock:['Stock','A small slice of ownership in a company. Selling new stock raises money without borrowing, but each existing slice now owns a little less.'],
+    ipo:['IPO','Initial public offering: the first time a company sells its stock to anyone who wants to buy it on a stock exchange.'],
+    gw:['Gigawatt','A billion watts, or 1,000 megawatts. A megawatt is roughly enough for 750 to 1,000 American homes.'],
+    gpu:['GPU','Graphics processing unit. Chips first built for video games that turn out to be very good at the math AI needs.'],
+    neocloud:['Neocloud','A company that buys AI chips and rents their computing power to other companies, usually AI developers.'],
+    bond:['Bond','A loan you can buy and sell. Investors lend money now and are paid back later, with interest.'],
+    lease:['Lease','A rental contract. The tenant pays to use a building it does not own, for a set number of years.'],
+    rvg:['Residual value guarantee','A promise from a tenant to cover some of the loss if a building is worth less than expected when the lease ends.'],
+    bs:['Balance sheet','A company\'s official list of what it owns and what it owes. It is where most investors look first to judge how much debt a company has.'],
+    equity:['Equity','The owners\' own money in a project, like a down payment. It is the first money lost if things go badly.']
+  };
+  var gl=document.getElementById('gloss'),gk=document.getElementById('glossK'),gv=document.getElementById('glossV'),gFrom=null;
+  function openG(btn){var d=G[btn.dataset.term];if(!d)return;gk.textContent=d[0];gv.textContent=d[1];gl.hidden=false;var r=btn.getBoundingClientRect();var x=Math.min(window.innerWidth-gl.offsetWidth-10,Math.max(10,r.left));var y=r.bottom+8;if(y+gl.offsetHeight>window.innerHeight-10)y=r.top-gl.offsetHeight-8;gl.style.left=x+'px';gl.style.top=y+'px';gFrom=btn;}
+  function closeG(){gl.hidden=true;}
+  document.querySelectorAll('.term').forEach(function(b){b.setAttribute('aria-describedby','gloss');b.addEventListener('click',function(e){e.stopPropagation();if(!gl.hidden&&gFrom===b){closeG();return;}openG(b);});});
+  document.addEventListener('click',function(e){if(!gl.contains(e.target))closeG();});
+  window.addEventListener('scroll',closeG,{passive:true});
+
+  // ---------- plate racks ----------
+  var racks=document.getElementById('racks'),svgNS='http://www.w3.org/2000/svg',s='';
+  [96,168,240].forEach(function(y0){for(var i=0;i<8;i++){var x=346+i*48;s+='<rect x="'+x+'" y="'+(y0+10)+'" width="34" height="48" fill="none" stroke="#7ef0c8" stroke-width="1.2"/>';for(var j=0;j<4;j++){s+='<circle class="led" style="animation-delay:'+((i*0.37+j*0.53)%2.4).toFixed(2)+'s" cx="'+(x+8)+'" cy="'+(y0+20+j*10)+'" r="2" fill="#7ef0c8"/><path d="M'+(x+14)+' '+(y0+20+j*10)+'h14" stroke="rgba(126,240,200,.4)"/>';}}});
+  racks.innerHTML=s;
+
+  // ---------- GDP bar chart ----------
+  var D=[['Electrification','early 1900s',0.5],['Interstate highways','1950s',1.1],['Telecom and internet','1990s fiber boom',1.1],['Railroads','peak, about 1870 to 1890',2.2],['AI buildout','2025 to 2032, projected',3.63]];
+  var MAX=4,bars=document.getElementById('bars'),tb=document.getElementById('gdpTbody'),tip=document.getElementById('gdpTip'),chart=document.getElementById('gdpChart');
+  D.forEach(function(d){var ai=d[0]==='AI buildout';var el=document.createElement('div');el.className='bar'+(ai?' ai':'');el.innerHTML='<div class="lbl">'+d[0]+'<small>'+d[1]+'</small></div><div class="trk"><div class="fill" data-w="'+(d[2]/MAX*100)+'"></div>'+(ai?'<span class="val" style="left:'+(d[2]/MAX*100)+'%">3.6% a year</span>':'')+'<span class="hit" tabindex="0" aria-label="'+d[0]+': '+d[2]+' percent of GDP a year"></span></div>';bars.appendChild(el);
+    var h=el.querySelector('.hit');function show(){tip.innerHTML='<b>'+d[0]+'</b><br>'+d[2]+'% of GDP a year<br><span style="color:#a9b8cf">'+d[1]+'</span>';tip.hidden=false;var r=h.getBoundingClientRect(),c=chart.getBoundingClientRect();tip.style.left=Math.min(c.width-270,Math.max(8,r.left-c.left+(d[2]/MAX)*r.width*0.5))+'px';tip.style.top=(r.top-c.top-62)+'px';}
+    h.addEventListener('mouseenter',show);h.addEventListener('focus',show);h.addEventListener('click',show);h.addEventListener('mouseleave',function(){tip.hidden=true});h.addEventListener('blur',function(){tip.hidden=true});
+    tb.insertAdjacentHTML('beforeend','<tr><td>'+d[0]+' ('+d[1]+')</td><td>'+d[2]+'%</td></tr>');});
+  var tk=document.getElementById('ticks');[0,1,2,3,4].forEach(function(v){tk.insertAdjacentHTML('beforeend','<span style="left:'+(v/MAX*100)+'%">'+v+'%</span>');});
+  function growBars(){document.querySelectorAll('#bars .fill').forEach(function(f){f.style.width=f.dataset.w+'%';});}
+  if('IntersectionObserver' in window){var bo=new IntersectionObserver(function(es){if(es[0].isIntersecting){growBars();bo.disconnect();}},{threshold:.3});bo.observe(chart);}else growBars();
+
+  // ---------- unit chart ----------
+  var U=document.getElementById('units'),ut=document.getElementById('unitTip'),uc=document.getElementById('unitChart');
+  var FED=40.55,AI=1.4;
+  // AI squares first (orange), then federal squares (blue): two separate groups drawn in sequence
+  function sq(cls,p,label){var d=document.createElement('div');d.className='u '+cls+(p<1?' part':'');if(p<1)d.style.setProperty('--p',(p*100)+'%');d.tabIndex=0;d.setAttribute('aria-label',label);
+    function show(){ut.textContent=label;ut.hidden=false;var r=d.getBoundingClientRect(),c=uc.getBoundingClientRect();ut.style.left=Math.min(c.width-270,Math.max(8,r.left-c.left))+'px';ut.style.top=(r.top-c.top-44)+'px';}
+    d.addEventListener('mouseenter',show);d.addEventListener('focus',show);d.addEventListener('click',show);d.addEventListener('mouseleave',function(){ut.hidden=true});d.addEventListener('blur',function(){ut.hidden=true});U.appendChild(d);}
+  sq('ai',1,'AI building deals: trillion 1 of about 1.4');sq('ai',0.4,'AI building deals: the last 0.4 trillion (about $1.4T total)');
+  for(var i=1;i<=41;i++){var p=Math.min(1,FED-(i-1));if(p<=0)break;sq('',p,'Federal debt: trillion '+i+' of 40.55');}
+
+  // ---------- three clocks ----------
+  var yr=document.getElementById('yr'),yo=document.getElementById('yrOut'),cm=document.getElementById('clockMsg'),wrap=document.querySelector('#clocksBox .clocks');
+  var now=document.createElement('div');now.id='clockNow';
+  var MSG=[[0,'Year 0. The building opens. Meta\'s lease begins, and the chips inside are brand new.'],[2,'Year 2. Newer, faster chips are already on sale. The ones inside still work, but they are no longer the best.'],[4,'Year 4. The first lease term ends. Meta can extend, or not. The bonds are still owed either way.'],[5,'Year 5. The chip loans are coming due, and the chips are old. To stay competitive, someone has to buy new ones.'],[8,'Year 8. The building is still young. The question is whether what is inside, and who is renting it, still earns enough to pay the lenders.'],[15,'Year 15. Buildings like this are built to last for decades. The guarantee is there for the day the tenant leaves and the building is worth less than planned.']];
+  function clocks(){var y=+yr.value;yo.textContent=y;var m=MSG[0][1];MSG.forEach(function(r){if(y>=r[0])m=r[1];});cm.textContent=m;
+    var trk=wrap.querySelector('.clk .trk');var wr=wrap.getBoundingClientRect(),tr=trk.getBoundingClientRect();
+    now.style.left=(tr.left-wr.left+tr.width*(y/20))+'px';}
+  wrap.style.position='relative';wrap.appendChild(now);yr.addEventListener('input',clocks);window.addEventListener('resize',clocks);clocks();
+
+  // ---------- capital stack ----------
+  var dp=document.getElementById('dp'),rent=document.getElementById('rent'),svg=document.getElementById('stackSvg');
+  var dpo=document.getElementById('dpOut'),ro=document.getElementById('rentOut'),ol=document.getElementById('ownLoss'),ll=document.getElementById('lendLoss'),vd=document.getElementById('stackVerdict');
+  var presets=document.querySelectorAll('#stackBox .presets button');
+  function draw(){var e=+dp.value/100,r=+rent.value/100,loss=1-r;
+    dpo.textContent=Math.round(e*100)+'%';ro.textContent=Math.round(r*100)+'%';
+    presets.forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.dp===+dp.value));});
+    var ownL=Math.min(1,loss/e),lendL=Math.max(0,(loss-e)/(1-e));
+    ol.textContent=Math.round(ownL*100)+'%';ll.textContent=Math.round(lendL*100)+'%';
+    var x0=40,w=180,top=40,H=250,out='';
+    out+='<path d="M'+(x0-14)+' '+(top+H)+'H'+(x0+w+14)+'" stroke="#9cc0f2" stroke-width="2"/>';
+    out+='<path d="M'+x0+' '+top+'L'+(x0+w/2)+' '+(top-26)+'L'+(x0+w)+' '+top+'" fill="none" stroke="#9cc0f2" stroke-width="2"/>';
+    var eqH=H*e;
+    out+='<rect x="'+x0+'" y="'+top+'" width="'+w+'" height="'+eqH+'" fill="rgba(62,207,142,.35)" stroke="#3ecf8e" stroke-width="1.5"/>';
+    out+='<rect x="'+x0+'" y="'+(top+eqH)+'" width="'+w+'" height="'+(H-eqH)+'" fill="rgba(95,143,216,.30)" stroke="#5f8fd8" stroke-width="1.5"/>';
+    for(var f=1;f<10;f++){out+='<path d="M'+x0+' '+(top+H*f/10)+'H'+(x0+w)+'" stroke="rgba(156,192,242,.25)"/>';}
+    if(loss>0){out+='<defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="rgba(207,122,18,.35)"/><path d="M0 0V8" stroke="#cf7a12" stroke-width="3"/></pattern></defs>';
+      out+='<rect x="'+x0+'" y="'+top+'" width="'+w+'" height="'+(H*loss)+'" fill="url(#hatch)" stroke="#cf7a12" stroke-width="2"/>';
+      out+='<text x="'+(x0+w/2)+'" y="'+(top+Math.max(16,H*loss/2+5))+'" text-anchor="middle" fill="#f3ecda" font-family="Space Mono" font-size="12" font-weight="700">LOST '+Math.round(loss*100)+'%</text>';}
+    out+='<text x="'+(x0+w+10)+'" y="'+(top+Math.max(12,eqH/2+4))+'" fill="#3ecf8e" font-family="Space Mono" font-size="11">OWNERS</text>';
+    out+='<text x="'+(x0+w+10)+'" y="'+(top+eqH+(H-eqH)/2+4)+'" fill="#9cc0f2" font-family="Space Mono" font-size="11">LENDERS</text>';
+    out+='<text x="'+(x0+w/2)+'" y="'+(top+H+22)+'" text-anchor="middle" fill="#a9b8cf" font-family="Space Mono" font-size="11">BUILDING VALUE</text>';
+    svg.innerHTML=out;
+    var v;
+    if(loss===0)v='Everything is on plan. Nobody has lost anything yet.';
+    else if(ownL<1)v='The owners absorb this hit. They have lost '+Math.round(ownL*100)+'% of their money. The lenders are still fine.';
+    else if(lendL<0.001)v='Exactly wiped out: the owners\' whole down payment is gone. One more dip and the lenders start losing.';
+    else v='The owners are wiped out, and the lenders have lost '+Math.round(lendL*100)+'% of what they lent. With '+Math.round(e*100)+'% down, it took only a '+Math.round(e*100)+'% shortfall to get here.';
+    vd.textContent=v;}
+  presets.forEach(function(b){b.addEventListener('click',function(){dp.value=b.dataset.dp;draw();});});
+  dp.addEventListener('input',draw);rent.addEventListener('input',draw);draw();
+
+  // ---------- thread layer ----------
+  var THREADS={
+    money:{name:'Money',c:'var(--th-money)',items:[['../the-trickle.html','S1 · The Trickle','Live'],['../episode-07-the-physical-plant.html','EP 07 · The Physical Plant','Live'],['../episode-09-the-synthetic-self.html','EP 09 · The Synthetic Self','Live'],['19-the-capital-call.html','Field Note 19 · The Capital Call','Live']]},
+    clocks:{name:'Clocks',c:'var(--th-clocks)',items:[['03-three-converging-clocks.html','Field Note 03 · Three Converging Clocks','Live'],['../the-provisional-ballot.html','S1 · The Provisional Ballot Maze','Live'],['19-the-capital-call.html','Field Note 19 · The Capital Call','Live']]}
+  };
+  var PEEKS={ep07:{k:'Money · EP 07 The Physical Plant',tag:'REPORTED',t:'Atlanta\'s airport runs on about 150 megawatts. A single giant data center can need 100 to 250. Georgia Power\'s 2024 plan says about forty are coming by 2030.',m:'Live · EP 07',go:'../episode-07-the-physical-plant.html',c:'var(--th-money)'}};
+  var here='19-the-capital-call.html';
+  var list=document.getElementById('thlist'),lh=document.getElementById('thlistH'),lo=document.getElementById('thlistL'),lf=null;
+  function openL(k,b){var t=THREADS[k];list.style.setProperty('--c',t.c);lh.textContent=t.name+' · '+t.items.length+' pieces';lo.innerHTML=t.items.map(function(i){var h=i[0]===here;return '<li'+(h?' class="here"':'')+'><a href="'+i[0]+'">'+i[1]+(h?' · You are here':'')+'</a><span class="s">'+i[2]+'</span></li>';}).join('');list.hidden=false;lf=b;list.querySelector('.x').focus();}
+  function closeL(){list.hidden=true;if(lf)lf.focus();}
+  document.querySelectorAll('.thbar button').forEach(function(b){b.addEventListener('click',function(){if(!list.hidden&&lh.textContent.indexOf(THREADS[b.dataset.th].name)===0){closeL();return;}openL(b.dataset.th,b);});});
+  list.querySelector('.x').addEventListener('click',closeL);
+  var pips={money:document.querySelector('[data-th=money]'),clocks:document.querySelector('[data-th=clocks]')};
+  var zones={money:['ex1','ex2','ex5'],clocks:['ex4']};
+  if('IntersectionObserver' in window){var vis={};var io2=new IntersectionObserver(function(es){es.forEach(function(e){vis[e.target.id]=e.isIntersecting;});Object.keys(zones).forEach(function(k){pips[k].classList.toggle('lit',zones[k].some(function(id){return vis[id];}));});},{threshold:.15});['ex1','ex2','ex4','ex5'].forEach(function(id){io2.observe(document.getElementById(id));});}
+  var pk=document.getElementById('peek'),pf=null;
+  function openP(id,b){var p=PEEKS[id];pk.style.setProperty('--c',p.c);document.getElementById('peekK').textContent=p.k;document.getElementById('peekTag').textContent=p.tag;document.getElementById('peekT').textContent=p.t;document.getElementById('peekM').textContent=p.m;document.getElementById('peekGo').href=p.go;pk.hidden=false;pf=b;document.getElementById('peekClose').focus();}
+  function closeP(){pk.hidden=true;if(pf)pf.focus();}
+  document.querySelectorAll('[data-peek]').forEach(function(b){b.addEventListener('click',function(){openP(b.dataset.peek,b);});});
+  document.getElementById('peekClose').addEventListener('click',closeP);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeG();if(!pk.hidden)closeP();if(!list.hidden)closeL();}});
+
+  // ---------- reveal ----------
+  var ro2=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');ro2.unobserve(e.target);}});},{threshold:.08}):null;
+  document.querySelectorAll('.rv').forEach(function(el){if(ro2)ro2.observe(el);else el.classList.add('in');});
+})();
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "004d41c27d234e4d91147892e7874563"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

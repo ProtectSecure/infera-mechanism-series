@@ -54,3 +54,6 @@ The Fourth Founding Refusal still applies to every draft: *no mind-control frami
 ---
 
 *Last updated · 8 November 2026*
+
+## Field Note 19 · The Capital Call (8 Nov 2026)
+Explainer for high school juniors and up on AI capital: the plug, the chips, the building, the bill. Instruments: three clocks, capital stack, GDP boom bars, debt unit chart. Harwood ND counter-example. Standing Anthropic conflict disclosure added to legal.html and carried on the page. Thread layer: Money, Clocks. Sweep Targeting Map write-back queued.
