@@ -8,7 +8,7 @@ Unpublished briefs and specs. Not linked from public nav until human sign-off an
 
 | File | Piece | Status | Next step |
 |---|---|---|---|
-| [episode-09-synthetic-self-brief.md](./episode-09-synthetic-self-brief.md) | EP 09 The Synthetic Self (absorbs The Subscription Self) | DISCOVER v2 | INVESTIGATE: verify case wall; rent-ledger population data |
+| [episode-09-synthetic-self-brief.md](./episode-09-synthetic-self-brief.md) · [claim corpus](./episode-09-claim-corpus.md) | EP 09 The Synthetic Self (absorbs The Subscription Self) | INVESTIGATE · preview rendered 8 Nov 2026 (`episode-09-the-synthetic-self.html`, unlinked) | Human sign off, then link in manifest and index; homepage thread dots; Sweep Targeting Map write back |
 | [episode-10-afterlife-of-your-data-brief.md](./episode-10-afterlife-of-your-data-brief.md) | EP 10 The Afterlife of Your Data (absorbs The Shadow Market) | DISCOVER v2 | Score Brief 007 (Nov 25); deceased-identity fraud source |
 | [episode-11-governance-layer-brief.md](./episode-11-governance-layer-brief.md) | EP 11 The Governance Layer · season closer · Part 12 Lever Map | DISCOVER v2 | Fill WATCH cells; print the scorecard |
 
@@ -53,4 +53,4 @@ The Fourth Founding Refusal still applies to every draft: *no mind-control frami
 
 ---
 
-*Last updated · 23 October 2026*
+*Last updated · 8 November 2026*
