@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Mechanism Brief № 014 · The Photocopy Problem · Infera</title>
+<meta name="description" content="About half of new web articles are machine-written. Run the loop yourself and watch rare ideas vanish, see why AI collapse is a choice labs can avoid, and why the harder narrowing is happening in people, world models and digital twins.">
+<link rel="canonical" href="brief-the-photocopy-problem.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Brief № 014 · The Photocopy Problem">
+<meta property="og:description" content="Run the model-collapse loop yourself: what AI loses when it learns from AI, and why the bigger narrowing is in us.">
+<meta property="og:url" content="https://series.melophon.com/brief-the-photocopy-problem.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* Layout: Mechanism Brief house system (paper pages, ink slides). Opens on generations of a curve narrowing, then a live loop the reader runs, the viral claim checked, the human loop, world models, the digital twin, who gets paid, both sides, ties and checkpoints. Single-theme by design, matching the series. Accent: copier blue on ink. */
+:root{
+  --ink:#0A0A0A; --paper:#FBF7EB; --paper2:#F3EEDC; --cha:#C8FF1E; --pnk:#FF1A6B; --blu:#1E3CFF; --yel:#FFD500; --gray:#57534A; --gray2:#8C877A; --soft:#d8d2c2; --line:#2b2a27;
+  --f-display:'Archivo Black',Impact,'Arial Black',sans-serif; --f-body:'Space Grotesk',system-ui,-apple-system,sans-serif; --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace; --f-serif:'Instrument Serif',Georgia,serif;
+  --maxw:1120px; color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;overflow-x:hidden;margin:0}
+::selection{background:var(--yel);color:var(--ink)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blu);outline-offset:3px}
+.ab{font-family:var(--f-display);letter-spacing:-.01em;line-height:1.03;font-weight:400}
+.band{padding-block:80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.band.dark{background:var(--ink);color:var(--paper)}
+.band.alt{background:var(--paper2)}
+.wrap{max-width:var(--maxw);margin:0 auto;display:grid;gap:22px}
+.eco{font:500 10.5px/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-wrap:wrap;gap:6px 14px;border-bottom:3px solid var(--ink);background:var(--paper)}
+.eco a{text-decoration:none} .eco .cur{color:var(--blu)} .eco .rv{margin-left:auto;background:var(--yel);padding:2px 7px}
+.stageno{font:500 12px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tag{border:2px solid currentColor;padding:3px 8px;font-size:10.5px}
+h1,h2,h3{margin:0;text-wrap:balance}
+.h-xl{font-size:clamp(44px,8vw,104px)} .h-l{font-size:clamp(30px,5vw,58px)} .h-m{font-size:clamp(22px,2.6vw,30px)}
+.hl-y{background:var(--yel);color:var(--ink);padding:0 .12em} .hl-b{background:var(--blu);color:var(--paper);padding:0 .12em}
+.lede{font-size:clamp(18px,2vw,22px);max-width:62ch;margin:0}
+.p{max-width:66ch;margin:0}
+.src{font:500 11px/1.5 var(--f-mono);letter-spacing:.04em;color:var(--gray)}
+.dark .src{color:var(--gray2)}
+.chip{display:inline-block;font:700 10px/1 var(--f-mono);letter-spacing:.08em;padding:4px 6px 3px;border:1.5px solid currentColor;vertical-align:1px;white-space:nowrap}
+.fact{color:#127a43}.rep{color:#9a6400}.inf{color:#5a43a0}.watch{color:var(--gray)}
+.dark .fact{color:var(--cha)}.dark .rep{color:var(--yel)}.dark .inf{color:#b9a3ff}.dark .watch{color:var(--soft)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:center}
+.hero > *{min-width:0}
+.copies{max-width:440px;width:100%;justify-self:center;margin:0}
+.copies svg{display:block;width:100%;height:auto}
+.gen{opacity:1}
+@media (prefers-reduced-motion:no-preference){
+  .gen{animation:gn .6s both}
+  .gen:nth-of-type(1){animation-delay:.2s}.gen:nth-of-type(2){animation-delay:.6s}.gen:nth-of-type(3){animation-delay:1s}.gen:nth-of-type(4){animation-delay:1.4s}.gen:nth-of-type(5){animation-delay:1.8s}
+  @keyframes gn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:8px}
+.stat{border:3px solid var(--paper);padding:14px 16px;display:grid;gap:6px;align-content:start}
+.stat .n{font:400 clamp(28px,4vw,46px)/1 var(--f-display)}
+.stat .l{font:500 11px/1.45 var(--f-mono);letter-spacing:.06em}
+.stat.y{background:var(--yel);color:var(--ink);border-color:var(--yel)}
+.stat.y .chip{color:var(--ink)}
+
+/* the loop */
+.lab{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);border:3px solid var(--ink);background:var(--paper)}
+.lab > *{min-width:0}
+.controls{border-right:3px solid var(--ink);padding:18px;display:grid;gap:16px;align-content:start}
+.controls .k{font:700 10.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+.presets{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.presets button{font:600 13px var(--f-body);background:transparent;color:var(--ink);border:2px solid var(--ink);padding:8px 8px;cursor:pointer;text-align:left}
+.presets button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.slider{display:grid;gap:6px}
+.slider label{font-weight:600;font-size:15px;display:flex;justify-content:space-between;gap:8px}
+.slider output{font:700 15px var(--f-mono)}
+input[type=range]{width:100%;accent-color:var(--blu)}
+.tog{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.35}
+.tog input{margin-top:3px;accent-color:var(--blu);width:18px;height:18px;flex:none}
+.run{font:700 13px var(--f-mono);letter-spacing:.08em;background:var(--blu);color:var(--paper);border:0;padding:12px 16px;cursor:pointer;text-transform:uppercase}
+.viz{padding:18px 20px;display:grid;gap:14px;align-content:start}
+.viz svg{display:block;width:100%;height:auto}
+.reads{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.read{border:2px solid var(--ink);padding:10px 12px;display:grid;gap:4px}
+.read b{font:400 clamp(22px,3vw,32px)/1 var(--f-display)}
+.read span{font:500 11px/1.4 var(--f-mono);letter-spacing:.04em;color:var(--gray)}
+.strip{display:grid;grid-template-columns:repeat(30,minmax(0,1fr));gap:3px}
+.strip i{display:block;aspect-ratio:1;background:var(--blu);border:1.5px solid var(--blu);transition:background .25s,border-color .25s}
+.strip i.gone{background:transparent;border-color:var(--soft)}
+.verdict{font:400 clamp(18px,2.2vw,24px)/1.2 var(--f-display);margin:0;min-height:2.4em}
+.note{border-left:6px solid var(--blu);padding:6px 0 6px 14px;max-width:72ch;font-size:15px;margin:0}
+
+/* tables */
+.tablewrap{overflow-x:auto;border:3px solid var(--ink);background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:12px 14px;border-bottom:1.5px solid var(--ink)}
+thead th{background:var(--ink);color:var(--paper);font:700 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
+tbody th{font:700 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:var(--paper2);width:22%}
+tr:last-child th,tr:last-child td{border-bottom:0}
+.v{font:700 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:3px 6px;display:inline-block;margin-bottom:4px}
+.v.t{background:var(--cha)} .v.h{background:var(--yel)} .v.f{background:var(--pnk);color:var(--paper)} .v.o{background:var(--soft)}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{border:3px solid var(--paper);padding:18px;display:grid;gap:10px;align-content:start}
+.card h3{font:400 24px/1.1 var(--f-display)}
+.card p{margin:0;font-size:15.5px}
+.card .lim{border-top:1.5px dashed var(--gray2);padding-top:10px;font-size:14.5px}
+.card .k{font:700 10.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gray2)}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:0;border-left:4px solid var(--ink);margin-left:8px}
+.tl li{position:relative;padding:12px 0 12px 22px;display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px}
+.tl li::before{content:"";position:absolute;left:-12px;top:17px;width:16px;height:16px;background:var(--yel);border:3px solid var(--ink);border-radius:50%}
+.tl li.live::before{background:var(--blu)}
+.tl .d{font:700 12px var(--f-mono);letter-spacing:.06em}
+.tl p{margin:0;font-size:15.5px}
+
+/* twin */
+.twin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+.twin > *{min-width:0}
+.bars{display:grid;gap:14px;align-content:start;align-self:start;border:3px solid var(--ink);padding:18px;background:var(--paper)}
+.bar{display:grid;gap:6px}
+.bar .lbl{display:flex;justify-content:space-between;gap:10px;font-size:14.5px;font-weight:600}
+.bar .lbl span{font:700 13px var(--f-mono)}
+.track{height:16px;border:2px solid var(--ink);background:var(--paper2);position:relative}
+.track i{position:absolute;left:0;top:0;bottom:0;background:var(--blu)}
+.track i.keep{background:var(--gray2)}
+.dos{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:d}
+.dos li{border:2px solid var(--ink);padding:12px 14px 12px 52px;position:relative;font-size:15.5px;background:var(--paper)}
+.dos li::before{counter-increment:d;content:counter(d,decimal-leading-zero);position:absolute;left:12px;top:12px;font:700 13px var(--f-mono);color:var(--blu)}
+.dos b{display:block}
+
+/* sides, ties, watch */
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.side{border-top:6px solid var(--ink);padding-top:14px;display:grid;gap:10px;align-content:start}
+.side h3{font:400 24px/1.1 var(--f-display)}
+.side ul{margin:0;padding-left:20px;display:grid;gap:8px}
+.ties{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tie{border:3px solid var(--ink);padding:16px;display:grid;gap:8px;align-content:start;text-decoration:none;background:var(--paper)}
+a.tie:hover{background:var(--yel)}
+.tie .k{font:700 10.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+.tie h3{font:400 20px/1.1 var(--f-display)}
+.tie p{margin:0;font-size:15px}
+.tie.sib{border-style:dashed}
+.watchlist{display:grid;border-top:3px solid var(--ink)}
+.w{display:grid;grid-template-columns:170px minmax(0,1fr) 90px;gap:14px;padding:12px 0;border-bottom:1.5px solid var(--ink);align-items:baseline}
+.w .d{font:700 12px var(--f-mono);letter-spacing:.06em}
+.w p{margin:0;font-size:15.5px}
+.sources{columns:2;column-gap:32px;font-size:13px;margin:0;padding-left:18px}
+.sources li{break-inside:avoid;margin-bottom:6px;overflow-wrap:anywhere}
+footer.colo{font:500 12px/1.6 var(--f-mono);display:grid;gap:8px}
+
+@media (max-width:900px){
+  .hero,.lab,.twin{grid-template-columns:1fr}
+  .controls{border-right:0;border-bottom:3px solid var(--ink)}
+  .ties{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr}
+}
+@media (max-width:620px){
+  .ties,.sides,.cards{grid-template-columns:1fr}
+  .read{padding:8px} .read span{font-size:9.5px}
+  #chart .tk{font-size:19px} #chart .ax{font-size:20px;transform:translateY(10px)} #chart .gl{font-size:17px}
+  .strip{grid-template-columns:repeat(15,minmax(0,1fr))}
+  .sources{columns:1}
+  .w{grid-template-columns:1fr;gap:4px}
+  .tl li{grid-template-columns:1fr;gap:2px}
+  .band{padding-block:56px}
+}
+</style>
+<style id="infera-house-nav">
+.hf-strip{position:relative;z-index:60;display:flex;justify-content:space-between;align-items:center;gap:10px 24px;flex-wrap:wrap;padding:12px max(16px,env(safe-area-inset-left,0px));padding-top:calc(12px + env(safe-area-inset-top,0px));background:#06060a;color:#fbf7eb;font:700 10.5px/1.4 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid rgba(168,162,152,.15)}
+.hf-strip a{color:#fbf7eb;text-decoration:none;border:0}
+.hf-strip a:hover,.hf-strip a:focus-visible{color:#c8ff1e}
+.hf-strip .hf-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#c8ff1e;margin-right:8px;vertical-align:middle}
+.hf-strip .hf-links{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.hf-strip .hf-stamp{color:rgba(168,162,152,.75)}
+.hf-foot{background:#06060a;color:rgba(232,227,212,.85);padding:22px max(16px,env(safe-area-inset-left,0px));border-top:1px solid rgba(168,162,152,.15);font:700 10.5px/1.6 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase}
+.hf-foot .hf-row{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center}
+.hf-foot a{color:rgba(232,227,212,.85);text-decoration:none;border:0}
+.hf-foot a:hover,.hf-foot a:focus-visible{color:#c8ff1e}
+.hf-foot .hf-disc{max-width:1280px;margin:12px auto 0;font-weight:400;letter-spacing:.06em;text-transform:none;color:rgba(168,162,152,.75)}
+@media (max-width:720px){.hf-strip .hf-stamp{display:none}.hf-strip .hf-links{gap:14px}}
+</style>
+</head>
+<body>
+<nav class="hf-strip" id="infera-nav-strip" aria-label="Site">
+  <a href="index.html"><span class="hf-dot"></span>INFERA · THE MECHANISM SERIES</a>
+  <div class="hf-links">
+    <a href="index.html">&larr; All Episodes</a>
+    <a href="briefs/index.html">Mechanism Briefs</a>
+    <span class="hf-stamp">BRIEF № 014 · NOV 8, 2026</span>
+  </div>
+</nav>
+<header class="band dark">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">Mechanism Brief № 014</span><span>Nov. 8, 2026</span><span>~15 min</span><span>AI training · the loop that feeds itself</span></div>
+    <div class="hero">
+      <div style="display:grid;gap:20px">
+        <h1 class="ab h-xl">The Photocopy <span class="hl-b">Problem</span></h1>
+        <p class="lede">About half of new English web articles are now machine-written. AI trained on that output loses the rare things first: the odd phrase, the local fact, the minority view. Labs can stop that if they keep human data in the mix. The harder part to stop is the same narrowing in people, because more and more of us now write and think through the same few models.</p>
+      </div>
+      <figure class="copies" aria-label="Illustration: five generations of a bell curve, each copy taller and narrower than the last, its edges disappearing">
+        <svg viewBox="0 0 400 300" role="img" aria-hidden="true">
+          <line x1="20" y1="262" x2="380" y2="262" stroke="#57534A" stroke-width="2"/>
+          <g fill="none" stroke-width="3">
+            <path class="gen" stroke="#8C877A" d="M20 260 C 110 258, 140 150, 200 150 S 290 258, 380 260"/>
+            <path class="gen" stroke="#8C877A" stroke-opacity=".8" d="M60 261 C 140 258, 155 118, 200 118 S 260 258, 340 261"/>
+            <path class="gen" stroke="#6b7cff" d="M95 261 C 160 258, 168 86, 200 86 S 240 258, 305 261"/>
+            <path class="gen" stroke="#3f58ff" d="M125 261 C 176 258, 180 56, 200 56 S 224 258, 275 261"/>
+            <path class="gen" stroke="#1E3CFF" stroke-width="4" d="M150 261 C 188 258, 190 30, 200 30 S 212 258, 250 261"/>
+          </g>
+          <g font-family="JetBrains Mono, monospace" font-size="11" font-weight="700">
+            <text x="22" y="284" fill="#8C877A">HUMAN DATA</text>
+            <text x="378" y="284" fill="#6b7cff" text-anchor="end">COPY OF A COPY</text>
+            <text x="30" y="246" fill="#FFD500">RARE</text>
+            <text x="370" y="246" fill="#FFD500" text-anchor="end">RARE</text>
+          </g>
+        </svg>
+      </figure>
+    </div>
+    <div class="stats">
+      <div class="stat y"><span class="n">~50%</span><span class="l">Share of new English web articles that are mainly AI-written, flat since early 2025 (Graphite, detector-based) <span class="chip rep">REPORTED</span></span></div>
+      <div class="stat"><span class="n">50%+</span><span class="l">Share of new music uploads to Deezer that are AI-generated, June 2026; about 90,000 tracks a day <span class="chip rep">REPORTED</span></span></div>
+      <div class="stat"><span class="n">25%</span><span class="l">Drop in Stack Overflow activity within six months of ChatGPT, against comparable sites <span class="chip fact">FACT</span></span></div>
+      <div class="stat"><span class="n">$3,000</span><span class="l">Paid per book in the $1.5 billion settlement over books used to train Claude <span class="chip fact">FACT</span></span></div>
+    </div>
+    <p class="src">Sources: Graphite via Axios (May 2026); TechCrunch on Deezer (July 21, 2026); del Rio-Chanona, Laurentsyeva and Wachs, PNAS Nexus (2024); JURIST on Bartz v. Anthropic (July 2026). Conflict note: this brief was compiled with Claude, made by Anthropic, the defendant in that settlement.</p>
+  </div>
+</header>
+
+<section class="band" aria-labelledby="loop">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">01</span><span>Use it · Run the loop</span></div>
+    <h2 id="loop" class="ab h-l">Copy the copy, and watch the <span class="hl-y">edges go</span></h2>
+    <p class="p">This is a toy model, not a real AI system. It holds 10,000 "ideas" whose frequencies follow the long tail of human language: a few very common, most rare. Each generation, a model learns only from the one before it. You choose how much fresh human material goes into each round. <span class="chip inf">INFERENCE</span></p>
+    <div class="lab">
+      <div class="controls">
+        <span class="k">Start from a scenario</span>
+        <div class="presets" id="presets">
+          <button type="button" data-h="0" data-keep="0" aria-pressed="true">Synthetic only</button>
+          <button type="button" data-h="10" data-keep="0" aria-pressed="false">10% human</button>
+          <button type="button" data-h="30" data-keep="0" aria-pressed="false">30% human</button>
+          <button type="button" data-h="0" data-keep="1" aria-pressed="false">Keep everything</button>
+        </div>
+        <div class="slider">
+          <label for="human">Fresh human data each round <output id="hv" for="human">0%</output></label>
+          <input type="range" id="human" min="0" max="50" step="5" value="0">
+        </div>
+        <label class="tog"><input type="checkbox" id="keep"> Keep all past data instead of replacing it (how real labs train)</label>
+        <label class="tog"><input type="checkbox" id="topp" checked> Trim unlikely words when generating (top-p 0.95, a common chatbot setting)</label>
+        <button type="button" class="run" id="run">Run 20 generations</button>
+      </div>
+      <div class="viz">
+        <svg id="chart" viewBox="0 0 664 312" role="img" aria-labelledby="ctitle">
+          <title id="ctitle">How often rare ideas still appear, as a share of the human baseline, over 20 generations</title>
+          <g id="grid"></g>
+          <g id="ghosts"></g>
+          <polyline id="live" fill="none" stroke="#1E3CFF" stroke-width="4" stroke-linejoin="round" points=""/>
+          <g id="dots"></g>
+        </svg>
+        <div class="reads" aria-live="polite">
+          <div class="read"><b id="r1">100%</b><span>Rare ideas still appearing, vs. the human baseline</span></div>
+          <div class="read"><b id="r2">0%</b><span>Rare idea types missing from this generation</span></div>
+          <div class="read"><b id="r3">0</b><span>Generation now showing</span></div>
+        </div>
+        <div>
+          <span class="src">60 rare ideas, sampled from the tail. Hollow means extinct.</span>
+          <div class="strip" id="strip" aria-hidden="true"></div>
+        </div>
+        <p class="verdict" id="verdict">Press run.</p>
+      </div>
+    </div>
+    <p class="note">What the model shows: the share of fresh human data sets a floor. With none, rare ideas vanish in about five generations. Keeping all past data loses nothing, but the rare material gets quieter each round. Turn off the word trimming and the share holds on average, yet most rare idea types still die out: the tail survives as fewer, louder voices. <span class="chip inf">INFERENCE</span></p>
+    <p class="src">Model: Zipf frequency curve (exponent 1.1) over 10,000 idea types; 50,000 samples per generation; "rare" = the 9,000 least common types. Gray lines are averages of 8 runs; your run is one random draw. A toy model shows mechanisms, not a forecast for any real system.</p>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="check">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">02</span><span>The viral version, checked</span></div>
+    <h2 id="check" class="ab h-l">"Irreversible brain damage" for AI? <span class="hl-y">Not quite.</span></h2>
+    <p class="p">A post spreading this month calls a "new" Oxford paper proof that AI is poisoning itself. The paper is real, but it came out in July 2024, and the research since has narrowed what it means. <span class="chip fact">FACT</span></p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">The claim</th><th scope="col">What the evidence says</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">"A new paper in Nature"</th><td><span class="v f">False</span><br>Shumailov et al., "AI models collapse when trained on recursively generated data," was published in July 2024 by an Oxford-led team. <span class="chip fact">FACT</span></td></tr>
+          <tr><th scope="row">"ChatGPT has a big problem"</th><td><span class="v o">Not shown</span><br>The paper tested a 125-million-parameter language model, image models and simple statistical models, not ChatGPT or any frontier system. <span class="chip fact">FACT</span></td></tr>
+          <tr><th scope="row">The rare "tails" disappear</th><td><span class="v t">True, in that setup</span><br>Each generation trained on the last one's output, and the rare cases vanished first. Image models in a similar loop lost quality or diversity unless each round got enough fresh real data (Alemohammad et al., 2024). <span class="chip fact">FACT</span></td></tr>
+          <tr><th scope="row">"Irreversible," "collapses in on itself"</th><td><span class="v h">Overstated</span><br>Collapse needs the human data to be <i>replaced</i>. When synthetic data is <i>added</i> to the original real data, error stays bounded (Gerstgrasser et al., 2024). A 2025 Stanford and Harvard review found the scariest results assume all past data is deleted each round, which no frontier lab does. Checking synthetic data before training on it also prevents collapse (Feng et al., 2025). <span class="chip fact">FACT</span></td></tr>
+          <tr><th scope="row">But a little can hurt</th><td><span class="v h">Open</span><br>In a theoretical setting, synthetic data as small as 1% of training data can stop gains from more data (Dohmatob et al., 2025). A September 2026 preprint found some of the fastest collapse seen in lab pipelines came from a sampling setting that reused the same random draws each round. <span class="chip rep">REPORTED</span></td></tr>
+          <tr><th scope="row">Human data becomes the valuable commodity</th><td><span class="v t">Supported</span><br>Courts, licensing deals and a new industry of paid expert data all now put a price on human work. See section 06. <span class="chip fact">FACT</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Collapse is a risk of engineering choices, not a law of nature. Three levers decide it: keep the human data, check what the machine makes, and sample honestly. The danger rises wherever one of those is cheap to skip. <span class="chip inf">INFERENCE</span></p>
+  </div>
+</section>
+
+<section class="band dark" aria-labelledby="human">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">03</span><span>The loop nobody controls</span></div>
+    <h2 id="human" class="ab h-l">The machines can be fixed. <span class="hl-y">We are the other loop.</span></h2>
+    <p class="p">In the machine loop, models learn from models, and labs control the recipe. In the human loop, people learn from models. Nobody controls that one, and it is already measurable. <span class="chip inf">INFERENCE</span></p>
+    <div class="cards">
+      <div class="card"><span class="k">Psychology · creativity</span><h3>Better alone, more alike together</h3><p>With AI story ideas, 300 writers scored up to 8.1% higher on novelty, and the least creative gained most. Their stories were also about 10% more similar to one another. <span class="chip fact">FACT</span></p><p class="lim">Doshi and Hauser, Science Advances, July 2024. One task, one model generation.</p></div>
+      <div class="card"><span class="k">Cognition · memory</span><h3>Writers who could not quote themselves</h3><p>Of 54 students writing with GPT-4o, more than 80% could not accurately quote their own essay after the first session. EEG showed the weakest brain connectivity of three groups, and graders called the essays generic. <span class="chip rep">REPORTED</span></p><p class="lim">MIT Media Lab, 2025. Small sample, not peer reviewed.</p></div>
+      <div class="card"><span class="k">Language · speech</span><h3>Chatbot words in human mouths</h3><p>Across 740,249 hours of academic talks and podcasts, "delve" and other words ChatGPT favors rose in spoken human language after its release. In biomedical abstracts, at least 13.5% of 2024 papers show signs of LLM processing. <span class="chip rep">REPORTED</span></p><p class="lim">Max Planck Institute preprint; the abstracts study is peer reviewed (Kobak et al., Science Advances).</p></div>
+      <div class="card"><span class="k">Culture · whose defaults</span><h3>Diwali, written as Christmas</h3><p>AI autocomplete suggested pizza and Christmas to Indian writers and made their Diwali essays more generic. Indian and American writing both drifted toward American style. <span class="chip fact">FACT</span></p><p class="lim">Cornell study of 118 writers, CHI 2025.</p></div>
+      <div class="card"><span class="k">The commons · who answers</span><h3>The places the models learned from are thinning</h3><p>Stack Overflow activity fell 25% within six months of ChatGPT. Wikipedia's human pageviews fell about 8% year over year from March to August 2025, which Wikimedia ties to AI answers in search. <span class="chip fact">FACT</span></p><p class="lim">This is the replace scenario at the scale of society: fewer new human answers going into the pool. <span class="chip inf">INFERENCE</span></p></div>
+      <div class="card"><span class="k">Labs · inside the model</span><h3>Variety is trained out, not just sampled out</h3><p>In the open Olmo 3 models, most loss of semantic diversity happens during fine-tuning, so changing how answers are generated does not bring it back. One dominant model also loses knowledge faster than several models splitting the same data. <span class="chip rep">REPORTED</span></p><p class="lim">Two 2026 preprints (Karouzos et al.; Hodel and West, University of Washington).</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="world">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">04</span><span>The loop moves into the physical world</span></div>
+    <h2 id="world" class="ab h-l">World models need <span class="hl-y">real streets</span></h2>
+    <p class="p">The next wave of AI, "world models," learns physics and space from video and scans so robots and cars can move through real places. They face the same problem. Simulated worlds are cheap and endless, but the rare real moments, like a near miss or a strange intersection, are the tails a simulation tends to lose. That makes real-world capture the scarce human data of physical AI. <span class="chip inf">INFERENCE</span></p>
+    <ol class="tl">
+      <li><span class="d">Through 2025</span><p><b>The capture.</b> Pokémon Go and Ingress players who opted into AR scanning of PokéStops and Gyms helped build Niantic's map of public places. Normal play did not create scans. <span class="chip fact">FACT</span></p></li>
+      <li class="live"><span class="d">May 2025</span><p><b>The split.</b> Niantic sells its games to Scopely for $3.5 billion (closed May 29) and spins out Niantic Spatial, led by John Hanke, with Google Earth co-creator Brian McClendon as CTO. <span class="chip fact">FACT</span></p></li>
+      <li><span class="d">August 2025</span><p><b>Synthetic worlds.</b> Google DeepMind's Genie 3 generates interactive 3D worlds from text in real time. <span class="chip fact">FACT</span></p></li>
+      <li class="live"><span class="d">December 2025</span><p><b>The defense link.</b> Niantic Spatial partners with Vantor, a spatial intelligence firm with defense and intelligence clients, on navigation for drones and ground vehicles where GPS fails. <span class="chip fact">FACT</span></p></li>
+      <li><span class="d">February 2026</span><p><b>Simulation for the road.</b> Waymo builds a driving world model on Genie 3. <span class="chip rep">REPORTED</span></p></li>
+      <li class="live"><span class="d">March 2026</span><p><b>The payoff.</b> Niantic Spatial's model, trained on 30 billion images from players, places a phone within centimeters at about a million locations. Coco's sidewalk delivery robots use it. Yann LeCun's AMI Labs raises $1.03 billion for world models. <span class="chip rep">REPORTED</span></p></li>
+      <li><span class="d">June 2026</span><p><b>The dispute.</b> Dutch papers report player scans trained military drone navigation. Not confirmed: Vantor denies using Pokémon Go data, and Niantic Spatial says scans fed only an early model, scanning has ended, and game data no longer flows to it. Nvidia releases open Cosmos 3 world models. <span class="chip rep">REPORTED</span></p></li>
+    </ol>
+    <p class="note">Players said yes to helping an AR game. A decade later, a model built partly on their scans serves robot delivery and a partner with defense clients. "Submitted under the terms in effect at the time" is the consent gap, and it is the same one Brief № 011 tracks. <span class="chip inf">INFERENCE</span></p>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="twin">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">05</span><span>Use it · Your digital twin</span></div>
+    <h2 id="twin" class="ab h-l">Your twin learns from you. Then you write <span class="hl-y">with your twin.</span></h2>
+    <p class="p">Personal AI "twins" now draft email, answer for people and stand in for them in research. Stanford built agents of 1,052 people from two-hour interviews that matched their survey answers 85% as well as the people matched their own two weeks later. <span class="chip fact">FACT</span> But language models standing in for an identity group give less varied answers than real people do, often reading like an outsider's stereotype. <span class="chip rep">REPORTED</span> Run our loop on one person and the rare parts of you fade the same way.</p>
+    <div class="twin">
+      <div class="bars" role="img" aria-label="Rare traits a twin still uses after 10 updates, by how much of your new writing is unassisted: 0% gives 0, 10% gives about 10%, 30% gives about 36%, keeping your full archive gives about 43%">
+        <span class="src">Rare traits your twin still uses after 10 updates, by how much of your new writing you do without it (our model)</span>
+        <div class="bar"><div class="lbl">All writing assisted<span>0%</span></div><div class="track"><i style="width:0%"></i></div></div>
+        <div class="bar"><div class="lbl">10% unassisted<span>10%</span></div><div class="track"><i style="width:10%"></i></div></div>
+        <div class="bar"><div class="lbl">30% unassisted<span>36%</span></div><div class="track"><i style="width:36%"></i></div></div>
+        <div class="bar"><div class="lbl">Twin keeps your full original archive<span>43%</span></div><div class="track"><i class="keep" style="width:43%"></i></div></div>
+        <span class="src">With the archive kept, nothing is deleted, but the rare traits are diluted. <span class="chip inf">INFERENCE</span></span>
+      </div>
+      <ol class="dos">
+        <li><b>Seal a pre-AI archive.</b>Keep the writing, voice memos and photos you made before AI tools, stored apart from anything a model drafted.</li>
+        <li><b>Label what was assisted.</b>Note which emails and documents a tool drafted. A twin, or a company, can then weight the unassisted ones.</li>
+        <li><b>Refresh it from you, not from its drafts.</b>Update a twin with new interviews or unassisted writing, not with mail it helped write.</li>
+        <li><b>Write some things alone.</b>The unassisted share is the floor. Even a small one keeps the rare parts of you in the record.</li>
+        <li><b>Ask what it is trained on.</b>Before you sign up for a voice clone or memorial bot, ask whether it keeps your originals, and whether it learns from its own output.</li>
+      </ol>
+    </div>
+    <p class="src">Stanford HAI (May 2025); Wang, Morgenstern and Dickerson (2025). The steps are general guidance, not product advice. <span class="chip inf">INFERENCE</span></p>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="paid">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">06</span><span>Who gets paid for being human</span></div>
+    <h2 id="paid" class="ab h-l">Human data has a price. <span class="hl-y">Most of it goes to platforms.</span></h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">Who</th><th scope="col">What they get</th><th scope="col">Status</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Book authors</th><td>$1.5 billion settlement, $3,000 per book, over 400,000 books used to train Claude; final approval July 2026</td><td><span class="chip fact">FACT</span></td></tr>
+          <tr><th scope="row">Expert contractors</th><td>Mercor passed $2 billion in annualized revenue by June 2026, paying 60% to 70% to 30,000+ weekly contractors, about $2 million a day</td><td><span class="chip rep">REPORTED</span></td></tr>
+          <tr><th scope="row">News Corp</th><td>Over $250 million across five years from OpenAI</td><td><span class="chip rep">REPORTED</span></td></tr>
+          <tr><th scope="row">Reddit</th><td>About $60 million a year from Google. The people who wrote the posts get nothing.</td><td><span class="chip rep">REPORTED</span></td></tr>
+          <tr><th scope="row">Individuals selling their own data</th><td>Typically a few dollars</td><td><span class="chip rep">REPORTED</span></td></tr>
+          <tr><th scope="row">Crawled websites</th><td>Nothing directly. In July 2026, Anthropic's crawlers requested 1,917 pages for each visitor they sent back; OpenAI 251; Google 4.7. Cloudflare calls these ceilings.</td><td><span class="chip rep">REPORTED</span></td></tr>
+          <tr><th scope="row">Musicians</th><td>On Deezer, AI tracks were 44% of uploads in April 2026 but 1% to 3% of listening; 85% of streams on AI tracks were flagged as fraud and demonetized</td><td><span class="chip rep">REPORTED</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">The good: a new job category pays experts for judgment machines cannot fake, and verified, dated human work can earn a premium. The bad: value pools at platforms, and crawling without referrals starves the publishers that produce fresh human writing, which is the replace scenario driven by economics. <span class="chip inf">INFERENCE</span></p>
+    <p class="src">Conflict note: Claude, which helped compile this brief, is made by Anthropic, the defendant in the settlement above and the company with the highest crawl ratio listed.</p>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="sides">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">07</span><span>Both sides</span></div>
+    <h2 id="sides" class="ab h-l">A manageable engineering risk, or a slow cultural one?</h2>
+    <div class="sides">
+      <div class="side"><h3>The worry is overblown</h3><ul>
+        <li>No frontier lab deletes its human data, and adding synthetic data to it does not cause collapse in the studies. <span class="chip fact">FACT</span></li>
+        <li>Synthetic data has reliably improved models where answers can be checked, such as math and code. <span class="chip fact">FACT</span></li>
+        <li>AI help lifts the people starting furthest behind: weaker writers, non-native speakers, people without an editor. <span class="chip fact">FACT</span></li>
+        <li>On Deezer, listeners still overwhelmingly choose human music even as AI floods uploads. <span class="chip rep">REPORTED</span></li>
+      </ul></div>
+      <div class="side"><h3>The worry is real</h3><ul>
+        <li>Labs do not publish their data mix, so no one outside can check how much synthetic data goes in. <span class="chip inf">INFERENCE</span></li>
+        <li>Public human text could be fully used between 2026 and 2032, by Epoch AI's estimate, which raises pressure to lean on synthetic data. <span class="chip fact">FACT</span></li>
+        <li>Studies already show writing, speech and culture converging, and no lab controls that loop. <span class="chip fact">FACT</span></li>
+        <li>Even the 2025 skeptics' review calls the loss of rare data a genuine risk, especially for minority groups. <span class="chip fact">FACT</span></li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="ties">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">08</span><span>Infera read · ties to the series</span></div>
+    <h2 id="ties" class="ab h-l">The record that feeds the model</h2>
+    <p class="p">The series has tracked how records about people are collected, joined and acted on. This brief follows those records one step further, into the models trained on them, and asks what happens when the record becomes mostly machine-made. <span class="chip inf">INFERENCE</span></p>
+    <div class="ties">
+      <a class="tie" href="brief-the-price-of-no.html"><span class="k">Live · Brief № 011</span><h3>The Price of No</h3><p>What refusing costs. Here, the other side: what saying yes was worth, from $3,000 a book to nothing for a Reddit post.</p></a>
+      <a class="tie" href="brief-decided-before-you-act.html"><span class="k">Live · Brief № 013</span><h3>Decided Before You Act</h3><p>A "behavioral world model" that predicts traders. The same idea as section 04, aimed at people instead of streets.</p></a>
+      <a class="tie" href="brief-the-one-way-mirror.html"><span class="k">Live · Brief № 010</span><h3>The One-Way Mirror</h3><p>Records kept about you that you cannot see. Training data is one more.</p></a>
+      <a class="tie" href="episode-03-trust-market.html"><span class="k">Season II · Live</span><h3>The Trust Market</h3><p>The scoring economy. Verified human data is becoming its newest asset class.</p></a>
+      <div class="tie"><span class="k">Season II · 11 · Drafting</span><h3>The Afterlife of Your Data</h3><p>Data that outlives the consent it was given under, like scans made for a game.</p></div>
+      <div class="tie"><span class="k">Research doc</span><h3>The Photocopy Problem</h3><p>The full research file behind this brief: studies, counterevidence, scenarios to 2030.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="next">
+  <div class="wrap">
+    <div class="stageno"><span class="tag">09</span><span>What we're watching next</span></div>
+    <h2 id="next" class="ab h-l">Checkpoints</h2>
+    <div class="watchlist">
+      <div class="w"><span class="d">Next reading</span><p>Graphite's count of AI-written web articles: does the share stay near 50% or climb?</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Monthly</span><p>Deezer's AI share of uploads against its share of listening, and Cloudflare's crawl-to-referral ratios by company.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Open</span><p>Whether Vantor uses Niantic Spatial's model for military drones, and what Niantic's privacy terms said when players scanned.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Payout</span><p>When Bartz settlement checks reach authors, and whether courts set a price for training on other works, including music.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">2026 to 2032</span><p>Epoch AI's window for using up public human text. Watch what labs say about their synthetic share.</p><span class="chip watch">WATCH</span></div>
+      <div class="w"><span class="d">Open</span><p>Whether any lab or regulator requires models to disclose how much of their training data was machine-made.</p><span class="chip watch">WATCH</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="src">
+  <div class="wrap">
+    <h2 id="src" class="ab h-m">Sources</h2>
+    <ol class="sources">
+      <li><a href="https://oatml.cs.ox.ac.uk//publications/202407_Shumailov_ModelCollapse.html">Shumailov et al., Nature, July 2024 (Oxford OATML)</a></li>
+      <li><a href="https://proceedings.iclr.cc/paper_files/paper/2024/hash/ebc042e767de551803ccfcc45e2454f5-Abstract-Conference.html">Alemohammad et al., "Self-Consuming Generative Models Go MAD," ICLR 2024</a></li>
+      <li><a href="https://arxiv.org/abs/2404.01413">Gerstgrasser et al., "Is Model Collapse Inevitable?" 2024</a></li>
+      <li><a href="https://arxiv.org/pdf/2503.03150">Schaeffer et al., "Model Collapse Does Not Mean What You Think," 2025</a></li>
+      <li><a href="https://arxiv.org/abs/2406.07515v2">Feng et al., "Beyond Model Collapse," ICLR 2025</a></li>
+      <li><a href="https://arxiv.org/abs/2410.04840">Dohmatob et al., "Strong Model Collapse," ICLR 2025</a></li>
+      <li><a href="https://arxiv.org/abs/2609.11149">Liu and Han, "Break Step," Sept. 2026 (preprint)</a></li>
+      <li><a href="https://arxiv.org/abs/2604.16027">Karouzos, Tan and Aletras, April 2026 (preprint)</a></li>
+      <li><a href="https://arxiv.org/html/2512.15011v3">Hodel and West, knowledge collapse, 2026 (preprint)</a></li>
+      <li><a href="https://axios.com/2026/05/15/human-vs-ai-written-articles">Axios on Graphite's AI-written article count, May 2026</a></li>
+      <li><a href="https://techcrunch.com/2026/07/21/music-streamer-deezer-says-more-than-50-of-daily-uploads-are-ai-generated/">TechCrunch on Deezer, July 21, 2026</a>; <a href="https://alternativeto.net/news/2026/4/deezer-says-44-of-daily-uploads-are-ai-generated-but-only-represent-1-3-of-streams/">AlternativeTo on Deezer's April data</a></li>
+      <li><a href="https://arxiv.org/abs/2406.07016v5">Kobak et al. on LLM-processed PubMed abstracts</a></li>
+      <li><a href="https://epoch.ai/blog/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data">Epoch AI, "Will we run out of data?" June 2024</a></li>
+      <li><a href="https://www.sciencedaily.com/releases/2024/07/240712222127.htm">ScienceDaily on Doshi and Hauser, Science Advances, July 2024</a></li>
+      <li><a href="https://the-decoder.com/mit-study-shows-cognitive-debt-through-chatgpt-heres-what-it-means-in-real-world-practice/">The Decoder on the MIT Media Lab essay study</a></li>
+      <li><a href="https://arxiv.org/abs/2409.01754v3">Yakura et al., Max Planck Institute, on ChatGPT words in speech</a></li>
+      <li><a href="https://news.cornell.edu/node/330798">Cornell Chronicle on AI writing suggestions and culture</a></li>
+      <li><a href="https://www.inet.ox.ac.uk/news/new-study-reveals-impact-of-chatgpt-on-public-knowledge-sharing">Oxford INET on the Stack Overflow study, PNAS Nexus</a></li>
+      <li><a href="https://www.searchenginejournal.com/wikipedia-traffic-down-as-ai-answers-rise/558803/">Search Engine Journal on Wikipedia traffic, Oct. 2025</a></li>
+      <li><a href="https://hai.stanford.edu/policy/simulating-human-behavior-with-ai-agents">Stanford HAI on agents of 1,052 people, May 2025</a></li>
+      <li><a href="https://arxiv.org/abs/2402.01908">Wang, Morgenstern and Dickerson on LLMs flattening identity groups</a></li>
+      <li><a href="https://www.jurist.org/news/2026/07/judge-approves-record-1-5-billion-settlement-involving-anthropic/">JURIST on the Bartz v. Anthropic settlement, July 2026</a></li>
+      <li><a href="https://dealroom.co/news/137121-mercor-doubles-to-2b-gross-revenue-run-rate-as-ai-labs-buy-expert-data/">Dealroom on Mercor, July 2026</a></li>
+      <li><a href="https://qz.com/ai-training-data-pricing-licensing-deals-market-052126">Quartz on training data licensing prices</a></li>
+      <li><a href="https://the-decoder.com/reddit-signs-60-million-annual-training-data-deal-with-google/">The Decoder on Reddit and Google</a></li>
+      <li><a href="https://ecorpit.com/ai-crawler-crawl-to-referral-ratio-2026-geo-decision/">eCorp IT on Cloudflare Radar crawl-to-referral data, July 2026</a></li>
+      <li><a href="https://www.technologyreview.com/2026/03/10/1134099/how-pokemon-go-is-helping-robots-deliver-pizza-on-time/">MIT Technology Review on Niantic Spatial and Coco, Mar. 10, 2026</a></li>
+      <li><a href="https://pokemongohub.net/post/news/scopely-completes-the-acquisition-of-niantics-game-business/">Pokémon GO Hub on the Scopely deal closing</a></li>
+      <li><a href="https://pokemongohub.net/post/news/did-pokemon-go-scans-help-build-drone-tech/">Pokémon GO Hub on the drone claims, June 2026</a>; <a href="https://kotaku.com/pokemon-go-niantic-spatial-drone-ai-map-training-gps-2000705669">Kotaku, June 11, 2026</a></li>
+      <li><a href="https://www.gamedeveloper.com/business/niantic-pokemon-go-ai-model">Game Developer on opt-in scans, Nov. 2024</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/World_model_(artificial_intelligence)">Wikipedia, World model (AI): Genie 3, Waymo, AMI Labs, Cosmos 3</a></li>
+      <li>WIRED, Reece Rogers, "World Models Will Soon Be Inescapable" (lead only; claims checked against the sources above)</li>
+    </ol>
+    <footer class="colo">
+      <span>Labels: FACT = primary document or two independent outlets · REPORTED = one outlet, a preprint or a party's own claim · INFERENCE = Infera's reasoning · WATCH = open.</span>
+      <span>Researched and compiled with Claude (Anthropic). Final editorial judgment: Melophon.</span>
+      <span>Conflict note: Anthropic trains models on web data, runs the ClaudeBot crawler and paid the Bartz settlement, so it has a direct stake in every question this brief raises.</span>
+      <span>© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com</span>
+    </footer>
+  </div>
+</section>
+
+<script>
+(function(){
+var K=10000,S=1.1,N=50000,G=20,TAIL0=1000;
+var p0=new Float64Array(K),z=0,i;
+for(i=0;i<K;i++){p0[i]=Math.pow(i+1,-S);z+=p0[i]}
+for(i=0;i<K;i++)p0[i]/=z;
+var tail0=0;for(i=TAIL0;i<K;i++)tail0+=p0[i];
+var GH={"Synthetic only":[100,71,44,24,11,4,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"10% human":[100,74,52,35,23,16,13,11,10,10,10,10,10,10,10,10,10,10,10,10,10],"30% human":[100,80,66,56,49,45,42,39,38,37,36,36,35,35,34,34,34,34,35,34,34],"Keep everything":[100,85,76,69,63,58,54,51,48,46,43,41,39,38,36,35,33,32,31,30,29]};
+var x0=56,x1=600,ya=24,yb=262;
+function X(g){return x0+g/G*(x1-x0)} function Y(v){return yb-v/100*(yb-ya)}
+var NS='http://www.w3.org/2000/svg';
+function el(n,a,t){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;return e}
+var grid=document.getElementById('grid');
+[0,25,50,75,100].forEach(function(v){grid.appendChild(el('line',{x1:x0,x2:x1,y1:Y(v),y2:Y(v),stroke:'#d8d2c2','stroke-width':1}));grid.appendChild(el('text',{x:x0-8,y:Y(v)+4,'text-anchor':'end','font-family':'JetBrains Mono, monospace','font-size':11,fill:'#57534A','class':'tk'},v+'%'))});
+[0,5,10,15,20].forEach(function(g){grid.appendChild(el('text',{x:X(g),y:yb+18,'text-anchor':'middle','font-family':'JetBrains Mono, monospace','font-size':11,fill:'#57534A','class':'tk'},g))});
+grid.appendChild(el('text',{x:(x0+x1)/2,y:yb+36,'text-anchor':'middle','font-family':'Space Grotesk, sans-serif','font-size':12,fill:'#57534A','class':'ax'},'Generations of training on model output'));
+grid.appendChild(el('line',{x1:x0,x2:x1,y1:Y(100),y2:Y(100),stroke:'#0A0A0A','stroke-dasharray':'4 4','stroke-width':1.25}));
+grid.appendChild(el('text',{x:x0+6,y:Y(100)-6,'font-family':'JetBrains Mono, monospace','font-size':10.5,fill:'#57534A','class':'tk'},'HUMAN BASELINE'));
+var ghosts=document.getElementById('ghosts');
+Object.keys(GH).forEach(function(k){var a=GH[k];ghosts.appendChild(el('polyline',{points:a.map(function(v,g){return X(g)+','+Y(v)}).join(' '),fill:'none',stroke:'#8C877A','stroke-width':1.5,'stroke-dasharray':k==='Keep everything'?'5 4':'0','stroke-opacity':.7}));ghosts.appendChild(el('text',{x:x1+6,y:Y(a[G])+(k==='Keep everything'?12:k==='30% human'?-2:4),'font-family':'Space Grotesk, sans-serif','font-size':10,fill:'#57534A','class':'gl'},k.replace(' human','').replace('Synthetic only','0%').replace('Keep everything','Keep')))});
+var strip=document.getElementById('strip'),probe=[];
+for(i=0;i<60;i++){var r=TAIL0+Math.floor((i+.5)*(K-TAIL0)/60);probe.push(r);strip.appendChild(document.createElement('i'))}
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function sample(q,n,R){var c=new Float64Array(K),s=0,j;for(j=0;j<K;j++){s+=q[j];c[j]=s}var out=new Float64Array(K);for(j=0;j<n;j++){var u=R()*s,lo=0,hi=K-1;while(lo<hi){var m=(lo+hi)>>1;if(c[m]<u)lo=m+1;else hi=m}out[lo]++}return out}
+function trim(p,tp){var idx=Array.from({length:K},function(_,j){return j});idx.sort(function(a,b){return p[b]-p[a]});var q=new Float64Array(K),c=0,j;for(j=0;j<K;j++){var k=idx[j];if(c>=tp)break;q[k]=p[k];c+=p[k]}return q}
+function simulate(h,keep,tp){
+  var R=rng(20261108),c=sample(p0,N,R),acc=c.slice(),p=norm(c),alive0=[],j,res=[];
+  for(j=TAIL0;j<K;j++)alive0.push(p[j]>0?1:0);
+  res.push(stat(p,alive0));
+  for(var g=1;g<=G;g++){
+    var q=tp?trim(p,.95):p,syn=sample(q,N,R),mix;
+    if(keep){for(j=0;j<K;j++)acc[j]+=syn[j];mix=acc}
+    else if(h>0){var hu=sample(p0,Math.round(N*h),R);mix=new Float64Array(K);for(j=0;j<K;j++)mix[j]=syn[j]*(1-h)+hu[j]}
+    else mix=syn;
+    p=norm(mix);res.push(stat(p,alive0));
+  }
+  return res;
+}
+function norm(c){var s=0,j,o=new Float64Array(K);for(j=0;j<K;j++)s+=c[j];for(j=0;j<K;j++)o[j]=c[j]/s;return o}
+function stat(p,alive0){var t=0,a=0,n0=0,j;for(j=TAIL0;j<K;j++){t+=p[j];if(alive0[j-TAIL0]){n0++;if(p[j]>0)a++}}return{share:t/tail0*100,gone:100-a/n0*100,probe:probe.map(function(r){return p[r]>0})}}
+var live=document.getElementById('live'),dots=document.getElementById('dots'),timer=null;
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function show(res,g){
+  var pts=res.slice(0,g+1).map(function(r,k){return X(k)+','+Y(Math.min(100,r.share))}).join(' ');
+  live.setAttribute('points',pts);
+  dots.innerHTML='';var r=res[g];dots.appendChild(el('circle',{cx:X(g),cy:Y(Math.min(100,r.share)),r:6,fill:'#1E3CFF',stroke:'#FBF7EB','stroke-width':2}));
+  document.getElementById('r1').textContent=Math.round(r.share)+'%';
+  document.getElementById('r2').textContent=Math.round(r.gone)+'%';
+  document.getElementById('r3').textContent=g;
+  var cells=strip.children;r.probe.forEach(function(ok,k){cells[k].className=ok?'':'gone'});
+}
+function verdict(res,h,keep,tp){
+  var end=res[G],first=-1;for(var g=0;g<=G;g++){if(res[g].share<10){first=g;break}}
+  var v;
+  if(keep)v='Nothing goes extinct when you keep everything, but rare ideas fall to '+Math.round(end.share)+'% of their old share as copies pile up.';
+  else if(!tp)v='Without trimming, the average holds near '+Math.round(end.share)+'%, but '+Math.round(end.gone)+'% of rare idea types still die out: fewer, louder voices.';
+  else if(h===0)v='With no fresh human data, rare ideas drop below 10% of baseline by generation '+first+'. By generation 20, '+Math.round(end.gone)+'% are gone for good.';
+  else v='With '+Math.round(h*100)+'% fresh human data each round, rare ideas level off near '+Math.round(end.share)+'% of baseline instead of vanishing.';
+  document.getElementById('verdict').textContent=v;
+}
+var human=document.getElementById('human'),hv=document.getElementById('hv'),keepEl=document.getElementById('keep'),topp=document.getElementById('topp'),runB=document.getElementById('run');
+function run(){
+  if(timer){clearInterval(timer);timer=null}
+  var h=Number(human.value)/100,keep=keepEl.checked,tp=topp.checked;
+  runB.disabled=true;runB.textContent='Running...';
+  setTimeout(function(){
+    var res=simulate(h,keep,tp);runB.disabled=false;runB.textContent='Run 20 generations';
+    if(reduce){show(res,G);verdict(res,h,keep,tp);return}
+    var g=0;show(res,0);document.getElementById('verdict').textContent='Copying...';
+    timer=setInterval(function(){g++;show(res,g);if(g>=G){clearInterval(timer);timer=null;verdict(res,h,keep,tp)}},140);
+  },30);
+}
+function sync(){hv.textContent=human.value+'%';human.disabled=keepEl.checked;
+  [].forEach.call(document.querySelectorAll('#presets button'),function(b){b.setAttribute('aria-pressed',String(Number(b.dataset.h)===Number(human.value)&&(b.dataset.keep==='1')===keepEl.checked&&topp.checked))})}
+human.addEventListener('input',sync);keepEl.addEventListener('change',sync);topp.addEventListener('change',sync);
+[].forEach.call(document.querySelectorAll('#presets button'),function(b){b.addEventListener('click',function(){human.value=b.dataset.h;keepEl.checked=b.dataset.keep==='1';topp.checked=true;sync();run()})});
+runB.addEventListener('click',run);
+sync();show([{share:100,gone:0,probe:probe.map(function(){return true})}],0);
+})();
+</script>
+<nav class="hf-foot" id="infera-nav-footer" aria-label="Series">
+  <div class="hf-row"><a href="briefs/index.html">&larr; Mechanism Briefs</a> <span aria-hidden="true">·</span> <a href="index.html">Series Home</a> <span aria-hidden="true">·</span> <a href="brief-decided-before-you-act.html" rel="prev">Prev · Brief № 013</a> <span aria-hidden="true">·</span> <a href="legal.html">Legal · Privacy</a> <span aria-hidden="true">·</span> <span>infera@melophon.com</span></div>
+  <p class="hf-disc">© 2026 Infera · All rights reserved · Not investment, legal, or safety advice · Corrections: infera@melophon.com</p>
+</nav>
+<style id="infera-legal-footer">
+.legal-footer{
+  background:#06060a; color:rgba(168,162,152,.75);
+  font-family:'Inter', system-ui, sans-serif; font-size:11.5px; line-height:1.55;
+  padding:32px 6vw 36px;
+  border-top:1px solid rgba(168,162,152,.12);
+}
+.legal-footer .lf-inner{max-width:1280px; margin:0 auto}
+.legal-footer .lf-top{
+  display:grid; grid-template-columns:1fr auto; gap:24px 32px;
+  padding-bottom:14px; border-bottom:1px solid rgba(168,162,152,.08);
+  margin-bottom:14px;
+}
+.legal-footer .lf-brand{
+  font-family:'JetBrains Mono', ui-monospace, monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#fbf7eb; font-weight:700;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.legal-footer .lf-brand b{color:#c8ff1e; font-family:inherit; font-weight:700}
+.legal-footer .lf-brand em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(251,247,235,.7); letter-spacing:.02em; text-transform:none; font-size:12.5px; font-weight:400}
+.legal-footer .lf-brand .sep{color:rgba(168,162,152,.4)}
+.legal-footer .lf-tag{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:rgba(168,162,152,.5); font-weight:700; padding:3px 8px; border:1px solid rgba(168,162,152,.18); white-space:nowrap}
+.legal-footer .lf-disclaim{
+  font-size:11.5px; line-height:1.6; max-width:none; color:rgba(168,162,152,.62);
+}
+.legal-footer .lf-disclaim strong{color:rgba(232,227,212,.9); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding-right:6px}
+.legal-footer .lf-disclaim em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(232,227,212,.78); font-weight:400}
+.legal-footer .lf-disclaim a{color:rgba(200,255,30,.85); text-decoration:underline; text-underline-offset:2px}
+.legal-footer .lf-row{margin-bottom:8px}
+
+.legal-footer details.lf-more{margin-top:8px; padding:0}
+.legal-footer details.lf-more summary{
+  cursor:pointer; list-style:none;
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:#c8ff1e; font-weight:700;
+  display:inline-flex; align-items:center; gap:8px; padding:5px 0;
+}
+.legal-footer details.lf-more summary::-webkit-details-marker{display:none}
+.legal-footer details.lf-more summary::before{content:"▸"; transition:transform .2s; display:inline-block}
+.legal-footer details.lf-more[open] summary::before{transform:rotate(90deg)}
+.legal-footer details.lf-more .lf-fullnotice{margin-top:10px; padding:14px 16px; background:rgba(255,255,255,.02); border-left:2px solid rgba(200,255,30,.3); font-size:11px; line-height:1.65}
+.legal-footer details.lf-more .lf-fullnotice p{margin-bottom:8px; color:rgba(168,162,152,.7)}
+
+.legal-footer .lf-links{
+  display:flex; flex-wrap:wrap; gap:0 18px;
+  padding-top:14px; border-top:1px dashed rgba(168,162,152,.12);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-links a{color:rgba(168,162,152,.65); text-decoration:none; padding:5px 0; transition:color .18s}
+.legal-footer .lf-links a:hover{color:#c8ff1e}
+.legal-footer .lf-links .lf-sep{color:rgba(168,162,152,.25)}
+
+.legal-footer .lf-tail{margin-top:14px; padding-top:12px; border-top:1px dashed rgba(168,162,152,.08); font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.45); display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-weight:700}
+.legal-footer .lf-tail em{font-family:'Instrument Serif', Georgia, serif; font-style:italic; color:rgba(168,162,152,.55); letter-spacing:.02em; text-transform:none; font-size:11px; font-weight:400}
+
+@media (max-width:780px){
+  .legal-footer .lf-top{grid-template-columns:1fr}
+  .legal-footer{padding:26px 5vw 30px; font-size:11px}
+}
+@media (prefers-reduced-motion: reduce){
+  .legal-footer details.lf-more summary::before{transition:none}
+}
+
+.legal-footer .lf-infra{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:10px 14px 12px; margin-bottom:14px;
+  background:rgba(200,255,30,.04); border:1px solid rgba(200,255,30,.18); border-left:3px solid rgba(200,255,30,.6);
+  font-family:'JetBrains Mono', ui-monospace, monospace; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+}
+.legal-footer .lf-infra .lf-infra-lbl{color:rgba(200,255,30,.85); display:inline-flex; align-items:center; gap:8px; padding-right:6px; border-right:1px solid rgba(200,255,30,.22)}
+.legal-footer .lf-infra .lf-infra-lbl::before{content:""; width:6px; height:6px; background:rgba(200,255,30,.85); border-radius:50%}
+.legal-footer .lf-infra a{color:rgba(232,227,212,.78); text-decoration:none; padding:4px 0; transition:color .15s}
+.legal-footer .lf-infra a:hover{color:#c8ff1e}
+.legal-footer .lf-infra .lf-sep{color:rgba(168,162,152,.3)}
+@media (max-width:560px){
+  .legal-footer .lf-infra{font-size:9px; gap:8px; padding:8px 10px 10px}
+}
+</style>
+
+<aside class="legal-footer" role="contentinfo" aria-label="Legal notices and copyright">
+  <div class="lf-inner">
+      <nav class="lf-infra" aria-label="Infrastructure links">
+        <span class="lf-infra-lbl">More from Infera</span>
+        <a href="systems-atlas.html">Systems Atlas</a><span class="lf-sep">·</span>
+        <a href="claims-atlas.html">Claims Atlas</a><span class="lf-sep">·</span>
+        <a href="case-file.html">Your Case File</a><span class="lf-sep">·</span>
+        <a href="founding.html">Founding 500</a><span class="lf-sep">·</span>
+        <a href="field-notes/index.html">Field Notes</a><span class="lf-sep">·</span>
+        <a href="index.html#about">About</a>
+      </nav>
+
+    <div class="lf-top">
+      <div class="lf-brand">
+        <span>© 2026 <b>Infera</b></span>
+        <span class="sep">·</span>
+        <span>All rights reserved</span>
+        <span class="sep">·</span>
+        <em>The Mechanism Series™</em>
+      </div>
+      <div class="lf-tag">Independent · Reader-supported · No advertising</div>
+    </div>
+
+    <div class="lf-disclaim">
+      <div class="lf-row"><strong>Editorial</strong> This site is journalism, opinion, and analysis &mdash; <em>not legal, medical, financial, tax, political, or investment advice</em>. Confidence stamps and provenance badges reflect our editorial assessment of evidentiary weight, not guarantees. Modeled estimates and speculative scenarios are explicitly labeled.</div>
+      <div class="lf-row"><strong>Sources</strong> External links and figures are current as of publication date and may have changed. When a primary filing requires navigation or records request, the specific filing is named in the source label.</div>
+      <div class="lf-row"><strong>No warranty</strong> Site provided &ldquo;as is&rdquo; without warranties of any kind. To the maximum extent permitted by law, Infera disclaims liability for indirect, incidental, or consequential damages from use of this site or reliance on its content.</div>
+      <div class="lf-row"><strong>Trademarks</strong> &ldquo;Infera,&rdquo; &ldquo;The Mechanism Series,&rdquo; and the visual chassis are trademarks of Infera. All other names, logos, and brands belong to their respective owners and appear under fair use for commentary, criticism, news reporting, and research. References imply no endorsement, sponsorship, or affiliation.</div>
+      <div class="lf-row"><strong>Subjects</strong> Any person, entity, or official named may submit a request for correction or right of response to <a href="mailto:infera@melophon.com">infera@melophon.com</a>. We review every such request within five business days.</div>
+
+      <details class="lf-more">
+        <summary>Full notices · copyright, terms, privacy, DMCA, governing law</summary>
+        <div class="lf-fullnotice">
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Copyright.</strong> © 2026 Infera. The editorial text, original research, interactive components, motion design, visual identity, data visualizations, and chassis (echo dots, provenance layer, evidence mode, chapter rails, claims atlas format, systems atlas format) are protected under U.S. and international copyright. Permitted reuse without separate permission: linking, quoting up to 250 words with attribution, embedding in non-commercial education. Republication, translation, commercial use, or re-rendering of visualizations requires written permission &mdash; usually granted free: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Privacy.</strong> No cookies and no cross-site tracking: page visits are counted in aggregate by Cloudflare Web Analytics, a cookieless tool that does not track individual visitors. No Google Analytics, no Meta Pixel, no advertising cookies. First-party browser local-storage is used for persona memory, reading log, and evidence-mode preference &mdash; none transmitted. Subscriber emails are kept privately by Melophon and never sold. Reader rights under GDPR and CCPA are honored: <a href="mailto:infera@melophon.com">infera@melophon.com</a>.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">DMCA.</strong> Send notices to <a href="mailto:infera@melophon.com">infera@melophon.com</a> with: (1) the copyrighted work, (2) the allegedly infringing URL, (3) your contact info, (4) good-faith statement, (5) statement under penalty of perjury, (6) your signature. Knowingly false DMCA notices may incur liability under 17 U.S.C. § 512(f). Counter-notices follow § 512(g).</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Governing law.</strong> These terms are governed by the laws of the State of Georgia, USA, without regard to conflict-of-law provisions. Any action arising from these terms shall be brought exclusively in the state or federal courts located in Fulton County, Georgia.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">Independence.</strong> No advertiser, platform, political party, candidate, advocacy organization, lobbying firm, or government agency funds the publication. Underwriters do not see episodes prior to publication. Editorial decisions are independent.</p>
+          <p><strong style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fbf7eb">AI disclosure.</strong> Infera uses AI tools for code generation, data processing, and editorial drafting assistance. All editorial decisions, claims, sourcing, and final language are reviewed and approved by human editors before publication. AI does not author episodes.</p>
+          <p style="margin-top:10px; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(168,162,152,.55)">Full text at <a href="legal.html">series.melophon.com/legal</a> · Last updated 26 May 2026</p>
+        </div>
+      </details>
+    </div>
+
+    <nav class="lf-links" aria-label="Legal links">
+      <a href="legal.html#terms">Terms of use</a><span class="lf-sep">·</span>
+      <a href="legal.html#privacy">Privacy</a><span class="lf-sep">·</span>
+      <a href="legal.html#accessibility">Accessibility</a><span class="lf-sep">·</span>
+      <a href="legal.html#corrections">Corrections</a><span class="lf-sep">·</span>
+      <a href="legal.html#reuse">Reuse policy</a><span class="lf-sep">·</span>
+      <a href="legal.html#dmca">DMCA</a><span class="lf-sep">·</span>
+      <a href="legal.html#disclosures">Editorial disclosures</a><span class="lf-sep">·</span>
+      <a href="legal.html#unsubscribe">Unsubscribe</a><span class="lf-sep">·</span>
+      <a href="mailto:infera@melophon.com">infera@melophon.com</a>
+    </nav>
+
+    <div class="lf-tail">
+      <em>Atlanta, GA · USA · v.2026.05</em>
+      <span>Last updated · 26 May 2026</span>
+    </div>
+  </div>
+</aside>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "004d41c27d234e4d91147892e7874563"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
