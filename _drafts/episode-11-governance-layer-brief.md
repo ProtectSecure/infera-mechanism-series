@@ -1,7 +1,7 @@
 # Episode 11 · The Governance Layer · DISCOVER Brief v2
 
 **Season II · Episode 11 · Act III "Past You" (3 of 3) · Movement: Governance · SEASON CLOSER**
-**Status:** v2, rewritten 23 October 2026. Formerly EP 12. Awaiting INVESTIGATE approval. Treat with the same care as EP 08.
+**Status:** v2.1, cold open added 9 November 2026 (v2 rewritten 23 October 2026). Formerly EP 12. Awaiting INVESTIGATE approval. Treat with the same care as EP 08.
 **Atlas slot:** Terminal node. Edges back to every Season I and Season II node, every Faith Layer exhibit, and the Mechanism Brief. Forward to **Part 12**, which the reader writes (see below), and to Season III.
 
 ---
@@ -24,6 +24,39 @@ v1 was a table of instruments with a "documented track record" column that was m
 v1's line survives as the episode's final sentence: *"The next move is not ours."*
 
 **Reader-arrival framing:** *Eleven parts mapped a machine, its families, its buildings, its replicas and its dead. Every one of them left something open. This episode closes none of it. It hands you the levers that have actually moved, the date each one moved, and the name of the room where the next move happens.*
+
+---
+
+## Cold open (v2.1, added 9 Nov 2026) · The tester that stopped publishing
+
+Runs before the HERO's four dated levers. One scene, two regulators, one audience rule: a high school junior follows it.
+
+**The scene.** The National Highway Traffic Safety Administration straps dummies into cars, drives them into walls, publishes the data and writes the standard. The federal office charged with testing frontier AI, the Commerce Department's Center for Advancing Innovation and Standards for Super Intelligence (CAISSI, until recently the Center for AI Standards and Innovation), has had no permanent director since the spring, stopped publishing its safety evaluations by August, and in October was asked to report informally to the White House. REPORTED (AP, 8 Nov 2026; The Information via Reuters, 12 Oct 2026).
+
+**Dated facts for the cold open**
+| Date | Event | Tag | Source |
+|---|---|---|---|
+| Apr 2026 | Director hired and fired within days; successor resigns months later; parent institute head is acting director | REPORTED | AP 8 Nov 2026 |
+| ~Apr 2026 | Commerce Sec. Lutnick invites OSTP's Michael Kratsios and National Cyber Director Sean Cairncross to co-manage CAISSI | REPORTED | The Information via Reuters, 12 Oct 2026 |
+| Aug 2026 | Congress asks why CAISSI stopped publishing model safety reports; OpenAI asks for more funding for it | REPORTED | AP |
+| Sep 2026 | Trump asks AI companies for "tremendous self-policing" under a voluntary pact; no monitoring stated | REPORTED | AP |
+| 4 Oct 2026 | DNI Jay Clayton named to lead the "Super Intelligence Force"; Pentagon CTO Emil Michael involved | REPORTED | AP via Gray TV |
+| 12 Oct 2026 | Three senior CAISSI officials to report to Kratsios and Cairncross | REPORTED | The Information via Reuters |
+| 8 Nov 2026 | AP: arrangement is informal; independence concerns | REPORTED | AP |
+
+**Funding, stated precisely.** CAISSI: $10M appropriated FY2026 (FACT, appropriation) plus a $10M two-year loan, about $15M spend per the Institute for Progress (REPORTED, May 2026); FY2027 request $27M, not enacted. UK AI Security Institute: £66M/yr on its own site, plus £120M over four years in the 28 Oct 2026 Budget. Honest ratio about 8 to 9 times on current funding; under 5 against the request. AP's "one-eighth" holds; never write "ten times."
+
+**The mechanism.** Kapoor (UC Berkeley): current evaluations check the final answer, not the steps the agent took. This is the same gap as MatrAIx's persona adherence vs. prediction (EP 09 companion post) and belongs in the instrument-per-harm map as its own row: *what the test measures*. Joint exhibit candidate across EP 09, the MatrAIx post and EP 11: **"The Wrong Ruler"**, three tests, three things they measured, three things they missed.
+
+**Levers it opens** (feed the Lever Map): (1) who tests the tester, since labs hire and can dismiss their own evaluators (Koepke, Upturn); (2) publication as a lever, the difference between NHTSA and CAISSI is not authority but output; (3) the national security frame as executive discretion (Toh, Brennan Center) versus the consumer protection frame.
+
+**Mirror (required).** Proximity to the White House could mean prominence and funding (AP); Commerce invited the co-management; the White House says PCAST is producing a risk report and the US will keep "continued leadership on SI." Name the administration's actions as fact; no motive language.
+
+**Conflict, on the first screen.** Anthropic's CEO is quoted in the AP piece, an Anthropic engineer's resignation reportedly preceded the policy changes, and Anthropic is a company CAISSI is meant to test. The standing disclosure (legal.html) is carried here in strengthened form.
+
+**Verify before INVESTIGATE closes:** names of the two directors (Puck, Oct 2026, not fetched); the AP's "two former officials" sourcing cannot be improved on; CAISSI's last published evaluation date (NIST site); whether the Kratsios/Cairncross reporting line was ever formalized.
+
+**Social:** rapid-response Threads 10 Nov + carousel 11 Nov, "The government crashes cars into walls and publishes the results. The office that tests AI stopped publishing."
 
 ---
 
@@ -153,7 +186,7 @@ Closing reveal: *"The publication ends here. Part 12 continues wherever you put 
 
 ## Source Matrix (delta from v1)
 
-v1's statutory and agency matrix stands. Added: 11 U.S.C. §§101(41A), 332, 363(b)(1); Loi Informatique et Libertés art. 85; RUFADAA; EU AI Act Art. 50 and Commission guidelines; China CAC labeling measures; Election Commission of India advisory (Oct 24, 2025); CA SB 243 and AB 1836; FTC dark-patterns report (Sept 2022); FTC 6(b) orders (Sept 11, 2025); Public Citizen tracker; Arizona Court of Appeals ruling (Pelkey, Sept 30, 2026, verify docket).
+v1's statutory and agency matrix stands. Added: 11 U.S.C. §§101(41A), 332, 363(b)(1); Loi Informatique et Libertés art. 85; RUFADAA; EU AI Act Art. 50 and Commission guidelines; China CAC labeling measures; Election Commission of India advisory (Oct 24, 2025); CA SB 243 and AB 1836; FTC dark-patterns report (Sept 2022); FTC 6(b) orders (Sept 11, 2025); Public Citizen tracker; Arizona Court of Appeals ruling (Pelkey, Sept 30, 2026, verify docket); AP, "Staff at U.S. center for AI safety are reporting to the White House," 8 Nov 2026; Reuters/The Information, 12 Oct 2026; Institute for Progress CAISSI funding estimate, 13 May 2026; UK AISI About page; UK Autumn Budget 28 Oct 2026.
 
 Target: **55 load-bearing claims** (v1: 60), each row a dated event or a WATCH.
 
@@ -170,4 +203,4 @@ v1's four (innovation, federalist, sectoral, skeptic-of-governance), plus a fift
 
 ---
 
-*v1 drafted 2 June 2026 as EP 12 · v2 rewritten 23 October 2026 as EP 11, season closer · Editorial Agent*
+*v1 drafted 2 June 2026 as EP 12 · v2 rewritten 23 October 2026 as EP 11, season closer · v2.1 cold open 9 November 2026 · Editorial Agent*
