@@ -14,7 +14,7 @@ Required mirror on every exhibit: a protective alarm is also surveillance; false
 | # | Exhibit | Domain | First alarm (required) | Second alarm (optional) | Status |
 |---|---|---|---|---|---|
 | 1 | **The House Already Knew** | Sports betting | Integrity monitoring | Harm detection | **Live** 9 Nov 2026 |
-| 2 | **Who Pays for the Scam** | Banking | Unauthorized fraud detection | Scams the customer is tricked into authorizing | **Briefed** (below) |
+| 2 | **Who Pays for the Scam** | Banking | Unauthorized fraud detection | Scams the customer is tricked into authorizing | **Live** 9 Nov 2026 (`who-pays-for-the-scam.html`) |
 | 3 | **The Whale Report** | Mobile games, loot boxes | Payment fraud, cheating | Spending by minors and heavy spenders | Proposed |
 | 4 | **The Feed That Knew** | Social media | Spam, bots, policy violations | Wellbeing signals in teen accounts | Proposed; coordinate with EP 04 |
 | 5 | **Capacity to Give** | Church giving platforms | Donation fraud, chargebacks | Giving beyond means, giving under pressure | Proposed; coordinate with Faith Layer |
@@ -61,3 +61,12 @@ Required mirror on every exhibit: a protective alarm is also surveillance; false
 Easter egg: the vault dial's combination is the date Britain's rule took effect (7 10 24).
 
 *Editorial Agent · 9 November 2026*
+
+## Exhibit 2 build notes · 9 November 2026
+
+Built as previewed: eight rooms, no sliders. Branching text thread (composite impostor scam), vault dials (two-alarm panel), border ledger (US vs UK who-pays), statement spot-the-line, receipts (PSR/Frontier July 2026; FTC $15.9B 2025; CFPB Zelle suit, ALLEGED, dropped), lock builder (Monzo), history cards (1970, 1978, 2023 Zelle, 2024 UK, 2025, 2026), challenge flags, recall.
+
+Claim ledger resolved: £85,000 cap (PS24/7, 3 Oct 2024; earlier £415,000); 50:50 split; £100 optional excess; 13-month window; Reg E $50/$500 (12 CFR 1005.6); 15 U.S.C. 1643 added 26 Oct 1970; Zelle impostor refunds as of 30 Jun 2023 (Reuters); GAO July 2024; House GOP report 22 Jul 2026 and the Protecting Consumers from Payment Scams Act (American Banker 24 Jul 2026). Dropped from the brief: the "Map pin drop" (replaced by the border ledger) and "note to future self" (no published data).
+
+Still WATCH: national US voluntary refund rate; Payment Scams Act movement; counterfactual for UK losses; US bank gambling blocks.
+On sign-off: remove noindex/PREVIEW; index tile 02 to live; House Already Knew end card and crumb to Exhibit 2; thread lists.
