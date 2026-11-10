@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The House Already Knew · The Mechanism Series</title>
+<meta name="description" content="A sportsbook's alarm caught a fixed bet almost at once. No alarm rang during the three years one player bet about fifty million dollars. An interactive exhibit on what betting apps know, and which alarms the law requires.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://series.melophon.com/the-house-already-knew.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+/* THE HOUSE ALREADY KNEW · standalone exhibit · preview
+   Arena at night: black rafters, maple hardwood, amber scoreboard LEDs, one whistle red.
+   Interaction rule for this page: no sliders. Shoot, pick, sort, race, challenge. */
+:root{
+  --arena:#0c0e12; --rafter:#14171d; --panel:#1a1e26; --line:rgba(255,236,200,.14); --line2:rgba(255,236,200,.3);
+  --chalk:#f4efe4; --dim:#b3ad9f; --faint:#7d786c;
+  --maple:#d19a5b; --maple-d:#8f6233; --paint:#b5482f;
+  --led:#ffb000; --led-dim:rgba(255,176,0,.16);
+  --felt:#2fbf7a; --whistle:#ff4d3d;
+  --fact:#9fe3c9; --fact-bg:rgba(47,191,122,.16);
+  --rep:#ffd98a; --rep-bg:rgba(255,176,0,.16);
+  --inf:#c4ccff; --inf-bg:rgba(129,140,248,.18);
+  --watch:#ffb1a8; --watch-bg:rgba(255,77,61,.16);
+  --alg:#ff9d6e; --alg-bg:rgba(181,72,47,.22);
+  --th-money:#06d6a0; --th-clocks:#e7b8ff;
+  --mono:'Share Tech Mono',ui-monospace,monospace; --cond:'Barlow Condensed',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--arena);color:var(--chalk);font-family:'Source Serif 4',Georgia,serif;font-size:18px;line-height:1.65;overflow-x:hidden}
+a{color:var(--led)}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:980px;margin:0 auto;padding:0 6vw}
+nav.top{position:sticky;top:0;z-index:50;background:#07080b;border-bottom:3px solid var(--led);display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 5vw;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+nav.top a{color:var(--chalk);text-decoration:none}nav.top .r{color:var(--dim)}
+@media(max-width:720px){nav.top .r{display:none}}
+
+/* tags */
+.tag{display:inline-block;font:400 10.5px/1 var(--mono);letter-spacing:.06em;padding:4px 6px 3px;border-radius:3px;white-space:nowrap;vertical-align:2px;margin-left:3px}
+.fact{color:var(--fact);background:var(--fact-bg)}.rep{color:var(--rep);background:var(--rep-bg)}.inf{color:var(--inf);background:var(--inf-bg)}.watch{color:var(--watch);background:var(--watch-bg)}.alg{color:var(--alg);background:var(--alg-bg)}
+.sub{font:11px/1.4 var(--mono);color:var(--faint);margin-left:4px}
+
+/* hero / jumbotron */
+header.hero{padding:44px 0 26px}
+.kick{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--led)}
+h1{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(52px,11vw,128px);line-height:.92;letter-spacing:.005em;text-transform:uppercase;margin:12px 0 16px}
+h1 span{color:var(--led)}
+.dek{font-family:var(--cond);font-weight:500;font-size:clamp(22px,3vw,30px);line-height:1.2;max-width:28em;margin-bottom:14px}
+.lede{max-width:36em;color:var(--chalk)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.jumbo{margin:28px 0 0;border:3px solid #2a2f3a;border-radius:10px;background:#050608;padding:16px;box-shadow:inset 0 0 40px rgba(255,176,0,.06)}
+.jumbo .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media(max-width:720px){.jumbo .row{grid-template-columns:1fr}}
+.cell{background:#0b0d11;border:1px solid #232833;border-radius:6px;padding:14px 12px;text-align:center}
+.cell .lab{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.cell .num{font-family:var(--mono);font-size:clamp(34px,6vw,58px);line-height:1.1;color:var(--led);text-shadow:0 0 14px rgba(255,176,0,.55);margin:6px 0 4px;min-height:1.1em}
+.cell .cap{font-family:var(--cond);font-size:16px;color:var(--dim);line-height:1.25}
+.jumbo .foot{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.06em;margin-top:10px;text-align:center}
+.disclose{margin:20px 0 0;padding:12px 16px;border:1px dashed var(--line2);font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--dim);max-width:48em}
+
+/* sections */
+section.q{padding:54px 0;border-top:1px solid var(--line2);position:relative}
+.qtr{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--led);margin-bottom:12px}
+.qtr b{display:inline-block;background:var(--led);color:#0c0e12;padding:4px 8px;border-radius:3px;font-weight:400}
+h2{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(34px,5.6vw,60px);line-height:.98;text-transform:uppercase;letter-spacing:.01em;margin-bottom:16px}
+h2 em{font-style:normal;color:var(--led)}
+p{margin-bottom:16px;max-width:38em}
+.play{border:2px solid #2a2f3a;border-radius:10px;background:var(--rafter);padding:20px;margin:22px 0}
+.play h3{font-family:var(--cond);font-weight:700;font-size:24px;letter-spacing:.02em;text-transform:uppercase;margin-bottom:4px}
+.play .how{font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.04em;line-height:1.5;margin-bottom:14px}
+.btn{font-family:var(--cond);font-weight:700;font-size:17px;letter-spacing:.08em;text-transform:uppercase;padding:11px 18px;border:2px solid var(--led);background:var(--led);color:#0c0e12;border-radius:4px}
+.btn.ghost{background:transparent;color:var(--chalk);border-color:var(--line2)}
+.btn:focus-visible,.spot:focus-visible,.chip:focus-visible,.qtab:focus-visible{outline:3px solid var(--chalk);outline-offset:3px}
+.note{font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.6;margin-top:10px}
+
+/* quarter scoreboard story */
+.qtabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.qtab{font-family:var(--mono);font-size:13px;letter-spacing:.12em;padding:12px 6px;border:1px solid var(--line2);background:#0b0d11;color:var(--dim);border-radius:4px;text-transform:uppercase}
+.qtab[aria-selected=true]{background:var(--led);color:#0c0e12;border-color:var(--led)}
+.qboard{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:720px){.qboard{grid-template-columns:1fr}}
+.qscore{background:#050608;border:2px solid #232833;border-radius:8px;padding:14px;text-align:center}
+.qscore .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--dim)}
+.qscore .num{font-family:var(--mono);font-size:40px;color:var(--led);text-shadow:0 0 12px rgba(255,176,0,.5);line-height:1.15}
+.qscore .when{font-family:var(--cond);font-size:16px;color:var(--dim)}
+.qtext h4{font-family:var(--cond);font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:6px}
+.qtext p{font-size:17px;margin-bottom:10px}
+
+/* shot chart */
+.courtwrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:820px){.courtwrap{grid-template-columns:1fr}}
+.court{background:linear-gradient(180deg,#d9a566,#c58c4c);border-radius:8px;border:3px solid var(--maple-d);overflow:hidden}
+.court svg{display:block;width:100%;height:auto}
+.spot{cursor:pointer}
+.spot circle.ring{fill:rgba(12,14,18,.75);stroke:#0c0e12;stroke-width:2}
+.spot text{font-family:var(--mono);font-size:15px;fill:var(--chalk);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.spot.made circle.ring{fill:var(--felt);stroke:#0c0e12}
+.spot.made text{fill:#0c0e12}
+.shotcard{background:#0b0d11;border:1px solid #232833;border-radius:8px;padding:16px;min-height:210px}
+.shotcard .tally{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--led);text-transform:uppercase;margin-bottom:8px}
+.shotcard h4{font-family:var(--cond);font-weight:700;font-size:24px;text-transform:uppercase;margin-bottom:6px}
+.shotcard p{font-size:16.5px;margin-bottom:8px}
+.shotdone{font-family:'Anton',sans-serif;font-size:28px;text-transform:uppercase;color:var(--led);margin-top:8px}
+
+/* stopwatch race */
+.race{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:6px 0 14px}
+@media(max-width:640px){.race{grid-template-columns:1fr}}
+.watch-c{background:#050608;border:2px solid #232833;border-radius:10px;padding:16px;text-align:center}
+.watch-c .lab{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.watch-c .t{font-family:var(--mono);font-size:clamp(30px,5vw,46px);color:var(--led);text-shadow:0 0 12px rgba(255,176,0,.5);margin:8px 0 4px}
+.watch-c .res{font-family:var(--cond);font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:.04em;min-height:1.4em}
+.watch-c.blown{border-color:var(--felt)}.watch-c.blown .res{color:var(--felt)}
+.watch-c.silent{border-color:var(--whistle)}.watch-c.silent .res{color:var(--whistle)}
+.watch-c .why{font-size:15px;color:var(--dim);line-height:1.45;margin-top:6px}
+
+/* sort game */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+.chipbox{border:1px solid var(--line2);border-radius:8px;padding:12px;background:#0b0d11;flex:1 1 250px;min-width:0}
+.chipbox .nm{font-family:var(--cond);font-weight:600;font-size:19px;line-height:1.2;margin-bottom:8px}
+.chipbox .pick{display:flex;gap:8px}
+.chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:8px 10px;border:1px solid var(--line2);background:transparent;color:var(--chalk);border-radius:4px}
+.chipbox .ans{font-size:14.5px;line-height:1.45;color:var(--dim);margin-top:8px}
+.chipbox.sell{border-color:var(--led)}.chipbox.prot{border-color:var(--felt)}
+.chipbox .verdict{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.fate{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+@media(max-width:640px){.fate{grid-template-columns:1fr}}
+.fate div{border-radius:8px;padding:14px 16px;background:#0b0d11;border:2px solid var(--led)}
+.fate div.p{border-color:var(--felt)}
+.fate .k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.fate .v{font-family:'Anton',sans-serif;font-size:30px;text-transform:uppercase;line-height:1.05;margin:4px 0}
+.fate p{font-size:15.5px;margin:0}
+
+/* bet slip */
+.slipwrap{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px;align-items:start}
+@media(max-width:820px){.slipwrap{grid-template-columns:1fr}}
+.leg{border:1px solid var(--line2);border-radius:8px;background:#0b0d11;padding:14px;margin-bottom:10px}
+.leg .qn{font-family:var(--cond);font-weight:600;font-size:20px;line-height:1.2;margin-bottom:4px}
+.leg .line{font-family:var(--mono);font-size:13px;color:var(--led);margin-bottom:10px}
+.leg .pick{display:flex;gap:8px}
+.leg .ou{flex:1;font-family:var(--cond);font-weight:700;font-size:18px;letter-spacing:.1em;padding:10px;border:2px solid var(--line2);background:transparent;border-radius:4px;text-transform:uppercase}
+.leg .ou:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+.leg .ou.win{background:var(--felt);border-color:var(--felt);color:#0c0e12}
+.leg .ou.lose{background:var(--whistle);border-color:var(--whistle);color:#0c0e12}
+.leg .ou.right{border-color:var(--felt)}
+.leg .ans{font-size:15.5px;line-height:1.45;margin-top:10px;color:var(--chalk)}
+.slip{background:#f4efe4;color:#16130d;border-radius:4px;padding:16px 16px 20px;font-family:var(--mono);font-size:13px;line-height:1.5;position:sticky;top:64px;
+  -webkit-mask:radial-gradient(6px at 6px 100%,transparent 98%,#000) -6px 0/12px 100%;mask:radial-gradient(6px at 6px 100%,transparent 98%,#000) -6px 0/12px 100%}
+@media(max-width:820px){.slip{position:static}}
+.slip h4{font-family:'Anton',sans-serif;font-weight:400;font-size:24px;letter-spacing:.04em;text-transform:uppercase;border-bottom:2px dashed #16130d;padding-bottom:6px;margin-bottom:8px}
+.slip ol{list-style:none;min-height:60px}
+.slip li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dotted rgba(22,19,13,.4);padding:4px 0}
+.slip .tot{margin-top:10px;font-size:14px}
+.slip .tot b{font-size:20px}
+
+/* doors */
+.ages{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.ages button{font-family:var(--mono);font-size:18px;padding:10px 16px;border:2px solid var(--line2);background:#0b0d11;border-radius:4px}
+.ages button[aria-pressed=true]{background:var(--led);border-color:var(--led);color:#0c0e12}
+.ages button:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+.doors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media(max-width:640px){.doors{grid-template-columns:1fr}}
+.door{border:2px solid #232833;border-radius:10px;background:#050608;padding:16px;text-align:center;transition:border-color .3s}
+.door .frame{height:120px;margin:0 auto 10px;width:92px;border:4px solid var(--maple-d);border-bottom:0;position:relative;background:#16130d;overflow:hidden;perspective:400px}
+.door .leaf{position:absolute;inset:0;background:linear-gradient(90deg,#8f6233,#d19a5b);transform-origin:left;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.door .leaf::after{content:"";position:absolute;right:8px;top:50%;width:8px;height:8px;border-radius:50%;background:#0c0e12}
+.door.open .leaf{transform:rotateY(-78deg)}
+.door.open{border-color:var(--felt)}
+.door .light{position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,rgba(255,176,0,.55),transparent 70%)}
+.door h4{font-family:var(--cond);font-weight:700;font-size:22px;text-transform:uppercase}
+.door .st{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--whistle);margin:4px 0}
+.door.open .st{color:var(--felt)}
+.door p{font-size:15px;color:var(--dim);margin:0 auto;line-height:1.45}
+
+/* challenge flags */
+.calls{display:grid;gap:12px}
+.call{border:1px solid var(--line2);border-radius:8px;background:#0b0d11;padding:14px 16px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start}
+@media(max-width:640px){.call{grid-template-columns:1fr}}
+.call .claim{font-family:var(--cond);font-weight:600;font-size:21px;line-height:1.25}
+.call .flagbtn{font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;padding:9px 12px;border:2px solid var(--whistle);background:transparent;color:var(--chalk);border-radius:4px;white-space:nowrap}
+.call .flagbtn::before{content:"";display:inline-block;width:12px;height:12px;background:var(--whistle);margin-right:8px;vertical-align:-1px;clip-path:polygon(0 0,100% 20%,60% 55%,100% 100%,0 80%)}
+.call .flagbtn:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+.call .bench{grid-column:1/-1;border-left:4px solid var(--whistle);padding:8px 12px;background:rgba(255,77,61,.07);font-size:16px;line-height:1.5}
+.call .bench[hidden]{display:none}
+.call .bench b{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--whistle);display:block;margin-bottom:2px;font-weight:400}
+
+.why{border-left:5px solid var(--led);background:var(--panel);padding:14px 18px;margin:20px 0;max-width:40em}
+.why h4{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--led);margin-bottom:6px}
+.why p{margin:0;font-size:16.5px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+@media(max-width:720px){.three{grid-template-columns:1fr}}
+.three div{border:1px solid var(--line2);border-radius:8px;background:var(--panel);padding:16px}
+.three .n{font-family:'Anton',sans-serif;font-size:34px;color:var(--led);line-height:1}
+.three h4{font-family:var(--cond);font-weight:700;font-size:21px;text-transform:uppercase;margin:6px 0}
+.three p{font-size:15.5px;line-height:1.5;margin:0}
+ul.np{margin-left:22px;max-width:38em}ul.np li{margin-bottom:8px}
+
+/* thread layer */
+.thbar{position:fixed;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:30}
+.thbar button{width:14px;height:14px;border-radius:50%;border:2px solid var(--c);background:transparent;opacity:.45;padding:0;transition:opacity .3s,background .3s}
+.thbar button.lit{opacity:1;background:var(--c);box-shadow:0 0 10px var(--c)}
+@media(max-width:900px){.thbar{right:auto;left:0;top:auto;bottom:0;transform:none;flex-direction:row;width:100%;justify-content:center;gap:18px;padding:10px;background:rgba(7,8,11,.94);border-top:1px solid var(--line2)}body{padding-bottom:40px}}
+.thlist{position:fixed;right:42px;top:50%;transform:translateY(-50%);width:min(320px,88vw);background:#07080b;border:1px solid var(--line2);padding:16px 18px;z-index:45;font-size:14px}
+.thlist[hidden]{display:none}
+.thlist h5{font-family:var(--mono);font-weight:400;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--c);margin-bottom:8px}
+.thlist ol{list-style:none}.thlist li{padding:7px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}
+.thlist li a{color:var(--chalk);text-decoration:none}.thlist .s{font-family:var(--mono);font-size:10px;color:var(--faint);white-space:nowrap}
+.thlist li.here,.thlist li.here .s{color:var(--c)}
+.thlist .x{position:absolute;top:6px;right:10px;background:none;border:0;color:var(--dim);font-size:18px}
+@media(max-width:900px){.thlist{right:auto;left:50%;top:auto;bottom:56px;transform:translateX(-50%)}}
+.thm{background:none;border:0;border-bottom:2px dotted var(--c);padding:0}
+.peek{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);width:min(440px,92vw);background:#07080b;border:1px solid var(--c);border-left:4px solid var(--c);padding:14px 16px;z-index:70;font-size:15px;line-height:1.5}
+.peek[hidden]{display:none}
+.peek .k{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--c);margin-bottom:6px}
+.peek .m{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:6px}
+.peek .acts{display:flex;gap:10px;margin-top:10px}
+.peek .acts a,.peek .acts button{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 11px;border:1px solid var(--line2);background:transparent;color:var(--chalk);text-decoration:none}
+.peek .acts a{border-color:var(--c);color:var(--c)}
+.crumb{margin:18px 0;border:1px dashed var(--c);padding:12px 14px;font-size:15px;line-height:1.5;color:var(--dim);max-width:40em}
+.crumb .k{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+.crumb a{color:var(--chalk)}
+.endcard{border:2px solid var(--line2);border-radius:10px;background:var(--rafter);padding:22px;margin:28px 0 10px}
+.endcard .k{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.endcard .qq{font-family:var(--cond);font-weight:600;font-size:clamp(22px,2.8vw,30px);line-height:1.2;max-width:30em}
+.endcard .next{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+@media(max-width:720px){.endcard .next{grid-template-columns:1fr}}
+.endcard .next a{display:block;border-top:3px solid var(--c);background:#0b0d11;padding:12px 14px;text-decoration:none;color:var(--chalk);font-size:15px;line-height:1.4}
+.endcard .next .t{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+.endcard .next .s{display:block;font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:4px}
+.sources{font-size:14px;line-height:1.6;color:var(--dim)}
+.sources ol{padding-left:20px}.sources li{margin-bottom:6px}
+.sign{font-family:var(--mono);font-size:11.5px;color:var(--dim);line-height:1.7;margin:18px 0 60px}
+.help{margin:22px 0;padding:12px 16px;border:1px solid var(--line2);border-radius:8px;font-size:15.5px;color:var(--dim);max-width:40em}
+@media (prefers-reduced-motion:reduce){.door .leaf{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<nav class="top"><a href="index.html">INFERA · THE MECHANISM SERIES</a><span class="r">STANDALONE EXHIBIT · THE HOUSE ALREADY KNEW · PREVIEW</span></nav>
+
+<div class="thbar" role="group" aria-label="Threads on this page">
+  <button type="button" data-th="money" style="--c:var(--th-money)" aria-label="Thread: Money" title="Money"></button>
+  <button type="button" data-th="clocks" style="--c:var(--th-clocks)" aria-label="Thread: Clocks" title="Clocks"></button>
+</div>
+<div class="thlist" id="thlist" hidden role="dialog" aria-label="Pieces on this thread"><button class="x" type="button" aria-label="Close">×</button><h5 id="thlistH"></h5><ol id="thlistL"></ol></div>
+<div class="peek" id="peek" hidden role="dialog" aria-label="Peek"><div class="k"><span id="peekK"></span><span id="peekTag"></span></div><div id="peekT"></div><div class="m" id="peekM"></div><div class="acts"><button type="button" id="peekClose">Close</button><a id="peekGo" href="#">Go</a></div></div>
+
+<div class="wrap">
+<header class="hero">
+  <div class="kick">Standalone exhibit · Sports, data and the law · 9 November 2026</div>
+  <h1>The house <span>already knew.</span></h1>
+  <p class="dek">A sportsbook's alarm caught a fixed bet almost at once. No alarm rang during the three years one player bet about fifty million dollars.</p>
+  <p class="lede">Jontay Porter was a backup forward for the Toronto Raptors. He is banned from the N.B.A. for life and has pleaded guilty to a federal crime. This exhibit is about the part of his story that happened before the crime, inside a legal app, and about a simple question: if a betting company can see enough to stop a cheat, what does it see when a customer is drowning?</p>
+  <div class="meta"><span>About 12 minutes</span><span>Seven things to do, no sliders</span><span>Evidence through 9 Nov 2026</span></div>
+
+  <div class="jumbo" aria-label="Scoreboard">
+    <div class="row">
+      <div class="cell"><div class="lab">On one app</div><div class="num" data-flip="≈$50M">≈$50M</div><div class="cap">Porter's bets on FanDuel, by the New Yorker's account</div></div>
+      <div class="cell"><div class="lab">Cheat alarm</div><div class="num" data-flip="FAST">FAST</div><div class="cap">The fixed bets were flagged and reported</div></div>
+      <div class="cell"><div class="lab">Harm alarm</div><div class="num" data-flip="3 YRS">3 YRS</div><div class="cap">2021 to 2023. No public record that it rang</div></div>
+    </div>
+    <div class="foot">LEFT: REPORTED · NEW YORKER, 8 NOV 2026 · CENTER: REPORTED · RIGHT: INFERENCE FROM THE PUBLIC RECORD</div>
+  </div>
+  <p class="disclose">Researched and compiled with Claude (Anthropic). Final editorial judgment: Melophon. This exhibit discusses machine learning used by betting companies; Anthropic is not a subject of it. Porter's gambling addiction is described here because his lawyer stated it publicly and he has spoken about it on the record.</p>
+</header>
+
+<!-- ============ Q1 · THE GAME FILM ============ -->
+<section class="q" id="s1">
+  <div class="qtr"><b>1</b> The game film</div>
+  <h2>Four quarters. <em>The crime is in the third.</em></h2>
+  <p>Most coverage of Porter starts with the fix. Play the film from the tip instead. Tap each quarter.</p>
+  <div class="play">
+    <div class="qtabs" role="tablist" aria-label="Quarters">
+      <button class="qtab" role="tab" id="qt0" aria-selected="true" aria-controls="qpanel">1st</button>
+      <button class="qtab" role="tab" id="qt1" aria-selected="false" aria-controls="qpanel" tabindex="-1">2nd</button>
+      <button class="qtab" role="tab" id="qt2" aria-selected="false" aria-controls="qpanel" tabindex="-1">3rd</button>
+      <button class="qtab" role="tab" id="qt3" aria-selected="false" aria-controls="qpanel" tabindex="-1">4th</button>
+    </div>
+    <div class="qboard" id="qpanel" role="tabpanel" aria-live="polite">
+      <div class="qscore"><div class="lab" id="qLab"></div><div class="num" id="qNum"></div><div class="when" id="qWhen"></div></div>
+      <div class="qtext"><h4 id="qH"></h4><div id="qBody"></div></div>
+    </div>
+    <p class="note">Arrow keys move between quarters.</p>
+  </div>
+</section>
+
+<!-- ============ Q2 · SHOT CHART ============ -->
+<section class="q" id="s2">
+  <div class="qtr"><b>2</b> The scouting report</div>
+  <h2>What the house <em>could see.</em></h2>
+  <p>A betting app is not a slot machine in a corner. It is an account with your name on it. Take six shots. Each one lands on something the public record says a sportsbook held about this one customer.</p>
+  <div class="play">
+    <h3>Shot chart</h3>
+    <div class="how">Tap a numbered spot on the floor, or tab to it and press Enter. Each made shot is one thing in the file.</div>
+    <div class="courtwrap">
+      <div class="court">
+        <svg viewBox="0 0 500 440" id="courtSvg" role="group" aria-label="Half court with six shooting spots">
+          <g fill="none" stroke="#fff6e6" stroke-width="3" opacity=".9">
+            <rect x="12" y="12" width="476" height="416"/>
+            <rect x="170" y="12" width="160" height="190"/>
+            <circle cx="250" cy="202" r="60"/>
+            <path d="M40 12V150A210 210 0 0 0 460 150V12"/>
+            <path d="M190 428A60 60 0 0 1 310 428"/>
+          </g>
+          <rect x="170" y="12" width="160" height="190" fill="#b5482f" opacity=".28"/>
+          <path d="M215 40H285" stroke="#fff6e6" stroke-width="4"/>
+          <circle cx="250" cy="56" r="13" fill="none" stroke="#ff4d3d" stroke-width="4" id="rim"/>
+          <circle id="ball" cx="-30" cy="-30" r="11" fill="#e0782b" stroke="#16130d" stroke-width="2"/>
+          <g id="spots"></g>
+        </svg>
+      </div>
+      <div class="shotcard" aria-live="polite">
+        <div class="tally" id="shotTally">0 for 0</div>
+        <h4 id="shotH">Pick a spot</h4>
+        <div id="shotBody"><p>Six spots, six entries in the file. None of this required hacking, a subpoena or a guess. It is what an account is.</p></div>
+        <div class="shotdone" id="shotDone" hidden>Six for six. The house did not miss.</div>
+      </div>
+    </div>
+  </div>
+  <div class="why"><h4>Why this matters</h4><p>The question in this exhibit is never whether the company had the information. It is which of its alarms the information was wired to.</p></div>
+</section>
+
+<!-- ============ Q3 · TWO WHISTLES ============ -->
+<section class="q" id="s3">
+  <div class="qtr"><b>3</b> Two whistles</div>
+  <h2>One alarm is <em>required.</em> One is optional.</h2>
+  <p>Sportsbooks run two kinds of watch on their customers. An <b>integrity</b> watch looks for cheating: bets that suggest someone knows the outcome. A <b>harm</b> watch looks for a customer in trouble: someone chasing losses, betting more than they can afford. Start both clocks on the same customer.</p>
+  <div class="play" id="raceBox">
+    <h3>The whistle race</h3>
+    <div class="how">Press start. Both clocks run on the same account. Watch which one blows.</div>
+    <div class="race">
+      <div class="watch-c" id="wInt"><div class="lab">Integrity whistle</div><div class="t" id="tInt">0</div><div class="res" id="rInt">&nbsp;</div><p style="font-size:15px;color:var(--dim);line-height:1.45;margin:6px auto 0" id="yInt"></p></div>
+      <div class="watch-c" id="wHarm"><div class="lab">Harm whistle</div><div class="t" id="tHarm">0</div><div class="res" id="rHarm">&nbsp;</div><p style="font-size:15px;color:var(--dim);line-height:1.45;margin:6px auto 0" id="yHarm"></p></div>
+    </div>
+    <button class="btn" type="button" id="raceBtn">Start both clocks</button>
+    <p class="note">The integrity clock reflects reporting that DraftKings flagged Porter's 26 January 2024 prop as that evening's biggest winner among N.B.A. player props, and that regulators "quickly" spotted the bets. <span class="tag rep">REPORTED</span> The harm clock reflects the absence of any public record of an intervention between 2021 and 2023. <span class="tag inf">INFERENCE</span><span class="sub">absence in the record is not proof nothing happened</span></p>
+  </div>
+  <p>The integrity whistle blew because the law and the leagues require it. Suspicious bets cost the sportsbook money and threaten its license. The harm whistle is different. In most states the duty is soft: offer a way to set limits, offer self exclusion, post a helpline number. A customer who never asks for help can lose for years inside the rules. <span class="tag inf">INFERENCE</span><span class="sub">general description; rules vary by state</span></p>
+  <div class="crumb" style="--c:var(--th-clocks)"><span class="k">Margin crumb · Clocks thread</span>Two clocks on one building run at different speeds in <a href="field-notes/19-the-capital-call.html">Field Note 19 · The Capital Call</a>. There it is a lease and a loan. Here it is two alarms. <span class="tag inf">INFERENCE</span> · Live · 14 min</div>
+</section>
+
+<!-- ============ Q4 · SORT THE DATA ============ -->
+<section class="q" id="s4">
+  <div class="qtr"><b>4</b> One dataset, two models</div>
+  <h2>Sell or <em>protect?</em></h2>
+  <p>This is where AI comes in, and the best evidence is about DraftKings, not FanDuel. In September 2026 the New York Times reported that DraftKings built two kinds of machine learning model from its own customers' betting records. One scored customers for promotions. The other tried to flag customers at risk. <span class="tag rep">REPORTED</span> Here are seven things those models looked at. For each, guess which model used it.</p>
+  <div class="play">
+    <h3>Sort the data</h3>
+    <div class="how">Tap SELL if you think it fed the promotions model, PROTECT if you think it fed the risk model.</div>
+    <div class="chips" id="chips"></div>
+    <div class="fate" id="fate" hidden>
+      <div><div class="k">The promotions model</div><div class="v" style="color:var(--led)">Shipped</div><p>It scored each customer's "elasticity": whether an offer would bring in more losses than it cost. An executive told investors AI was used to personalize "hundreds of millions" of promotional dollars. <span class="tag rep">REPORTED</span></p></div>
+      <div class="p"><div class="k">The protection model</div><div class="v" style="color:var(--felt)">Shelved</div><p>The team found even simple rules beat guessing at who would need help. Its presentation to company officials in early 2025 was canceled. Two similar efforts were also shelved, former employees said. <span class="tag rep">REPORTED</span></p></div>
+    </div>
+    <p class="note" id="sortNote">0 of 7 sorted.</p>
+  </div>
+  <p><b>DraftKings disputes this account.</b> It says promotions go to customers with "sustained, engaged use," not on the basis of losses; that the promotions test was "preliminary and inconclusive"; that it watches more than two dozen risk indicators; and that flagged or self excluded customers get no promotions. Its chief responsible gaming officer said leaders made a "collective decision" not to use predictive technology for problem gambling because it "wasn't evidence-based." <span class="tag rep">REPORTED</span><span class="sub">New York Times via Boston Globe, 21 Sept 2026</span></p>
+  <p>A class action filed on 30 September 2026 makes the same charge in court. <span class="tag alg">ALLEGED</span><span class="sub">Vest v. DraftKings</span> Massachusetts gambling regulators directed staff to question the company about its AI practices. <span class="tag rep">REPORTED</span></p>
+  <div class="why"><h4>Your question, answered as far as the record goes</h4><p>"If it is smart enough to advertise well, shouldn't it also advertise the right decisions?" By this reporting, the same data and the same methods could do both. One use was built into the business. The other was optional, and it was stopped. Nothing in the public record shows what FanDuel's models did with Porter's account. <span class="tag inf">INFERENCE</span></p></div>
+</section>
+
+<!-- ============ Q5 · THE BET SLIP ============ -->
+<section class="q" id="s5">
+  <div class="qtr"><b>5</b> Halftime game</div>
+  <h2>Build a <em>six leg parlay.</em></h2>
+  <p>You have read enough to have instincts. Bet them. Each leg is a real number from the record. Call it over or under.</p>
+  <div class="play">
+    <h3>The over/under slip</h3>
+    <div class="how">No money, no account. Your picks stay on this page.</div>
+    <div class="slipwrap">
+      <div id="legs"></div>
+      <aside class="slip" aria-live="polite">
+        <h4>Bet slip</h4>
+        <ol id="slipList"></ol>
+        <div class="tot" id="slipTot">Legs settled: 0 of 6</div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Q6 · THE DOORS ============ -->
+<section class="q" id="s6">
+  <div class="qtr"><b>6</b> The new door</div>
+  <h2>Same game. <em>Different bouncer.</em></h2>
+  <p>Sportsbooks are licensed by states. A newer kind of company, the prediction market, lets you trade on the outcome of a game instead of betting on it. Kalshi and Polymarket are the biggest. They are overseen by a federal agency that regulates financial markets, not by state gambling boards. Pick an age and see which doors open.</p>
+  <div class="play">
+    <h3>ID check</h3>
+    <div class="how">Tap an age.</div>
+    <div class="ages" role="group" aria-label="Choose an age">
+      <button type="button" data-age="17" aria-pressed="false">17</button>
+      <button type="button" data-age="18" aria-pressed="false">18</button>
+      <button type="button" data-age="19" aria-pressed="false">19</button>
+      <button type="button" data-age="20" aria-pressed="false">20</button>
+      <button type="button" data-age="21" aria-pressed="false">21</button>
+    </div>
+    <div class="doors">
+      <div class="door" id="dBook"><div class="frame"><div class="light"></div><div class="leaf"></div></div><h4>State sportsbook</h4><div class="st" id="stBook">Pick an age</div><p>Off limits under 21 in most states. <span class="tag rep">REPORTED</span></p></div>
+      <div class="door" id="dPred"><div class="frame"><div class="light"></div><div class="leaf"></div></div><h4>Prediction market</h4><div class="st" id="stPred">Pick an age</div><p>Kalshi accepts users 18 and older. <span class="tag rep">REPORTED</span></p></div>
+    </div>
+    <p class="note" id="doorNote" aria-live="polite">&nbsp;</p>
+  </div>
+  <p>A CNN analysis estimated that users aged 18 to 21 traded about $3.9 billion on sports events on Kalshi this year. Kalshi says that age group is 3.14 percent of its volume. <span class="tag rep">REPORTED</span><span class="sub">Fortune, 31 Aug 2026</span> Kalshi began blocking athletes and politicians from markets tied to them in March 2026, and added deposit limits and alerts for users under 21 in late October. <span class="tag rep">REPORTED</span></p>
+  <p>Kalshi's position is that it is a neutral marketplace: it "does not set odds, does not act as a counterparty, and does not profit from customer losses." <span class="tag rep">REPORTED</span><span class="sub">its testimony in Connecticut</span> States disagree about who gets to regulate it. By late June 2026 the federal agency had sued at least nine states to stop them from restricting these markets. <span class="tag rep">REPORTED</span></p>
+  <div class="why"><h4>Why this matters</h4><p>Whatever you think of the state rules that failed to catch Porter's slide, the newest door into sports betting was built outside them. <span class="tag inf">INFERENCE</span></p></div>
+</section>
+
+<!-- ============ Q7 · CHALLENGE FLAGS ============ -->
+<section class="q" id="s7">
+  <div class="qtr"><b>7</b> Coach's challenge</div>
+  <h2>Throw the <em>red flag.</em></h2>
+  <p>Every claim in this exhibit has another bench. Throw the flag on any of these four and hear it.</p>
+  <div class="calls" id="calls"></div>
+  <h2 style="font-size:clamp(26px,3.6vw,38px);margin-top:36px">Why don't they use the data to protect people? <em>Three mechanisms.</em></h2>
+  <div class="three">
+    <div><div class="n">1</div><h4>The duty is lopsided</h4><p>Catching cheats is mandatory and protects the company. Catching harm is mostly voluntary and costs it customers. <span class="tag inf">INFERENCE</span></p></div>
+    <div><div class="n">2</div><h4>The money is concentrated</h4><p>A lawsuit by the city of Baltimore cites a British parliamentary finding that 5 percent of online gamblers produce 60 percent of profits. <span class="tag alg">ALLEGED</span><span class="sub">as cited in the complaint</span> A model that flags the heaviest losers flags <button class="thm" style="--c:var(--th-money)" data-peek="ep03">the best customers</button>.</p></div>
+    <div><div class="n">3</div><h4>No national rule</h4><p>Britain changed its rules, and the same complaint says FanDuel's parent ended V.I.P. programs there. <span class="tag alg">ALLEGED</span> The United States has no federal standard; a bill that would restrict AI targeted promotions has not passed. <span class="tag inf">INFERENCE</span></p></div>
+  </div>
+</section>
+
+<!-- ============ DISCIPLINE ============ -->
+<section class="q" id="s8">
+  <div class="qtr"><b>OT</b> What this exhibit does not show</div>
+  <h2>What we are <em>not</em> saying.</h2>
+  <ul class="np">
+    <li>We have no evidence of what FanDuel's systems flagged, or failed to flag, on Porter's account, or whether a V.I.P. host contacted him. The DraftKings reporting concerns a different company and mostly its online casino. <span class="tag watch">WATCH</span></li>
+    <li>The fifty million and five hundred million dollar figures are amounts wagered, by the New Yorker's account and Porter's own estimate. They are not losses, and we have not seen account records. <span class="tag rep">REPORTED</span></li>
+    <li>Porter committed a crime and admitted it. Describing the system around him does not excuse it. The sportsbooks were the legal victims of the fraud. <span class="tag fact">FACT</span><span class="sub">guilty plea, July 2024</span></li>
+    <li>Statements from the Baltimore and Vest lawsuits are allegations. No court has ruled on them. <span class="tag alg">ALLEGED</span></li>
+    <li>His sentencing was still pending at our last check of the record. <span class="tag watch">WATCH</span></li>
+  </ul>
+  <div class="help">If gambling is causing problems for you or someone you know, the National Problem Gambling Helpline is 1-800-GAMBLER. It is free and open all day, every day.</div>
+
+  <div class="endcard">
+    <div class="k">The question this exhibit cannot answer yet</div>
+    <p class="qq">During three years and about fifty million dollars in bets, did anything inside the app ever tell Jontay Porter to stop? <span class="tag watch">WATCH</span></p>
+    <div class="next">
+      <a href="episode-03-trust-market.html" style="--c:var(--th-money)"><span class="t">Money · next</span>EP 03 · The Trust Market<span class="s">Live · who gets scored, and by whom</span></a>
+      <a href="episode-09-the-synthetic-self.html" style="--c:var(--th-money)"><span class="t">Money · next</span>EP 09 · The Synthetic Self<span class="s">Live · the copy is cheap, the original is rent</span></a>
+      <a href="field-notes/19-the-capital-call.html" style="--c:var(--th-clocks)"><span class="t">Clocks · next</span>Field Note 19 · The Capital Call<span class="s">Live · three clocks on one building</span></a>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h4 style="font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin:26px 0 10px">Sources · evidence through 9 November 2026</h4>
+    <ol>
+      <li>Nick Berardini, "An N.B.A. Player Got Hooked on Sports Betting. Soon, He Became the Bet," The New Yorker, 8 November 2026 (wager totals, sequence into debt, scale of the wider case).</li>
+      <li>The Action Network via Front Office Sports, 16 April 2024; Sports Handle via iGaming Business, 16 April 2024 (FanDuel V.I.P. account, more than 1,000 bets 2021 to 2023, perks, refusal of his basketball bets, DraftKings flags).</li>
+      <li>CBS Sports, 10 July 2024 (guilty plea, game dates, about one million dollars in the scheme). Field Level Media, 21 January 2026 (co-defendant sentenced; Porter awaiting sentencing).</li>
+      <li>New York Times investigation as republished by the Boston Globe, 21 September 2026; Boston Globe, 24 September 2026 (DraftKings models, company response, Massachusetts regulators).</li>
+      <li>Vest v. DraftKings, Inc., no. 1:26-cv-14462, filed 30 September 2026, as summarized by ClassAction.org.</li>
+      <li>City of Baltimore v. DraftKings and Flutter, Baltimore City Circuit Court, filed 3 April 2025, as reported by Front Office Sports.</li>
+      <li>Fortune, 31 August 2026, citing CNN (Kalshi age rules and under 21 volume). Covers, 27 October 2026 (under 21 limits). Boston Globe, 24 March 2026 (athlete and politician blocks). Front Office Sports, 23 June 2026 (federal suits against states).</li>
+    </ol>
+    <p class="sign">Researched and compiled with Claude (Anthropic). Final editorial judgment: Melophon.</p>
+  </div>
+</section>
+</div>
+
+<script>
+(function(){
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(id){return document.getElementById(id);}
+  var REP='<span class="tag rep">REPORTED</span>',INF='<span class="tag inf">INFERENCE</span>',FACT='<span class="tag fact">FACT</span>';
+
+  // ---------- quarters ----------
+  var Q=[
+   {lab:'WAGERED ON ONE APP',num:'≈$50M',when:'2021 to 2023',h:'First quarter · The app',b:'<p>Porter opened a FanDuel account registered in Colorado and became a V.I.P. customer. It placed more than 1,000 bets over three years, and came with perks: tickets and betting promotions. '+REP+'</p><p>The New Yorker puts his FanDuel betting at roughly fifty million dollars, with millions more on DraftKings through a friend. He estimates his lifetime total near five hundred million. '+REP+'</p>'},
+   {lab:'HIS OWN MONEY',num:'$0',when:'by early 2024',h:'Second quarter · The money runs out',b:'<p>By the New Yorker\'s account, it was only after Porter ran out of his own money that he turned to illegal bookmakers. '+REP+' Prosecutors alleged the debts were to bookies linked to organized crime. '+REP+'</p><p>This is the order that matters: the legal app came first. The bookies came after the bankroll was gone.</p>'},
+   {lab:'GAMES LEFT EARLY',num:'2',when:'26 Jan and 20 Mar 2024',h:'Third quarter · The fix',b:'<p>To clear the debt, Porter agreed to leave two Raptors games early, claiming illness or injury, so that bets on him doing less than expected would win. The bettors stood to collect more than a million dollars. '+REP+'</p><p>He became the bet.</p>'},
+   {lab:'N.B.A. STATUS',num:'BANNED',when:'April 2024, for life',h:'Fourth quarter · The whistle',b:'<p>DraftKings reported that his 26 January prop was the biggest winner of any N.B.A. player prop that evening. The league investigated and banned him for life in April 2024. In July he pleaded guilty to conspiracy to commit wire fraud. '+REP+'</p><p>The wider case now involves dozens of defendants. '+REP+' Porter was still awaiting sentencing at our last check. <span class="tag watch">WATCH</span></p>'}
+  ];
+  var qtabs=[$('qt0'),$('qt1'),$('qt2'),$('qt3')],qi=0;
+  function setQ(i,focus){qi=(i+4)%4;qtabs.forEach(function(t,k){var on=k===qi;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;});var q=Q[qi];$('qLab').textContent=q.lab;$('qNum').textContent=q.num;$('qWhen').textContent=q.when;$('qH').textContent=q.h;$('qBody').innerHTML=q.b;if(focus)qtabs[qi].focus();}
+  qtabs.forEach(function(t,k){t.addEventListener('click',function(){setQ(k);});t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){setQ(qi+1,true);e.preventDefault();}if(e.key==='ArrowLeft'){setQ(qi-1,true);e.preventDefault();}});});
+  setQ(0);
+
+  // ---------- shot chart ----------
+  var SH=[
+   {x:250,y:250,h:'Who he was',b:'<p>Licensed sportsbooks verify a customer\'s identity before taking a bet: name, date of birth, address. '+INF+'<span class="sub">standard licensing practice</span></p>'},
+   {x:92,y:120,h:'Every bet he made',b:'<p>More than 1,000 bets on one account between 2021 and 2023. '+REP+' An app does not estimate your betting. It is the ledger.</p>'},
+   {x:408,y:120,h:'How much',b:'<p>Roughly fifty million dollars wagered on FanDuel, by the New Yorker\'s account. '+REP+' Amount wagered is not amount lost; money that is won gets bet again.</p>'},
+   {x:140,y:318,h:'That he was a V.I.P.',b:'<p>The account had V.I.P. status, with access to sports tickets and betting promotions. '+REP+' V.I.P. programs are how sportsbooks keep their highest volume customers.</p>'},
+   {x:360,y:318,h:'That athletes were on the list',b:'<p>A source told a trade publication that FanDuel counted 10 to 20 professional athletes among its V.I.P.s, and that none bet on their own sports. '+REP+'<span class="sub">single unnamed source</span></p>'},
+   {x:250,y:388,h:'What his job was',b:'<p>FanDuel reportedly did not accept his bets on the N.B.A. or college basketball. '+REP+' To block those bets, the system had to know what he did for a living. '+INF+'</p>'}
+  ];
+  var spots=$('spots'),ball=$('ball'),made=0,busy=false,NS='http://www.w3.org/2000/svg';
+  SH.forEach(function(s,i){var g=document.createElementNS(NS,'g');g.setAttribute('class','spot');g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label','Shot '+(i+1)+': '+s.h);g.innerHTML='<circle class="ring" cx="'+s.x+'" cy="'+s.y+'" r="22"/><text x="'+s.x+'" y="'+s.y+'">'+(i+1)+'</text>';
+    function go(){if(busy)return;shoot(i,g);}
+    g.addEventListener('click',go);g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});spots.appendChild(g);});
+  function land(i,g){if(!g.classList.contains('made')){g.classList.add('made');made++;}$('shotTally').textContent=made+' for '+made+' · shot '+(i+1);$('shotH').textContent=SH[i].h;$('shotBody').innerHTML=SH[i].b;if(made===6)$('shotDone').hidden=false;ball.setAttribute('cx',-30);ball.setAttribute('cy',-30);busy=false;}
+  function shoot(i,g){var s=SH[i];if(reduce){land(i,g);return;}busy=true;var t0=null,dur=620,x0=s.x,y0=s.y,x1=250,y1=56,cx=(x0+x1)/2,cy=Math.min(y0,y1)-150;
+    function step(ts){if(!t0)t0=ts;var t=Math.min(1,(ts-t0)/dur),u=1-t;ball.setAttribute('cx',u*u*x0+2*u*t*cx+t*t*x1);ball.setAttribute('cy',u*u*y0+2*u*t*cy+t*t*y1);if(t<1)requestAnimationFrame(step);else land(i,g);}
+    requestAnimationFrame(step);}
+
+  // ---------- whistle race ----------
+  var raceBtn=$('raceBtn'),ran=false;
+  function finishRace(){$('tInt').textContent='FLAGGED';$('wInt').classList.add('blown');$('rInt').textContent='Whistle blown';$('yInt').textContent='The 26 January prop stood out as that evening\'s biggest winner and was reported. Regulators spotted it quickly; the league and the F.B.I. followed.';
+    $('tHarm').textContent='≈1,095 DAYS';$('wHarm').classList.add('silent');$('rHarm').textContent='No whistle on record';$('yHarm').textContent='Three years, more than 1,000 bets, about fifty million dollars. No public record of a limit, a pause or a call.';raceBtn.textContent='Run it again';raceBtn.disabled=false;}
+  raceBtn.addEventListener('click',function(){['wInt','wHarm'].forEach(function(id){$(id).classList.remove('blown','silent');});['rInt','rHarm'].forEach(function(id){$(id).innerHTML='&nbsp;';});$('yInt').textContent='';$('yHarm').textContent='';
+    if(reduce){finishRace();return;}raceBtn.disabled=true;var t0=null,dur=4200,intDone=false;
+    function step(ts){if(!t0)t0=ts;var t=Math.min(1,(ts-t0)/dur);var days=Math.round(1095*t);$('tHarm').textContent=days.toLocaleString('en-US')+' DAYS';
+      if(!intDone){if(t<0.12){$('tInt').textContent=Math.round(t/0.12*100)+'%';}else{intDone=true;$('tInt').textContent='FLAGGED';$('wInt').classList.add('blown');$('rInt').textContent='Whistle blown';}}
+      if(t<1)requestAnimationFrame(step);else finishRace();}
+    requestAnimationFrame(step);});
+
+  // ---------- sort the data ----------
+  var CH=[
+   ['How often you play','sell','Used by the promotions model. '],
+   ['Your daily account balance','sell','Used by the promotions model. '],
+   ['How much you lose compared with how much you bet','sell','Used by the promotions model. '],
+   ['How likely you are to quit','sell','A second model estimated this, alongside the promotions score. '],
+   ['Your deposits and withdrawals','prot','Used by the at risk model. '],
+   ['Whether you chase your losses','prot','Used by the at risk model. '],
+   ['Your age and gender','prot','Used by the at risk model. ']
+  ];
+  var chips=$('chips'),sorted=0,right=0;
+  CH.forEach(function(c,i){var d=document.createElement('div');d.className='chipbox';d.innerHTML='<div class="nm">'+c[0]+'</div><div class="pick"><button type="button" class="chip" data-g="sell">Sell</button><button type="button" class="chip" data-g="prot">Protect</button></div>';
+    d.querySelectorAll('.chip').forEach(function(b){b.addEventListener('click',function(){if(d.dataset.done)return;d.dataset.done='1';sorted++;var ok=b.dataset.g===c[1];if(ok)right++;d.classList.add(c[1]);
+      d.querySelector('.pick').innerHTML='<span class="verdict" style="color:'+(c[1]==='sell'?'var(--led)':'var(--felt)')+'">'+(c[1]==='sell'?'SELL':'PROTECT')+' · you called it '+(ok?'right':'wrong')+'</span>';
+      d.insertAdjacentHTML('beforeend','<div class="ans">'+c[2]+REP+'</div>');
+      $('sortNote').textContent=sorted+' of 7 sorted. '+right+' right.'+(sorted===7?' Notice how hard it was to tell them apart. Both models were built from the same customers\' betting records.':'');
+      if(sorted===7){$('fate').hidden=false;}});});
+    chips.appendChild(d);});
+
+  // ---------- bet slip ----------
+  var LEGS=[
+   ['Bets placed on Porter\'s FanDuel account, 2021 to 2023','500',500.5,1000,'OVER. More than 1,000. '+REP,'1,000+'],
+   ['Share of online gambling profits that come from the top 5 percent of users','40%',40.5,60,'OVER. 60 percent, per a 2020 House of Lords report cited in Baltimore\'s lawsuit. <span class="tag alg">ALLEGED</span><span class="sub">as cited</span>','60%'],
+   ['Youngest age Kalshi accepts','20.5',20.5,18,'UNDER. 18. '+REP,'18'],
+   ['Promotions DraftKings gave out in 2025, in billions of dollars','1.5',1.5,3,'OVER. About $3 billion, against roughly $8.7 billion in revenue, by one bank\'s estimate. '+REP,'≈$3B'],
+   ['Sports trading on Kalshi by 18 to 21 year olds this year, in billions','1.5',1.5,3.9,'OVER. About $3.9 billion, by CNN\'s analysis. '+REP,'≈$3.9B'],
+   ['States the federal regulator had sued over prediction markets by late June 2026','5.5',5.5,9,'OVER. At least nine. '+REP,'9']
+  ];
+  var legsEl=$('legs'),slip=$('slipList'),settled=0,hits=0;
+  LEGS.forEach(function(L,i){var d=document.createElement('div');d.className='leg';d.innerHTML='<div class="qn">'+(i+1)+'. '+L[0]+'</div><div class="line">LINE: '+L[1]+'</div><div class="pick"><button type="button" class="ou" data-p="o">Over</button><button type="button" class="ou" data-p="u">Under</button></div>';
+    d.querySelectorAll('.ou').forEach(function(b){b.addEventListener('click',function(){if(d.dataset.done)return;d.dataset.done='1';var truth=L[3]>L[2]?'o':'u',ok=b.dataset.p===truth;settled++;if(ok)hits++;
+      d.querySelectorAll('.ou').forEach(function(x){x.disabled=true;if(x.dataset.p===truth)x.classList.add('right');});b.classList.add(ok?'win':'lose');
+      d.insertAdjacentHTML('beforeend','<div class="ans">'+L[4]+'</div>');
+      slip.insertAdjacentHTML('beforeend','<li><span>Leg '+(i+1)+' · '+(b.dataset.p==='o'?'OVER':'UNDER')+' '+L[1]+'</span><span>'+(ok?'HIT':'MISS')+' · '+L[5]+'</span></li>');
+      var t='Legs settled: '+settled+' of 6 · hits: <b>'+hits+'</b>';
+      if(settled===6){t+='<br><br>'+(hits===6?'PARLAY CASHES. Rare.':'PARLAY LOSES. One miss sinks the whole slip.')+'<br><br>If each leg were a coin flip, a six leg parlay would hit about 1.6% of the time. That is the arithmetic of a parlay: every leg you add multiplies the ways to lose.';}
+      $('slipTot').innerHTML=t;});});
+    legsEl.appendChild(d);});
+
+  // ---------- doors ----------
+  document.querySelectorAll('.ages button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.ages button').forEach(function(x){x.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed','true');var a=+b.dataset.age;
+    var bk=a>=21,pr=a>=18;$('dBook').classList.toggle('open',bk);$('dPred').classList.toggle('open',pr);$('stBook').textContent=bk?'Door opens':'Door stays shut';$('stPred').textContent=pr?'Door opens':'Door stays shut';
+    $('doorNote').textContent=a<18?'At 17, both doors are shut.':(a<21?'At '+a+', one door is shut and one is open. Both lead to a bet on tonight\'s game.':'At 21, both doors open.');});});
+
+  // ---------- challenge flags ----------
+  var CALLS=[
+   ['"The apps target people with gambling problems."','DraftKings says its promotions go to customers with sustained, engaged use, not on the basis of losses, and that anyone flagged or self excluded gets none. It "rejects any implication" that its marketing is unfair. FanDuel has said it is confident it did not break Maryland law. '+REP],
+   ['"The company should have predicted who was in trouble."','DraftKings\' responsible gaming chief says predictive technology for problem gambling "wasn\'t evidence-based," and a false alarm has costs too: cutting off an adult who is betting within their means. The company says it uses language models to scan customer messages for distress. That cannot help a customer who says nothing. '+REP],
+   ['"FanDuel failed Jontay Porter."','FanDuel reportedly refused his N.B.A. and college basketball bets, which is the protection the law most clearly demands. He was an adult making legal wagers, and no public record shows he asked for limits or self exclusion. Whether the company owed him more than that is the open question, not a settled one. '+INF],
+   ['"Prediction markets are just unregulated sportsbooks."','Kalshi is federally regulated and says it "does not set odds, does not act as a counterparty, and does not profit from customer losses." It added athlete blocks in March 2026 and under 21 limits in October. Its critics answer that a user\'s losses feel the same either way. '+REP]
+  ];
+  var calls=$('calls');
+  CALLS.forEach(function(c,i){var d=document.createElement('div');d.className='call';d.innerHTML='<div class="claim">'+c[0]+'</div><button type="button" class="flagbtn" aria-expanded="false" aria-controls="bench'+i+'">Throw the flag</button><div class="bench" id="bench'+i+'" hidden><b>The other bench</b>'+c[1]+'</div>';
+    var b=d.querySelector('.flagbtn');b.addEventListener('click',function(){var bn=d.querySelector('.bench');var open=bn.hidden;bn.hidden=!open;b.setAttribute('aria-expanded',String(open));b.textContent=open?'Pick up the flag':'Throw the flag';});calls.appendChild(d);});
+
+  // ---------- thread layer ----------
+  var THREADS={
+    money:{name:'Money',c:'var(--th-money)',items:[['episode-03-trust-market.html','EP 03 · The Trust Market','Live'],['episode-09-the-synthetic-self.html','EP 09 · The Synthetic Self','Live'],['field-notes/19-the-capital-call.html','Field Note 19 · The Capital Call','Live'],['the-house-already-knew.html','The House Already Knew','Preview']]},
+    clocks:{name:'Clocks',c:'var(--th-clocks)',items:[['field-notes/03-three-converging-clocks.html','Field Note 03 · Three Converging Clocks','Live'],['field-notes/19-the-capital-call.html','Field Note 19 · The Capital Call','Live'],['the-house-already-knew.html','The House Already Knew','Preview']]}
+  };
+  var PEEKS={ep03:{k:'Money · EP 03 The Trust Market',tag:'INFERENCE',t:'A score follows a customer whether or not the customer ever sees it. The Trust Market maps who does the scoring and who is allowed to look.',m:'Live · EP 03',go:'episode-03-trust-market.html',c:'var(--th-money)'}};
+  var here='the-house-already-knew.html',list=$('thlist'),lh=$('thlistH'),lo=$('thlistL'),lf=null;
+  function openL(k,b){var t=THREADS[k];list.style.setProperty('--c',t.c);lh.textContent=t.name+' · '+t.items.length+' pieces';lo.innerHTML=t.items.map(function(i){var h=i[0]===here;return '<li'+(h?' class="here"':'')+'><a href="'+i[0]+'">'+i[1]+(h?' · You are here':'')+'</a><span class="s">'+i[2]+'</span></li>';}).join('');list.hidden=false;lf=b;list.querySelector('.x').focus();}
+  function closeL(){list.hidden=true;if(lf)lf.focus();}
+  document.querySelectorAll('.thbar button').forEach(function(b){b.addEventListener('click',function(){if(!list.hidden&&lh.textContent.indexOf(THREADS[b.dataset.th].name)===0){closeL();return;}openL(b.dataset.th,b);});});
+  list.querySelector('.x').addEventListener('click',closeL);
+  var zones={money:['s2','s4','s7'],clocks:['s3']},pips={money:document.querySelector('[data-th=money]'),clocks:document.querySelector('[data-th=clocks]')};
+  if('IntersectionObserver' in window){var vis={};var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[e.target.id]=e.isIntersecting;});Object.keys(zones).forEach(function(k){pips[k].classList.toggle('lit',zones[k].some(function(id){return vis[id];}));});},{threshold:.12});['s2','s3','s4','s7'].forEach(function(id){io.observe($(id));});}
+  var pk=$('peek'),pf=null;
+  function openP(id,b){var p=PEEKS[id];pk.style.setProperty('--c',p.c);$('peekK').textContent=p.k;$('peekTag').textContent=p.tag;$('peekT').textContent=p.t;$('peekM').textContent=p.m;$('peekGo').href=p.go;pk.hidden=false;pf=b;$('peekClose').focus();}
+  function closeP(){pk.hidden=true;if(pf)pf.focus();}
+  document.querySelectorAll('[data-peek]').forEach(function(b){b.addEventListener('click',function(){openP(b.dataset.peek,b);});});
+  $('peekClose').addEventListener('click',closeP);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(!pk.hidden)closeP();if(!list.hidden)closeL();}});
+})();
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "004d41c27d234e4d91147892e7874563"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
