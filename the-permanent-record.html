@@ -130,6 +130,41 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
 .verdict b.v{display:block;font:500 24px/1.15 var(--display);margin-bottom:4px}
 .verdict.reach b.v{color:var(--fact)}.verdict.exempt b.v{color:var(--rose)}.verdict.none b.v{color:var(--rose)}.verdict.mostly b.v{color:var(--gold)}
 
+
+/* spans */
+.spans{display:grid;gap:10px}
+.span{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:12px;align-items:center}
+@media(max-width:620px){.span{grid-template-columns:1fr;gap:4px}}
+.span .lb{font-size:14.5px;line-height:1.3}.span .lb small{display:block;font:11px/1.3 var(--mono);color:var(--ink-3)}
+.span .tr{position:relative;height:26px;background:var(--paper-2);border-radius:4px;border:1px solid var(--rule)}
+.span .fl{position:absolute;left:0;top:3px;bottom:3px;border-radius:0 4px 4px 0;background:var(--c);width:0;transition:width 1s cubic-bezier(.2,.7,.2,1)}
+.span .vl{position:absolute;top:50%;transform:translateY(-50%);font:600 12px/1 var(--mono);white-space:nowrap;padding-left:8px}
+.span .tip{display:none;grid-column:1/-1;font-size:13.5px;color:var(--ink-2);background:var(--paper-2);border-radius:6px;padding:8px 10px}
+.span.open .tip{display:block}
+.span button.hit{position:absolute;inset:0;background:none;border:0;padding:0}
+/* touchpoint grid */
+.tgrid-wrap{overflow-x:auto}
+.tgrid{display:grid;grid-template-columns:150px repeat(8,minmax(46px,1fr));gap:4px;min-width:560px}
+.tgrid .h{font:600 10px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);text-align:center;align-self:end;padding-bottom:4px}
+.tgrid .rh{font:600 13px/1.25 var(--body);align-self:center}
+.tgrid .rh small{display:block;font:11px/1.2 var(--mono);color:var(--ink-3);font-weight:400}
+.tgrid .cell{height:44px;border-radius:6px;border:1px dashed var(--rule);background:transparent}
+.tgrid button.cell{border:0;background:var(--c);opacity:.85}
+.tgrid button.cell[aria-pressed=true]{opacity:1;box-shadow:0 0 0 3px var(--ink)}
+.tnote{margin-top:12px;font-size:15px;line-height:1.5;border-left:4px solid var(--acc);padding:8px 12px;background:var(--paper-2);min-height:3em}
+/* state map */
+.smap-wrap{overflow-x:auto}
+.smap{display:grid;grid-template-columns:repeat(12,minmax(26px,1fr));gap:3px;max-width:640px;min-width:340px}
+.smap .s{aspect-ratio:1;border-radius:4px;font:600 11px/1 var(--mono);display:flex;align-items:center;justify-content:center;border:0}
+.smap .s.off{background:#ebe6dc;color:#a69f93}
+.smap button.s{color:#fff;cursor:pointer}
+.smap button.s[aria-pressed=true]{box-shadow:0 0 0 3px var(--ink);transform:scale(1.08)}
+.k-reach,.smap .reach{background:#1d6b45}.k-exempt,.smap .exempt{background:#a8384f}.k-mostly,.smap .mostly{background:#8a5a0c}.k-pending,.smap .pending{background:#2f5597}.k-none,.smap .none{background:#655e6c}.k-off{background:#ebe6dc}
+.slegend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:10px 0 12px;font:11px/1.4 var(--mono);color:var(--ink-2)}
+.slegend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-2px}
+.verdict .seen{display:block;margin-top:8px;font:12px/1.5 var(--mono);color:var(--ink-3)}
+.verdict .seen a{color:var(--acc)}
+
 /* history */
 .timeline{display:grid;gap:0;margin:16px 0;border-left:2px solid var(--rule);padding-left:18px}
 .tl{position:relative;padding:8px 0 14px}
@@ -213,7 +248,7 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
     <p>Picture a life lived entirely inside one faith community: baptized in the parish, dropped off at the church nursery, educated in the church's school from kindergarten through a church college, married at the altar, giving every week for decades. Every one of those steps leaves a record. In the age of artificial intelligence, records that once sat in separate filing cabinets can be joined into one profile and used to predict things about the person.</p>
     <p>This exhibit does not allege that any church or school builds such a profile. It shows what can be collected, which laws reach it, what it could predict, and why a congregation might want it anyway.</p>
   </div>
-  <div class="meta"><span>About 14 minutes</span><span>No sliders</span><span>Evidence through 9 Nov 2026</span><span>Companion to <a href="hipaa-for-the-pews.html">HIPAA for the Pews</a></span></div>
+  <div class="meta"><span>About 18 minutes</span><span>No sliders</span><span>Evidence through 9 Nov 2026</span><span>Companion to <a href="hipaa-for-the-pews.html">HIPAA for the Pews</a></span></div>
   <p class="disclose">Researched and compiled with Claude (Anthropic). Final editorial judgment: Melophon. The life in this exhibit is a composite, not a real person. Lines marked INFERENCE describe what is commonly collected, not what any named institution does.</p>
 </header>
 
@@ -221,7 +256,7 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
 <section class="room" id="r1">
   <div class="roomno">Room 1 · Grow up</div>
   <h2>One life, <em>one file.</em></h2>
-  <p class="prose">Press the button to age the person. Each stage prints new lines into the register on the right. Each line shows who holds it (church, school or both) and whether a federal privacy law clearly reaches it.</p>
+  <p class="prose">Press the button to age the person, from the font to the grave and past it. Each stage prints new lines into the register on the right. Each line shows who holds it (church, school or both) and whether a federal privacy law clearly reaches it.</p>
   <div class="panel">
     <div class="grow">
       <div class="life" aria-live="polite">
@@ -234,7 +269,7 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
         </div>
         <div class="lifebtns">
           <button class="btn" type="button" id="ageNext">Next stage →</button>
-          <button class="btn ghost" type="button" id="ageJump">Jump to age 50</button>
+          <button class="btn ghost" type="button" id="ageJump">Jump to the end</button>
           <button class="btn ghost" type="button" id="ageReset">Start over</button>
         </div>
         <div class="dots" id="dots" aria-hidden="true"></div>
@@ -242,12 +277,12 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
       <div class="register" aria-label="The register">
         <h4>Register · composite member</h4>
         <ol id="reg"></ol>
-        <div class="seal" id="seal">Age 50<br>one person<br><span id="sealN">0</span> lines</div>
+        <div class="seal" id="seal">One life<br><span id="sealN">0</span> lines<br>no end date</div>
       </div>
     </div>
     <p class="note">Law chips: <span class="tag" style="background:var(--rose-bg);color:var(--rose)">NONE CLEAR</span> no federal privacy law clearly applies; <span class="tag" style="background:var(--fact-bg);color:var(--fact)">FERPA</span> the federal student records law likely applies; <span class="tag" style="background:var(--watch-bg);color:var(--watch)">DEPENDS</span> turns on funding, state or setting. State law may add protection; see Room 4.</p>
   </div>
-  <div class="why"><b class="k">What the register shows</b>Most of a lifelong faith file is held by institutions that most privacy laws were not written for. The one stretch most likely to be covered is college, and only if the college takes federal money. <span class="tag inf">INFERENCE</span><span class="sub">from the sourced rules in Room 3</span></div>
+  <div class="why"><b class="k">What the register shows</b>The law arrives only where the church acts like another kind of institution: a college that takes federal student aid, or a hospital. Where it acts as a church, from the nursery to the cemetery, almost nothing clearly applies. And even the hospital's protection ends fifty years after death; the register's never does. <span class="tag inf">INFERENCE</span><span class="sub">from the sourced rules in Rooms 1 and 3</span></div>
 </section>
 
 <!-- ROOM 2 · UNREDACT -->
@@ -281,17 +316,45 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
 <section class="room" id="r4">
   <div class="roomno">Room 4 · Where you live</div>
   <h2>The same file, <em>different states.</em></h2>
-  <p class="prose">About twenty states have passed broad consumer privacy laws. Whether one reaches a church depends on whether that law covers nonprofits at all. Choose a state.</p>
+  <p class="prose">About two dozen states have passed broad consumer privacy laws. Whether one reaches a church depends on whether that law covers nonprofits at all. The highlighted states are ones Melophon has reported from; each answer also tells you where on the site we met that state before. Tap one.</p>
   <div class="panel">
-    <div class="states" role="group" aria-label="Choose a state" id="states"></div>
+    <div class="smap-wrap"><div class="smap" id="smap" role="group" aria-label="Map of states; highlighted states can be chosen"></div></div>
+    <div class="slegend"><span><i class="k-reach"></i>Reaches nonprofits</span><span><i class="k-exempt"></i>Exempts nonprofits</span><span><i class="k-mostly"></i>Mostly outside</span><span><i class="k-pending"></i>Bill pending</span><span><i class="k-none"></i>No broad law</span><span><i class="k-off"></i>Not yet on Melophon</span></div>
     <div class="verdict" id="stVerdict" aria-live="polite">Choose a state above.</div>
-    <p class="note">Coverage summary from PrivacyLawMap, 30 March 2026. <span class="tag rep">REPORTED</span> Even where a law reaches nonprofits, it applies only above a size threshold (about 35,000 to 100,000 people a year in most states, as reported in HIPAA for the Pews), and many state laws exempt data already covered by FERPA. Not legal advice.</p>
+    <p class="note">Coverage from PrivacyLawMap (30 Mar 2026), MultiState (28 Oct 2026), Davis Wright Tremaine on Florida and Louisiana, and the Altoona Mirror on Pennsylvania (25 Jun 2026). <span class="tag rep">REPORTED</span> Even where a law reaches nonprofits, it applies only above a size threshold (about 35,000 to 100,000 people a year in most states, as reported in HIPAA for the Pews), and many state laws exempt data already covered by FERPA. Not legal advice.</p>
   </div>
+</section>
+
+
+<!-- ROOM 5 · OUTLASTING THE COMPANY -->
+<section class="room" id="r4b">
+  <div class="roomno">Room 5 · The institution that outlives the company</div>
+  <h2>A company is built to grow. <em>A church is built to last.</em></h2>
+  <div class="prose">
+    <p>Most data collectors are companies, and companies come and go. The average company stays in the S&amp;P 500 index for about fifteen years, by Innosight's count. <span class="tag rep">REPORTED</span><span class="sub">Apollo Academy, Mar 2026</span> When a company is sold or fails, its data is sold, merged or lost. A church does not live off profits in the same way, does not answer to shareholders, and in many traditions expects to exist for centuries. That stability is what makes a lifelong file possible, and it is also what makes the file permanent. <span class="tag inf">INFERENCE</span></p>
+  </div>
+
+  <div class="panel">
+    <h3>How long each record is built to last</h3>
+    <div class="how">Bars are years. Tap or hover a bar for its source.</div>
+    <div class="spans" id="spans"></div>
+    <p class="note">Not a forecast for any institution. The comparison is between how long each kind of record or holder is designed or required to last.</p>
+  </div>
+
+  <div class="panel">
+    <h3>Who can see you in how many places</h3>
+    <div class="how">Each row is a collector. Each column is a place in a life. Tap a filled square to see what is documented there. Empty squares are places that collector does not reach, as far as the sources show.</div>
+    <div class="tgrid-wrap"><div class="tgrid" id="tgrid" role="grid" aria-label="Collectors by place"></div></div>
+    <div class="tnote" id="tnote" aria-live="polite">Tap a filled square.</div>
+  </div>
+
+  <div class="why"><b class="k">The divergence</b>Both a technology company and a faith tradition can reach many places in a life. The parts of each that act as health providers fall under HIPAA. Amazon says One Medical's patient records are handled separately from the rest of the company. <span class="tag rep">REPORTED</span> The difference is in the rest. The company's other data falls under consumer privacy law where it exists. The church's other data sits under almost none, held by an institution built to outlast everyone in it. <span class="tag inf">INFERENCE</span></div>
+  <p class="note">We found no evidence that any parish joins its records with a church hospital's. Church health systems are commonly run as separate organizations from parishes; check each system's own structure. <span class="tag watch">WATCH</span></p>
 </section>
 
 <!-- ROOM 5 · HISTORY -->
 <section class="room" id="r5">
-  <div class="roomno">Room 5 · Older than the state</div>
+  <div class="roomno">Room 6 · Older than the state</div>
   <h2>The permanent record was <em>the church's idea first.</em></h2>
   <div class="timeline">
     <div class="tl"><div class="y">1563</div><p>The Council of Trent requires Catholic parishes to record baptisms and marriages. <span class="tag rep">REPORTED</span><span class="sub">Polish Genealogical Society of America</span> For centuries in much of Europe, the parish register was the record that a person had been born and married at all.</p></div>
@@ -304,7 +367,7 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
 
 <!-- ROOM 6 · MIRROR -->
 <section class="room" id="r6">
-  <div class="roomno">Room 6 · Why a congregation keeps it</div>
+  <div class="roomno">Room 7 · Why a congregation keeps it</div>
   <h2>The file is <em>also care.</em></h2>
   <div class="sides">
     <div class="care"><h4>The case for keeping it</h4><ul>
@@ -313,6 +376,7 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
       <li>Need-based tuition aid is fairer when it is based on real income.</li>
       <li>Many traditions consider sacramental records permanent by their nature, and a church's right to keep its own records is protected by religious liberty law.</li>
       <li>Most congregations have small staffs and use these tools to do more with less.</li>
+      <li>Church hospitals and care homes serve millions, including many who cannot pay, and their records are regulated as health records.</li>
     </ul></div>
     <div class="risk"><h4>The case for limits</h4><ul>
       <li>Records gathered for care can be reused for fundraising, or for outreach the member never agreed to.</li>
@@ -327,7 +391,7 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
 
 <!-- ROOM 7 · RECALL -->
 <section class="room" id="r7">
-  <div class="roomno">Room 7 · Before you go</div>
+  <div class="roomno">Room 8 · Before you go</div>
   <h2>Three questions <em>on the way out.</em></h2>
   <p class="prose">No score is saved. Each answer links back to the room where it lives.</p>
   <div class="panel"><div class="recall" id="recall"></div><div class="score" id="recallScore" aria-live="polite"></div></div>
@@ -359,6 +423,9 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
       <li>Christian Post, "More than 30K churches using big data from tech firm Gloo to target new members" (risk reports, pricing, consultant quote); Christian Post on Gloo's IPO filing.</li>
       <li>PrivacyLawMap, "State privacy laws and nonprofit organizations," 30 March 2026.</li>
       <li>Polish Genealogical Society of America, "History of Polish Church Records" (Council of Trent, 11 November 1563).</li>
+      <li>Catholic Health Association, Facts and Statistics, April 2026. Reuters via Al Jazeera on the WSJ report on Google and Ascension, 12 November 2019. HHS guidance on HIPAA and decedents (50 years).</li>
+      <li>Apollo Academy, "Average Tenure of Companies in the S&amp;P 500 Index," 1 March 2026, citing Innosight. Proskauer, "Amazon's recent acquisitions highlight the value of consumer data," 26 October 2022.</li>
+      <li>MultiState, "Twenty-four states now have comprehensive consumer privacy laws," 28 October 2026. Davis Wright Tremaine on Florida (2023) and Louisiana SB 386 (June 2026). Altoona Mirror on Pennsylvania HB 78, 25 June 2026.</li>
       <li>Infera, HIPAA for the Pews (prayer requests, counseling notes and children's records outside HIPAA, COPPA and FERPA; state thresholds; Belgian baptism case; church breaches; GDPR Art. 9).</li>
     </ol>
     <p class="sign">Researched and compiled with Claude (Anthropic). Final editorial judgment: Melophon.</p>
@@ -404,7 +471,19 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
      ['church','Volunteer background check','Required to work with children. '+INF,'maybe','Depends'],
      ['church','Pastoral counseling notes','Clergy privilege can protect words in court; it does not govern the file. '+REP,'none','None clear'],
      ['church','Prayer request about a diagnosis','Health information outside HIPAA. '+REP,'none','None clear'],
-     ['both','Alumni and planned giving profile','Decades of giving plus a school connection make a strong bequest prospect. '+INF,'none','None clear']]}
+     ['both','Alumni and planned giving profile','Decades of giving plus a school connection make a strong bequest prospect. '+INF,'none','None clear']]},
+   {age:'70',lab:'Later life',h:'The church hospital',p:'Treated at a hospital run by a church health system. For the first time, a health privacy law clearly applies.',L:[
+     ['church','Hospital medical record','A church-run hospital is a health care provider, so HIPAA applies, unlike the parish. More than one in seven U.S. patients are cared for in a Catholic hospital each day. '+REP+'<span class="sub">Catholic Health Association, Apr 2026</span>','some','HIPAA'],
+     ['church','Chaplain visit, sacrament of the sick','Pastoral care inside the hospital. '+INF,'maybe','Depends'],
+     ['church','Records shared with a technology partner','In 2019 the Catholic health system Ascension gave Google access to patient records from 21 states for a cloud and AI project; Ascension said it complied with HIPAA. '+REP+'<span class="sub">WSJ via Reuters</span>','some','HIPAA']]},
+   {age:'85',lab:'Elder care',h:'The care home',p:'Moves into senior living run within the same tradition.',L:[
+     ['church','Care plan, medications, memory assessments','Catholic health care counts more than 1,600 long-term care and other facilities. Coverage turns on whether the home acts as a covered health provider. '+REP,'maybe','Depends'],
+     ['both','Advance directive and end of life wishes','Kept by the care home and often the parish. '+INF,'maybe','Depends']]},
+   {age:'†',lab:'Death and after',h:'The grave, and the register',p:'Funeral, burial, a bequest. The register opened at the font gets one more line, and keeps the rest.',L:[
+     ['church','Funeral and cemetery record','Church cemeteries keep their own books. '+INF,'none','None clear'],
+     ['church','Death entered in the parish register','The register has no end date. '+INF,'none','None clear'],
+     ['church','Hospital record after death','HIPAA protects a person\'s health records for 50 years after death. Then the protection ends. '+REP+'<span class="sub">HHS guidance</span>','some','HIPAA, 50 yrs'],
+     ['both','Bequest to the parish and the school','Planned giving closes the file. Memorial gifts in their name keep adding to it. '+INF,'none','None clear']]}
   ];
   var si=-1,tot=0,unc=0,reg=$('reg'),dots=$('dots');
   S.forEach(function(){dots.insertAdjacentHTML('beforeend','<i></i>');});
@@ -445,25 +524,72 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
     b.setAttribute('aria-label',c[0]+'. Tap to reveal which law covers it.');
     b.addEventListener('click',function(){var f=!b.classList.contains('flipped');b.classList.toggle('flipped',f);b.setAttribute('aria-pressed',String(f));b.setAttribute('aria-label',f?(c[0]+': '+c[2]):(c[0]+'. Tap to reveal which law covers it.'));});cs.appendChild(b);});
 
-  // ---------- Room 4 states ----------
+  // ---------- Room 4 state map ----------
+  var GRID={AK:[0,0],ME:[0,11],WI:[1,6],VT:[1,10],NH:[1,11],WA:[2,1],ID:[2,2],MT:[2,3],ND:[2,4],MN:[2,5],IL:[2,6],MI:[2,7],NY:[2,9],MA:[2,10],OR:[3,1],NV:[3,2],WY:[3,3],SD:[3,4],IA:[3,5],IN:[3,6],OH:[3,7],PA:[3,8],NJ:[3,9],CT:[3,10],RI:[3,11],CA:[4,1],UT:[4,2],CO:[4,3],NE:[4,4],MO:[4,5],KY:[4,6],WV:[4,7],VA:[4,8],MD:[4,9],DE:[4,10],AZ:[5,2],NM:[5,3],KS:[5,4],AR:[5,5],TN:[5,6],NC:[5,7],SC:[5,8],OK:[6,4],LA:[6,5],MS:[6,6],AL:[6,7],GA:[6,8],HI:[7,0],TX:[7,4],FL:[7,9]};
   var ST={
-   'Maryland':['reach','Reaches nonprofits','Maryland\'s Online Data Privacy Act exempts only certain insurance-related nonprofit activity, and enforcement began on 1 April 2026. A large church that crosses the size threshold could be covered. '+REP],
-   'Virginia':['exempt','Exempts all nonprofits','Virginia\'s law exempts nonprofit organizations entirely. '+REP],
-   'Texas':['exempt','Exempts all nonprofits','Texas exempts nonprofits categorically. '+REP],
-   'Colorado':['reach','No nonprofit exemption','Colorado\'s law contains no nonprofit exemption. Size thresholds still apply. '+REP],
-   'New Jersey':['reach','No nonprofit exemption','Nonprofits that meet New Jersey\'s processing thresholds must comply. '+REP],
-   'California':['mostly','Mostly outside','California has no blanket nonprofit exemption, but its for-profit focus keeps most nonprofits outside its scope. '+REP],
-   'Georgia':['none','No broad privacy law','Georgia was not among the states with a comprehensive consumer privacy law in the April 2026 list we checked. '+REP+'<span class="sub">NAPA Legal Institute</span>']
+   GA:['Georgia','none','No broad privacy law','Georgia is not among the states with a comprehensive consumer privacy law as of October 2026. '+REP,'The Pressure Series','index.html#season-1'],
+   MD:['Maryland','reach','Reaches nonprofits','Maryland\'s Online Data Privacy Act exempts only certain insurance-related nonprofit activity; enforcement began 1 April 2026. A large church above the size threshold could be covered. '+REP,'Same Building, Two Bills','same-building-two-bills.html'],
+   FL:['Florida','exempt','Exempts nonprofits','Florida\'s Digital Bill of Rights exempts nonprofits and reaches only companies with more than $1 billion in revenue that meet narrow tests. '+REP,'The Coast Is Moving','the-coast-is-moving.html'],
+   PA:['Pennsylvania','pending','Bill pending','No comprehensive law yet. House Bill 78 cleared a Senate committee unanimously in June 2026 and went to the full Senate. '+REP+' <span class="tag watch">WATCH</span>','HIPAA for the Pews (the 2018 grand jury and church records)','hipaa-for-the-pews.html'],
+   LA:['Louisiana','exempt','Exempts nonprofits','Louisiana enacted a privacy law in 2026, effective 1 January 2027; nonprofits are generally exempt. '+REP,'Field Note 19 · The Capital Call (Hyperion)','field-notes/19-the-capital-call.html'],
+   ND:['North Dakota','none','No broad privacy law','Not among the states with a comprehensive law as of October 2026. '+REP,'Field Note 19 · Harwood','field-notes/19-the-capital-call.html'],
+   AZ:['Arizona','none','No broad privacy law','Not among the states with a comprehensive law as of October 2026. '+REP,'EP 09 · The Synthetic Self (the Pelkey ruling)','episode-09-the-synthetic-self.html'],
+   CO:['Colorado','reach','No nonprofit exemption','Colorado\'s law contains no nonprofit exemption. Size thresholds still apply. '+REP,'The House Already Knew','the-house-already-knew.html'],
+   MA:['Massachusetts','pending','Bill pending','No comprehensive law yet; House and Senate versions were in conference in October 2026. '+REP+' <span class="tag watch">WATCH</span>','The House Already Knew (the DraftKings inquiry)','the-house-already-knew.html'],
+   TX:['Texas','exempt','Exempts nonprofits','Texas exempts nonprofits categorically. '+REP,'EP 09 · The Synthetic Self (Prestonwood)','episode-09-the-synthetic-self.html'],
+   KY:['Kentucky','exempt','Exempts most charities','Kentucky\'s law, effective 1 January 2026, effectively limits its exemption to 501(c)(3)-type organizations, which includes most churches. '+REP,'Redeeming the Time','redeeming-the-time.html'],
+   MI:['Michigan','none','No broad privacy law','Not among the states with a comprehensive law as of October 2026. '+REP,'EP 09 · The Synthetic Self (the AI King video)','episode-09-the-synthetic-self.html'],
+   WI:['Wisconsin','none','No broad privacy law','Not among the states with a comprehensive law as of October 2026. '+REP,'Field Note 19 · Janesville','field-notes/19-the-capital-call.html'],
+   VA:['Virginia','exempt','Exempts nonprofits','Virginia\'s law exempts nonprofit organizations entirely. '+REP,'Same Building, Two Bills (the Dominion zone)','same-building-two-bills.html'],
+   OH:['Ohio','none','No broad privacy law','Not among the states with a comprehensive law as of October 2026. '+REP,'Same Building, Two Bills (the Ratepayer Protection Act)','same-building-two-bills.html'],
+   NC:['North Carolina','none','No broad privacy law','Not among the states with a comprehensive law as of October 2026. '+REP,'The Long Water','the-long-water.html'],
+   NJ:['New Jersey','reach','No nonprofit exemption','Nonprofits that meet New Jersey\'s processing thresholds must comply. '+REP,'The Chain of Title','the-chain-of-title.html'],
+   CA:['California','mostly','Mostly outside','No blanket nonprofit exemption, but the law\'s for-profit focus keeps most nonprofits outside its scope. '+REP,'Brief № 011 · The Price of No','brief-the-price-of-no.html'],
+   TN:['Tennessee','exempt','Exempts nonprofits','Tennessee exempts all nonprofits. '+REP,'The Circulating Dollar','the-circulating-dollar.html'],
+   IL:['Illinois','none','No broad privacy law','Illinois has no comprehensive consumer privacy law, though its biometric privacy law is among the strictest in the country. '+REP,'HIPAA for the Pews','hipaa-for-the-pews.html']
   };
-  var sw=$('states');
-  Object.keys(ST).forEach(function(k){var b=document.createElement('button');b.type='button';b.textContent=k;b.setAttribute('aria-pressed','false');
-    b.addEventListener('click',function(){[].forEach.call(sw.children,function(x){x.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed','true');var s=ST[k];var v=$('stVerdict');v.className='verdict '+s[0];v.innerHTML='<b class="v">'+k+': '+s[1]+'</b>'+s[2];});sw.appendChild(b);});
+  var sm=$('smap');
+  for(var r=0;r<8;r++){for(var c=0;c<12;c++){var code=null;for(var k in GRID){if(GRID[k][0]===r&&GRID[k][1]===c){code=k;break;}}
+    if(!code){var e=document.createElement('span');e.setAttribute('aria-hidden','true');sm.appendChild(e);continue;}
+    if(ST[code]){(function(code){var s=ST[code],b=document.createElement('button');b.type='button';b.className='s '+s[1];b.textContent=code;b.setAttribute('aria-pressed','false');b.setAttribute('aria-label',s[0]+': '+s[2]);
+      b.addEventListener('click',function(){sm.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed','true');var v=$('stVerdict');v.className='verdict '+(s[1]==='pending'?'mostly':s[1]);v.innerHTML='<b class="v">'+s[0]+': '+s[2]+'</b>'+s[3]+'<span class="seen">Seen on Melophon: <a href="'+s[5]+'">'+s[4]+'</a></span>';});sm.appendChild(b);})(code);}
+    else{var o=document.createElement('span');o.className='s off';o.textContent=code;o.setAttribute('aria-hidden','true');sm.appendChild(o);}}}
+
+  // ---------- Room 5 spans ----------
+  var SP=[
+   ['Average stay of a company in the S&P 500','Innosight, via Apollo Academy, Mar 2026',15,'#655e6c','About 15 years. Companies are sold, merged or fail; their data goes with them. '+REP],
+   ['Federal health privacy for a person\'s records after death','HHS guidance on HIPAA',50,'#2f5597','HIPAA protects a decedent\'s health records for 50 years after death. '+REP],
+   ['A long human life','for scale',85,'#8a5a0c','Shown only for scale.'],
+   ['Catholic parish registers, required since 1563','Council of Trent, via PGSA',463,'#5b3f8c','Required since 11 November 1563: 463 years and counting. Many traditions treat the entries as permanent. '+REP]
+  ];
+  var spx=$('spans'),MX=463;
+  SP.forEach(function(s){var d=document.createElement('div');d.className='span';d.innerHTML='<div class="lb">'+s[0]+'<small>'+s[1]+'</small></div><div class="tr"><div class="fl" style="--c:'+s[3]+'" data-w="'+(s[2]/MX*100)+'"></div><span class="vl" style="'+(s[2]/MX>.8?'right:10px;color:#fff':'left:'+(s[2]/MX*100)+'%')+'">'+s[2]+(s[2]===463?'+':'')+' yrs</span><button class="hit" type="button" aria-expanded="false" aria-label="'+s[0]+': '+s[2]+' years. Show source"></button></div><div class="tip">'+s[4]+'</div>';
+    var hb=d.querySelector('.hit');hb.addEventListener('click',function(){var o=!d.classList.contains('open');d.classList.toggle('open',o);hb.setAttribute('aria-expanded',String(o));});spx.appendChild(d);});
+  function grow(){spx.querySelectorAll('.fl').forEach(function(f){f.style.width=f.dataset.w+'%';});}
+  if('IntersectionObserver' in window){var so=new IntersectionObserver(function(es){if(es[0].isIntersecting){grow();so.disconnect();}},{threshold:.3});so.observe(spx);}else grow();
+
+  // ---------- Room 5 touchpoint grid ----------
+  var PL=['Worship','School','College','Health care','Elder care','Home','Screen','Grave'];
+  var CO=[
+   ['A lifelong faith community','parish, school, college, hospital, care home, cemetery','#5b3f8c',{0:'The parish register, check-in, giving and prayer requests (Room 1). '+INF,1:'The church school, K to 12. FERPA generally does not apply without federal funds. '+REP,2:'A church college. FERPA likely applies if it takes federal student aid. '+INF,3:'Church health systems: more than 600 Catholic hospitals; one in seven U.S. patients a day. HIPAA applies. '+REP,4:'More than 1,600 Catholic long-term care and other facilities. '+REP,6:'Church apps, livestreams and giving platforms; Gloo has served more than 30,000 churches. '+REP,7:'Church cemeteries and the death entry in the register. '+INF}],
+   ['Amazon','one company, many doors','#2f5597',{3:'One Medical (about $3.9 billion, announced 2022) and Amazon Pharmacy. One Medical says patient records are handled separately from the rest of Amazon. '+REP,5:'Ring doorbells and Eero routers; an offer for iRobot\'s mapping vacuums was announced in 2022. '+REP,6:'Prime purchases and devices, much of it outside HIPAA. '+REP}],
+   ['Walmart','stores, pharmacy, television','#1d6b45',{3:'Walmart pharmacies are health care providers, so prescription records fall under HIPAA. '+INF,5:'VIZIO televisions, after Walmart\'s purchase closed in December 2024; see our VIZIO post. '+REP,6:'VIZIO\'s viewing data, which can be shared with Walmart with consent. '+REP}],
+   ['A data broker','no relationship with you at all','#655e6c',{5:'Brokers compile records from many sources without being in the room. '+INF,6:'Online activity and purchased lists. Gloo told reporters it used data from third-party providers it would not name. '+REP}]
+  ];
+  var tg=$('tgrid'),tn=$('tnote');
+  tg.insertAdjacentHTML('beforeend','<span></span>');PL.forEach(function(p){tg.insertAdjacentHTML('beforeend','<span class="h">'+p+'</span>');});
+  CO.forEach(function(c){tg.insertAdjacentHTML('beforeend','<span class="rh">'+c[0]+'<small>'+c[1]+'</small></span>');
+    PL.forEach(function(p,i){if(c[3][i]){var b=document.createElement('button');b.type='button';b.className='cell';b.style.setProperty('--c',c[2]);b.setAttribute('aria-pressed','false');b.setAttribute('aria-label',c[0]+' at '+p);
+        b.addEventListener('click',function(){tg.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed','true');tn.innerHTML='<b>'+c[0]+' · '+p+'.</b> '+c[3][i];});tg.appendChild(b);}
+      else{tg.insertAdjacentHTML('beforeend','<span class="cell" aria-hidden="true"></span>');}});});
+  var counts=CO.map(function(c){return c[0]+': '+Object.keys(c[3]).length+' of 8';}).join(' · ');
+  tn.textContent='Places reached, as far as the sources show. '+counts+'. Tap a filled square.';
 
   // ---------- Room 7 recall ----------
   var Q=[
-   ['Which part of the composite life was most likely covered by a federal privacy law?',['Kindergarten','A church college that takes federal aid','The church nursery'],1,'Room 1 · Grow up','#r1'],
+   ['Where in the composite life did a health privacy law finally apply?',['The church nursery','The church hospital','The cemetery'],1,'Room 1 · Grow up','#r1'],
    ['What did Gloo send some churches, as reported?',['Neighborhood risk reports','Students\' transcripts','Baptism records'],0,'Room 2 · What the file can predict','#r2'],
-   ['Which state\'s privacy law exempts all nonprofits?',['Colorado','Maryland','Virginia'],2,'Room 4 · Where you live','#r4']
+   ['How long does the average company stay in the S&P 500?',['About 15 years','About 50 years','About 150 years'],0,'Room 5 · The institution that outlives the company','#r4b']
   ];
   var rc=$('recall'),answered=0,right=0;
   Q.forEach(function(q){var d=document.createElement('div');d.className='rq';d.innerHTML='<div class="q">'+q[0]+'</div><div class="opts"></div><div class="back">Back to <a href="'+q[4]+'">'+q[3]+'</a></div>';
@@ -480,8 +606,8 @@ section.room{padding:54px 0;border-top:1px solid var(--rule)}
   function closeL(){list.hidden=true;if(lf)lf.focus();}
   document.querySelectorAll('.thbar button').forEach(function(b){b.addEventListener('click',function(){if(!list.hidden&&lh.textContent.indexOf(THREADS[b.dataset.th].name)===0){closeL();return;}openL(b.dataset.th,b);});});
   list.querySelector('.x').addEventListener('click',closeL);
-  var zones={records:['r1','r3','r5'],money:['r2']},pips={records:document.querySelector('[data-th=records]'),money:document.querySelector('[data-th=money]')};
-  if('IntersectionObserver' in window){var vis={};var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[e.target.id]=e.isIntersecting;});Object.keys(zones).forEach(function(k){pips[k].classList.toggle('lit',zones[k].some(function(id){return vis[id];}));});},{threshold:.12});['r1','r2','r3','r5'].forEach(function(id){io.observe($(id));});}
+  var zones={records:['r1','r3','r5'],money:['r2','r4b']},pips={records:document.querySelector('[data-th=records]'),money:document.querySelector('[data-th=money]')};
+  if('IntersectionObserver' in window){var vis={};var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[e.target.id]=e.isIntersecting;});Object.keys(zones).forEach(function(k){pips[k].classList.toggle('lit',zones[k].some(function(id){return vis[id];}));});},{threshold:.12});['r1','r2','r3','r4b','r5'].forEach(function(id){io.observe($(id));});}
   var pk=$('peek'),pf=null;
   var PEEKS={pews:{k:'Records · HIPAA for the Pews',tag:'REPORTED',t:'Prayer requests about illness, counseling notes and children\'s records usually fall outside HIPAA, COPPA, FERPA and every state privacy threshold.',m:'Live · Faith Layer finale',go:'hipaa-for-the-pews.html',c:'var(--th-records)'}};
   function openP(id,b){var p=PEEKS[id];pk.style.setProperty('--c',p.c);$('peekK').textContent=p.k;$('peekTag').textContent=p.tag;$('peekT').textContent=p.t;$('peekM').textContent=p.m;$('peekGo').href=p.go;pk.hidden=false;pf=b;$('peekClose').focus();}

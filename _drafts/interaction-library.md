@@ -51,6 +51,9 @@ Each method is a design principle from learning research. Use it to pick the mec
 | Redaction reveal | Decision | The Permanent Record (preview) | Inferences hidden in plain data | Every reveal must say what feeds it |
 | Card flip drawers | Decision | The Permanent Record (preview) | Guess the rule, then learn it | Back face must fit on phones |
 | State picker | Self-reference | The Permanent Record (preview) | Rules that change by jurisdiction | Not legal advice; say so |
+| Tile map with site memory | Spatial + spacing | The Permanent Record (preview) | Jurisdictions, each linking back to where the site met that state before | Only states we have actually covered are clickable; color never carries meaning alone |
+| Lifespan bars | Viz + contrast | The Permanent Record (preview) | How long a record or its holder is built to last | Label as design or requirement, never forecast |
+| Touchpoint grid | Connector + contrast | The Permanent Record (preview) | How many places one collector reaches in a life | Every filled cell needs a sourced fact; an empty cell means not shown in sources |
 | Recall card at exit | Retrieval | The Permanent Record (preview) | Retention check with links back | Never store or score answers |
 
 ## Part C · Mechanics we have not tried (the queue)

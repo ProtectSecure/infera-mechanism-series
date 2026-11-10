@@ -32,14 +32,16 @@ Every cue is one true question, born from a fact-check delta (a surprise, a corr
 | C-02 | If knowing a customer is in trouble creates a duty, is it safer for a company not to know? | DraftKings' shelved model | **Briefed** | The Second Alarm · thesis room |
 | C-03 | Who is the protective algorithm for: you, or the company's license? | House Already Knew; CAISSI | **Briefed** | EP 11 cold open; Second Alarm |
 | C-04 | Your bank can block gambling. Can your sportsbook block your bank? | Monzo block | **Briefed** | The Second Alarm · Exhibit 2 instrument |
-| C-05 | A church school knows a child from age five. What does it know at fifty? | Church data question, 9 Nov | **Graduated (preview)** | The Permanent Record (Faith Layer) |
+| C-05 | A church school knows a child from age five. What does it know at fifty, at eighty-five, and after the funeral? | Church data question, 9 Nov; extended same day | **Graduated (preview)** | The Permanent Record (Faith Layer) |
+| C-06 | A company is built to grow; a church is built to last. What happens to a lifelong file held by an institution that outlives every company that ever held your data? | Jared's note on church stability, 9 Nov | **Graduated (preview room)** | The Permanent Record, Room 5 |
 
 ## Through lines found so far
 
 1. **Liability creates the alarm.** Card fraud protection followed liability caps; UK scam reimbursement followed mandatory reimbursement; sportsbook integrity alarms follow license risk. Where no one is liable for the harm, no alarm is built. (C-01, C-02, C-03, C-04) <span>INFERENCE across sourced cases</span>
 2. **The same model, different customer.** The sportsbook "elasticity" model, church giving prediction ("capacity to give, likelihood of dropping out," per a consultant quoted by the Christian Post), and EP 09's rent ledger all score a person's value to an institution. (C-02, C-05; EP 09; EP 03)
-3. **Permanence vs. erasure.** A sacrament that cannot be undone, a school record kept for life, a griefbot that outlives its subject, and EP 10's afterlife of data are one question: who decides when a record ends? (C-05; HIPAA for the Pews; EP 09; EP 10)
+3. **Permanence vs. erasure.** A sacrament that cannot be undone, a school record kept for life, a griefbot that outlives its subject, and EP 10's afterlife of data are one question: who decides when a record ends? Two clocks now sit side by side: HIPAA protects a hospital record for 50 years after death, then stops; a parish register has been required since 1563 and has no end date. The holder's lifespan matters as much as the law: a company averages about 15 years in the S&P 500, while a church expects centuries. (C-05, C-06; HIPAA for the Pews; EP 09; EP 10)
 4. **The tester is the tested.** Sportsbooks police their own harm; AI labs hire their own evaluators; churches hold their own records outside most privacy law. (C-03, C-05; EP 11)
+5. **The law follows the function, not the institution.** A church is barely regulated as a church, but its college is regulated as a college that takes federal aid and its hospital as a hospital. Amazon is regulated as a health provider only inside One Medical and its pharmacy. Privacy depends on which door you walked through, not who owns the building. (C-05, C-06; Same Building, Two Bills) INFERENCE across sourced rules
 
 ---
 
@@ -114,6 +116,33 @@ Every cue is one true question, born from a fact-check delta (a surprise, a corr
 **Legal gap.** A K-12 church school with no federal funds, a church with no HIPAA duty, and a home state that exempts nonprofits can leave a lifetime file covered by almost nothing but breach law. INFERENCE from the sourced rules above
 **Historical analogue.** Parish registers predate civil registration and were long the state's record of birth and marriage. The "permanent record" was a church invention before it was a school threat.
 **Next search.** Which church-school software (student information plus church management) vendors integrate both; any diocese policy on retention; Maryland MODPA thresholds as applied to a large church.
+**Extension, 9 Nov (later life).**
+- Catholic health care: more than 600 hospitals and 1,600+ long-term care and other facilities; more than one in seven U.S. patients cared for in a Catholic hospital each day. REPORTED (Catholic Health Association, Apr 2026)
+- 2019: Ascension gave Google access to patient records from 21 states (Project Nightingale); Ascension said it complied with HIPAA. REPORTED (WSJ via Reuters/Al Jazeera, 12 Nov 2019)
+- May 2024: a ransomware attack on Ascension affected about 5.6 million people. REPORTED; verify against the HHS breach portal before reuse. WATCH
+- HIPAA protects a decedent's records for 50 years after death. REPORTED (HHS guidance)
+- The composite now runs from the font to the grave: 33 lines, of which only the college (maybe) and the hospital stretch (yes) clearly sit under a federal privacy law.
+- Added next search: whether any diocese and an affiliated health system share a donor or CRM database (none found so far).
+
 **Graduates to.** The Permanent Record (Faith Layer), preview 9 Nov 2026.
+
+## Brief C-06 · The institution that outlives the company
+
+**Question.** A company is built to grow; a church is built to last. What happens to a lifelong file held by an institution that outlives every company that ever held your data?
+
+**What we know.**
+- Average tenure of a company in the S&P 500 is about 15 years. REPORTED (Apollo Academy citing Innosight, 1 Mar 2026)
+- Parish registers have been required since 1563 (Council of Trent). REPORTED (PGSA)
+- Amazon reaches health care (One Medical, about $3.9B, announced 2022; Amazon Pharmacy), the home (Ring, Eero; an iRobot offer announced 2022, later abandoned, verify) and the screen. One Medical says patient data is handled separately. REPORTED (Proskauer, 26 Oct 2022)
+- Walmart's purchase of VIZIO closed December 2024; viewing data can be shared with Walmart with consent. REPORTED (see our VIZIO post)
+
+**Convergence.** The multi-location tracker: Amazon, Walmart and a faith ecosystem each reach several places in one life. Ties to The Subscription Self (one account, many doors) and the VIZIO post.
+**Divergence.** A company's lifespan is short and its data is an asset that changes hands in a sale. A church's lifespan is long and its records are treated as permanent. One file is volatile, the other durable; both are risks, of different kinds. INFERENCE
+**Alignment.** Both gain from knowing a person across many places: retention for one, belonging and giving for the other. INFERENCE
+**Legal intersection.** HIPAA (function-based) meets state consumer privacy law (often exempting nonprofits) meets church autonomy doctrine.
+**Legal gap.** Data held by a religious nonprofit outside its health and federally funded education functions, in a state that exempts nonprofits, has no end date and no general access or deletion right. INFERENCE from sourced rules
+**Historical analogue.** Before civil registration, parish registers were the state's record of birth, marriage and death; the institution that kept them outlasted kingdoms. Genealogy companies now license access to such books (verify a specific deal before use).
+**Next search.** What happened to customer data in a well-documented corporate bankruptcy (the volatile side); a diocese that closed or merged parishes and where the registers went (the durable side).
+**Graduates to.** The Permanent Record, Room 5 (preview). Field Note candidate: "When the Company Dies, Where Does Your Data Go?" 
 
 *Engine opened 9 November 2026 · Editorial Agent*
