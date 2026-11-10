@@ -14,7 +14,7 @@ Required mirror on every exhibit: a protective alarm is also surveillance; false
 | # | Exhibit | Domain | First alarm (required) | Second alarm (optional) | Status |
 |---|---|---|---|---|---|
 | 1 | **The House Already Knew** | Sports betting | Integrity monitoring | Harm detection | **Live** 9 Nov 2026 |
-| 2 | **Who Pays for the Scam** | Banking | Unauthorized fraud detection | Scams the customer is tricked into authorizing | **Preview** 9 Nov 2026 (`who-pays-for-the-scam.html`) |
+| 2 | **Who Pays for the Scam** | Banking | Unauthorized fraud detection | Scams the customer is tricked into authorizing | **Live** 9 Nov 2026 (`who-pays-for-the-scam.html`) |
 | 3 | **The Whale Report** | Mobile games, loot boxes | Payment fraud, cheating | Spending by minors and heavy spenders | Proposed |
 | 4 | **The Feed That Knew** | Social media | Spam, bots, policy violations | Wellbeing signals in teen accounts | Proposed; coordinate with EP 04 |
 | 5 | **Capacity to Give** | Church giving platforms | Donation fraud, chargebacks | Giving beyond means, giving under pressure | Proposed; coordinate with Faith Layer |

@@ -1,6 +1,6 @@
 # Field Note 20 · The Estate Sale · brief
 
-**Status:** preview, 9 November 2026 (`field-notes/20-the-estate-sale.html`, noindex, unlinked). Graduated from curiosity cue C-06.
+**Status:** published 9 November 2026 after sign-off (`field-notes/20-the-estate-sale.html`). Character.AI court update (30 Oct hearing, sale calendar) added at sign-off. Graduated from curiosity cue C-06.
 
 **Compression point.** When a company dies, your data is part of what it leaves behind. When a parish closes, the records move down the street. U.S. bankruptcy law mainly protects a promise, so the company that promised less is easier to sell.
 
