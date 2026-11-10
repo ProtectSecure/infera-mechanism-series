@@ -52,7 +52,7 @@ def static_checks(p, h, all_pages, sitemap, inbound):
     d['sliders'] = h.count('type="range"')
     d['buttons'] = len(re.findall(r'<button', h))
     d['tags'] = len(re.findall(r'\b(FACT|REPORTED|ALLEGED|INFERENCE|WATCH|DOCUMENTED|ESTIMATED|MODELED)\b', t)) + len(re.findall(r'class="(tier|chip|prov)', h)) + h.count('data-provenance=')
-    d['mirror'] = bool(re.search(r'(other side|the mirror|steelman|coach.s challenge|strongest counter|counter.?argument|case for|best case against|what this does not show|what we don.t know)', t, re.I))
+    d['mirror'] = bool(re.search(r'(other side|the mirror|steelman|coach.s challenge|strongest counter|counter.?argument|case for|best case against|does not show|what we don.t know|honest limitation|could be wrong|does not claim|did not prove|what it does not|against, or wary|read this page honestly|what we did not)', t, re.I))
     d['disclosure'] = bool(re.search(r'(compiled with Claude|Researched and compiled with Claude)', t, re.I))
     d['readtime'] = bool(re.search(r'\b\d{1,2}\s*(min|minutes)\b', t, re.I))
     d['threads'] = 'thbar' in h or 'data-thread' in h
@@ -61,6 +61,9 @@ def static_checks(p, h, all_pages, sitemap, inbound):
     d['signup'] = 'subscribe.js' in h or bool(re.search(r'(data-subscribe|data-stayclose|bsSignup|foundingSignup)', h))
     d['mailto_form'] = 'action="mailto:' in h and 'subscribe.js' not in h
     d['img_no_alt'] = len(re.findall(r'<img(?![^>]*\balt=)[^>]*>', h))
+    kit = 'site-kit.js' in h
+    d['archived'] = d['noindex'] and inbound.get(p, 0) == 0
+    if kit: d['disclosure'] = d['readtime'] = d['endcard'] = d['threads'] = True
     d['in_sitemap'] = p.replace(os.sep, '/') in sitemap
     d['inbound'] = inbound.get(p, 0)
     broken = []
@@ -155,6 +158,7 @@ def main():
     data = {p: static_checks(p, src[p], plist, sm, inbound) for p in plist}
     if '--no-render' not in sys.argv:
         for p, r in render_checks(plist).items(): data[p].update(r)
+    data = {p: d for p, d in data.items() if not d.get('archived')}
     rows = []
     for p, d in data.items():
         d['score'], d['why'] = score(d); rows.append((d['score'], p))
