@@ -60,3 +60,6 @@ Explainer for high school juniors and up on AI capital: the plug, the chips, the
 
 ## The House Already Knew (9 Nov 2026)
 Standalone exhibit on sportsbook data, integrity vs harm alarms, DraftKings' two models, and prediction markets. Published 9 Nov 2026 after sign off. Brief and claim ledger: `the-house-already-knew-brief.md`.
+
+## Standing rules added 9 Nov 2026
+Editorial Standard v2 §10 (every update is a review trigger for new exhibits) and §11 (push the form), with the new [interaction-library.md](./interaction-library.md).
