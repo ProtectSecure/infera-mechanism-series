@@ -31,5 +31,14 @@ for p, v in sorted(health.items()):
     out[p] = {'title': title, 'section': name, 'sid': sid, 'threads': threads, 'minutes': max(2, round(v['words'] / 230 + 1)), 'blurb': html.unescape(d.group(1))[:170] if d else ''}
 if os.path.exists('_agent/connections-extra.json'):
     for p, x in json.load(open('_agent/connections-extra.json')).items(): out.setdefault(p, {}).update(x)
+# Motion plates: a loop for each page listed in _agent/plates.json, and a still if one has been dropped in images/plates/.
+if os.path.exists('_agent/plates.json'):
+    for p, x in json.load(open('_agent/plates.json')).items():
+        if p not in out: continue
+        if not x.get('loop'): continue   # page already opens with its own picture
+        out[p]['loop'] = x['loop']
+        slug = re.sub(r'\.html$', '', p).replace('/', '--')
+        for ext in ('webp', 'jpg', 'png'):
+            if os.path.exists('images/plates/%s.%s' % (slug, ext)): out[p]['plate'] = 'images/plates/%s.%s' % (slug, ext)
 json.dump({'threads': {'money': '#06d6a0', 'records': '#8b9cff', 'clocks': '#e7b8ff', 'voices': '#d9b35a'}, 'pages': out}, open('connections.json', 'w'), indent=0, ensure_ascii=False)
 print('connections:', len(out))
