@@ -5,7 +5,7 @@
    reader the truth: their email app opens and nothing is saved until they
    press send.
 */
-var INFERA_SUBSCRIBE_ENDPOINT = '';   // e.g. 'https://script.google.com/macros/s/XXXX/exec'
+var INFERA_SUBSCRIBE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyD4WtfeqKFyjXCR_Muzkvzqg2o7O7gkqM0y1d7JExUP-NUHtku6u28HBQBGhjpwgejKQ/exec';   // e.g. 'https://script.google.com/macros/s/XXXX/exec'
 
 (function () {
   'use strict';
