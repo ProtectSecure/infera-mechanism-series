@@ -4,7 +4,9 @@
 
 **What is fixed on the site.** One module, `subscribe.js`, now runs every form. Until a backend is connected it tells readers the truth (their email app opens; nothing is saved until they press send). The counter no longer shows a number the list did not report.
 
-**What you do once** (this needs your Google account, which is why it is not done for you):
+**Status: live since 10 Nov 2026.** The list is the Google Sheet `Infera subscribers`, owned by the Melophon admin Google account. The script is a standalone Apps Script project, `Infera subscribers backend`, that opens the sheet by its ID (`SpreadsheetApp.openById(...)` in place of `getActiveSpreadsheet()`), with the mailing address filled in there. The endpoint is set on line 8 of `subscribe.js`. After any change to the script: Deploy → Manage deployments → edit → New version, so the URL stays the same. That account is free Gmail, so sending is capped at about 100 emails a day.
+
+**Setup steps, for reference** (this needs your Google account, which is why it is not done for you):
 
 1. Signed in as the account that should own the list, create a Google Sheet named `Infera subscribers`.
 2. In the Sheet: Extensions → Apps Script. Delete what is there, paste all of `Code.gs` from this folder. Put your mailing address in the `POSTAL` line (U.S. law requires a postal address in list email; a P.O. box is fine).
