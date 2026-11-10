@@ -83,7 +83,7 @@ Ordered cheapest first. A page must clear the cheap gates before it spends time 
 | K5 | **Scope** | Code | An agent edits outside its allowed files (a healing agent may not edit the evaluator or the gate) | Convention today; a hook next |
 | K6 | **Secrets and privacy** | Code | A private address, a key, or reader data in a commit | To build |
 | K7 | **Ratchet and budget** | Code | The site average falls below the recorded baseline; a loop exceeds its round limit | `gate.py` ratchet (built); round limits by convention |
-| K8 | **Claims** | Model, separate from the builder | Any claim not traceable to its cited source at its stated tag; any overstatement; a remix that upgrades a tag | By hand today. Next: a checker agent with a rubric and an "unknown" verdict |
+| K8 | **Claims** | Model, separate from the builder | Any claim not traceable to its cited source at its stated tag; any overstatement; a remix that upgrades a tag | `claims-checker` agent writes a verdict file; `gate.py` blocks a changed long page with no current verdict or with any blocking verdict (built) |
 | K9 | **Experience** | Model, then human | Fewer than three kinds of interaction; nothing new to the site; reading level above the stated audience | Interaction Library rules; by hand today |
 | K10 | **Sign-off** | Human | Always, before anything new goes live | You. The graph's interrupt. |
 | K11 | **Conflict and consequence** | Human | A piece touches Anthropic or the AI capital markets without the disclosure; any action that cannot be undone (deleting, emailing the list, spending money) | You |
@@ -130,7 +130,7 @@ Five rules hold it together:
 | Queue and log (`state.json`, `PROGRESS.md`) | Seeded |
 | Publish hook (K12) | Written and tested; copy `settings.example.json` to `.claude/settings.json` to switch it on |
 | Weekly L4 and L8 runs | Not scheduled yet |
-| Claims checker (K8) as a separate agent with a 20-case test set | Next build; the highest-value missing gate |
+| Claims checker (K8): `.claude/agents/claims-checker.md`, `extract-claims.py`, a 22-case regression test, `score-checker.py`, wired into `gate.py` | Working. Scored 22 of 22 with no dangerous misses on 10 Nov 2026. The test supplies the source text, so it measures judgment, not source-finding; add harder cases from every live miss. |
 | Scope and secrets gates (K5, K6) | To build |
 | Dependency graph (G8) in `connections.json` | To build; needed as remixes multiply |
 | Audience loop (L11) | Waiting on the subscriber list |

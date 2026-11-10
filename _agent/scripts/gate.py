@@ -7,6 +7,8 @@ Site-wide hard gates (any page):   script errors, phone or desktop overflow, bro
                                    em/en dashes, a subscribe form not on the shared module.
 Changed-page gates (vs origin/main, long pages): evidence tags, an other-side section, the disclosure
                                    line, a subscribe path, noindex left on a linked page.
+Claims (K8):                       a changed long page needs a current verdict file from the claims-checker
+                                   agent with no OVERSTATED, CONTRADICTED, UNSUPPORTED or WRONG_TAG. --no-claims skips.
 Ratchet (keep-or-revert):          the site average may not fall below the recorded baseline.
 """
 import json, os, subprocess, sys
@@ -34,6 +36,20 @@ for p, d in pages.items():
         if d['noindex'] and d['inbound'] > 0: warns.append('%s: linked from the site but still noindex (preview?)' % p)
         if d['sliders'] > 2: warns.append('%s: %d sliders; the standard asks for other mechanics' % (p, d['sliders']))
         if not d['recall']: warns.append('%s: no recall card' % p)
+# K8 · claims: a changed long page needs a current verdict from the independent checker
+import hashlib, re, importlib.util
+spec = importlib.util.spec_from_file_location('xc', '_agent/scripts/extract-claims.py'); xc = importlib.util.module_from_spec(spec); spec.loader.exec_module(xc)
+K8 = '--no-claims' not in sys.argv
+for p in sorted(changed):
+    if not K8 or p not in pages or pages[p]['words'] <= 900 or pages[p]['tags'] < 5: continue
+    led = xc.extract(p); vf = '_drafts/claims/%s.verdict.json' % xc.slug(p)
+    if not os.path.exists(vf): fails.append('%s (changed): no claims verdict; run the claims-checker agent on it' % p); continue
+    v = json.load(open(vf))
+    if v.get('claims_sha') != led['claims_sha']: fails.append('%s (changed): its claims changed since the last check; re-run the claims-checker' % p); continue
+    blocking = [x for x in v.get('verdicts', []) if x.get('verdict') in ('OVERSTATED', 'CONTRADICTED', 'UNSUPPORTED', 'WRONG_TAG')]
+    for x in blocking[:6]: fails.append('%s claim %s: %s. Fix: %s' % (p, x.get('id'), x.get('verdict'), (x.get('fix') or '')[:140]))
+    unk = [x for x in v.get('verdicts', []) if x.get('verdict') == 'UNKNOWN']
+    if unk: warns.append('%s: %d claims the checker could not verify (editor decides): %s' % (p, len(unk), ', '.join(x.get('id', '') for x in unk[:8])))
 scores = [d['score'] for d in pages.values()]; avg = sum(scores) / len(scores)
 base = json.load(open(BASE)) if os.path.exists(BASE) else {'avg': 0, 'min': 0}
 if avg < base['avg'] - 0.5: fails.append('ratchet: site average %.1f is below the baseline %.1f' % (avg, base['avg']))

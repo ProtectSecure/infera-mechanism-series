@@ -7,4 +7,5 @@ Newest first. Every working session ends by adding one entry: what was done, wha
 - Built: `site-health.py` (evaluator), `heal.py`, `build-connections.py`, `gate.py` (publish gate), pre-publish hook (not yet switched on).
 - Gate: PASSED at 110 pages, average 91.3. Baseline recorded.
 - Lesson: a mechanical dash fix broke scripts on 14 pages before the health check caught it. Fixed by making the fix script-aware. This is why the gate now runs before every publish.
+- Built K8, the claims checker: agent definition, claim extractor, 22-case test (22 of 22, no dangerous misses), gate hookup. First live run started on Field Note 20.
 - Next: connect the list (human step); verify Promise Audit quotes; watch 3 to 4 December Character.AI hearing.
