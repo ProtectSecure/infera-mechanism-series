@@ -28,12 +28,14 @@ Every cue is one true question, born from a fact-check delta (a surprise, a corr
 
 | # | Cue | Born from | Status | Graduates to |
 |---|---|---|---|---|
-| C-01 | Britain made banks pay for scams, and losses fell. What would happen if sportsbooks paid for problem gambling? | The House Already Knew; UK PSR results | **Briefed** | The Second Alarm · Exhibit 2 |
+| C-01 | Britain made banks pay for scams, and losses fell. What would happen if sportsbooks paid for problem gambling? | The House Already Knew; UK PSR results | **Graduated (preview)** | The Second Alarm · Exhibit 2, `who-pays-for-the-scam.html` |
 | C-02 | If knowing a customer is in trouble creates a duty, is it safer for a company not to know? | DraftKings' shelved model | **Briefed** | The Second Alarm · thesis room |
 | C-03 | Who is the protective algorithm for: you, or the company's license? | House Already Knew; CAISSI | **Briefed** | EP 11 cold open; Second Alarm |
-| C-04 | Your bank can block gambling. Can your sportsbook block your bank? | Monzo block | **Briefed** | The Second Alarm · Exhibit 2 instrument |
+| C-04 | Your bank can block gambling. Can your sportsbook block your bank? | Monzo block | **Graduated (preview)** | Exhibit 2, Room 5 lock builder |
 | C-05 | A church school knows a child from age five. What does it know at fifty, at eighty-five, and after the funeral? | Church data question, 9 Nov; extended same day | **Graduated (preview)** | The Permanent Record (Faith Layer) |
-| C-06 | A company is built to grow; a church is built to last. What happens to a lifelong file held by an institution that outlives every company that ever held your data? | Jared's note on church stability, 9 Nov | **Graduated (preview room)** | The Permanent Record, Room 5 |
+| C-06 | A company is built to grow; a church is built to last. What happens to a lifelong file held by an institution that outlives every company that ever held your data? | Jared's note on church stability, 9 Nov | **Graduated** | The Permanent Record, Room 5 (live); Field Note 20 The Estate Sale (preview) |
+| C-07 | Character.AI's chats may be sold in bankruptcy. Should companion-chat data get the same protection as health records? | FN 20 research, 9 Nov | **Open** | EP 10 The Afterlife of Your Data; EP 09 retrofit |
+| C-08 | The CFPB dropped its Zelle suit; Britain's rule cut losses. Which US states are moving scam liability onto banks on their own? | Exhibit 2 research, 9 Nov | **Open** | Second Alarm · Exhibit 2 update; Pressure Series state lens |
 
 ## Through lines found so far
 
@@ -41,6 +43,7 @@ Every cue is one true question, born from a fact-check delta (a surprise, a corr
 2. **The same model, different customer.** The sportsbook "elasticity" model, church giving prediction ("capacity to give, likelihood of dropping out," per a consultant quoted by the Christian Post), and EP 09's rent ledger all score a person's value to an institution. (C-02, C-05; EP 09; EP 03)
 3. **Permanence vs. erasure.** A sacrament that cannot be undone, a school record kept for life, a griefbot that outlives its subject, and EP 10's afterlife of data are one question: who decides when a record ends? Two clocks now sit side by side: HIPAA protects a hospital record for 50 years after death, then stops; a parish register has been required since 1563 and has no end date. The holder's lifespan matters as much as the law: a company averages about 15 years in the S&P 500, while a church expects centuries. (C-05, C-06; HIPAA for the Pews; EP 09; EP 10)
 4. **The tester is the tested.** Sportsbooks police their own harm; AI labs hire their own evaluators; churches hold their own records outside most privacy law. (C-03, C-05; EP 11)
+6. **The promise is the trigger.** Bankruptcy law protects data mainly where a company promised not to transfer it; Regulation E protects money mainly where you did not authorize the payment. In both, the customer's protection depends on a definition the customer rarely reads. (C-01, C-06, C-07) INFERENCE across sourced rules
 5. **The law follows the function, not the institution.** A church is barely regulated as a church, but its college is regulated as a college that takes federal aid and its hospital as a hospital. Amazon is regulated as a health provider only inside One Medical and its pharmacy. Privacy depends on which door you walked through, not who owns the building. (C-05, C-06; Same Building, Two Bills) INFERENCE across sourced rules
 
 ---
@@ -143,6 +146,24 @@ Every cue is one true question, born from a fact-check delta (a surprise, a corr
 **Legal gap.** Data held by a religious nonprofit outside its health and federally funded education functions, in a state that exempts nonprofits, has no end date and no general access or deletion right. INFERENCE from sourced rules
 **Historical analogue.** Before civil registration, parish registers were the state's record of birth, marriage and death; the institution that kept them outlasted kingdoms. Genealogy companies now license access to such books (verify a specific deal before use).
 **Next search.** What happened to customer data in a well-documented corporate bankruptcy (the volatile side); a diocese that closed or merged parishes and where the registers went (the durable side).
-**Graduates to.** The Permanent Record, Room 5 (preview). Field Note candidate: "When the Company Dies, Where Does Your Data Go?" 
+**Graduates to.** The Permanent Record, Room 5 (live 9 Nov). Field Note 20 · The Estate Sale (preview 9 Nov): Character.AI and Spirit in bankruptcy; Toysmart, RadioShack, 23andMe; Baltimore parish record transfers.
+
+## Brief C-07 · The companion in the estate sale
+
+**Question.** Character.AI's chats may be sold in bankruptcy. Should companion-chat data get the protection health records get?
+**What we know.** Character Technologies filed Chapter 11 on 12 Oct 2026 (D. Del.); its policy allows sharing in a "sale of company assets"; the NY AG says users disclosed mental health information; the U.S. Trustee sought an ombudsman on 27 Oct. REPORTED (KQED; NY AG; SAN; PK Sharma)
+**Convergence.** EP 09 (the synthetic self), FN 20 (estate sale), HIPAA for the Pews (prayer requests about illness outside HIPAA).
+**Divergence.** The same disclosure made to a therapist is a health record; made to a chatbot, it is an asset. INFERENCE
+**Legal gap.** HIPAA covers providers, not apps; bankruptcy's privacy trigger is a promise. INFERENCE
+**Historical analogue.** Toysmart (2000): children's data in a dead company's estate, which led to the 2005 ombudsman rule.
+**Next search.** The Character.AI docket: ombudsman ruling, bid deadline, whether chats are in the asset list.
+**Graduates to.** EP 10 cold open candidate; FN 20 update.
+
+## Brief C-08 · States that move the loss
+
+**Question.** With federal action stalled, which states are moving scam liability onto banks?
+**What we know.** House Financial Services Republicans declined a liability shift (July 2026); Democrats back the Protecting Consumers from Payment Scams Act. REPORTED (American Banker)
+**Next search.** State bills (2025 to 2026) requiring reimbursement for authorized push payment fraud; New York and California first.
+**Graduates to.** Exhibit 2 update; a Pressure Series map layer.
 
 *Engine opened 9 November 2026 · Editorial Agent*

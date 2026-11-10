@@ -66,3 +66,7 @@ Editorial Standard v2 §10 (every update is a review trigger for new exhibits) a
 
 ## Curiosity engine, Second Alarm, Permanent Record (9 Nov 2026)
 [curiosity-engine.md](./curiosity-engine.md) opened with five cues; [the-second-alarm-series-brief.md](./the-second-alarm-series-brief.md) sets up the mini-series with The House Already Knew as Exhibit 1 and briefs Exhibit 2; [the-permanent-record-brief.md](./the-permanent-record-brief.md) for the Faith Layer companion. Published 9 Nov 2026 after sign off (extended to the hospital, care home and grave; Room 5 on institutional lifespan; 20-state site-memory map). Sweep Targeting Map write-back still queued.
+
+## Field Note 20 and Second Alarm Exhibit 2 (9 Nov 2026, preview)
+[field-note-20-estate-sale-brief.md](./field-note-20-estate-sale-brief.md): `field-notes/20-the-estate-sale.html` (bankruptcy data sales vs parish record transfers; graduated C-06). Second Alarm Exhibit 2: `who-pays-for-the-scam.html` (graduated C-01, C-04); build notes in [the-second-alarm-series-brief.md](./the-second-alarm-series-brief.md). Both noindex and unlinked until sign-off. New cues C-07, C-08 in the curiosity engine.
+

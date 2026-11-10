@@ -54,6 +54,14 @@ Each method is a design principle from learning research. Use it to pick the mec
 | Tile map with site memory | Spatial + spacing | The Permanent Record (preview) | Jurisdictions, each linking back to where the site met that state before | Only states we have actually covered are clickable; color never carries meaning alone |
 | Lifespan bars | Viz + contrast | The Permanent Record (preview) | How long a record or its holder is built to last | Label as design or requirement, never forecast |
 | Touchpoint grid | Connector + contrast | The Permanent Record (preview) | How many places one collector reaches in a life | Every filled cell needs a sourced fact; an empty cell means not shown in sources |
+| Call the gavel + confidence wager | Decision + hypercorrection | FN 20 The Estate Sale (preview) | Outcomes people assume wrongly | Stakes are points, never money; reveal must cite |
+| Spot the clause | Contrast pairs | FN 20 The Estate Sale (preview) | Which words in a policy carry legal weight | Quote only reported language |
+| Branching route (two closings) | Branching case file | FN 20 The Estate Sale (preview) | Where a record goes under two rule sets | Every node sourced; forks must be real legal forks |
+| Branching text thread | Narrative + decision | Who Pays for the Scam (preview) | How a manipulation funnels every choice to one outcome | Label as composite; never a real victim's words |
+| Vault dials (two-alarm panel) | Contrast + embodied | Who Pays for the Scam (preview) | Same loss, two legal doors | Series signature; each exhibit gets a new body |
+| Border ledger | Self-reference + contrast | Who Pays for the Scam (preview) | Who absorbs a loss under two jurisdictions | Say what is assumed (scope, excess) |
+| Statement spot-the-line | Contrast pairs | Who Pays for the Scam (preview) | The one line a law adds or removes | Mark statements illustrative |
+| Lock builder | Self-reference | Who Pays for the Scam (preview) | What each customer-set protection did in real data | Only parts with published data |
 | Recall card at exit | Retrieval | The Permanent Record (preview) | Retention check with links back | Never store or score answers |
 
 ## Part C · Mechanics we have not tried (the queue)
@@ -65,14 +73,14 @@ Pick from here when the review in Editorial Standard v2 §10 calls for something
 | **Draw your guess** | Predict, then reveal | Reader sketches the line on an empty chart; the real line draws over it | Wages vs rent tiers (EP 09); AI capex by year (FN 19 sequel) |
 | **Redaction reveal** (shipped in preview, see Part B) | Desirable difficulty | A document arrives blacked out; each tap unredacts one line with its source | EP 11 (CAISSI's stopped reports); Sealed Calendar |
 | **Ballot / vote and see the room** | Self-reference | Reader votes on a real ballot measure, then sees the actual result | Harwood and the 40 towns (FN 19 sequel) |
-| **Branching case file** | Narrative + decision | Reader plays the regulator or the host; choices lead to documented outcomes | The House Already Knew sequel; EP 11 |
+| **Branching case file** (shipped in FN 20 and Second Alarm 02 previews) | Narrative + decision | Reader plays the regulator or the host; choices lead to documented outcomes | The House Already Knew sequel; EP 11 |
 | **Receipt scanner** | Dual coding | A long receipt prints line by line; tap a line to see who got that dollar | Chain of Title; The Subscription Self material |
 | **Card flip memory game** (a flip variant shipped in preview) | Retrieval practice | Match a term to its plain-English definition, timed lightly | Any explainer for juniors and up |
 | **Time scrubber with scroll** | Embodied | The page's scroll position is the date; the record changes as you move | Watch the Record Change pieces; Pelkey ruling |
 | **Audio layer** | Dual coding | A cue or a read changes as the reader crosses a room | Using Jared's own library; Faith Layer |
 | **Map pin drop** | Self-reference + spatial | Reader marks where they live; the page answers for that county | Pressure Series; data center siting |
-| **Confidence wager** | Hypercorrection | Before a reveal, the reader stakes 1 to 5 points on being right | Any Call It; pairs with the over/under slip |
-| **Spot the difference** | Contrast pairs | Two near-identical documents or screens; find the clause that changed | VIZIO consent screens; terms of service |
+| **Confidence wager** (shipped in FN 20 preview) | Hypercorrection | Before a reveal, the reader stakes 1 to 5 points on being right | Any Call It; pairs with the over/under slip |
+| **Spot the difference** (shipped in FN 20 and Second Alarm 02 previews) | Contrast pairs | Two near-identical documents or screens; find the clause that changed | VIZIO consent screens; terms of service |
 | **Recall card at exit** (shipped in preview) | Retrieval practice | Three questions on the way out; answers link back to the room | Every episode, as a standard closer |
 
 ## Part D · Picking the mix for a page
