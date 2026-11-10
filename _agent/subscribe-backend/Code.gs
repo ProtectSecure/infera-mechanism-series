@@ -66,15 +66,15 @@ function p_(t) { return '<p style="margin:0 0 16px">' + t + '</p>'; }
 function confirmEmail_(f, token) {
   var founding = f.tag === 'founding-500', link = SITE + 'confirm.html?confirm=' + token;
   f.status = '<span style="color:#ffd500">Pending. Waiting on you.</span>';
-  var html = shell_('It holds your address and almost nothing else. Confirm, and that is how it stays.',
-    h1_('We just opened a file on you.') +
-    p_('It is probably the shortest one anyone keeps. Here is all of it:') + fileCard_(f) +
-    p_('<br>Other files on you run longer. A data broker has one. So does your bank, your power company, and the app you opened this morning. You have likely never seen any of them.') +
-    p_('The Mechanism Series is where we open files like those and let you work the machinery yourself: <span style="color:#06d6a0">who pays</span>, <span style="color:#8b9cff">who keeps the record</span>, <span style="color:#e7b8ff">which clock is running</span>, and <span style="color:#d9b35a">whose voice gets heard</span>.') +
-    button_(link, founding ? 'Confirm my founding seat' : 'Confirm my file') +
+  var html = shell_('One click makes it official. Inside: everything we hold on you. It is short.',
+    h1_(founding ? 'Glad you are here. Your seat is waiting.' : 'Glad you found us.') +
+    p_('One click below makes it official. First, something most lists never show you: everything we hold on you.') + fileCard_(f) +
+    p_('<br>That is the whole file, and it stays that short. Most files kept on you run longer, and you never get to read them: the data broker&#39;s, the bank&#39;s, the power company&#39;s, the one behind the app you opened this morning.') +
+    p_('The Mechanism Series opens files like those and lets you work the machinery yourself: <span style="color:#06d6a0">who pays</span>, <span style="color:#8b9cff">who keeps the record</span>, <span style="color:#e7b8ff">which clock is running</span>, and <span style="color:#d9b35a">whose voice gets heard</span>. Come in and try one.') +
+    button_(link, founding ? 'Confirm my founding seat' : 'Confirm and come in') +
     p_('<span style="font-size:14px;color:#8a867a">If this was not you, do nothing. We will not write again unless this address is entered again.</span>'), null);
-  var text = 'We just opened a file on you.\n\nIt is probably the shortest one anyone keeps. Here is all of it:\n\n  File no.   ' + fileNo_(f.no) + '\n  Subject    ' + f.email + '\n  Opened     ' + when_(f.opened) + '\n  Status     Pending. Waiting on you.\n  Holds      Nothing else.\n\nConfirm your file:\n' + link + '\n\nIf this was not you, do nothing. We will not write again unless this address is entered again.\n\n' + POSTAL;
-  return { subject: founding ? 'We opened a file on you. Seat pending.' : 'We opened a file on you. It is a short one.', html: html, text: text };
+  var text = (founding ? 'Glad you are here. Your seat is waiting.' : 'Glad you found us.') + '\n\nOne click makes it official:\n' + link + '\n\nFirst, something most lists never show you: everything we hold on you.\n\n  File no.   ' + fileNo_(f.no) + '\n  Subject    ' + f.email + '\n  Opened     ' + when_(f.opened) + '\n  Status     Pending. Waiting on you.\n  Holds      Nothing else.\n\nThat is the whole file, and it stays that short.\n\nIf this was not you, do nothing. We will not write again unless this address is entered again.\n\n' + POSTAL;
+  return { subject: founding ? 'Welcome. One click to confirm your founding seat.' : 'Welcome. One click to confirm your place.', html: html, text: text };
 }
 
 function welcomeEmail_(f, token) {
