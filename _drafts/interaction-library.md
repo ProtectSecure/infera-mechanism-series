@@ -47,6 +47,11 @@ Each method is a design principle from learning research. Use it to pick the mec
 | ID check / doors | Spatial | The House Already Knew | Rules that differ by gate | Keep the age choices realistic |
 | Coach's challenge flags | Counter-read | The House Already Knew | The other side, on demand | Mirror must be the real best case |
 | Peek cards, thread bar, crumbs | Thread layer | EP 09 | Site connections without leaving the page | One toast at a time |
+| Grow-up stepper + register printer | Pacing | The Permanent Record (preview) | A life or process accumulating records | Keep stages under ten |
+| Redaction reveal | Decision | The Permanent Record (preview) | Inferences hidden in plain data | Every reveal must say what feeds it |
+| Card flip drawers | Decision | The Permanent Record (preview) | Guess the rule, then learn it | Back face must fit on phones |
+| State picker | Self-reference | The Permanent Record (preview) | Rules that change by jurisdiction | Not legal advice; say so |
+| Recall card at exit | Retrieval | The Permanent Record (preview) | Retention check with links back | Never store or score answers |
 
 ## Part C · Mechanics we have not tried (the queue)
 
@@ -55,17 +60,17 @@ Pick from here when the review in Editorial Standard v2 §10 calls for something
 | Mechanic | Method | What it would look like | Good first home |
 |---|---|---|---|
 | **Draw your guess** | Predict, then reveal | Reader sketches the line on an empty chart; the real line draws over it | Wages vs rent tiers (EP 09); AI capex by year (FN 19 sequel) |
-| **Redaction reveal** | Desirable difficulty | A document arrives blacked out; each tap unredacts one line with its source | EP 11 (CAISSI's stopped reports); Sealed Calendar |
+| **Redaction reveal** (shipped in preview, see Part B) | Desirable difficulty | A document arrives blacked out; each tap unredacts one line with its source | EP 11 (CAISSI's stopped reports); Sealed Calendar |
 | **Ballot / vote and see the room** | Self-reference | Reader votes on a real ballot measure, then sees the actual result | Harwood and the 40 towns (FN 19 sequel) |
 | **Branching case file** | Narrative + decision | Reader plays the regulator or the host; choices lead to documented outcomes | The House Already Knew sequel; EP 11 |
 | **Receipt scanner** | Dual coding | A long receipt prints line by line; tap a line to see who got that dollar | Chain of Title; The Subscription Self material |
-| **Card flip memory game** | Retrieval practice | Match a term to its plain-English definition, timed lightly | Any explainer for juniors and up |
+| **Card flip memory game** (a flip variant shipped in preview) | Retrieval practice | Match a term to its plain-English definition, timed lightly | Any explainer for juniors and up |
 | **Time scrubber with scroll** | Embodied | The page's scroll position is the date; the record changes as you move | Watch the Record Change pieces; Pelkey ruling |
 | **Audio layer** | Dual coding | A cue or a read changes as the reader crosses a room | Using Jared's own library; Faith Layer |
 | **Map pin drop** | Self-reference + spatial | Reader marks where they live; the page answers for that county | Pressure Series; data center siting |
 | **Confidence wager** | Hypercorrection | Before a reveal, the reader stakes 1 to 5 points on being right | Any Call It; pairs with the over/under slip |
 | **Spot the difference** | Contrast pairs | Two near-identical documents or screens; find the clause that changed | VIZIO consent screens; terms of service |
-| **Recall card at exit** | Retrieval practice | Three questions on the way out; answers link back to the room | Every episode, as a standard closer |
+| **Recall card at exit** (shipped in preview) | Retrieval practice | Three questions on the way out; answers link back to the room | Every episode, as a standard closer |
 
 ## Part D · Picking the mix for a page
 

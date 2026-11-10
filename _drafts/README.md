@@ -63,3 +63,6 @@ Standalone exhibit on sportsbook data, integrity vs harm alarms, DraftKings' two
 
 ## Standing rules added 9 Nov 2026
 Editorial Standard v2 §10 (every update is a review trigger for new exhibits) and §11 (push the form), with the new [interaction-library.md](./interaction-library.md).
+
+## Curiosity engine, Second Alarm, Permanent Record (9 Nov 2026)
+[curiosity-engine.md](./curiosity-engine.md) opened with five cues; [the-second-alarm-series-brief.md](./the-second-alarm-series-brief.md) sets up the mini-series with The House Already Knew as Exhibit 1 and briefs Exhibit 2; [the-permanent-record-brief.md](./the-permanent-record-brief.md) for the Faith Layer companion, preview on branch `permanent-record-and-second-alarm`.
