@@ -59,4 +59,4 @@ The Fourth Founding Refusal still applies to every draft: *no mind-control frami
 Explainer for high school juniors and up on AI capital: the plug, the chips, the building, the bill. Instruments: three clocks, capital stack, GDP boom bars, debt unit chart. Harwood ND counter-example. Standing Anthropic conflict disclosure added to legal.html and carried on the page. Thread layer: Money, Clocks. Sweep Targeting Map write-back queued.
 
 ## The House Already Knew (9 Nov 2026)
-Standalone exhibit on sportsbook data, integrity vs harm alarms, DraftKings' two models, and prediction markets. Preview rendered, unlinked, on branch `house-already-knew-preview`. Brief and claim ledger: `the-house-already-knew-brief.md`.
+Standalone exhibit on sportsbook data, integrity vs harm alarms, DraftKings' two models, and prediction markets. Published 9 Nov 2026 after sign off. Brief and claim ledger: `the-house-already-knew-brief.md`.
