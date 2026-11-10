@@ -31,7 +31,7 @@ function rows_(sh) { var v = sh.getDataRange().getValues(); v.shift(); return v;
 function foundingCount_(sh) { return rows_(sh).filter(function (r) { return r[1] === 'founding-500' && r[4] === 'confirmed'; }).length; }
 function url_() { return ScriptApp.getService().getUrl(); }
 function footer_(token) {
-  return '<hr style="border:0;border-top:1px solid #ddd;margin:28px 0 12px"><p style="font:12px/1.6 Arial,sans-serif;color:#777">You are getting this because you signed up at series.melophon.com. <a href="' + url_() + '?unsub=' + token + '">Unsubscribe in one click</a>. ' + POSTAL + '</p>';
+  return '<hr style="border:0;border-top:1px solid #ddd;margin:28px 0 12px"><p style="font:12px/1.6 Arial,sans-serif;color:#777">You are getting this because you signed up at series.melophon.com. <a href="' + SITE + 'confirm.html?unsub=' + token + '">Unsubscribe in one click</a>. ' + POSTAL + '</p>';
 }
 
 function doPost(e) {
@@ -66,28 +66,38 @@ function doPost(e) {
 function doGet(e) {
   var p = e.parameter || {}, sh = sheet_();
   if (p.count) return json_({ founding: foundingCount_(sh), cap: FOUNDING_CAP });
-  var token = p.confirm || p.unsub; if (!token) return page_('Nothing to do here.', 'This address handles list sign-ups for the series.');
-  var all = rows_(sh);
-  for (var i = 0; i < all.length; i++) {
-    if (all[i][5] === token) {
-      if (p.unsub) { sh.getRange(i + 2, 5).setValue('unsubscribed'); return page_('You are unsubscribed.', 'We will not email this address again. To erase the record entirely, write to infera@melophon.com.'); }
-      if (all[i][4] !== 'confirmed') {
-        sh.getRange(i + 2, 5).setValue('confirmed'); sh.getRange(i + 2, 7).setValue(new Date());
-        var founding = all[i][1] === 'founding-500', seat = '';
-        if (founding) { seat = foundingCount_(sh); if (seat > FOUNDING_CAP) { sh.getRange(i + 2, 2).setValue('reader'); founding = false; } else sh.getRange(i + 2, 8).setValue(seat); }
-        MailApp.sendEmail({ to: all[i][0], name: FROM_NAME, subject: founding ? 'Seat ' + seat + ' of 500 is yours' : 'You are on the list',
-          htmlBody: '<div style="font:17px/1.6 Georgia,serif;color:#222;max-width:560px">' + (founding ? '<p>Your founding seat is confirmed: <b>seat ' + seat + ' of 500</b>.</p><p>You will get one email a month from the editor, early drafts, and a place on the masthead if you want one. Reply to this email with the name you would like shown, or tell us you would rather stay unnamed.</p>' : '<p>You are confirmed. You will get one short email when a new piece is published, and nothing else.</p>') + '<p>Start anywhere: <a href="' + SITE + '">series.melophon.com</a></p>' + footer_(token) + '</div>' });
-        return page_(founding ? 'Seat ' + seat + ' of 500 is yours.' : 'You are confirmed.', 'A welcome note is on its way. One short email per drop, and you can leave in one click.');
+  var r = act_(p, sh);
+  return p.json ? json_(r) : page_(r.title, r.body);
+}
+/** Confirm or unsubscribe by token. Returns {state, title, body}; the site's confirm.html asks for it as JSON. */
+function act_(p, sh) {
+  var token = p.confirm || p.unsub; if (!token) return { state: 'none', title: 'Nothing to do here.', body: 'This address handles list sign-ups for the series.' };
+  var lock = LockService.getScriptLock(); lock.waitLock(20000);
+  try {
+    var all = rows_(sh);
+    for (var i = 0; i < all.length; i++) {
+      if (all[i][5] === token) {
+        if (p.unsub) { sh.getRange(i + 2, 5).setValue('unsubscribed'); return { state: 'unsubscribed', title: 'You are unsubscribed.', body: 'We will not email this address again. To erase the record entirely, write to infera@melophon.com.' }; }
+        if (all[i][4] !== 'confirmed') {
+          sh.getRange(i + 2, 5).setValue('confirmed'); sh.getRange(i + 2, 7).setValue(new Date());
+          var founding = all[i][1] === 'founding-500', seat = '';
+          if (founding) { seat = foundingCount_(sh); if (seat > FOUNDING_CAP) { sh.getRange(i + 2, 2).setValue('reader'); founding = false; } else sh.getRange(i + 2, 8).setValue(seat); }
+          try {
+            MailApp.sendEmail({ to: all[i][0], name: FROM_NAME, subject: founding ? 'Seat ' + seat + ' of 500 is yours' : 'You are on the list',
+              htmlBody: '<div style="font:17px/1.6 Georgia,serif;color:#222;max-width:560px">' + (founding ? '<p>Your founding seat is confirmed: <b>seat ' + seat + ' of 500</b>.</p><p>You will get one email a month from the editor, early drafts, and a place on the masthead if you want one. Reply to this email with the name you would like shown, or tell us you would rather stay unnamed.</p>' : '<p>You are confirmed. You will get one short email when a new piece is published, and nothing else.</p>') + '<p>Start anywhere: <a href="' + SITE + '">series.melophon.com</a></p>' + footer_(token) + '</div>' });
+          } catch (err) {}   // the confirmation stands even if the welcome note cannot be sent today
+          return { state: 'confirmed', seat: seat, title: founding ? 'Seat ' + seat + ' of 500 is yours.' : 'You are confirmed.', body: 'A welcome note is on its way. One short email per drop, and you can leave in one click.' };
+        }
+        return { state: 'already', title: 'Already confirmed.', body: 'You are on the list. Nothing else to do.' };
       }
-      return page_('Already confirmed.', 'You are on the list. Nothing else to do.');
     }
-  }
-  return page_('That link has expired.', 'Sign up again on the site and we will send a fresh one.');
+    return { state: 'expired', title: 'That link has expired.', body: 'Sign up again on the site and we will send a fresh one.' };
+  } finally { lock.releaseLock(); }
 }
 
 function sendConfirm_(email, token, tag) {
   MailApp.sendEmail({ to: email, name: FROM_NAME, subject: tag === 'founding-500' ? 'Confirm your Founding 500 seat' : 'Confirm your subscription',
-    htmlBody: '<div style="font:17px/1.6 Georgia,serif;color:#222;max-width:560px"><p>Someone entered this address at series.melophon.com. If that was you, confirm here:</p><p><a href="' + url_() + '?confirm=' + token + '" style="display:inline-block;background:#0a0a0a;color:#c8ff1e;padding:14px 22px;text-decoration:none;font:700 13px/1 monospace;letter-spacing:.12em">CONFIRM</a></p><p style="color:#666;font-size:14px">If it was not you, ignore this email and nothing happens.</p></div>' });
+    htmlBody: '<div style="font:17px/1.6 Georgia,serif;color:#222;max-width:560px"><p>Someone entered this address at series.melophon.com. If that was you, confirm here:</p><p><a href="' + SITE + 'confirm.html?confirm=' + token + '" style="display:inline-block;background:#0a0a0a;color:#c8ff1e;padding:14px 22px;text-decoration:none;font:700 13px/1 monospace;letter-spacing:.12em">CONFIRM</a></p><p style="color:#666;font-size:14px">If it was not you, ignore this email and nothing happens.</p></div>' });
 }
 
 /** Run from the editor: sendIssue('Subject line', '<p>Body html</p>'). Sends to confirmed readers only. */
