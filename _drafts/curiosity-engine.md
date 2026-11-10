@@ -121,7 +121,7 @@ Every cue is one true question, born from a fact-check delta (a surprise, a corr
 - 2019: Ascension gave Google access to patient records from 21 states (Project Nightingale); Ascension said it complied with HIPAA. REPORTED (WSJ via Reuters/Al Jazeera, 12 Nov 2019)
 - May 2024: a ransomware attack on Ascension affected about 5.6 million people. REPORTED; verify against the HHS breach portal before reuse. WATCH
 - HIPAA protects a decedent's records for 50 years after death. REPORTED (HHS guidance)
-- The composite now runs from the font to the grave: 33 lines, of which only the college (maybe) and the hospital stretch (yes) clearly sit under a federal privacy law.
+- The composite now runs from the font to the grave: 34 lines, of which only the college (maybe) and the hospital stretch (yes) clearly sit under a federal privacy law.
 - Added next search: whether any diocese and an affiliated health system share a donor or CRM database (none found so far).
 
 **Graduates to.** The Permanent Record (Faith Layer), preview 9 Nov 2026.
