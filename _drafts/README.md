@@ -70,3 +70,8 @@ Editorial Standard v2 §10 (every update is a review trigger for new exhibits) a
 ## Field Note 20 and Second Alarm Exhibit 2 (9 Nov 2026, preview)
 [field-note-20-estate-sale-brief.md](./field-note-20-estate-sale-brief.md): `field-notes/20-the-estate-sale.html` (bankruptcy data sales vs parish record transfers; graduated C-06). Second Alarm Exhibit 2: `who-pays-for-the-scam.html` (graduated C-01, C-04); build notes in [the-second-alarm-series-brief.md](./the-second-alarm-series-brief.md). Both published 9 Nov 2026 after sign-off; homepage, field notes index, manifest, House end card, Permanent Record and EP 09 crumbs updated. New cues C-07, C-08 in the curiosity engine.
 
+## Site health, subscription fix and remix proposals (10 Nov 2026)
+- `_agent/scripts/site-health.py` scores every public page and ranks the weakest first; report in [site-health-report.md](./site-health-report.md). First pass lifted the site average from 62 to 74 (phone overflow on 22 pages fixed, 6 broken links, 22 pages added to the sitemap).
+- Subscription: all forms now run on `subscribe.js`; backend script and setup in `_agent/subscribe-backend/`. Endpoint not yet set.
+- [remix-exhibits-proposals.md](./remix-exhibits-proposals.md): seven ranked mashup exhibits; The Loom first.
+
