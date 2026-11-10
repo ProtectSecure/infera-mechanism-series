@@ -27,6 +27,7 @@ def extract(p):
         sm = re.match(r'\s*(?:<span class="tag[^"]*">[A-Z]+</span>\s*)*<span class="sub">([\s\S]*?)</span>', tail)
         note = text(sm.group(1)) if sm else ''
         links = re.findall(r'href="([^"]+)"', sm.group(1)) if sm else []
+        if re.search(r"(var\s+REP|REP\s*=|INF\s*=)", h[max(0, m.start() - 60):m.start()]) or 'Tags: FACT' in claim or claim.startswith('Infera ·'): continue
         key = (m.group(1), claim[:90])
         if len(claim) < 15 or key in seen: continue
         seen.add(key)
