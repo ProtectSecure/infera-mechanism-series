@@ -2,6 +2,15 @@
 
 Newest first. Every working session ends by adding one entry: what was done, what the gate said, what is next. A fresh session reads this file, `state.json` and `git log -15` before touching anything.
 
+## 2026-11-11
+- Built: The Four Locks (Maryland secret recordings in court), first full dry run of the Intake 05 workflow: story brief, version check, IPA gate, competing hypotheses, assumptions gate, premortem, stop rule, declined forecast, frame check, reasoning lint. Execution record is in the training intake doc.
+- Placed as a Season II companion (homepage tile, sitemap, manifest). Recall card added for the reader test.
+- Gate (no claims): PASSED, 114 pages, average 91.4; the page scores 100.
+- K8: three rounds. Round one: 69 supported, 10 blocking (notice period differed for HB 802; hate crimes wrongly given to HB 132; a Pennsylvania lamp cited a case that did not decide the point; "no one has measured" stated absence of a record as absence of the thing; two wrong tags; "handoff" was not in the letter). Round three: 80 of 80 supported. Full gate with claims PASSED.
+- Lessons: the version check caught an error in our own premise (SB 661 was filed as a judge's-discretion bill and rewritten in committee). Paraphrases wearing quotation marks on interactive cards are easy to miss; check the script strings.
+- Open for the editor: briefing video (Nov 2025) not reviewed; question to DLS about the SB 661 fiscal note's "prior introductions" line.
+- Next: merge on sign-off; watch the 2027 session from 13 January.
+
 ## 2026-11-10
 - Published: Permanent Record, FN 20, Second Alarm 02, subscription module, healing pass, site kit, The Loom (seven remixes).
 - Built: `site-health.py` (evaluator), `heal.py`, `build-connections.py`, `gate.py` (publish gate), pre-publish hook (not yet switched on).

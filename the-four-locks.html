@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Four Locks · The Mechanism Series</title>
+<meta name="description" content="A woman in Maryland recorded the crime against her. The recording could not be used. An interactive exhibit on the four separate questions every secret recording has to clear, and what two years of bills would have changed.">
+<link rel="canonical" href="https://series.melophon.com/the-four-locks.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+/* THE FOUR LOCKS · standalone exhibit · preview
+   World: an evidence room after hours. Manila folders, brass locks, one red evidence tag, a tape-green waveform.
+   Interaction rule for this page: no sliders. Sort, test, run, play, inspect. */
+:root{
+  --ground:#0d0c0a; --shelf:#15130f; --panel:#1c1a15; --line:rgba(239,231,214,.13); --line2:rgba(239,231,214,.3);
+  --cream:#efe7d6; --dim:#b5ab97; --faint:#857c6a;
+  --brass:#d4a64a; --brass-d:#8d6b2a; --tag:#c4452f; --manila:#d9c08c; --signal:#7fd1a8;
+  --fact:#9fe3c9; --fact-bg:rgba(47,191,122,.16);
+  --rep:#ffd98a; --rep-bg:rgba(255,176,0,.16);
+  --inf:#c4ccff; --inf-bg:rgba(129,140,248,.18);
+  --watch:#ffb1a8; --watch-bg:rgba(255,77,61,.16);
+  --th-records:#8b9cff; --th-voices:#d9b35a; --th-clocks:#e7b8ff;
+  --mono:'Share Tech Mono',ui-monospace,monospace; --cond:'Barlow Condensed',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ground);background-image:radial-gradient(rgba(239,231,214,.06) 1px,transparent 1.2px);background-size:22px 22px;color:var(--cream);font-family:'Source Serif 4',Georgia,serif;font-size:18px;line-height:1.65;overflow-x:hidden}
+a{color:var(--brass)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.wrap{max-width:980px;margin:0 auto;padding:0 6vw}
+nav.top{position:sticky;top:0;z-index:50;background:#080706;border-bottom:3px solid var(--brass);display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 5vw;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+nav.top a{color:var(--cream);text-decoration:none}nav.top .r{color:var(--dim)}
+@media(max-width:720px){nav.top .r{display:none}}
+
+.tag{display:inline-block;font:400 10.5px/1 var(--mono);letter-spacing:.06em;padding:4px 6px 3px;border-radius:3px;white-space:nowrap;vertical-align:2px;margin-left:3px}
+.fact{color:var(--fact);background:var(--fact-bg)}.rep{color:var(--rep);background:var(--rep-bg)}.inf{color:var(--inf);background:var(--inf-bg)}.watch{color:var(--watch);background:var(--watch-bg)}
+.sub{font:11px/1.4 var(--mono);color:var(--faint);margin-left:4px}
+
+header.hero{padding:40px 0 22px}
+.kick{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass)}
+.sticker{display:inline-block;margin-left:10px;padding:3px 7px;border:1px solid var(--tag);color:var(--tag);font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;transform:rotate(-2deg)}
+h1{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(56px,12vw,136px);line-height:.9;text-transform:uppercase;margin:12px 0 16px}
+h1 span{color:var(--brass)}
+.dek{font-family:var(--cond);font-weight:500;font-size:clamp(22px,3vw,30px);line-height:1.2;max-width:28em;margin-bottom:14px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.cn{margin-top:16px;max-width:46em;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--dim);border-left:3px solid var(--tag);padding:6px 12px}
+.locks{margin:26px 0 4px;border:1px solid var(--line2);border-radius:10px;background:#080706;padding:10px 6px 4px}
+.locks svg{display:block;width:100%;height:auto}
+.locks .cap{font-family:var(--mono);font-size:10.5px;color:var(--faint);text-align:center;letter-spacing:.06em;padding:4px 0 6px}
+.wave{stroke:var(--signal);stroke-width:2.2;fill:none;stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw 4.5s ease-out .4s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.lk .body{fill:#15130f;stroke:var(--line2);stroke-width:2}
+.lk .shackle{fill:none;stroke:var(--faint);stroke-width:5;stroke-linecap:round}
+.lk text{font-family:'Share Tech Mono',monospace;fill:var(--dim);font-size:13px;letter-spacing:2px}
+.lk.shut .body{stroke:var(--tag)}.lk.shut .shackle{stroke:var(--tag)}.lk.shut text.n{fill:var(--tag)}
+.lk text.n{font-size:22px;fill:var(--cream)}
+@media(prefers-reduced-motion:reduce){.wave{animation:none;stroke-dashoffset:0}*{transition:none!important;animation:none!important}}
+.disclose{margin:18px 0 0;padding:12px 16px;border:1px dashed var(--line2);font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--dim);max-width:48em}
+
+section.q{padding:54px 0;border-top:1px solid var(--line2);position:relative}
+.file{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin-bottom:12px}
+.file b{display:inline-block;background:var(--manila);color:#1a160e;padding:4px 8px;border-radius:2px;font-weight:400}
+h2{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(34px,5.6vw,58px);line-height:.98;text-transform:uppercase;margin-bottom:16px}
+h2 em{font-style:normal;color:var(--brass)}
+p{margin-bottom:16px;max-width:38em}
+blockquote{margin:18px 0 20px;padding:4px 0 4px 18px;border-left:3px solid var(--manila);font-family:var(--cond);font-size:26px;line-height:1.25;max-width:24em}
+blockquote cite{display:block;font-family:var(--mono);font-size:11px;font-style:normal;color:var(--dim);margin-top:8px;letter-spacing:.06em}
+.note{font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--dim);max-width:46em;margin:10px 0 0}
+.play{border:1px solid var(--line2);border-radius:10px;background:var(--shelf);padding:20px;margin:22px 0}
+.play h3{font-family:var(--cond);font-weight:700;font-size:24px;letter-spacing:.02em;text-transform:uppercase;margin-bottom:4px}
+.play .how{font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.04em;line-height:1.5;margin-bottom:14px}
+.btn{font-family:var(--cond);font-weight:700;font-size:16px;letter-spacing:.08em;text-transform:uppercase;padding:10px 16px;border:2px solid var(--brass);background:var(--brass);color:#14110a;border-radius:4px}
+.btn.ghost{background:transparent;color:var(--brass)}
+.btn[disabled]{opacity:.4;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* four-lock legend */
+.legend4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 6px}
+@media(max-width:760px){.legend4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.legend4 div{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--brass);padding:12px;border-radius:4px}
+.legend4 b{display:block;font-family:var(--cond);font-size:21px;text-transform:uppercase;letter-spacing:.03em}
+.legend4 small{display:block;font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.14em}
+.legend4 .d{display:block;font-size:15px;line-height:1.45;color:var(--dim);margin-top:4px}
+
+/* sort */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:720px){.cards{grid-template-columns:1fr}}
+.card{text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 70px 12px 14px;font-size:16px;line-height:1.4;position:relative}
+.card .who{display:block;font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:6px;letter-spacing:.04em}
+.card.sel{border-color:var(--brass);box-shadow:0 0 0 2px var(--brass) inset}
+.card .chip{position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:3px;background:var(--brass);color:#14110a}
+.bins{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:14px 0}
+@media(max-width:720px){.bins{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.bin{background:#0b0a08;border:1px dashed var(--line2);border-radius:6px;padding:10px 8px;text-align:center;font-family:var(--cond);font-size:16px;line-height:1.15;text-transform:uppercase;letter-spacing:.04em}
+.bin small{display:block;font-family:var(--mono);font-size:10px;color:var(--faint);text-transform:none;letter-spacing:.04em;margin-top:3px}
+.bin.ready{border-color:var(--brass);color:var(--brass)}
+.verdicts{margin-top:14px}
+.verdict{border-top:1px solid var(--line);padding:10px 0;font-size:15.5px;line-height:1.5}
+.verdict b{font-family:var(--cond);font-size:17px;text-transform:uppercase;letter-spacing:.04em}
+.verdict .m{color:var(--signal)}.verdict .x{color:var(--rep)}
+.tally{font-family:var(--cond);font-size:22px;margin:10px 0 4px}
+
+/* test bench */
+.pick{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px}
+.pick button{background:#0b0a08;border:1px solid var(--line2);border-radius:20px;padding:7px 13px;font-family:var(--cond);font-size:16px;letter-spacing:.03em}
+.pick button[aria-pressed=true]{background:var(--manila);color:#1a160e;border-color:var(--manila)}
+.pick .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);width:100%}
+.scen{font-size:16px;color:var(--dim);margin:0 0 12px;max-width:44em}
+.lamps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:760px){.lamps{grid-template-columns:1fr}}
+.lamp{background:#0b0a08;border:1px solid var(--line);border-radius:6px;padding:12px;border-top:4px solid var(--faint)}
+.lamp h4{font-family:var(--mono);font-weight:400;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.lamp .st{font-family:var(--cond);font-weight:700;font-size:24px;text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px}
+.lamp p{font-size:15px;line-height:1.45;margin:0;color:var(--dim)}
+.lamp.no{border-top-color:var(--tag)}.lamp.no .st{color:var(--tag)}
+.lamp.yes{border-top-color:var(--signal)}.lamp.yes .st{color:var(--signal)}
+.lamp.judge{border-top-color:var(--brass)}.lamp.judge .st{color:var(--brass)}
+.lamp.unclear{border-top-color:var(--inf)}.lamp.unclear .st{color:var(--inf)}
+.lamp.na{border-top-color:var(--faint)}.lamp.na .st{color:var(--faint)}
+.lamp.gate{border-top-color:var(--manila)}.lamp.gate .st{color:var(--manila)}
+
+/* gate */
+.track{position:relative;margin:12px 0 6px;padding-top:30px}
+.stations{position:absolute;inset:0 0 0 0;pointer-events:none}
+.stations div{position:absolute;top:0;bottom:0;border-left:1px dashed var(--line2)}
+.stations span{position:absolute;top:0;left:6px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.lane{position:relative;height:28px;border-bottom:1px solid rgba(239,231,214,.05)}
+.tok{position:absolute;top:4px;left:0;height:20px;min-width:74px;padding:0 8px;border-radius:10px;font-family:var(--mono);font-size:10.5px;line-height:20px;white-space:nowrap;transition:left 1.1s cubic-bezier(.3,.7,.2,1),opacity .5s,background .4s,border-color .4s}
+.tok.real{background:var(--signal);color:#08130e}
+.tok.fake{background:transparent;color:var(--signal);border:1.5px dashed var(--signal)}
+.tok.stop{background:#2a1512;color:var(--tag);border:1.5px solid var(--tag)}
+.tok.ask{background:#1b1a2c;color:var(--inf);border:1.5px dashed var(--inf)}
+.stations i{font-style:normal}.stations .sh{display:none}@media(max-width:600px){.stations .lg{display:none}.stations .sh{display:inline}}
+.gatecap{font-family:var(--mono);font-size:11.5px;color:var(--dim);line-height:1.55;margin-top:10px;max-width:52em}
+@media(max-width:600px){.tok{min-width:0;font-size:9px;padding:0 5px}.stations span{font-size:8.5px;left:3px}}
+
+/* crossing */
+.cross{margin:10px 0}
+.chambers{display:grid;grid-template-columns:1fr 1fr;gap:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);text-align:center;border-bottom:1px solid var(--line2);padding-bottom:6px}
+.chambers div:first-child{border-right:2px solid var(--brass)}
+.cols{display:grid;grid-template-columns:repeat(4,1fr);font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--faint);text-align:center;padding:6px 0;text-transform:uppercase}
+.brow{position:relative;height:78px;border-bottom:1px solid var(--line)}
+.brow::before{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:2px solid rgba(212,166,74,.35)}
+.bt{position:absolute;top:10px;left:0;transform:translateX(-50%);padding:3px 8px;border-radius:3px;font-family:var(--mono);font-size:11px;white-space:nowrap;transition:left 1.2s cubic-bezier(.3,.7,.2,1);z-index:2}
+.bt.ev{background:var(--brass);color:#14110a}.bt.pen{background:var(--signal);color:#08130e}
+.stamp{position:absolute;top:36px;transform:translateX(-50%) rotate(-4deg);font-family:var(--mono);font-size:10px;padding:2px 5px;border:1.5px solid var(--tag);color:var(--tag);opacity:0;transition:opacity .4s;white-space:nowrap;background:var(--ground);z-index:3}
+.stamp.on{opacity:1}
+.vote{position:absolute;top:38px;transform:translateX(-50%);font-family:var(--mono);font-size:9.5px;color:var(--dim);opacity:0;transition:opacity .4s;white-space:nowrap}
+.vote.on{opacity:1}
+.crosscap{font-size:16px;color:var(--dim);margin-top:12px;max-width:44em}
+.ylab{font-family:var(--cond);font-size:20px;text-transform:uppercase;letter-spacing:.06em;color:var(--manila);margin:14px 0 2px}
+.blab{position:absolute;left:4px;right:4px;bottom:3px;font-family:var(--mono);font-size:10px;color:var(--faint);text-align:center;background:linear-gradient(transparent,rgba(13,12,10,.9) 30%)}
+@media(max-width:600px){.brow{height:104px}.bt{font-size:9.5px;padding:2px 5px}.stamp{font-size:8.5px;top:34px}.vote{font-size:8.5px;top:36px}.cols{font-size:8px}.blab{font-size:9px;line-height:1.35}}
+
+/* hypotheses */
+details.h{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--inf);border-radius:4px;margin:10px 0;padding:0 14px}
+details.h summary{list-style:none;cursor:pointer;padding:12px 0;font-family:var(--cond);font-size:21px;text-transform:uppercase;letter-spacing:.03em;display:flex;justify-content:space-between;gap:10px}
+details.h summary::-webkit-details-marker{display:none}
+details.h summary span{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.1em;align-self:center}
+details.h .ev{padding:0 0 12px;font-size:15.5px;line-height:1.5}
+details.h .ev div{margin:6px 0}
+details.h .for b{color:var(--signal)}details.h .against b{color:var(--tag)}details.h .gap b{color:var(--inf)}
+.status{margin-top:14px;padding:12px 14px;border:1px solid var(--inf);color:var(--inf);font-family:var(--mono);font-size:12px;line-height:1.6;max-width:50em}
+
+/* no number */
+.nonum{display:grid;grid-template-columns:200px 1fr;gap:22px;align-items:center}
+@media(max-width:700px){.nonum{grid-template-columns:1fr}}
+.dial svg{width:200px;height:auto;display:block;margin:auto}
+.signals{list-style:none;margin:10px 0}
+.signals li{border-top:1px solid var(--line);padding:9px 0;font-size:16px;line-height:1.45}
+
+/* levers */
+.levers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+@media(max-width:760px){.levers{grid-template-columns:1fr}}
+.lever{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px}
+.lever h4{font-family:var(--cond);font-size:21px;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px}
+.lever dl{display:grid;grid-template-columns:96px 1fr;gap:4px 10px;font-size:14.5px;line-height:1.45}
+.lever dt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);padding-top:3px}
+.lever dd{color:var(--dim)}
+
+/* sources */
+.cant{list-style:none;margin:8px 0 16px}.cant li{border-top:1px solid var(--line);padding:8px 0;font-size:16px}
+ol.src{margin:10px 0 0 20px;font-size:14px;line-height:1.55;color:var(--dim)}
+ol.src li{margin:5px 0}
+ol.src a{color:var(--manila);word-break:break-word}
+footer{border-top:3px solid var(--brass);margin-top:40px;padding:22px 0 60px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--faint);line-height:1.7}
+
+.rq{border-top:1px solid var(--line);padding:12px 0}.rq p{margin:0 0 8px;font-size:17px}.rq .opts{display:flex;flex-wrap:wrap;gap:8px}.rq .opts button{background:#0b0a08;border:1px solid var(--line2);border-radius:20px;padding:7px 13px;font-family:var(--cond);font-size:16px}
+.rq .opts button.ok{background:var(--signal);color:#08130e;border-color:var(--signal)}.rq .opts button.no{border-color:var(--tag);color:var(--tag)}.rq .why{font-size:15px;color:var(--dim);margin-top:8px}
+/* threads (house pattern) */
+.thbar{position:fixed;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:30}
+.thbar button{width:14px;height:14px;border-radius:50%;border:2px solid var(--c);background:transparent;opacity:.45;padding:0;transition:opacity .3s,background .3s}
+.thbar button.lit{opacity:1;background:var(--c);box-shadow:0 0 10px var(--c)}
+@media(max-width:900px){.thbar{right:auto;left:0;top:auto;bottom:0;transform:none;flex-direction:row;width:100%;justify-content:center;gap:18px;padding:10px;background:rgba(8,7,6,.94);border-top:1px solid var(--line2)}body{padding-bottom:40px}}
+.thlist{position:fixed;right:42px;top:50%;transform:translateY(-50%);width:min(320px,88vw);background:#080706;border:1px solid var(--line2);padding:16px 18px;z-index:45;font-size:14px}
+.thlist[hidden]{display:none}
+.thlist h5{font-family:var(--mono);font-weight:400;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--c);margin-bottom:8px}
+.thlist ol{list-style:none}.thlist li{padding:7px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}
+.thlist li a{color:var(--cream);text-decoration:none}.thlist .s{font-family:var(--mono);font-size:10px;color:var(--faint);white-space:nowrap}
+.thlist li.here,.thlist li.here .s{color:var(--c)}
+.thlist .x{position:absolute;top:6px;right:10px;background:none;border:0;color:var(--dim);font-size:18px}
+@media(max-width:900px){.thlist{right:auto;left:50%;top:auto;bottom:56px;transform:translateX(-50%)}}
+.thm{background:none;border:0;border-bottom:2px dotted var(--c);padding:0;color:inherit;font:inherit}
+.peek{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);width:min(440px,92vw);background:#080706;border:1px solid var(--c);border-left:4px solid var(--c);padding:14px 16px;z-index:70;font-size:15px;line-height:1.5}
+.peek[hidden]{display:none}
+.peek .k{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--c);margin-bottom:6px}
+.peek .m{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:6px}
+.peek .acts{display:flex;gap:10px;margin-top:10px}
+.peek .acts a,.peek .acts button{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 11px;border:1px solid var(--line2);background:transparent;color:var(--cream);text-decoration:none}
+.peek .acts a{border-color:var(--c);color:var(--c)}
+</style>
+</head>
+<body>
+<nav class="top"><a href="index.html">INFERA · THE MECHANISM SERIES</a><span class="r">MACHINE-READABLE · COMPANION · THE FOUR LOCKS</span></nav>
+
+<div class="thbar" role="group" aria-label="Threads on this page">
+  <button type="button" data-th="records" style="--c:var(--th-records)" aria-label="Thread: Records" title="Records"></button>
+  <button type="button" data-th="voices" style="--c:var(--th-voices)" aria-label="Thread: Voices" title="Voices"></button>
+  <button type="button" data-th="clocks" style="--c:var(--th-clocks)" aria-label="Thread: Clocks" title="Clocks"></button>
+</div>
+<div class="thlist" id="thlist" hidden role="dialog" aria-label="Thread"><button type="button" class="x" aria-label="Close">×</button><h5 id="thlistH"></h5><ol id="thlistL"></ol></div>
+<div class="peek" id="peek" hidden role="dialog" aria-label="Peek"><div class="k"><span id="peekK"></span><span id="peekTag"></span></div><div id="peekT"></div><div class="m" id="peekM"></div><div class="acts"><button type="button" id="peekClose">Close</button><a id="peekGo" href="#">Go</a></div></div>
+
+<main class="wrap">
+<header class="hero">
+  <div class="kick">The Mechanism Series · A Maryland record</div>
+  <h1>The Four <span>Locks</span></h1>
+  <p class="dek">A woman in Maryland recorded the crime against her. The recording could not be used. Two years of bills tried to change that. Here is what each one would actually have done.</p>
+  <div class="meta"><span>Read time 13 min</span><span>Updated 11 Nov 2026</span><span>Sources: bill texts, amendments, testimony, court opinions</span></div>
+  <p class="cn">Content note: the opening describes a sexual assault, briefly and without detail beyond what a prosecutor put in the public record.</p>
+  <div class="locks" aria-hidden="true">
+    <svg viewBox="0 0 900 200" role="img">
+      <path class="wave" d="M0 100 C 30 60, 50 140, 80 100 S 130 50, 160 100 S 210 150, 240 100 S 290 70, 320 100 S 360 130, 400 100 S 440 80, 470 100 S 520 120, 560 100 S 610 90, 640 100 S 700 105, 760 100 S 840 100, 900 100"/>
+      <g class="lk shut" transform="translate(150,40)"><path class="shackle" d="M18 46 V30 a22 22 0 0 1 44 0 V46"/><rect class="body" x="6" y="46" width="68" height="58" rx="6"/><text class="n" x="40" y="84" text-anchor="middle">1</text><text x="40" y="132" text-anchor="middle">LAWFUL?</text></g>
+      <g class="lk" transform="translate(350,40)"><path class="shackle" d="M18 46 V30 a22 22 0 0 1 44 0 V46"/><rect class="body" x="6" y="46" width="68" height="58" rx="6"/><text class="n" x="40" y="84" text-anchor="middle">2</text><text x="40" y="132" text-anchor="middle">REAL?</text></g>
+      <g class="lk" transform="translate(550,40)"><path class="shackle" d="M18 46 V30 a22 22 0 0 1 44 0 V46"/><rect class="body" x="6" y="46" width="68" height="58" rx="6"/><text class="n" x="40" y="84" text-anchor="middle">3</text><text x="40" y="132" text-anchor="middle">ADMISSIBLE?</text></g>
+      <g class="lk" transform="translate(750,40)"><path class="shackle" d="M18 46 V30 a22 22 0 0 1 44 0 V46"/><rect class="body" x="6" y="46" width="68" height="58" rx="6"/><text class="n" x="40" y="84" text-anchor="middle">4</text><text x="40" y="132" text-anchor="middle">SHAREABLE?</text></g>
+    </svg>
+    <div class="cap">Under Maryland law today, a secret recording usually stops at the first lock.</div>
+  </div>
+  <p class="disclose">Researched and compiled with Claude (Anthropic). Final editorial judgment: Melophon. This exhibit discusses AI-generated audio; Anthropic is not a subject of it. Melophon is based in Maryland, so the law in this story also governs how we report.</p>
+</header>
+
+<section class="q" id="s1">
+  <div class="file"><b>File 01</b> The phone was already recording</div>
+  <h2>She pressed record <em>before she walked in</em></h2>
+  <p>In February, a senior assistant state's attorney in Calvert County, Rebecca Cordero, sent the House Judiciary Committee a letter about a case from years earlier. <span class="tag fact">FACT</span><span class="sub">written testimony on HB 132, 20 Feb 2026</span></p>
+  <p>A woman brought their two-year-old daughter to her estranged husband's home for a visit. She knew he could be violent, so she started her phone's recorder before she went inside. He held a gun to her head and raped her. The phone captured the encounter. She went straight to the police. <span class="tag rep">REPORTED</span><span class="sub">as described in the letter</span></p>
+  <blockquote>"I could not admit it as evidence in his trial."<cite>Rebecca Cordero, Calvert County State's Attorney's Office, to the House Judiciary Committee</cite></blockquote>
+  <p>The reason was not doubt about the recording. It was the way it was made. Maryland makes it a crime to record a private conversation unless everyone in it agrees, and it bars courts from hearing audio captured that way. <span class="tag fact">FACT</span><span class="sub">Courts and Judicial Proceedings 10-402 and 10-405</span></p>
+  <p class="note">What the letter does not tell us: the woman's name, the court, the year, the verdict, or whether a judge ruled on the recording. We did not try to identify her. Her account reaches us through a prosecutor who was arguing for a bill; we treat it as one documented case, not as proof of how often this happens.</p>
+</section>
+
+<section class="q" id="s2">
+  <div class="file"><b>File 02</b> Four questions, not one</div>
+  <h2>The debate keeps asking <em>one question</em>. There are four.</h2>
+  <p>Every secret recording that might matter in a courtroom has to clear four separate locks. They protect different things. Opening Lock 1 usually opens Locks 3 and 4 as well, but no key at Locks 1, 3 or 4 answers Lock 2. <span class="tag inf">INFERENCE</span><span class="sub">our framework, built from the statute and the rules of evidence</span></p>
+  <div class="legend4">
+    <div><small>Lock 1</small><b>Lawful?</b><span class="d">Was it legal to record? In Maryland, not without everyone's consent. A violation is a felony: up to five years, a $10,000 fine, or both. <span class="tag fact">FACT</span></span></div>
+    <div><small>Lock 2</small><b>Real?</b><span class="d">Is it what it claims to be, unedited and unfabricated? Courts call this authentication. <span class="tag fact">FACT</span></span></div>
+    <div><small>Lock 3</small><b>Admissible?</b><span class="d">May a court hear it? Maryland excludes unlawfully intercepted audio and anything derived from it. <span class="tag fact">FACT</span></span></div>
+    <div><small>Lock 4</small><b>Shareable?</b><span class="d">May it be passed on or published? Disclosing an unlawfully intercepted conversation is its own offense. <span class="tag fact">FACT</span></span></div>
+  </div>
+  <p>Arguments about this law often treat the locks as one. Try sorting the real arguments from the record yourself.</p>
+
+  <div class="play" id="sortPlay">
+    <h3>Sort the arguments</h3>
+    <div class="how">Tap an argument, then tap the lock it is actually about. One of them is about none. When all eight are placed, check your sort against ours.</div>
+    <div class="cards" id="cards"></div>
+    <div class="bins" id="bins">
+      <button type="button" class="bin" data-bin="1">Lock 1<small>Lawful?</small></button>
+      <button type="button" class="bin" data-bin="2">Lock 2<small>Real?</small></button>
+      <button type="button" class="bin" data-bin="3">Lock 3<small>Admissible?</small></button>
+      <button type="button" class="bin" data-bin="4">Lock 4<small>Shareable?</small></button>
+      <button type="button" class="bin" data-bin="0">None<small>Not about a lock</small></button>
+    </div>
+    <div class="row"><button type="button" class="btn" id="checkSort" disabled>Check my sort</button><button type="button" class="btn ghost" id="resetSort">Start over</button></div>
+    <div class="verdicts" id="verdicts" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="q" id="s3">
+  <div class="file"><b>File 03</b> What the bills said</div>
+  <h2>The same bill, <em>two different ideas</em></h2>
+  <p>Between 2025 and 2026, Maryland lawmakers filed two kinds of changes, and one bill switched from the first kind to the second in the middle of the session.</p>
+  <p><b>The judge's test.</b> SB 1007 in 2025, then HB 132, HB 802 and SB 661 as first filed in 2026, left recording illegal but let a judge admit a recording after specific findings: that the case involved a crime against a person (SB 661 as filed also allowed hate crimes; HB 802 dropped this condition and reached civil cases too), that the recording went to a material fact, that it was not made for Maryland police, that it was more probative than any other evidence reasonably available, and that admitting it served the interest of justice. The other side got at least 14 days' notice under SB 1007, HB 132 and SB 661, and notice "sufficiently in advance" under HB 802. <span class="tag fact">FACT</span><span class="sub">bill texts and DLS fiscal notes</span></p>
+  <p>On 11 February, the Maryland Judiciary sent the House a neutral note on HB 802. Its point was narrow: the recording would become admissible, but making it would still be a crime. The note called that a "statutory conflict." <span class="tag fact">FACT</span><span class="sub">Judiciary informational comment on HB 802</span></p>
+  <p><b>The lawful-recording rule.</b> In March, the Senate Judicial Proceedings Committee rewrote SB 661 with one amendment. The new version made it lawful to record the commission or attempted commission of three crimes: murder, rape, or a first-degree assault that is domestically related. It gave anyone charged for recording a defense if they reasonably believed they were in imminent danger of becoming a victim of one of those crimes. It let such recordings be used only as evidence of those crimes, and it left Maryland's rules of evidence untouched. The Senate passed it 36 to 2. <span class="tag fact">FACT</span><span class="sub">amendment 643622/1; Third Reader fiscal note; Senate vote record</span></p>
+  <p>For the three listed crimes, the rewrite closes the gap the Judiciary had flagged. It also covers far fewer cases than the judge's test. The record we read does not say why the committee chose it. <span class="tag inf">INFERENCE</span> The Judiciary's 11 February note addressed HB 802, not the March text of SB 661. <span class="tag fact">FACT</span> We keep the two apart.</p>
+
+  <div class="play" id="bench">
+    <h3>Test a recording</h3>
+    <div class="how">Pick a situation, then a version of the law. The lamps show what happens at each lock. Lock 2 never changes. That is the point.</div>
+    <div class="pick" id="scenPick"><span class="lab">The situation</span></div>
+    <p class="scen" id="scenText"></p>
+    <div class="pick" id="versPick"><span class="lab">The law</span></div>
+    <div class="lamps" id="lamps" aria-live="polite"></div>
+    <p class="note">Outcomes for California and Pennsylvania, and any outcome marked "our reading," are our interpretation of statute text. Courts decide these questions on the facts. Lock 4 applies throughout: even a lawful recording raises its own legal and ethical questions before anyone publishes it.</p>
+  </div>
+</section>
+
+<section class="q" id="s4">
+  <div class="file"><b>File 04</b> The fake</div>
+  <h2>The AI argument is real. <em>It is about Lock 2.</em></h2>
+  <p>At a House Judiciary briefing in November 2025, a Baltimore City public defender, Marguerite Lanaux, argued that two-party consent protects people from evidence fabricated with AI and audio manipulation. <span class="tag rep">REPORTED</span><span class="sub">Maryland Matters and WMAR; we have not reviewed the briefing video</span> The concern is serious. In one study, listeners picked out synthetic speech 73 percent of the time, and training helped only a little. The study used older voice tools and warned listeners that fakes were coming, so real-world detection may be worse. <span class="tag fact">FACT</span><span class="sub">Mai et al., PLOS ONE, 2023</span></p>
+  <p>The consent rule does stop a fabricated "secret recording" at the courthouse door. It stops it by category: every secret recording is out, real or fake. It never asks which is which. And a forger who claims everyone agreed to be recorded never meets the consent rule at all. <span class="tag inf">INFERENCE</span></p>
+  <p>The question of whether a file is genuine belongs to authentication. In Maryland, that bar is evidence sufficient for a reasonable juror to find the item is what its proponent claims; the state's highest court applied that test to video in 2024. <span class="tag fact">FACT</span><span class="sub">Maryland Rule 5-901; Mooney v. State, 2024</span> None of the 2025 or 2026 bills changed it. SB 661 said so in its text. <span class="tag fact">FACT</span> We found no documented Maryland case of fabricated audio being used against a defendant. That is a gap in what we could find, not proof that it has not happened. <span class="tag inf">INFERENCE</span></p>
+
+  <div class="play" id="gate">
+    <h3>Run the gate</h3>
+    <div class="how">Ten recordings, real (solid) and fabricated (dashed). Choose a rule and watch where each one stops. The mix is invented for illustration; we found no measurement of the real ratio.</div>
+    <div class="pick" id="gatePick"></div>
+    <div class="track" id="track">
+      <div class="stations" id="stations"></div>
+    </div>
+    <p class="gatecap" id="gateCap" aria-live="polite"></p>
+  </div>
+
+  <p>The other side has more than the AI argument. The public defender's written testimony in 2026 did not mention AI at all. It argued that the consent rule protects everyone's privacy, including people accused of serious crimes, and asked lawmakers, if they changed anything, to limit it to particular cases and to bar any police involvement in the recording. <span class="tag fact">FACT</span><span class="sub">OPD testimony on HB 802 and HB 132, 24 Feb 2026</span> A law professor at the 2025 briefing framed the choice as one between two rights: to consent before being recorded, or to record any conversation you are part of. <span class="tag rep">REPORTED</span><span class="sub">David Gray, as quoted by WYPR and WMAR</span></p>
+  <p>Federal courts are working on the same problem and have not settled it. A proposed federal rule on machine-generated evidence was published for comment in 2025 and sent back for more study in June 2026. <span class="tag rep">REPORTED</span><span class="sub">Proskauer, July 2026</span> Readers who want the other half of this question, who gets to make a voice in the first place, can follow it into <button type="button" class="thm" style="--c:var(--th-voices)" data-peek="vent">the Ventriloquist</button>.</p>
+</section>
+
+<section class="q" id="s5">
+  <div class="file"><b>File 05</b> Two chambers, two halves</div>
+  <h2>Each chamber passed <em>one half</em></h2>
+  <p>Lawmakers also tried a second approach: keep recording illegal, but make it a misdemeanor instead of a felony. Supporters said that would spare survivors who record abuse a felony charge. The maximum penalty would stay the same. <span class="tag fact">FACT</span><span class="sub">HB 688 and SB 680 texts and testimony</span> A county prosecutor's office and the public defender both testified for it in 2026. <span class="tag fact">FACT</span><span class="sub">SB 680 witness list</span></p>
+  <p>Press play to watch where every bill went.</p>
+  <div class="play cross" id="crossing">
+    <h3>The crossing</h3>
+    <div class="how">Brass: evidence bills. Green: penalty bills. A red stamp means the bill reached a committee and never got a vote.</div>
+    <div class="row"><button type="button" class="btn" id="play25">Play 2025</button><button type="button" class="btn" id="play26">Play 2026</button></div>
+    <div class="ylab" id="ylab">2025</div>
+    <div class="chambers"><div>Senate</div><div>House of Delegates</div></div>
+    <div class="cols"><div>Committee</div><div>Floor</div><div>Floor</div><div>Committee</div></div>
+    <div id="rows"></div>
+    <p class="crosscap" id="crossCap" aria-live="polite"></p>
+  </div>
+  <p>In 2025, evidence bills went through the Senate and penalty bills went through the House, and in each case the other chamber's committee never voted. In 2026 the same thing happened. <span class="tag fact">FACT</span><span class="sub">MGA legislative histories</span> One detail makes the House side harder to read: in 2026 the House Judiciary Committee was chaired by Del. J. Sandy Bartlett, who sponsored HB 802 and co-sponsored HB 132. Her committee voted on none of HB 132, HB 802 or SB 661. <span class="tag fact">FACT</span></p>
+
+  <div class="play">
+    <h3>Why no vote?</h3>
+    <div class="how">Four explanations. Open each to see what the record supports, what cuts against it, and what is missing. More than one can be true.</div>
+    <details class="h"><summary>Not enough time <span>Weakened</span></summary><div class="ev">
+      <div class="for"><b>For:</b> SB 1007 passed the Senate on 4 April 2025, three days before the session ended. SB 661 got its House hearing on 31 March 2026, 13 days before the end. <span class="tag fact">FACT</span></div>
+      <div class="against"><b>Against:</b> HB 132 and HB 802 were heard on 24 February, seven weeks before the end, and got no vote either. <span class="tag fact">FACT</span> Time alone does not explain them. <span class="tag inf">INFERENCE</span></div></div></details>
+    <details class="h"><summary>The committee wanted a broader rewrite <span>Open</span></summary><div class="ev">
+      <div class="for"><b>For:</b> the committee spent two hours in November 2025 on the whole law, including why doorbell video is allowed and its audio is not. Several competing bills were filed. <span class="tag rep">REPORTED</span></div>
+      <div class="gap"><b>Missing:</b> we found no statement linking the lack of a vote to a broader plan.</div></div></details>
+    <details class="h"><summary>Not enough support on the committee <span>Open</span></summary><div class="ev">
+      <div class="for"><b>For:</b> the public defender asked for limiting amendments, and privacy concerns were on the record. <span class="tag fact">FACT</span></div>
+      <div class="against"><b>Against:</b> the chair sponsored one of the bills. <span class="tag fact">FACT</span></div>
+      <div class="gap"><b>Missing:</b> no committee vote was taken, so there is no tally to read.</div></div></details>
+    <details class="h"><summary>Each chamber waited on the other <span>Open</span></summary><div class="ev">
+      <div class="for"><b>For:</b> the mirror pattern across two sessions. An advocacy group urged passing the penalty bill together with an evidence bill. <span class="tag fact">FACT</span><span class="sub">MNADV testimony on SB 680</span></div>
+      <div class="against"><b>Against:</b> a pattern is not evidence of intent. We found no record of any linkage. <span class="tag inf">INFERENCE</span></div></div></details>
+    <p class="status">Our status: not established. The record cannot tell these apart. What would: statements from committee members, voting-session agendas, or how the 2027 session handles the same bills.</p>
+  </div>
+</section>
+
+<section class="q" id="s6">
+  <div class="file"><b>File 06</b> What happens next</div>
+  <h2>No number, <em>on purpose</em></h2>
+  <div class="nonum">
+    <div class="dial" aria-hidden="true"><svg viewBox="0 0 200 120"><path d="M20 110 A80 80 0 0 1 180 110" fill="none" stroke="rgba(239,231,214,.25)" stroke-width="14" stroke-dasharray="4 6"/><text x="100" y="96" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="14" fill="#b5ab97">NO RELIABLE</text><text x="100" y="114" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="14" fill="#b5ab97">BASE RATE</text></svg></div>
+    <div>
+      <p>Infera usually puts a probability on what comes next. We only do that when we can anchor it to at least five comparable past events. Here there are two sessions, so we give a description instead of a number. <span class="tag inf">INFERENCE</span></p>
+      <p>The 2027 session opens on 13 January, the first of a new four-year term. <span class="tag fact">FACT</span> Both ideas have been filed in consecutive years (the penalty change since at least 2024), so another round is plausible. Whether it ends differently depends on decisions the public record does not yet explain. <span class="tag inf">INFERENCE</span></p>
+    </div>
+  </div>
+  <ul class="signals">
+    <li><span class="tag watch">WATCH</span> A prefiled bill, and whether the evidence change and the penalty change arrive as one package or two.</li>
+    <li><span class="tag watch">WATCH</span> Which version comes back: the judge's test, the lawful-recording rule, or both.</li>
+    <li><span class="tag watch">WATCH</span> Whether the House Judiciary Committee schedules a vote, not just a hearing.</li>
+    <li><span class="tag watch">WATCH</span> Federal rulemaking on AI evidence after the June 2026 send-back.</li>
+  </ul>
+</section>
+
+<section class="q" id="s7">
+  <div class="file"><b>File 07</b> Who holds the pen</div>
+  <h2>Each lock has <em>its own keyholder</em></h2>
+  <p>This is not a recommendation. It is a map of who can change what, so the next round can be judged against it.</p>
+  <div class="levers">
+    <div class="lever"><h4>Locks 1 and 3 · the legislature</h4><dl>
+      <dt>Who</dt><dd>House Judiciary (chair in 2026: Del. J. Sandy Bartlett) and Senate Judicial Proceedings (chair: Sen. William C. Smith Jr.)</dd>
+      <dt>Power</dt><dd>Whether a bill gets a committee vote at all</dd>
+      <dt>Check later</dt><dd>Did a recording bill get a committee vote in 2027, in which chamber, and which version?</dd></dl></div>
+    <div class="lever"><h4>Lock 1 in practice · prosecutors</h4><dl>
+      <dt>Who</dt><dd>Each county's State's Attorney</dd>
+      <dt>Power</dt><dd>Whether to charge a person who recorded without consent</dd>
+      <dt>Unknown</dt><dd>How often people who recorded abuse are charged. We found no data. <span class="tag inf">NOT ESTABLISHED</span></dd></dl></div>
+    <div class="lever"><h4>Lock 2 · the courts</h4><dl>
+      <dt>Who</dt><dd>The Supreme Court of Maryland, which adopts the rules of evidence on the advice of its Rules Committee</dd>
+      <dt>Power</dt><dd>How strictly audio must be authenticated, whatever the legislature does</dd>
+      <dt>Check later</dt><dd>Any proposed Maryland rule on AI-generated or altered evidence</dd></dl></div>
+    <div class="lever"><h4>Reading the record · you</h4><dl>
+      <dt>How</dt><dd>On mgaleg.maryland.gov, a bill page lists "Text - First" and "Text - Third." The Third Reader is what a chamber actually passed. SB 661's two texts describe different laws.</dd>
+      <dt>When</dt><dd>Witness sign-up opens once a hearing is scheduled</dd></dl></div>
+  </div>
+  <p>The same habit, reading the rule and then the record, runs through <button type="button" class="thm" style="--c:var(--th-records)" data-peek="seized">the Seized Record</button>, and the question of who already speaks in your voice runs through <button type="button" class="thm" style="--c:var(--th-voices)" data-peek="ep09">EP 09</button>.</p>
+</section>
+
+<section class="q" id="sr">
+  <div class="file"><b>Check</b> Before you go</div>
+  <h2>Three questions, <em>no grade</em></h2>
+  <p class="note">This tells us whether the exhibit did its job. Nothing you pick leaves this page.</p>
+  <div id="recall" class="play"></div><p id="recallScore" class="tally" aria-live="polite"></p>
+</section>
+
+<section class="q" id="s8">
+  <div class="file"><b>File 08</b> Method</div>
+  <h2>What we could <em>not</em> establish</h2>
+  <ul class="cant">
+    <li>Why the House committee took no vote, in either year.</li>
+    <li>The outcome of the case in File 01, or whether a judge formally ruled on the recording.</li>
+    <li>How often Marylanders are charged for recording abuse, or how often fabricated audio has been offered in Maryland courts.</li>
+    <li>Whether the public defender's words at the briefing match the press accounts exactly. Two outlets agree; we have not reviewed the video.</li>
+  </ul>
+  <p class="note">Where sources disagree: Maryland Matters, citing the National Conference of State Legislatures, counts 10 all-party consent states; WYPR says 11. <span class="tag rep">REPORTED</span> Counts can differ by how states with mixed rules are classed. We do not use either number in our argument.</p>
+  <p class="note">A record note: the Department of Legislative Services' final note on SB 661 says similar legislation was not introduced in the previous three years, while its notes on HB 132 and HB 802 from the same session cite SB 1007 and HB 314 of 2025. <span class="tag fact">FACT</span> The amended SB 661 is a different design, which may explain the difference. <span class="tag inf">INFERENCE</span> We have listed it as an open question for the department.</p>
+  <p class="note">How we built this: we read the bill texts, the committee amendment, the fiscal notes and the vote records on the General Assembly's site; the written testimony filed for each hearing; the Supreme Court of Maryland's opinion in Mooney; the California and Pennsylvania statutes through official analyses and opinions; and press accounts of the November 2025 briefing. Labels: FACT means a primary record; REPORTED means a named outlet or witness; INFERENCE means our reasoning; WATCH means not yet known.</p>
+  <h3 style="font-family:var(--cond);font-size:22px;text-transform:uppercase;margin-top:22px">Sources</h3>
+  <div class="sources"><ol class="src">
+    <li><a href="https://mgaleg.maryland.gov/cmte_testimony/2026/jud/1grwYVbbCGswiGwWG0G0qmDwY2O4Ufeep.pdf">Rebecca Cordero, Calvert County State's Attorney's Office, testimony on HB 132 (20 Feb 2026)</a></li>
+    <li><a href="https://mgaleg.maryland.gov/mgawebsite/legislation/details/sb0661?ys=2026RS">SB 661 (2026) legislative history</a> · <a href="https://mgaleg.maryland.gov/2026RS/bills/sb/sb0661f.pdf">First Reader</a> · <a href="https://mgaleg.maryland.gov/2026RS/amds/bil_0001/SB0661_64362201.pdf">Amendment 643622/1</a> · <a href="https://mgaleg.maryland.gov/2026RS/fnotes/bil_0001/sb0661.pdf">Fiscal and Policy Note, Third Reader Revised</a> · <a href="https://mgaleg.maryland.gov/2026RS/votes/senate/0621.pdf">Senate vote</a></li>
+    <li><a href="https://mgaleg.maryland.gov/mgawebsite/legislation/details/hb0802?ys=2026RS">HB 802 (2026)</a> · <a href="https://mgaleg.maryland.gov/2026RS/fnotes/bil_0002/hb0802.pdf">fiscal note</a> · <a href="https://mgaleg.maryland.gov/2026RS/fnotes/bil_0002/hb0132.pdf">HB 132 fiscal note</a></li>
+    <li><a href="https://mgaleg.maryland.gov/cmte_testimony/2026/jud/1oFrobh8C6nyDUJHHWpORiEyz7jpxHAlu.pdf">Maryland Judiciary, informational comment on HB 802 (11 Feb 2026)</a></li>
+    <li><a href="https://mgaleg.maryland.gov/cmte_testimony/2026/jud/1K1EqdeCaHThjReydMmSL2lDhZ18JKD-i.pdf">Maryland Office of the Public Defender, testimony on HB 802 and HB 132 (24 Feb 2026)</a></li>
+    <li><a href="https://mgaleg.maryland.gov/2025RS/fnotes/bil_0007/sb1007.pdf">SB 1007 (2025) fiscal note</a> · <a href="https://fastdemocracy.com/bill/md/2025/bills/MDB00033977">SB 1007 vote and actions</a> · <a href="https://mcasa.org/news/post/call-now-survivors-should-be-able-to-use-audio-recordings-in-court">MCASA, 7 Apr 2025</a></li>
+    <li><a href="https://mgaleg.maryland.gov/mgawebsite/legislation/details/hb0130?ys=2025RS">HB 130 (2025)</a> · <a href="https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/HB0688?ys=2026RS">HB 688 (2026)</a> · <a href="https://mgaleg.maryland.gov/2026RS/bills/hb/hb0688t.pdf">HB 688 text</a> · <a href="https://mgaleg.maryland.gov/mgawebsite/Legislation/WitnessSignup/SB0680?ys=2026RS">SB 680 witness list</a> · <a href="https://mgaleg.maryland.gov/cmte_testimony/2026/jpr/1gHzscD53lW_H97kLItz5lge6NLBGtUtX.pdf">MNADV on SB 680</a> · <a href="https://mgaleg.maryland.gov/cmte_testimony/2026/jpr/1JeWmatXnqhK2SJdBmra1X7lPEHsQ1wPO.pdf">Women's Law Center on SB 680</a> · <a href="https://mgaleg.maryland.gov/cmte_testimony/2026/jpr/1eqJgPb-9XxzFf9DfmHedY2fWf1UYt2BC.pdf">SB 680 testimony addressed to the JPR chair</a></li>
+    <li><a href="https://marylandmatters.org/2025/11/18/lawmakers-look-to-make-old-laws-on-recording-relevant-in-a-world-of-ring-cameras-cellphones/">Maryland Matters, 18 Nov 2025</a> · <a href="https://www.wmar2news.com/local/maryland-lawmakers-consider-changes-to-wiretapping-laws">WMAR, Nov 2025</a> · <a href="https://www.wypr.org/wypr-news/2025-11-20/maryland-considers-altering-its-recording-consent-and-evidence-laws">WYPR, 20 Nov 2025</a></li>
+    <li><a href="https://marylandmatters.org/2026/01/16/bartlett-updates-two-centuries-of-chairmen-jpr-burns-the-candle-at-both-ends-in-political-notes/">Maryland Matters, 16 Jan 2026, on the Judiciary chair</a></li>
+    <li><a href="https://www.mdcourts.gov/data/opinions/coa/2024/32a23.pdf">Mooney v. State, Supreme Court of Maryland (2024)</a></li>
+    <li><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0285333">Mai, Bray, Davies and Griffin, "Warning: Humans cannot reliably detect speech deepfakes," PLOS ONE (2023)</a></li>
+    <li><a href="https://www.proskauer.com/blog/machine-generated-evidence-challenges-the-federal-rules-inside-the-contested-proposed-federal-rule-of-evidence-707">Proskauer on proposed Federal Rule of Evidence 707 (status as of mid 2026)</a></li>
+    <li><a href="https://spsf.senate.ca.gov/sites/spsf.senate.ca.gov/files/ab_413_analysis.pdf">California Senate analysis of AB 413 (Penal Code 633.5 and 633.6)</a> · <a href="https://cases.justia.com/pennsylvania/supreme-court/2021-69-map-2019.pdf">Commonwealth v. Mason, Pennsylvania Supreme Court (2021), quoting 18 Pa.C.S. 5704(17)</a> · <a href="https://www.lycolaw.org/uploads/opinions/2022-millington080822bt.pdf">Commonwealth v. Millington, Lycoming County (2022), citing Winig v. Braverman (Pa. Super. 2021)</a></li>
+  </ol></div>
+</section>
+</main>
+
+<footer><div class="wrap">INFERA · MECHANISM SERIES · <i>The Four Locks</i> · standalone exhibit · Season II companion · © Infera 2026.<br>Corrections: infera@melophon.com</div></footer>
+
+<script>
+(function(){
+  function $(id){return document.getElementById(id);}
+  function tg(c,l){return '<span class="tag '+c+'">'+l+'</span>';}
+  var T={F:tg('fact','FACT'),R:tg('rep','REPORTED'),I:tg('inf','INFERENCE')};
+
+  /* ---------- sort ---------- */
+  var ARGS=[
+    {t:"The consent rule protects everyone’s privacy, even people accused of serious crimes.",w:"Office of the Public Defender, written testimony, 2026 (paraphrased)",a:[1],why:"This is the case for Lock 1 itself: who may record whom."},
+    {t:"Two-party consent “prevents malicious actors from creating or editing recordings to frame individuals.”",w:"Baltimore City public defender, Nov 2025 briefing, as quoted by WMAR",a:[2],why:"Fabrication is a question of whether a file is real. It is offered in defense of Lock 1, but the problem it names lives at Lock 2."},
+    {t:"A doorbell camera’s video can be used in court, but its audio cannot.",w:"Law professor and a delegate, Nov 2025 briefing (paraphrased)",a:[3,1],why:"Mostly about what courts may hear (Lock 3), though it starts from what may be captured (Lock 1). Both placements are defensible."},
+    {t:"Judges should be able to review recordings and weigh their value, like other evidence.",w:"Del. J. Sandy Bartlett, then House Judiciary vice chair, Nov 2025 (paraphrased)",a:[3],why:"A pure Lock 3 argument: let the court decide admissibility case by case."},
+    {t:"Survivors who record abuse for their own protection risk a serious criminal charge.",w:"Women’s Law Center, testimony on SB 680, 2026 (paraphrased)",a:[1],why:"About the penalty for recording, which is Lock 1."},
+    {t:"“Maryland is an outlier.”",w:"Frederick County prosecutor, Nov 2025 briefing, as quoted by Maryland Matters",a:[0],why:"True or not, it describes the map, not the merits of any lock. Most states allowing something does not tell you whether it is wise."},
+    {t:"“It would still be unlawful to intercept such communications absent two-party consent.”",w:"Maryland Judiciary, comment on HB 802, Feb 2026",a:[1,3],why:"It names the gap between Lock 1 and Lock 3: admissible evidence that was illegal to make. Either placement is right."},
+    {t:"Disclosing an unlawfully intercepted conversation is a separate offense.",w:"Courts and Judicial Proceedings 10-402(a)(2) (paraphrased)",a:[4],why:"Lock 4: what happens when a recording is passed on or published."}
+  ];
+  var placed={},sel=null,cards=$('cards');
+  function drawCards(){cards.innerHTML='';ARGS.forEach(function(g,i){var b=document.createElement('button');b.type='button';b.className='card'+(sel===i?' sel':'');b.setAttribute('aria-pressed',sel===i?'true':'false');b.innerHTML=g.t+'<span class="who">'+g.w+'</span>'+(placed[i]!==undefined?'<span class="chip">'+(placed[i]===0?'None':'Lock '+placed[i])+'</span>':'');b.addEventListener('click',function(){sel=i;drawCards();markBins();});cards.appendChild(b);});
+    $('checkSort').disabled=Object.keys(placed).length<ARGS.length;}
+  function markBins(){document.querySelectorAll('.bin').forEach(function(b){b.classList.toggle('ready',sel!==null);});}
+  document.querySelectorAll('.bin').forEach(function(b){b.addEventListener('click',function(){if(sel===null)return;placed[sel]=+b.dataset.bin;var next=null;for(var k=0;k<ARGS.length;k++){if(placed[k]===undefined){next=k;break;}}sel=next;drawCards();markBins();});});
+  $('resetSort').addEventListener('click',function(){placed={};sel=null;$('verdicts').innerHTML='';drawCards();markBins();});
+  $('checkSort').addEventListener('click',function(){var m=0,h='';ARGS.forEach(function(g,i){var ok=g.a.indexOf(placed[i])>-1;if(ok)m++;var ours=g.a.map(function(x){return x===0?'None':'Lock '+x;}).join(' or ');h+='<div class="verdict"><b class="'+(ok?'m':'x')+'">'+(ok?'Matches ours':'We put it at '+ours)+'</b> · '+g.t+'<br>'+g.why+'</div>';});
+    var counts=[0,0,0,0,0];ARGS.forEach(function(g){counts[g.a[0]]++;});
+    $('verdicts').innerHTML='<div class="tally">'+m+' of 8 match our sort.</div><p class="note">By our primary placement: Lock 1 has '+counts[1]+', Lock 2 has '+counts[2]+', Lock 3 has '+counts[3]+', Lock 4 has '+counts[4]+', none has '+counts[0]+'. Only one of these eight arguments is about whether a recording is real, and it is offered as a reason to keep Lock 1 shut. '+T.I+' Disagreeing with us on the two-lock cards is reasonable.</p>'+h;});
+  drawCards();
+
+  /* ---------- test bench ---------- */
+  var SCEN=[
+    {k:'a',n:'The visit',t:'A woman records her estranged husband raping her during a visit with their daughter at his home. (The case in File 01.)'},
+    {k:'b',n:'The threats',t:'A woman records her partner threatening to kill her, in person. No attack follows that night.'},
+    {k:'c',n:'The stranger',t:'A man records a coworker beating him badly enough to be first-degree assault. They are not related and not partners.'},
+    {k:'d',n:'The fake',t:'Someone uses an AI voice tool to make a file of a person “confessing,” and offers it as a secret recording.'}
+  ];
+  var VERS=[
+    {k:'today',n:'Maryland today',md:1},
+    {k:'judge',n:'The judge’s test (2025 to 2026 bills)',md:1},
+    {k:'sb661',n:'SB 661 as the Senate passed it',md:1},
+    {k:'pen',n:'Penalty bills only',md:1},
+    {k:'ca',n:'California',md:0},
+    {k:'pa',n:'Pennsylvania',md:0}
+  ];
+  var NO1=['no','Felony to record','Recording a private conversation without everyone’s consent: up to five years, $10,000, or both. '+T.F];
+  var NO3=['no','Excluded','Unlawfully intercepted audio, and evidence derived from it, cannot be received. '+T.F];
+  var STILL1=['no','Still unlawful','The judge’s-test bills changed what courts may hear, not what people may record. The Judiciary called this a statutory conflict. '+T.F];
+  var MISD=['no','Misdemeanor','Still unlawful, but no longer a felony. The maximum penalty stays the same. '+T.F];
+  var PEN3=['no','Still excluded','The penalty bills do not touch admissibility. '+T.F];
+  var NA1=['na','Not the question','Nothing was actually recorded, so consent is beside the point. '+T.I];
+  var D={
+    a:{today:[NO1,NO3],judge:[STILL1,['judge','A judge decides','Rape is a crime against a person. A judge must also find a material fact, more probative than other evidence reasonably available, and the interest of justice. Notice: at least 14 days under SB 1007, HB 132 and SB 661 as filed; “sufficiently in advance” under HB 802. '+T.F]],
+       sb661:[['yes','Lawful','It records the commission of rape, one of the three listed crimes. '+T.F],['yes','Admissible','In the rape prosecution, with at least 14 days’ notice. Maryland’s evidence rules still apply. '+T.F]],
+       pen:[MISD,PEN3],
+       ca:[['yes','Lawful','Penal Code 633.5 lets a party record to obtain evidence of a felony involving violence against the person. '+T.F],['yes','Not barred','The recording is not made inadmissible in a prosecution for that crime. '+T.F]],
+       pa:[['yes','Lawful','Section 5704(17) lets a victim record on reasonable suspicion of a crime of violence. '+T.F],['yes','Not barred','Lawfully intercepted, so the wiretap act does not exclude it. Our reading. '+T.I]]},
+    b:{today:[NO1,NO3],judge:[STILL1,['judge','A judge decides','If the threat counts as a crime against a person, and the other findings are met. Our reading. '+T.I]],
+       sb661:[['unclear','Unclear','The rule covers committing or attempting the three crimes; a threat alone may not qualify. '+T.I+' But someone charged for recording because they reasonably believed they were in imminent danger of becoming the victim of a listed crime would have an affirmative defense. '+T.F],['no','Probably not','The bill allowed use only as evidence of a listed crime. Our reading. '+T.I]],
+       pen:[MISD,PEN3],
+       ca:[['yes','Likely lawful','633.5 also covers domestic violence and threatening calls. Our reading for an in-person threat. '+T.I],['yes','Not barred','Not made inadmissible in a prosecution for those crimes. Our reading. '+T.I]],
+       pa:[['yes','Likely lawful','A 2022 county court opinion, citing a 2021 Superior Court decision, treated threats as reasonable suspicion of a crime of violence; the recorder there was not the victim. '+T.F+' Applying it to this case is our reading. '+T.I],['yes','Not barred','If lawfully intercepted. Our reading. '+T.I]]},
+    c:{today:[NO1,NO3],judge:[STILL1,['judge','A judge decides','Assault is a crime against a person; the other findings still apply. '+T.F]],
+       sb661:[['no','Not covered','First-degree assault is listed only when it is domestically related. A coworker’s assault falls outside. '+T.F],['no','Excluded','Outside the listed crimes, the old rule applies. '+T.F]],
+       pen:[MISD,PEN3],
+       ca:[['yes','Lawful','A felony involving violence against the person. '+T.F],['yes','Not barred','In a prosecution for that crime. '+T.F]],
+       pa:[['yes','Lawful','On reasonable suspicion of a crime of violence. '+T.F],['yes','Not barred','If lawfully intercepted. Our reading. '+T.I]]},
+    d:{today:[NA1,['no','Excluded, with every real one','As a secret recording it is kept out, but so is every genuine secret recording. The rule cannot tell them apart. '+T.I]],
+       judge:[NA1,['gate','Authentication first','Before weighing it, the court still needs evidence that it is what it claims to be. '+T.F]],
+       sb661:[NA1,['gate','Authentication first','If it claims to show a listed crime, it reaches the authentication question. SB 661 left the rules of evidence untouched. '+T.F]],
+       pen:[NA1,['no','Excluded','As a secret recording, still kept out. '+T.I]],
+       ca:[NA1,['gate','Authentication first','Under California’s own authentication rules. '+T.I]],
+       pa:[NA1,['gate','Authentication first','Under Pennsylvania’s own authentication rules. '+T.I]]}
+  };
+  var sc='a',vr='today';
+  function pills(host,list,cur,cb){Array.prototype.slice.call(host.querySelectorAll('button')).forEach(function(b){b.remove();});list.forEach(function(x){var b=document.createElement('button');b.type='button';b.textContent=x.n;b.setAttribute('aria-pressed',x.k===cur?'true':'false');b.addEventListener('click',function(){cb(x.k);});host.appendChild(b);});}
+  function lamp(title,a){return '<div class="lamp '+a[0]+'"><h4>'+title+'</h4><div class="st">'+a[1]+'</div><p>'+a[2]+'</p></div>';}
+  function bench(){pills($('scenPick'),SCEN,sc,function(k){sc=k;bench();});pills($('versPick'),VERS,vr,function(k){vr=k;bench();});
+    var s=SCEN.filter(function(x){return x.k===sc;})[0],v=VERS.filter(function(x){return x.k===vr;})[0],d=D[sc][vr];
+    $('scenText').textContent=s.t;
+    var l2=v.md?['gate','Same in every version','Maryland Rule 5-901: enough evidence for a reasonable juror to find it is what it claims (Mooney v. State, 2024). No bill changed this. '+T.F]:['gate','Its own test','Authentication under that state’s rules of evidence. '+T.F];
+    $('lamps').innerHTML=lamp('Lock 1 · Lawful to record?',d[0])+lamp('Lock 2 · Is it real?',l2)+lamp('Lock 3 · Can a court hear it?',d[1]);}
+  bench();
+
+  /* ---------- gate ---------- */
+  var TOK=[['Rape','r','L'],['Murder','r','L'],['Rape','f','L'],['DV assault','r','L'],['Assault','r','P'],['Threat','r','P'],['Assault','f','P'],['Argument','r','O'],['Gossip','r','O'],['Bribe talk','f','O']];
+  var MODES=[{k:'today',n:'Maryland today'},{k:'sb661',n:'SB 661 as passed'},{k:'judge',n:'The judge’s test'}];
+  var ST=[2,30,58,84],track=$('track'),stations=$('stations'),lanes=[];
+  [['Recorded','Recorded'],['Lock 1 · eligible?','Lock 1'],['Lock 2 · real?','Lock 2'],['Before the jury','Jury']].forEach(function(n,i){var d=document.createElement('div');d.style.left=ST[i]+'%';d.innerHTML='<span><i class="lg">'+n[0]+'</i><i class="sh">'+n[1]+'</i></span>';stations.appendChild(d);});
+  TOK.forEach(function(t){var l=document.createElement('div');l.className='lane';var k=document.createElement('div');k.className='tok '+(t[1]==='r'?'real':'fake');k.textContent=t[0]+(t[1]==='f'?' · fake':'');k.style.left=ST[0]+'%';l.appendChild(k);track.appendChild(l);lanes.push(k);});
+  var gm='today',gt=[];
+  var CAPS={
+    today:'Each of these secret recordings stops at Lock 1, real and fabricated alike. Nothing reaches the jury, including the genuine recordings of a rape and a murder. The rule never has to ask which files are real. '+T.I,
+    sb661:'Recordings of the three listed crimes pass Lock 1; everything else stops. At Lock 2 the genuine ones can be authenticated. The fabricated rape recording now faces a forensic and legal test instead of a category ban: whether it is caught depends on the review it gets and on a reasonable-juror standard. We found no measurement of how often fakes get through. '+T.I,
+    judge:'Shown: the version in SB 1007, HB 132 and SB 661 as filed. Recording is still unlawful, but a judge may let in recordings of crimes against a person after making findings; recordings with no crime against a person stay out. HB 802 had no such limit and left it to the judge’s other findings. Anything let in still has to be authenticated at Lock 2, where the same unknown applies to fakes. '+T.I
+  };
+  function runGate(){gt.forEach(clearTimeout);gt=[];pills($('gatePick'),MODES,gm,function(k){gm=k;runGate();});
+    lanes.forEach(function(k,i){var t=TOK[i];k.className='tok '+(t[1]==='r'?'real':'fake');k.style.left=ST[0]+'%';
+      gt.push(setTimeout(function(){var pass1=(gm==='sb661'&&t[2]==='L')||(gm==='judge'&&(t[2]==='L'||t[2]==='P'));
+        if(!pass1){k.style.left=ST[1]+'%';gt.push(setTimeout(function(){k.classList.add('stop');},900));return;}
+        k.style.left=ST[2]+'%';
+        gt.push(setTimeout(function(){if(t[1]==='f'){k.classList.add('ask');k.textContent=t[0]+' · fake · ?';}else{k.style.left=ST[3]+'%';}},1150));
+      },120+i*70));
+      k.textContent=t[0]+(t[1]==='f'?' · fake':'');});
+    $('gateCap').innerHTML=CAPS[gm];}
+  if('IntersectionObserver' in window){var gio=new IntersectionObserver(function(es){if(es[0].isIntersecting){runGate();gio.disconnect();}},{threshold:.3});gio.observe($('gate'));}else runGate();
+  pills($('gatePick'),MODES,gm,function(k){gm=k;runGate();});
+
+  /* ---------- crossing ---------- */
+  var C=[12.5,37.5,62.5,87.5];
+  var Y={
+    '2025':{rows:[
+      ['SB 1007','ev','S',[0,1,3],'44 to 0','No vote','Passed the Senate 4 Apr; sent to House Rules 5 Apr; session ended 7 Apr.'],
+      ['HB 314','ev','H',[3],null,'No vote','Heard in House Judiciary 4 Feb; no vote.'],
+      ['HB 130','pen','H',[3,2,0],'101 to 37','No vote','Passed the House; no vote in Senate Judicial Proceedings.']],
+      cap:'2025: the evidence bill crossed from the Senate unanimously, three days before the session ended. The penalty bill crossed from the House. Neither got a vote on the other side.'},
+    '2026':{rows:[
+      ['SB 661','ev','S',[0,1,3],'36 to 2','No vote','Rewritten in committee; passed the Senate; House Judiciary hearing 31 Mar; no vote.'],
+      ['HB 132','ev','H',[3],null,'No vote','Heard 24 Feb; no vote.'],
+      ['HB 802','ev','H',[3],null,'No vote','Sponsored by the committee chair. Heard 24 Feb; no vote.'],
+      ['HB 688','pen','H',[3,2,0],'96 to 36','No vote','Passed the House; no vote in Senate Judicial Proceedings.'],
+      ['SB 680','pen','S',[0],null,'No vote','Heard in Senate Judicial Proceedings 24 Feb; no vote.']],
+      cap:'2026: the same pattern. Evidence bills: Senate yes, House committee silent. Penalty bills: House yes, Senate committee silent.'}
+  };
+  var timers=[];
+  function playYear(y){timers.forEach(clearTimeout);timers=[];$('ylab').textContent=y;var host=$('rows');host.innerHTML='';$('crossCap').textContent='';
+    Y[y].rows.forEach(function(r,i){var row=document.createElement('div');row.className='brow';row.setAttribute('aria-label',r[0]+': '+r[6]);
+      var tk=document.createElement('div');tk.className='bt '+r[1];tk.textContent=r[0];tk.style.left=C[r[3][0]]+'%';row.appendChild(tk);
+      var lab=document.createElement('div');lab.className='blab';lab.textContent=r[6];row.appendChild(lab);
+      var vt=null;if(r[4]){vt=document.createElement('div');vt.className='vote';vt.textContent='vote '+r[4];vt.style.left=C[r[3][1]]+'%';row.appendChild(vt);}
+      var stp=document.createElement('div');stp.className='stamp';stp.textContent=r[5];stp.style.left=C[r[3][r[3].length-1]]+'%';row.appendChild(stp);
+      host.appendChild(row);
+      var t0=300+i*500;
+      r[3].forEach(function(c,j){if(j===0)return;timers.push(setTimeout(function(){tk.style.left=C[c]+'%';if(j===1&&vt)vt.classList.add('on');},t0+j*1100));});
+      timers.push(setTimeout(function(){stp.classList.add('on');},t0+r[3].length*1100+200));
+    });
+    timers.push(setTimeout(function(){$('crossCap').textContent=Y[y].cap;},300+Y[y].rows.length*500+3600));}
+  $('play25').addEventListener('click',function(){playYear('2025');});
+  $('play26').addEventListener('click',function(){playYear('2026');});
+  playYear('2025');
+
+  /* ---------- recall ---------- */
+  var RQ=[
+    ['The argument that consent protects against AI-made audio is mainly about which lock?',['Lock 1 · Lawful','Lock 2 · Real','Lock 3 · Admissible'],1,'Whether a file is genuine is an authentication question. No bill in 2025 or 2026 changed how that is tested.'],
+    ['Under SB 661 as the Senate passed it, what happens to the recording in File 01?',['Still excluded','A judge decides','Lawful to make and admissible in the rape case'],2,'Rape was one of the three listed crimes. The bill passed the Senate and never got a House committee vote.'],
+    ['What does the public record not tell us?',['How the Senate voted','Why the House committee took no vote','What SB 661 said'],1,'There was no committee vote, so there is no tally to read. Four explanations remain open.']
+  ];
+  var rh=$('recall'),got=0,done=0;
+  RQ.forEach(function(q,i){var d=document.createElement('div');d.className='rq';d.innerHTML='<p>'+(i+1)+'. '+q[0]+'</p><div class="opts"></div><div class="why" hidden></div>';
+    var o=d.querySelector('.opts');q[1].forEach(function(t,j){var b=document.createElement('button');b.type='button';b.textContent=t;b.addEventListener('click',function(){if(d.dataset.done)return;d.dataset.done=1;done++;if(j===q[2])got++;b.classList.add(j===q[2]?'ok':'no');o.children[q[2]].classList.add('ok');var w=d.querySelector('.why');w.textContent=q[3];w.hidden=false;if(done===RQ.length)$('recallScore').textContent=got+' of 3. Thank you.';});o.appendChild(b);});
+    rh.appendChild(d);});
+
+  /* ---------- threads (house pattern) ---------- */
+  var THREADS={
+    records:{name:'Records',c:'var(--th-records)',items:[['episode-09-the-synthetic-self.html','EP 09 · The Synthetic Self','Live'],['the-permanent-record.html','The Permanent Record','Live'],['brief-the-file-you-cant-see.html','Brief 015 · The File You Can’t See','Live'],['the-four-locks.html','The Four Locks','Live']]},
+    voices:{name:'Voices',c:'var(--th-voices)',items:[['episode-09-the-synthetic-self.html','EP 09 · The Synthetic Self','Live'],['the-seized-record.html','The Seized Record','Live'],['the-second-death.html','The Second Death','Live'],['the-four-locks.html','The Four Locks','Preview']]},
+    clocks:{name:'Clocks',c:'var(--th-clocks)',items:[['same-building-two-bills.html','Same Building, Two Bills','Live'],['the-house-already-knew.html','The House Already Knew','Live'],['brief-decided-before-you-act.html','Brief 013 · Decided Before You Act','Live'],['the-four-locks.html','The Four Locks','Preview']]}
+  };
+  var PEEKS={
+    vent:{k:'Voices · Field Note 12',tag:'INFERENCE',t:'This exhibit asks whether a court can tell a real voice from a made one. The Ventriloquist asks who gets to make one, and who steers AI voices of the dead in campaigns and pulpits.',m:'Live · Field Note 12',go:'field-notes/12-the-ventriloquist.html',c:'var(--th-voices)'},
+    ep09:{k:'Voices · EP 09 The Synthetic Self',tag:'INFERENCE',t:'A cloned voice is cheap to make and hard to disown. EP 09 maps who already speaks in your voice without you.',m:'Live · EP 09',go:'episode-09-the-synthetic-self.html',c:'var(--th-voices)'},
+    seized:{k:'Records · The Seized Record',tag:'INFERENCE',t:'Same method, different record: The Seized Record tests a federal seizure of Fulton County ballots against the Justice Department’s own published rules.',m:'Live',go:'the-seized-record.html',c:'var(--th-records)'}
+  };
+  var here='the-four-locks.html',list=$('thlist'),lh=$('thlistH'),lo=$('thlistL'),lf=null;
+  function openL(k,b){var t=THREADS[k];list.style.setProperty('--c',t.c);lh.textContent=t.name+' · '+t.items.length+' pieces';lo.innerHTML=t.items.map(function(i){var h=i[0]===here;return '<li'+(h?' class="here"':'')+'><a href="'+i[0]+'">'+i[1]+(h?' · You are here':'')+'</a><span class="s">'+i[2]+'</span></li>';}).join('');list.hidden=false;lf=b;list.querySelector('.x').focus();}
+  function closeL(){list.hidden=true;if(lf)lf.focus();}
+  document.querySelectorAll('.thbar button').forEach(function(b){b.addEventListener('click',function(){if(!list.hidden&&lh.textContent.indexOf(THREADS[b.dataset.th].name)===0){closeL();return;}openL(b.dataset.th,b);});});
+  list.querySelector('.x').addEventListener('click',closeL);
+  var zones={records:['s3','s5','s8'],voices:['s4'],clocks:['s5','s6']},pips={};
+  Object.keys(zones).forEach(function(k){pips[k]=document.querySelector('[data-th='+k+']');});
+  if('IntersectionObserver' in window){var vis={};var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[e.target.id]=e.isIntersecting;});Object.keys(zones).forEach(function(k){pips[k].classList.toggle('lit',zones[k].some(function(id){return vis[id];}));});},{threshold:.12});['s3','s4','s5','s6','s8'].forEach(function(id){io.observe($(id));});}
+  var pk=$('peek'),pf=null;
+  function openP(id,b){var p=PEEKS[id];pk.style.setProperty('--c',p.c);$('peekK').textContent=p.k;$('peekTag').textContent=p.tag;$('peekT').textContent=p.t;$('peekM').textContent=p.m;$('peekGo').href=p.go;pk.hidden=false;pf=b;$('peekClose').focus();}
+  function closeP(){pk.hidden=true;if(pf)pf.focus();}
+  document.querySelectorAll('[data-peek]').forEach(function(b){b.addEventListener('click',function(){openP(b.dataset.peek,b);});});
+  $('peekClose').addEventListener('click',closeP);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(!pk.hidden)closeP();if(!list.hidden)closeL();}});
+})();
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "004d41c27d234e4d91147892e7874563"}'></script><!-- End Cloudflare Web Analytics -->
+<script src="site-kit.js" defer data-root="" data-page="the-four-locks.html"></script>
+<script src="subscribe.js" defer data-root=""></script>
+</body>
+</html>
