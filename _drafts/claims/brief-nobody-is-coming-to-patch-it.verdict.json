@@ -3,8 +3,8 @@
  "claims_sha": "7c0d92fb0a883bb9",
  "checked_on": "2026-11-10",
  "summary": {
-  "SUPPORTED": 106,
-  "OVERSTATED": 1,
+  "SUPPORTED": 107,
+  "OVERSTATED": 0,
   "CONTRADICTED": 0,
   "UNSUPPORTED": 0,
   "WRONG_TAG": 0,
@@ -482,10 +482,10 @@
   },
   {
    "id": "c068",
-   "verdict": "OVERSTATED",
-   "evidence": "Round 6, re-read against the report. Judged whole; the ledger shows only its unchanged last sentence, so a text match would have carried the round 5 verdict without reading the new text. The bullet is my round 5 fix verbatim, and that fix was wrong on the date. Report, in order: 'L'infrastructure utilisee pour mener l'attaque a egalement ete utilisee, au cours de la meme periode, pour mener des actions de reconnaissance sur des equipements Schneider Electric, utilises notamment dans des petites et moyennes unites de production d'energie et d'eau.' Next sentence: 'Les techniques utilisees lors de ces actions sont connues pour etre utilisees par l'unite Shahid Kaveh depuis avril 2026 a minima (protocole Modbus / port 502)'. So 'since at least April 2026' dates the unit's use of the techniques, not the infrastructure's reconnaissance, which the report places 'au cours de la meme periode' (in context, the period of the Oct. 11-12 attack; the report gives no explicit dates for it). The page attaches April to the wrong item and drops a separate piece of evidence, the technique match. Everything else in the bullet holds: the equipment description, the tool ('Cet outil est habituellement utilise par le mode operatoire d'attaque'), CyberbanNews 'associe a l'unite Shahid Kaveh, des le 13 octobre 2026', the Farsi traces, 'faisceau d'indices'.",
-   "source_read": "https://cert.cyber.gouv.fr/uploads/CERTFR-2026-CTI-009.pdf (CERTFR-2026-CTI-009, re-read this round)",
-   "fix": "The evidence it describes: the attack infrastructure was also used, in the same period, for reconnaissance on a type of Schneider Electric equipment used in small energy and water plants, with techniques the report says the unit has used since at least April 2026; the attackers used a scanning tool the report says the attack group habitually uses; a propaganda outlet the report links to the unit relayed the attack from Oct. 13; and \"traces of Farsi\" were found in the attack infrastructure. It calls this \"a body of indicators.\""
+   "verdict": "SUPPORTED",
+   "evidence": "Round 7, whole bullet checked against the report (the ledger records only its unchanged last sentence). Clause by clause: (1) 'the attack infrastructure was also used, in the same period, for reconnaissance on a type of Schneider Electric equipment used in small energy and water plants': report, 'L'infrastructure utilisee pour mener l'attaque a egalement ete utilisee, au cours de la meme periode, pour mener des actions de reconnaissance sur des equipements Schneider Electric, utilises notamment dans des petites et moyennes unites de production d'energie et d'eau.' (2) 'with techniques the report says the unit has used since at least April 2026': 'Les techniques utilisees lors de ces actions sont connues pour etre utilisees par l'unite Shahid Kaveh depuis avril 2026 a minima (protocole Modbus / port 502)'. The date is now on the techniques, where the report puts it. (3) tool: 'Cet outil est habituellement utilise par le mode operatoire d'attaque'. (4) 'relayee sur l'organe de propagande CyberbanNews, associe a l'unite Shahid Kaveh, des le 13 octobre 2026'. (5) 'Des traces d'utilisation du farsi ont ete retrouvees dans l'infrastructure d'attaque.' (6) 'un faisceau d'indices'. FACT is right for a description of what a primary document states; the attribution itself is tagged ALLEGED in the bullet above. Minor, not blocking: the report says 'small and medium' plants; the page says 'small', which is narrower, not stronger.",
+   "source_read": "https://cert.cyber.gouv.fr/uploads/CERTFR-2026-CTI-009.pdf (CERTFR-2026-CTI-009; exact sentences read in rounds 5 and 6)",
+   "fix": ""
   },
   {
    "id": "c069",
@@ -762,13 +762,13 @@
   }
  ],
  "flags": [
-  "Round 6, /home/claude/wt-012b, branch brief-012-anssi, commit fe2b314. Verified: the round 5 page from git (100f395) reproduces sha 9e46a01e314473ab exactly; against it the ledger (7c0d92fb0a883bb9, 85 claims) changes c066 and splits the old c072 into c072 (FACT) and c073 (WATCH). The page diff matches the coordinator's description: c066, c068, the split chip and the PDF link.",
-  "The extractor's ledger records only the last sentence of c068 ('It calls this \"a body of indicators.\"'), which did not change, so a pure text match would have carried it forward unread. I judged the whole bullet. Worth fixing in the extractor: multi-sentence bullets with one chip are compared on their last sentence only.",
-  "The one remaining blocker, c068, comes from my own round 5 fix, which the page adopted verbatim. In round 5 I checked the April 2026 wording only for its hedge ('a minima') and missed that it belongs to the next sentence of the report, about the unit's techniques. A closer read this round caught it. The fix in this file keeps the April date attached to the techniques.",
-  "Source list: the CERT-FR line now links both the web page and the PDF. Checked.",
-  "Report re-read this round: no text addressed to an AI or reviewer. Fetch-tool caveat as before: it returns extracts and quotes, so I asked for the exact surrounding sentences on the point that decided c068. Its reading of 'la meme periode' as the October attack period is from context; the report gives no explicit dates for the reconnaissance, which is why the fix says 'in the same period' rather than 'in October'.",
+  "Round 7, /home/claude/wt-012b, branch brief-012-anssi, commit e2095f4. Verified: the only page change since round 6 (fe2b314) is the first clause of c068; the ledger sha is unchanged at 7c0d92fb0a883bb9 because the extractor keeps only that bullet's last sentence. c068 judged as a whole bullet. All other 106 verdicts unchanged from round 6, all SUPPORTED.",
+  "c068 rests on report sentences quoted verbatim in rounds 5 and 6 of this pass, read from the PDF itself; I did not fetch it again for this one-clause change.",
+  "Extractor gap, still worth fixing: a multi-sentence item with one chip is recorded by its last sentence only, so edits earlier in the item do not change the sha and the gate cannot see them. Here it meant a fix could have passed or failed without any checker reading it.",
+  "The c068 error fixed in this round came from my own round 5 suggested wording; round 6 caught it.",
   "Running the extractor modifies the tracked file _agent/scripts/__pycache__/extract-claims.cpython-313.pyc; restored with git checkout. The only change I leave in this worktree is the verdict file.",
   "Other side (Editorial Standard): present in section 08. Anthropic conflict note: present in section 06.",
-  "Standing notes, not blocking: c016 FACT cites CISA ICSA-25-140-03, which covers only CVE-2025-41450 and R4.2; c006/x002 six-hour duration rests on Reuters/Intermarche alone; c015 'days after' should be 'the day after'; the second-wave scope on the page (six countries) is narrower than later counts of nine to eleven."
+  "Standing notes, not blocking: c016 FACT cites CISA ICSA-25-140-03, which covers only CVE-2025-41450 and R4.2; c006/x002 six-hour duration rests on Reuters/Intermarche alone; c015 'days after' should be 'the day after'; the second-wave scope on the page (six countries) is narrower than later counts of nine to eleven.",
+  "No source, including the ANSSI report, contained text addressed to an AI or reviewer."
  ]
 }
