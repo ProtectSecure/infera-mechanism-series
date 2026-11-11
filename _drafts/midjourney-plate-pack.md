@@ -433,3 +433,12 @@ a desk phone off the hook on a stack of subscription agreements, editorial still
 an estate sale table of labeled boxes, one box marked only with a lot number, editorial still life, dark studio, one warm practical light, deep shadow, muted cream and brass palette, 35mm film grain, shallow depth of field, no people, no faces, no text, no logos --ar 25:9 --style raw
 ```
 
+
+## The Mechanism Brief
+
+**Mechanism Brief № 015 · The File You Can't See**  ·  `images/plates/brief-the-file-you-cant-see.webp`  ·  loop now: records
+
+```
+a manila personnel folder on a steel desk under one lamp, loose printed web pages fanned across it, a red rubber stamp beside it, editorial still life, dark studio, one warm practical light, deep shadow, muted cream and brass palette, 35mm film grain, shallow depth of field, no people, no faces, no text, no logos --ar 25:9 --style raw
+```
+
