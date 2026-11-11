@@ -400,7 +400,7 @@ footer.colo{font:500 12px/1.6 var(--f-mono);display:grid;gap:8px}
         <ol class="path" id="ppath"></ol>
       </div>
     </div>
-    <p class="src">Two readings and 13 days: Home Rule Act, via CRS R47927. Meeting dates and the Dec. 23 to 31 recess: D.C. Council schedule. Steps after passage: Hill Rag and Allen's office (Nov. 10). The schedule sets Nov. 18 as the deadline to file committee reports for the Nov. 24 Committee of the Whole. <span class="chip fact">FACT</span></p>
+    <p class="src">Two readings and 13 days: Home Rule Act, via CRS R47927. Meeting dates and the Dec. 23 to 31 recess: D.C. Council schedule. Steps after passage: Hill Rag and Allen's office (Nov. 10). The schedule sets Nov. 18 as the deadline to file committee reports for the Nov. 24 Committee of the Whole. <span class="chip fact">FACT</span> WJLA and NBC4 report a committee vote expected this week; Hill Rag says no date has been set. <span class="chip watch">WATCH</span></p>
     <p class="p">The council can add meetings; it added two this year, on July 14 and Sept. 22. <span class="chip fact">FACT</span> An added meeting in December would change this math. Nobody has said one is planned. <span class="chip watch">WATCH</span></p>
   </div>
 </section>
@@ -640,6 +640,14 @@ function plan(){var h="",v,cls;
   h+=row("2027","A new council, and a mayor who wanted to wait, decide whether to start again: new bill, new hearing, new committee vote, two new council votes. "+chip("INFERENCE"));
   h+=row("The street","Paid driverless rides wait at least another cycle. Testing with safety drivers can continue for now, but Waymo told NBC4 that cannot go on indefinitely. "+chip("REPORTED"));
   pv.innerHTML="<b>"+v+"</b><span>"+(when===4?"Close to what the mayor-elect and two committee members have asked for: take it up in the new session.":"Where the count stood on Nov. 10, by the members' own statements.")+"</span>";pv.className="verdict "+cls}
+ else if(when===2){
+  pv.innerHTML="<b>Off the regular schedule.</b><span>Committee reports for the Nov. 24 Committee of the Whole are due Nov. 18, so a vote this late would need a waiver or an added meeting.</span>";pv.className="verdict bad";
+  h+=row(W[when],"Three of five vote yes and the bill advances. "+chip("FACT"),"y");
+  h+=row("Nov. 24","The Committee of the Whole meets, but its deadline for committee reports was Nov. 18. "+chip("FACT"),"x");
+  h+=row("Dec. 1","Missed, unless the council grants a waiver or adds a meeting. "+chip("INFERENCE"),"x");
+  h+=row("Dec. 15","First council vote, at the earliest. "+chip("FACT"));
+  h+=row("Dec. 29 or later","A second vote needs at least 13 days in between. The council is in recess Dec. 23 to 31. "+chip("FACT"),"x");
+  h+=row("Jan. 2027","Without a waiver or an added meeting, the bill lapses and must be reintroduced. "+chip("INFERENCE"),"x")}
  else if(when===3){
   pv.innerHTML="<b>Passes committee, runs out of calendar.</b><span>A first vote on Dec. 15 leaves no scheduled meeting with 13 days in between.</span>";pv.className="verdict bad";
   h+=row(W[when],"Three of five vote yes and the bill advances. "+chip("FACT"),"y");
@@ -648,9 +656,9 @@ function plan(){var h="",v,cls;
   h+=row("Dec. 29 or later","A second vote needs at least 13 days in between. The council is in recess Dec. 23 to 31. "+chip("FACT"),"x");
   h+=row("Jan. 2027","Unless the council adds a meeting, the bill lapses and must be reintroduced. "+chip("INFERENCE"),"x")}
  else{
-  pv.innerHTML=when===2?"<b>Off the regular schedule.</b><span>Committee reports for the Nov. 24 Committee of the Whole are due Nov. 18, so a vote this late would need a waiver or an added meeting.</span>":"<b>On track for Dec. 15.</b><span>If the committee report is filed by Nov. 18: first vote Dec. 1, final vote Dec. 15, with exactly 13 days in between.</span>";pv.className="verdict "+(when===2?"mid":"ok");
+  pv.innerHTML="<b>On track for Dec. 15.</b><span>If the committee report is filed by Nov. 18: first vote Dec. 1, final vote Dec. 15, with exactly 13 days in between.</span>";pv.className="verdict ok";
   h+=row(W[when],"Three of five vote yes. The bill moves on. "+chip("FACT"),"y");
-  h+=when===2?row("Nov. 24","The Committee of the Whole meets, but its deadline for committee reports was Nov. 18. Without a waiver or an added meeting, the bill misses Dec. 1. "+chip("FACT"),"x"):row("Nov. 24","The Committee of the Whole, which must take the bill up after committee, meets, if the committee report is filed by Nov. 18. "+chip("FACT"),"y");
+  h+=row("Nov. 24","The Committee of the Whole, which must take the bill up after committee, meets, if the committee report is filed by Nov. 18. "+chip("FACT"),"y");
   h+=row("Dec. 1","First council vote. Amendments are possible; a majority passes it. "+chip("FACT"),"y");
   h+=row("Dec. 15","Second vote, after 13 intervening days. The last scheduled chance this period. "+chip("FACT"),"y");
   h+=row("Late Dec. to Jan.","The mayor has 10 days to sign or veto; doing nothing counts as approval. Depending on when the bill is sent, that may be the outgoing mayor or the incoming one, who wanted to wait. "+chip("INFERENCE"));
