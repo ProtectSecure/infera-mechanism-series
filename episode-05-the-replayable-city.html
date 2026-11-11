@@ -5,727 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Replayable City · EP 05 · The Mechanism Series</title>
 <link rel="canonical" href="https://series.melophon.com/episode-05-the-replayable-city.html">
-<meta name="description" content="Episode 05 of The Mechanism Series. Four illustrative forty-minute Washington commutes, replayed over a camera-density heat map. Then the part nobody photographs: retention math and the data debt many Americans have but very few could account for.">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800;900&family=Inter+Tight:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-
-<script>document.documentElement.classList.add('js');</script>
-
-<style>
-:root {
-  --paper: #fafaf2;
-  --paper-warm: #f5f0e0;
-  --paper-card: #ffffff;
-  --ink: #0a0a0a;
-  --ink-soft: #2a2a2a;
-  --muted: #5a5a5a;
-  --faint: #9a9a9a;
-  --rule: #e6e2d4;
-  --rule-dark: #cdc8b8;
-  --pop-red: #ff4a2b;
-  --pop-yellow: #ffd83d;
-  --pop-mint: #2bd9a8;
-  --pop-cobalt: #2b6cb0;
-  --pop-magenta: #ff3c8b;
-  --pop-purple: #7a4cff;
-  --pop-orange: #ff8a1a;
-  --highlight: #fff062;
-  --r-north: #ff4a2b;
-  --r-south: #2bd9a8;
-  --r-east:  #2b6cb0;
-  --r-west:  #ff3c8b;
-  --map-bg: #f4f1e6;
-  --map-water: #c5dcef;
-  --map-water-edge: #6a9ec5;
-  --map-park: #d5e6c8;
-  --map-road: #1a1a1a;
-  --map-road-thin: #444;
-  --map-hwy: #3a3a3a;
-  --map-arterial: #2a2a2a;
-  --map-dc-fill: #fff8e1;
-  /* density gradient (warm, translucent — only fills in after vehicle passes) */
-  --d1: rgba(255, 242, 191, 0.22);
-  --d2: rgba(255, 226, 131, 0.26);
-  --d3: rgba(255, 200, 61,  0.32);
-  --d4: rgba(255, 138, 26,  0.38);
-  --d5: rgba(255, 74,  43,  0.42);
-  --d6: rgba(200, 32,  13,  0.46);
-  /* retention timeline */
-  --rt-official: #2bd9a8;
-  --rt-residual: #ff4a2b;
-  --cap-pub: #2bd97a;
-  --cap-inf: #ffa033;
-  --cap-priv: #ff3c8b;
-  --cap-cls: #7a4cff;
-  --lyr-frz: rgba(255, 74, 43, 0.10);
-  --lyr-frz-edge: rgba(255, 74, 43, 0.65);
-  --lyr-sfra: rgba(255, 138, 26, 0.06);
-  --lyr-sfra-edge: rgba(255, 138, 26, 0.55);
-  --lyr-mpd: rgba(43, 108, 176, 0.10);
-  --lyr-mpd-edge: rgba(43, 108, 176, 0.65);
-  --lyr-wmata: rgba(43, 217, 168, 0.10);
-  --lyr-wmata-edge: rgba(43, 217, 168, 0.65);
-  --lyr-county: rgba(122, 76, 255, 0.45);
-
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Crimson Pro', Georgia, serif;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-headline: 'Inter Tight', 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
-
-  --col-text: 720px;
-  --col-wide: 1240px;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 18px; line-height: 1.6;
-  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; }
-a { color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--pop-red); transition: color 0.15s ease; }
-a:hover { color: var(--pop-red); }
-img, svg { max-width: 100%; display: block; }
-em { font-style: italic; }
-strong { font-weight: 700; color: var(--ink); }
-::selection { background: var(--highlight); color: var(--ink); }
-
-/* ================ CHROME ================ */
-.chrome { position: sticky; top: 0; z-index: 100;
-  background: rgba(250,250,242,0.95);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--rule);
-  padding: 14px 32px; display: flex; justify-content: space-between; align-items: center;
-  font-family: var(--font-sans); font-size: 12px; letter-spacing: 0.06em; }
-.chrome .brand { font-family: var(--font-headline); font-size: 17px; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; border: none; }
-.chrome .brand em { font-family: var(--font-display); font-style: italic; color: var(--pop-red); font-weight: 600; }
-.chrome .nav-links { display: flex; gap: 14px; flex-wrap: nowrap; }
-.chrome .nav-links a { color: var(--muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; white-space: nowrap; border: none; padding: 4px 0; }
-.chrome .nav-links a:hover { color: var(--ink); }
-.chrome .nav-links a.cur { color: var(--pop-red); border-bottom: 2px solid var(--pop-red); }
-.chrome .nav-links .tn { font-family: var(--font-display); font-style: italic; text-transform: none; letter-spacing: 0; opacity: 0.55; margin-right: 4px; color: var(--ink); font-weight: 500; }
-@media (max-width: 820px) { .chrome .nav-links { display: none; } .chrome { padding: 12px 18px; } }
-
-/* ================ LAYOUT ================ */
-.wrap { max-width: var(--col-text); margin: 0 auto; padding: 0 24px; }
-.wrap-wide { max-width: var(--col-wide); margin: 0 auto; padding: 0 24px; }
-section { padding: 100px 0; position: relative; }
-section.tight { padding: 64px 0; }
-.kicker { font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-  letter-spacing: 0.18em; text-transform: uppercase; color: var(--pop-red);
-  margin-bottom: 24px; display: inline-block; }
-.kicker.cobalt { color: var(--pop-cobalt); }
-.kicker.mint { color: var(--pop-mint); }
-.kicker.magenta { color: var(--pop-magenta); }
-.kicker.purple { color: var(--pop-purple); }
-.kicker.orange { color: var(--pop-orange); }
-h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(56px, 10vw, 132px); line-height: 0.94; letter-spacing: -0.025em; color: var(--ink); }
-h1 em { font-style: italic; font-weight: 500; }
-h1 .high { background: var(--highlight); padding: 0 8px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(34px, 5.2vw, 60px); line-height: 1.02; letter-spacing: -0.015em; margin-bottom: 22px; color: var(--ink); }
-h2 em { font-style: italic; }
-h3 { font-family: var(--font-headline); font-weight: 800; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); margin-bottom: 16px; }
-p { margin-bottom: 20px; color: var(--ink-soft); }
-.lead { font-size: 22px; line-height: 1.55; color: var(--ink); }
-.deck { font-family: var(--font-display); font-style: italic; font-size: clamp(22px, 3vw, 30px); color: var(--muted); line-height: 1.28; margin-top: 22px; }
-
-/* ================ HERO ================ */
-.hero { padding: 90px 0 60px; position: relative; overflow: hidden; }
-.hero .strap { display: flex; gap: 14px; align-items: center;
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; color: var(--muted);
-  text-transform: uppercase; margin-bottom: 36px; }
-.hero .strap .pill { background: var(--ink); color: var(--paper); padding: 4px 10px; font-weight: 700; letter-spacing: 0.12em; }
-.hero .strap .dot { width: 5px; height: 5px; background: var(--pop-red); border-radius: 50%; }
-.hero .meta { display: flex; gap: 36px; flex-wrap: wrap; margin-top: 50px; padding-top: 28px;
-  border-top: 1px solid var(--rule); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--muted); }
-.hero .meta b { color: var(--ink); }
-.tag-cluster { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 36px; }
-.chip { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-  padding: 7px 11px; border: 1.5px solid var(--ink); border-radius: 999px; color: var(--ink); background: var(--paper); }
-.chip.red { background: var(--pop-red); color: #fff; border-color: var(--pop-red); }
-.chip.mint { background: var(--pop-mint); color: var(--ink); border-color: var(--pop-mint); }
-.chip.yellow { background: var(--pop-yellow); color: var(--ink); border-color: var(--pop-yellow); }
-.chip.purple { background: var(--pop-purple); color: #fff; border-color: var(--pop-purple); }
-
-/* ================ MARQUEE QUOTE ================ */
-.marquee { max-width: 980px; margin: 0 auto; padding: 50px 60px 56px;
-  background: var(--paper-card); border: 2px solid var(--ink); position: relative;
-  box-shadow: 10px 10px 0 var(--pop-yellow); }
-.marquee.purple { box-shadow: 10px 10px 0 var(--pop-purple); }
-.marquee::before { content: "QUOTE / I"; position: absolute; top: -14px; left: 30px;
-  background: var(--ink); color: var(--paper-card);
-  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.22em; padding: 5px 12px; }
-.marquee.purple::before { content: "QUOTE / II"; }
-.marquee .q { font-family: var(--font-display); font-style: italic; font-weight: 500;
-  font-size: clamp(28px, 4.4vw, 46px); line-height: 1.16; color: var(--ink); }
-.marquee .q::before { content: ""; color: var(--pop-red); font-size: 1.2em; margin-right: 4px; }
-.marquee .q::after { content: ""; color: var(--pop-red); font-size: 1.2em; margin-left: 4px; }
-.marquee.purple .q::before, .marquee.purple .q::after { color: var(--pop-purple); }
-.marquee .attr { margin-top: 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
-
-/* ================ COMBINED EXHIBIT (Instant Replay + Density) ================ */
-.atlas-section { padding: 70px 0 90px; background: var(--paper-warm); position: relative; }
-.atlas-section::before { content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 1px; background: var(--rule); }
-.atlas-intro { max-width: 820px; margin: 0 auto 44px; padding: 0 24px; text-align: center; }
-.atlas-frame { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
-.atlas-stage { position: relative; background: var(--map-bg); border: 2px solid var(--ink);
-  box-shadow: 12px 12px 0 var(--ink); overflow: hidden; }
-#mapSvg { display: block; width: 100%; height: auto; background: transparent; }
-
-/* hex underlay — invisible until vehicle passes through, then fade in (translucent) */
-.hex { fill: transparent !important; stroke: rgba(0,0,0,0); stroke-width: 0; transition: fill 0.55s ease, stroke 0.3s ease, stroke-width 0.2s ease; }
-.hex.passed { fill: var(--hex-color, transparent) !important; stroke: rgba(0,0,0,0.07); stroke-width: 0.5; }
-.hex.lit-edge { stroke: rgba(10,10,10,0.92); stroke-width: 2.5; }
-.hex.lit-edge-glow { animation: hexEdgePulse 1.6s ease-out 1; }
-@keyframes hexEdgePulse {
-  0%   { stroke: #fff; stroke-width: 3.5; }
-  100% { stroke: rgba(10,10,10,0.07); stroke-width: 0.5; }
-}
-
-/* atlas drawing (Part 1 map) */
-.water-fill { fill: var(--map-water); }
-.water-edge { fill: none; stroke: var(--map-water-edge); stroke-width: 1; opacity: 0.7; }
-.park { fill: var(--map-park); stroke: #9bbf8a; stroke-width: 0.6; opacity: 0.85; }
-.dc-diamond-fill { fill: var(--map-dc-fill); }
-.dc-diamond { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-dasharray: 6 4; }
-.beltway { fill: none; stroke: var(--map-hwy); stroke-width: 3.4; stroke-linecap: round; }
-.hwy { fill: none; stroke: var(--map-hwy); stroke-width: 2.6; stroke-linecap: round; }
-.arterial { fill: none; stroke: var(--map-arterial); stroke-width: 1.6; stroke-linecap: round; }
-.minor { fill: none; stroke: var(--map-road-thin); stroke-width: 0.6; stroke-linecap: round; opacity: 0.7; }
-.metro { fill: none; stroke-width: 2.4; stroke-linecap: round; opacity: 0.85; }
-.m-red { stroke: #C8102E; } .m-orange { stroke: #ED8B00; } .m-blue { stroke: #0072CE; } .m-green { stroke: #00B140; } .m-yellow { stroke: #FFD200; } .m-silver { stroke: #919D9D; }
-.lm { fill: var(--ink); }
-.lm-glow { fill: var(--pop-yellow); stroke: var(--ink); stroke-width: 1; }
-.street-label { font-family: var(--font-mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; fill: var(--ink); }
-.street-label.sm { font-size: 7.5px; letter-spacing: 0.18em; opacity: 0.7; }
-.area-label { font-family: var(--font-headline); font-weight: 900; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; fill: var(--ink); }
-.area-label.sm { font-size: 9.5px; letter-spacing: 0.24em; fill: var(--muted); }
-.area-label.big { font-size: 18px; letter-spacing: 0.3em; }
-.nbhd-label { font-family: var(--font-mono); font-size: 8px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; fill: var(--muted); }
-.river-label { font-family: var(--font-display); font-style: italic; fill: var(--map-water-edge); font-size: 14px; letter-spacing: 0.4em; }
-.hwy-shield { fill: var(--ink); }
-.hwy-num { font-family: var(--font-headline); font-weight: 900; font-size: 10px; fill: var(--paper); text-anchor: middle; }
-
-/* jurisdiction layers (toggleable) */
-.lyr { opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
-.lyr.on { opacity: 1; }
-.lyr-frz   { fill: var(--lyr-frz); stroke: var(--lyr-frz-edge); stroke-width: 1.4; stroke-dasharray: 6 4; }
-.lyr-sfra  { fill: var(--lyr-sfra); stroke: var(--lyr-sfra-edge); stroke-width: 1.4; stroke-dasharray: 12 6; }
-.lyr-mpd   { fill: var(--lyr-mpd); stroke: var(--lyr-mpd-edge); stroke-width: 1.2; stroke-dasharray: 3 3; }
-.lyr-wmata { fill: var(--lyr-wmata); stroke: var(--lyr-wmata-edge); stroke-width: 1.2; stroke-dasharray: 4 3; }
-.lyr-county{ fill: none; stroke: var(--lyr-county); stroke-width: 1.4; stroke-dasharray: 8 6; }
-
-/* route + trail */
-.alt-route { fill: none; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 9 6; opacity: 0; transition: opacity 0.4s ease; }
-.alt-route.live { opacity: 0.55; }
-.user-route { fill: none; stroke-width: 7; stroke-linecap: round; opacity: 0; transition: opacity 0.4s ease; }
-.user-route.live { opacity: 0.42; }
-.user-trail { fill: none; stroke-width: 7; stroke-linecap: round; opacity: 0.95; }
-.route-r1, .alt-r1 { stroke: var(--r-north); }
-.route-r2, .alt-r2 { stroke: var(--r-south); }
-.route-r3, .alt-r3 { stroke: var(--r-east); }
-.route-r4, .alt-r4 { stroke: var(--r-west); }
-
-/* capture pins (sparse) + classified */
-.cap { opacity: 0; transition: opacity 0.4s ease; transform-origin: center; transform-box: fill-box; }
-.cap.lit { opacity: 1; animation: capDrop 0.45s ease-out 1; }
-@keyframes capDrop { 0% { transform: translateY(-12px) scale(0.5); opacity: 0; } 60% { transform: translateY(2px) scale(1.05); opacity: 1; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
-.pin-body { stroke: var(--ink); stroke-width: 1.4; }
-.pin-dot { fill: var(--paper-card); }
-.cls-pin { opacity: 0; transition: opacity 0.4s ease; }
-.atlas-stage.classified .cls-pin { opacity: 1; }
-.cls-hex { stroke: var(--ink); stroke-width: 1.2; }
-
-/* user vehicle */
-.me-vehicle { fill: var(--ink); stroke: var(--paper-card); stroke-width: 2; }
-.me-vehicle.r1 { fill: var(--r-north); } .me-vehicle.r2 { fill: var(--r-south); } .me-vehicle.r3 { fill: var(--r-east); } .me-vehicle.r4 { fill: var(--r-west); }
-
-/* alerts */
-.alert-pin { opacity: 0; pointer-events: none; transform-origin: center bottom; transform-box: fill-box; }
-.alert-pin.live { opacity: 1; animation: alertPop 0.5s ease-out 1; }
-@keyframes alertPop { 0% { transform: translateY(-8px) scale(0.4); opacity: 0; } 60% { transform: translateY(0) scale(1.1); opacity: 1; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
-.alert-bub { stroke: var(--ink); stroke-width: 1.4; }
-.alert-text { font-family: var(--font-headline); font-weight: 800; font-size: 9px; fill: #fff; text-anchor: middle; letter-spacing: 0.08em; }
-
-/* hex-callout popup (the NEW box that fires when the car crosses into a hex) */
-.hex-callout { pointer-events: none; opacity: 0; transition: opacity 0.25s ease; }
-.hex-callout.live { opacity: 1; }
-.hex-callout-bg { fill: var(--ink); stroke: var(--paper-card); stroke-width: 1; }
-.hex-callout-num { font-family: var(--font-headline); font-weight: 900; font-size: 18px; fill: var(--pop-yellow); text-anchor: middle; }
-.hex-callout-lbl { font-family: var(--font-mono); font-size: 7.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; fill: var(--paper); text-anchor: middle; }
-.hex-callout-brk { font-family: var(--font-mono); font-size: 7px; letter-spacing: 0.05em; fill: rgba(255,255,255,0.7); text-anchor: middle; }
-.hex-callout-tip { fill: var(--ink); }
-
-/* HUD overlays */
-.atlas-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 40; }
-.overlay-card { position: absolute; pointer-events: auto;
-  background: var(--paper-card); color: var(--ink); border: 2px solid var(--ink);
-  padding: 14px 16px; box-shadow: 6px 6px 0 var(--ink); font-family: var(--font-sans); }
-.eta-card { top: 22px; left: 22px; min-width: 240px; }
-.eta-card .row1 { display: flex; align-items: baseline; gap: 10px; }
-.eta-card .min { font-size: 30px; font-weight: 900; line-height: 1; font-family: var(--font-headline); }
-.eta-card .unit { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; }
-.eta-card .dest { font-size: 11px; color: var(--ink); margin-top: 6px; letter-spacing: 0.06em; font-family: var(--font-mono); font-weight: 600; }
-
-/* big multi-counter (the running tally) */
-.tally-card { top: 22px; right: 22px; min-width: 260px; padding: 16px 18px; }
-.tally-card .tag { font-family: var(--font-headline); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; font-weight: 800; }
-.tally-card .total { font-family: var(--font-headline); font-weight: 900; font-size: 42px; line-height: 1; color: var(--ink); }
-.tally-card .total .unit { font-size: 0.32em; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-left: 4px; vertical-align: top; padding-top: 18px; display: inline-block; font-weight: 700; }
-.tally-card .row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px dotted var(--rule-dark); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; font-weight: 600; text-transform: uppercase; color: var(--muted); }
-.tally-card .row:first-of-type { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--rule); }
-.tally-card .row:last-child { border-bottom: none; }
-.tally-card .row .v { color: var(--ink); font-weight: 800; }
-.tally-card .cls { display: none; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--pop-purple); margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--pop-purple); letter-spacing: 0.06em; }
-.atlas-stage.classified .tally-card .cls { display: block; }
-
-.layer-panel { position: absolute; left: 22px; bottom: 22px; pointer-events: auto;
-  background: var(--paper-card); border: 2px solid var(--ink); padding: 14px 14px 12px; box-shadow: 6px 6px 0 var(--ink);
-  min-width: 210px; z-index: 41; }
-.layer-panel h5 { font-family: var(--font-headline); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink); margin-bottom: 10px; font-weight: 800; }
-.layer-panel .lyr-btn { display: flex; align-items: center; gap: 9px; width: 100%; padding: 5px 4px;
-  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--muted); background: none; border: none; cursor: pointer; text-align: left; transition: color 0.15s ease; font-weight: 600; }
-.layer-panel .lyr-btn:hover { color: var(--ink); }
-.layer-panel .lyr-btn .sw { width: 24px; height: 14px; background: var(--rule); border: 1.5px solid var(--ink); position: relative; flex: none; border-radius: 8px; transition: all 0.18s ease; }
-.layer-panel .lyr-btn .sw::after { content: ""; position: absolute; top: 1px; left: 1px; width: 10px; height: 10px; border-radius: 50%; background: var(--ink); transition: all 0.18s ease; }
-.layer-panel .lyr-btn.on { color: var(--ink); }
-.layer-panel .lyr-btn.on .sw { background: var(--pop-cobalt); }
-.layer-panel .lyr-btn.on .sw::after { left: 11px; background: #fff; }
-.layer-panel .lyr-btn[data-layer="frz"].on .sw { background: var(--pop-red); }
-.layer-panel .lyr-btn[data-layer="sfra"].on .sw { background: var(--pop-orange); }
-.layer-panel .lyr-btn[data-layer="wmata"].on .sw { background: var(--pop-mint); }
-.layer-panel .lyr-btn[data-layer="county"].on .sw { background: var(--pop-purple); }
-.layer-panel .lyr-btn[data-layer="hex"].on .sw { background: var(--pop-orange); }
-
-.dir-strip { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); pointer-events: auto;
-  background: var(--ink); color: var(--paper-card); padding: 12px 22px;
-  font-family: var(--font-headline); font-weight: 800;
-  box-shadow: 6px 6px 0 var(--pop-yellow);
-  display: flex; align-items: center; gap: 14px; z-index: 41;
-  opacity: 0; transition: opacity 0.35s ease; }
-.dir-strip.live { opacity: 1; }
-.dir-strip .glyph { font-size: 22px; }
-.dir-strip .txt { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
-.dir-strip .dist { background: var(--paper-card); color: var(--ink); padding: 4px 9px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; font-weight: 700; }
-
-/* ================ CONTROLS BAY ================ */
-.controls-bay { max-width: 1280px; margin: 32px auto 0; padding: 0 16px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-@media (max-width: 880px) { .controls-bay { grid-template-columns: 1fr; } }
-.bay-card { background: var(--paper-card); border: 2px solid var(--ink); padding: 22px 24px; box-shadow: 8px 8px 0 var(--ink); }
-.bay-card h3 { color: var(--ink); }
-.route-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
-.route-btn { display: grid; grid-template-columns: 80px 1fr; gap: 16px; align-items: center;
-  padding: 14px 16px; background: var(--paper); border: 1.5px solid var(--rule-dark);
-  cursor: pointer; transition: all 0.18s ease; font-family: var(--font-sans); text-align: left; }
-.route-btn:hover { border-color: var(--ink); transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--ink); }
-.route-btn.active { border-color: var(--ink); background: var(--paper-card); box-shadow: 4px 4px 0 var(--ink); }
-.route-btn[data-route="r1"].active { background: #ffe1d6; }
-.route-btn[data-route="r2"].active { background: #d4f0e1; }
-.route-btn[data-route="r3"].active { background: #d4e8f5; }
-.route-btn[data-route="r4"].active { background: #fde2ec; }
-.route-btn .dir-badge { font-family: var(--font-headline); font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase;
-  text-align: center; padding: 8px 6px; border: 2px solid var(--ink); background: var(--paper-card); color: var(--ink); }
-.route-btn[data-route="r1"] .dir-badge { background: var(--r-north); color: #fff; }
-.route-btn[data-route="r2"] .dir-badge { background: var(--r-south); color: var(--ink); }
-.route-btn[data-route="r3"] .dir-badge { background: var(--r-east); color: #fff; }
-.route-btn[data-route="r4"] .dir-badge { background: var(--r-west); color: #fff; }
-.route-btn .info .from-to { font-weight: 700; color: var(--ink); font-size: 14px; letter-spacing: 0.01em; line-height: 1.2; }
-.route-btn .info .from-to .arr { color: var(--pop-red); font-weight: 800; margin: 0 4px; }
-.route-btn .info .meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; font-weight: 600; }
-
-.mode-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
-.mode-btn { padding: 12px 6px; background: var(--paper); border: 1.5px solid var(--rule-dark);
-  cursor: pointer; transition: all 0.18s ease; font-family: var(--font-sans); text-align: center; }
-.mode-btn:hover { border-color: var(--ink); transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
-.mode-btn.active { border-color: var(--ink); background: var(--pop-yellow); box-shadow: 3px 3px 0 var(--ink); }
-.mode-btn .glyph { display: block; height: 28px; margin: 0 auto 6px; }
-.mode-btn .lbl { font-family: var(--font-headline); font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
-.mode-btn .est { font-family: var(--font-mono); font-size: 10px; color: var(--ink); margin-top: 4px; font-weight: 700; }
-
-.transport-controls { display: flex; align-items: center; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
-.play-btn { font-family: var(--font-headline); font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--paper-card); background: var(--ink); border: none; padding: 14px 24px; cursor: pointer;
-  box-shadow: 5px 5px 0 var(--pop-red); transition: transform 0.1s ease, box-shadow 0.1s ease; }
-.play-btn:hover { transform: translate(-1px,-1px); box-shadow: 6px 6px 0 var(--pop-red); }
-.play-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--pop-red); }
-.scrub { flex: 1; min-width: 200px; accent-color: var(--pop-red); height: 5px; }
-.cls-toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
-  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-  padding: 11px 14px; background: var(--paper); border: 2px dashed var(--pop-purple); color: var(--pop-purple); }
-.cls-toggle .sw { width: 24px; height: 14px; background: var(--paper-card); border: 1.5px solid var(--pop-purple); position: relative; border-radius: 8px; }
-.cls-toggle .sw::after { content: ""; position: absolute; top: 1px; left: 1px; width: 10px; height: 10px; background: var(--pop-purple); transition: left 0.2s ease; border-radius: 50%; }
-.cls-toggle.on .sw::after { left: 11px; }
-.cls-toggle.on { background: rgba(122,76,255,0.10); }
-
-.atlas-legend { max-width: 1280px; margin: 24px auto 0; padding: 0 16px;
-  display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; font-weight: 600; }
-.atlas-legend span { display: inline-flex; align-items: center; gap: 7px; }
-.lg-dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; border: 1.5px solid var(--ink); }
-.lg-dot.pub { background: var(--cap-pub); } .lg-dot.inf { background: var(--cap-inf); } .lg-dot.priv { background: var(--cap-priv); } .lg-dot.cls { background: var(--cap-cls); }
-.lg-hex { width: 14px; height: 12px; display: inline-block; background: var(--pop-orange); clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%); border: 1px solid var(--ink); }
-.lg-line { width: 26px; height: 5px; display: inline-block; border: 1px solid var(--ink); }
-.lg-line.n { background: var(--r-north); } .lg-line.s { background: var(--r-south); } .lg-line.e { background: var(--r-east); } .lg-line.w { background: var(--r-west); }
-
-/* ================ STATS STRIP (cinematic) ================ */
-.stats-strip { padding: 100px 0 110px; background: var(--ink); color: var(--paper); overflow: hidden; position: relative;
-  background-image: radial-gradient(900px 500px at 50% 30%, rgba(255,216,61,0.04), transparent 70%); }
-.stats-grid { max-width: 1240px; margin: 0 auto; padding: 0 24px;
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 36px;
-  transform: scale(0.96); transition: transform 1.4s cubic-bezier(0.2,0.8,0.2,1); }
-.stats-strip.cin-in .stats-grid { transform: scale(1); }
-.stat-card { opacity: 0; transform: translateY(50px) scale(0.92); filter: blur(10px);
-  transition: opacity 1.1s ease, transform 1.3s cubic-bezier(0.2,0.8,0.2,1), filter 0.9s ease; }
-.stats-strip.cin-in .stat-card { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-.stats-strip.cin-in .stat-card:nth-child(1) { transition-delay: 0.05s; }
-.stats-strip.cin-in .stat-card:nth-child(2) { transition-delay: 0.18s; }
-.stats-strip.cin-in .stat-card:nth-child(3) { transition-delay: 0.31s; }
-.stats-strip.cin-in .stat-card:nth-child(4) { transition-delay: 0.44s; }
-.stats-strip.cin-in .stat-card:nth-child(5) { transition-delay: 0.57s; }
-.stats-strip.cin-in .stat-card:nth-child(6) { transition-delay: 0.70s; }
-.stat-card .n { font-family: var(--font-headline); font-weight: 900; font-size: clamp(56px, 6vw, 92px); line-height: 0.92; letter-spacing: -0.025em; color: var(--pop-yellow);
-  display: inline-block; transform: translateY(28px); opacity: 0; filter: blur(6px);
-  transition: opacity 1s ease 0.35s, transform 1.1s cubic-bezier(0.2,0.8,0.2,1) 0.35s, filter 0.8s ease 0.35s; }
-.stats-strip.cin-in .stat-card .n { opacity: 1; transform: translateY(0); filter: blur(0); }
-.stat-card .n .small { font-size: 0.40em; letter-spacing: 0; color: var(--paper); display: inline-block; margin-left: 6px; vertical-align: top; padding-top: 16px; font-weight: 700; }
-.stat-card .l { font-family: var(--font-sans); font-size: 14px; font-weight: 500; color: rgba(250,250,242,0.85); margin-top: 16px; line-height: 1.45;
-  opacity: 0; transform: translateY(12px); transition: opacity 0.9s ease 0.6s, transform 0.9s ease 0.6s; }
-.stats-strip.cin-in .stat-card .l { opacity: 1; transform: translateY(0); }
-.stat-card.red .n { color: var(--pop-red); }
-.stat-card.mint .n { color: var(--pop-mint); }
-.stat-card.cobalt .n { color: #6aa8ee; }
-.stat-card.magenta .n { color: var(--pop-magenta); }
-.stat-card.orange .n { color: var(--pop-orange); }
-.stat-card.purple .n { color: var(--pop-purple); }
-
-/* ================ RETENTION TIMELINE ================ */
-.retention-section { padding: 70px 0 90px; background: var(--paper-warm); }
-.retention-intro { max-width: 820px; margin: 0 auto 36px; padding: 0 24px; text-align: center; }
-.mode-bar { max-width: 1240px; margin: 0 auto 18px; padding: 0 16px;
-  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-.mode-pill { font-family: var(--font-headline); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 11px 18px; background: var(--paper-card); border: 2px solid var(--ink); cursor: pointer; transition: transform 0.12s, box-shadow 0.12s;
-  color: var(--ink); }
-.mode-pill:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
-.mode-pill.active { box-shadow: 4px 4px 0 var(--ink); background: var(--pop-yellow); }
-.timeline-frame { max-width: 1240px; margin: 0 auto; padding: 0 16px;
-  display: grid; grid-template-columns: 1fr 320px; gap: 22px; align-items: start; }
-@media (max-width: 980px) { .timeline-frame { grid-template-columns: 1fr; } }
-.tl-stage { background: var(--paper-card); border: 2px solid var(--ink); padding: 22px 24px 28px; box-shadow: 10px 10px 0 var(--ink); }
-#tlSvg { display: block; width: 100%; height: auto; }
-.tl-axis { stroke: var(--ink); stroke-width: 1.2; }
-.tl-tick { stroke: var(--ink); stroke-width: 1; }
-.tl-tick-lbl { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; fill: var(--muted); text-anchor: middle; text-transform: uppercase; font-weight: 700; }
-.tl-grid { stroke: rgba(0,0,0,0.08); stroke-width: 0.8; }
-.tl-lane-lbl { font-family: var(--font-headline); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; fill: var(--ink); }
-.tl-lane-sub { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.12em; fill: var(--muted); text-transform: uppercase; }
-.tl-bar-off { fill: var(--rt-official); }
-.tl-bar-res { fill: url(#stripes); }
-.tl-lane { cursor: pointer; transition: opacity 0.18s ease; }
-.tl-lane.dim { opacity: 0.32; }
-.tl-lane.sel .tl-lane-lbl { fill: var(--pop-red); }
-.tl-info { display: flex; flex-direction: column; gap: 16px; }
-.tl-info-card { background: var(--paper-card); border: 2px solid var(--ink); padding: 22px 22px 24px; box-shadow: 8px 8px 0 var(--pop-purple); }
-.tl-info-card .ttl { font-family: var(--font-headline); font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.tl-info-card .hd { font-family: var(--font-display); font-weight: 600; font-size: 26px; color: var(--ink); margin-bottom: 6px; line-height: 1.05; }
-.tl-info-card .sub { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pop-red); margin-top: 4px; font-weight: 700; }
-.tl-info-card .rows { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--rule); }
-.tl-info-card .row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-bottom: 1px dotted var(--rule-dark); font-family: var(--font-sans); font-size: 13px; }
-.tl-info-card .row:last-child { border: none; }
-.tl-info-card .row .lbl { color: var(--muted); font-weight: 500; }
-.tl-info-card .row .val { font-family: var(--font-mono); font-weight: 700; color: var(--ink); }
-.tl-info-card .why { font-family: var(--font-display); font-style: italic; font-size: 14px; color: var(--muted); margin-top: 14px; line-height: 1.4; }
-.tl-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 18px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase; }
-.tl-legend span { display: inline-flex; align-items: center; gap: 7px; }
-.tl-swatch { width: 22px; height: 12px; border: 1px solid var(--ink); display: inline-block; }
-.tl-swatch.off { background: var(--rt-official); }
-.tl-swatch.res { background: var(--rt-residual); }
-
-/* ================ GUTHRIE ANCHOR ================ */
-.anchor-section { padding: 110px 0; background: var(--paper); }
-.anchor-card { max-width: 980px; margin: 0 auto;
-  background: var(--paper-card); border: 3px solid var(--ink);
-  padding: 60px 60px 56px; position: relative; box-shadow: 16px 16px 0 var(--pop-red); }
-.anchor-card::before { content: "VERIFIED ANCHOR · CASE FILE"; position: absolute; top: -16px; left: 36px;
-  background: var(--pop-red); color: #fff; padding: 6px 14px; font-family: var(--font-mono); font-size: 10px; font-weight: 800; letter-spacing: 0.22em; }
-.anchor-card .topline { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 24px; }
-.anchor-card h2 { color: var(--ink); margin-bottom: 14px; }
-.anchor-card .key { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(22px, 3vw, 30px); line-height: 1.18;
-  color: var(--ink); padding: 24px 28px; margin: 28px 0; border-left: 6px solid var(--pop-red); background: #fff8f5; }
-.anchor-card .key b { font-style: normal; font-weight: 700; background: var(--highlight); padding: 0 4px; }
-.anchor-card p { font-size: 17px; }
-.anchor-card .sources { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--rule); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.anchor-card .sources b { color: var(--ink); }
-
-/* ================ JAN 6 FUNNEL ================ */
-.j6-section { padding: 100px 0; background: var(--ink); color: var(--paper); }
-.j6-section h2 { color: var(--paper); }
-.j6-section .kicker { color: var(--pop-yellow); }
-.j6-section .lead { color: rgba(250,250,242,0.86); }
-.j6-frame { max-width: 1180px; margin: 40px auto 0; padding: 0 24px;
-  display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: start; }
-@media (max-width: 880px) { .j6-frame { grid-template-columns: 1fr; } }
-.j6-funnel { background: rgba(255,255,255,0.03); padding: 30px 26px; border: 1px solid rgba(255,255,255,0.14); }
-#j6Svg { display: block; width: 100%; height: auto; }
-.fn-bar { fill: var(--pop-yellow); }
-.fn-bar.s2 { fill: var(--pop-orange); }
-.fn-bar.s3 { fill: var(--pop-red); }
-.fn-num { font-family: var(--font-headline); font-weight: 900; font-size: 34px; fill: var(--paper); }
-.fn-lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; fill: rgba(250,250,242,0.7); text-transform: uppercase; font-weight: 700; }
-.fn-arrow { fill: rgba(250,250,242,0.4); }
-.j6-text p { color: rgba(250,250,242,0.85); font-size: 17px; }
-.j6-text .src { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pop-yellow); font-weight: 700; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.16); }
-
-/* ================ FOIA FLOWCHART ================ */
-.foia-section { padding: 100px 0; background: var(--paper-warm); }
-.foia-frame { max-width: 1180px; margin: 40px auto 0; padding: 0 24px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start; }
-@media (max-width: 880px) { .foia-frame { grid-template-columns: 1fr; } }
-.foia-flow { background: var(--paper-card); padding: 28px 26px 30px; border: 2px solid var(--ink); box-shadow: 10px 10px 0 var(--pop-cobalt); }
-.foia-step { display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; padding: 14px 0; border-bottom: 1px dotted var(--rule-dark); }
-.foia-step:last-child { border-bottom: none; }
-.foia-step .n { width: 36px; height: 36px; background: var(--ink); color: var(--paper-card);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-headline); font-weight: 900; font-size: 16px; }
-.foia-step .body h5 { font-family: var(--font-headline); font-size: 14px; color: var(--ink); margin-bottom: 3px; font-weight: 800; letter-spacing: -0.01em; }
-.foia-step .body p { font-family: var(--font-sans); font-size: 13px; color: var(--muted); margin: 0; line-height: 1.4; }
-.anchor-card .tag, .j6-text .tag { font-family: var(--font-mono); font-size: 9px; font-weight: 800; letter-spacing: 0.16em; padding: 2px 6px; border: 1.5px solid currentColor; vertical-align: 2px; margin-left: 4px; white-space: nowrap; }
-.foia-step .tag { font-family: var(--font-mono); font-size: 9px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
-  padding: 3px 8px; border: 1.5px solid var(--ink); background: var(--paper); color: var(--ink); }
-.foia-step.deny .tag { background: var(--pop-red); color: #fff; border-color: var(--pop-red); }
-.foia-step.maybe .tag { background: var(--pop-yellow); color: var(--ink); }
-.foia-step.win .tag { background: var(--pop-mint); color: var(--ink); }
-.foia-text p { font-size: 17px; }
-.foia-text .src { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pop-cobalt); font-weight: 700; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--rule); }
-
-/* ================ DATA DEBT ================ */
-.debt-section { padding: 100px 0; background: var(--paper); }
-.debt-frame { max-width: 1180px; margin: 40px auto 0; padding: 0 24px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; }
-@media (max-width: 880px) { .debt-frame { grid-template-columns: 1fr; } }
-.debt-chart { background: var(--paper-card); padding: 28px 30px; border: 2px solid var(--ink); box-shadow: 10px 10px 0 var(--pop-magenta); }
-#debtSvg { display: block; width: 100%; height: auto; }
-.debt-axis { stroke: var(--ink); stroke-width: 1.2; }
-.debt-tick { stroke: var(--ink); stroke-width: 0.8; }
-.debt-tick-lbl { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em; fill: var(--muted); text-transform: uppercase; font-weight: 700; }
-.debt-line-official { fill: none; stroke: var(--pop-cobalt); stroke-width: 3.5; stroke-linecap: round; }
-.debt-line-actual { fill: none; stroke: var(--pop-red); stroke-width: 3.5; stroke-linecap: round; }
-.debt-fill { fill: rgba(255, 74, 43, 0.18); }
-.debt-axis-lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; fill: var(--ink); text-transform: uppercase; font-weight: 700; }
-.debt-callout { font-family: var(--font-display); font-style: italic; font-size: 13px; fill: var(--ink); }
-.debt-key { display: flex; gap: 20px; margin-top: 18px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
-.debt-key .swatch { width: 22px; height: 4px; display: inline-block; margin-right: 6px; vertical-align: middle; }
-
-/* ================ COUNTER-READ (blended) ================ */
-.chart-grid { max-width: 1240px; margin: 0 auto;
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
-.chart-card { background: var(--paper-card); color: var(--ink); padding: 28px 28px; border: 2px solid var(--ink);
-  box-shadow: 8px 8px 0 var(--ink); position: relative; }
-.chart-card .num { font-family: var(--font-headline); font-size: 38px; font-weight: 900; line-height: 1; color: var(--pop-red); margin-bottom: 8px; }
-.chart-card:nth-child(2) .num { color: var(--pop-mint); }
-.chart-card:nth-child(3) .num { color: var(--pop-cobalt); }
-.chart-card:nth-child(4) .num { color: var(--pop-magenta); }
-.chart-card:nth-child(5) .num { color: var(--pop-orange); }
-.chart-card:nth-child(6) .num { color: var(--pop-purple); }
-.chart-card h4 { font-family: var(--font-display); font-size: 22px; color: var(--ink); margin-bottom: 10px; font-weight: 600; line-height: 1.15; }
-.chart-card p { color: var(--ink-soft); font-size: 14.5px; margin-bottom: 12px; line-height: 1.55; }
-.chart-card .resp { margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--ink);
-  font-style: italic; font-family: var(--font-display); font-size: 16px; color: var(--ink); }
-.chart-card .src { margin-top: 10px; padding-top: 10px; border-top: 1px dotted var(--rule-dark); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
-
-/* ================ BONUS · YOUR OWN ROUTE ================ */
-.bonus-section { padding: 110px 0; background: var(--paper-warm); position: relative; }
-.bonus-section::before { content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 1px; background: var(--rule); }
-.bonus-intro { max-width: 820px; margin: 0 auto 36px; padding: 0 24px; text-align: center; }
-.bonus-stage { max-width: 1180px; margin: 0 auto; padding: 0 24px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: stretch; }
-@media (max-width: 880px) { .bonus-stage { grid-template-columns: 1fr; } }
-.bonus-form { background: var(--paper-card); border: 2px solid var(--ink); box-shadow: 12px 12px 0 var(--pop-magenta);
-  padding: 36px 38px 32px; display: flex; flex-direction: column; gap: 18px; position: relative; }
-.bonus-form::before { content: "EXHIBIT F · YOUR ROUTE"; position: absolute; top: -14px; left: 28px;
-  background: var(--ink); color: var(--paper-card); padding: 5px 14px;
-  font-family: var(--font-mono); font-size: 10px; font-weight: 800; letter-spacing: 0.22em; }
-.bonus-form h3 { color: var(--ink); font-size: 13px; }
-.bonus-form .lede { font-family: var(--font-display); font-style: italic; font-size: 20px; color: var(--ink); line-height: 1.3; margin: 4px 0 6px; }
-.bonus-form .field { display: flex; flex-direction: column; gap: 6px; }
-.bonus-form .field label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
-.bonus-form .field input { font-family: var(--font-sans); font-size: 15px; padding: 14px 14px; background: var(--paper); border: 2px solid var(--ink); border-radius: 0; color: var(--ink); transition: background 0.12s ease; }
-.bonus-form .field input:focus { outline: none; background: #fffdf2; box-shadow: 4px 4px 0 var(--pop-yellow); }
-.bonus-form .submit { font-family: var(--font-headline); font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--paper-card); background: var(--ink); border: none; padding: 16px 24px; cursor: pointer;
-  box-shadow: 5px 5px 0 var(--pop-magenta); transition: transform 0.1s, box-shadow 0.1s; margin-top: 8px; align-self: flex-start; }
-.bonus-form .submit:hover { transform: translate(-1px,-1px); box-shadow: 6px 6px 0 var(--pop-magenta); }
-.bonus-form .submit:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--pop-magenta); }
-.bonus-form .submit:disabled { opacity: 0.4; cursor: not-allowed; }
-.bonus-form .disc { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; line-height: 1.55; margin-top: 8px; }
-
-.bonus-view { position: relative; background: var(--map-bg); border: 2px solid var(--ink); box-shadow: 12px 12px 0 var(--ink);
-  min-height: 360px; overflow: hidden; opacity: 0.35; transition: opacity 0.6s ease; }
-.bonus-view.live { opacity: 1; }
-.bonus-view .ghost { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; transition: opacity 0.6s ease; }
-.bonus-view.live .ghost { opacity: 0; }
-.bonus-view .ghost span { font-family: var(--font-display); font-style: italic; font-size: 22px; color: var(--muted); padding: 16px 24px; background: rgba(255,255,255,0.7); border: 1px dashed var(--rule-dark); }
-#bonusSvg { display: block; width: 100%; height: auto; background: transparent; }
-.bonus-trail { fill: none; stroke: var(--pop-magenta); stroke-width: 6; stroke-linecap: round; filter: drop-shadow(0 0 6px rgba(255,60,139,0.5)); }
-.bonus-route { fill: none; stroke: var(--pop-magenta); stroke-width: 5; stroke-linecap: round; opacity: 0.42; }
-.bonus-hex { fill: transparent; transition: fill 0.55s ease, stroke 0.25s ease; }
-.bonus-hex.passed { fill: var(--hex-color, transparent); stroke: rgba(0,0,0,0.07); stroke-width: 0.5; }
-.bonus-hex.lit-edge-b { stroke: #0a0a0a; stroke-width: 2.5; }
-.bonus-endpoint { fill: var(--ink); stroke: var(--pop-magenta); stroke-width: 2; }
-.bonus-endpoint-lbl { font-family: var(--font-headline); font-weight: 900; font-size: 10px; fill: var(--paper); letter-spacing: 0.16em; }
-.bonus-endpoint-lbl-bg { fill: var(--ink); }
-
-.bonus-result { padding: 24px 28px; background: var(--ink); color: var(--paper); margin-top: 22px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 18px; box-shadow: 8px 8px 0 var(--ink);
-  border: 2px solid var(--ink);
-  opacity: 0; transform: translateY(20px) scale(0.96); filter: blur(8px);
-  transition: opacity 1s ease 0.5s, transform 1.1s cubic-bezier(0.2,0.8,0.2,1) 0.5s, filter 0.8s ease 0.5s; }
-.bonus-result.live { opacity: 1; transform: none; filter: blur(0); }
-@media (max-width: 720px) { .bonus-result { grid-template-columns: 1fr; } }
-.bonus-result .big { font-family: var(--font-headline); font-weight: 900; font-size: clamp(64px, 8vw, 110px); line-height: 0.92; color: var(--pop-yellow); letter-spacing: -0.025em; }
-.bonus-result .big .small { font-size: 0.34em; letter-spacing: 0; color: var(--paper); display: inline-block; margin-left: 6px; vertical-align: top; padding-top: 16px; font-weight: 700; }
-.bonus-result .tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(250,250,242,0.7); margin-bottom: 6px; font-weight: 700; }
-.bonus-result .sub { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--pop-mint); margin-top: 6px; font-weight: 700; }
-.bonus-result .why { font-family: var(--font-display); font-style: italic; font-size: 17px; color: var(--paper); line-height: 1.42; }
-.bonus-result .why b { font-family: var(--font-headline); font-style: normal; font-weight: 800; background: var(--pop-yellow); color: var(--ink); padding: 0 4px; }
-
-/* ================ CLOSER ================ */
-.closer { padding: 130px 0; text-align: center; position: relative; background: var(--paper); }
-.closer-band { display: inline-block; padding: 50px 70px; max-width: 960px;
-  background: var(--paper-card); border: 3px solid var(--ink); position: relative;
-  box-shadow: 14px 14px 0 var(--pop-magenta); }
-.closer-line { font-family: var(--font-display); font-style: italic; font-weight: 500;
-  font-size: clamp(30px, 5.4vw, 58px); line-height: 1.1; color: var(--ink); letter-spacing: -0.01em; }
-.closer-line .high { background: var(--highlight); padding: 0 6px; }
-.closer-stanza-rule { height: 2px; background: var(--ink); width: 100px; margin: 30px auto; }
-.closer-attr { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); margin-top: 30px; }
-
-/* ================ ECHOES + NAV + FOOTER ================ */
-.echoes { max-width: 780px; margin: 0 auto; }
-.echo { display: flex; gap: 18px; align-items: flex-start; padding: 22px 0; border-bottom: 1px solid var(--rule); }
-.echo .e-mark { flex: none; width: 44px; height: 44px; background: var(--ink); color: var(--paper-card);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-headline); font-size: 16px; font-weight: 800; }
-.echo .e-to { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pop-red); }
-.echo .e-body { font-family: var(--font-display); font-style: italic; font-size: 20px; color: var(--ink); margin-top: 4px; line-height: 1.3; }
-.bridge { border-top: 1px solid var(--rule); padding: 50px 0; background: var(--paper-warm); }
-.bridge-nav { display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; }
-.bridge-nav a { font-family: var(--font-headline); font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; padding: 14px 24px; border: 2px solid var(--ink); color: var(--ink); background: var(--paper-card); transition: transform 0.1s ease, box-shadow 0.1s ease; }
-.bridge-nav a.prev::before { content: "\2190  "; color: var(--pop-red); }
-.bridge-nav a.next { background: var(--ink); color: var(--paper-card); }
-.bridge-nav a.next::after { content: "  \2192"; }
-.bridge-nav a:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }
-.bridge-nav a.next:hover { box-shadow: 4px 4px 0 var(--pop-red); }
-.legal-footer { background: var(--ink); color: var(--paper); padding: 60px 32px 50px; font-family: var(--font-sans); font-size: 12px; line-height: 1.7; }
-.legal-footer .row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 22px; max-width: var(--col-wide); margin: 0 auto 22px; padding-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.15); align-items: center; }
-.legal-footer .brand { font-family: var(--font-headline); font-size: 22px; font-weight: 800; color: var(--paper); }
-.legal-footer .brand em { font-family: var(--font-display); font-style: italic; color: var(--pop-yellow); font-weight: 500; }
-.legal-footer .links { display: flex; gap: 22px; flex-wrap: wrap; letter-spacing: 0.16em; text-transform: uppercase; }
-.legal-footer .links a { color: rgba(255,255,255,0.7); font-size: 11px; font-weight: 700; border: none; }
-.legal-footer .links a:hover { color: var(--pop-yellow); }
-.legal-footer .fine { max-width: var(--col-wide); margin: 0 auto; font-size: 11px; line-height: 1.65; color: rgba(255,255,255,0.6); }
-
-.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.7s ease, transform 0.7s ease; }
-.js .reveal.in { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) {
-  .js .reveal { opacity: 1; transform: none; transition: none; }
-  .cap, .hex-callout { opacity: 1 !important; transition: none !important; }
-  .alert-pin, .cap.lit { animation: none !important; }
-}
-
-/* === Breadcrumb-back · families this Season II mechanism was secretly about === */
-.breadcrumb-families {
-  max-width: 760px;
-  margin: 56px auto 32px;
-  padding: 24px 28px;
-  border: 1px solid rgba(255, 45, 139, 0.32);
-  background: rgba(255, 45, 139, 0.03);
-  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-}
-.breadcrumb-families .bc-stamp {
-  font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #ff2d8b;
-  margin-bottom: 12px;
-  font-weight: 600;
-}
-.breadcrumb-families .bc-lede {
-  font-size: 16px;
-  line-height: 1.55;
-  color: #2a2a2a;
-  margin: 0 0 16px;
-  font-style: italic;
-}
-.breadcrumb-families ul.bc-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.breadcrumb-families ul.bc-list li {
-  padding: 8px 0;
-  border-top: 1px dotted rgba(255, 45, 139, 0.25);
-  font-size: 15px;
-  line-height: 1.5;
-  color: #1a1a1a;
-}
-.breadcrumb-families ul.bc-list li:first-child { border-top: none; }
-.breadcrumb-families ul.bc-list a {
-  color: #ff2d8b;
-  text-decoration: none;
-  font-weight: 600;
-  border-bottom: 1px solid rgba(255, 45, 139, 0.4);
-}
-.breadcrumb-families ul.bc-list a:hover { border-bottom-color: #ff2d8b; }
-.breadcrumb-families ul.bc-list .bc-fam { color: #555; font-style: italic; }
-@media (prefers-color-scheme: dark) {
-  .breadcrumb-families { background: rgba(255, 45, 139, 0.06); border-color: rgba(255, 45, 139, 0.4); }
-  .breadcrumb-families .bc-lede { color: #d4d4d4; }
-  .breadcrumb-families ul.bc-list li { color: #f4f4f4; }
-}
-</style>
-<style id="inf-eco-css">
-.inf-eco{background:#0A0A0A;color:#FBF7EB;font-family:'JetBrains Mono','SF Mono',Menlo,monospace;font-size:11px;letter-spacing:.1em;line-height:1;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:11px 4vw;border-bottom:3px solid #C8FF1E;position:relative;z-index:60;flex-wrap:wrap}
-.inf-eco.inf-eco-foot{border-bottom:0;border-top:3px solid #C8FF1E;margin-top:0}
-.inf-eco a{color:#FBF7EB;text-decoration:none}
-.inf-eco a:hover{color:#C8FF1E}
-.inf-eco .sep{color:#57534A;margin:0 4px}
-.inf-eco .cur{color:#C8FF1E}
-.inf-eco .dirs{display:flex;gap:14px;white-space:nowrap}
-@media(max-width:720px){.inf-eco{font-size:10px;gap:8px;line-height:1.5}.inf-eco .dirs{gap:6px 12px;flex-wrap:wrap;white-space:normal;max-width:100%}.inf-eco .dirs a{white-space:normal}}
-</style>
-</head>
-<body>
-
-<nav class="chrome">
-  <a href="/" class="brand">Infera <em>·</em> The Mechanism Series</a>
-  <div class="nav-links">
-    <a href="/">Home</a>
-    <a href="/personhood-inc.html"><span class="tn">01</span>PERSONHOOD</a>
-    <a href="/the-feed-engine.html"><span class="tn">02</span>FEED</a>
-    <a href="/episode-03-trust-market.html"><span class="tn">03</span>TRUST</a>
-    <a href="/episode-04-the-influence-war.html"><span class="tn">04</span>INFLUENCE</a>
-    <a class="cur" href="/episode-05-the-replayable-city.html"><span class="tn">05</span>REPLAYABLE</a>
-    <a href="/episode-06-composite-state.html"><span class="tn">06</span>COMPOSITE</a>
-    <a href="/episode-07-the-physical-plant.html"><span class="tn">07</span>PHYSICAL PLANT</a>
-    <a href="/episode-08-the-class-engine.html"><span class="tn">08</span>CLASS ENGINE</a>
-  </div>
-</nav>
-
-<!-- ================ HERO ================ -->
-<header class="hero">
-  <div class="wrap">
-    <div class="strap reveal">
-      <span class="pill">EPISODE 05</span>
-      <span class="dot"></span><span>The Mechanism Series</span>
-      <span class="dot"></span><span>May 2026</span>
-    </div>
-    <h1 class="reveal">How <em>DC</em> sees you on the way <span class="high">to work</span>, and what happens after.</h1>
-    <p class="deck reveal" style="margin-top:36px; max-width:780px">Four illustrative forty-minute Washington commutes, replayed over a camera-density heat map. Then the part nobody photographs: retention math, the data debt many Americans have but very few could account for until now.</p>
+<meta name="description" content="Episode 05 of The Mechanism Series. Four illustrative forty-minute Washington commutes, replayed over a camera-density heat map. Then the part nobody photographs: retention math, and a data debt that no one has measured.</p>
     <div class="tag-cluster reveal">
       <span class="chip red">DC Metro</span>
       <span class="chip">live atlas</span>
@@ -757,7 +37,7 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
   <div class="atlas-intro reveal">
     <div class="kicker">Exhibit A · The Instant Replay</div>
     <h2>Pick a commute. <em>Watch the city see you.</em></h2>
-    <p class="lead">An illustrative Washington commute laid over a hex-grid camera-density heat map; the routes are real roads, the density cells show a pattern, not a block-by-block count. Press play. Each hex you cross lights up; a callout shows how many cameras are in that block; a running tally counts every kind of read the architecture takes from you, in real time. Cameras. Location. Movement. Speed. Patterns.</p>
+    <p class="lead">An illustrative Washington commute laid over a hex-grid camera-density heat map; the routes are real roads, the density cells show a pattern, not a block-by-block count. Press play. Each hex you cross lights up; a callout shows how many cameras are in that block; an illustrative tally adds up the kinds of reads a route like this can produce. Cameras. Location. Movement. Speed. Patterns.</p>
   </div>
 
   <div class="atlas-frame">
@@ -922,7 +202,7 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
             <polygon class="hex-callout-tip" id="hcTip" points="0,0 8,12 -8,12"/>
             <rect class="hex-callout-bg" x="-80" y="-50" width="160" height="50" rx="3"/>
             <text class="hex-callout-num" id="hcNum" x="0" y="-26">--</text>
-            <text class="hex-callout-lbl" x="0" y="-14">cameras in this block</text>
+            <text class="hex-callout-lbl" x="0" y="-14">relative density · illustrative</text>
             <text class="hex-callout-brk" id="hcBrk" x="0" y="-2">--</text>
           </g>
         </g>
@@ -938,13 +218,13 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
         </div>
 
         <div class="overlay-card tally-card" id="tallyCard" aria-live="polite">
-          <div class="tag">Running tally · what was read</div>
-          <div class="total"><span id="tcCams">0</span><span class="unit">cams</span></div>
+          <div class="tag">Illustrative tally · editorial model</div>
+          <div class="total"><span id="tcCams">0</span><span class="unit">model pts</span></div>
           <div class="row"><span>Location reads</span><span class="v" id="tcLoc">0</span></div>
           <div class="row"><span>Movement events</span><span class="v" id="tcMov">0</span></div>
           <div class="row"><span>Speed reads</span><span class="v" id="tcSpd">0</span></div>
           <div class="row"><span>Pattern points</span><span class="v" id="tcPat">0</span></div>
-          <div class="cls" id="tcCls">+ ? classified presence</div>
+          <div class="cls" id="tcCls">+ ? classified presence (not documented)</div>
         </div>
 
         <div class="layer-panel" aria-label="Map layers">
@@ -953,8 +233,8 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
           <button class="lyr-btn" data-layer="county"><span class="sw"></span>County boundaries</button>
           <button class="lyr-btn" data-layer="mpd"><span class="sw"></span>MPD CCTV district</button>
           <button class="lyr-btn" data-layer="wmata"><span class="sw"></span>WMATA transit zone</button>
-          <button class="lyr-btn" data-layer="frz"><span class="sw"></span>FAA FRZ · 15 mi</button>
-          <button class="lyr-btn" data-layer="sfra"><span class="sw"></span>FAA SFRA · 30 mi</button>
+          <button class="lyr-btn" data-layer="frz"><span class="sw"></span>FAA FRZ · 15 nm</button>
+          <button class="lyr-btn" data-layer="sfra"><span class="sw"></span>FAA SFRA · 30 nm</button>
         </div>
       </div>
 
@@ -974,7 +254,7 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
         <button class="route-btn active" data-route="r1" role="tab" aria-selected="true">
           <span class="dir-badge">FROM<br/>THE<br/>NORTH</span>
           <span class="info"><span class="from-to">Silver Spring, MD<span class="arr">→</span>Navy Yard, SE DC</span>
-            <span class="meta">Georgia Ave · 14th St · S Capitol · ~10 mi</span></span>
+            <span class="meta">Georgia Ave · 7th St · S Capitol · ~10 mi</span></span>
         </button>
         <button class="route-btn" data-route="r2" role="tab">
           <span class="dir-badge">FROM<br/>THE<br/>SOUTH</span>
@@ -1030,7 +310,7 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
     <span><i class="lg-line s"></i>SOUTH</span>
     <span><i class="lg-line e"></i>EAST</span>
     <span><i class="lg-line w"></i>WEST</span>
-    <span><i class="lg-hex"></i>Density · cameras within ~500 ft</span>
+    <span><i class="lg-hex"></i>Relative density · editorial model, illustrative</span>
     <span><i class="lg-dot pub"></i>Public capture</span>
     <span><i class="lg-dot inf"></i>Inferred capture</span>
     <span><i class="lg-dot priv"></i>Private (doorbell)</span>
@@ -1046,24 +326,24 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
       <div class="l">WMATA cameras across trains, buses, stations, and power systems</div>
     </div>
     <div class="stat-card cobalt reveal">
-      <div class="n">~1,300<span class="small">cams</span></div>
-      <div class="l">MPD CCTV cameras across the District, plus body-worn cameras on patrol</div>
+      <div class="n">~300<span class="small">cams</span></div>
+      <div class="l">MPD-owned CCTV cameras, the last public count we found (DCist, Dec. 2023), plus body-worn cameras on patrol</div>
     </div>
     <div class="stat-card magenta reveal">
-      <div class="n">~2,500<span class="small">sites</span></div>
-      <div class="l">private participants enrolled in CameraConnect / Capital Shield, shared to MPD via Kastle</div>
+      <div class="n">1,000+<span class="small">sites</span></div>
+      <div class="l">commercial locations in Capital Shield, a Kastle and MPD partnership (Kastle, April 2024); residents' registered cameras are a separate registry</div>
     </div>
     <div class="stat-card orange reveal">
-      <div class="n">30<span class="small">days</span></div>
-      <div class="l">default Flock Safety LPR retention, stored in AWS GovCloud</div>
+      <div class="n">3<span class="small">months</span></div>
+      <div class="l">how long D.C. police keep their Flock plate data (NOTUS, Aug. 2026); Flock's own default is now 7 days. Stored in AWS GovCloud.</div>
     </div>
     <div class="stat-card red reveal">
-      <div class="n">9,000+<span class="small">bldgs</span></div>
-      <div class="l">federal facilities protected by DHS / FPS, many with continuous CCTV</div>
+      <div class="n">~9,000<span class="small">bldgs</span></div>
+      <div class="l">federal facilities nationwide protected by DHS / FPS, not D.C. alone</div>
     </div>
     <div class="stat-card reveal">
       <div class="n">90<span class="small">days</span></div>
-      <div class="l">standard MPD CCTV retention. Longer if held for evidence, liability, internal review, or training.</div>
+      <div class="l">standard MPD CCTV retention under its published policy. Longer if held for evidence, liability or internal review.</div>
     </div>
   </div>
 </section>
@@ -1083,7 +363,7 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
   <div class="retention-intro reveal">
     <div class="kicker purple">Exhibit B · The Retention Map</div>
     <h2>How long does the footage <em>actually</em> live?</h2>
-    <p class="lead">Every camera class has two lifespans. Solid mint is the official policy retention. Vermilion stripes are the residual tail: the litigation hold, the criminal-investigation freeze, the training carve-out, the vendor backup, the contractor archive. Toggle between policy and practice. Hover any class to read the exceptions.</p>
+    <p class="lead">Every camera class has two lifespans. Solid mint is the official policy retention where one is published. Vermilion stripes are the residual tail, an editorial model, not a measurement: the litigation hold, the criminal-investigation freeze, the training carve-out, the vendor backup, the contractor archive. Toggle between policy and practice. Hover any class to read the exceptions.</p>
   </div>
 
   <div class="mode-bar reveal" role="tablist" aria-label="Retention mode">
@@ -1147,27 +427,27 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
     <div style="text-align:center; max-width:780px; margin:0 auto" class="reveal">
       <div class="kicker">Exhibit C · The reconstruction precedent</div>
       <h2>January 6, 2021. <em>The day was reassembled from fragments.</em></h2>
-      <p class="lead">The Capitol breach is the proof of concept for everything in the instant replay. The footage was never one composite file. The composite was built later, from device pings, cell-tower handshakes, geofence returns, facial-recognition matches, and crowd-sourced identifications. The funnel below is the shape that reconstruction takes.</p>
+      <p class="lead">The Capitol breach is an early large-scale example of the instant replay. The footage was never one composite file. The composite was built later, from device pings, cell-tower handshakes, geofence returns, facial-recognition matches, and crowd-sourced identifications. The three figures below are separate counts, not stages of one funnel.</p>
     </div>
     <div class="j6-frame">
       <div class="j6-funnel">
-        <svg id="j6Svg" viewBox="0 0 520 380" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jan. 6: 5,723 devices in the geofence return; more than 1,500 people charged over four years from many sources; about 1,500 pardoned on Jan. 20, 2025">
+        <svg id="j6Svg" viewBox="0 0 520 380" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Three separate Jan. 6 counts: 5,723 devices in the geofence return; about 1,583 people charged from many sources, fewer than 200 using geofence data; about 1,500 granted clemency on Jan. 20, 2025">
           <polygon class="fn-bar" points="20,40 500,40 470,120 50,120"/>
           <text class="fn-num" x="260" y="84" text-anchor="middle" fill="#0a0a0a">5,723</text>
           <text class="fn-lbl" x="260" y="104" text-anchor="middle" fill="#0a0a0a">device identifiers · geofence warrant return</text>
           <polygon class="fn-arrow" points="240,135 280,135 260,155"/>
           <polygon class="fn-bar s2" points="80,170 440,170 410,250 110,250"/>
-          <text class="fn-num" x="260" y="214" text-anchor="middle" fill="#0a0a0a">1,500+</text>
-          <text class="fn-lbl" x="260" y="232" text-anchor="middle" fill="#0a0a0a">people charged · four years · many sources</text>
+          <text class="fn-num" x="260" y="214" text-anchor="middle" fill="#0a0a0a">~1,583</text>
+          <text class="fn-lbl" x="260" y="232" text-anchor="middle" fill="#0a0a0a">charged · many sources · under 200 via geofence</text>
           <polygon class="fn-arrow" points="240,265 280,265 260,285"/>
           <polygon class="fn-bar s3" points="140,300 380,300 360,360 160,360"/>
           <text class="fn-num" x="260" y="338" text-anchor="middle" fill="#fff">~1,500</text>
-          <text class="fn-lbl" x="260" y="354" text-anchor="middle" fill="#fff">pardoned · Jan. 20, 2025</text>
+          <text class="fn-lbl" x="260" y="354" text-anchor="middle" fill="#fff">clemency · Jan. 20, 2025 · separate count</text>
         </svg>
       </div>
       <div class="j6-text">
-        <p>The FBI's January 2021 geofence warrant required Google to identify every Android device inside a precise Capitol-grounds polygon during the breach window. The first return was about <strong>5,723 devices</strong>. Those identifiers were narrowed against subscriber data, cell-tower handshakes, social-media posts, facial-recognition matches against driver's-license photos, employer records, and a large volume of voluntarily submitted public tips.</p>
-        <p>The Justice Department went on to charge more than <strong>1,500 people</strong> over four years. <span class="tag">REPORTED</span> The geofence return was one input among many, alongside video, tips and social media; how many identifications it produced is not public in the sources we used. <span class="tag">INFERENCE</span> On Jan. 20, 2025, President Trump pardoned about <strong>1,500</strong> of those charged and commuted 14 sentences. <span class="tag">FACT</span> The records outlived the prosecutions.</p>
+        <p>The FBI's January 2021 geofence warrant required Google to identify devices with Location History turned on inside an area drawn around the Capitol building during the breach window. The first return was about <strong>5,723 devices</strong>. Investigators narrowed it by removing devices also present before and after the breach, then obtained subscriber details for about 1,535. <span class="tag">REPORTED</span> Separately, they used tower data, facial recognition, social media and public tips.</p>
+        <p>The Justice Department charged about <strong>1,583 people</strong> over four years. <span class="tag">FACT</span> Reporting by IEEE Spectrum found fewer than 200 had been charged using the geofence data. <span class="tag">REPORTED</span> On Jan. 20, 2025, President Trump commuted 14 sentences, pardoned everyone else convicted, and ordered pending cases dismissed; news reports put the total at about 1,500. <span class="tag">REPORTED</span> The pardons ended the prosecutions; nothing we found says the collected records were destroyed. <span class="tag">INFERENCE</span></p>
         <p>Nothing in that pipeline required a single dedicated surveillance system. The pieces were collected by different agencies, vendors, platforms, and private participants, each for its own purpose, on its own retention clock. When something happened, the architecture rendered the day replayable. That is the precedent.</p>
         <div class="src">SOURCES &nbsp;·&nbsp; FBI affidavits &nbsp;·&nbsp; USAO-DC press releases &nbsp;·&nbsp; The Intercept &nbsp;·&nbsp; AP &nbsp;·&nbsp; Wired &nbsp;·&nbsp; T1/T2</div>
       </div>
@@ -1181,14 +461,14 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
     <div style="text-align:center; max-width:780px; margin:0 auto" class="reveal">
       <div class="kicker cobalt">Exhibit D · The discovery path</div>
       <h2>Is the history of you going to be <em>FOIA-able?</em></h2>
-      <p class="lead">In theory, yes. In practice, the discovery path for surveillance footage is the longest, slowest, and most denied category of public-records request. The pipeline below is the one most requests actually travel.</p>
+      <p class="lead">In theory, often. In practice, requests for surveillance footage are often slow and often withheld under law-enforcement exemptions; we found no national count. The pipeline below is federal FOIA, for federal cameras (FPS, Park Police, Secret Service). MPD footage goes through D.C.'s own law (15 business days, appeal to the Mayor or Superior Court); Metro uses its own records policy; private cameras are not covered.</p>
     </div>
     <div class="foia-frame">
       <div class="foia-flow reveal">
         <div class="foia-step"><div class="n">1</div><div class="body"><h5>You file a request.</h5><p>Specific block, specific date and time, specific camera, specific incident or no incident. Statutory clock starts at 20 working days.</p></div><span class="tag">filed</span></div>
-        <div class="foia-step"><div class="n">2</div><div class="body"><h5>Acknowledgment, then silence.</h5><p>The agency acknowledges within statute. Then a fee estimate appears, then a search-time waiver appeal, then a 30 to 120-day actual response.</p></div><span class="tag maybe">delayed</span></div>
-        <div class="foia-step deny"><div class="n">3</div><div class="body"><h5>Exemption 7 returns.</h5><p>"Records compiled for law enforcement purposes" lets the agency withhold or heavily redact under 7(A) through 7(F). Requests for surveillance footage often meet this exemption; we found no national count.</p></div><span class="tag">denied</span></div>
-        <div class="foia-step"><div class="n">4</div><div class="body"><h5>You appeal in writing.</h5><p>Within 90 days, you challenge the exemption. Appeal panel review takes another 20 to 60 working days. Agencies report appeal outcomes in their annual FOIA reports; many appeals uphold the original decision.</p></div><span class="tag maybe">appeal</span></div>
+        <div class="foia-step"><div class="n">2</div><div class="body"><h5>Acknowledgment, then delay.</h5><p>The agency acknowledges the request. A fee estimate or fee-waiver dispute may follow, and actual response times vary widely by agency.</p></div><span class="tag maybe">delayed</span></div>
+        <div class="foia-step deny"><div class="n">3</div><div class="body"><h5>Exemption 7 returns.</h5><p>"Records or information compiled for law enforcement purposes" lets the agency withhold or heavily redact under 7(A) through 7(F). Requests for surveillance footage often meet this exemption; we found no national count.</p></div><span class="tag">denied</span></div>
+        <div class="foia-step"><div class="n">4</div><div class="body"><h5>You appeal in writing.</h5><p>Within 90 days, you challenge the exemption. The statute gives the agency 20 working days to decide an appeal, with extensions in unusual circumstances; actual times vary by agency (see its annual FOIA report). </p></div><span class="tag maybe">appeal</span></div>
         <div class="foia-step win"><div class="n">5</div><div class="body"><h5>You sue under § 552(a)(4)(B).</h5><p>Federal district court is the actual oversight. Lawsuits are expensive, slow, and the agency can still prevail. It is also where many contested releases are won.</p></div><span class="tag">litigate</span></div>
       </div>
       <div class="foia-text">
@@ -1207,11 +487,11 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
     <div style="text-align:center; max-width:780px; margin:0 auto" class="reveal">
       <div class="kicker magenta">Exhibit E · The data debt</div>
       <h2>The footage that <em>should</em> be gone. The footage that <em>is.</em></h2>
-      <p class="lead">If retention worked the way the policies describe it, the curve would fall sharply and quickly. In practice, the curve has a long, fat tail. Every exception is a hold. Every hold extends the lifespan. Every extended lifespan accrues to the city's data debt.</p>
+      <p class="lead">This chart is an editorial model, illustrative; no public data measures it. If retention worked the way the policies describe it, the curve would fall sharply. The exceptions suggest a long tail: a policy of 90 days and a history that can last as long as a case does. Every exception is a hold. Every hold extends the lifespan. Every extended lifespan accrues to the city's data debt.</p>
     </div>
     <div class="debt-frame">
       <div class="debt-chart reveal">
-        <svg id="debtSvg" viewBox="0 0 720 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Official vs actual retention curves; the actual curve has a long tail accruing data debt">
+        <svg id="debtSvg" viewBox="0 0 720 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Editorial model, illustrative: official retention curve versus a curve with a long tail; no public data measures this">
           <line class="debt-axis" x1="60" y1="40" x2="60" y2="300"/>
           <line class="debt-axis" x1="60" y1="300" x2="690" y2="300"/>
           <g>
@@ -1228,11 +508,11 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
             <text class="debt-tick-lbl" x="560" y="324" text-anchor="middle">3 YEARS</text>
             <text class="debt-tick-lbl" x="680" y="324" text-anchor="middle">5+ YEARS</text>
           </g>
-          <text class="debt-tick-lbl" x="52" y="48" text-anchor="end">100%</text>
-          <text class="debt-tick-lbl" x="52" y="174" text-anchor="end">50%</text>
-          <text class="debt-tick-lbl" x="52" y="300" text-anchor="end">0%</text>
+          
+          
+          
           <text class="debt-axis-lbl" x="375" y="350" text-anchor="middle">TIME SINCE CAPTURE</text>
-          <text class="debt-axis-lbl" x="36" y="170" text-anchor="middle" transform="rotate(-90 36 170)">SHARE STILL RETRIEVABLE</text>
+          <text class="debt-axis-lbl" x="36" y="170" text-anchor="middle" transform="rotate(-90 36 170)">SHARE RETRIEVABLE · MODEL</text>
           <path class="debt-fill" d="M 60 50 L 100 70 L 130 110 L 160 145 L 220 195 L 280 240 L 350 268 L 420 280 L 500 287 L 600 292 L 680 294 L 680 300 L 60 300 Z"/>
           <path class="debt-line-official" d="M 60 50 L 100 60 L 130 75 L 160 110 L 200 200 L 240 270 L 280 296 L 330 299 L 400 300 L 500 300 L 680 300"/>
           <path class="debt-line-actual" d="M 60 50 L 100 70 L 130 110 L 160 145 L 220 195 L 280 240 L 350 268 L 420 280 L 500 287 L 600 292 L 680 294"/>
@@ -1250,14 +530,14 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
         <h3 style="color:var(--pop-magenta)">Why the tail.</h3>
         <p>The exceptions named on every retention policy are not edge cases. They are the architecture's pressure-release valves, and they all extend lifespan.</p>
         <ul style="font-family:var(--font-sans); font-size:14.5px; color:var(--ink-soft); margin:14px 0 22px 22px; line-height:1.7">
-          <li><strong>Litigation hold.</strong> Any open case freezes related footage indefinitely.</li>
-          <li><strong>Criminal investigation.</strong> Preserved on request, no statutory ceiling.</li>
+          <li><strong>Litigation hold.</strong> Footage related to a case is kept until the case ends.</li>
+          <li><strong>Criminal investigation.</strong> Agencies keep evidence for the life of a case; a preservation request to a vendor holds data for 90 days, renewable once, pending a court order.</li>
           <li><strong>Internal review and training.</strong> Subset is carved out of the rolling delete.</li>
-          <li><strong>Vendor backups.</strong> Cloud providers retain on their own clocks, often distinct from contract.</li>
-          <li><strong>Contractor archives.</strong> Maintenance and integration vendors keep their own copies.</li>
-          <li><strong>Residual backend data.</strong> The Guthrie precedent. Footage believed deleted is recoverable from system logs.</li>
+          <li><strong>Vendor backups.</strong> Can exist; their retention is rarely published.</li>
+          <li><strong>Contractor archives.</strong> Copies can exist; their retention is rarely published.</li>
+          <li><strong>Residual backend data.</strong> In the Guthrie case the FBI recovered video from a camera without a paid plan from "residual data located in backend systems"; how long such data persists is not public.</li>
         </ul>
-        <p>Each one is reasonable in isolation. Each one is necessary in isolation. In combination they describe the difference between a 90-day retention policy and a 5-year recoverable history.</p>
+        <p>Each one is reasonable in isolation. Each one is necessary in isolation. In combination they can turn a 90-day retention policy into a history that lasts as long as a case does.</p>
       </div>
     </div>
   </div>
@@ -1275,7 +555,7 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
       <div class="chart-card reveal">
         <div class="num">01</div>
         <h4>National security geography &amp; public safety</h4>
-        <p>The District is one of the most protected cities on earth. The Capitol, the White House, the Pentagon, hundreds of federal facilities, dozens of foreign embassies. Cameras enable response, identification, crash reconstruction, missing-person searches, counterterrorism, transit safety, and event protection.</p>
+        <p>The District is one of the most protected cities on earth. The Capitol, the White House, the Pentagon, hundreds of federal facilities, more than 170 foreign embassies. Cameras enable response, identification, crash reconstruction, missing-person searches, counterterrorism, transit safety, and event protection.</p>
         <div class="resp">True. The federal-core defense holds at the core. It travels less well to the residential wards, where the same dense capture follows the commuter home.</div>
         <div class="src">P1 · public safety &nbsp;·&nbsp; P2 · national-security geography</div>
       </div>
@@ -1283,20 +563,20 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
         <div class="num">02</div>
         <h4>Public-space doctrine</h4>
         <p>Courts have largely held that observation in public space is not a Fourth Amendment violation. The architecture operates within existing constitutional doctrine.</p>
-        <div class="resp">Public-space doctrine assumes the watched can identify the watcher and adjust behavior. An unmarked LPR network or a vendor-shared private camera defeats that assumption.</div>
+        <div class="resp">Courts have started to treat the aggregate differently: in 2021 a federal appeals court held that Baltimore's citywide aerial tracking was a search. Many networks sharing one view raise the same question.</div>
         <div class="src">P1 · public-space expectation</div>
       </div>
       <div class="chart-card reveal">
         <div class="num">03</div>
         <h4>Local consent &amp; vendor reliability</h4>
-        <p>D.C. residents opted into the Capital Shield program through a published rebate. Cloud and vendor backups exist for legitimate continuity reasons. A camera that loses footage during an outage is also a camera that lost a missing-child case.</p>
+        <p>Thousands of D.C. residents installed cameras through a city rebate program that requires registering them with MPD. Cloud and vendor backups exist for legitimate continuity reasons. A camera that loses footage during an outage is also a camera that lost a missing-child case.</p>
         <div class="resp">Individual consent does not constitute aggregate consent. Continuity features also defeat the privacy guarantee the retention policy describes.</div>
         <div class="src">P2 · local consent &nbsp;·&nbsp; P3 · vendor reliability</div>
       </div>
       <div class="chart-card reveal">
         <div class="num">04</div>
         <h4>Retention limits &amp; evidence preservation</h4>
-        <p>Most systems retain footage for finite windows: MPD 90 days, Flock 30 days, private rebate 48 hours. Footage held past those windows is usually held because it became evidence in an active matter. Premature deletion would destroy the public record.</p>
+        <p>Most systems retain footage for finite windows: MPD 90 days; D.C. police keep Flock plate data up to three months. Footage held past those windows is usually held because it became evidence in an active matter. Premature deletion would destroy the public record.</p>
         <div class="resp">The same mechanism that prevents cover-ups also extends the surveillance lifespan of every bystander caught in the frame. The exceptions are also the long tail of the data debt.</div>
         <div class="src">P1 · retention limits &nbsp;·&nbsp; P3 · evidence preservation</div>
       </div>
@@ -1304,14 +584,14 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
         <div class="num">05</div>
         <h4>Transit safety</h4>
         <p>WMATA's ~30,000 cameras have been cited in arrests, fare-evasion investigations, missing-person searches, and post-incident reviews. Body-worn cameras on transit police add accountability.</p>
-        <div class="resp">True. The system-of-systems still has no oversight body that maps across all 30,000 sources, or across the agencies that can pull from them.</div>
+        <div class="resp">True. No single body oversees Metro's 30,000-plus cameras together with police, federal and private networks, or the agencies that can pull from them.</div>
         <div class="src">P2 · transit safety</div>
       </div>
       <div class="chart-card reveal">
         <div class="num">06</div>
         <h4>Oversight, FOIA, and the public record</h4>
         <p>Body-camera programs, internal-affairs reviews, audit logs, and public-records requests provide accountability. FOIA Exemption 7 exists because public release of active-investigation material can compromise cases, endanger witnesses, and undermine prosecution.</p>
-        <div class="resp">Oversight operates per system. The integration across systems has no equivalent integrated oversight. Exemption 7 is also the reason the camera that watched you almost never produces a record you can review.</div>
+        <div class="resp">Oversight operates per system. The integration across systems has no equivalent integrated oversight. Law-enforcement exemptions, and the fact that private cameras sit outside public-records law, mean the camera that watched you often produces no record you can get.</div>
         <div class="src">P1 · oversight &nbsp;·&nbsp; P3 · FOIA limits are deliberate</div>
       </div>
     </div>
@@ -1372,9 +652,9 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
     </div>
   </div>
   <div class="fine">
-    Infera · The Mechanism Series · A living atlas of invisible systems · Episode 05 · The Replayable City · Drafted May 2026. The atlas is a head-on cartograph of the DC metro projected from real coordinates; road and metro geometries are simplified from open data and are not survey-accurate. Density cells are illustrative of pattern, anchored to documented infrastructure (MPD CCTV policy, WMATA reporting, Capital Shield documentation, Flock published policy, GSA/FPS records). Retention figures are anchored to published policy and public reporting. The Guthrie anchor is sourced to NBC News reporting of the FBI director's and sheriff's statements (February 2026). The January 6 funnel uses the geofence figure from court filings and charging and pardon totals from Justice Department and White House records. © Infera 2026.
-  <br/><br/><b>Correction · Nov. 11, 2026.</b> The opening called this "a real forty-minute Washington commute"; the four routes are illustrative, and the density cells show a pattern, not a measured count. The Guthrie anchor said the quote came from an FBI affidavit reported by NPR; it came from the FBI director's post, as reported by NBC News, and the page no longer states what the owner understood or opted into, which no source established. It also adds the case's status and an NBC disclosure. The January 6 funnel said 1,535 people were "named" and 1,300 charged off the geofence return; the funnel now shows more than 1,500 charged from many sources, and the January 2025 pardons. Exhibit F, "Run your own commute," was removed: it turned typed text into a map point by formula, not by location, so its camera count described nothing real.
-<br/><br/><b>Method.</b> What we mean by "recoverable": footage that policy says is gone but that exceptions, holds or vendor systems can still produce. How we know: published retention policies, court filings and official statements as reported. Strongest counter-argument: each exception exists for a reason (evidence, safety, continuity), and no single system is designed to track a commuter. What we assume: that the exceptions add up across systems, which no public source measures. What would change our mind: an audit showing deletion on schedule across MPD, WMATA and vendor backups. Who is affected and not quoted: commuters and bystanders in the footage. Triangulation: retention figures rest on each operator's published policy; counts of cameras on operator statements, labeled where single-source.</div>
+    Infera · The Mechanism Series · A living atlas of invisible systems · Episode 05 · The Replayable City · Drafted May 2026. The atlas is a head-on cartograph of the DC metro projected from real coordinates; road and metro geometries are simplified from open data and are not survey-accurate. Density cells are an editorial model of where camera networks concentrate (federal core, Metro hubs, commercial corridors); they are not drawn from camera-location data. Official retention figures rest on published policy where we found one; residual figures are an editorial model; camera counts are cited in each card with date and source. The Guthrie anchor is sourced to NBC News reporting of the FBI director's and sheriff's statements (February 2026). The January 6 figures use the geofence count from court filings, the charging total from Justice Department records and the clemency figure from news reports of the Jan. 20, 2025 proclamation. © Infera 2026.
+  <br/><br/><b>Correction · Nov. 11, 2026.</b> The opening called this "a real forty-minute Washington commute"; the four routes are illustrative, and the density cells show a pattern, not a measured count. The Guthrie anchor said the quote came from an FBI affidavit reported by NPR; it came from the FBI director's post, as reported by NBC News, and the page no longer states what the owner understood or opted into, which no source established. It also adds the case's status and an NBC disclosure. The January 6 funnel said 1,535 people were "named" and 1,300 charged off the geofence return; the funnel now shows more than 1,500 charged from many sources, and the January 2025 pardons. Exhibit F, "Run your own commute," was removed: it turned typed text into a map point by formula, not by location, so its camera count described nothing real. The map's block callouts now show a relative band labeled as a model instead of a camera count, and the tally, retention tails and data-debt chart are labeled as models. Camera counts were corrected: MPD about 300 (not 1,300), Capital Shield more than 1,000 sites (not 2,500), D.C.'s Flock retention up to three months (not the 30-day vendor default), FPS about 9,000 facilities nationwide. The rebate program and Capital Shield are now separate. The geofence description, January 6 figures, FOIA steps (now federal, with D.C. and Metro noted), airspace units (nautical miles) and a route turn are corrected. Exhibit D had said most footage requests are denied, most appeals fail and most releases come through litigation; we found no counts and now say often or many.
+<br/><br/><b>Method.</b> What we mean by "recoverable": footage that policy says is gone but that exceptions, holds or vendor systems can still produce. How we know: published retention policies, court filings and official statements as reported. Strongest counter-argument: each exception exists for a reason (evidence, safety, continuity), and no single system is designed to track a commuter. What we assume: that the exceptions add up across systems, which no public source measures. What would change our mind: an audit showing deletion on schedule across MPD, WMATA and vendor backups. Who is affected and not quoted: commuters and bystanders in the footage. Triangulation: most camera counts and retention periods rest on a single operator statement or report, cited in each card. Disclosure: Google (Nest, the geofence) and Amazon (Ring, AWS) are subjects; both are investors in or competitors of Anthropic, whose Claude researched this page and also ran its claims check.</div>
 </footer>
 
 <script>
@@ -1437,7 +717,7 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
         bus: [['priv',0.06,'Doorbell','RING'],['pub',0.14,'WMATA','BUS'],['pub',0.26,'MoCo','MoCo'],['pub',0.38,'WMATA','BUS'],['pub',0.50,'MPD','MPD'],['pub',0.62,'WMATA','BUS'],['pub',0.74,'DDOT','SPD'],['priv',0.86,'CapShield','CS'],['pub',0.96,'MPD','MPD']],
         bike: [['priv',0.08,'Doorbell','RING'],['pub',0.22,'MoCo','MoCo'],['priv',0.36,'Doorbell','RING'],['pub',0.50,'MPD','MPD'],['pub',0.64,'DDOT','DDOT'],['priv',0.78,'CapShield','CS'],['pub',0.92,'MPD','MPD']]
       },
-      turns: [{t:0.0,glyph:'⬇',txt:'Head S on Georgia Ave NW',dist:'3.4 mi'},{t:0.35,glyph:'➔',txt:'Continue on 16th St NW',dist:'2.8 mi'},{t:0.65,glyph:'↰',txt:'Left on K St NW',dist:'0.9 mi'},{t:0.82,glyph:'↱',txt:'Right onto S Capitol St',dist:'1.4 mi'},{t:0.94,glyph:'⌖',txt:'Arrive · Navy Yard',dist:'0.2 mi'}],
+      turns: [{t:0.0,glyph:'⬇',txt:'Head S on Georgia Ave NW',dist:'3.4 mi'},{t:0.35,glyph:'➔',txt:'Continue on 7th St NW',dist:'2.8 mi'},{t:0.65,glyph:'↰',txt:'Left on K St NW',dist:'0.9 mi'},{t:0.82,glyph:'↱',txt:'Right onto S Capitol St',dist:'1.4 mi'},{t:0.94,glyph:'⌖',txt:'Arrive · Navy Yard',dist:'0.2 mi'}],
       alerts: [{t:0.20,type:'police'},{t:0.45,type:'accident'},{t:0.78,type:'roadwork'}]
     },
     r2: { label:'Alexandria → H Street NE', key:'SOUTH · 40 MIN',
@@ -1744,8 +1024,8 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
   function fireHexCallout(hex){
     var n = Math.round(hex.v.all);
     var mpd = Math.round(hex.v.mpd), wm = Math.round(hex.v.wmata), fed = Math.round(hex.v.fed), pr = Math.round(hex.v.priv), lp = Math.round(hex.v.lpr);
-    hcNum.textContent = n;
-    hcBrk.textContent = 'MPD '+mpd+' · WMTA '+wm+' · FED '+fed+' · PRIV '+pr+' · LPR '+lp;
+    hcNum.textContent = n < 60 ? 'LOW' : n < 120 ? 'MODERATE' : n < 180 ? 'HIGH' : 'VERY HIGH';
+    hcBrk.textContent = 'editorial model, not a count';
     // position callout above the hex, biased away from edges
     var x = hex.cx, y = hex.cy - HEX_R - 6;
     if(y < 80) y = hex.cy + HEX_R + 50; // flip below if too high
@@ -1896,15 +1176,16 @@ p { margin-bottom: 20px; color: var(--ink-soft); }
   }
   var TICKS = [{d:0,lbl:'0d'},{d:2,lbl:'2d'},{d:7,lbl:'7d'},{d:30,lbl:'30d'},{d:90,lbl:'90d'},{d:365,lbl:'1yr'},{d:1825,lbl:'5yr'}];
   var LANES = [
-    { key:'mpd',   name:'MPD CCTV',                 sub:'Metropolitan Police Department',     off:90,   res:1825, who:'MPD, federal subpoena, civil discovery, IAD review', foia:'Heavy Exemption 7 redactions', why:'90-day default. Held for evidence, civil liability, internal review, or training. In practice some footage persists for years through the litigation pipeline.' },
-    { key:'wmata', name:'WMATA cameras',            sub:'Transit, body-worn, station',        off:90,   res:730,  who:'WMATA, Metro Transit Police, contractor archives',     foia:'Limited release; safety-incident only', why:'~30,000 cameras. Retention varies by program. Body-camera footage held longer when associated with an incident or training case.' },
-    { key:'ddot',  name:'DDOT traffic / speed',     sub:'District Department of Transp.',     off:60,   res:540,  who:'DDOT, MPD, civil court',                                foia:'Often released for crash reconstruction', why:'Speed and red-light enforcement cameras. Retention depends on whether the capture became a citation.' },
-    { key:'flock', name:'Flock LPR',                sub:'Vendor network · AWS GovCloud',      off:30,   res:1095, who:'Any law-enforcement agency with vendor access',         foia:'Vendor not subject to FOIA directly', why:'Default 30-day retention. Preserved on legal request. Cross-agency search defeats per-agency oversight.' },
-    { key:'fps',   name:'Federal · DHS / FPS',      sub:'GSA-managed facilities',             off:120,  res:1825, who:'DHS, FPS, partner agencies',                            foia:'Heavy national-security redaction', why:'Varies by building. Continuous CCTV on most. Retention extended for any facility-security event.' },
-    { key:'uspp',  name:'U.S. Park Police',         sub:'Monument zones + aviation',          off:180,  res:1825, who:'NPS, USPP, federal investigators',                      foia:'Mostly denied as law-enforcement record', why:'Mall planning documents described a system "not to exceed five years." Aviation footage retained per case.' },
-    { key:'ss',    name:'U.S. Secret Service',      sub:'Protective perimeter',               off:0,    res:1825, who:'USSS, partner federal agencies',                        foia:'Categorically denied', why:'Protective-mission footage capabilities are not publicly documented by design. Treat as continuous, indefinite.' },
-    { key:'shield',name:'Capital Shield · private', sub:'CameraConnect / Kastle',             off:2,    res:90,   who:'Property owner, MPD on request',                        foia:'Not subject to FOIA (private)', why:'Rebate program requires at least 48-hour retention. Owner can hold longer. Sharing to MPD is voluntary or compelled.' },
-    { key:'ring',  name:'Doorbell network',         sub:'Ring, Nest, others',                 off:60,   res:1095, who:'Homeowner, platform legal team, law enforcement',       foia:'Not subject to FOIA (private)', why:'User-set retention. Footage believed deleted may persist in vendor backend (see Guthrie precedent).' }
+    { key:'mpd',   name:'MPD CCTV',                 sub:'Metropolitan Police Department',     off:90,   res:1825, who:'MPD, and other agencies MPD approves case by case', foia:'D.C. FOIA; law-enforcement exemption often applied', why:'90-day default under MPD policy. Held longer for evidence, liability or internal review. The residual bar is an editorial model: footage can last as long as a case does.' },
+    { key:'wmata', name:'WMATA cameras',            sub:'Transit, body-worn, station',        off:90,   res:730,  who:'WMATA, Metro Transit Police',                          foia:'Not under FOIA; request through Metro\'s records policy', why:'About 30,000 cameras (WMATA). Retention varies by program and is not fully published; both bars are illustrative.' },
+    { key:'ddot',  name:'DDOT traffic / speed',     sub:'District Department of Transp.',     off:60,   res:540,  who:'DDOT, MPD, civil court',                                foia:'D.C. FOIA', why:'Retention not published. Depends on whether the capture became a citation. Both bars are illustrative.' },
+    { key:'flock', name:'Flock LPR',                sub:'Vendor network · AWS GovCloud',      off:90,   res:1095, who:'Agencies with vendor access',                           foia:'Vendor not subject to FOIA; agency records may be', why:'D.C. police keep their plate data up to three months (NOTUS, Aug. 2026); Flock\'s own default is now 7 days. Preserved on legal request.' },
+    { key:'fps',   name:'Federal · DHS / FPS',      sub:'GSA-managed facilities',             off:120,  res:1825, who:'DHS, FPS, partner agencies',                            foia:'Federal FOIA; security exemptions often applied', why:'Retention varies by building and is not published; both bars are illustrative. FPS protects about 9,000 federal facilities nationwide.' },
+    { key:'uspp',  name:'U.S. Park Police',         sub:'Monument zones + aviation',          off:180,  res:1825, who:'NPS, USPP, federal investigators',                      foia:'Federal FOIA; law-enforcement exemption often applied', why:'Park Police policy keeps recordings no more than six months unless they are needed as evidence (GAO, 2003).' },
+    { key:'ss',    name:'U.S. Secret Service',      sub:'Protective perimeter',               off:0,    res:1825, who:'USSS, partner federal agencies',                        foia:'Federal FOIA; protective records usually withheld', why:'Retention not publicly documented. The bar is illustrative.' },
+    { key:'shield',name:'Capital Shield · commercial', sub:'Kastle and MPD partnership',      off:30,   res:90,   who:'Property owner; MPD by agreement',                      foia:'Not subject to FOIA (private)', why:'More than 1,000 commercial locations (Kastle, April 2024). Retention is set by each property and not published; both bars are illustrative.' },
+    { key:'rebate',name:'Rebate cameras · residential', sub:'City rebate, registered with MPD', off:2,  res:90,   who:'Owner; MPD may request footage',                        foia:'Not subject to FOIA (private)', why:'The city rebate requires keeping footage at least 48 hours; owners can keep it longer.' },
+    { key:'ring',  name:'Doorbell network',         sub:'Ring, Nest, others',                 off:60,   res:1095, who:'Homeowner, platform legal team, law enforcement',       foia:'Not subject to FOIA (private)', why:'User-set retention. In the Guthrie case the FBI recovered video from a camera without a paid plan from backend data; how long such data persists is not public.' }
   ];
   function buildTimeline(mode){
     tlAxis.innerHTML = ''; tlLanes.innerHTML = '';
