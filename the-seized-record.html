@@ -100,6 +100,7 @@ ol.facts .when{font-family:var(--mono);font-size:12px;color:var(--kraft);padding
 .dot.open{background:transparent;border:2px solid var(--tag)}
 .dot.day{border-radius:0;background:var(--gold)}
 .dot.routine{background:var(--inference)}
+.dot.closed{background:transparent;border:1.5px dashed var(--paper-dim)}
 .ev .d{font-family:var(--mono);font-size:12px;color:var(--kraft);font-variant-numeric:tabular-nums}
 .ev .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--paper-faint);white-space:nowrap}
 .ev .more[hidden]{display:none}
@@ -246,6 +247,7 @@ footer b{color:var(--paper-dim);font-weight:400}
         <div class="keyrow">
           <span style="--c:var(--tag)">Step in the 2020 matter</span>
           <span style="--c:var(--inference)">Election-season action, outside the 2020 matter</span>
+          <span style="--c:var(--paper-dim)">Closed: nothing found</span>
           <span style="--c:var(--gold)">Election Day</span>
         </div>
       </div>
@@ -418,13 +420,13 @@ footer b{color:var(--paper-dim);font-weight:400}
     {d:"Oct 5, 2026",t:"DOJ opening brief in the appeal",k:"step",dist:"29 days before",note:"The first step inside the window. Appeals courts set briefing schedules, so the date was most likely not a prosecutor\u2019s choice (Inference). It is a court filing, not a public statement."},
     {d:"By Oct 24, 2026",t:"Monitors notified for six Georgia counties",k:"routine",dist:"10 days before",note:"Election monitoring is a long-running program, and five of the six counties had monitors in 2024; this year the Justice Department said it was monitoring all 50 states for the first time. The same Civil Rights Division also filed the December suit for the 2020 records. Guidance for local officials (Campaign Legal Center) says poll workers are not required to let federal monitors inside unless state or local authorities direct it."},
     {d:"Oct 29, 2026",t:"DOJ letter on election record retention",k:"routine",dist:"5 days before",note:"A letter from the Acting Deputy Attorney General to election officials in every state (per the department\u2019s court filing), warning that willful failure to preserve election records is a crime. Copies obtained by reporters are virtually identical and do not appear to mention Fulton. Not part of the 2020 matter; logged because it is a public statement inside the window."},
-{d:"Nov 1 to Nov 3",t:"Closed: no new overt step found",k:"step",dist:"Inside the window",note:"No new overt step in the 2020 matter found in news reports (appeals docket not checked)."},
+{d:"Nov 1 to Nov 3",t:"Closed: no new overt step found",k:"closed",dist:"Inside the window",note:"No new overt step in the 2020 matter found in news reports (appeals docket not checked)."},
     {d:"Nov 3, 2026",t:"Election Day",k:"day",dist:"",note:"Polls close in Georgia at 7 p.m.; voters in line by then can still vote."}
   ];
   var ruler=document.getElementById("ruler");
   evs.forEach(function(e,i){
     var w=document.createElement("div");w.className="ev";
-    var dot=document.createElement("span");dot.className="dot"+(e.k==="open"?" open":e.k==="day"?" day":e.k==="routine"?" routine":"");dot.setAttribute("aria-hidden","true");
+    var dot=document.createElement("span");dot.className="dot"+(e.k==="open"?" open":e.k==="day"?" day":e.k==="routine"?" routine":e.k==="closed"?" closed":"");dot.setAttribute("aria-hidden","true");
     var b=document.createElement("button");b.type="button";b.id="ev-"+i;b.setAttribute("aria-expanded","false");b.setAttribute("aria-controls","ev-more-"+i);
     var d=document.createElement("span");d.className="d";d.textContent=e.d;
     var t=document.createElement("span");t.textContent=e.t;
