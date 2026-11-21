@@ -192,3 +192,41 @@ Target: **32 load-bearing claims** (down from 35 + 28 across two episodes).
 ---
 
 *v1 drafted 2 June 2026 · v2 rewritten 23 October 2026, absorbing EP 10 · Editorial Agent*
+
+---
+
+## Connective tissue · scan of 8 November 2026 (INVESTIGATE, preview rendered)
+
+**Tie-in ledger**
+
+| Tie-in | Pieces | Level | Tag | Source |
+|---|---|---|---|---|
+| The Shotline as the consented, labeled replica | EP 09 case wall ↔ Field Note 12 | Same entity | REPORTED | NPR, Northeastern |
+| Pelkey vacatur as a court separating family script from victim voice | EP 09 ↔ The Second Death, law room | Same entity | REPORTED | Gray TV 2 Oct 2026; FOX local 1 Oct 2026 |
+| Rent tier set by class | EP 09 payers ↔ EP 08 The Class Engine | Same mechanism | INFERENCE | editorial frame |
+| Remembrance priced in tiers | EP 09 rent ledger row 10 ↔ Grandma, Updated Grief Store | Same mechanism | FACT · company documentation | Replika help center; HereAfter FAQ |
+| Wages as the denominator | EP 09 payers ↔ S1 The Trickle | Same pressure | INFERENCE | editorial frame |
+| The dead on the rolls and the dead in the ads | EP 09 ↔ S1 The Provisional Ballot Maze | Same motif | INFERENCE | editorial frame |
+| Between election deployment of synthetic voices | EP 09 end card ↔ S1 The Runoff Tells | Same pressure | INFERENCE · search result | WBUR 6 Nov 2026 (absence) |
+| Pulpit glyph on the Kirk tile | EP 09 ↔ Faith Layer 01 The Quiet Guest | Motif (easter egg only) | none (eggs carry no claim) | |
+
+Threads: **Voices of the Dead** is promoted from candidate to thread (FN 12, The Second Death, EP 09, EP 10 in development). Money and Records continue.
+
+**Mechanics chosen.** Connector: Case File style tiles with Seam filter (case wall). Decision or game: the Two Ledgers instrument (reader enters surface and rent; the page states the crossover). Pacing: Watch the Record Change (the hours to seconds slider), Cliff and Callback (end card to The Runoff Tells). Joint exhibit proposed: **The Ventriloquist's Ledger**, a shared case wall component that FN 12, EP 09 and EP 10 render from one JSON so new cases propagate; status Proposed.
+
+**Beat map.** Watch (slider, 0:00 to 0:40) → Do (filter the wall, 0:40 to 2:10) → Connect (hinge sentence and crumb, 2:10 to 3:30) → Alongside (populations, 3:30 to 5:00) → Watch (asymmetry table reveal, 5:00 to 6:30) → Do (Two Ledgers, 6:30 to 10:00) → Connect (end card). No stretch over about 90 seconds without a beat.
+
+**Curiosity cues from the fact check** (deltas: tracker states no count; FAQ addresses inability to pay, not death; no deceased voice ad found in 2026 midterms).
+1. "How many states is it, really?" (count depends on Hawaii and Massachusetts) · appears in Moment 03 card · answered by EP 11 lever map.
+2. "What does the FAQ say happens when you die? Nothing." · appears in rent ledger row 10 · answered by EP 10.
+3. "The ads that run between elections are the ones seen last. Who checks those?" · end card · leads to The Runoff Tells.
+
+**Thread layer placements.** A. Thread bar (three pips, light on scroll). B. Thread marks: The Shotline (Voices, REPORTED), Christopher Pelkey (Records, REPORTED), "rent tier" (Money, INFERENCE). C. Margin crumb beside the hinge: Grandma, Updated (Money, FACT inherited). G. End card with cue 3 and three next pieces. H. Homepage tile thread dots: **pending sign off; index not touched in preview.**
+
+**Easter eggs.** Pulpit glyph on the Kirk tile; rent ledger rows numbered 07 to 10 so the last row is 10; Synthetic Halo in the strip and hero.
+
+**Retrofit queue.** S1 The Runoff Tells gains a Voices thread mark back to EP 09 (tag INFERENCE). S1 The Provisional Ballot Maze gains a Records crumb. Field Note 12 masthead gains the Synthetic Halo (as the brief planned). The Second Death law room gains a Voices thread mark to EP 09's case wall. Tags and components only.
+
+**Written back to the Sweep Targeting Map.** Queued, not executed from this session: learned ledger (DeepBrain input claim, Pelkey vacatur date, WBUR count), relearned ledger (tracker count is a tally; FAQ scope is inability to pay), subject map (DeepBrain, Vaice, HereAfter, Shotline, Public Citizen tracker, Wesleyan Media Project), open questions (first deceased voice midterm ad; population series on identity stack spend).
+
+*Scan recorded 8 November 2026 · Editorial Agent*

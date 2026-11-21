@@ -70,6 +70,20 @@ Infera makes an argued case with an effort at fairness, not a neutral one. Faith
 - "Evidence through" is the date of the newest source cited; if older data underlies the main figures, say so: "Evidence through 2 October 2026 · market data through July 2026."
 - Grief-counselor material in The Second Death stays exactly as published.
 
+
+## 10. Every update is a review trigger
+
+When a published story gets an update, new information arrives, or a connected story breaks, that is an occasion to ask whether a new exhibit, or several, is warranted, not only whether the text needs a correction. The review is recorded in the piece's brief with a yes or no and one line of reasoning:
+- **New exhibit** when the update adds a mechanism, a dataset, a counter-example or a decision point the page does not already let the reader work with (e.g. Harwood joined Field Note 19 as Exhibit 6b).
+- **Retrofit** when it strengthens an existing exhibit (new data in an existing instrument, a new tile on a case wall).
+- **Spin-off** when it is big enough to stand alone (the Porter reporting became The House Already Knew).
+- **Note only** when it changes a fact but not what the reader can do.
+Corrections still go in first, in place, and are stated.
+
+## 11. Push the form
+
+Each new page should give a returning reader something they have not done on this site before, while still letting them work with the data at hand. Choose interactions by the learning method they serve, keep a mix of at least three mechanic families per page, and draw at least one from the untried queue. The methods, the shipped mechanics, the queue and the selection rules live in [interaction-library.md](./interaction-library.md). Sliders are allowed where the reader sets a continuous quantity; they are no longer the default (baseline: 83 on the site as of 9 Nov 2026).
+
 ---
 
 ## Applied 23 October 2026

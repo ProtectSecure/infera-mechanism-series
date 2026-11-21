@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Your subscription · The Mechanism Series</title>
+<meta name="description" content="Confirm or end your subscription to The Mechanism Series by Infera. One short email per new piece, and you can leave in one click." />
+<link rel="canonical" href="https://series.melophon.com/confirm.html">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#fbf7eb;font-family:Georgia,serif;min-height:100vh;display:flex;align-items:center}
+main{max-width:560px;margin:0 auto;padding:12vh 24px}
+.k{font:700 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;color:#c8ff1e;text-transform:uppercase}
+h1{font-weight:400;font-size:clamp(28px,6vw,38px);line-height:1.15;margin:18px 0 14px}
+p{font-size:18px;line-height:1.6;color:#d8d2c2;margin-bottom:18px}
+a{color:#c8ff1e}
+button{font:700 13px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;background:#c8ff1e;color:#0a0a0a;border:0;padding:16px 22px;cursor:pointer;min-height:48px}
+button[disabled]{opacity:.5;cursor:default}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#c8ff1e;margin-right:10px;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+@media (prefers-reduced-motion: reduce){.dot{animation:none}}
+</style>
+</head>
+<body data-no-kit data-no-subscribe>
+<main>
+  <div class="k">Infera · The Mechanism Series</div>
+  <h1 id="t" aria-live="polite">One moment.</h1>
+  <p id="b"><span class="dot"></span>Checking your link.</p>
+  <p id="act" hidden><button id="go" type="button">Unsubscribe this address</button></p>
+  <p><a href="./">Back to the series</a></p>
+</main>
+<script src="subscribe.js"></script>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search), confirm = q.get('confirm'), unsub = q.get('unsub');
+  var T = document.getElementById('t'), B = document.getElementById('b'), act = document.getElementById('act'), go = document.getElementById('go');
+  var EP = (typeof INFERA_SUBSCRIBE_ENDPOINT === 'string' && INFERA_SUBSCRIBE_ENDPOINT) || '';
+  function show(t, b) { T.textContent = t; B.textContent = b; }
+  function fail() { show('That did not go through.', 'Nothing was changed. Try the link again in a minute, or write to infera@melophon.com and we will do it by hand.'); }
+  function call(kind, token) {
+    if (!EP || !/^[0-9a-f]{16,64}$/i.test(token)) { show('That link is not complete.', 'Open the link from the email again, or sign up once more on the site for a fresh one.'); return; }
+    fetch(EP + '?json=1&' + kind + '=' + encodeURIComponent(token), { credentials: 'omit', redirect: 'follow' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { if (d && d.title) show(d.title, d.body || ''); else fail(); })
+      .catch(fail);
+  }
+  if (confirm) call('confirm', confirm);
+  else if (unsub) {
+    /* A button, not an automatic action, so a mail scanner that opens links cannot unsubscribe anyone. */
+    show('Leave the list?', 'One click and we will not email this address again.');
+    act.hidden = false;
+    go.addEventListener('click', function () { go.disabled = true; act.hidden = true; show('One moment.', 'Removing this address.'); call('unsub', unsub); });
+  } else show('Nothing to do here.', 'This page finishes a sign-up or an unsubscribe from a link in one of our emails.');
+})();
+</script>
+</body>
+</html>

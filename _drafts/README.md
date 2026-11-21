@@ -8,7 +8,7 @@ Unpublished briefs and specs. Not linked from public nav until human sign-off an
 
 | File | Piece | Status | Next step |
 |---|---|---|---|
-| [episode-09-synthetic-self-brief.md](./episode-09-synthetic-self-brief.md) | EP 09 The Synthetic Self (absorbs The Subscription Self) | DISCOVER v2 | INVESTIGATE: verify case wall; rent-ledger population data |
+| [episode-09-synthetic-self-brief.md](./episode-09-synthetic-self-brief.md) · [claim corpus](./episode-09-claim-corpus.md) | EP 09 The Synthetic Self (absorbs The Subscription Self) | INVESTIGATE · preview rendered 8 Nov 2026 (`episode-09-the-synthetic-self.html`, unlinked) | Human sign off, then link in manifest and index; homepage thread dots; Sweep Targeting Map write back |
 | [episode-10-afterlife-of-your-data-brief.md](./episode-10-afterlife-of-your-data-brief.md) | EP 10 The Afterlife of Your Data (absorbs The Shadow Market) | DISCOVER v2 | Score Brief 007 (Nov 25); deceased-identity fraud source |
 | [episode-11-governance-layer-brief.md](./episode-11-governance-layer-brief.md) | EP 11 The Governance Layer · season closer · Part 12 Lever Map | DISCOVER v2 | Fill WATCH cells; print the scorecard |
 
@@ -53,4 +53,25 @@ The Fourth Founding Refusal still applies to every draft: *no mind-control frami
 
 ---
 
-*Last updated · 23 October 2026*
+*Last updated · 8 November 2026*
+
+## Field Note 19 · The Capital Call (8 Nov 2026)
+Explainer for high school juniors and up on AI capital: the plug, the chips, the building, the bill. Instruments: three clocks, capital stack, GDP boom bars, debt unit chart. Harwood ND counter-example. Standing Anthropic conflict disclosure added to legal.html and carried on the page. Thread layer: Money, Clocks. Sweep Targeting Map write-back queued.
+
+## The House Already Knew (9 Nov 2026)
+Standalone exhibit on sportsbook data, integrity vs harm alarms, DraftKings' two models, and prediction markets. Published 9 Nov 2026 after sign off. Brief and claim ledger: `the-house-already-knew-brief.md`.
+
+## Standing rules added 9 Nov 2026
+Editorial Standard v2 §10 (every update is a review trigger for new exhibits) and §11 (push the form), with the new [interaction-library.md](./interaction-library.md).
+
+## Curiosity engine, Second Alarm, Permanent Record (9 Nov 2026)
+[curiosity-engine.md](./curiosity-engine.md) opened with five cues; [the-second-alarm-series-brief.md](./the-second-alarm-series-brief.md) sets up the mini-series with The House Already Knew as Exhibit 1 and briefs Exhibit 2; [the-permanent-record-brief.md](./the-permanent-record-brief.md) for the Faith Layer companion. Published 9 Nov 2026 after sign off (extended to the hospital, care home and grave; Room 5 on institutional lifespan; 20-state site-memory map). Sweep Targeting Map write-back still queued.
+
+## Field Note 20 and Second Alarm Exhibit 2 (9 Nov 2026, preview)
+[field-note-20-estate-sale-brief.md](./field-note-20-estate-sale-brief.md): `field-notes/20-the-estate-sale.html` (bankruptcy data sales vs parish record transfers; graduated C-06). Second Alarm Exhibit 2: `who-pays-for-the-scam.html` (graduated C-01, C-04); build notes in [the-second-alarm-series-brief.md](./the-second-alarm-series-brief.md). Both published 9 Nov 2026 after sign-off; homepage, field notes index, manifest, House end card, Permanent Record and EP 09 crumbs updated. New cues C-07, C-08 in the curiosity engine.
+
+## Site health, subscription fix and remix proposals (10 Nov 2026)
+- `_agent/scripts/site-health.py` scores every public page and ranks the weakest first; report in [site-health-report.md](./site-health-report.md). First pass lifted the site average from 62 to 74 (phone overflow on 22 pages fixed, 6 broken links, 22 pages added to the sitemap).
+- Subscription: all forms now run on `subscribe.js`; backend script and setup in `_agent/subscribe-backend/`. Endpoint not yet set.
+- [remix-exhibits-proposals.md](./remix-exhibits-proposals.md): seven ranked mashup exhibits; The Loom first.
+
